@@ -18,20 +18,19 @@
 
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
 
-    <nav>
+<nav>
 
-        <a href="../index.html">Home</a>
-        <a href="index.html">📚 Study</a>
-        <a href="../sprint/index.html">🏃 Sprint</a>
-        <a href="../games/index.html">🎮 Games</a>
-        <a href="../profile/index.html">👤 Profile</a>
+<a href="../index.html">Home</a>
+<a href="index.html">📚 Study</a>
+<a href="../profile/index.html">👤 Profile</a>
 
-    </nav>
+</nav>
+
 
 </header>
 
@@ -44,17 +43,17 @@
 
 <section class="hero">
 
-    <h1 id="topic-title">
-        Quiz
-    </h1>
+<h1 id="topic-title">
+Quiz
+</h1>
 
 
-    <p id="question-number">
-        Question 1/5
-    </p>
+<p id="question-number">
+Question 1
+</p>
+
 
 </section>
-
 
 
 
@@ -63,69 +62,52 @@
 <section class="feature-card quiz-box">
 
 
-    <h2 id="question">
-        Loading question...
-    </h2>
+<h2 id="question">
+Loading question...
+</h2>
+
+
+
+<div class="answers">
+
+
+<button class="answer main-button"></button>
+
+<button class="answer main-button"></button>
+
+<button class="answer main-button"></button>
+
+<button class="answer main-button"></button>
+
+
+</div>
 
 
 
 
-    <div class="answers">
-
-
-        <button class="answer main-button">
-            Answer 1
-        </button>
-
-
-        <button class="answer main-button">
-            Answer 2
-        </button>
-
-
-        <button class="answer main-button">
-            Answer 3
-        </button>
-
-
-        <button class="answer main-button">
-            Answer 4
-        </button>
-
-
-    </div>
+<p id="feedback">
+Choose an answer!
+</p>
 
 
 
 
-
-    <p id="feedback">
-        Choose an answer!
-    </p>
-
+<button id="next" class="main-button" style="display:none;">
+Next Question →
+</button>
 
 
 
 
-    <button id="next" class="main-button" style="display:none;">
+<div class="progress">
 
-        Next Question →
+<div id="progress-bar" class="progress-bar"></div>
 
-    </button>
+</div>
 
-
-
-
-
-    <div class="progress">
-
-        <div id="progress-bar" class="progress-bar"></div>
-
-    </div>
 
 
 </section>
-
 
 
 </main>
@@ -134,33 +116,20 @@
 
 
 
-
 <footer>
 
-    © 2026 StudySprint
+© 2026 StudySprint
 
 </footer>
 
 
 
 
-
-
-<!-- Load achievement system first -->
-
 <script src="../achievements.js"></script>
-
-
-
-<!-- Load question data -->
-
-<script src="../questions/electricity.js"></script>
 
 <script src="../questions/heart.js"></script>
 
-
-
-<!-- Load quiz system last -->
+<script src="../questions/electricity.js"></script>
 
 <script src="quiz.js"></script>
 
