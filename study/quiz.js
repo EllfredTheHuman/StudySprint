@@ -1,10 +1,16 @@
 let currentQuestion = 0;
+
 let score = 0;
 
 let questions = [];
 
+let quizQuestions = [];
 
-// Get topic from URL
+const quizLength = 10;
+
+
+
+// Get topic
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -12,11 +18,16 @@ const topic = urlParams.get("topic");
 
 
 
-// Choose questions
+
+
+// Pick topic questions
 
 if (topic === "heart") {
 
     questions = heartQuestions;
+
+    document.getElementById("topic-title").textContent =
+    "❤️ Heart Quiz";
 
 }
 
@@ -24,6 +35,9 @@ if (topic === "heart") {
 else if (topic === "electricity") {
 
     questions = electricityQuestions;
+
+    document.getElementById("topic-title").textContent =
+    "⚡ Electricity Quiz";
 
 }
 
@@ -38,7 +52,20 @@ else {
 
 
 
+// Pick random questions
+
+quizQuestions = [...questions]
+.sort(() => Math.random() - 0.5)
+.slice(0, quizLength);
+
+
+
+
+
+
 const questionText = document.getElementById("question");
+
+const questionNumber = document.getElementById("question-number");
 
 const answerButtons = document.querySelectorAll(".answer");
 
@@ -50,29 +77,46 @@ const nextButton = document.getElementById("next");
 
 
 
+
+
 function loadQuestion() {
 
 
-    let question = questions[currentQuestion];
+    let question = quizQuestions[currentQuestion];
 
 
-    questionText.textContent = question.question;
+    questionNumber.textContent =
+    "Question " 
+    + (currentQuestion + 1)
+    + "/"
+    + quizLength;
 
 
-    feedback.textContent = "Choose an answer!";
+
+    questionText.textContent =
+    question.question;
 
 
-    nextButton.style.display = "none";
+
+    feedback.textContent =
+    "Choose an answer!";
+
+
+
+    nextButton.style.display =
+    "none";
 
 
 
     answerButtons.forEach((button, index) => {
 
 
-        button.textContent = question.answers[index];
+        button.textContent =
+        question.answers[index];
 
 
-        button.disabled = false;
+        button.disabled =
+        false;
 
 
 
@@ -93,10 +137,14 @@ function loadQuestion() {
 
 
 
+
+
+
 function checkAnswer(answer) {
 
 
-    let question = questions[currentQuestion];
+    let question =
+    quizQuestions[currentQuestion];
 
 
 
@@ -108,6 +156,8 @@ function checkAnswer(answer) {
 
 
 
+
+
     if (answer === question.correct) {
 
 
@@ -115,7 +165,8 @@ function checkAnswer(answer) {
 
 
         feedback.textContent =
-        "✅ Correct! " + question.explanation;
+        "✅ Correct! "
+        + question.explanation;
 
 
     }
@@ -135,10 +186,14 @@ function checkAnswer(answer) {
 
 
 
-    nextButton.style.display = "block";
+    nextButton.style.display =
+    "block";
 
 
 }
+
+
+
 
 
 
@@ -152,7 +207,7 @@ nextButton.onclick = function() {
 
 
 
-    if (currentQuestion < questions.length) {
+    if (currentQuestion < quizLength) {
 
 
         loadQuestion();
@@ -164,18 +219,27 @@ nextButton.onclick = function() {
     else {
 
 
-        localStorage.setItem("quizScore", score);
+        localStorage.setItem(
+            "quizScore",
+            score
+        );
 
-        localStorage.setItem("quizTotal", questions.length);
+
+        localStorage.setItem(
+            "quizTotal",
+            quizLength
+        );
 
 
-        window.location.href = "results.html";
+        window.location.href =
+        "results.html";
 
 
     }
 
 
 };
+
 
 
 
