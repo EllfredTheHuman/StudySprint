@@ -490,3 +490,104 @@ nav {
 
 
 }
+
+/* =====================
+   TOPIC CARDS
+===================== */
+
+
+.topic-card {
+
+    width:330px;
+
+    min-height:430px;
+
+    background:white;
+
+    border-radius:35px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+
+    transition:.3s;
+
+}
+
+
+
+.topic-card:hover {
+
+    transform:translateY(-12px);
+
+    box-shadow:0 25px 50px rgba(0,0,0,.15);
+
+}
+
+
+
+.topic-icon {
+
+    font-size:70px;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.topic-card h2 {
+
+    font-size:35px;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.topic-card p {
+
+    color:#6b7280;
+
+    line-height:1.5;
+
+    min-height:100px;
+
+}
+
+
+
+
+.heart-card {
+
+    border-top:10px solid #ff6b81;
+
+}
+
+
+
+.electricity-card {
+
+    border-top:10px solid #feca57;
+
+}
+
+
+
+.locked-card {
+
+    opacity:.65;
+
+}
+
+
+
+
+.topic-grid {
+
+    gap:40px;
+
+}
