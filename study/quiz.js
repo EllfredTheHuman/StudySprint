@@ -59,6 +59,7 @@ document.getElementById("progress-bar");
 
 
 
+
 function loadQuestion() {
 
 
@@ -76,6 +77,7 @@ function loadQuestion() {
     let q = questions[currentQuestion];
 
 
+
     question.textContent =
     q.question;
 
@@ -86,7 +88,8 @@ function loadQuestion() {
 
 
 
-    buttons.forEach((button, index) => {
+
+    buttons.forEach((button,index)=>{
 
 
         button.disabled = false;
@@ -110,7 +113,11 @@ function loadQuestion() {
     bar.style.width =
     `${(currentQuestion / questions.length) * 100}%`;
 
+
+
 }
+
+
 
 
 
@@ -119,17 +126,19 @@ function loadQuestion() {
 function checkAnswer(selected) {
 
 
-    if (locked) return;
+    if(locked) return;
 
 
     locked = true;
 
 
-    let q = questions[currentQuestion];
+
+    let q =
+    questions[currentQuestion];
 
 
 
-    buttons.forEach(button => {
+    buttons.forEach(button=>{
 
         button.disabled = true;
 
@@ -137,7 +146,9 @@ function checkAnswer(selected) {
 
 
 
-    if (selected === q.correct) {
+
+
+    if(selected === q.correct){
 
 
         score++;
@@ -151,7 +162,7 @@ function checkAnswer(selected) {
 
 
         feedback.textContent =
-        "❌ Wrong! Correct answer: " 
+        "❌ Wrong! Correct answer: "
         + q.answers[q.correct];
 
 
@@ -169,10 +180,16 @@ function checkAnswer(selected) {
 
 
 
+
+
+
+
 next.onclick = function(){
 
 
+
     currentQuestion++;
+
 
 
 
@@ -181,7 +198,55 @@ next.onclick = function(){
 
 
         let percentage =
-        Math.round((score / questions.length) * 100);
+        Math.round(
+            (score / questions.length) * 100
+        );
+
+
+
+        // SAVE QUIZ RESULTS
+
+        let oldXP =
+        Number(localStorage.getItem("XP")) || 0;
+
+
+        let oldQuizzes =
+        Number(localStorage.getItem("quizzes")) || 0;
+
+
+
+        let earnedXP =
+        score * 10;
+
+
+
+        localStorage.setItem(
+            "XP",
+            oldXP + earnedXP
+        );
+
+
+
+        localStorage.setItem(
+            "quizzes",
+            oldQuizzes + 1
+        );
+
+
+
+        let oldBest =
+        Number(localStorage.getItem("bestScore")) || 0;
+
+
+
+        if(percentage > oldBest){
+
+            localStorage.setItem(
+                "bestScore",
+                percentage
+            );
+
+        }
 
 
 
@@ -191,10 +256,12 @@ next.onclick = function(){
         );
 
 
+
         localStorage.setItem(
             "quizTotal",
             questions.length
         );
+
 
 
         localStorage.setItem(
@@ -203,9 +270,10 @@ next.onclick = function(){
         );
 
 
+
         localStorage.setItem(
             "quizXP",
-            score * 10
+            earnedXP
         );
 
 
@@ -215,7 +283,9 @@ next.onclick = function(){
 
 
 
-    } else {
+    }
+
+    else {
 
 
         loadQuestion();
@@ -224,7 +294,9 @@ next.onclick = function(){
     }
 
 
+
 };
+
 
 
 
