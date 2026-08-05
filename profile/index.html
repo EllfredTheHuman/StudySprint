@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile | StudySprint</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+
+<body>
+
+
+
+
+<header>
+
+
+<div class="logo">
+
+🚀 StudySprint
+
+</div>
+
+
+
+<nav>
+
+<a href="../index.html">Home</a>
+
+<a href="../study/index.html">📚 Study</a>
+
+<a href="../sprint/index.html">🏃 Sprint</a>
+
+<a href="../games/index.html">🎮 Games</a>
+
+<a href="index.html">👤 Profile</a>
+
+</nav>
+
+
+</header>
+
+
+
+
+
+
+
+
+<section class="hero">
+
+
+<h1>
+
+👤 Your Profile
+
+</h1>
+
+
+<p>
+
+Track your StudySprint journey.
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="features">
+
+
+
+<div class="stat">
+
+<h2 id="xp">
+
+0
+
+</h2>
+
+
+<p>
+
+⭐ XP
+
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div class="stat">
+
+
+<h2 id="level">
+
+1
+
+</h2>
+
+
+<p>
+
+🏆 Level
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="stat">
+
+
+<h2 id="quizzes">
+
+0
+
+</h2>
+
+
+<p>
+
+📝 Quizzes Completed
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="hero">
+
+
+<h1>
+
+📊 Progress
+
+</h1>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section class="features">
+
+
+<div class="feature-card">
+
+
+<h2>
+
+🔥 Best Score
+
+</h2>
+
+
+<p id="best-score">
+
+No quizzes completed yet.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="feature-card">
+
+
+<h2>
+
+📚 Topics
+
+</h2>
+
+
+<p>
+
+❤️ Heart
+
+<br>
+
+⚡ Electricity
+
+<br>
+
+🔒 More coming soon
+
+</p>
+
+
+</div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+
+
+
+
+
+
+
+
+<script>
+
+
+let xp =
+Number(localStorage.getItem("XP")) || 0;
+
+
+
+let quizzes =
+Number(localStorage.getItem("quizzes")) || 0;
+
+
+
+let best =
+Number(localStorage.getItem("bestScore")) || 0;
+
+
+
+
+
+document.getElementById("xp").textContent =
+xp;
+
+
+
+
+
+document.getElementById("level").textContent =
+Math.floor(xp / 100) + 1;
+
+
+
+
+
+document.getElementById("quizzes").textContent =
+quizzes;
+
+
+
+
+
+if(best > 0){
+
+
+document.getElementById("best-score").textContent =
+best + "%";
+
+
+}
+
+
+
+</script>
+
+
+
+
+
+
+</body>
+
+</html>
