@@ -720,3 +720,151 @@ nav {
 }
 
 }
+
+/* =====================
+   QUIZ BOX
+===================== */
+
+.quiz-box {
+
+    width:800px;
+
+    max-width:90%;
+
+    margin:40px auto;
+
+    padding:45px;
+
+    text-align:center;
+
+}
+
+
+
+.quiz-box h2 {
+
+    font-size:32px;
+
+    margin-bottom:30px;
+
+}
+
+
+
+#feedback {
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin:25px;
+
+}
+
+
+
+/* =====================
+   RESULTS
+===================== */
+
+
+.results-screen {
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    min-height:70vh;
+
+}
+
+
+
+.results-card {
+
+    background:white;
+
+    padding:50px;
+
+    border-radius:35px;
+
+    text-align:center;
+
+    width:600px;
+
+    max-width:90%;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+
+}
+
+
+
+.score-circle {
+
+    margin:30px auto;
+
+    background:#6366f1;
+
+    color:white;
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+
+.score-circle h3 {
+
+    font-size:40px;
+
+}
+
+
+
+.result-stats {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+/* =====================
+   ACHIEVEMENTS
+===================== */
+
+
+.achievement {
+
+    background:#f4f7ff;
+
+    padding:15px;
+
+    border-radius:15px;
+
+    margin:10px;
+
+    font-weight:700;
+
+}
