@@ -1,28 +1,25 @@
+let questions = [];
+
 let currentQuestion = 0;
 
 let score = 0;
 
-let questions = [];
-
-let quizQuestions = [];
-
-const quizLength = 10;
+let xpEarned = 0;
 
 
 
-// Get topic
+// Get topic from URL
 
-const urlParams = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-const topic = urlParams.get("topic");
+const topic = params.get("topic");
 
 
 
 
+// Load correct questions
 
-// Pick topic questions
-
-if (topic === "heart") {
+if(topic === "heart") {
 
     questions = heartQuestions;
 
@@ -32,7 +29,7 @@ if (topic === "heart") {
 }
 
 
-else if (topic === "electricity") {
+else if(topic === "electricity") {
 
     questions = electricityQuestions;
 
@@ -42,59 +39,47 @@ else if (topic === "electricity") {
 }
 
 
-else {
-
-    alert("Topic not found!");
-
-}
 
 
 
+const questionElement =
+document.getElementById("question");
 
 
-// Pick random questions
-
-quizQuestions = [...questions]
-.sort(() => Math.random() - 0.5)
-.slice(0, quizLength);
+const questionNumber =
+document.getElementById("question-number");
 
 
+const feedback =
+document.getElementById("feedback");
 
 
+const nextButton =
+document.getElementById("next");
 
 
-const questionText = document.getElementById("question");
-
-const questionNumber = document.getElementById("question-number");
-
-const answerButtons = document.querySelectorAll(".answer");
-
-const feedback = document.getElementById("feedback");
-
-const nextButton = document.getElementById("next");
+const answers =
+document.querySelectorAll(".answer");
 
 
 
 
 
+function loadQuestion(){
 
 
-function loadQuestion() {
+    let question =
+    questions[currentQuestion];
 
 
-    let question = quizQuestions[currentQuestion];
+    questionElement.textContent =
+    question.question;
+
 
 
     questionNumber.textContent =
-    "Question " 
-    + (currentQuestion + 1)
-    + "/"
-    + quizLength;
+    `Question ${currentQuestion + 1}/${questions.length}`;
 
-
-
-    questionText.textContent =
-    question.question;
 
 
 
@@ -108,11 +93,18 @@ function loadQuestion() {
 
 
 
-    answerButtons.forEach((button, index) => {
+
+
+    answers.forEach((button,index)=>{
 
 
         button.textContent =
         question.answers[index];
+
+
+        button.style.background =
+        "#6c5ce7";
+
 
 
         button.disabled =
@@ -120,14 +112,18 @@ function loadQuestion() {
 
 
 
-        button.onclick = function() {
+        button.onclick = ()=>{
 
-            checkAnswer(button.textContent);
+            checkAnswer(index);
 
         };
 
 
     });
+
+
+
+    updateProgress();
 
 
 }
@@ -138,17 +134,15 @@ function loadQuestion() {
 
 
 
-
-
-function checkAnswer(answer) {
+function checkAnswer(selected){
 
 
     let question =
-    quizQuestions[currentQuestion];
+    questions[currentQuestion];
 
 
 
-    answerButtons.forEach(button => {
+    answers.forEach(button=>{
 
         button.disabled = true;
 
@@ -157,16 +151,21 @@ function checkAnswer(answer) {
 
 
 
-
-    if (answer === question.correct) {
+    if(selected === question.correct){
 
 
         score++;
 
+        xpEarned += 10;
+
 
         feedback.textContent =
-        "✅ Correct! "
-        + question.explanation;
+        "✅ Correct! +10 XP";
+
+
+
+        answers[selected].style.background =
+        "#00b894";
 
 
     }
@@ -176,10 +175,18 @@ function checkAnswer(answer) {
 
 
         feedback.textContent =
-        "❌ Incorrect! The correct answer is "
-        + question.correct
-        + ". "
-        + question.explanation;
+        "❌ Wrong! " + 
+        "Correct answer: " +
+        question.answers[question.correct];
+
+
+
+        answers[selected].style.background =
+        "#d63031";
+
+
+        answers[question.correct].style.background =
+        "#00b894";
 
 
     }
@@ -187,7 +194,8 @@ function checkAnswer(answer) {
 
 
     nextButton.style.display =
-    "block";
+    "inline-flex";
+
 
 
 }
@@ -198,16 +206,14 @@ function checkAnswer(answer) {
 
 
 
-
-
-nextButton.onclick = function() {
+nextButton.onclick = ()=>{
 
 
     currentQuestion++;
 
 
 
-    if (currentQuestion < quizLength) {
+    if(currentQuestion < questions.length){
 
 
         loadQuestion();
@@ -219,26 +225,146 @@ nextButton.onclick = function() {
     else {
 
 
-        localStorage.setItem(
-            "quizScore",
-            score
-        );
-
-
-        localStorage.setItem(
-            "quizTotal",
-            quizLength
-        );
-
-
-        window.location.href =
-        "results.html";
+        finishQuiz();
 
 
     }
 
 
 };
+
+
+
+
+
+
+
+
+function finishQuiz(){
+
+
+    let percentage =
+    Math.round(
+        (score / questions.length) * 100
+    );
+
+
+
+
+    // Save results
+
+    localStorage.setItem(
+        "quizScore",
+        score
+    );
+
+
+    localStorage.setItem(
+        "quizTotal",
+        questions.length
+    );
+
+
+    localStorage.setItem(
+        "quizPercentage",
+        percentage
+    );
+
+
+    localStorage.setItem(
+        "quizXP",
+        xpEarned
+    );
+
+
+
+
+
+
+    // Profile data
+
+
+    let totalXP =
+    Number(localStorage.getItem("XP")) || 0;
+
+
+    localStorage.setItem(
+        "XP",
+        totalXP + xpEarned
+    );
+
+
+
+
+
+    let quizzes =
+    Number(localStorage.getItem("quizzes")) || 0;
+
+
+    localStorage.setItem(
+        "quizzes",
+        quizzes + 1
+    );
+
+
+
+
+
+    let bestScore =
+    Number(localStorage.getItem("bestScore")) || 0;
+
+
+
+    if(percentage > bestScore){
+
+
+        localStorage.setItem(
+            "bestScore",
+            percentage
+        );
+
+
+    }
+
+
+
+
+
+    window.location.href =
+    "results.html";
+
+
+}
+
+
+
+
+
+
+
+function updateProgress(){
+
+
+    let progress =
+    ((currentQuestion) / questions.length) * 100;
+
+
+
+    let bar =
+    document.getElementById("progress-bar");
+
+
+
+    if(bar){
+
+        bar.style.width =
+        progress + "%";
+
+    }
+
+
+}
+
 
 
 
