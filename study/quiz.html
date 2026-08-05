@@ -3,12 +3,12 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Quiz | StudySprint</title>
+<title>Quiz | StudySprint</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 </head>
 
@@ -18,37 +18,35 @@
 
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
 
-    <nav>
+<nav>
 
-        <a href="../index.html">Home</a>
-        <a href="index.html">Study</a>
-        <a href="../sprint/index.html">Sprint</a>
-        <a href="../games/index.html">Games</a>
-        <a href="../profile/index.html">Profile</a>
-        <a href="../about.html">About</a>
+<a href="../index.html">Home</a>
+<a href="index.html">Study</a>
 
-    </nav>
+</nav>
 
 </header>
 
 
 
+
 <section class="hero">
 
-    <h1>
-        📚 Science
-    </h1>
+<h1>
+📚 Quiz
+</h1>
 
-    <p>
-        Electricity • Question 1/5
-    </p>
+<p>
+Answer the questions and improve your knowledge!
+</p>
 
 </section>
+
 
 
 
@@ -59,42 +57,52 @@
 <div class="feature-card">
 
 
-    <h2>
-        What is the unit of electrical current?
-    </h2>
+<h2 id="question">
+Loading question...
+</h2>
 
 
-    <br>
+<br>
 
 
-    <button class="main-button">
-        A) Volt
-    </button>
+<button class="answer main-button"></button>
+
+<br><br>
+
+<button class="answer main-button"></button>
+
+<br><br>
+
+<button class="answer main-button"></button>
+
+<br><br>
+
+<button class="answer main-button"></button>
 
 
-    <br><br>
+</div>
 
 
-    <button class="main-button">
-        B) Ampere
-    </button>
+</section>
 
 
-    <br><br>
 
 
-    <button class="main-button">
-        C) Ohm
-    </button>
 
 
-    <br><br>
+<section class="hero">
 
 
-    <button class="main-button">
-        D) Watt
-    </button>
+<div class="feature-card">
 
+<h2>
+Feedback
+</h2>
+
+
+<p id="feedback">
+Choose an answer!
+</p>
 
 
 </div>
@@ -109,42 +117,28 @@
 <section class="hero">
 
 
-    <div class="feature-card">
-
-        <h2>
-            Feedback
-        </h2>
-
-
-        <p>
-            Select an answer to see if you are correct!
-        </p>
-
-
-    </div>
+<button id="next" class="main-button" style="display:none;">
+Next Question →
+</button>
 
 
 </section>
 
-
-
-
-<section class="hero">
-
-    <a href="#" class="main-button">
-        Next Question →
-    </a>
-
-</section>
 
 
 
 
 <footer>
 
-    © 2026 StudySprint
+© 2026 StudySprint
 
 </footer>
+
+
+
+
+<script src="../questions/heart.js"></script>
+<script src="quiz.js"></script>
 
 
 </body>
