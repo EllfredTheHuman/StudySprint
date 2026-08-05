@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Results | StudySprint</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+
+<nav>
+
+<a href="../index.html">Home</a>
+<a href="index.html">Study</a>
+
+</nav>
+
+</header>
+
+
+
+<section class="hero">
+
+<h1>
+🎉 Quiz Complete!
+</h1>
+
+<p>
+Here are your results:
+</p>
+
+</section>
+
+
+
+<section class="features">
+
+
+<div class="feature-card">
+
+<h2 id="score">
+Loading...
+</h2>
+
+
+<p id="message">
+</p>
+
+
+<a href="index.html" class="main-button">
+Study Again
+</a>
+
+
+</div>
+
+
+</section>
+
+
+
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+
+
+<script>
+
+let score = localStorage.getItem("quizScore");
+let total = localStorage.getItem("quizTotal");
+
+
+document.getElementById("score").textContent =
+"You scored " + score + "/" + total;
+
+
+let percentage = Math.round((score / total) * 100);
+
+
+if (percentage >= 80) {
+
+    document.getElementById("message").textContent =
+    "🔥 Amazing work! Keep it up!";
+
+}
+
+else if (percentage >= 50) {
+
+    document.getElementById("message").textContent =
+    "👍 Good job! Keep practising!";
+
+}
+
+else {
+
+    document.getElementById("message").textContent =
+    "💪 Keep learning! You will improve!";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
