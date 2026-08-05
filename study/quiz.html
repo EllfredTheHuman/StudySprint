@@ -27,6 +27,7 @@
 
 <a href="../index.html">Home</a>
 <a href="index.html">Study</a>
+<a href="../profile/index.html">Profile</a>
 
 </nav>
 
@@ -36,17 +37,31 @@
 
 
 
+
 <section class="hero">
+
 
 <h1 id="topic-title">
 📚 Quiz
 </h1>
 
+
 <p id="question-number">
 Question 1/10
 </p>
 
+
+<div class="progress-container">
+
+<div id="progress-bar">
+
+</div>
+
+</div>
+
+
 </section>
+
 
 
 
@@ -55,7 +70,8 @@ Question 1/10
 
 <section class="features">
 
-<div class="feature-card">
+
+<div class="feature-card quiz-card">
 
 
 <h2 id="question">
@@ -63,25 +79,25 @@ Loading question...
 </h2>
 
 
-<br>
+
+<div class="answers">
 
 
 <button class="answer main-button"></button>
 
-<br><br>
-
 <button class="answer main-button"></button>
 
-<br><br>
-
 <button class="answer main-button"></button>
-
-<br><br>
 
 <button class="answer main-button"></button>
 
 
 </div>
+
+
+
+</div>
+
 
 </section>
 
@@ -90,18 +106,41 @@ Loading question...
 
 
 
-<section class="hero">
+
+
+<section class="features">
+
 
 <div class="feature-card">
 
+
 <h2>
-Feedback
+💡 Feedback
 </h2>
+
 
 <p id="feedback">
 Choose an answer!
 </p>
 
+
+</div>
+
+
+
+<div class="feature-card">
+
+
+<h2>
+⭐ Reward
+</h2>
+
+
+<p>
++10 XP possible
+</p>
+
+
 </div>
 
 
@@ -112,13 +151,19 @@ Choose an answer!
 
 
 
+
 <section class="hero">
 
+
 <button id="next" class="main-button" style="display:none;">
+
 Next Question →
+
 </button>
 
+
 </section>
+
 
 
 
@@ -135,10 +180,14 @@ Next Question →
 
 
 
+
+
 <script src="../questions/heart.js"></script>
+
 <script src="../questions/electricity.js"></script>
 
 <script src="quiz.js"></script>
+
 
 
 </body>
