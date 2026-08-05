@@ -16,7 +16,6 @@
 <body>
 
 
-
 <header>
 
     <div class="logo">
@@ -32,10 +31,7 @@
 
     </nav>
 
-
 </header>
-
-
 
 
 
@@ -44,27 +40,16 @@
 <main>
 
 
-
 <section class="hero">
 
-
     <h1 id="topic-title">
-        ❤️ Heart Quiz
+        Quiz
     </h1>
 
 
     <p id="question-number">
-        Question 1/10
+        Question 1/5
     </p>
-
-
-
-    <div class="quiz-progress">
-
-        <div id="progress-bar"></div>
-
-    </div>
-
 
 </section>
 
@@ -73,76 +58,46 @@
 
 
 
-
-
-
-<section class="quiz-area">
-
-
-<div class="quiz-card">
-
-
-
-    <div class="xp-box">
-
-        ⭐ +10 XP
-
-    </div>
-
-
-
+<section class="feature-card quiz-box">
 
 
     <h2 id="question">
-
         Loading question...
-
     </h2>
-
-
-
-
 
 
 
     <div class="answers">
 
 
-        <button class="answer"></button>
-
-        <button class="answer"></button>
-
-        <button class="answer"></button>
-
-        <button class="answer"></button>
+        <button class="answer main-button">
+            Answer 1
+        </button>
 
 
-    </div>
+        <button class="answer main-button">
+            Answer 2
+        </button>
 
 
+        <button class="answer main-button">
+            Answer 3
+        </button>
 
 
-
-
-
-
-    <div class="feedback-box">
-
-
-        <h3>
-            💡 Feedback
-        </h3>
-
-
-        <p id="feedback">
-            Choose an answer!
-        </p>
+        <button class="answer main-button">
+            Answer 4
+        </button>
 
 
     </div>
 
 
 
+
+    <p id="feedback">
+        Choose an answer!
+    </p>
 
 
 
@@ -156,20 +111,18 @@
 
 
 
+    <div class="progress">
 
-</div>
+        <div id="progress-bar" class="progress-bar"></div>
+
+    </div>
 
 
 </section>
 
 
 
-
-
-
 </main>
-
-
 
 
 
@@ -186,17 +139,14 @@
 
 
 
-
-<script src="../questions/heart.js"></script>
-
-<script src="../questions/electricity.js"></script>
+<!-- IMPORTANT: achievements loads BEFORE quiz -->
 
 <script src="../achievements.js"></script>
+
 <script src="quiz.js"></script>
 
 
-<script src="../animations.js"></script>
-    
+
 </body>
 
 </html>
