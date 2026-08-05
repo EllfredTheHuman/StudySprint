@@ -1,56 +1,44 @@
 const electricityQuestions = [
+
     {
         question: "What is electricity?",
+
         answers: [
-            "The flow of electric charge",
-            "A type of light",
-            "A type of sound",
-            "A type of heat"
+            "The movement of electric charge",
+            "A type of food",
+            "A living thing",
+            "A type of sound"
         ],
+
         correct: 0
     },
 
+
     {
-        question: "What unit measures electric current?",
+        question: "What unit is used to measure electric current?",
+
         answers: [
             "Volts",
             "Amps",
             "Watts",
-            "Metres"
+            "Ohms"
         ],
+
         correct: 1
     },
 
+
     {
-        question: "What provides energy in a simple circuit?",
+        question: "What device provides electrical energy?",
+
         answers: [
             "Battery",
             "Switch",
             "Wire",
             "Bulb"
         ],
-        correct: 0
-    },
 
-    {
-        question: "What does a switch do?",
-        answers: [
-            "Controls the flow of electricity",
-            "Creates electricity",
-            "Stores electricity",
-            "Measures electricity"
-        ],
         correct: 0
-    },
-
-    {
-        question: "What material is commonly used for wires?",
-        answers: [
-            "Plastic",
-            "Copper",
-            "Wood",
-            "Glass"
-        ],
-        correct: 1
     }
+
 ];
