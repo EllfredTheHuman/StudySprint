@@ -8,41 +8,28 @@
 
 <title>Profile | StudySprint</title>
 
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../style.css">
 
 </head>
-
 
 
 <body>
 
 
-
-
 <header>
 
-
-<div class="logo">
-
-🚀 StudySprint
-
-</div>
+    <div class="logo">
+        🚀 StudySprint
+    </div>
 
 
+    <nav>
 
-<nav>
+        <a href="../index.html">Home</a>
+        <a href="../study/index.html">📚 Study</a>
+        <a href="index.html">👤 Profile</a>
 
-<a href="../index.html">Home</a>
-
-<a href="../study/index.html">📚 Study</a>
-
-<a href="../sprint/index.html">🏃 Sprint</a>
-
-<a href="../games/index.html">🎮 Games</a>
-
-<a href="index.html">👤 Profile</a>
-
-</nav>
+    </nav>
 
 
 </header>
@@ -53,26 +40,24 @@
 
 
 
+<main>
+
+
 
 <section class="hero">
 
 
-<h1>
-
-👤 Your Profile
-
-</h1>
+    <h1>
+        👤 Your Profile
+    </h1>
 
 
-<p>
-
-Track your StudySprint journey.
-
-</p>
+    <p>
+        Track your progress and see how far you've come!
+    </p>
 
 
 </section>
-
 
 
 
@@ -87,22 +72,15 @@ Track your StudySprint journey.
 
 <div class="stat">
 
-<h2 id="xp">
+    <h2 id="xp">
+        0
+    </h2>
 
-0
-
-</h2>
-
-
-<p>
-
-⭐ XP
-
-</p>
+    <p>
+        ⭐ XP
+    </p>
 
 </div>
-
-
 
 
 
@@ -110,25 +88,15 @@ Track your StudySprint journey.
 
 <div class="stat">
 
+    <h2 id="level">
+        1
+    </h2>
 
-<h2 id="level">
-
-1
-
-</h2>
-
-
-<p>
-
-🏆 Level
-
-</p>
-
+    <p>
+        🏆 Level
+    </p>
 
 </div>
-
-
-
 
 
 
@@ -136,25 +104,15 @@ Track your StudySprint journey.
 
 <div class="stat">
 
+    <h2 id="quizzes">
+        0
+    </h2>
 
-<h2 id="quizzes">
-
-0
-
-</h2>
-
-
-<p>
-
-📝 Quizzes Completed
-
-</p>
-
+    <p>
+        📝 Quizzes Completed
+    </p>
 
 </div>
-
-
-
 
 
 
@@ -172,9 +130,7 @@ Track your StudySprint journey.
 
 
 <h1>
-
-📊 Progress
-
+📈 Progress
 </h1>
 
 
@@ -188,15 +144,16 @@ Track your StudySprint journey.
 
 
 <section class="features">
+
+
+
 
 
 <div class="feature-card">
 
 
 <h2>
-
 🔥 Best Score
-
 </h2>
 
 
@@ -219,9 +176,7 @@ No quizzes completed yet.
 
 
 <h2>
-
-📚 Topics
-
+📚 Topics Studied
 </h2>
 
 
@@ -229,13 +184,44 @@ No quizzes completed yet.
 
 ❤️ Heart
 
-<br>
+<br><br>
 
 ⚡ Electricity
 
-<br>
+<br><br>
 
 🔒 More coming soon
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="feature-card">
+
+
+<h2>
+🎖️ Achievements
+</h2>
+
+
+<p>
+
+⭐ First Quiz
+
+<br><br>
+
+🔒 Perfect Score
+
+<br><br>
+
+🔒 1000 XP Club
 
 </p>
 
@@ -249,6 +235,44 @@ No quizzes completed yet.
 </section>
 
 
+
+
+
+
+
+
+
+<section class="hero">
+
+
+<h1>
+⭐ Level Progress
+</h1>
+
+
+<div class="progress">
+
+<div class="progress-bar" id="xp-bar"></div>
+
+</div>
+
+
+<p id="level-text">
+
+0 / 100 XP to next level
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+</main>
 
 
 
@@ -277,14 +301,25 @@ let xp =
 Number(localStorage.getItem("XP")) || 0;
 
 
-
 let quizzes =
 Number(localStorage.getItem("quizzes")) || 0;
 
 
-
 let best =
 Number(localStorage.getItem("bestScore")) || 0;
+
+
+
+
+
+let level =
+Math.floor(xp / 100) + 1;
+
+
+
+
+let levelXP =
+xp % 100;
 
 
 
@@ -295,12 +330,8 @@ xp;
 
 
 
-
-
 document.getElementById("level").textContent =
-Math.floor(xp / 100) + 1;
-
-
+level;
 
 
 
@@ -313,17 +344,28 @@ quizzes;
 
 if(best > 0){
 
-
 document.getElementById("best-score").textContent =
 best + "%";
-
 
 }
 
 
 
-</script>
 
+
+document.getElementById("xp-bar").style.width =
+levelXP + "%";
+
+
+
+
+
+document.getElementById("level-text").textContent =
+levelXP + " / 100 XP to next level";
+
+
+
+</script>
 
 
 
