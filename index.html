@@ -158,12 +158,12 @@
 
     <div class="stat">
 
-        <h2>
+        <h2 id="home-xp">
             0
         </h2>
 
         <p>
-            ⭐ XP
+            ⭐ Total XP
         </p>
 
     </div>
@@ -173,7 +173,7 @@
 
     <div class="stat">
 
-        <h2>
+        <h2 id="home-level">
             1
         </h2>
 
@@ -188,12 +188,12 @@
 
     <div class="stat">
 
-        <h2>
+        <h2 id="home-quizzes">
             0
         </h2>
 
         <p>
-            🔥 Streak
+            📝 Quizzes Completed
         </p>
 
     </div>
@@ -245,8 +245,27 @@
 </footer>
 
 
+
+<script>
+
+let xp = Number(localStorage.getItem("XP")) || 0;
+
+let quizzes = Number(localStorage.getItem("quizzes")) || 0;
+
+let level = Math.floor(xp / 100) + 1;
+
+
+document.getElementById("home-xp").textContent = xp;
+
+document.getElementById("home-level").textContent = level;
+
+document.getElementById("home-quizzes").textContent = quizzes;
+
+</script>
+
+
 <script src="animations.js"></script>
-    
+
 </body>
 
 </html>
