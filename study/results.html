@@ -8,37 +8,32 @@
 
 <title>Results | StudySprint</title>
 
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../style.css">
 
 </head>
-
 
 
 <body>
 
 
 
-
 <header>
 
 
-<div class="logo">
-
-🚀 StudySprint
-
-</div>
+    <div class="logo">
+        🚀 StudySprint
+    </div>
 
 
+    <nav>
 
-<nav>
+        <a href="../index.html">Home</a>
 
-<a href="../index.html">Home</a>
+        <a href="index.html">📚 Study</a>
 
-<a href="index.html">📚 Study</a>
+        <a href="../profile/index.html">👤 Profile</a>
 
-<a href="../profile/index.html">👤 Profile</a>
-
-</nav>
+    </nav>
 
 
 </header>
@@ -50,12 +45,16 @@
 
 
 
+<main>
+
 
 <section class="results-screen">
 
 
 
 <div class="results-card">
+
+
 
 
 
@@ -81,20 +80,17 @@ Great job!
 
 
 
+
 <div class="score-circle">
 
 
 <p>
-
 Score
-
 </p>
 
 
 <h3 id="score">
-
-8/10
-
+0/10
 </h3>
 
 
@@ -111,33 +107,45 @@ Score
 
 
 
-<div>
+<div class="stat">
 
-⭐
 
-<h3 id="xp">
+<h2 id="xp">
 
-+80 XP
+⭐ +0 XP
 
-</h3>
+</h2>
+
+
+<p>
+Experience
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="stat">
+
+
+<h2 id="percentage">
+
+🎯 0%
+
+</h2>
+
+
+<p>
+Accuracy
+</p>
+
 
 </div>
 
 
-
-
-
-<div>
-
-🎯
-
-<h3 id="percentage">
-
-80%
-
-</h3>
-
-</div>
 
 
 
@@ -158,7 +166,6 @@ Score
 
 
 
-
 <a href="../index.html" class="main-button">
 
 🏠 Home
@@ -167,10 +174,17 @@ Score
 
 
 
+
+
 </div>
 
 
+
 </section>
+
+
+
+</main>
 
 
 
@@ -190,43 +204,54 @@ Score
 
 
 
+
+
+
 <script>
 
 
 let score =
-localStorage.getItem("quizScore");
+localStorage.getItem("quizScore") || 0;
 
 
 let total =
-localStorage.getItem("quizTotal");
+localStorage.getItem("quizTotal") || 0;
 
 
 let percentage =
-localStorage.getItem("quizPercentage");
+localStorage.getItem("quizPercentage") || 0;
 
 
 let xp =
-localStorage.getItem("quizXP");
+localStorage.getItem("quizXP") || 0;
+
 
 
 
 
 
 document.getElementById("score").textContent =
+
 score + "/" + total;
 
 
 
 
+
 document.getElementById("percentage").textContent =
-percentage + "%";
+
+"🎯 " + percentage + "%";
 
 
 
 
 
 document.getElementById("xp").textContent =
-"+" + xp + " XP";
+
+"⭐ +" + xp + " XP";
+
+
+
 
 
 
@@ -234,6 +259,7 @@ document.getElementById("xp").textContent =
 
 let message =
 document.getElementById("message");
+
 
 
 
@@ -247,7 +273,6 @@ message.textContent =
 }
 
 
-
 else if(percentage >= 80){
 
 
@@ -258,7 +283,6 @@ message.textContent =
 }
 
 
-
 else if(percentage >= 50){
 
 
@@ -267,7 +291,6 @@ message.textContent =
 
 
 }
-
 
 
 else{
