@@ -1,110 +1,144 @@
-let currentQuestion = 0;
-let score = 0;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz | StudySprint</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+</head>
 
 
-// Get the question elements
-const questionText = document.getElementById("question");
-const answerButtons = document.querySelectorAll(".answer");
-const feedback = document.getElementById("feedback");
-const nextButton = document.getElementById("next");
+<body>
 
 
-// Load question
-function loadQuestion() {
+<header>
 
-    let question = heartQuestions[currentQuestion];
-
-    questionText.textContent = question.question;
-
-    feedback.textContent = "";
-
-    nextButton.style.display = "none";
+    <div class="logo">
+        🚀 StudySprint
+    </div>
 
 
-    answerButtons.forEach((button, index) => {
+    <nav>
 
-        button.textContent = question.answers[index];
+        <a href="../index.html">Home</a>
+        <a href="index.html">Study</a>
+        <a href="../sprint/index.html">Sprint</a>
+        <a href="../games/index.html">Games</a>
+        <a href="../profile/index.html">Profile</a>
+        <a href="../about.html">About</a>
 
-        button.disabled = false;
+    </nav>
 
-        button.onclick = function() {
-
-            checkAnswer(button.textContent);
-
-        };
-
-    });
-
-}
-
-
-// Check answer
-function checkAnswer(answer) {
-
-    let question = heartQuestions[currentQuestion];
-
-
-    answerButtons.forEach(button => {
-        button.disabled = true;
-    });
-
-
-    if (answer === question.correct) {
-
-        score++;
-
-        feedback.textContent =
-        "✅ Correct! " + question.explanation;
-
-    } 
-    
-    else {
-
-        feedback.textContent =
-        "❌ Incorrect! The answer was: " 
-        + question.correct 
-        + ". " 
-        + question.explanation;
-
-    }
-
-
-    nextButton.style.display = "block";
-
-}
+</header>
 
 
 
-// Next question
-nextButton.onclick = function() {
+<section class="hero">
 
-    currentQuestion++;
+    <h1>
+        ❤️ The Heart
+    </h1>
 
+    <p>
+        Test your knowledge!
+    </p>
 
-    if (currentQuestion < heartQuestions.length) {
-
-        loadQuestion();
-
-    }
-
-    else {
-
-        questionText.textContent =
-        "Quiz Complete!";
-
-        feedback.textContent =
-        "You scored " + score + "/" + heartQuestions.length;
-
-        answerButtons.forEach(button => {
-            button.style.display = "none";
-        });
-
-        nextButton.style.display = "none";
-
-    }
-
-};
+</section>
 
 
-// Start quiz
-loadQuestion();
+
+<section class="features">
+
+
+<div class="feature-card">
+
+
+    <h2 id="question">
+        Loading question...
+    </h2>
+
+
+    <br>
+
+
+    <button class="answer main-button"></button>
+
+    <br><br>
+
+    <button class="answer main-button"></button>
+
+    <br><br>
+
+    <button class="answer main-button"></button>
+
+    <br><br>
+
+    <button class="answer main-button"></button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+<section class="hero">
+
+
+<div class="feature-card">
+
+
+    <h2>
+        Feedback
+    </h2>
+
+
+    <p id="feedback">
+        Choose an answer!
+    </p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="hero">
+
+
+<button id="next" class="main-button" style="display:none;">
+    Next Question →
+</button>
+
+
+</section>
+
+
+
+
+<footer>
+
+    © 2026 StudySprint
+
+</footer>
+
+
+
+<script src="../questions/heart.js"></script>
+<script src="quiz.js"></script>
+
+
+</body>
+
+</html>
