@@ -13,64 +13,168 @@
 </head>
 
 
+
 <body>
+
+
 
 
 <header>
 
+
 <div class="logo">
+
 🚀 StudySprint
+
 </div>
+
 
 
 <nav>
 
 <a href="../index.html">Home</a>
-<a href="index.html">Study</a>
+
+<a href="index.html">📚 Study</a>
+
+<a href="../profile/index.html">👤 Profile</a>
 
 </nav>
+
 
 </header>
 
 
 
-<section class="hero">
+
+
+
+
+
+
+<section class="results-screen">
+
+
+
+<div class="results-card">
+
+
 
 <h1>
+
 🎉 Quiz Complete!
+
 </h1>
 
-<p>
-Here are your results:
-</p>
-
-</section>
 
 
 
-<section class="features">
 
+<h2 id="message">
 
-<div class="feature-card">
+Great job!
 
-<h2 id="score">
-Loading...
 </h2>
 
 
-<p id="message">
+
+
+
+
+
+<div class="score-circle">
+
+
+<p>
+
+Score
+
 </p>
 
 
+<h3 id="score">
+
+8/10
+
+</h3>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="result-stats">
+
+
+
+<div>
+
+⭐
+
+<h3 id="xp">
+
++80 XP
+
+</h3>
+
+</div>
+
+
+
+
+
+<div>
+
+🎯
+
+<h3 id="percentage">
+
+80%
+
+</h3>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
 <a href="index.html" class="main-button">
-Study Again
+
+📚 Study Again
+
 </a>
+
+
+
+
+<a href="../index.html" class="main-button">
+
+🏠 Home
+
+</a>
+
 
 
 </div>
 
 
 </section>
+
+
+
+
 
 
 
@@ -83,41 +187,104 @@ Study Again
 
 
 
+
+
+
 <script>
 
-let score = localStorage.getItem("quizScore");
-let total = localStorage.getItem("quizTotal");
+
+let score =
+localStorage.getItem("quizScore");
+
+
+let total =
+localStorage.getItem("quizTotal");
+
+
+let percentage =
+localStorage.getItem("quizPercentage");
+
+
+let xp =
+localStorage.getItem("quizXP");
+
+
+
 
 
 document.getElementById("score").textContent =
-"You scored " + score + "/" + total;
+score + "/" + total;
 
 
-let percentage = Math.round((score / total) * 100);
 
 
-if (percentage >= 80) {
+document.getElementById("percentage").textContent =
+percentage + "%";
 
-    document.getElementById("message").textContent =
-    "🔥 Amazing work! Keep it up!";
+
+
+
+
+document.getElementById("xp").textContent =
+"+" + xp + " XP";
+
+
+
+
+
+let message =
+document.getElementById("message");
+
+
+
+if(percentage == 100){
+
+
+message.textContent =
+"🏆 Perfect Score!";
+
 
 }
 
-else if (percentage >= 50) {
 
-    document.getElementById("message").textContent =
-    "👍 Good job! Keep practising!";
+
+else if(percentage >= 80){
+
+
+message.textContent =
+"🔥 Amazing Work!";
+
+
+}
+
+
+
+else if(percentage >= 50){
+
+
+message.textContent =
+"👍 Good Progress!";
+
 
 }
 
-else {
 
-    document.getElementById("message").textContent =
-    "💪 Keep learning! You will improve!";
+
+else{
+
+
+message.textContent =
+"💪 Keep Practicing!";
+
 
 }
+
+
 
 </script>
+
+
+
 
 
 </body>
