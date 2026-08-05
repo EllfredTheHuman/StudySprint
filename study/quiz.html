@@ -27,6 +27,8 @@
 
         <a href="../index.html">Home</a>
         <a href="index.html">📚 Study</a>
+        <a href="../sprint/index.html">🏃 Sprint</a>
+        <a href="../games/index.html">🎮 Games</a>
         <a href="../profile/index.html">👤 Profile</a>
 
     </nav>
@@ -67,6 +69,7 @@
 
 
 
+
     <div class="answers">
 
 
@@ -95,9 +98,11 @@
 
 
 
+
     <p id="feedback">
         Choose an answer!
     </p>
+
 
 
 
@@ -107,6 +112,7 @@
         Next Question →
 
     </button>
+
 
 
 
@@ -128,9 +134,10 @@
 
 
 
+
 <footer>
 
-© 2026 StudySprint
+    © 2026 StudySprint
 
 </footer>
 
@@ -139,9 +146,21 @@
 
 
 
-<!-- IMPORTANT: achievements loads BEFORE quiz -->
+<!-- Load achievement system first -->
 
 <script src="../achievements.js"></script>
+
+
+
+<!-- Load question data -->
+
+<script src="../questions/electricity.js"></script>
+
+<script src="../questions/heart.js"></script>
+
+
+
+<!-- Load quiz system last -->
 
 <script src="quiz.js"></script>
 
