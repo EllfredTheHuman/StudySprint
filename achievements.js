@@ -1,57 +1,50 @@
-// ===============================
-// StudySprint Achievement System
-// ===============================
-
-
-// All achievements
-
 const achievements = {
 
-    firstQuiz: {
-        name: "⭐ First Steps",
-        description: "Complete your first quiz."
+    firstQuiz:{
+        name:"⭐ First Steps",
+        description:"Complete your first quiz."
     },
 
 
-    perfectScore: {
-        name: "💯 Perfect Score",
-        description: "Get 100% on any quiz."
+    perfectScore:{
+        name:"💯 Perfect Score",
+        description:"Get 100% on a quiz."
     },
 
 
-    quiz10: {
-        name: "📚 Getting Started",
-        description: "Complete 10 quizzes."
+    quiz10:{
+        name:"📚 Getting Started",
+        description:"Complete 10 quizzes."
     },
 
 
-    quiz50: {
-        name: "🎓 Dedicated Learner",
-        description: "Complete 50 quizzes."
+    quiz50:{
+        name:"🎓 Dedicated Learner",
+        description:"Complete 50 quizzes."
     },
 
 
-    xp100: {
-        name: "⭐ XP Collector",
-        description: "Earn 100 XP."
+    xp100:{
+        name:"⭐ XP Collector",
+        description:"Earn 100 XP."
     },
 
 
-    xp500: {
-        name: "🌟 XP Expert",
-        description: "Earn 500 XP."
+    xp500:{
+        name:"🌟 XP Expert",
+        description:"Earn 500 XP."
     },
 
 
-    heartComplete: {
-        name: "❤️ Heart Expert",
-        description: "Complete the Heart topic."
+    heartComplete:{
+        name:"❤️ Heart Expert",
+        description:"Complete the Heart topic."
     },
 
 
-    electricityComplete: {
-        name: "⚡ Electricity Expert",
-        description: "Complete the Electricity topic."
+    electricityComplete:{
+        name:"⚡ Electricity Expert",
+        description:"Complete Electricity."
     }
 
 };
@@ -59,7 +52,6 @@ const achievements = {
 
 
 
-// Get unlocked achievements
 
 function getUnlockedAchievements(){
 
@@ -71,8 +63,6 @@ function getUnlockedAchievements(){
 
 
 
-
-// Save achievements
 
 function saveAchievements(list){
 
@@ -86,33 +76,23 @@ function saveAchievements(list){
 
 
 
-// Unlock achievement
-
 function unlockAchievement(id){
 
-
-    let unlocked =
-    getUnlockedAchievements();
-
+    let unlocked = getUnlockedAchievements();
 
 
     if(!unlocked.includes(id)){
 
-
         unlocked.push(id);
-
 
         saveAchievements(unlocked);
 
-
         return true;
-
 
     }
 
 
     return false;
-
 
 }
 
@@ -120,23 +100,18 @@ function unlockAchievement(id){
 
 
 
+function checkAchievements(score,total,topic){
 
-// Check achievements after quiz
-
-function checkAchievements(score, total, topic){
-
-
+    let unlocked = [];
 
     let percentage =
     Math.round(
-        (score / total) * 100
+        score / total * 100
     );
-
 
 
     let xp =
     Number(localStorage.getItem("XP")) || 0;
-
 
 
     let quizzes =
@@ -144,79 +119,63 @@ function checkAchievements(score, total, topic){
 
 
 
+    function check(id){
 
-    // First quiz
+        if(unlockAchievement(id)){
 
-    if(quizzes >= 1){
+            unlocked.push(id);
 
-        unlockAchievement("firstQuiz");
-
-    }
-
-
-
-    // Perfect score
-
-    if(percentage === 100){
-
-        unlockAchievement("perfectScore");
-
-    }
-
-
-
-    // Quiz milestones
-
-    if(quizzes >= 10){
-
-        unlockAchievement("quiz10");
-
-    }
-
-
-
-    if(quizzes >= 50){
-
-        unlockAchievement("quiz50");
+        }
 
     }
 
 
 
 
-    // XP milestones
-
-    if(xp >= 100){
-
-        unlockAchievement("xp100");
-
-    }
-
-
-    if(xp >= 500){
-
-        unlockAchievement("xp500");
-
-    }
+    if(quizzes >= 1)
+        check("firstQuiz");
 
 
 
-
-    // Topic achievements
-
-    if(topic === "heart"){
-
-        unlockAchievement("heartComplete");
-
-    }
+    if(percentage === 100)
+        check("perfectScore");
 
 
 
-    if(topic === "electricity"){
+    if(quizzes >= 10)
+        check("quiz10");
 
-        unlockAchievement("electricityComplete");
 
-    }
+
+    if(quizzes >= 50)
+        check("quiz50");
+
+
+
+    if(xp >= 100)
+        check("xp100");
+
+
+
+    if(xp >= 500)
+        check("xp500");
+
+
+
+    if(topic === "heart")
+        check("heartComplete");
+
+
+
+    if(topic === "electricity")
+        check("electricityComplete");
+
+
+
+    localStorage.setItem(
+        "newAchievements",
+        JSON.stringify(unlocked)
+    );
 
 
 }
