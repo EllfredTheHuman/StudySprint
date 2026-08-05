@@ -4,7 +4,7 @@ let score = 0;
 let questions = [];
 
 
-// Find topic from URL
+// Get topic from URL
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -12,7 +12,7 @@ const topic = urlParams.get("topic");
 
 
 
-// Choose question set
+// Choose questions
 
 if (topic === "heart") {
 
@@ -20,15 +20,23 @@ if (topic === "heart") {
 
 }
 
+
+else if (topic === "electricity") {
+
+    questions = electricityQuestions;
+
+}
+
+
 else {
 
-    alert("No topic selected!");
+    alert("Topic not found!");
 
 }
 
 
 
-// Get elements
+
 
 const questionText = document.getElementById("question");
 
@@ -70,9 +78,7 @@ function loadQuestion() {
 
         button.onclick = function() {
 
-
             checkAnswer(button.textContent);
-
 
         };
 
@@ -81,6 +87,7 @@ function loadQuestion() {
 
 
 }
+
 
 
 
@@ -132,6 +139,7 @@ function checkAnswer(answer) {
 
 
 }
+
 
 
 
