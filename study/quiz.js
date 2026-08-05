@@ -1,27 +1,26 @@
-let currentTopic = new URLSearchParams(window.location.search).get("topic");
+let params = new URLSearchParams(window.location.search);
+
+let topic = params.get("topic");
 
 
 let questions;
 
 
-if(currentTopic === "electricity"){
+if (topic === "electricity") {
 
     questions = electricityQuestions;
 
     document.getElementById("topic-title").textContent =
-    "⚡ Electricity Quiz";
+        "⚡ Electricity Quiz";
 
-}
-
-else{
+} else {
 
     questions = heartQuestions;
 
     document.getElementById("topic-title").textContent =
-    "❤️ Heart Quiz";
+        "❤️ Heart Quiz";
 
 }
-
 
 
 
@@ -29,17 +28,15 @@ let currentQuestion = 0;
 
 let score = 0;
 
-let answered = false;
+let locked = false;
 
 
 
-
-
-const questionText =
+const question =
 document.getElementById("question");
 
 
-const answers =
+const buttons =
 document.querySelectorAll(".answer");
 
 
@@ -47,70 +44,123 @@ const feedback =
 document.getElementById("feedback");
 
 
-const nextButton =
+const next =
 document.getElementById("next");
 
 
-const questionNumber =
+const number =
 document.getElementById("question-number");
 
 
-const progress =
+const bar =
 document.getElementById("progress-bar");
 
 
 
 
 
+function loadQuestion() {
+
+
+    locked = false;
+
+
+    next.style.display = "none";
+
+
+    feedback.textContent =
+    "Choose an answer!";
 
 
 
-function loadQuestion(){
+    let q = questions[currentQuestion];
 
 
-answered = false;
-
-
-let q = questions[currentQuestion];
-
-
-questionText.textContent = q.question;
-
-
-questionNumber.textContent =
-`Question ${currentQuestion + 1}/${questions.length}`;
+    question.textContent =
+    q.question;
 
 
 
-answers.forEach((button,index)=>{
-
-
-button.disabled = false;
-
-button.textContent =
-q.answers[index];
+    number.textContent =
+    `Question ${currentQuestion + 1}/${questions.length}`;
 
 
 
-button.onclick = () => checkAnswer(index);
+    buttons.forEach((button, index) => {
+
+
+        button.disabled = false;
+
+
+        button.textContent =
+        q.answers[index];
+
+
+        button.onclick = function(){
+
+            checkAnswer(index);
+
+        };
+
+
+    });
 
 
 
-});
+    bar.style.width =
+    `${(currentQuestion / questions.length) * 100}%`;
+
+}
 
 
 
-feedback.textContent =
-"Choose an answer!";
 
 
-nextButton.style.display="none";
+function checkAnswer(selected) {
+
+
+    if (locked) return;
+
+
+    locked = true;
+
+
+    let q = questions[currentQuestion];
 
 
 
-progress.style.width =
-`${(currentQuestion/questions.length)*100}%`;
+    buttons.forEach(button => {
 
+        button.disabled = true;
+
+    });
+
+
+
+    if (selected === q.correct) {
+
+
+        score++;
+
+
+        feedback.textContent =
+        "✅ Correct! +10 XP";
+
+
+    } else {
+
+
+        feedback.textContent =
+        "❌ Wrong! Correct answer: " 
+        + q.answers[q.correct];
+
+
+    }
+
+
+
+    next.style.display =
+    "inline-block";
 
 
 }
@@ -119,124 +169,62 @@ progress.style.width =
 
 
 
+next.onclick = function(){
 
 
-function checkAnswer(index){
+    currentQuestion++;
 
 
-if(answered) return;
 
+    if(currentQuestion >= questions.length){
 
-answered=true;
 
 
-let q = questions[currentQuestion];
+        let percentage =
+        Math.round((score / questions.length) * 100);
 
 
 
-answers.forEach(button=>{
+        localStorage.setItem(
+            "quizScore",
+            score
+        );
 
-button.disabled=true;
 
-});
+        localStorage.setItem(
+            "quizTotal",
+            questions.length
+        );
 
 
+        localStorage.setItem(
+            "quizPercentage",
+            percentage
+        );
 
-if(index === q.correct){
 
+        localStorage.setItem(
+            "quizXP",
+            score * 10
+        );
 
-score++;
 
 
-feedback.textContent =
-"✅ Correct! +10 XP";
+        window.location.href =
+        "results.html";
 
 
-}
 
-else{
+    } else {
 
 
-feedback.textContent =
-"❌ Wrong! Correct answer: " +
-q.answers[q.correct];
+        loadQuestion();
 
 
-}
-
-
-
-nextButton.style.display="inline-block";
-
-
-
-}
-
-
-
-
-
-
-
-
-nextButton.onclick = () => {
-
-
-currentQuestion++;
-
-
-
-if(currentQuestion >= questions.length){
-
-
-let percentage =
-Math.round((score/questions.length)*100);
-
-
-
-localStorage.setItem(
-"quizScore",
-score
-);
-
-
-localStorage.setItem(
-"quizTotal",
-questions.length
-);
-
-
-localStorage.setItem(
-"quizPercentage",
-percentage
-);
-
-
-localStorage.setItem(
-"quizXP",
-score * 10
-);
-
-
-
-window.location.href =
-"results.html";
-
-
-}
-
-else{
-
-
-loadQuestion();
-
-
-}
+    }
 
 
 };
-
-
 
 
 
