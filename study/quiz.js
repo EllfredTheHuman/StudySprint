@@ -1,144 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
+let currentQuestion = 0;
+let score = 0;
 
-<head>
+const questionText = document.getElementById("question");
+const answerButtons = document.querySelectorAll(".answer");
+const feedback = document.getElementById("feedback");
+const nextButton = document.getElementById("next");
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Quiz | StudySprint</title>
+function loadQuestion() {
 
-    <link rel="stylesheet" href="../css/style.css">
+    let question = heartQuestions[currentQuestion];
 
-</head>
+    questionText.textContent = question.question;
 
+    feedback.textContent = "";
 
-<body>
+    nextButton.style.display = "none";
 
 
-<header>
+    answerButtons.forEach((button, index) => {
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+        button.textContent = question.answers[index];
 
+        button.disabled = false;
 
-    <nav>
+        button.onclick = function() {
 
-        <a href="../index.html">Home</a>
-        <a href="index.html">Study</a>
-        <a href="../sprint/index.html">Sprint</a>
-        <a href="../games/index.html">Games</a>
-        <a href="../profile/index.html">Profile</a>
-        <a href="../about.html">About</a>
+            checkAnswer(button.textContent);
 
-    </nav>
+        };
 
-</header>
+    });
 
+}
 
 
-<section class="hero">
 
-    <h1>
-        ❤️ The Heart
-    </h1>
+function checkAnswer(answer) {
 
-    <p>
-        Test your knowledge!
-    </p>
+    let question = heartQuestions[currentQuestion];
 
-</section>
 
+    answerButtons.forEach(button => {
+        button.disabled = true;
+    });
 
 
-<section class="features">
+    if (answer === question.correct) {
 
+        score++;
 
-<div class="feature-card">
+        feedback.textContent =
+        "✅ Correct! " + question.explanation;
 
+    } 
 
-    <h2 id="question">
-        Loading question...
-    </h2>
+    else {
 
+        feedback.textContent =
+        "❌ Incorrect! The correct answer is " 
+        + question.correct 
+        + ". " 
+        + question.explanation;
 
-    <br>
+    }
 
 
-    <button class="answer main-button"></button>
+    nextButton.style.display = "block";
 
-    <br><br>
+}
 
-    <button class="answer main-button"></button>
 
-    <br><br>
 
-    <button class="answer main-button"></button>
+nextButton.onclick = function() {
 
-    <br><br>
+    currentQuestion++;
 
-    <button class="answer main-button"></button>
 
+    if (currentQuestion < heartQuestions.length) {
 
-</div>
+        loadQuestion();
 
+    }
 
-</section>
+    else {
 
+        // Save results
+        localStorage.setItem("quizScore", score);
+        localStorage.setItem("quizTotal", heartQuestions.length);
 
 
+        // Go to results page
+        window.location.href = "results.html";
 
-<section class="hero">
+    }
 
+};
 
-<div class="feature-card">
 
 
-    <h2>
-        Feedback
-    </h2>
-
-
-    <p id="feedback">
-        Choose an answer!
-    </p>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="hero">
-
-
-<button id="next" class="main-button" style="display:none;">
-    Next Question →
-</button>
-
-
-</section>
-
-
-
-
-<footer>
-
-    © 2026 StudySprint
-
-</footer>
-
-
-
-<script src="../questions/heart.js"></script>
-<script src="quiz.js"></script>
-
-
-</body>
-
-</html>
+loadQuestion();
