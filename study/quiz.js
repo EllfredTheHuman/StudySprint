@@ -1,101 +1,175 @@
 let currentQuestion = 0;
 let score = 0;
 
+let questions = [];
+
+
+// Find topic from URL
+
+const urlParams = new URLSearchParams(window.location.search);
+
+const topic = urlParams.get("topic");
+
+
+
+// Choose question set
+
+if (topic === "heart") {
+
+    questions = heartQuestions;
+
+}
+
+else {
+
+    alert("No topic selected!");
+
+}
+
+
+
+// Get elements
+
 const questionText = document.getElementById("question");
+
 const answerButtons = document.querySelectorAll(".answer");
+
 const feedback = document.getElementById("feedback");
+
 const nextButton = document.getElementById("next");
+
+
+
 
 
 function loadQuestion() {
 
-    let question = heartQuestions[currentQuestion];
+
+    let question = questions[currentQuestion];
+
 
     questionText.textContent = question.question;
 
-    feedback.textContent = "";
+
+    feedback.textContent = "Choose an answer!";
+
 
     nextButton.style.display = "none";
 
 
+
     answerButtons.forEach((button, index) => {
+
 
         button.textContent = question.answers[index];
 
+
         button.disabled = false;
+
+
 
         button.onclick = function() {
 
+
             checkAnswer(button.textContent);
+
 
         };
 
+
     });
 
+
 }
+
+
 
 
 
 function checkAnswer(answer) {
 
-    let question = heartQuestions[currentQuestion];
+
+    let question = questions[currentQuestion];
+
 
 
     answerButtons.forEach(button => {
+
         button.disabled = true;
+
     });
+
 
 
     if (answer === question.correct) {
 
+
         score++;
+
 
         feedback.textContent =
         "✅ Correct! " + question.explanation;
 
-    } 
-
-    else {
-
-        feedback.textContent =
-        "❌ Incorrect! The correct answer is " 
-        + question.correct 
-        + ". " 
-        + question.explanation;
 
     }
 
 
+    else {
+
+
+        feedback.textContent =
+        "❌ Incorrect! The correct answer is "
+        + question.correct
+        + ". "
+        + question.explanation;
+
+
+    }
+
+
+
     nextButton.style.display = "block";
+
 
 }
 
 
 
+
+
 nextButton.onclick = function() {
+
 
     currentQuestion++;
 
 
-    if (currentQuestion < heartQuestions.length) {
+
+    if (currentQuestion < questions.length) {
+
 
         loadQuestion();
 
+
     }
+
 
     else {
 
-        // Save results
+
         localStorage.setItem("quizScore", score);
-        localStorage.setItem("quizTotal", heartQuestions.length);
+
+        localStorage.setItem("quizTotal", questions.length);
 
 
-        // Go to results page
         window.location.href = "results.html";
+
 
     }
 
+
 };
+
+
 
 
 
