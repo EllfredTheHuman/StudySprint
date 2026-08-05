@@ -32,7 +32,6 @@ let answered = false;
 
 
 
-
 const questionText =
 document.getElementById("question");
 
@@ -213,8 +212,6 @@ nextButton.onclick = () => {
 
 
 
-        // GET OLD DATA
-
         let oldXP =
         Number(localStorage.getItem("XP")) || 0;
 
@@ -232,7 +229,7 @@ nextButton.onclick = () => {
 
 
 
-        // SAVE NEW DATA
+        // SAVE PLAYER DATA
 
         localStorage.setItem(
             "XP",
@@ -256,8 +253,19 @@ nextButton.onclick = () => {
 
 
 
+        // CHECK ACHIEVEMENTS
 
-        // RESULTS PAGE DATA
+        checkAchievements(
+            score,
+            questions.length,
+            topic
+        );
+
+
+
+
+
+        // RESULTS DATA
 
         localStorage.setItem(
             "quizScore",
