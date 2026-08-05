@@ -28,15 +28,16 @@ let currentQuestion = 0;
 
 let score = 0;
 
-let locked = false;
+let answered = false;
 
 
 
-const question =
+
+const questionText =
 document.getElementById("question");
 
 
-const buttons =
+const answerButtons =
 document.querySelectorAll(".answer");
 
 
@@ -44,15 +45,15 @@ const feedback =
 document.getElementById("feedback");
 
 
-const next =
+const nextButton =
 document.getElementById("next");
 
 
-const number =
+const questionNumber =
 document.getElementById("question-number");
 
 
-const bar =
+const progressBar =
 document.getElementById("progress-bar");
 
 
@@ -63,10 +64,10 @@ document.getElementById("progress-bar");
 function loadQuestion() {
 
 
-    locked = false;
+    answered = false;
 
 
-    next.style.display = "none";
+    nextButton.style.display = "none";
 
 
     feedback.textContent =
@@ -74,32 +75,35 @@ function loadQuestion() {
 
 
 
-    let q = questions[currentQuestion];
+    let question =
+    questions[currentQuestion];
 
 
 
-    question.textContent =
-    q.question;
+    questionText.textContent =
+    question.question;
 
 
 
-    number.textContent =
+    questionNumber.textContent =
     `Question ${currentQuestion + 1}/${questions.length}`;
 
 
 
 
-    buttons.forEach((button,index)=>{
+
+    answerButtons.forEach((button, index) => {
 
 
         button.disabled = false;
 
 
         button.textContent =
-        q.answers[index];
+        question.answers[index];
 
 
-        button.onclick = function(){
+
+        button.onclick = () => {
 
             checkAnswer(index);
 
@@ -110,7 +114,7 @@ function loadQuestion() {
 
 
 
-    bar.style.width =
+    progressBar.style.width =
     `${(currentQuestion / questions.length) * 100}%`;
 
 
@@ -123,22 +127,22 @@ function loadQuestion() {
 
 
 
-function checkAnswer(selected) {
+function checkAnswer(selectedAnswer) {
 
 
-    if(locked) return;
+    if(answered) return;
 
 
-    locked = true;
+    answered = true;
 
 
 
-    let q =
+    let question =
     questions[currentQuestion];
 
 
 
-    buttons.forEach(button=>{
+    answerButtons.forEach(button => {
 
         button.disabled = true;
 
@@ -148,7 +152,7 @@ function checkAnswer(selected) {
 
 
 
-    if(selected === q.correct){
+    if(selectedAnswer === question.correct){
 
 
         score++;
@@ -158,19 +162,21 @@ function checkAnswer(selected) {
         "✅ Correct! +10 XP";
 
 
-    } else {
+    }
+
+    else {
 
 
         feedback.textContent =
         "❌ Wrong! Correct answer: "
-        + q.answers[q.correct];
+        + question.answers[question.correct];
 
 
     }
 
 
 
-    next.style.display =
+    nextButton.style.display =
     "inline-block";
 
 
@@ -184,12 +190,10 @@ function checkAnswer(selected) {
 
 
 
-next.onclick = function(){
-
+nextButton.onclick = () => {
 
 
     currentQuestion++;
-
 
 
 
@@ -204,10 +208,16 @@ next.onclick = function(){
 
 
 
-        // SAVE QUIZ RESULTS
+        let earnedXP =
+        score * 10;
+
+
+
+        // GET OLD DATA
 
         let oldXP =
         Number(localStorage.getItem("XP")) || 0;
+
 
 
         let oldQuizzes =
@@ -215,10 +225,14 @@ next.onclick = function(){
 
 
 
-        let earnedXP =
-        score * 10;
+        let oldBest =
+        Number(localStorage.getItem("bestScore")) || 0;
 
 
+
+
+
+        // SAVE NEW DATA
 
         localStorage.setItem(
             "XP",
@@ -234,27 +248,21 @@ next.onclick = function(){
 
 
 
-        let oldBest =
-        Number(localStorage.getItem("bestScore")) || 0;
+        localStorage.setItem(
+            "bestScore",
+            Math.max(oldBest, percentage)
+        );
 
 
 
-        if(percentage > oldBest){
-
-            localStorage.setItem(
-                "bestScore",
-                percentage
-            );
-
-        }
 
 
+        // RESULTS PAGE DATA
 
         localStorage.setItem(
             "quizScore",
             score
         );
-
 
 
         localStorage.setItem(
@@ -263,12 +271,10 @@ next.onclick = function(){
         );
 
 
-
         localStorage.setItem(
             "quizPercentage",
             percentage
         );
-
 
 
         localStorage.setItem(
