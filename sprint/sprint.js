@@ -2,6 +2,51 @@
 // StudySprint Daily Sprint
 // =============================
 
+let today = new Date().toDateString();
+
+let lastSprint = localStorage.getItem("lastSprint");
+
+if(lastSprint === today){
+
+    document.body.innerHTML = `
+
+    <header>
+
+        <div class="logo">
+        🚀 StudySprint
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <h1>
+            🏃 Daily Sprint Complete!
+            </h1>
+
+
+            <p>
+            You have already completed today's Sprint.
+            Come back tomorrow for a new challenge!
+            </p>
+
+
+            <a href="../index.html" class="main-button">
+            🏠 Home
+            </a>
+
+        </section>
+
+    </main>
+
+    `;
+
+    throw new Error("Sprint completed today");
+
+}
 
 let allQuestions = [
 
