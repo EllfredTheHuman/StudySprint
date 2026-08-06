@@ -29,7 +29,7 @@ else{
 
 
 
-// Shuffle function
+
 
 function shuffle(array){
 
@@ -40,20 +40,11 @@ function shuffle(array){
 
 
 
-// Pick random 15 questions
-
-let questions =
-shuffle([...allQuestions]).slice(0,15);
-
-
-
-
-// Randomise answers
 
 function shuffleAnswers(question){
 
 
-    let answerList =
+    let answers =
     question.answers.map((answer,index)=>{
 
         return {
@@ -68,18 +59,18 @@ function shuffleAnswers(question){
 
 
 
-    answerList =
-    shuffle(answerList);
+    answers =
+    shuffle(answers);
 
 
 
     question.answers =
-    answerList.map(answer => answer.text);
+    answers.map(answer => answer.text);
 
 
 
     question.correct =
-    answerList.findIndex(answer => answer.correct);
+    answers.findIndex(answer => answer.correct);
 
 
 }
@@ -88,11 +79,20 @@ function shuffleAnswers(question){
 
 
 
+
+
+let questions =
+shuffle([...allQuestions]).slice(0,15);
+
+
+
 let currentQuestion = 0;
 
 let score = 0;
 
 let answered = false;
+
+
 
 
 
@@ -111,6 +111,7 @@ document.getElementById("feedback");
 
 const next =
 document.getElementById("next");
+
 
 
 
@@ -184,6 +185,7 @@ function loadQuestion(){
 
 
 
+
 function checkAnswer(answer){
 
 
@@ -248,6 +250,7 @@ function checkAnswer(answer){
 
 
 
+
 next.onclick = () => {
 
 
@@ -266,8 +269,23 @@ next.onclick = () => {
 
 
 
+        // XP SYSTEM
+
         let xp =
-        score * 10;
+        score * 5;
+
+
+
+        // Perfect quiz bonus
+
+        if(score === questions.length){
+
+            xp += 25;
+
+        }
+
+
+
 
 
 
@@ -275,12 +293,16 @@ next.onclick = () => {
         Number(localStorage.getItem("XP")) || 0;
 
 
+
         let oldQuizzes =
         Number(localStorage.getItem("quizzes")) || 0;
 
 
+
         let oldBest =
         Number(localStorage.getItem("bestScore")) || 0;
+
+
 
 
 
@@ -308,11 +330,14 @@ next.onclick = () => {
 
 
 
+
+
         checkAchievements(
             score,
             questions.length,
             topic
         );
+
 
 
 
@@ -325,10 +350,12 @@ next.onclick = () => {
         );
 
 
+
         localStorage.setItem(
             "quizTotal",
             questions.length
         );
+
 
 
         localStorage.setItem(
@@ -337,10 +364,14 @@ next.onclick = () => {
         );
 
 
+
         localStorage.setItem(
             "quizXP",
             xp
         );
+
+
+
 
 
 
