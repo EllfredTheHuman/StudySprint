@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Results | StudySprint</title>
 
@@ -39,6 +40,8 @@
 
 
 
+
+
 <main>
 
 
@@ -46,6 +49,7 @@
 
 
 <div class="results-card">
+
 
 
 <h1>
@@ -60,17 +64,23 @@ Great job!
 
 
 
+
+
 <div class="score-circle">
 
 <p>
 Score
 </p>
 
+
 <h3 id="score">
 0/0
 </h3>
 
+
 </div>
+
+
 
 
 
@@ -78,10 +88,13 @@ Score
 <div class="result-stats">
 
 
+
 <div class="stat">
 
 <h2 id="xp">
+
 ⭐ +0 XP
+
 </h2>
 
 <p>
@@ -93,33 +106,40 @@ Experience
 
 
 
+
 <div class="stat">
 
+
 <h2 id="percentage">
+
 🎯 0%
+
 </h2>
+
 
 <p>
 Accuracy
 </p>
 
-</div>
-
 
 </div>
 
 
 
+</div>
 
 
-<h2>
-🏆 Achievements
-</h2>
 
 
-<div id="new-achievements">
+
+
+
+<div id="achievement-popup">
+
 
 </div>
+
+
 
 
 
@@ -128,14 +148,22 @@ Accuracy
 <br>
 
 
+
 <a href="index.html" class="main-button">
+
 📚 Study Again
+
 </a>
+
+
 
 
 <a href="../index.html" class="main-button">
+
 🏠 Home
+
 </a>
+
 
 
 
@@ -151,11 +179,16 @@ Accuracy
 
 
 
+
+
 <footer>
 
 © 2026 StudySprint
 
 </footer>
+
+
+
 
 
 
@@ -166,33 +199,40 @@ Accuracy
 <script>
 
 
+
 let score =
-localStorage.getItem("quizScore");
+localStorage.getItem("quizScore") || 0;
 
 
 let total =
-localStorage.getItem("quizTotal");
+localStorage.getItem("quizTotal") || 0;
 
 
 let percentage =
-localStorage.getItem("quizPercentage");
+localStorage.getItem("quizPercentage") || 0;
 
 
 let xp =
-localStorage.getItem("quizXP");
+localStorage.getItem("quizXP") || 0;
+
+
+
 
 
 
 document.getElementById("score").textContent =
-score + "/" + total;
+`${score}/${total}`;
+
 
 
 document.getElementById("percentage").textContent =
-"🎯 " + percentage + "%";
+`🎯 ${percentage}%`;
+
 
 
 document.getElementById("xp").textContent =
-"⭐ +" + xp + " XP";
+`⭐ +${xp} XP`;
+
 
 
 
@@ -235,59 +275,76 @@ message.textContent =
 
 
 
-let unlocked =
+
+
+
+// ACHIEVEMENT POPUP
+
+
+let newAchievements =
 JSON.parse(
 localStorage.getItem("newAchievements")
 ) || [];
 
 
 
-let box =
-document.getElementById("new-achievements");
+let popup =
+document.getElementById("achievement-popup");
 
 
 
-if(unlocked.length === 0){
 
-box.textContent =
-"No new achievements.";
+
+if(newAchievements.length > 0){
+
+
+
+popup.innerHTML =
+`
+<h2>
+🏆 Achievement Unlocked!
+</h2>
+
+<p>
+${achievements[newAchievements[0]].name}
+</p>
+
+<p>
+${achievements[newAchievements[0]].description}
+</p>
+`;
+
+
 
 }
 
 else{
 
 
-unlocked.forEach(id=>{
+popup.innerHTML =
+`
+<p>
+No new achievements this time.
+</p>
+`;
 
-
-let a =
-achievements[id];
-
-
-let div =
-document.createElement("div");
-
-
-div.className =
-"achievement";
-
-
-div.textContent =
-"🏆 " + a.name;
-
-
-
-box.appendChild(div);
-
-
-});
 
 
 }
 
 
 
+
+// Clear after showing
+
+localStorage.removeItem("newAchievements");
+
+
+
 </script>
+
+
+
 
 
 </body>
