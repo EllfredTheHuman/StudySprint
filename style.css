@@ -913,3 +913,46 @@ opacity:1;
 }
 
 }
+
+.quiz-box {
+
+    width:700px;
+
+    max-width:90%;
+
+    margin:0 auto;
+
+}
+
+
+
+.progress {
+
+    width:600px;
+
+    max-width:90%;
+
+    height:25px;
+
+    background:#e5e7eb;
+
+    border-radius:50px;
+
+    overflow:hidden;
+
+    margin:30px auto;
+
+}
+
+
+.progress-bar {
+
+    height:100%;
+
+    width:0%;
+
+    background:#6366f1;
+
+    transition:.4s ease;
+
+}
