@@ -1,16 +1,13 @@
 // =============================
-// StudySprint Study Quiz System
+// StudySprint Study Quiz
 // =============================
 
 
 // Get topic from URL
 
-let params =
-new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 
-
-let topic =
-params.get("topic");
+const topic = params.get("topic");
 
 
 
@@ -20,151 +17,165 @@ let title = "";
 
 
 
+// =============================
+// Load Question Pack
+// =============================
 
-// Load question pack
 
-if(topic === "heart"){
+switch(topic){
 
-    questions = [...heartQuestions];
-    title = "❤️ Heart Quiz";
+
+    case "heart":
+
+        questions = [...heartQuestions];
+
+        title = "❤️ Heart Quiz";
+
+        break;
+
+
+
+    case "electricity":
+
+        questions = [...electricityQuestions];
+
+        title = "⚡ Electricity Quiz";
+
+        break;
+
+
+
+    case "algebra":
+
+        questions = [...algebraQuestions];
+
+        title = "➗ Algebra Quiz";
+
+        break;
+
+
+
+    case "geometry":
+
+        questions = [...geometryQuestions];
+
+        title = "📐 Geometry Quiz";
+
+        break;
+
+
+
+    case "statistics":
+
+        questions = [...statisticsQuestions];
+
+        title = "📊 Statistics Quiz";
+
+        break;
+
+
+
+    case "poetry":
+
+        questions = [...poetryQuestions];
+
+        title = "📖 Poetry Quiz";
+
+        break;
+
+
+
+    case "grammar":
+
+        questions = [...grammarQuestions];
+
+        title = "🔤 Grammar Quiz";
+
+        break;
+
+
+
+    case "geography":
+
+        questions = [...geographyQuestions];
+
+        title = "🌍 Geography Quiz";
+
+        break;
+
+
+
+    case "history":
+
+        questions = [...historyQuestions];
+
+        title = "🏛️ History Quiz";
+
+        break;
+
+
+
+    case "french":
+
+        questions = [...frenchQuestions];
+
+        title = "🇫🇷 French Quiz";
+
+        break;
+
+
+
+    case "japanese":
+
+        questions = [...japaneseQuestions];
+
+        title = "🇯🇵 Japanese Quiz";
+
+        break;
+
+
+
+    default:
+
+        alert("No topic selected!");
+
+        window.location.href = "index.html";
 
 }
 
 
-else if(topic === "electricity"){
 
-    questions = [...electricityQuestions];
-    title = "⚡ Electricity Quiz";
-
-}
+// =============================
+// Pick 15 Random Questions
+// =============================
 
 
-else if(topic === "algebra"){
-
-    questions = [...algebraQuestions];
-    title = "➗ Algebra Quiz";
-
-}
-
-
-else if(topic === "geometry"){
-
-    questions = [...geometryQuestions];
-    title = "📐 Geometry Quiz";
-
-}
-
-
-else if(topic === "statistics"){
-
-    questions = [...statisticsQuestions];
-    title = "📊 Statistics Quiz";
-
-}
-
-
-else if(topic === "poetry"){
-
-    questions = [...poetryQuestions];
-    title = "📖 Poetry Quiz";
-
-}
-
-
-else if(topic === "grammar"){
-
-    questions = [...grammarQuestions];
-    title = "🔤 Grammar Quiz";
-
-}
-
-
-else if(topic === "geography"){
-
-    questions = [...geographyQuestions];
-    title = "🌍 Geography Quiz";
-
-}
-
-
-else if(topic === "history"){
-
-    questions = [...historyQuestions];
-    title = "🏛️ History Quiz";
-
-}
-
-
-else if(topic === "french"){
-
-    questions = [...frenchQuestions];
-    title = "🇫🇷 French Quiz";
-
-}
-
-
-else if(topic === "japanese"){
-
-    questions = [...japaneseQuestions];
-    title = "🇯🇵 Japanese Quiz";
-
-}
-
-
-else{
-
-    alert("Topic not found!");
-
-    window.location.href = "index.html";
-
-}
-
-
-
-
-
-// Randomise questions
 function shuffle(array){
 
-    return array.sort(
-        () => Math.random() - 0.5
-    );
+    return array.sort(() => Math.random() - 0.5);
 
 }
 
-
-
-
-
-// Study mode = 15 random questions
 
 questions = shuffle(questions).slice(0,15);
 
 
 
 
+// =============================
+// Setup
+// =============================
 
 
-document.getElementById("topic-title").textContent =
-title;
+document.getElementById("topic-title").textContent = title;
 
 
-
-
-
-
-
-
-// Quiz variables
 
 let currentQuestion = 0;
 
 let score = 0;
 
 let answered = false;
-
-
-
 
 
 
@@ -186,17 +197,15 @@ document.getElementById("next");
 
 
 
+// =============================
+// Shuffle Answers
+// =============================
 
-
-
-
-// Shuffle answers
 
 function shuffleAnswers(question){
 
 
-    let answers =
-    question.answers.map((answer,index)=>{
+    let answers = question.answers.map((answer,index)=>{
 
 
         return {
@@ -230,8 +239,9 @@ function shuffleAnswers(question){
 
 
 
-
-
+// =============================
+// Load Question
+// =============================
 
 
 function loadQuestion(){
@@ -280,6 +290,7 @@ function loadQuestion(){
         q.answers[index];
 
 
+
         button.onclick = () => {
 
             checkAnswer(index);
@@ -297,12 +308,16 @@ function loadQuestion(){
 
 
 
+// =============================
+// Check Answer
+// =============================
 
 
 function checkAnswer(answer){
 
 
     if(answered)
+
     return;
 
 
@@ -316,7 +331,7 @@ function checkAnswer(answer){
 
 
 
-    buttons.forEach(button => {
+    buttons.forEach(button=>{
 
         button.disabled = true;
 
@@ -353,7 +368,6 @@ function checkAnswer(answer){
 
 
 
-
     next.style.display =
     "inline-block";
 
@@ -365,6 +379,9 @@ function checkAnswer(answer){
 
 
 
+// =============================
+// Next Question
+// =============================
 
 
 next.onclick = () => {
@@ -399,24 +416,23 @@ next.onclick = () => {
 
 
 
-
+// =============================
+// Finish Quiz
+// =============================
 
 
 function finishQuiz(){
 
 
-    let percentage =
+    const percentage = Math.round(
 
-    Math.round(
-        score / questions.length * 100
+        (score / questions.length) * 100
+
     );
 
 
 
-    let xp =
-
-    score * 5;
-
+    const xp = score * 5;
 
 
 
@@ -432,8 +448,6 @@ function finishQuiz(){
 
 
 
-
-
     localStorage.setItem(
 
         "quizzes",
@@ -441,8 +455,6 @@ function finishQuiz(){
         (Number(localStorage.getItem("quizzes")) || 0) + 1
 
     );
-
-
 
 
 
@@ -464,7 +476,6 @@ function finishQuiz(){
 
 
 
-
     localStorage.setItem("quizScore", score);
 
     localStorage.setItem("quizTotal", questions.length);
@@ -477,13 +488,19 @@ function finishQuiz(){
 
 
 
+    if(typeof checkAchievements === "function"){
 
-    checkAchievements(
-        score,
-        questions.length,
-        topic
-    );
+        checkAchievements(
 
+            score,
+
+            questions.length,
+
+            topic
+
+        );
+
+    }
 
 
 
@@ -494,7 +511,6 @@ function finishQuiz(){
 
 
 }
-
 
 
 
