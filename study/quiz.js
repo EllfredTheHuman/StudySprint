@@ -1,24 +1,29 @@
-let params = new URLSearchParams(window.location.search);
+let params =
+new URLSearchParams(window.location.search);
 
-let topic = params.get("topic");
+
+let topic =
+params.get("topic");
 
 
 let questions;
 
 
-if (topic === "electricity") {
+if(topic === "electricity"){
 
     questions = electricityQuestions;
 
     document.getElementById("topic-title").textContent =
-        "⚡ Electricity Quiz";
+    "⚡ Electricity Quiz";
 
-} else {
+}
+
+else{
 
     questions = heartQuestions;
 
     document.getElementById("topic-title").textContent =
-        "❤️ Heart Quiz";
+    "❤️ Heart Quiz";
 
 }
 
@@ -36,7 +41,7 @@ const questionText =
 document.getElementById("question");
 
 
-const answerButtons =
+const buttons =
 document.querySelectorAll(".answer");
 
 
@@ -44,65 +49,45 @@ const feedback =
 document.getElementById("feedback");
 
 
-const nextButton =
+const next =
 document.getElementById("next");
 
 
-const questionNumber =
-document.getElementById("question-number");
 
 
-const progressBar =
-document.getElementById("progress-bar");
+function loadQuestion(){
 
 
+    answered=false;
+
+    next.style.display="none";
 
 
-
-
-function loadQuestion() {
-
-
-    answered = false;
-
-
-    nextButton.style.display = "none";
-
-
-    feedback.textContent =
-    "Choose an answer!";
-
-
-
-    let question =
+    let q =
     questions[currentQuestion];
 
 
-
     questionText.textContent =
-    question.question;
+    q.question;
 
 
 
-    questionNumber.textContent =
-    `Question ${currentQuestion + 1}/${questions.length}`;
+    document.getElementById("question-number").textContent =
+    `Question ${currentQuestion+1}/${questions.length}`;
 
 
 
+    buttons.forEach((button,index)=>{
 
 
-    answerButtons.forEach((button, index) => {
-
-
-        button.disabled = false;
+        button.disabled=false;
 
 
         button.textContent =
-        question.answers[index];
+        q.answers[index];
 
 
-
-        button.onclick = () => {
+        button.onclick=()=>{
 
             checkAnswer(index);
 
@@ -112,71 +97,48 @@ function loadQuestion() {
     });
 
 
-
-    progressBar.style.width =
-    `${(currentQuestion / questions.length) * 100}%`;
-
-
-
 }
 
 
 
 
+function checkAnswer(answer){
 
 
-
-function checkAnswer(selectedAnswer) {
-
-
-    if(answered) return;
+    if(answered)
+    return;
 
 
-    answered = true;
+    answered=true;
 
 
-
-    let question =
+    let q =
     questions[currentQuestion];
 
 
-
-    answerButtons.forEach(button => {
-
-        button.disabled = true;
-
-    });
+    buttons.forEach(b=>b.disabled=true);
 
 
 
-
-
-    if(selectedAnswer === question.correct){
-
+    if(answer === q.correct){
 
         score++;
 
-
         feedback.textContent =
-        "✅ Correct! +10 XP";
-
+        "✅ Correct!";
 
     }
 
-    else {
-
+    else{
 
         feedback.textContent =
-        "❌ Wrong! Correct answer: "
-        + question.answers[question.correct];
-
+        "❌ Correct answer: " +
+        q.answers[q.correct];
 
     }
 
 
-
-    nextButton.style.display =
-    "inline-block";
+    next.style.display="inline-block";
 
 
 }
@@ -185,11 +147,7 @@ function checkAnswer(selectedAnswer) {
 
 
 
-
-
-
-
-nextButton.onclick = () => {
+next.onclick=()=>{
 
 
     currentQuestion++;
@@ -199,61 +157,40 @@ nextButton.onclick = () => {
     if(currentQuestion >= questions.length){
 
 
-
         let percentage =
         Math.round(
-            (score / questions.length) * 100
+            score/questions.length*100
         );
 
 
-
-        let earnedXP =
-        score * 10;
-
+        let xp =
+        score*10;
 
 
-        let oldXP =
-        Number(localStorage.getItem("XP")) || 0;
-
-
-
-        let oldQuizzes =
-        Number(localStorage.getItem("quizzes")) || 0;
-
-
-
-        let oldBest =
-        Number(localStorage.getItem("bestScore")) || 0;
-
-
-
-
-
-        // SAVE PLAYER DATA
 
         localStorage.setItem(
             "XP",
-            oldXP + earnedXP
+            (Number(localStorage.getItem("XP"))||0)+xp
         );
 
 
 
         localStorage.setItem(
             "quizzes",
-            oldQuizzes + 1
+            (Number(localStorage.getItem("quizzes"))||0)+1
         );
 
 
 
         localStorage.setItem(
             "bestScore",
-            Math.max(oldBest, percentage)
+            Math.max(
+                Number(localStorage.getItem("bestScore"))||0,
+                percentage
+            )
         );
 
 
-
-
-        // CHECK ACHIEVEMENTS
 
         checkAchievements(
             score,
@@ -263,56 +200,26 @@ nextButton.onclick = () => {
 
 
 
-
-
-        // RESULTS DATA
-
-        localStorage.setItem(
-            "quizScore",
-            score
-        );
-
-
-        localStorage.setItem(
-            "quizTotal",
-            questions.length
-        );
-
-
-        localStorage.setItem(
-            "quizPercentage",
-            percentage
-        );
-
-
-        localStorage.setItem(
-            "quizXP",
-            earnedXP
-        );
+        localStorage.setItem("quizScore",score);
+        localStorage.setItem("quizTotal",questions.length);
+        localStorage.setItem("quizPercentage",percentage);
+        localStorage.setItem("quizXP",xp);
 
 
 
-        window.location.href =
-        "results.html";
-
+        window.location.href="results.html";
 
 
     }
 
-    else {
-
+    else{
 
         loadQuestion();
 
-
     }
 
 
-
 };
-
-
-
 
 
 
