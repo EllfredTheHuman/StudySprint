@@ -22,15 +22,21 @@
 🚀 StudySprint
 </div>
 
+
 <nav>
 
 <a href="../index.html">Home</a>
+
 <a href="../study/index.html">📚 Study</a>
+
 <a href="index.html">👤 Profile</a>
 
 </nav>
 
 </header>
+
+
+
 
 
 
@@ -54,12 +60,17 @@ Track your learning progress!
 
 
 
+
+
 <section class="features">
+
 
 
 <div class="stat">
 
-<h2 id="xp">0</h2>
+<h2 id="xp">
+0
+</h2>
 
 <p>
 ⭐ XP
@@ -68,9 +79,14 @@ Track your learning progress!
 </div>
 
 
+
+
+
 <div class="stat">
 
-<h2 id="level">1</h2>
+<h2 id="level">
+1
+</h2>
 
 <p>
 🏆 Level
@@ -79,18 +95,26 @@ Track your learning progress!
 </div>
 
 
+
+
+
 <div class="stat">
 
-<h2 id="quizzes">0</h2>
+<h2 id="quizzes">
+0
+</h2>
 
 <p>
-📝 Quizzes
+📝 Quizzes Completed
 </p>
 
 </div>
 
 
+
 </section>
+
+
 
 
 
@@ -106,19 +130,26 @@ Track your learning progress!
 </h1>
 
 
+
 <div class="progress">
 
-<div id="xp-bar" class="progress-bar"></div>
+<div class="progress-bar" id="xp-bar"></div>
 
 </div>
 
 
+
 <p id="xp-text">
-0 / 100 XP
+
+0 / 100 XP to next level
+
 </p>
 
 
+
 </section>
+
+
 
 
 
@@ -129,17 +160,25 @@ Track your learning progress!
 <section class="features">
 
 
+
 <div class="feature-card">
+
 
 <h2>
 🏅 Best Score
 </h2>
 
+
 <p id="best-score">
+
 No quizzes completed yet.
+
 </p>
 
+
 </div>
+
+
 
 
 
@@ -147,24 +186,42 @@ No quizzes completed yet.
 
 <div class="feature-card">
 
+
 <h2>
 🏆 Achievements
 </h2>
 
-<div id="achievement-list">
 
-Loading...
+<p id="achievement-count">
+
+0 / 0 Unlocked
+
+</p>
+
+
+
+<a href="../achievements.html" class="main-button">
+
+View Achievements
+
+</a>
+
 
 </div>
 
-</div>
+
+
 
 
 </section>
 
 
 
+
+
 </main>
+
+
 
 
 
@@ -180,18 +237,27 @@ Loading...
 
 
 
+
+
+
+
 <script src="../achievements.js"></script>
 
 
 <script>
 
 
+// LOAD DATA
+
+
 let xp =
 Number(localStorage.getItem("XP")) || 0;
 
 
+
 let quizzes =
 Number(localStorage.getItem("quizzes")) || 0;
+
 
 
 let best =
@@ -199,8 +265,14 @@ Number(localStorage.getItem("bestScore")) || 0;
 
 
 
+
+
+// LEVEL
+
+
 let level =
 Math.floor(xp / 100) + 1;
+
 
 
 let progress =
@@ -208,12 +280,20 @@ xp % 100;
 
 
 
+
+
+
+// UPDATE STATS
+
+
 document.getElementById("xp").textContent =
 xp;
 
 
+
 document.getElementById("level").textContent =
 level;
+
 
 
 document.getElementById("quizzes").textContent =
@@ -221,13 +301,25 @@ quizzes;
 
 
 
+
+
+// XP BAR
+
+
 document.getElementById("xp-bar").style.width =
 progress + "%";
 
 
-document.getElementById("xp-text").textContent =
-progress + " / 100 XP to next level";
 
+document.getElementById("xp-text").textContent =
+`${progress} / 100 XP to next level`;
+
+
+
+
+
+
+// BEST SCORE
 
 
 if(best > 0){
@@ -240,8 +332,10 @@ best + "%";
 
 
 
-let list =
-document.getElementById("achievement-list");
+
+
+
+// ACHIEVEMENTS
 
 
 let unlocked =
@@ -249,50 +343,15 @@ getUnlockedAchievements();
 
 
 
-if(unlocked.length === 0){
+document.getElementById("achievement-count").textContent =
+`${unlocked.length} / ${Object.keys(achievements).length} Unlocked`;
 
-list.innerHTML =
-"🔒 No achievements yet";
-
-}
-
-else{
-
-
-list.innerHTML = "";
-
-
-unlocked.forEach(id=>{
-
-
-let achievement =
-achievements[id];
-
-
-let div =
-document.createElement("div");
-
-
-div.className="achievement";
-
-
-div.innerHTML =
-`
-<h3>${achievement.name}</h3>
-<p>${achievement.description}</p>
-`;
-
-
-list.appendChild(div);
-
-
-});
-
-
-}
 
 
 </script>
+
+
+
 
 
 </body>
