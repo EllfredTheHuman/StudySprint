@@ -868,3 +868,48 @@ nav {
     font-weight:700;
 
 }
+
+#achievement-popup {
+
+background:#6366f1;
+
+color:white;
+
+padding:25px;
+
+border-radius:25px;
+
+margin:30px auto;
+
+max-width:400px;
+
+text-align:center;
+
+font-weight:900;
+
+animation:popup .5s ease;
+
+}
+
+
+
+@keyframes popup {
+
+from {
+
+transform:scale(.5);
+
+opacity:0;
+
+}
+
+
+to {
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
