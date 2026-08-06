@@ -2,51 +2,8 @@
 // StudySprint Daily Sprint
 // =============================
 
-let today = new Date().toDateString();
 
-let lastSprint = localStorage.getItem("lastSprint");
-
-if(lastSprint === today){
-
-    document.body.innerHTML = `
-
-    <header>
-
-        <div class="logo">
-        🚀 StudySprint
-        </div>
-
-    </header>
-
-
-    <main>
-
-        <section class="hero">
-
-            <h1>
-            🏃 Daily Sprint Complete!
-            </h1>
-
-
-            <p>
-            You have already completed today's Sprint.
-            Come back tomorrow for a new challenge!
-            </p>
-
-
-            <a href="../index.html" class="main-button">
-            🏠 Home
-            </a>
-
-        </section>
-
-    </main>
-
-    `;
-
-    throw new Error("Sprint completed today");
-
-}
+// Get all questions
 
 let allQuestions = [
 
@@ -58,6 +15,7 @@ let allQuestions = [
 
 
 
+// Shuffle function
 
 function shuffle(array){
 
@@ -68,12 +26,13 @@ function shuffle(array){
 
 
 
+// Shuffle answer positions
 
 function shuffleAnswers(question){
 
 
-    let answers =
-    question.answers.map((answer,index)=>{
+    let answers = question.answers.map((answer,index)=>{
+
 
         return {
 
@@ -83,12 +42,12 @@ function shuffleAnswers(question){
 
         };
 
+
     });
 
 
 
-    answers =
-    shuffle(answers);
+    answers = shuffle(answers);
 
 
 
@@ -108,6 +67,8 @@ function shuffleAnswers(question){
 
 
 
+// Daily check
+
 let today =
 new Date().toDateString();
 
@@ -118,11 +79,55 @@ localStorage.getItem("lastSprint");
 
 
 
+
+
 if(lastSprint === today){
 
 
-    document.getElementById("status").textContent =
-    "✅ You already completed today's Sprint! Come back tomorrow.";
+    document.body.innerHTML = `
+
+    <header>
+
+        <div class="logo">
+            🚀 StudySprint
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+
+            <h1>
+                🏃 Daily Sprint Complete!
+            </h1>
+
+
+            <p>
+                You have already completed today's Sprint.
+                <br><br>
+                Come back tomorrow for a new challenge!
+            </p>
+
+
+            <a href="../index.html" class="main-button">
+                🏠 Home
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+    `;
+
+
+    throw new Error("Sprint already completed");
+
 
 }
 
@@ -131,8 +136,13 @@ if(lastSprint === today){
 
 
 
+
+
+// Pick 5 random questions
+
 let questions =
 shuffle([...allQuestions]).slice(0,5);
+
 
 
 
@@ -146,6 +156,10 @@ let answered = false;
 
 
 
+
+
+
+// Elements
 
 const questionText =
 document.getElementById("question");
@@ -168,6 +182,8 @@ document.getElementById("next");
 
 
 
+
+
 function loadQuestion(){
 
 
@@ -178,27 +194,34 @@ function loadQuestion(){
     "none";
 
 
+
     feedback.textContent =
     "Choose an answer!";
 
 
 
-    let q =
+    let question =
     questions[currentQuestion];
 
 
 
-    shuffleAnswers(q);
+    shuffleAnswers(question);
+
+
 
 
 
     questionText.textContent =
-    q.question;
+    question.question;
+
 
 
 
     document.getElementById("question-number").textContent =
+
     `Question ${currentQuestion + 1}/5`;
+
+
 
 
 
@@ -211,7 +234,7 @@ function loadQuestion(){
 
 
         button.textContent =
-        q.answers[index];
+        question.answers[index];
 
 
 
@@ -225,7 +248,10 @@ function loadQuestion(){
     });
 
 
+
 }
+
+
 
 
 
@@ -245,7 +271,7 @@ function checkAnswer(answer){
 
 
 
-    let q =
+    let question =
     questions[currentQuestion];
 
 
@@ -260,7 +286,8 @@ function checkAnswer(answer){
 
 
 
-    if(answer === q.correct){
+
+    if(answer === question.correct){
 
 
         score++;
@@ -276,11 +303,14 @@ function checkAnswer(answer){
 
 
         feedback.textContent =
-        "❌ Correct answer: "
-        + q.answers[q.correct];
+
+        "❌ Correct answer: " +
+
+        question.answers[question.correct];
 
 
     }
+
 
 
 
@@ -297,6 +327,7 @@ function checkAnswer(answer){
 
 
 
+
 next.onclick = () => {
 
 
@@ -304,7 +335,7 @@ next.onclick = () => {
 
 
 
-    if(currentQuestion >= 5){
+    if(currentQuestion >= questions.length){
 
 
         finishSprint();
@@ -334,20 +365,21 @@ next.onclick = () => {
 function finishSprint(){
 
 
-    // XP SYSTEM
+
+    // XP
 
     let xp =
     score * 5;
 
 
 
-    // Completion bonus
+    // Completion reward
 
     xp += 15;
 
 
 
-    // Perfect sprint bonus
+    // Perfect reward
 
     if(score === 5){
 
@@ -360,40 +392,67 @@ function finishSprint(){
 
 
 
+
     let oldXP =
+
     Number(localStorage.getItem("XP")) || 0;
 
 
 
+
+
+
     localStorage.setItem(
+
         "XP",
+
         oldXP + xp
+
     );
 
 
 
 
 
+
+
     localStorage.setItem(
+
         "lastSprint",
+
         today
+
     );
 
 
 
 
 
+
+
     localStorage.setItem(
+
         "sprintScore",
+
         score
+
     );
+
+
+
+
 
 
 
     localStorage.setItem(
+
         "sprintXP",
+
         xp
+
     );
+
+
 
 
 
@@ -404,6 +463,7 @@ function finishSprint(){
 
 
 }
+
 
 
 
