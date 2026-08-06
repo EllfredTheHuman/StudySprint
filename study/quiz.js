@@ -1,85 +1,113 @@
-// ===============================
-// StudySprint Quiz System
-// ===============================
+let params =
+new URLSearchParams(window.location.search);
 
 
-// Get topic
-
-const params = new URLSearchParams(window.location.search);
-const topic = params.get("topic");
+let topic =
+params.get("topic");
 
 
-// Shuffle questions
+let allQuestions;
 
-function shuffleArray(array){
-
-    let copy = [...array];
-
-    for(let i = copy.length - 1; i > 0; i--){
-
-        let j = Math.floor(Math.random() * (i + 1));
-
-        [copy[i], copy[j]] = [copy[j], copy[i]];
-
-    }
-
-    return copy;
-
-}
-
-
-// Load topic
-
-let questions;
 
 if(topic === "electricity"){
 
+    allQuestions = electricityQuestions;
+
     document.getElementById("topic-title").textContent =
     "⚡ Electricity Quiz";
-
-    questions =
-    shuffleArray(electricityQuestions).slice(
-        0,
-        Math.min(15, electricityQuestions.length)
-    );
 
 }
 
 else{
 
+    allQuestions = heartQuestions;
+
     document.getElementById("topic-title").textContent =
     "❤️ Heart Quiz";
-
-    questions =
-    shuffleArray(heartQuestions).slice(
-        0,
-        Math.min(15, heartQuestions.length)
-    );
 
 }
 
 
 
-// Quiz variables
+// Shuffle function
+
+function shuffle(array){
+
+    return array.sort(() => Math.random() - 0.5);
+
+}
+
+
+
+
+// Pick random 15 questions
+
+let questions =
+shuffle([...allQuestions]).slice(0,15);
+
+
+
+
+// Randomise answers
+
+function shuffleAnswers(question){
+
+
+    let answerList =
+    question.answers.map((answer,index)=>{
+
+        return {
+
+            text: answer,
+
+            correct: index === question.correct
+
+        };
+
+    });
+
+
+
+    answerList =
+    shuffle(answerList);
+
+
+
+    question.answers =
+    answerList.map(answer => answer.text);
+
+
+
+    question.correct =
+    answerList.findIndex(answer => answer.correct);
+
+
+}
+
+
+
+
 
 let currentQuestion = 0;
+
 let score = 0;
+
 let answered = false;
 
 
-// Elements
+
 
 const questionText =
 document.getElementById("question");
 
-const questionNumber =
-document.getElementById("question-number");
 
 const buttons =
 document.querySelectorAll(".answer");
 
+
 const feedback =
 document.getElementById("feedback");
+
 
 const next =
 document.getElementById("next");
@@ -87,40 +115,55 @@ document.getElementById("next");
 
 
 
-// ===============================
-// Load Question
-// ===============================
+
+
+
 
 function loadQuestion(){
 
 
     answered = false;
 
+
     next.style.display = "none";
+
 
     feedback.textContent =
     "Choose an answer!";
+
 
 
     let q =
     questions[currentQuestion];
 
 
+
+    shuffleAnswers(q);
+
+
+
     questionText.textContent =
     q.question;
 
 
-    questionNumber.textContent =
+
+    document.getElementById("question-number").textContent =
     `Question ${currentQuestion + 1}/${questions.length}`;
+
+
 
 
 
     buttons.forEach((button,index)=>{
 
+
         button.disabled = false;
+
 
         button.textContent =
         q.answers[index];
+
+
 
         button.onclick = () => {
 
@@ -128,32 +171,34 @@ function loadQuestion(){
 
         };
 
+
     });
+
 
 }
 
 
 
 
-// ===============================
-// Check Answer
-// ===============================
+
+
+
 
 function checkAnswer(answer){
 
 
-    if(answered){
+    if(answered)
+    return;
 
-        return;
-
-    }
 
 
     answered = true;
 
 
+
     let q =
     questions[currentQuestion];
+
 
 
     buttons.forEach(button=>{
@@ -164,35 +209,44 @@ function checkAnswer(answer){
 
 
 
+
+
     if(answer === q.correct){
+
 
         score++;
 
+
         feedback.textContent =
-        "✅ Correct! +10 XP";
+        "✅ Correct!";
+
 
     }
 
     else{
 
+
         feedback.textContent =
-        "❌ Correct answer: " +
-        q.answers[q.correct];
+        "❌ Correct answer: "
+        + q.answers[q.correct];
+
 
     }
 
 
+
     next.style.display =
     "inline-block";
+
 
 }
 
 
 
 
-// ===============================
-// Next Question
-// ===============================
+
+
+
 
 next.onclick = () => {
 
@@ -200,15 +254,107 @@ next.onclick = () => {
     currentQuestion++;
 
 
+
     if(currentQuestion >= questions.length){
 
-        finishQuiz();
+
+
+        let percentage =
+        Math.round(
+            score / questions.length * 100
+        );
+
+
+
+        let xp =
+        score * 10;
+
+
+
+        let oldXP =
+        Number(localStorage.getItem("XP")) || 0;
+
+
+        let oldQuizzes =
+        Number(localStorage.getItem("quizzes")) || 0;
+
+
+        let oldBest =
+        Number(localStorage.getItem("bestScore")) || 0;
+
+
+
+
+        localStorage.setItem(
+            "XP",
+            oldXP + xp
+        );
+
+
+
+        localStorage.setItem(
+            "quizzes",
+            oldQuizzes + 1
+        );
+
+
+
+        localStorage.setItem(
+            "bestScore",
+            Math.max(oldBest, percentage)
+        );
+
+
+
+
+
+        checkAchievements(
+            score,
+            questions.length,
+            topic
+        );
+
+
+
+
+
+
+        localStorage.setItem(
+            "quizScore",
+            score
+        );
+
+
+        localStorage.setItem(
+            "quizTotal",
+            questions.length
+        );
+
+
+        localStorage.setItem(
+            "quizPercentage",
+            percentage
+        );
+
+
+        localStorage.setItem(
+            "quizXP",
+            xp
+        );
+
+
+
+        window.location.href =
+        "results.html";
+
 
     }
 
     else{
 
+
         loadQuestion();
+
 
     }
 
@@ -218,98 +364,6 @@ next.onclick = () => {
 
 
 
-// ===============================
-// Finish Quiz
-// ===============================
 
-function finishQuiz(){
-
-
-    let percentage =
-    Math.round(
-        (score / questions.length) * 100
-    );
-
-
-    let earnedXP =
-    score * 10;
-
-
-    let oldXP =
-    Number(localStorage.getItem("XP")) || 0;
-
-
-    let oldQuizzes =
-    Number(localStorage.getItem("quizzes")) || 0;
-
-
-    let bestScore =
-    Number(localStorage.getItem("bestScore")) || 0;
-
-
-
-    // Save progress
-
-    localStorage.setItem(
-        "XP",
-        oldXP + earnedXP
-    );
-
-
-    localStorage.setItem(
-        "quizzes",
-        oldQuizzes + 1
-    );
-
-
-    localStorage.setItem(
-        "bestScore",
-        Math.max(bestScore, percentage)
-    );
-
-
-
-    // Check achievements
-
-    checkAchievements(
-        score,
-        questions.length,
-        topic
-    );
-
-
-
-    // Save results
-
-    localStorage.setItem(
-        "quizScore",
-        score
-    );
-
-    localStorage.setItem(
-        "quizTotal",
-        questions.length
-    );
-
-    localStorage.setItem(
-        "quizPercentage",
-        percentage
-    );
-
-    localStorage.setItem(
-        "quizXP",
-        earnedXP
-    );
-
-
-
-    window.location.href =
-    "results.html";
-
-}
-
-
-
-// Start quiz
 
 loadQuestion();
