@@ -12,7 +12,7 @@ let allQuestions = [
 
 
 
-// Shuffle questions
+
 
 function shuffle(array){
 
@@ -23,10 +23,49 @@ function shuffle(array){
 
 
 
-// Daily check
+
+function shuffleAnswers(question){
+
+
+    let answers =
+    question.answers.map((answer,index)=>{
+
+        return {
+
+            text: answer,
+
+            correct: index === question.correct
+
+        };
+
+    });
+
+
+
+    answers =
+    shuffle(answers);
+
+
+
+    question.answers =
+    answers.map(answer => answer.text);
+
+
+
+    question.correct =
+    answers.findIndex(answer => answer.correct);
+
+
+}
+
+
+
+
+
 
 let today =
 new Date().toDateString();
+
 
 
 let lastSprint =
@@ -35,6 +74,7 @@ localStorage.getItem("lastSprint");
 
 
 if(lastSprint === today){
+
 
     document.getElementById("status").textContent =
     "✅ You already completed today's Sprint! Come back tomorrow.";
@@ -45,8 +85,9 @@ if(lastSprint === today){
 
 
 
+
 let questions =
-shuffle(allQuestions).slice(0,5);
+shuffle([...allQuestions]).slice(0,5);
 
 
 
@@ -59,12 +100,10 @@ let answered = false;
 
 
 
+
+
 const questionText =
 document.getElementById("question");
-
-
-const questionNumber =
-document.getElementById("question-number");
 
 
 const buttons =
@@ -90,7 +129,8 @@ function loadQuestion(){
     answered = false;
 
 
-    next.style.display = "none";
+    next.style.display =
+    "none";
 
 
     feedback.textContent =
@@ -103,12 +143,16 @@ function loadQuestion(){
 
 
 
+    shuffleAnswers(q);
+
+
+
     questionText.textContent =
     q.question;
 
 
 
-    questionNumber.textContent =
+    document.getElementById("question-number").textContent =
     `Question ${currentQuestion + 1}/5`;
 
 
@@ -207,6 +251,7 @@ function checkAnswer(answer){
 
 
 
+
 next.onclick = () => {
 
 
@@ -215,7 +260,6 @@ next.onclick = () => {
 
 
     if(currentQuestion >= 5){
-
 
 
         finishSprint();
@@ -245,23 +289,28 @@ next.onclick = () => {
 function finishSprint(){
 
 
-    let xp = score * 10;
+    // XP SYSTEM
+
+    let xp =
+    score * 5;
 
 
 
     // Completion bonus
 
-    xp += 25;
+    xp += 15;
 
 
 
-    // Perfect bonus
+    // Perfect sprint bonus
 
     if(score === 5){
 
-        xp += 50;
+        xp += 25;
 
     }
+
+
 
 
 
@@ -288,20 +337,25 @@ function finishSprint(){
 
 
 
-    alert(
-        "🏃 Sprint Complete!\n\n" +
-        "Score: " +
-        score +
-        "/5\n\n" +
-        "⭐ +" +
-        xp +
-        " XP"
+
+    localStorage.setItem(
+        "sprintScore",
+        score
     );
 
 
 
+    localStorage.setItem(
+        "sprintXP",
+        xp
+    );
+
+
+
+
+
     window.location.href =
-    "../profile/index.html";
+    "results.html";
 
 
 }
@@ -310,7 +364,5 @@ function finishSprint(){
 
 
 
-
-// Start
 
 loadQuestion();
