@@ -22,16 +22,23 @@
 🚀 StudySprint
 </div>
 
+
 <nav>
 
 <a href="../index.html">Home</a>
+
 <a href="../study/index.html">📚 Study</a>
+
 <a href="index.html">🏃 Sprint</a>
+
 <a href="../profile/index.html">👤 Profile</a>
 
 </nav>
 
 </header>
+
+
+
 
 
 
@@ -58,54 +65,103 @@ Great job!
 
 
 
+
+
+
+
 <section class="features">
 
 
+
 <div class="stat">
+
 
 <h2 id="score">
 0/5
 </h2>
 
+
 <p>
 🎯 Score
 </p>
 
+
 </div>
+
+
 
 
 
 <div class="stat">
 
+
 <h2 id="xp">
-+0 XP
+⭐ +0 XP
 </h2>
 
+
 <p>
-⭐ Reward
+Reward
 </p>
+
 
 </div>
 
 
+
+
+
+<div class="stat">
+
+
+<h2 id="accuracy">
+0%
+</h2>
+
+
+<p>
+Accuracy
+</p>
+
+
+</div>
+
+
+
+
 </section>
+
+
+
+
+
 
 
 
 
 <section class="hero">
 
-<a href="index.html" class="main-button">
-🏃 Sprint Again
-</a>
+
+<h1>
+🔥 Keep Going!
+</h1>
+
+
+<p>
+Your next Sprint will be available tomorrow.
+</p>
 
 
 <a href="../index.html" class="main-button">
-🏠 Home
+
+🏠 Return Home
+
 </a>
 
 
 </section>
+
+
 
 
 
@@ -114,50 +170,141 @@ Great job!
 
 
 
+
+
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+
+
+
+
+
+
+
 <script>
 
 
 let score =
-localStorage.getItem("sprintScore") || 0;
+
+Number(localStorage.getItem("sprintScore")) || 0;
+
 
 
 let xp =
-localStorage.getItem("sprintXP") || 0;
+
+Number(localStorage.getItem("sprintXP")) || 0;
+
+
+
+let total = 5;
+
+
+
+let accuracy =
+
+Math.round(
+(score / total) * 100
+);
+
+
+
+
 
 
 
 document.getElementById("score").textContent =
+
 score + "/5";
 
 
+
+
+
 document.getElementById("xp").textContent =
+
 "⭐ +" + xp + " XP";
 
 
 
-if(score == 5){
 
-document.getElementById("message").textContent =
-"🏆 Perfect Sprint!";
+
+document.getElementById("accuracy").textContent =
+
+accuracy + "%";
+
+
+
+
+
+
+
+
+let message =
+
+document.getElementById("message");
+
+
+
+
+
+
+if(score === 5){
+
+
+message.textContent =
+
+"🏆 PERFECT SPRINT! Incredible work!";
+
 
 }
+
+
+else if(score >= 4){
+
+
+message.textContent =
+
+"🔥 Amazing Sprint!";
+
+
+}
+
 
 else if(score >= 3){
 
-document.getElementById("message").textContent =
-"🔥 Great Sprint!";
+
+message.textContent =
+
+"👍 Good Sprint! Keep improving!";
+
 
 }
+
 
 else{
 
-document.getElementById("message").textContent =
-"💪 Keep practicing!";
+
+message.textContent =
+
+"💪 Don't give up! Practice makes progress.";
+
 
 }
 
 
+
 </script>
+
+
+
+
+
+<script src="../animations.js"></script>
 
 
 </body>
