@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Results | StudySprint</title>
 
@@ -16,30 +15,25 @@
 <body>
 
 
-
 <header>
 
+<div class="logo">
+🚀 StudySprint
+</div>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
 
+<nav>
 
-    <nav>
+<a href="../index.html">Home</a>
 
-        <a href="../index.html">Home</a>
+<a href="index.html">📚 Study</a>
 
-        <a href="index.html">📚 Study</a>
+<a href="../profile/index.html">👤 Profile</a>
 
-        <a href="../profile/index.html">👤 Profile</a>
-
-    </nav>
+</nav>
 
 
 </header>
-
-
-
 
 
 
@@ -51,54 +45,32 @@
 <section class="results-screen">
 
 
-
 <div class="results-card">
 
 
-
-
-
 <h1>
-
 🎉 Quiz Complete!
-
 </h1>
 
 
 
-
-
 <h2 id="message">
-
 Great job!
-
 </h2>
-
-
-
-
-
 
 
 
 <div class="score-circle">
 
-
 <p>
 Score
 </p>
 
-
 <h3 id="score">
-0/10
+0/0
 </h3>
 
-
 </div>
-
-
-
-
 
 
 
@@ -106,42 +78,33 @@ Score
 <div class="result-stats">
 
 
-
 <div class="stat">
 
-
 <h2 id="xp">
-
 ⭐ +0 XP
-
 </h2>
-
 
 <p>
 Experience
 </p>
 
-
 </div>
-
 
 
 
 
 <div class="stat">
 
-
 <h2 id="percentage">
-
 🎯 0%
-
 </h2>
-
 
 <p>
 Accuracy
 </p>
 
+</div>
+
 
 </div>
 
@@ -149,45 +112,40 @@ Accuracy
 
 
 
+<h2>
+🏆 Achievements
+</h2>
+
+
+<div id="new-achievements">
+
 </div>
 
 
 
 
 
-
+<br>
 
 
 <a href="index.html" class="main-button">
-
 📚 Study Again
-
 </a>
-
 
 
 <a href="../index.html" class="main-button">
-
 🏠 Home
-
 </a>
-
-
 
 
 
 </div>
-
 
 
 </section>
 
 
-
 </main>
-
-
-
 
 
 
@@ -202,56 +160,39 @@ Accuracy
 
 
 
-
-
-
+<script src="../achievements.js"></script>
 
 
 <script>
 
 
 let score =
-localStorage.getItem("quizScore") || 0;
+localStorage.getItem("quizScore");
 
 
 let total =
-localStorage.getItem("quizTotal") || 0;
+localStorage.getItem("quizTotal");
 
 
 let percentage =
-localStorage.getItem("quizPercentage") || 0;
+localStorage.getItem("quizPercentage");
 
 
 let xp =
-localStorage.getItem("quizXP") || 0;
-
-
-
+localStorage.getItem("quizXP");
 
 
 
 document.getElementById("score").textContent =
-
 score + "/" + total;
 
 
-
-
-
 document.getElementById("percentage").textContent =
-
 "🎯 " + percentage + "%";
 
 
-
-
-
 document.getElementById("xp").textContent =
-
 "⭐ +" + xp + " XP";
-
-
-
 
 
 
@@ -262,42 +203,84 @@ document.getElementById("message");
 
 
 
-
 if(percentage == 100){
-
 
 message.textContent =
 "🏆 Perfect Score!";
 
-
 }
 
-
 else if(percentage >= 80){
-
 
 message.textContent =
 "🔥 Amazing Work!";
 
-
 }
 
-
 else if(percentage >= 50){
-
 
 message.textContent =
 "👍 Good Progress!";
 
+}
+
+else{
+
+message.textContent =
+"💪 Keep Practicing!";
 
 }
 
 
+
+
+
+let unlocked =
+JSON.parse(
+localStorage.getItem("newAchievements")
+) || [];
+
+
+
+let box =
+document.getElementById("new-achievements");
+
+
+
+if(unlocked.length === 0){
+
+box.textContent =
+"No new achievements.";
+
+}
+
 else{
 
 
-message.textContent =
-"💪 Keep Practicing!";
+unlocked.forEach(id=>{
+
+
+let a =
+achievements[id];
+
+
+let div =
+document.createElement("div");
+
+
+div.className =
+"achievement";
+
+
+div.textContent =
+"🏆 " + a.name;
+
+
+
+box.appendChild(div);
+
+
+});
 
 
 }
@@ -306,9 +289,6 @@ message.textContent =
 
 </script>
 
-
-
-<script src="../animations.js"></script>
 
 </body>
 
