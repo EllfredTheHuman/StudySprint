@@ -29,12 +29,13 @@
 
 <a href="../study/index.html">📚 Study</a>
 
+<a href="../sprint/index.html">🏃 Sprint</a>
+
 <a href="index.html">👤 Profile</a>
 
 </nav>
 
 </header>
-
 
 
 
@@ -65,7 +66,6 @@ Track your learning progress!
 <section class="features">
 
 
-
 <div class="stat">
 
 <h2 id="xp">
@@ -73,7 +73,7 @@ Track your learning progress!
 </h2>
 
 <p>
-⭐ XP
+⭐ Total XP
 </p>
 
 </div>
@@ -111,7 +111,6 @@ Track your learning progress!
 </div>
 
 
-
 </section>
 
 
@@ -126,7 +125,7 @@ Track your learning progress!
 
 
 <h1>
-📊 Progress
+📊 Level Progress
 </h1>
 
 
@@ -146,7 +145,6 @@ Track your learning progress!
 </p>
 
 
-
 </section>
 
 
@@ -156,9 +154,7 @@ Track your learning progress!
 
 
 
-
 <section class="features">
-
 
 
 <div class="feature-card">
@@ -183,28 +179,19 @@ No quizzes completed yet.
 
 
 
-
 <div class="feature-card">
 
 
 <h2>
-🏆 Achievements
+🔥 Streak
 </h2>
 
 
-<p id="achievement-count">
+<p>
 
-0 / 0 Unlocked
+Coming soon!
 
 </p>
-
-
-
-<a href="../achievements.html" class="main-button">
-
-View Achievements
-
-</a>
 
 
 </div>
@@ -213,9 +200,36 @@ View Achievements
 
 
 
+
+
+<div class="feature-card">
+
+
+<h2>
+🎖️ Achievements
+</h2>
+
+
+<p>
+
+⭐ First Quiz
+
+<br><br>
+
+🔒 Perfect Score
+
+<br><br>
+
+🔒 XP Collector
+
+</p>
+
+
+</div>
+
+
+
 </section>
-
-
 
 
 
@@ -240,17 +254,10 @@ View Achievements
 
 
 
-
-<script src="../achievements.js"></script>
-
-
 <script>
 
 
-// LOAD DATA
-
-
-let xp =
+let totalXP =
 Number(localStorage.getItem("XP")) || 0;
 
 
@@ -267,27 +274,52 @@ Number(localStorage.getItem("bestScore")) || 0;
 
 
 
-// LEVEL
+// LEVEL SYSTEM
 
 
-let level =
-Math.floor(xp / 100) + 1;
+let level = 1;
+
+let remainingXP = totalXP;
+
+let requiredXP = 100;
+
+
+
+while(remainingXP >= requiredXP){
+
+
+    remainingXP -= requiredXP;
+
+
+    level++;
+
+
+    requiredXP =
+    Math.round(
+        100 * Math.pow(1.5, level - 1)
+    );
+
+
+}
+
+
 
 
 
 let progress =
-xp % 100;
+Math.round(
+    (remainingXP / requiredXP) * 100
+);
 
 
 
 
 
 
-// UPDATE STATS
 
 
 document.getElementById("xp").textContent =
-xp;
+totalXP;
 
 
 
@@ -303,24 +335,6 @@ quizzes;
 
 
 
-// XP BAR
-
-
-document.getElementById("xp-bar").style.width =
-progress + "%";
-
-
-
-document.getElementById("xp-text").textContent =
-`${progress} / 100 XP to next level`;
-
-
-
-
-
-
-// BEST SCORE
-
 
 if(best > 0){
 
@@ -335,16 +349,15 @@ best + "%";
 
 
 
-// ACHIEVEMENTS
-
-
-let unlocked =
-getUnlockedAchievements();
+document.getElementById("xp-bar").style.width =
+progress + "%";
 
 
 
-document.getElementById("achievement-count").textContent =
-`${unlocked.length} / ${Object.keys(achievements).length} Unlocked`;
+
+
+document.getElementById("xp-text").textContent =
+remainingXP + " / " + requiredXP + " XP to next level";
 
 
 
