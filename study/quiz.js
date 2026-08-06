@@ -1,5 +1,5 @@
 // =============================
-// StudySprint Quiz System
+// StudySprint Study Quiz System
 // =============================
 
 
@@ -25,7 +25,7 @@ let title = "";
 
 if(topic === "heart"){
 
-    questions = heartQuestions;
+    questions = [...heartQuestions];
     title = "❤️ Heart Quiz";
 
 }
@@ -33,7 +33,7 @@ if(topic === "heart"){
 
 else if(topic === "electricity"){
 
-    questions = electricityQuestions;
+    questions = [...electricityQuestions];
     title = "⚡ Electricity Quiz";
 
 }
@@ -41,7 +41,7 @@ else if(topic === "electricity"){
 
 else if(topic === "algebra"){
 
-    questions = algebraQuestions;
+    questions = [...algebraQuestions];
     title = "➗ Algebra Quiz";
 
 }
@@ -49,7 +49,7 @@ else if(topic === "algebra"){
 
 else if(topic === "geometry"){
 
-    questions = geometryQuestions;
+    questions = [...geometryQuestions];
     title = "📐 Geometry Quiz";
 
 }
@@ -57,7 +57,7 @@ else if(topic === "geometry"){
 
 else if(topic === "statistics"){
 
-    questions = statisticsQuestions;
+    questions = [...statisticsQuestions];
     title = "📊 Statistics Quiz";
 
 }
@@ -65,7 +65,7 @@ else if(topic === "statistics"){
 
 else if(topic === "poetry"){
 
-    questions = poetryQuestions;
+    questions = [...poetryQuestions];
     title = "📖 Poetry Quiz";
 
 }
@@ -73,7 +73,7 @@ else if(topic === "poetry"){
 
 else if(topic === "grammar"){
 
-    questions = grammarQuestions;
+    questions = [...grammarQuestions];
     title = "🔤 Grammar Quiz";
 
 }
@@ -81,7 +81,7 @@ else if(topic === "grammar"){
 
 else if(topic === "geography"){
 
-    questions = geographyQuestions;
+    questions = [...geographyQuestions];
     title = "🌍 Geography Quiz";
 
 }
@@ -89,7 +89,7 @@ else if(topic === "geography"){
 
 else if(topic === "history"){
 
-    questions = historyQuestions;
+    questions = [...historyQuestions];
     title = "🏛️ History Quiz";
 
 }
@@ -97,7 +97,7 @@ else if(topic === "history"){
 
 else if(topic === "french"){
 
-    questions = frenchQuestions;
+    questions = [...frenchQuestions];
     title = "🇫🇷 French Quiz";
 
 }
@@ -105,7 +105,7 @@ else if(topic === "french"){
 
 else if(topic === "japanese"){
 
-    questions = japaneseQuestions;
+    questions = [...japaneseQuestions];
     title = "🇯🇵 Japanese Quiz";
 
 }
@@ -115,8 +115,7 @@ else{
 
     alert("Topic not found!");
 
-    window.location.href =
-    "index.html";
+    window.location.href = "index.html";
 
 }
 
@@ -124,8 +123,31 @@ else{
 
 
 
+// Randomise questions
+function shuffle(array){
+
+    return array.sort(
+        () => Math.random() - 0.5
+    );
+
+}
+
+
+
+
+
+// Study mode = 15 random questions
+
+questions = shuffle(questions).slice(0,15);
+
+
+
+
+
+
 document.getElementById("topic-title").textContent =
 title;
+
 
 
 
@@ -146,8 +168,6 @@ let answered = false;
 
 
 
-// Elements
-
 const questionText =
 document.getElementById("question");
 
@@ -162,6 +182,7 @@ document.getElementById("feedback");
 
 const next =
 document.getElementById("next");
+
 
 
 
@@ -191,25 +212,20 @@ function shuffleAnswers(question){
 
 
 
-    answers.sort(
-        () => Math.random() - 0.5
-    );
+    answers = shuffle(answers);
 
 
 
     question.answers =
-    answers.map(a => a.text);
+    answers.map(answer => answer.text);
 
 
 
     question.correct =
-    answers.findIndex(
-        a => a.correct
-    );
+    answers.findIndex(answer => answer.correct);
 
 
 }
-
 
 
 
@@ -224,8 +240,7 @@ function loadQuestion(){
     answered = false;
 
 
-    next.style.display =
-    "none";
+    next.style.display = "none";
 
 
     feedback.textContent =
@@ -255,7 +270,6 @@ function loadQuestion(){
 
 
 
-
     buttons.forEach((button,index)=>{
 
 
@@ -264,7 +278,6 @@ function loadQuestion(){
 
         button.textContent =
         q.answers[index];
-
 
 
         button.onclick = () => {
@@ -277,9 +290,7 @@ function loadQuestion(){
     });
 
 
-
 }
-
 
 
 
@@ -305,7 +316,7 @@ function checkAnswer(answer){
 
 
 
-    buttons.forEach(button=>{
+    buttons.forEach(button => {
 
         button.disabled = true;
 
@@ -342,12 +353,12 @@ function checkAnswer(answer){
 
 
 
+
     next.style.display =
     "inline-block";
 
 
 }
-
 
 
 
@@ -408,6 +419,9 @@ function finishQuiz(){
 
 
 
+
+
+
     localStorage.setItem(
 
         "XP",
@@ -418,6 +432,8 @@ function finishQuiz(){
 
 
 
+
+
     localStorage.setItem(
 
         "quizzes",
@@ -425,6 +441,8 @@ function finishQuiz(){
         (Number(localStorage.getItem("quizzes")) || 0) + 1
 
     );
+
+
 
 
 
@@ -446,28 +464,15 @@ function finishQuiz(){
 
 
 
-    localStorage.setItem(
-        "quizScore",
-        score
-    );
 
+    localStorage.setItem("quizScore", score);
 
-    localStorage.setItem(
-        "quizTotal",
-        questions.length
-    );
+    localStorage.setItem("quizTotal", questions.length);
 
+    localStorage.setItem("quizPercentage", percentage);
 
-    localStorage.setItem(
-        "quizPercentage",
-        percentage
-    );
+    localStorage.setItem("quizXP", xp);
 
-
-    localStorage.setItem(
-        "quizXP",
-        xp
-    );
 
 
 
@@ -483,12 +488,12 @@ function finishQuiz(){
 
 
 
+
     window.location.href =
     "results.html";
 
 
 }
-
 
 
 
