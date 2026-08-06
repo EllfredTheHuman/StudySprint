@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Achievements | StudySprint</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="study/index.html">📚 Study</a>
+
+<a href="profile/index.html">👤 Profile</a>
+
+</nav>
+
+</header>
+
+
+
+
+
+<main>
+
+
+<section class="hero">
+
+<h1>
+🏆 Achievements
+</h1>
+
+
+<p>
+Track your StudySprint milestones!
+</p>
+
+
+</section>
+
+
+
+
+
+
+<section class="features" id="achievement-container">
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+
+
+
+
+
+<script src="achievements.js"></script>
+
+
+<script>
+
+
+let container =
+document.getElementById("achievement-container");
+
+
+
+let unlocked =
+getUnlockedAchievements();
+
+
+
+
+
+Object.keys(achievements).forEach(id => {
+
+
+
+let achievement =
+achievements[id];
+
+
+
+let card =
+document.createElement("div");
+
+
+
+card.className =
+"feature-card";
+
+
+
+
+
+if(unlocked.includes(id)){
+
+
+card.innerHTML =
+`
+
+<h2>
+${achievement.name}
+</h2>
+
+<p>
+${achievement.description}
+</p>
+
+<p>
+✅ Unlocked
+</p>
+
+`;
+
+
+}
+
+else{
+
+
+card.innerHTML =
+`
+
+<h2>
+🔒 Locked
+</h2>
+
+<p>
+${achievement.description}
+</p>
+
+<p>
+Keep learning!
+</p>
+
+`;
+
+
+
+card.style.opacity =
+"0.6";
+
+
+}
+
+
+
+
+container.appendChild(card);
+
+
+
+});
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
