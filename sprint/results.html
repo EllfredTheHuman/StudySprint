@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sprint Results | StudySprint</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+<nav>
+
+<a href="../index.html">Home</a>
+<a href="../study/index.html">📚 Study</a>
+<a href="index.html">🏃 Sprint</a>
+<a href="../profile/index.html">👤 Profile</a>
+
+</nav>
+
+</header>
+
+
+
+
+<main>
+
+
+<section class="hero">
+
+
+<h1>
+🏃 Sprint Complete!
+</h1>
+
+
+<p id="message">
+Great job!
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="features">
+
+
+<div class="stat">
+
+<h2 id="score">
+0/5
+</h2>
+
+<p>
+🎯 Score
+</p>
+
+</div>
+
+
+
+<div class="stat">
+
+<h2 id="xp">
++0 XP
+</h2>
+
+<p>
+⭐ Reward
+</p>
+
+</div>
+
+
+</section>
+
+
+
+
+<section class="hero">
+
+<a href="index.html" class="main-button">
+🏃 Sprint Again
+</a>
+
+
+<a href="../index.html" class="main-button">
+🏠 Home
+</a>
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+<script>
+
+
+let score =
+localStorage.getItem("sprintScore") || 0;
+
+
+let xp =
+localStorage.getItem("sprintXP") || 0;
+
+
+
+document.getElementById("score").textContent =
+score + "/5";
+
+
+document.getElementById("xp").textContent =
+"⭐ +" + xp + " XP";
+
+
+
+if(score == 5){
+
+document.getElementById("message").textContent =
+"🏆 Perfect Sprint!";
+
+}
+
+else if(score >= 3){
+
+document.getElementById("message").textContent =
+"🔥 Great Sprint!";
+
+}
+
+else{
+
+document.getElementById("message").textContent =
+"💪 Keep practicing!";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
