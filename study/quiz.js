@@ -3,7 +3,7 @@
 // =============================
 
 
-// Get topic from URL
+// Get topic
 
 const params = new URLSearchParams(window.location.search);
 
@@ -18,112 +18,105 @@ let title = "";
 
 
 // =============================
-// Load Question Pack
+// Question Database
 // =============================
 
 const questionPacks = {
 
+    heart: {
+        questions: heartQuestions,
+        title: "❤️ Heart Quiz"
+    },
 
-heart: {
-questions: heartQuestions,
-title:"❤️ Heart Quiz"
-},
+    electricity: {
+        questions: electricityQuestions,
+        title: "⚡ Electricity Quiz"
+    },
 
-electricity: {
-questions: electricityQuestions,
-title:"⚡ Electricity Quiz"
-},
-
-cells: {
-questions: cellsQuestions,
-title:"🧬 Cells Quiz"
-},
-
+    cells: {
+        questions: cellsQuestions,
+        title: "🧬 Cells Quiz"
+    },
 
 
-algebra: {
-questions: algebraQuestions,
-title:"📐 Algebra Quiz"
-},
+    algebra: {
+        questions: algebraQuestions,
+        title: "📐 Algebra Quiz"
+    },
 
-BIDMAS: {
-questions: BIDMASQuestions,
-title:"🔢 BIDMAS Quiz"
-},
+    BIDMAS: {
+        questions: BIDMASQuestions,
+        title: "🔢 BIDMAS Quiz"
+    },
 
-geometry: {
-questions: geometryQuestions,
-title:"📏 Geometry Quiz"
-},
-
-
-
-geography: {
-questions: geographyQuestions,
-title:"🌍 Geography Quiz"
-},
-
-history: {
-questions: historyQuestions,
-title:"🏛️ History Quiz"
-},
-
-civics: {
-questions: civicsQuestions,
-title:"⚖️ Civics Quiz"
-},
+    geometry: {
+        questions: geometryQuestions,
+        title: "📏 Geometry Quiz"
+    },
 
 
+    geography: {
+        questions: geographyQuestions,
+        title: "🌍 Geography Quiz"
+    },
 
-englishGrammar: {
-questions: englishGrammarQuestions,
-title:"📝 English Grammar Quiz"
-},
+    history: {
+        questions: historyQuestions,
+        title: "🏛️ History Quiz"
+    },
 
-literature: {
-questions: literatureQuestions,
-title:"📚 Literature Quiz"
-},
-
-poetry: {
-questions: poetryQuestions,
-title:"📖 Poetry Quiz"
-},
-
+    civics: {
+        questions: civicsQuestions,
+        title: "⚖️ Civics Quiz"
+    },
 
 
-frenchConversation: {
-questions: frenchConversationQuestions,
-title:"💬 French Conversation Quiz"
-},
+    englishGrammar: {
+        questions: englishGrammarQuestions,
+        title: "📝 English Grammar Quiz"
+    },
 
-frenchGrammar: {
-questions: frenchGrammarQuestions,
-title:"🇫🇷 French Grammar Quiz"
-},
+    literature: {
+        questions: literatureQuestions,
+        title: "📚 Literature Quiz"
+    },
 
-frenchVocab: {
-questions: frenchVocabQuestions,
-title:"🔤 French Vocabulary Quiz"
-},
+    poetry: {
+        questions: poetryQuestions,
+        title: "📖 Poetry Quiz"
+    },
 
 
+    frenchConversation: {
+        questions: frenchConversationQuestions,
+        title: "💬 French Conversation Quiz"
+    },
 
-japaneseHiragana: {
-questions: japaneseHiraganaQuestions,
-title:"あ Hiragana Quiz"
-},
+    frenchGrammar: {
+        questions: frenchGrammarQuestions,
+        title: "🇫🇷 French Grammar Quiz"
+    },
 
-japaneseGrammar: {
-questions: japaneseGrammarQuestions,
-title:"文 Japanese Grammar Quiz"
-},
+    frenchVocab: {
+        questions: frenchVocabQuestions,
+        title: "🔤 French Vocabulary Quiz"
+    },
 
-japaneseVocabulary: {
-questions: japaneseVocabularyQuestions,
-title:"語 Japanese Vocabulary Quiz"
-}
 
+    japaneseHiragana: {
+        questions: japaneseHiraganaQuestions,
+        title: "あ Hiragana Quiz"
+    },
+
+    japaneseGrammar: {
+        questions: japaneseGrammarQuestions,
+        title: "文 Japanese Grammar Quiz"
+    },
+
+    japaneseVocabulary: {
+        questions: japaneseVocabularyQuestions,
+        title: "語 Japanese Vocabulary Quiz"
+    }
 
 };
 
@@ -131,19 +124,21 @@ title:"語 Japanese Vocabulary Quiz"
 
 
 
+// Load selected topic
+
 if(questionPacks[topic]){
 
-questions = [...questionPacks[topic].questions];
+    questions = [...questionPacks[topic].questions];
 
-title = questionPacks[topic].title;
+    title = questionPacks[topic].title;
 
 }
 
 else{
 
-alert("No topic selected!");
+    alert("Topic not found!");
 
-window.location.href="index.html";
+    window.location.href="index.html";
 
 }
 
@@ -158,7 +153,7 @@ window.location.href="index.html";
 
 function shuffle(array){
 
-return array.sort(() => Math.random() - 0.5);
+    return array.sort(() => Math.random() - 0.5);
 
 }
 
@@ -166,11 +161,7 @@ return array.sort(() => Math.random() - 0.5);
 
 
 
-// Pick 15 random questions
-
 questions = shuffle(questions).slice(0,15);
-
-
 
 
 
@@ -189,8 +180,6 @@ let currentQuestion = 0;
 let score = 0;
 
 let answered = false;
-
-
 
 
 
@@ -215,47 +204,32 @@ document.getElementById("next");
 
 
 
-
 // =============================
 // Shuffle Answers
 // =============================
 
+function shuffleAnswers(q){
 
-function shuffleAnswers(question){
+    let answers = q.answers.map((answer,index)=>{
 
+        return {
+            text: answer,
+            correct: index === q.correct
+        };
 
-let answers = question.answers.map((answer,index)=>{
-
-
-return {
-
-text:answer,
-
-correct:index === question.correct
-
-};
+    });
 
 
-});
+    answers = shuffle(answers);
 
 
-
-answers = shuffle(answers);
-
+    q.answers = answers.map(a=>a.text);
 
 
-question.answers =
-answers.map(answer=>answer.text);
-
-
-
-question.correct =
-answers.findIndex(answer=>answer.correct);
-
+    q.correct =
+    answers.findIndex(a=>a.correct);
 
 }
-
-
 
 
 
@@ -267,64 +241,69 @@ answers.findIndex(answer=>answer.correct);
 // Load Question
 // =============================
 
-
 function loadQuestion(){
 
 
-answered = false;
+    if(!questions[currentQuestion]){
 
+        finishQuiz();
 
-next.style.display="none";
+        return;
 
-
-feedback.textContent="Choose an answer!";
-
-
-
-let q = questions[currentQuestion];
+    }
 
 
 
-shuffleAnswers(q);
+    answered = false;
+
+
+    next.style.display="none";
+
+
+    feedback.textContent="Choose an answer!";
 
 
 
-questionText.textContent =
-q.question;
+    let q = questions[currentQuestion];
+
+
+    shuffleAnswers(q);
 
 
 
-document.getElementById("question-number").textContent =
-
-`Question ${currentQuestion + 1}/${questions.length}`;
-
+    questionText.textContent =
+    q.question;
 
 
 
-
-buttons.forEach((button,index)=>{
-
-
-button.disabled=false;
-
-
-button.textContent =
-q.answers[index];
+    document.getElementById("question-number").textContent =
+    `Question ${currentQuestion + 1}/${questions.length}`;
 
 
 
-button.onclick = ()=>{
-
-checkAnswer(index);
-
-};
 
 
-});
+    buttons.forEach((button,index)=>{
+
+
+        button.disabled=false;
+
+
+        button.textContent =
+        q.answers[index];
+
+
+        button.onclick = ()=>{
+
+            checkAnswer(index);
+
+        };
+
+
+    });
 
 
 }
-
 
 
 
@@ -337,63 +316,52 @@ checkAnswer(index);
 // Check Answer
 // =============================
 
-
 function checkAnswer(answer){
 
 
-if(answered)
-
-return;
-
-
-
-answered=true;
+    if(answered)
+    return;
 
 
 
-let q =
-questions[currentQuestion];
+    answered=true;
 
 
 
-buttons.forEach(button=>{
+    let q =
+    questions[currentQuestion];
 
-button.disabled=true;
 
-});
 
+    buttons.forEach(button=>{
+
+        button.disabled=true;
+
+    });
 
 
 
 
-if(answer === q.correct){
 
+    if(answer === q.correct){
 
-score++;
+        score++;
 
+        feedback.textContent="✅ Correct!";
 
-feedback.textContent =
-"✅ Correct!";
+    }
 
+    else{
 
-}
+        feedback.textContent =
+        "❌ Correct answer: " +
+        q.answers[q.correct];
 
-
-else{
-
-
-feedback.textContent =
-
-"❌ Correct answer: " +
-
-q.answers[q.correct];
-
-
-}
+    }
 
 
 
-next.style.display="inline-block";
+    next.style.display="inline-block";
 
 
 }
@@ -407,33 +375,27 @@ next.style.display="inline-block";
 
 
 // =============================
-// Next Question
+// Next
 // =============================
-
 
 next.onclick = ()=>{
 
 
-currentQuestion++;
+    currentQuestion++;
 
 
 
-if(currentQuestion >= questions.length){
+    if(currentQuestion >= questions.length){
 
+        finishQuiz();
 
-finishQuiz();
+    }
 
+    else{
 
-}
+        loadQuestion();
 
-
-else{
-
-
-loadQuestion();
-
-
-}
+    }
 
 
 };
@@ -447,105 +409,64 @@ loadQuestion();
 
 
 // =============================
-// Finish Quiz
+// Finish
 // =============================
-
 
 function finishQuiz(){
 
 
-const percentage = Math.round(
-
-(score / questions.length) * 100
-
-);
-
-
-
-const xp = score * 5;
+    let percentage =
+    Math.round(
+        (score / questions.length) * 100
+    );
 
 
 
-
-
-let oldXP =
-Number(localStorage.getItem("XP")) || 0;
-
-
-
-localStorage.setItem(
-
-"XP",
-
-oldXP + xp
-
-);
+    let xp =
+    score * 5;
 
 
 
-
-
-localStorage.setItem(
-
-"quizzes",
-
-(Number(localStorage.getItem("quizzes")) || 0) + 1
-
-);
+    localStorage.setItem(
+        "XP",
+        (Number(localStorage.getItem("XP")) || 0) + xp
+    );
 
 
 
-
-
-localStorage.setItem(
-
-"bestScore",
-
-Math.max(
-
-Number(localStorage.getItem("bestScore")) || 0,
-
-percentage
-
-)
-
-);
+    localStorage.setItem(
+        "quizzes",
+        (Number(localStorage.getItem("quizzes")) || 0) + 1
+    );
 
 
 
+    localStorage.setItem(
+        "quizScore",
+        score
+    );
 
 
-localStorage.setItem("quizScore",score);
-
-localStorage.setItem("quizTotal",questions.length);
-
-localStorage.setItem("quizPercentage",percentage);
-
-localStorage.setItem("quizXP",xp);
+    localStorage.setItem(
+        "quizTotal",
+        questions.length
+    );
 
 
+    localStorage.setItem(
+        "quizPercentage",
+        percentage
+    );
 
 
-
-if(typeof checkAchievements === "function"){
-
-checkAchievements(
-
-score,
-
-questions.length,
-
-topic
-
-);
-
-}
+    localStorage.setItem(
+        "quizXP",
+        xp
+    );
 
 
 
-
-
-window.location.href="results.html";
+    window.location.href="results.html";
 
 
 }
