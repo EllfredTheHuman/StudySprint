@@ -1,4 +1,4 @@
-const bidmasQuestions = [
+const BIDMASQuestions = [
 
 {
 question:"What does BIDMAS stand for?",
