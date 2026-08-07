@@ -12,7 +12,9 @@
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -20,19 +22,28 @@
 🚀 StudySprint
 </div>
 
+
 <nav>
 
 <a href="../index.html">Home</a>
+
 <a href="../study/index.html">📚 Study</a>
+
 <a href="index.html">🏃 Sprint</a>
-<a href="../games/index.html">🎮 Games</a>
+
 <a href="../profile/index.html">👤 Profile</a>
 
 </nav>
 
 </header>
 
+
+
+
+
+
 <main>
+
 
 <section class="hero">
 
@@ -40,21 +51,42 @@
 🔬 Science Sprint
 </h1>
 
-<p id="status">
+<p>
 Choose one topic for today's Science Sprint.
 </p>
 
 </section>
 
-<section class="features topic-grid" id="topics">
+
+
+
+
+
+
+<section class="features topic-grid">
+
+
+
+
 
 <div class="topic-card">
 
-<div class="topic-icon">❤️</div>
+<div class="topic-icon">
+❤️
+</div>
 
-<h2>Heart</h2>
 
-<p>5 random questions</p>
+<h2>
+Heart
+</h2>
+
+
+<p>
+Biology
+<br><br>
+5 random questions
+</p>
+
 
 <a href="quiz.html?subject=science&topic=heart" class="main-button">
 
@@ -64,13 +96,32 @@ PLAY
 
 </div>
 
+
+
+
+
+
+
+
 <div class="topic-card">
 
-<div class="topic-icon">⚡</div>
 
-<h2>Electricity</h2>
+<div class="topic-icon">
+⚡
+</div>
 
-<p>5 random questions</p>
+
+<h2>
+Electricity
+</h2>
+
+
+<p>
+Physics
+<br><br>
+5 random questions
+</p>
+
 
 <a href="quiz.html?subject=science&topic=electricity" class="main-button">
 
@@ -78,15 +129,33 @@ PLAY
 
 </a>
 
+
 </div>
+
+
+
+
+
+
+
 
 <div class="topic-card locked-card">
 
-<div class="topic-icon">🧬</div>
 
-<h2>Cells</h2>
+<div class="topic-icon">
+🧬
+</div>
 
-<p>Coming soon!</p>
+
+<h2>
+Cells
+</h2>
+
+
+<p>
+Coming soon!
+</p>
+
 
 <button class="main-button" disabled>
 
@@ -94,11 +163,23 @@ PLAY
 
 </button>
 
+
 </div>
+
+
+
+
+
 
 </section>
 
+
 </main>
+
+
+
+
+
 
 <footer>
 
@@ -106,24 +187,6 @@ PLAY
 
 </footer>
 
-<script>
-
-const today = new Date().toDateString();
-
-const lastScienceSprint =
-localStorage.getItem("lastScienceSprint");
-
-if(lastScienceSprint === today){
-
-    document.getElementById("status").textContent =
-    "✅ You already completed today's Science Sprint!";
-
-    document.getElementById("topics").style.display =
-    "none";
-
-}
-
-</script>
 
 </body>
 
