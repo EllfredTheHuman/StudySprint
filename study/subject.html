@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Choose Topic | StudySprint</title>
+
+<link rel="stylesheet" href="../style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+
+<nav>
+
+<a href="../index.html">Home</a>
+
+<a href="index.html">📚 Study</a>
+
+<a href="../profile/index.html">👤 Profile</a>
+
+</nav>
+
+</header>
+
+
+
+
+
+<main>
+
+
+<section class="hero">
+
+<h1 id="subject-title">
+Choose a Topic
+</h1>
+
+
+<p>
+Pick a topic and start earning XP!
+</p>
+
+</section>
+
+
+
+
+
+
+
+<section class="features topic-grid" id="topic-container">
+
+</section>
+
+
+
+</main>
+
+
+
+
+
+
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+
+
+
+
+
+
+<script>
+
+
+const params = new URLSearchParams(window.location.search);
+
+
+const subject = params.get("subject");
+
+
+
+
+
+const subjects = {
+
+
+science: {
+
+title:"🔬 Science",
+
+topics:[
+
+{
+icon:"❤️",
+name:"Heart",
+description:"Biology<br><br>Learn about circulation, blood, and the heart.",
+quiz:"heart"
+},
+
+{
+icon:"⚡",
+name:"Electricity",
+description:"Physics<br><br>Learn about circuits, current, and energy.",
+quiz:"electricity"
+},
+
+{
+icon:"🧬",
+name:"Cells",
+description:"Biology<br><br>Learn about cells and organelles.",
+quiz:"cells"
+}
+
+]
+
+},
+
+
+
+
+
+maths: {
+
+title:"➗ Maths",
+
+topics:[
+
+{
+icon:"📐",
+name:"Algebra",
+description:"Equations, expressions, and solving problems.",
+quiz:"algebra"
+},
+
+{
+icon:"🔢",
+name:"BIDMAS",
+description:"Order of operations and calculations.",
+quiz:"BIDMAS"
+},
+
+{
+icon:"📏",
+name:"Geometry",
+description:"Shapes, angles, and measurements.",
+quiz:"geometry"
+}
+
+]
+
+},
+
+
+
+
+
+humanities: {
+
+title:"🌍 Humanities",
+
+topics:[
+
+{
+icon:"🗺️",
+name:"Geography",
+description:"Places, environments, and the world.",
+quiz:"geography"
+},
+
+{
+icon:"🏛️",
+name:"History",
+description:"Important events from around the world.",
+quiz:"history"
+},
+
+{
+icon:"⚖️",
+name:"Civics",
+description:"Government, society, and citizenship.",
+quiz:"civics"
+}
+
+]
+
+},
+
+
+
+
+
+english: {
+
+title:"📖 English",
+
+topics:[
+
+{
+icon:"📝",
+name:"Grammar",
+description:"Improve sentence structure and language skills.",
+quiz:"englishGrammar"
+},
+
+{
+icon:"📚",
+name:"Literature",
+description:"Analyse stories, characters, and themes.",
+quiz:"literature"
+},
+
+{
+icon:"🖋️",
+name:"Poetry",
+description:"Explore poems and literary techniques.",
+quiz:"poetry"
+}
+
+]
+
+},
+
+
+
+
+
+french: {
+
+title:"🇫🇷 French",
+
+topics:[
+
+{
+icon:"💬",
+name:"Conversation",
+description:"Practice everyday French conversations.",
+quiz:"frenchConversation"
+},
+
+{
+icon:"📖",
+name:"Grammar",
+description:"Learn French sentence rules.",
+quiz:"frenchGrammar"
+},
+
+{
+icon:"🔤",
+name:"Vocabulary",
+description:"Learn useful French words.",
+quiz:"frenchVocab"
+}
+
+]
+
+},
+
+
+
+
+
+japanese: {
+
+title:"🇯🇵 Japanese",
+
+topics:[
+
+{
+icon:"あ",
+name:"Hiragana",
+description:"Learn the Japanese writing system.",
+quiz:"japaneseHiragana"
+},
+
+{
+icon:"文",
+name:"Grammar",
+description:"Learn Japanese sentence structure.",
+quiz:"japaneseGrammar"
+},
+
+{
+icon:"語",
+name:"Vocabulary",
+description:"Learn Japanese words and meanings.",
+quiz:"japaneseVocabulary"
+}
+
+]
+
+}
+
+
+};
+
+
+
+
+
+
+
+const title = document.getElementById("subject-title");
+
+const container = document.getElementById("topic-container");
+
+
+
+
+
+if(subjects[subject]){
+
+
+title.textContent = subjects[subject].title;
+
+
+
+subjects[subject].topics.forEach(topic=>{
+
+
+container.innerHTML += `
+
+
+<div class="topic-card">
+
+
+<div class="topic-icon">
+
+${topic.icon}
+
+</div>
+
+
+
+<h2>
+
+${topic.name}
+
+</h2>
+
+
+
+<p>
+
+${topic.description}
+
+</p>
+
+
+
+
+<a href="quiz.html?topic=${topic.quiz}" class="main-button">
+
+PLAY
+
+</a>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+}
+
+else{
+
+
+title.textContent = "Subject not found 😭";
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
