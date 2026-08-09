@@ -10,6 +10,112 @@
 
 <link rel="stylesheet" href="../style.css">
 
+<style>
+
+.streak-section {
+    text-align: center;
+}
+
+.streak-fire-number {
+    position: relative;
+
+    display: inline-block;
+
+    font-size: 130px;
+    font-weight: 900;
+    line-height: 1;
+
+    margin: 20px 0;
+
+    background:
+        linear-gradient(
+            to top,
+            #ff4500 0%,
+            #ff7300 35%,
+            #ffb000 65%,
+            #ffe066 100%
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    -webkit-text-stroke: 4px #8b2500;
+
+    text-shadow:
+        0 0 10px #ff4500,
+        0 0 20px #ff7300,
+        0 0 35px #ffb000;
+
+}
+
+
+/* Little flames around the number */
+
+.streak-fire-number::before,
+.streak-fire-number::after {
+
+    content: "🔥";
+
+    position: absolute;
+
+    font-size: 45px;
+
+    -webkit-text-fill-color: initial;
+
+    -webkit-text-stroke: 0;
+
+    filter:
+        drop-shadow(
+            0 0 8px #ff7300
+        );
+
+}
+
+
+.streak-fire-number::before {
+
+    top: -25px;
+    left: -35px;
+
+    transform:
+        rotate(-20deg);
+
+}
+
+
+.streak-fire-number::after {
+
+    top: -30px;
+    right: -35px;
+
+    transform:
+        rotate(20deg);
+
+}
+
+
+.streak-label {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    margin-top: 0;
+
+}
+
+
+.streak-message {
+
+    margin-top: 10px;
+
+}
+
+
+</style>
+
 </head>
 
 
@@ -54,6 +160,9 @@ Track your learning progress!
 
 </section>
 
+
+
+<!-- MAIN PROFILE STATS -->
 
 
 <section class="features">
@@ -107,31 +216,33 @@ Track your learning progress!
 <!-- STREAK -->
 
 
-<section class="hero">
+<section class="hero streak-section">
 
 <h1>
-🔥
+🔥 Streak
 </h1>
 
 
-<h2
-id="streak"
-style="font-size: 60px; margin: 10px 0;"
+<div
+    class="streak-fire-number"
+    id="streak"
 >
 0
-</h2>
+</div>
 
 
-<p
-style="font-size: 24px;"
->
+<p class="streak-label">
 DAY STREAK
 </p>
 
 
-<p>
+<p
+    class="streak-message"
+    id="streak-message"
+>
 Complete a Sprint every day to keep your streak alive!
 </p>
+
 
 </section>
 
@@ -142,22 +253,19 @@ Complete a Sprint every day to keep your streak alive!
 
 <section class="hero">
 
-
 <h1>
 📊 Level Progress
 </h1>
 
 
-
 <div class="progress">
 
 <div
-class="progress-bar"
-id="xp-bar"
+    class="progress-bar"
+    id="xp-bar"
 ></div>
 
 </div>
-
 
 
 <p id="xp-text">
@@ -166,19 +274,17 @@ id="xp-bar"
 
 </p>
 
-
 </section>
 
 
 
-<!-- OTHER PROFILE STATS -->
+<!-- OTHER PROFILE INFORMATION -->
 
 
 <section class="features">
 
 
 <div class="feature-card">
-
 
 <h2>
 🏅 Best Score
@@ -191,13 +297,11 @@ No quizzes completed yet.
 
 </p>
 
-
 </div>
 
 
 
 <div class="feature-card">
-
 
 <h2>
 🔥 Best Streak
@@ -210,13 +314,11 @@ No quizzes completed yet.
 
 </p>
 
-
 </div>
 
 
 
 <div class="feature-card">
-
 
 <h2>
 🎖️ Achievements
@@ -236,7 +338,6 @@ No quizzes completed yet.
 🔒 XP Collector
 
 </p>
-
 
 </div>
 
@@ -344,7 +445,7 @@ let progress =
 
 
 // =============================
-// DISPLAY DATA
+// DISPLAY PROFILE
 // =============================
 
 document.getElementById(
@@ -365,6 +466,11 @@ document.getElementById(
     quizzes;
 
 
+
+// =============================
+// STREAK
+// =============================
+
 document.getElementById(
     "streak"
 ).textContent =
@@ -372,11 +478,50 @@ document.getElementById(
 
 
 
-document.getElementById(
-    "best-streak"
-).textContent =
-    bestStreak +
-    " days";
+if (streak === 0) {
+
+    document.getElementById(
+        "streak-message"
+    ).textContent =
+        "Complete a Sprint to start your streak!";
+
+}
+
+else if (streak === 1) {
+
+    document.getElementById(
+        "streak-message"
+    ).textContent =
+        "You've started your streak! Keep it going!";
+
+}
+
+else if (streak < 7) {
+
+    document.getElementById(
+        "streak-message"
+    ).textContent =
+        "🔥 Keep going! You're building a streak!";
+
+}
+
+else if (streak < 30) {
+
+    document.getElementById(
+        "streak-message"
+    ).textContent =
+        "🔥 You're on fire! Keep the streak alive!";
+
+}
+
+else {
+
+    document.getElementById(
+        "streak-message"
+    ).textContent =
+        "🔥 INCREDIBLE STREAK!";
+
+}
 
 
 
@@ -384,9 +529,7 @@ document.getElementById(
 // BEST SCORE
 // =============================
 
-if (
-    best > 0
-) {
+if (best > 0) {
 
     document.getElementById(
         "best-score"
@@ -394,6 +537,17 @@ if (
         best + "%";
 
 }
+
+
+
+// =============================
+// BEST STREAK
+// =============================
+
+document.getElementById(
+    "best-streak"
+).textContent =
+    bestStreak + " days";
 
 
 
