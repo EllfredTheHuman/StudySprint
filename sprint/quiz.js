@@ -1,284 +1,160 @@
 ```javascript
-// =============================
-// StudySprint Sprint Quiz
-// =============================
+const params = new URLSearchParams(window.location.search);
 
-
-// =============================
-// Get URL Data
-// =============================
-
-const params =
-new URLSearchParams(window.location.search);
-
-const subject =
-params.get("subject");
-
-const topic =
-params.get("topic");
-
+const subject = params.get("subject");
+const topic = params.get("topic");
 
 let questions = [];
-
 let title = "";
 
-
-
-// =============================
-// Load Topic Questions
-// =============================
-
-if(topic === "heart"){
-
+if (topic === "heart") {
     questions = [...heartQuestions];
-
     title = "❤️ Heart Sprint";
-
 }
 
-else if(topic === "electricity"){
-
+else if (topic === "electricity") {
     questions = [...electricityQuestions];
-
     title = "⚡ Electricity Sprint";
-
 }
 
-else if(topic === "cells"){
-
+else if (topic === "cells") {
     questions = [...cellsQuestions];
-
     title = "🧬 Cells Sprint";
-
 }
 
-
-else if(topic === "algebra"){
-
+else if (topic === "algebra") {
     questions = [...algebraQuestions];
-
     title = "➗ Algebra Sprint";
-
 }
 
-else if(topic === "geometry"){
-
+else if (topic === "geometry") {
     questions = [...geometryQuestions];
-
     title = "📐 Geometry Sprint";
-
 }
 
-else if(topic === "statistics"){
-
-    questions = [...statisticsQuestions];
-
-    title = "📊 Statistics Sprint";
-
+else if (topic === "BIDMAS") {
+    questions = [...BIDMAS];
+    title = "🧮 BIDMAS Sprint";
 }
 
-
-else if(topic === "poetry"){
-
-    questions = [...poetryQuestions];
-
-    title = "📖 Poetry Sprint";
-
-}
-
-else if(topic === "grammar"){
-
-    questions = [...grammarQuestions];
-
+else if (topic === "englishGrammar") {
+    questions = [...englishGrammarQuestions];
     title = "🔤 Grammar Sprint";
-
 }
 
-else if(topic === "literature"){
-
+else if (topic === "literature") {
     questions = [...literatureQuestions];
-
     title = "📚 Literature Sprint";
-
 }
 
+else if (topic === "poetry") {
+    questions = [...poetryQuestions];
+    title = "📖 Poetry Sprint";
+}
 
-else if(topic === "geography"){
-
+else if (topic === "geography") {
     questions = [...geographyQuestions];
-
-    title = "🌎 Geography Sprint";
-
+    title = "🌍 Geography Sprint";
 }
 
-else if(topic === "history"){
-
+else if (topic === "history") {
     questions = [...historyQuestions];
-
     title = "🏛️ History Sprint";
-
 }
 
-else if(topic === "civics"){
-
+else if (topic === "civics") {
     questions = [...civicsQuestions];
-
     title = "⚖️ Civics Sprint";
-
 }
 
-
-else if(topic === "frenchVocabulary"){
-
+else if (topic === "frenchVocabulary") {
     questions = [...frenchVocabularyQuestions];
-
-    title = "📚 French Vocabulary Sprint";
-
+    title = "🇫🇷 French Vocabulary Sprint";
 }
 
-else if(topic === "frenchGrammar"){
-
+else if (topic === "frenchGrammar") {
     questions = [...frenchGrammarQuestions];
-
-    title = "✏️ French Grammar Sprint";
-
+    title = "🇫🇷 French Grammar Sprint";
 }
 
-else if(topic === "frenchConversation"){
-
-    questions = [...frenchConversationQuestions];
-
+else if (topic === "frenchConversation") {
+    questions = [...frechConversationQuestions];
     title = "💬 French Conversation Sprint";
-
 }
 
-
-else if(topic === "japaneseVocabulary"){
-
+else if (topic === "japaneseVocabulary") {
     questions = [...japaneseVocabularyQuestions];
-
-    title = "📚 Japanese Vocabulary Sprint";
-
+    title = "🇯🇵 Japanese Vocabulary Sprint";
 }
 
-else if(topic === "japaneseHiragana"){
-
+else if (topic === "japaneseHiragana") {
     questions = [...japaneseHiraganaQuestions];
-
     title = "あ Hiragana Sprint";
-
 }
 
-else if(topic === "japaneseGrammar"){
-
+else if (topic === "japaneseGrammar") {
     questions = [...japaneseGrammarQuestions];
-
-    title = "✏️ Japanese Grammar Sprint";
-
+    title = "🇯🇵 Japanese Grammar Sprint";
 }
 
-
-else{
-
+else {
     alert("Topic not found!");
-
-    window.location.href =
-    "index.html";
-
+    window.location.href = "index.html";
+    throw new Error("Topic not found");
 }
 
 
-
-// =============================
-// Check Questions
-// =============================
-
-if(questions.length === 0){
-
+if (questions.length === 0) {
     alert("This topic has no questions!");
-
-    window.location.href =
-    "index.html";
-
+    throw new Error("No questions found");
 }
 
 
-
-// =============================
-// Daily Subject Lock
-// =============================
-
-const today =
-new Date().toDateString();
-
+const today = new Date().toDateString();
 
 const lockName =
-"last" +
-subject.charAt(0).toUpperCase() +
-subject.slice(1) +
-"Sprint";
+    "last" +
+    subject.charAt(0).toUpperCase() +
+    subject.slice(1) +
+    "Sprint";
 
 
-if(localStorage.getItem(lockName) === today){
+if (localStorage.getItem(lockName) === today) {
 
     document.body.innerHTML = `
+        <header>
+            <div class="logo">
+                🚀 StudySprint
+            </div>
+        </header>
 
-    <header>
+        <main>
+            <section class="hero">
 
-        <div class="logo">
-        🚀 StudySprint
-        </div>
+                <h1>
+                    ✅ Sprint Complete!
+                </h1>
 
-    </header>
+                <p>
+                    You have already completed today's
+                    ${subject} Sprint.
+                    <br><br>
+                    Come back tomorrow!
+                </p>
 
+                <a href="index.html" class="main-button">
+                    🏠 Back to Sprint
+                </a>
 
-    <main>
-
-        <section class="hero">
-
-            <h1>
-            ✅ Sprint Complete!
-            </h1>
-
-
-            <p>
-
-            You have already completed today's
-            ${subject} Sprint.
-
-            <br><br>
-
-            Come back tomorrow!
-
-            </p>
-
-
-            <a href="index.html" class="main-button">
-
-            🏠 Back to Sprint
-
-            </a>
-
-        </section>
-
-    </main>
-
+            </section>
+        </main>
     `;
 
-
-    throw new Error(
-        "Sprint already completed"
-    );
-
+    throw new Error("Sprint already completed");
 }
 
 
-
-// =============================
-// Shuffle
-// =============================
-
-function shuffle(array){
+function shuffle(array) {
 
     return array.sort(
         () => Math.random() - 0.5
@@ -287,234 +163,173 @@ function shuffle(array){
 }
 
 
-
-// =============================
-// Pick 5 Questions
-// =============================
-
-questions =
-shuffle(questions).slice(0, 5);
+questions = shuffle(questions).slice(0, 5);
 
 
+function shuffleAnswers(question) {
 
-// =============================
-// Shuffle Answers
-// =============================
-
-function shuffleAnswers(question){
-
-    let answers =
-    question.answers.map(
+    let answers = question.answers.map(
         (answer, index) => {
 
-        return {
+            return {
+                text: answer,
+                correct: index === question.correct
+            };
 
-            text: answer,
-
-            correct:
-            index === question.correct
-
-        };
-
-    });
+        }
+    );
 
 
-    answers =
-    shuffle(answers);
+    answers = shuffle(answers);
 
 
-    question.answers =
-    answers.map(
+    question.answers = answers.map(
         answer => answer.text
     );
 
 
-    question.correct =
-    answers.findIndex(
+    question.correct = answers.findIndex(
         answer => answer.correct
     );
 
 }
 
 
-
-// =============================
-// Quiz Setup
-// =============================
-
-document.getElementById(
-    "topic-title"
-).textContent = title;
+document.getElementById("topic-title").textContent = title;
 
 
 let currentQuestion = 0;
-
 let score = 0;
-
 let answered = false;
 
 
 const questionText =
-document.getElementById("question");
-
+    document.getElementById("question");
 
 const questionNumber =
-document.getElementById(
-    "question-number"
-);
-
+    document.getElementById("question-number");
 
 const buttons =
-document.querySelectorAll(".answer");
-
+    document.querySelectorAll(".answer");
 
 const feedback =
-document.getElementById("feedback");
-
+    document.getElementById("feedback");
 
 const next =
-document.getElementById("next");
-
+    document.getElementById("next");
 
 const progressBar =
-document.getElementById(
-    "progress-bar"
-);
+    document.getElementById("progress-bar");
 
 
-
-// =============================
-// Load Question
-// =============================
-
-function loadQuestion(){
+function loadQuestion() {
 
     answered = false;
 
-
-    next.style.display =
-    "none";
-
+    next.style.display = "none";
 
     feedback.textContent =
-    "Choose an answer!";
+        "Choose an answer!";
 
 
-    let q =
-    questions[currentQuestion];
+    const q =
+        questions[currentQuestion];
 
 
     shuffleAnswers(q);
 
 
     questionText.textContent =
-    q.question;
+        q.question;
 
 
     questionNumber.textContent =
-    `Question ${currentQuestion + 1}/5`;
+        `Question ${currentQuestion + 1}/5`;
 
 
     const progress =
-    (currentQuestion /
-    questions.length) * 100;
+        (currentQuestion / questions.length) * 100;
 
 
     progressBar.style.width =
-    progress + "%";
+        progress + "%";
 
 
     buttons.forEach(
         (button, index) => {
 
-        button.disabled = false;
+            button.disabled = false;
 
+            button.textContent =
+                q.answers[index];
 
-        button.textContent =
-        q.answers[index];
+            button.onclick = () => {
+                checkAnswer(index);
+            };
 
-
-        button.onclick = () => {
-
-            checkAnswer(index);
-
-        };
-
-    });
+        }
+    );
 
 }
 
 
+function checkAnswer(answer) {
 
-// =============================
-// Check Answer
-// =============================
-
-function checkAnswer(answer){
-
-    if(answered)
-
-    return;
+    if (answered) {
+        return;
+    }
 
 
     answered = true;
 
 
-    let q =
-    questions[currentQuestion];
+    const q =
+        questions[currentQuestion];
 
 
     buttons.forEach(
         button => {
+            button.disabled = true;
+        }
+    );
 
-        button.disabled = true;
 
-    });
-
-
-    if(answer === q.correct){
+    if (answer === q.correct) {
 
         score++;
 
-
         feedback.textContent =
-        "✅ Correct!";
+            "✅ Correct!";
 
     }
 
-    else{
+    else {
 
         feedback.textContent =
-        "❌ Correct answer: " +
-        q.answers[q.correct];
+            "❌ Correct answer: " +
+            q.answers[q.correct];
 
     }
 
 
     next.style.display =
-    "inline-block";
+        "inline-block";
 
 }
 
-
-
-// =============================
-// Next Question
-// =============================
 
 next.onclick = () => {
 
     currentQuestion++;
 
 
-    if(currentQuestion >=
-       questions.length){
+    if (currentQuestion >= questions.length) {
 
         finishSprint();
 
     }
 
-    else{
+    else {
 
         loadQuestion();
 
@@ -523,31 +338,24 @@ next.onclick = () => {
 };
 
 
-
-// =============================
-// Finish Sprint
-// =============================
-
-function finishSprint(){
+function finishSprint() {
 
     let xp =
-    score * 5;
+        score * 5;
 
 
     xp += 15;
 
 
-    if(score === 5){
-
+    if (score === 5) {
         xp += 25;
-
     }
 
 
     let oldXP =
-    Number(
-        localStorage.getItem("XP")
-    ) || 0;
+        Number(
+            localStorage.getItem("XP")
+        ) || 0;
 
 
     localStorage.setItem(
@@ -575,15 +383,10 @@ function finishSprint(){
 
 
     window.location.href =
-    "results.html";
+        "results.html";
 
 }
 
-
-
-// =============================
-// Start Sprint
-// =============================
 
 loadQuestion();
 ```
