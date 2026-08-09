@@ -1,392 +1,209 @@
-```javascript
-const params = new URLSearchParams(window.location.search);
-
-const subject = params.get("subject");
-const topic = params.get("topic");
-
-let questions = [];
-let title = "";
-
-if (topic === "heart") {
-    questions = [...heartQuestions];
-    title = "❤️ Heart Sprint";
-}
-
-else if (topic === "electricity") {
-    questions = [...electricityQuestions];
-    title = "⚡ Electricity Sprint";
-}
-
-else if (topic === "cells") {
-    questions = [...cellsQuestions];
-    title = "🧬 Cells Sprint";
-}
-
-else if (topic === "algebra") {
-    questions = [...algebraQuestions];
-    title = "➗ Algebra Sprint";
-}
-
-else if (topic === "geometry") {
-    questions = [...geometryQuestions];
-    title = "📐 Geometry Sprint";
-}
-
-else if (topic === "BIDMAS") {
-    questions = [...BIDMAS];
-    title = "🧮 BIDMAS Sprint";
-}
-
-else if (topic === "englishGrammar") {
-    questions = [...englishGrammarQuestions];
-    title = "🔤 Grammar Sprint";
-}
-
-else if (topic === "literature") {
-    questions = [...literatureQuestions];
-    title = "📚 Literature Sprint";
-}
-
-else if (topic === "poetry") {
-    questions = [...poetryQuestions];
-    title = "📖 Poetry Sprint";
-}
-
-else if (topic === "geography") {
-    questions = [...geographyQuestions];
-    title = "🌍 Geography Sprint";
-}
-
-else if (topic === "history") {
-    questions = [...historyQuestions];
-    title = "🏛️ History Sprint";
-}
-
-else if (topic === "civics") {
-    questions = [...civicsQuestions];
-    title = "⚖️ Civics Sprint";
-}
+<!DOCTYPE html>
+<html lang="en">
 
-else if (topic === "frenchVocabulary") {
-    questions = [...frenchVocabularyQuestions];
-    title = "🇫🇷 French Vocabulary Sprint";
-}
+<head>
 
-else if (topic === "frenchGrammar") {
-    questions = [...frenchGrammarQuestions];
-    title = "🇫🇷 French Grammar Sprint";
-}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-else if (topic === "frenchConversation") {
-    questions = [...frechConversationQuestions];
-    title = "💬 French Conversation Sprint";
-}
+<title>Sprint Quiz | StudySprint</title>
 
-else if (topic === "japaneseVocabulary") {
-    questions = [...japaneseVocabularyQuestions];
-    title = "🇯🇵 Japanese Vocabulary Sprint";
-}
+<link rel="stylesheet" href="../style.css">
 
-else if (topic === "japaneseHiragana") {
-    questions = [...japaneseHiraganaQuestions];
-    title = "あ Hiragana Sprint";
-}
+</head>
 
-else if (topic === "japaneseGrammar") {
-    questions = [...japaneseGrammarQuestions];
-    title = "🇯🇵 Japanese Grammar Sprint";
-}
 
-else {
-    alert("Topic not found!");
-    window.location.href = "index.html";
-    throw new Error("Topic not found");
-}
+<body>
 
 
-if (questions.length === 0) {
-    alert("This topic has no questions!");
-    throw new Error("No questions found");
-}
+<header>
 
+<div class="logo">
+🚀 StudySprint
+</div>
 
-const today = new Date().toDateString();
 
-const lockName =
-    "last" +
-    subject.charAt(0).toUpperCase() +
-    subject.slice(1) +
-    "Sprint";
+<nav>
 
+<a href="../index.html">Home</a>
 
-if (localStorage.getItem(lockName) === today) {
+<a href="../study/index.html">📚 Study</a>
 
-    document.body.innerHTML = `
-        <header>
-            <div class="logo">
-                🚀 StudySprint
-            </div>
-        </header>
+<a href="index.html">🏃 Sprint</a>
 
-        <main>
-            <section class="hero">
+<a href="../games/index.html">🎮 Games</a>
 
-                <h1>
-                    ✅ Sprint Complete!
-                </h1>
+<a href="../profile/index.html">👤 Profile</a>
 
-                <p>
-                    You have already completed today's
-                    ${subject} Sprint.
-                    <br><br>
-                    Come back tomorrow!
-                </p>
+</nav>
 
-                <a href="index.html" class="main-button">
-                    🏠 Back to Sprint
-                </a>
+</header>
 
-            </section>
-        </main>
-    `;
 
-    throw new Error("Sprint already completed");
-}
 
+<main>
 
-function shuffle(array) {
 
-    return array.sort(
-        () => Math.random() - 0.5
-    );
+<section class="hero">
 
-}
+<h1 id="topic-title">
+🏃 Sprint
+</h1>
 
 
-questions = shuffle(questions).slice(0, 5);
+<p id="question-number">
+Question 1/5
+</p>
 
+</section>
 
-function shuffleAnswers(question) {
 
-    let answers = question.answers.map(
-        (answer, index) => {
 
-            return {
-                text: answer,
-                correct: index === question.correct
-            };
+<section class="feature-card quiz-box">
 
-        }
-    );
 
+<h2 id="question">
+Loading question...
+</h2>
 
-    answers = shuffle(answers);
 
 
-    question.answers = answers.map(
-        answer => answer.text
-    );
+<div class="answers">
 
+<button class="answer main-button"></button>
 
-    question.correct = answers.findIndex(
-        answer => answer.correct
-    );
+<button class="answer main-button"></button>
 
-}
+<button class="answer main-button"></button>
 
+<button class="answer main-button"></button>
 
-document.getElementById("topic-title").textContent = title;
+</div>
 
 
-let currentQuestion = 0;
-let score = 0;
-let answered = false;
 
+<p id="feedback">
+Choose an answer!
+</p>
 
-const questionText =
-    document.getElementById("question");
 
-const questionNumber =
-    document.getElementById("question-number");
 
-const buttons =
-    document.querySelectorAll(".answer");
+<button
+id="next"
+class="main-button"
+style="display:none;"
+>
 
-const feedback =
-    document.getElementById("feedback");
+Next Question →
 
-const next =
-    document.getElementById("next");
+</button>
 
-const progressBar =
-    document.getElementById("progress-bar");
 
 
-function loadQuestion() {
+<div class="progress">
 
-    answered = false;
+<div
+id="progress-bar"
+class="progress-bar"
+></div>
 
-    next.style.display = "none";
+</div>
 
-    feedback.textContent =
-        "Choose an answer!";
 
+</section>
 
-    const q =
-        questions[currentQuestion];
 
+</main>
 
-    shuffleAnswers(q);
 
 
-    questionText.textContent =
-        q.question;
+<footer>
 
+© 2026 StudySprint
 
-    questionNumber.textContent =
-        `Question ${currentQuestion + 1}/5`;
+</footer>
 
 
-    const progress =
-        (currentQuestion / questions.length) * 100;
 
+<!-- ========================= -->
+<!-- SCIENCE -->
+<!-- ========================= -->
 
-    progressBar.style.width =
-        progress + "%";
+<script src="../questions/heart.js"></script>
 
+<script src="../questions/electricity.js"></script>
 
-    buttons.forEach(
-        (button, index) => {
+<script src="../questions/cells.js"></script>
 
-            button.disabled = false;
 
-            button.textContent =
-                q.answers[index];
 
-            button.onclick = () => {
-                checkAnswer(index);
-            };
+<!-- ========================= -->
+<!-- MATHS -->
+<!-- ========================= -->
 
-        }
-    );
+<script src="../questions/algebra.js"></script>
 
-}
+<script src="../questions/geometry.js"></script>
 
+<script src="../questions/BIDMAS.js"></script>
 
-function checkAnswer(answer) {
 
-    if (answered) {
-        return;
-    }
 
+<!-- ========================= -->
+<!-- ENGLISH -->
+<!-- ========================= -->
 
-    answered = true;
+<script src="../questions/englishGrammar.js"></script>
 
+<script src="../questions/literature.js"></script>
 
-    const q =
-        questions[currentQuestion];
+<script src="../questions/poetry.js"></script>
 
 
-    buttons.forEach(
-        button => {
-            button.disabled = true;
-        }
-    );
 
+<!-- ========================= -->
+<!-- HUMANITIES -->
+<!-- ========================= -->
 
-    if (answer === q.correct) {
+<script src="../questions/geography.js"></script>
 
-        score++;
+<script src="../questions/history.js"></script>
 
-        feedback.textContent =
-            "✅ Correct!";
+<script src="../questions/civics.js"></script>
 
-    }
 
-    else {
 
-        feedback.textContent =
-            "❌ Correct answer: " +
-            q.answers[q.correct];
+<!-- ========================= -->
+<!-- FRENCH -->
+<!-- ========================= -->
 
-    }
+<script src="../questions/frenchVocabulary.js"></script>
 
+<script src="../questions/frenchGrammar.js"></script>
 
-    next.style.display =
-        "inline-block";
+<script src="../questions/frechConversation.js"></script>
 
-}
 
 
-next.onclick = () => {
+<!-- ========================= -->
+<!-- JAPANESE -->
+<!-- ========================= -->
 
-    currentQuestion++;
+<script src="../questions/japaneseVocabulary.js"></script>
 
+<script src="../questions/japaneseHiragana.js"></script>
 
-    if (currentQuestion >= questions.length) {
+<script src="../questions/japaneseGrammar.js"></script>
 
-        finishSprint();
 
-    }
 
-    else {
+<!-- ========================= -->
+<!-- SPRINT ENGINE -->
+<!-- ========================= -->
 
-        loadQuestion();
+<script src="quiz.js"></script>
 
-    }
 
-};
+</body>
 
-
-function finishSprint() {
-
-    let xp =
-        score * 5;
-
-
-    xp += 15;
-
-
-    if (score === 5) {
-        xp += 25;
-    }
-
-
-    let oldXP =
-        Number(
-            localStorage.getItem("XP")
-        ) || 0;
-
-
-    localStorage.setItem(
-        "XP",
-        oldXP + xp
-    );
-
-
-    localStorage.setItem(
-        lockName,
-        today
-    );
-
-
-    localStorage.setItem(
-        "sprintScore",
-        score
-    );
-
-
-    localStorage.setItem(
-        "sprintXP",
-        xp
-    );
-
-
-    window.location.href =
-        "results.html";
-
-}
-
-
-loadQuestion();
-```
+</html>
