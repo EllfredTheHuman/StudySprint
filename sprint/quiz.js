@@ -8,14 +8,18 @@
 // Get URL Data
 // =============================
 
-const params = new URLSearchParams(window.location.search);
+const params =
+new URLSearchParams(window.location.search);
 
-const subject = params.get("subject");
-const topic = params.get("topic");
+const subject =
+params.get("subject");
 
+const topic =
+params.get("topic");
 
 
 let questions = [];
+
 let title = "";
 
 
@@ -39,6 +43,15 @@ else if(topic === "electricity"){
     title = "⚡ Electricity Sprint";
 
 }
+
+else if(topic === "cells"){
+
+    questions = [...cellsQuestions];
+
+    title = "🧬 Cells Sprint";
+
+}
+
 
 else if(topic === "algebra"){
 
@@ -64,6 +77,7 @@ else if(topic === "statistics"){
 
 }
 
+
 else if(topic === "poetry"){
 
     questions = [...poetryQuestions];
@@ -80,11 +94,20 @@ else if(topic === "grammar"){
 
 }
 
+else if(topic === "literature"){
+
+    questions = [...literatureQuestions];
+
+    title = "📚 Literature Sprint";
+
+}
+
+
 else if(topic === "geography"){
 
     questions = [...geographyQuestions];
 
-    title = "🌍 Geography Sprint";
+    title = "🌎 Geography Sprint";
 
 }
 
@@ -96,27 +119,86 @@ else if(topic === "history"){
 
 }
 
-else if(topic === "french"){
+else if(topic === "civics"){
 
-    questions = [...frenchQuestions];
+    questions = [...civicsQuestions];
 
-    title = "🇫🇷 French Sprint";
+    title = "⚖️ Civics Sprint";
+
+}
+
+
+else if(topic === "frenchVocabulary"){
+
+    questions = [...frenchVocabularyQuestions];
+
+    title = "📚 French Vocabulary Sprint";
 
 }
 
-else if(topic === "japanese"){
+else if(topic === "frenchGrammar"){
 
-    questions = [...japaneseQuestions];
+    questions = [...frenchGrammarQuestions];
 
-    title = "🇯🇵 Japanese Sprint";
+    title = "✏️ French Grammar Sprint";
 
 }
+
+else if(topic === "frenchConversation"){
+
+    questions = [...frenchConversationQuestions];
+
+    title = "💬 French Conversation Sprint";
+
+}
+
+
+else if(topic === "japaneseVocabulary"){
+
+    questions = [...japaneseVocabularyQuestions];
+
+    title = "📚 Japanese Vocabulary Sprint";
+
+}
+
+else if(topic === "japaneseHiragana"){
+
+    questions = [...japaneseHiraganaQuestions];
+
+    title = "あ Hiragana Sprint";
+
+}
+
+else if(topic === "japaneseGrammar"){
+
+    questions = [...japaneseGrammarQuestions];
+
+    title = "✏️ Japanese Grammar Sprint";
+
+}
+
 
 else{
 
     alert("Topic not found!");
 
-    window.location.href = "index.html";
+    window.location.href =
+    "index.html";
+
+}
+
+
+
+// =============================
+// Check Questions
+// =============================
+
+if(questions.length === 0){
+
+    alert("This topic has no questions!");
+
+    window.location.href =
+    "index.html";
 
 }
 
@@ -126,7 +208,8 @@ else{
 // Daily Subject Lock
 // =============================
 
-const today = new Date().toDateString();
+const today =
+new Date().toDateString();
 
 
 const lockName =
@@ -134,7 +217,6 @@ const lockName =
 subject.charAt(0).toUpperCase() +
 subject.slice(1) +
 "Sprint";
-
 
 
 if(localStorage.getItem(lockName) === today){
@@ -157,6 +239,7 @@ if(localStorage.getItem(lockName) === today){
             <h1>
             ✅ Sprint Complete!
             </h1>
+
 
             <p>
 
@@ -182,14 +265,17 @@ if(localStorage.getItem(lockName) === today){
 
     `;
 
-    throw new Error("Sprint already completed");
+
+    throw new Error(
+        "Sprint already completed"
+    );
 
 }
 
 
 
 // =============================
-// Shuffle Function
+// Shuffle
 // =============================
 
 function shuffle(array){
@@ -203,7 +289,7 @@ function shuffle(array){
 
 
 // =============================
-// Pick 5 Random Questions
+// Pick 5 Questions
 // =============================
 
 questions =
@@ -218,7 +304,8 @@ shuffle(questions).slice(0, 5);
 function shuffleAnswers(question){
 
     let answers =
-    question.answers.map((answer, index) => {
+    question.answers.map(
+        (answer, index) => {
 
         return {
 
@@ -255,9 +342,9 @@ function shuffleAnswers(question){
 // Quiz Setup
 // =============================
 
-document.getElementById("topic-title").textContent =
-title;
-
+document.getElementById(
+    "topic-title"
+).textContent = title;
 
 
 let currentQuestion = 0;
@@ -267,24 +354,32 @@ let score = 0;
 let answered = false;
 
 
-
 const questionText =
 document.getElementById("question");
 
+
 const questionNumber =
-document.getElementById("question-number");
+document.getElementById(
+    "question-number"
+);
+
 
 const buttons =
 document.querySelectorAll(".answer");
 
+
 const feedback =
 document.getElementById("feedback");
+
 
 const next =
 document.getElementById("next");
 
+
 const progressBar =
-document.getElementById("progress-bar");
+document.getElementById(
+    "progress-bar"
+);
 
 
 
@@ -297,7 +392,8 @@ function loadQuestion(){
     answered = false;
 
 
-    next.style.display = "none";
+    next.style.display =
+    "none";
 
 
     feedback.textContent =
@@ -319,17 +415,17 @@ function loadQuestion(){
     `Question ${currentQuestion + 1}/5`;
 
 
-    // Update progress bar
-
     const progress =
-    (currentQuestion / questions.length) * 100;
+    (currentQuestion /
+    questions.length) * 100;
 
 
     progressBar.style.width =
     progress + "%";
 
 
-    buttons.forEach((button, index) => {
+    buttons.forEach(
+        (button, index) => {
 
         button.disabled = false;
 
@@ -368,12 +464,12 @@ function checkAnswer(answer){
     questions[currentQuestion];
 
 
-    buttons.forEach(button => {
+    buttons.forEach(
+        button => {
 
         button.disabled = true;
 
     });
-
 
 
     if(answer === q.correct){
@@ -395,7 +491,6 @@ function checkAnswer(answer){
     }
 
 
-
     next.style.display =
     "inline-block";
 
@@ -412,7 +507,8 @@ next.onclick = () => {
     currentQuestion++;
 
 
-    if(currentQuestion >= questions.length){
+    if(currentQuestion >=
+       questions.length){
 
         finishSprint();
 
@@ -434,18 +530,12 @@ next.onclick = () => {
 
 function finishSprint(){
 
-    // Base XP
-
     let xp =
     score * 5;
 
 
-    // Completion bonus
-
     xp += 15;
 
-
-    // Perfect bonus
 
     if(score === 5){
 
@@ -453,9 +543,6 @@ function finishSprint(){
 
     }
 
-
-
-    // Save XP
 
     let oldXP =
     Number(
@@ -469,17 +556,11 @@ function finishSprint(){
     );
 
 
-
-    // Lock subject
-
     localStorage.setItem(
         lockName,
         today
     );
 
-
-
-    // Save results
 
     localStorage.setItem(
         "sprintScore",
@@ -493,9 +574,6 @@ function finishSprint(){
     );
 
 
-
-    // Finish
-
     window.location.href =
     "results.html";
 
@@ -504,7 +582,7 @@ function finishSprint(){
 
 
 // =============================
-// Start
+// Start Sprint
 // =============================
 
 loadQuestion();
