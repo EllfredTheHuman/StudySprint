@@ -39,10 +39,6 @@
 
 
 
-
-
-
-
 <main>
 
 
@@ -63,79 +59,67 @@ Great job!
 
 
 
-
-
-
-
-
-
 <section class="features">
 
 
 
 <div class="stat">
 
-
 <h2 id="score">
 0/5
 </h2>
-
 
 <p>
 🎯 Score
 </p>
 
-
 </div>
 
 
 
-
-
 <div class="stat">
-
 
 <h2 id="xp">
 ⭐ +0 XP
 </h2>
 
-
 <p>
 Reward
 </p>
 
-
 </div>
-
-
 
 
 
 <div class="stat">
 
-
 <h2 id="accuracy">
 0%
 </h2>
-
 
 <p>
 Accuracy
 </p>
 
+</div>
+
+
+
+<div class="stat">
+
+<h2 id="streak">
+🔥 0
+</h2>
+
+<p>
+Day Streak
+</p>
 
 </div>
 
 
 
-
 </section>
-
-
-
-
-
-
 
 
 
@@ -148,7 +132,7 @@ Accuracy
 
 
 <p>
-Your next Sprint will be available tomorrow.
+Keep completing your Sprints every day to grow your streak.
 </p>
 
 
@@ -163,13 +147,7 @@ Your next Sprint will be available tomorrow.
 
 
 
-
-
 </main>
-
-
-
-
 
 
 
@@ -181,126 +159,110 @@ Your next Sprint will be available tomorrow.
 
 
 
-
-
-
-
-
 <script>
 
 
+// =============================
+// GET RESULTS
+// =============================
+
 let score =
-
-Number(localStorage.getItem("sprintScore")) || 0;
-
+Number(
+localStorage.getItem("sprintScore")
+) || 0;
 
 
 let xp =
+Number(
+localStorage.getItem("sprintXP")
+) || 0;
 
-Number(localStorage.getItem("sprintXP")) || 0;
 
+let streak =
+Number(
+localStorage.getItem("streak")
+) || 0;
 
 
 let total = 5;
 
 
-
 let accuracy =
-
 Math.round(
 (score / total) * 100
 );
 
 
 
+// =============================
+// DISPLAY RESULTS
+// =============================
 
-
-
-
-document.getElementById("score").textContent =
-
+document.getElementById(
+"score"
+).textContent =
 score + "/5";
 
 
-
-
-
-document.getElementById("xp").textContent =
-
+document.getElementById(
+"xp"
+).textContent =
 "⭐ +" + xp + " XP";
 
 
-
-
-
-document.getElementById("accuracy").textContent =
-
+document.getElementById(
+"accuracy"
+).textContent =
 accuracy + "%";
 
 
+document.getElementById(
+"streak"
+).textContent =
+"🔥 " + streak;
 
 
 
-
-
+// =============================
+// MESSAGE
+// =============================
 
 let message =
-
-document.getElementById("message");
-
-
-
-
+document.getElementById(
+"message"
+);
 
 
 if(score === 5){
 
-
-message.textContent =
-
-"🏆 PERFECT SPRINT! Incredible work!";
-
+    message.textContent =
+    "🏆 PERFECT SPRINT! Incredible work!";
 
 }
-
 
 else if(score >= 4){
 
-
-message.textContent =
-
-"🔥 Amazing Sprint!";
-
+    message.textContent =
+    "🔥 Amazing Sprint!";
 
 }
-
 
 else if(score >= 3){
 
-
-message.textContent =
-
-"👍 Good Sprint! Keep improving!";
-
+    message.textContent =
+    "👍 Good Sprint! Keep improving!";
 
 }
-
 
 else{
 
-
-message.textContent =
-
-"💪 Don't give up! Practice makes progress.";
-
+    message.textContent =
+    "💪 Don't give up! Practice makes progress.";
 
 }
 
 
-
 </script>
-
-
 
 
 
