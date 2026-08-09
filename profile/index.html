@@ -39,9 +39,6 @@
 
 
 
-
-
-
 <main>
 
 
@@ -56,10 +53,6 @@ Track your learning progress!
 </p>
 
 </section>
-
-
-
-
 
 
 
@@ -80,8 +73,6 @@ Track your learning progress!
 
 
 
-
-
 <div class="stat">
 
 <h2 id="level">
@@ -93,8 +84,6 @@ Track your learning progress!
 </p>
 
 </div>
-
-
 
 
 
@@ -112,12 +101,6 @@ Track your learning progress!
 
 
 </section>
-
-
-
-
-
-
 
 
 
@@ -149,11 +132,6 @@ Track your learning progress!
 
 
 
-
-
-
-
-
 <section class="features">
 
 
@@ -176,9 +154,6 @@ No quizzes completed yet.
 
 
 
-
-
-
 <div class="feature-card">
 
 
@@ -187,18 +162,14 @@ No quizzes completed yet.
 </h2>
 
 
-<p>
+<p id="streak">
 
-Coming soon!
+0 days
 
 </p>
 
 
 </div>
-
-
-
-
 
 
 
@@ -237,10 +208,6 @@ Coming soon!
 
 
 
-
-
-
-
 <footer>
 
 © 2026 StudySprint
@@ -249,33 +216,41 @@ Coming soon!
 
 
 
-
-
-
-
-
 <script>
 
 
-let totalXP =
-Number(localStorage.getItem("XP")) || 0;
+// =============================
+// GET DATA
+// =============================
 
+let totalXP =
+Number(
+    localStorage.getItem("XP")
+) || 0;
 
 
 let quizzes =
-Number(localStorage.getItem("quizzes")) || 0;
-
+Number(
+    localStorage.getItem("quizzes")
+) || 0;
 
 
 let best =
-Number(localStorage.getItem("bestScore")) || 0;
+Number(
+    localStorage.getItem("bestScore")
+) || 0;
+
+
+let streak =
+Number(
+    localStorage.getItem("streak")
+) || 0;
 
 
 
-
-
+// =============================
 // LEVEL SYSTEM
-
+// =============================
 
 let level = 1;
 
@@ -284,87 +259,99 @@ let remainingXP = totalXP;
 let requiredXP = 100;
 
 
-
-while(remainingXP >= requiredXP){
-
+while (
+    remainingXP >= requiredXP
+) {
 
     remainingXP -= requiredXP;
 
-
     level++;
 
-
     requiredXP =
-    Math.round(
-        100 * Math.pow(1.5, level - 1)
-    );
-
+        Math.round(
+            100 *
+            Math.pow(
+                1.5,
+                level - 1
+            )
+        );
 
 }
-
-
 
 
 
 let progress =
-Math.round(
-    (remainingXP / requiredXP) * 100
-);
+    Math.round(
+        (remainingXP /
+            requiredXP) * 100
+    );
 
 
 
+// =============================
+// DISPLAY DATA
+// =============================
+
+document.getElementById(
+    "xp"
+).textContent =
+    totalXP;
+
+
+document.getElementById(
+    "level"
+).textContent =
+    level;
+
+
+document.getElementById(
+    "quizzes"
+).textContent =
+    quizzes;
+
+
+document.getElementById(
+    "streak"
+).textContent =
+    "🔥 " + streak + " days";
 
 
 
+// =============================
+// BEST SCORE
+// =============================
 
+if (best > 0) {
 
-document.getElementById("xp").textContent =
-totalXP;
-
-
-
-document.getElementById("level").textContent =
-level;
-
-
-
-document.getElementById("quizzes").textContent =
-quizzes;
-
-
-
-
-
-
-if(best > 0){
-
-document.getElementById("best-score").textContent =
-best + "%";
+    document.getElementById(
+        "best-score"
+    ).textContent =
+        best + "%";
 
 }
 
 
 
+// =============================
+// XP PROGRESS
+// =============================
+
+document.getElementById(
+    "xp-bar"
+).style.width =
+    progress + "%";
 
 
-
-
-document.getElementById("xp-bar").style.width =
-progress + "%";
-
-
-
-
-
-document.getElementById("xp-text").textContent =
-remainingXP + " / " + requiredXP + " XP to next level";
-
+document.getElementById(
+    "xp-text"
+).textContent =
+    remainingXP +
+    " / " +
+    requiredXP +
+    " XP to next level";
 
 
 </script>
-
-
-
 
 
 </body>
