@@ -94,7 +94,7 @@ Track your learning progress!
 </h2>
 
 <p>
-📝 Quizzes Completed
+📝 Sprints Completed
 </p>
 
 </div>
@@ -102,6 +102,42 @@ Track your learning progress!
 
 </section>
 
+
+
+<!-- STREAK -->
+
+
+<section class="hero">
+
+<h1>
+🔥
+</h1>
+
+
+<h2
+id="streak"
+style="font-size: 60px; margin: 10px 0;"
+>
+0
+</h2>
+
+
+<p
+style="font-size: 24px;"
+>
+DAY STREAK
+</p>
+
+
+<p>
+Complete a Sprint every day to keep your streak alive!
+</p>
+
+</section>
+
+
+
+<!-- LEVEL PROGRESS -->
 
 
 <section class="hero">
@@ -115,7 +151,10 @@ Track your learning progress!
 
 <div class="progress">
 
-<div class="progress-bar" id="xp-bar"></div>
+<div
+class="progress-bar"
+id="xp-bar"
+></div>
 
 </div>
 
@@ -130,6 +169,9 @@ Track your learning progress!
 
 </section>
 
+
+
+<!-- OTHER PROFILE STATS -->
 
 
 <section class="features">
@@ -158,11 +200,11 @@ No quizzes completed yet.
 
 
 <h2>
-🔥 Streak
+🔥 Best Streak
 </h2>
 
 
-<p id="streak">
+<p id="best-streak">
 
 0 days
 
@@ -220,7 +262,7 @@ No quizzes completed yet.
 
 
 // =============================
-// GET DATA
+// GET SAVED DATA
 // =============================
 
 let totalXP =
@@ -247,6 +289,12 @@ Number(
 ) || 0;
 
 
+let bestStreak =
+Number(
+    localStorage.getItem("bestStreak")
+) || 0;
+
+
 
 // =============================
 // LEVEL SYSTEM
@@ -254,18 +302,23 @@ Number(
 
 let level = 1;
 
-let remainingXP = totalXP;
+let remainingXP =
+    totalXP;
 
-let requiredXP = 100;
+let requiredXP =
+    100;
 
 
 while (
-    remainingXP >= requiredXP
+    remainingXP >=
+    requiredXP
 ) {
 
-    remainingXP -= requiredXP;
+    remainingXP -=
+        requiredXP;
 
     level++;
+
 
     requiredXP =
         Math.round(
@@ -282,8 +335,10 @@ while (
 
 let progress =
     Math.round(
-        (remainingXP /
-            requiredXP) * 100
+        (
+            remainingXP /
+            requiredXP
+        ) * 100
     );
 
 
@@ -313,7 +368,15 @@ document.getElementById(
 document.getElementById(
     "streak"
 ).textContent =
-    "🔥 " + streak + " days";
+    streak;
+
+
+
+document.getElementById(
+    "best-streak"
+).textContent =
+    bestStreak +
+    " days";
 
 
 
@@ -321,7 +384,9 @@ document.getElementById(
 // BEST SCORE
 // =============================
 
-if (best > 0) {
+if (
+    best > 0
+) {
 
     document.getElementById(
         "best-score"
