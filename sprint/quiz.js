@@ -48,7 +48,7 @@ else if (topic === "geometry") {
 
 else if (topic === "BIDMAS") {
 
-    questions = [...BIDMAS];
+    questions = [...BIDMASQuestions];
     title = "🧮 BIDMAS Sprint";
 
 }
