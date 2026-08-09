@@ -1,35 +1,28 @@
+```javascript
 // =============================
 // StudySprint Sprint Quiz
 // =============================
 
 
-// Get URL data
+// =============================
+// Get URL Data
+// =============================
 
 const params = new URLSearchParams(window.location.search);
 
-
-const subject =
-params.get("subject");
-
-
-const topic =
-params.get("topic");
-
-
+const subject = params.get("subject");
+const topic = params.get("topic");
 
 
 
 let questions = [];
-
 let title = "";
-
 
 
 
 // =============================
 // Load Topic Questions
 // =============================
-
 
 if(topic === "heart"){
 
@@ -39,7 +32,6 @@ if(topic === "heart"){
 
 }
 
-
 else if(topic === "electricity"){
 
     questions = [...electricityQuestions];
@@ -47,7 +39,6 @@ else if(topic === "electricity"){
     title = "⚡ Electricity Sprint";
 
 }
-
 
 else if(topic === "algebra"){
 
@@ -57,7 +48,6 @@ else if(topic === "algebra"){
 
 }
 
-
 else if(topic === "geometry"){
 
     questions = [...geometryQuestions];
@@ -65,7 +55,6 @@ else if(topic === "geometry"){
     title = "📐 Geometry Sprint";
 
 }
-
 
 else if(topic === "statistics"){
 
@@ -75,7 +64,6 @@ else if(topic === "statistics"){
 
 }
 
-
 else if(topic === "poetry"){
 
     questions = [...poetryQuestions];
@@ -83,7 +71,6 @@ else if(topic === "poetry"){
     title = "📖 Poetry Sprint";
 
 }
-
 
 else if(topic === "grammar"){
 
@@ -93,7 +80,6 @@ else if(topic === "grammar"){
 
 }
 
-
 else if(topic === "geography"){
 
     questions = [...geographyQuestions];
@@ -101,7 +87,6 @@ else if(topic === "geography"){
     title = "🌍 Geography Sprint";
 
 }
-
 
 else if(topic === "history"){
 
@@ -111,7 +96,6 @@ else if(topic === "history"){
 
 }
 
-
 else if(topic === "french"){
 
     questions = [...frenchQuestions];
@@ -119,7 +103,6 @@ else if(topic === "french"){
     title = "🇫🇷 French Sprint";
 
 }
-
 
 else if(topic === "japanese"){
 
@@ -129,29 +112,21 @@ else if(topic === "japanese"){
 
 }
 
-
 else{
 
     alert("Topic not found!");
 
-    window.location.href =
-    "index.html";
+    window.location.href = "index.html";
 
 }
 
 
 
-
-
-
 // =============================
-// Subject Daily Lock
+// Daily Subject Lock
 // =============================
 
-
-const today =
-new Date().toDateString();
-
+const today = new Date().toDateString();
 
 
 const lockName =
@@ -162,50 +137,50 @@ subject.slice(1) +
 
 
 
-
 if(localStorage.getItem(lockName) === today){
-
 
     document.body.innerHTML = `
 
     <header>
 
-    <div class="logo">
-    🚀 StudySprint
-    </div>
+        <div class="logo">
+        🚀 StudySprint
+        </div>
 
     </header>
 
 
     <main>
 
-    <section class="hero">
+        <section class="hero">
 
-    <h1>
-    ✅ Sprint Complete!
-    </h1>
+            <h1>
+            ✅ Sprint Complete!
+            </h1>
 
+            <p>
 
-    <p>
-    You have already completed today's
-    ${subject} Sprint.
-    <br><br>
-    Come back tomorrow!
-    </p>
+            You have already completed today's
+            ${subject} Sprint.
 
+            <br><br>
 
-    <a href="index.html" class="main-button">
-    🏠 Home
-    </a>
+            Come back tomorrow!
+
+            </p>
 
 
-    </section>
+            <a href="index.html" class="main-button">
 
+            🏠 Back to Sprint
+
+            </a>
+
+        </section>
 
     </main>
 
     `;
-
 
     throw new Error("Sprint already completed");
 
@@ -213,14 +188,9 @@ if(localStorage.getItem(lockName) === today){
 
 
 
-
-
-
-
 // =============================
-// Pick 5 Questions
+// Shuffle Function
 // =============================
-
 
 function shuffle(array){
 
@@ -232,12 +202,12 @@ function shuffle(array){
 
 
 
+// =============================
+// Pick 5 Random Questions
+// =============================
+
 questions =
-shuffle(questions).slice(0,5);
-
-
-
-
+shuffle(questions).slice(0, 5);
 
 
 
@@ -245,30 +215,25 @@ shuffle(questions).slice(0,5);
 // Shuffle Answers
 // =============================
 
-
 function shuffleAnswers(question){
 
-
     let answers =
-    question.answers.map((answer,index)=>{
-
+    question.answers.map((answer, index) => {
 
         return {
 
             text: answer,
 
-            correct: index === question.correct
+            correct:
+            index === question.correct
 
         };
-
 
     });
 
 
-
     answers =
     shuffle(answers);
-
 
 
     question.answers =
@@ -277,25 +242,18 @@ function shuffleAnswers(question){
     );
 
 
-
     question.correct =
     answers.findIndex(
         answer => answer.correct
     );
 
-
 }
-
-
-
-
 
 
 
 // =============================
 // Quiz Setup
 // =============================
-
 
 document.getElementById("topic-title").textContent =
 title;
@@ -310,71 +268,68 @@ let answered = false;
 
 
 
-
-
-
 const questionText =
 document.getElementById("question");
 
+const questionNumber =
+document.getElementById("question-number");
 
 const buttons =
 document.querySelectorAll(".answer");
 
-
 const feedback =
 document.getElementById("feedback");
-
 
 const next =
 document.getElementById("next");
 
+const progressBar =
+document.getElementById("progress-bar");
 
 
 
-
-
+// =============================
+// Load Question
+// =============================
 
 function loadQuestion(){
-
 
     answered = false;
 
 
-    next.style.display =
-    "none";
-
+    next.style.display = "none";
 
 
     feedback.textContent =
     "Choose an answer!";
 
 
-
     let q =
     questions[currentQuestion];
 
 
-
     shuffleAnswers(q);
-
 
 
     questionText.textContent =
     q.question;
 
 
-
-    document.getElementById("question-number").textContent =
-
+    questionNumber.textContent =
     `Question ${currentQuestion + 1}/5`;
 
 
+    // Update progress bar
+
+    const progress =
+    (currentQuestion / questions.length) * 100;
 
 
+    progressBar.style.width =
+    progress + "%";
 
 
-    buttons.forEach((button,index)=>{
-
+    buttons.forEach((button, index) => {
 
         button.disabled = false;
 
@@ -389,37 +344,31 @@ function loadQuestion(){
 
         };
 
-
     });
-
 
 }
 
 
 
-
-
-
+// =============================
+// Check Answer
+// =============================
 
 function checkAnswer(answer){
-
 
     if(answered)
 
     return;
 
 
-
     answered = true;
-
 
 
     let q =
     questions[currentQuestion];
 
 
-
-    buttons.forEach(button=>{
+    buttons.forEach(button => {
 
         button.disabled = true;
 
@@ -427,10 +376,7 @@ function checkAnswer(answer){
 
 
 
-
-
     if(answer === q.correct){
-
 
         score++;
 
@@ -438,19 +384,13 @@ function checkAnswer(answer){
         feedback.textContent =
         "✅ Correct!";
 
-
     }
-
 
     else{
 
-
         feedback.textContent =
-
         "❌ Correct answer: " +
-
         q.answers[q.correct];
-
 
     }
 
@@ -459,59 +399,53 @@ function checkAnswer(answer){
     next.style.display =
     "inline-block";
 
-
 }
 
 
 
-
-
+// =============================
+// Next Question
+// =============================
 
 next.onclick = () => {
-
 
     currentQuestion++;
 
 
-
     if(currentQuestion >= questions.length){
-
 
         finishSprint();
 
-
     }
-
 
     else{
 
-
         loadQuestion();
 
-
     }
-
 
 };
 
 
 
-
-
-
-
+// =============================
+// Finish Sprint
+// =============================
 
 function finishSprint(){
 
+    // Base XP
 
     let xp =
     score * 5;
 
 
+    // Completion bonus
 
     xp += 15;
 
 
+    // Perfect bonus
 
     if(score === 5){
 
@@ -521,40 +455,31 @@ function finishSprint(){
 
 
 
-
-
+    // Save XP
 
     let oldXP =
-    Number(localStorage.getItem("XP")) || 0;
-
+    Number(
+        localStorage.getItem("XP")
+    ) || 0;
 
 
     localStorage.setItem(
-
         "XP",
-
         oldXP + xp
-
     );
 
 
 
-
-
-    // Lock subject until tomorrow
+    // Lock subject
 
     localStorage.setItem(
-
         lockName,
-
         today
-
     );
 
 
 
-
-
+    // Save results
 
     localStorage.setItem(
         "sprintScore",
@@ -569,18 +494,18 @@ function finishSprint(){
 
 
 
-
+    // Finish
 
     window.location.href =
     "results.html";
-
 
 }
 
 
 
-
-
-
+// =============================
+// Start
+// =============================
 
 loadQuestion();
+```
