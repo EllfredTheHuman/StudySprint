@@ -1,37 +1,19 @@
-// =============================
-// StudySprint Sprint Quiz
-// =============================
+const params = new URLSearchParams(window.location.search);
 
-
-// =============================
-// GET URL DATA
-// =============================
-
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-const subject =
-    params.get("subject");
-
-const topic =
-    params.get("topic");
-
+const subject = params.get("subject");
+const topic = params.get("topic");
 
 let questions = [];
 let title = "";
 
 
-
 // =============================
-// LOAD TOPIC QUESTIONS
+// LOAD QUESTIONS
 // =============================
 
 if (topic === "heart") {
 
     questions = [...heartQuestions];
-
     title = "❤️ Heart Sprint";
 
 }
@@ -39,7 +21,6 @@ if (topic === "heart") {
 else if (topic === "electricity") {
 
     questions = [...electricityQuestions];
-
     title = "⚡ Electricity Sprint";
 
 }
@@ -47,7 +28,6 @@ else if (topic === "electricity") {
 else if (topic === "cells") {
 
     questions = [...cellsQuestions];
-
     title = "🧬 Cells Sprint";
 
 }
@@ -55,7 +35,6 @@ else if (topic === "cells") {
 else if (topic === "algebra") {
 
     questions = [...algebraQuestions];
-
     title = "➗ Algebra Sprint";
 
 }
@@ -63,7 +42,6 @@ else if (topic === "algebra") {
 else if (topic === "geometry") {
 
     questions = [...geometryQuestions];
-
     title = "📐 Geometry Sprint";
 
 }
@@ -71,122 +49,91 @@ else if (topic === "geometry") {
 else if (topic === "BIDMAS") {
 
     questions = [...BIDMAS];
-
     title = "🧮 BIDMAS Sprint";
 
 }
 
 else if (topic === "englishGrammar") {
 
-    questions =
-        [...englishGrammarQuestions];
-
+    questions = [...englishGrammarQuestions];
     title = "🔤 Grammar Sprint";
 
 }
 
 else if (topic === "literature") {
 
-    questions =
-        [...literatureQuestions];
-
+    questions = [...literatureQuestions];
     title = "📚 Literature Sprint";
 
 }
 
 else if (topic === "poetry") {
 
-    questions =
-        [...poetryQuestions];
-
+    questions = [...poetryQuestions];
     title = "📖 Poetry Sprint";
 
 }
 
 else if (topic === "geography") {
 
-    questions =
-        [...geographyQuestions];
-
+    questions = [...geographyQuestions];
     title = "🌍 Geography Sprint";
 
 }
 
 else if (topic === "history") {
 
-    questions =
-        [...historyQuestions];
-
+    questions = [...historyQuestions];
     title = "🏛️ History Sprint";
 
 }
 
 else if (topic === "civics") {
 
-    questions =
-        [...civicsQuestions];
-
+    questions = [...civicsQuestions];
     title = "⚖️ Civics Sprint";
 
 }
 
 else if (topic === "frenchVocabulary") {
 
-    questions =
-        [...frenchVocabularyQuestions];
-
-    title =
-        "🇫🇷 French Vocabulary Sprint";
+    questions = [...frenchVocabularyQuestions];
+    title = "🇫🇷 French Vocabulary Sprint";
 
 }
 
 else if (topic === "frenchGrammar") {
 
-    questions =
-        [...frenchGrammarQuestions];
-
-    title =
-        "🇫🇷 French Grammar Sprint";
+    questions = [...frenchGrammarQuestions];
+    title = "🇫🇷 French Grammar Sprint";
 
 }
 
 else if (topic === "frenchConversation") {
 
-    questions =
-        [...frechConversationQuestions];
-
-    title =
-        "💬 French Conversation Sprint";
+    questions = [...frechConversationQuestions];
+    title = "💬 French Conversation Sprint";
 
 }
 
 else if (topic === "japaneseVocabulary") {
 
-    questions =
-        [...japaneseVocabularyQuestions];
-
-    title =
-        "🇯🇵 Japanese Vocabulary Sprint";
+    questions = [...japaneseVocabularyQuestions];
+    title = "🇯🇵 Japanese Vocabulary Sprint";
 
 }
 
 else if (topic === "japaneseHiragana") {
 
-    questions =
-        [...japaneseHiraganaQuestions];
-
-    title =
-        "あ Hiragana Sprint";
+    questions = [...japaneseHiraganaQuestions];
+    title = "あ Hiragana Sprint";
 
 }
 
 else if (topic === "japaneseGrammar") {
 
-    questions =
-        [...japaneseGrammarQuestions];
-
-    title =
-        "🇯🇵 Japanese Grammar Sprint";
+    questions = [...japaneseGrammarQuestions];
+    title = "🇯🇵 Japanese Grammar Sprint";
 
 }
 
@@ -194,37 +141,28 @@ else {
 
     alert("Topic not found!");
 
-    window.location.href =
-        "index.html";
+    window.location.href = "index.html";
 
-    throw new Error(
-        "Topic not found"
-    );
+    throw new Error("Topic not found");
 
 }
 
 
-
 // =============================
-// MAKE SURE QUESTIONS EXIST
+// CHECK QUESTIONS
 // =============================
 
 if (questions.length === 0) {
 
-    alert(
-        "This topic has no questions!"
-    );
+    alert("This topic has no questions!");
 
-    throw new Error(
-        "No questions found"
-    );
+    throw new Error("No questions found");
 
 }
 
 
-
 // =============================
-// DAILY SUBJECT LOCK
+// DAILY LOCK
 // =============================
 
 const today =
@@ -262,12 +200,10 @@ if (
                     ✅ Sprint Complete!
                 </h1>
 
-
                 <p>
 
-                    You have already
-                    completed today's
-                    ${subject} Sprint.
+                    You have already completed
+                    today's ${subject} Sprint.
 
                     <br><br>
 
@@ -280,9 +216,7 @@ if (
                     href="index.html"
                     class="main-button"
                 >
-
                     🏠 Back to Sprint
-
                 </a>
 
             </section>
@@ -291,13 +225,11 @@ if (
 
     `;
 
-
     throw new Error(
         "Sprint already completed"
     );
 
 }
-
 
 
 // =============================
@@ -313,15 +245,12 @@ function shuffle(array) {
 }
 
 
-
 // =============================
 // PICK 5 QUESTIONS
 // =============================
 
 questions =
-    shuffle(questions)
-    .slice(0, 5);
-
+    shuffle(questions).slice(0, 5);
 
 
 // =============================
@@ -354,8 +283,7 @@ function shuffleAnswers(question) {
 
     question.answers =
         answers.map(
-            answer =>
-                answer.text
+            answer => answer.text
         );
 
 
@@ -368,14 +296,14 @@ function shuffleAnswers(question) {
 }
 
 
-
 // =============================
-// QUIZ SETUP
+// QUIZ ELEMENTS
 // =============================
 
 document.getElementById(
     "topic-title"
-).textContent = title;
+).textContent =
+    title;
 
 
 let currentQuestion = 0;
@@ -421,7 +349,6 @@ const progressBar =
     );
 
 
-
 // =============================
 // LOAD QUESTION
 // =============================
@@ -440,9 +367,7 @@ function loadQuestion() {
 
 
     const q =
-        questions[
-            currentQuestion
-        ];
+        questions[currentQuestion];
 
 
     shuffleAnswers(q);
@@ -453,10 +378,7 @@ function loadQuestion() {
 
 
     questionNumber.textContent =
-        `Question ${
-            currentQuestion + 1
-        }/5`;
-
+        `Question ${currentQuestion + 1}/5`;
 
 
     const progress =
@@ -468,7 +390,6 @@ function loadQuestion() {
 
     progressBar.style.width =
         progress + "%";
-
 
 
     buttons.forEach(
@@ -485,9 +406,7 @@ function loadQuestion() {
             button.onclick =
                 () => {
 
-                    checkAnswer(
-                        index
-                    );
+                    checkAnswer(index);
 
                 };
 
@@ -497,7 +416,6 @@ function loadQuestion() {
 }
 
 
-
 // =============================
 // CHECK ANSWER
 // =============================
@@ -505,7 +423,9 @@ function loadQuestion() {
 function checkAnswer(answer) {
 
     if (answered) {
+
         return;
+
     }
 
 
@@ -513,9 +433,7 @@ function checkAnswer(answer) {
 
 
     const q =
-        questions[
-            currentQuestion
-        ];
+        questions[currentQuestion];
 
 
     buttons.forEach(
@@ -526,7 +444,6 @@ function checkAnswer(answer) {
 
         }
     );
-
 
 
     if (
@@ -546,9 +463,7 @@ function checkAnswer(answer) {
 
         feedback.textContent =
             "❌ Correct answer: " +
-            q.answers[
-                q.correct
-            ];
+            q.answers[q.correct];
 
     }
 
@@ -557,7 +472,6 @@ function checkAnswer(answer) {
         "inline-block";
 
 }
-
 
 
 // =============================
@@ -587,24 +501,22 @@ next.onclick = () => {
 };
 
 
-
 // =============================
 // FINISH SPRINT
 // =============================
 
 function finishSprint() {
 
-
-    // =========================
-    // XP
-    // =========================
-
     let xp =
         score * 5;
 
 
+    // Completion bonus
+
     xp += 15;
 
+
+    // Perfect score bonus
 
     if (score === 5) {
 
@@ -613,12 +525,13 @@ function finishSprint() {
     }
 
 
+    // =============================
+    // SAVE XP
+    // =============================
 
     let oldXP =
         Number(
-            localStorage.getItem(
-                "XP"
-            )
+            localStorage.getItem("XP")
         ) || 0;
 
 
@@ -628,118 +541,9 @@ function finishSprint() {
     );
 
 
-
-    // =========================
-    // STREAK
-    // =========================
-
-    const today =
-        new Date().toDateString();
-
-
-    const lastStreakDate =
-        localStorage.getItem(
-            "lastStreakDate"
-        );
-
-
-    let streak =
-        Number(
-            localStorage.getItem(
-                "streak"
-            )
-        ) || 0;
-
-
-
-    // Only increase once
-    // per calendar day
-
-    if (
-        lastStreakDate !==
-        today
-    ) {
-
-
-        // First ever Sprint
-
-        if (!lastStreakDate) {
-
-            streak = 1;
-
-        }
-
-
-        else {
-
-
-            const lastDate =
-                new Date(
-                    lastStreakDate
-                );
-
-
-            const currentDate =
-                new Date(
-                    today
-                );
-
-
-            const difference =
-                currentDate -
-                lastDate;
-
-
-            const oneDay =
-                1000 *
-                60 *
-                60 *
-                24;
-
-
-
-            // Completed yesterday
-
-            if (
-                difference <=
-                oneDay * 2
-            ) {
-
-                streak++;
-
-            }
-
-
-            // Missed a day
-
-            else {
-
-                streak = 1;
-
-            }
-
-        }
-
-
-
-        localStorage.setItem(
-            "streak",
-            streak
-        );
-
-
-        localStorage.setItem(
-            "lastStreakDate",
-            today
-        );
-
-    }
-
-
-
-    // =========================
-    // LOCK SUBJECT
-    // =========================
+    // =============================
+    // SAVE SPRINT LOCK
+    // =============================
 
     localStorage.setItem(
         lockName,
@@ -747,10 +551,9 @@ function finishSprint() {
     );
 
 
-
-    // =========================
-    // SAVE RESULTS
-    // =========================
+    // =============================
+    // SAVE SPRINT RESULT
+    // =============================
 
     localStorage.setItem(
         "sprintScore",
@@ -764,10 +567,9 @@ function finishSprint() {
     );
 
 
-
-    // =========================
-    // SAVE QUIZ COUNT
-    // =========================
+    // =============================
+    // QUIZ COUNT
+    // =============================
 
     let quizzes =
         Number(
@@ -786,16 +588,136 @@ function finishSprint() {
     );
 
 
+    // =============================
+    // BEST SCORE
+    // =============================
 
-    // =========================
-    // FINISH
-    // =========================
+    let bestScore =
+        Number(
+            localStorage.getItem(
+                "bestScore"
+            )
+        ) || 0;
+
+
+    const percentage =
+        Math.round(
+            (score / 5) * 100
+        );
+
+
+    if (
+        percentage > bestScore
+    ) {
+
+        localStorage.setItem(
+            "bestScore",
+            percentage
+        );
+
+    }
+
+
+    // =============================
+    // STREAK
+    // =============================
+
+    let streak =
+        Number(
+            localStorage.getItem(
+                "streak"
+            )
+        ) || 0;
+
+
+    const lastSprintDate =
+        localStorage.getItem(
+            "lastSprintDate"
+        );
+
+
+    const yesterday =
+        new Date();
+
+
+    yesterday.setDate(
+        yesterday.getDate() - 1
+    );
+
+
+    const yesterdayString =
+        yesterday.toDateString();
+
+
+    if (
+        lastSprintDate ===
+        yesterdayString
+    ) {
+
+        streak++;
+
+    }
+
+    else if (
+        lastSprintDate !==
+        today
+    ) {
+
+        streak = 1;
+
+    }
+
+
+    localStorage.setItem(
+        "streak",
+        streak
+    );
+
+
+    // =============================
+    // BEST STREAK
+    // =============================
+
+    let bestStreak =
+        Number(
+            localStorage.getItem(
+                "bestStreak"
+            )
+        ) || 0;
+
+
+    if (
+        streak > bestStreak
+    ) {
+
+        bestStreak =
+            streak;
+
+
+        localStorage.setItem(
+            "bestStreak",
+            bestStreak
+        );
+
+    }
+
+
+    // Save today's date
+
+    localStorage.setItem(
+        "lastSprintDate",
+        today
+    );
+
+
+    // =============================
+    // GO TO RESULTS
+    // =============================
 
     window.location.href =
         "results.html";
 
 }
-
 
 
 // =============================
