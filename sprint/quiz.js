@@ -7,22 +7,31 @@
 // GET URL DATA
 // =============================
 
-const params = new URLSearchParams(window.location.search);
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-const subject = params.get("subject");
-const topic = params.get("topic");
+const subject =
+    params.get("subject");
+
+const topic =
+    params.get("topic");
+
 
 let questions = [];
 let title = "";
 
 
+
 // =============================
-// LOAD TOPIC
+// LOAD TOPIC QUESTIONS
 // =============================
 
 if (topic === "heart") {
 
     questions = [...heartQuestions];
+
     title = "❤️ Heart Sprint";
 
 }
@@ -30,6 +39,7 @@ if (topic === "heart") {
 else if (topic === "electricity") {
 
     questions = [...electricityQuestions];
+
     title = "⚡ Electricity Sprint";
 
 }
@@ -37,6 +47,7 @@ else if (topic === "electricity") {
 else if (topic === "cells") {
 
     questions = [...cellsQuestions];
+
     title = "🧬 Cells Sprint";
 
 }
@@ -44,6 +55,7 @@ else if (topic === "cells") {
 else if (topic === "algebra") {
 
     questions = [...algebraQuestions];
+
     title = "➗ Algebra Sprint";
 
 }
@@ -51,6 +63,7 @@ else if (topic === "algebra") {
 else if (topic === "geometry") {
 
     questions = [...geometryQuestions];
+
     title = "📐 Geometry Sprint";
 
 }
@@ -58,91 +71,122 @@ else if (topic === "geometry") {
 else if (topic === "BIDMAS") {
 
     questions = [...BIDMAS];
+
     title = "🧮 BIDMAS Sprint";
 
 }
 
 else if (topic === "englishGrammar") {
 
-    questions = [...englishGrammarQuestions];
+    questions =
+        [...englishGrammarQuestions];
+
     title = "🔤 Grammar Sprint";
 
 }
 
 else if (topic === "literature") {
 
-    questions = [...literatureQuestions];
+    questions =
+        [...literatureQuestions];
+
     title = "📚 Literature Sprint";
 
 }
 
 else if (topic === "poetry") {
 
-    questions = [...poetryQuestions];
+    questions =
+        [...poetryQuestions];
+
     title = "📖 Poetry Sprint";
 
 }
 
 else if (topic === "geography") {
 
-    questions = [...geographyQuestions];
+    questions =
+        [...geographyQuestions];
+
     title = "🌍 Geography Sprint";
 
 }
 
 else if (topic === "history") {
 
-    questions = [...historyQuestions];
+    questions =
+        [...historyQuestions];
+
     title = "🏛️ History Sprint";
 
 }
 
 else if (topic === "civics") {
 
-    questions = [...civicsQuestions];
+    questions =
+        [...civicsQuestions];
+
     title = "⚖️ Civics Sprint";
 
 }
 
 else if (topic === "frenchVocabulary") {
 
-    questions = [...frenchVocabularyQuestions];
-    title = "🇫🇷 French Vocabulary Sprint";
+    questions =
+        [...frenchVocabularyQuestions];
+
+    title =
+        "🇫🇷 French Vocabulary Sprint";
 
 }
 
 else if (topic === "frenchGrammar") {
 
-    questions = [...frenchGrammarQuestions];
-    title = "🇫🇷 French Grammar Sprint";
+    questions =
+        [...frenchGrammarQuestions];
+
+    title =
+        "🇫🇷 French Grammar Sprint";
 
 }
 
 else if (topic === "frenchConversation") {
 
-    questions = [...frechConversationQuestions];
-    title = "💬 French Conversation Sprint";
+    questions =
+        [...frechConversationQuestions];
+
+    title =
+        "💬 French Conversation Sprint";
 
 }
 
 else if (topic === "japaneseVocabulary") {
 
-    questions = [...japaneseVocabularyQuestions];
-    title = "🇯🇵 Japanese Vocabulary Sprint";
+    questions =
+        [...japaneseVocabularyQuestions];
+
+    title =
+        "🇯🇵 Japanese Vocabulary Sprint";
 
 }
 
 else if (topic === "japaneseHiragana") {
 
-    questions = [...japaneseHiraganaQuestions];
-    title = "あ Hiragana Sprint";
+    questions =
+        [...japaneseHiraganaQuestions];
+
+    title =
+        "あ Hiragana Sprint";
 
 }
 
 else if (topic === "japaneseGrammar") {
 
-    questions = [...japaneseGrammarQuestions];
-    title = "🇯🇵 Japanese Grammar Sprint";
+    questions =
+        [...japaneseGrammarQuestions];
+
+    title =
+        "🇯🇵 Japanese Grammar Sprint";
 
 }
 
@@ -150,28 +194,37 @@ else {
 
     alert("Topic not found!");
 
-    window.location.href = "index.html";
+    window.location.href =
+        "index.html";
 
-    throw new Error("Topic not found");
-
-}
-
-
-// =============================
-// CHECK QUESTIONS
-// =============================
-
-if (!questions || questions.length === 0) {
-
-    alert("This topic has no questions!");
-
-    throw new Error("No questions found");
+    throw new Error(
+        "Topic not found"
+    );
 
 }
 
 
+
 // =============================
-// DAILY LOCK
+// MAKE SURE QUESTIONS EXIST
+// =============================
+
+if (questions.length === 0) {
+
+    alert(
+        "This topic has no questions!"
+    );
+
+    throw new Error(
+        "No questions found"
+    );
+
+}
+
+
+
+// =============================
+// DAILY SUBJECT LOCK
 // =============================
 
 const today =
@@ -185,7 +238,10 @@ const lockName =
     "Sprint";
 
 
-if (localStorage.getItem(lockName) === today) {
+if (
+    localStorage.getItem(lockName)
+    === today
+) {
 
     document.body.innerHTML = `
 
@@ -209,7 +265,8 @@ if (localStorage.getItem(lockName) === today) {
 
                 <p>
 
-                    You have already completed today's
+                    You have already
+                    completed today's
                     ${subject} Sprint.
 
                     <br><br>
@@ -234,9 +291,13 @@ if (localStorage.getItem(lockName) === today) {
 
     `;
 
-    throw new Error("Sprint already completed");
+
+    throw new Error(
+        "Sprint already completed"
+    );
 
 }
+
 
 
 // =============================
@@ -252,12 +313,15 @@ function shuffle(array) {
 }
 
 
+
 // =============================
 // PICK 5 QUESTIONS
 // =============================
 
 questions =
-    shuffle(questions).slice(0, 5);
+    shuffle(questions)
+    .slice(0, 5);
+
 
 
 // =============================
@@ -275,7 +339,8 @@ function shuffleAnswers(question) {
                     text: answer,
 
                     correct:
-                        index === question.correct
+                        index ===
+                        question.correct
 
                 };
 
@@ -289,16 +354,19 @@ function shuffleAnswers(question) {
 
     question.answers =
         answers.map(
-            answer => answer.text
+            answer =>
+                answer.text
         );
 
 
     question.correct =
         answers.findIndex(
-            answer => answer.correct
+            answer =>
+                answer.correct
         );
 
 }
+
 
 
 // =============================
@@ -318,7 +386,9 @@ let answered = false;
 
 
 const questionText =
-    document.getElementById("question");
+    document.getElementById(
+        "question"
+    );
 
 
 const questionNumber =
@@ -328,21 +398,28 @@ const questionNumber =
 
 
 const buttons =
-    document.querySelectorAll(".answer");
+    document.querySelectorAll(
+        ".answer"
+    );
 
 
 const feedback =
-    document.getElementById("feedback");
+    document.getElementById(
+        "feedback"
+    );
 
 
 const next =
-    document.getElementById("next");
+    document.getElementById(
+        "next"
+    );
 
 
 const progressBar =
     document.getElementById(
         "progress-bar"
     );
+
 
 
 // =============================
@@ -363,7 +440,9 @@ function loadQuestion() {
 
 
     const q =
-        questions[currentQuestion];
+        questions[
+            currentQuestion
+        ];
 
 
     shuffleAnswers(q);
@@ -374,16 +453,22 @@ function loadQuestion() {
 
 
     questionNumber.textContent =
-        `Question ${currentQuestion + 1}/5`;
+        `Question ${
+            currentQuestion + 1
+        }/5`;
+
 
 
     const progress =
-        (currentQuestion /
-            questions.length) * 100;
+        (
+            currentQuestion /
+            questions.length
+        ) * 100;
 
 
     progressBar.style.width =
         progress + "%";
+
 
 
     buttons.forEach(
@@ -397,16 +482,20 @@ function loadQuestion() {
                 q.answers[index];
 
 
-            button.onclick = () => {
+            button.onclick =
+                () => {
 
-                checkAnswer(index);
+                    checkAnswer(
+                        index
+                    );
 
-            };
+                };
 
         }
     );
 
 }
+
 
 
 // =============================
@@ -416,9 +505,7 @@ function loadQuestion() {
 function checkAnswer(answer) {
 
     if (answered) {
-
         return;
-
     }
 
 
@@ -426,7 +513,9 @@ function checkAnswer(answer) {
 
 
     const q =
-        questions[currentQuestion];
+        questions[
+            currentQuestion
+        ];
 
 
     buttons.forEach(
@@ -439,7 +528,11 @@ function checkAnswer(answer) {
     );
 
 
-    if (answer === q.correct) {
+
+    if (
+        answer ===
+        q.correct
+    ) {
 
         score++;
 
@@ -453,7 +546,9 @@ function checkAnswer(answer) {
 
         feedback.textContent =
             "❌ Correct answer: " +
-            q.answers[q.correct];
+            q.answers[
+                q.correct
+            ];
 
     }
 
@@ -462,6 +557,7 @@ function checkAnswer(answer) {
         "inline-block";
 
 }
+
 
 
 // =============================
@@ -491,6 +587,7 @@ next.onclick = () => {
 };
 
 
+
 // =============================
 // FINISH SPRINT
 // =============================
@@ -498,9 +595,9 @@ next.onclick = () => {
 function finishSprint() {
 
 
-    // =============================
+    // =========================
     // XP
-    // =============================
+    // =========================
 
     let xp =
         score * 5;
@@ -516,9 +613,12 @@ function finishSprint() {
     }
 
 
+
     let oldXP =
         Number(
-            localStorage.getItem("XP")
+            localStorage.getItem(
+                "XP"
+            )
         ) || 0;
 
 
@@ -528,91 +628,118 @@ function finishSprint() {
     );
 
 
-    // =============================
-    // STREAK
-    // =============================
 
-    const lastSprintDate =
+    // =========================
+    // STREAK
+    // =========================
+
+    const today =
+        new Date().toDateString();
+
+
+    const lastStreakDate =
         localStorage.getItem(
-            "lastSprintDate"
+            "lastStreakDate"
         );
 
 
     let streak =
         Number(
-            localStorage.getItem("streak")
+            localStorage.getItem(
+                "streak"
+            )
         ) || 0;
 
 
-    const yesterday =
-        new Date();
 
+    // Only increase once
+    // per calendar day
 
-    yesterday.setDate(
-        yesterday.getDate() - 1
-    );
-
-
-    const yesterdayString =
-        yesterday.toDateString();
-
-
-    // First ever Sprint
-
-    if (!lastSprintDate) {
-
-        streak = 1;
-
-    }
-
-
-    // Already completed a Sprint today
-
-    else if (
-        lastSprintDate === today
-    ) {
-
-        // Keep streak unchanged
-
-    }
-
-
-    // Completed a Sprint yesterday
-
-    else if (
-        lastSprintDate ===
-        yesterdayString
-    ) {
-
-        streak++;
-
-    }
-
-
-    // Missed a day
-
-    else {
-
-        streak = 1;
-
-    }
-
-
-    localStorage.setItem(
-        "streak",
-        streak
-    );
-
-
-    localStorage.setItem(
-        "lastSprintDate",
+    if (
+        lastStreakDate !==
         today
-    );
+    ) {
 
 
-    // =============================
+        // First ever Sprint
+
+        if (!lastStreakDate) {
+
+            streak = 1;
+
+        }
+
+
+        else {
+
+
+            const lastDate =
+                new Date(
+                    lastStreakDate
+                );
+
+
+            const currentDate =
+                new Date(
+                    today
+                );
+
+
+            const difference =
+                currentDate -
+                lastDate;
+
+
+            const oneDay =
+                1000 *
+                60 *
+                60 *
+                24;
+
+
+
+            // Completed yesterday
+
+            if (
+                difference <=
+                oneDay * 2
+            ) {
+
+                streak++;
+
+            }
+
+
+            // Missed a day
+
+            else {
+
+                streak = 1;
+
+            }
+
+        }
+
+
+
+        localStorage.setItem(
+            "streak",
+            streak
+        );
+
+
+        localStorage.setItem(
+            "lastStreakDate",
+            today
+        );
+
+    }
+
+
+
+    // =========================
     // LOCK SUBJECT
-    // =============================
+    // =========================
 
     localStorage.setItem(
         lockName,
@@ -620,9 +747,10 @@ function finishSprint() {
     );
 
 
-    // =============================
+
+    // =========================
     // SAVE RESULTS
-    // =============================
+    // =========================
 
     localStorage.setItem(
         "sprintScore",
@@ -636,20 +764,38 @@ function finishSprint() {
     );
 
 
+
+    // =========================
+    // SAVE QUIZ COUNT
+    // =========================
+
+    let quizzes =
+        Number(
+            localStorage.getItem(
+                "quizzes"
+            )
+        ) || 0;
+
+
+    quizzes++;
+
+
     localStorage.setItem(
-        "sprintStreak",
-        streak
+        "quizzes",
+        quizzes
     );
 
 
-    // =============================
+
+    // =========================
     // FINISH
-    // =============================
+    // =========================
 
     window.location.href =
         "results.html";
 
 }
+
 
 
 // =============================
