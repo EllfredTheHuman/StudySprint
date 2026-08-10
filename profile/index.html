@@ -22,7 +22,6 @@
 
 .streak-fire-number {
     position: relative;
-
     display: inline-block;
 
     font-size: 130px;
@@ -44,7 +43,6 @@
     background-clip: text;
 
     -webkit-text-fill-color: transparent;
-
     -webkit-text-stroke: 4px #8b2500;
 
     text-shadow:
@@ -88,16 +86,11 @@
 }
 
 .streak-label {
-
     font-size: 24px;
-
     font-weight: bold;
-
-    margin-top: 0;
 }
 
 .streak-message {
-
     margin-top: 10px;
 }
 
@@ -113,19 +106,18 @@
     width: 700px;
     max-width: 90%;
 
-    min-height: 190px;
+    height: 220px;
 
     margin: 40px auto;
-
-    text-decoration: none;
-
-    color: white;
-
-    border-radius: 35px;
 
     position: relative;
 
     overflow: hidden;
+
+    border-radius: 35px;
+
+    color: white;
+    text-decoration: none;
 
     box-shadow:
         0 15px 35px rgba(0,0,0,.12);
@@ -157,7 +149,7 @@
 
 
 /* =========================
-   BANNER CHARACTER
+   CHARACTER
 ========================= */
 
 .profile-banner-character {
@@ -167,28 +159,28 @@
     left: 25px;
     bottom: 0;
 
-    width: 150px;
-    height: 180px;
-
-    transform: scale(.65);
-
-    transform-origin:
-        bottom left;
+    width: 180px;
+    height: 210px;
 }
+
+
+/* Whole character */
 
 .profile-character {
 
     position: absolute;
 
     width: 150px;
-    height: 250px;
+    height: 210px;
 
     left: 0;
     bottom: 0;
 }
 
 
-/* HEAD */
+/* =========================
+   HEAD
+========================= */
 
 .profile-head {
 
@@ -198,7 +190,7 @@
     height: 100px;
 
     left: 25px;
-    top: 25px;
+    top: 15px;
 
     border-radius: 50%;
 
@@ -220,7 +212,60 @@
 }
 
 
-/* HAIR */
+/* =========================
+   FACE
+========================= */
+
+.profile-eye {
+
+    position: absolute;
+
+    width: 10px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background: #222;
+
+    z-index: 7;
+}
+
+.profile-eye.left {
+
+    left: 50px;
+    top: 52px;
+}
+
+.profile-eye.right {
+
+    left: 90px;
+    top: 52px;
+}
+
+
+.profile-mouth {
+
+    position: absolute;
+
+    width: 25px;
+    height: 12px;
+
+    left: 63px;
+    top: 76px;
+
+    border-bottom:
+        4px solid #222;
+
+    border-radius:
+        0 0 50% 50%;
+
+    z-index: 7;
+}
+
+
+/* =========================
+   HAIR
+========================= */
 
 .profile-hair {
 
@@ -230,7 +275,7 @@
     height: 55px;
 
     left: 21px;
-    top: 16px;
+    top: 6px;
 
     border-radius:
         55px 55px 25px 25px;
@@ -251,22 +296,24 @@
 }
 
 
-/* BODY */
+/* =========================
+   BODY
+========================= */
 
 .profile-body {
 
     position: absolute;
 
-    width: 110px;
-    height: 105px;
+    width: 105px;
+    height: 80px;
 
-    left: 20px;
-    top: 125px;
+    left: 22px;
+    top: 108px;
 
     border-radius:
         35px 35px 25px 25px;
 
-    z-index: 2;
+    z-index: 3;
 }
 
 .profile-body.blue {
@@ -282,22 +329,24 @@
 }
 
 
-/* ARMS */
+/* =========================
+   ARMS
+========================= */
 
 .profile-arm {
 
     position: absolute;
 
-    width: 34px;
-    height: 78px;
+    width: 30px;
+    height: 65px;
 
-    top: 132px;
+    top: 115px;
 
     border-radius: 20px;
 
     background: #f1c27d;
 
-    z-index: 1;
+    z-index: 2;
 }
 
 .profile-character.skin-medium
@@ -329,7 +378,85 @@
 }
 
 
-/* BACKPACK */
+/* =========================
+   LEGS
+========================= */
+
+.profile-leg {
+
+    position: absolute;
+
+    width: 38px;
+    height: 58px;
+
+    top: 177px;
+
+    border-radius:
+        18px;
+
+    z-index: 1;
+}
+
+
+/* Pants colours */
+
+.profile-leg.pants-blue {
+    background: #2563eb;
+}
+
+.profile-leg.pants-black {
+    background: #222;
+}
+
+.profile-leg.pants-brown {
+    background: #795548;
+}
+
+
+.profile-leg.left {
+
+    left: 32px;
+}
+
+.profile-leg.right {
+
+    left: 80px;
+}
+
+
+/* =========================
+   SHOES
+========================= */
+
+.profile-shoe {
+
+    position: absolute;
+
+    width: 43px;
+    height: 20px;
+
+    top: 215px;
+
+    border-radius:
+        20px 20px 12px 12px;
+
+    background: #333;
+
+    z-index: 2;
+}
+
+.profile-shoe.left {
+    left: 27px;
+}
+
+.profile-shoe.right {
+    left: 75px;
+}
+
+
+/* =========================
+   BACKPACK
+========================= */
 
 .profile-backpack {
 
@@ -337,15 +464,15 @@
 
     position: absolute;
 
-    width: 42px;
-    height: 70px;
+    width: 38px;
+    height: 65px;
 
     right: 0;
-    top: 130px;
+    top: 112px;
 
-    border-radius: 15px;
+    border-radius: 18px;
 
-    z-index: 3;
+    z-index: 2;
 }
 
 .profile-backpack.blue {
@@ -363,7 +490,9 @@
 }
 
 
-/* HAT */
+/* =========================
+   HAT
+========================= */
 
 .profile-hat {
 
@@ -372,16 +501,19 @@
     z-index: 8;
 }
 
+
+/* CAP */
+
 .profile-hat.cap {
 
-    width: 95px;
-    height: 25px;
+    width: 92px;
+    height: 28px;
 
-    left: 28px;
-    top: 9px;
+    left: 29px;
+    top: 1px;
 
     border-radius:
-        50px 50px 8px 8px;
+        50px 50px 15px 15px;
 
     background: #6366f1;
 }
@@ -392,29 +524,32 @@
 
     position: absolute;
 
-    width: 38px;
-    height: 9px;
+    width: 42px;
+    height: 10px;
 
-    left: 58px;
-    top: 19px;
+    left: 55px;
+    top: 20px;
 
     border-radius: 50%;
 
     background: #4f46e5;
 
-    transform: rotate(5deg);
+    transform: rotate(4deg);
 }
+
+
+/* BEANIE */
 
 .profile-hat.beanie {
 
     width: 96px;
-    height: 47px;
+    height: 48px;
 
     left: 27px;
-    top: 5px;
+    top: 0;
 
     border-radius:
-        50px 50px 14px 14px;
+        50px 50px 18px 18px;
 
     background: #ef4444;
 }
@@ -429,9 +564,9 @@
     height: 12px;
 
     left: 0;
-    bottom: -3px;
+    bottom: -2px;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     background: #dc2626;
 }
@@ -445,8 +580,7 @@
 
     position: absolute;
 
-    left: 190px;
-
+    left: 215px;
     top: 50%;
 
     transform:
@@ -458,7 +592,6 @@
 .profile-banner-username {
 
     font-size: 32px;
-
     font-weight: 900;
 
     margin-bottom: 6px;
@@ -467,7 +600,6 @@
 .profile-banner-tag {
 
     font-size: 18px;
-
     font-weight: 700;
 
     opacity: .9;
@@ -475,32 +607,8 @@
 
 
 /* =========================
-   MOBILE
+   STATS
 ========================= */
-
-@media(max-width:700px) {
-
-    .profile-banner-link {
-
-        min-height: 170px;
-    }
-
-    .profile-banner-info {
-
-        left: 150px;
-    }
-
-    .profile-banner-username {
-
-        font-size: 24px;
-    }
-
-    .profile-banner-tag {
-
-        font-size: 15px;
-    }
-
-}
 
 </style>
 
@@ -516,24 +624,15 @@
 🚀 StudySprint
 </div>
 
-
 <nav>
 
-<a href="../index.html">
-Home
-</a>
+<a href="../index.html">Home</a>
 
-<a href="../study/index.html">
-📚 Study
-</a>
+<a href="../study/index.html">📚 Study</a>
 
-<a href="../sprint/index.html">
-🏃 Sprint
-</a>
+<a href="../sprint/index.html">🏃 Sprint</a>
 
-<a href="index.html">
-👤 Profile
-</a>
+<a href="index.html">👤 Profile</a>
 
 </nav>
 
@@ -557,7 +656,7 @@ Track your learning progress!
 
 
 <!-- =========================
-     PROFILE CHARACTER
+     PROFILE BANNER
 ========================= -->
 
 <a
@@ -567,61 +666,95 @@ id="profile-banner"
 >
 
 
-<div
-class="profile-banner-character"
->
+<div class="profile-banner-character">
+
 
 <div
-class="profile-character"
+class="profile-character skin-light"
 id="profile-character"
 >
 
 
+<!-- HAIR -->
+
 <div
 class="profile-hair brown"
 id="profile-hair"
->
-</div>
+></div>
 
+
+<!-- HAT -->
 
 <div
 class="profile-hat"
 id="profile-hat"
->
-</div>
+></div>
 
+
+<!-- HEAD -->
 
 <div
 class="profile-head"
 id="profile-head"
->
-</div>
+></div>
 
 
-<div
-class="profile-arm left"
->
-</div>
-
+<!-- FACE -->
 
 <div
-class="profile-arm right"
->
-</div>
+class="profile-eye left"
+></div>
 
+<div
+class="profile-eye right"
+></div>
+
+<div
+class="profile-mouth"
+></div>
+
+
+<!-- ARMS -->
+
+<div class="profile-arm left"></div>
+
+<div class="profile-arm right"></div>
+
+
+<!-- SHIRT -->
 
 <div
 class="profile-body blue"
 id="profile-shirt"
->
-</div>
+></div>
 
+
+<!-- LEGS -->
+
+<div
+class="profile-leg pants-blue left"
+id="profile-leg-left"
+></div>
+
+<div
+class="profile-leg pants-blue right"
+id="profile-leg-right"
+></div>
+
+
+<!-- SHOES -->
+
+<div class="profile-shoe left"></div>
+
+<div class="profile-shoe right"></div>
+
+
+<!-- BACKPACK -->
 
 <div
 class="profile-backpack"
 id="profile-backpack"
->
-</div>
+></div>
 
 
 </div>
@@ -638,7 +771,6 @@ id="profile-username"
 Sprinter
 </div>
 
-
 <div
 class="profile-banner-tag"
 id="profile-tag"
@@ -653,7 +785,7 @@ New Sprinter
 
 
 <!-- =========================
-     MAIN PROFILE STATS
+     STATS
 ========================= -->
 
 <section class="features">
@@ -711,7 +843,6 @@ New Sprinter
 🔥 Streak
 </h1>
 
-
 <div
 class="streak-fire-number"
 id="streak"
@@ -719,11 +850,9 @@ id="streak"
 0
 </div>
 
-
 <p class="streak-label">
 DAY STREAK
 </p>
-
 
 <p
 class="streak-message"
@@ -745,17 +874,14 @@ Complete a Sprint every day to keep your streak alive!
 📊 Level Progress
 </h1>
 
-
 <div class="progress">
 
 <div
 class="progress-bar"
 id="xp-bar"
->
-</div>
+></div>
 
 </div>
-
 
 <p id="xp-text">
 0 / 100 XP to next level
@@ -827,98 +953,73 @@ No quizzes completed yet.
 
 
 <footer>
-
 © 2026 StudySprint
-
 </footer>
 
 
 <script>
 
 /* =========================
-   LOAD PROFILE DATA
+   PROFILE DATA
 ========================= */
 
 let totalXP =
-Number(
-    localStorage.getItem("XP")
-) || 0;
-
+Number(localStorage.getItem("XP")) || 0;
 
 let quizzes =
-Number(
-    localStorage.getItem("quizzes")
-) || 0;
-
+Number(localStorage.getItem("quizzes")) || 0;
 
 let best =
-Number(
-    localStorage.getItem("bestScore")
-) || 0;
-
+Number(localStorage.getItem("bestScore")) || 0;
 
 let streak =
-Number(
-    localStorage.getItem("streak")
-) || 0;
-
+Number(localStorage.getItem("streak")) || 0;
 
 let bestStreak =
-Number(
-    localStorage.getItem("bestStreak")
-) || 0;
+Number(localStorage.getItem("bestStreak")) || 0;
 
 
 /* =========================
-   LOAD CHARACTER
+   CHARACTER DATA
 ========================= */
 
 let characterData = {
 
     skin: "light",
-
     hair: "brown",
-
     shirt: "blue",
-
+    pants: "blue",
     hat: "none",
-
     backpack: "none",
-
     banner: "purple",
-
     username: "Sprinter",
-
     playerTag: "New Sprinter"
 
 };
 
 
-const savedCharacter =
-localStorage.getItem(
-    "character"
-);
+let savedCharacter =
+localStorage.getItem("character");
 
 
 if (savedCharacter) {
 
     try {
 
-        characterData =
-        {
+        characterData = {
+
             ...characterData,
 
-            ...JSON.parse(
-                savedCharacter
-            )
+            ...JSON.parse(savedCharacter)
+
         };
 
     }
 
-    catch {
+    catch (error) {
 
         console.log(
-            "Could not load saved character."
+            "Character data could not be loaded."
         );
 
     }
@@ -927,7 +1028,7 @@ if (savedCharacter) {
 
 
 /* =========================
-   DISPLAY CHARACTER
+   BANNER
 ========================= */
 
 const banner =
@@ -935,11 +1036,14 @@ document.getElementById(
     "profile-banner"
 );
 
-
 banner.className =
 "profile-banner-link " +
-characterData.banner;
+(characterData.banner || "purple");
 
+
+/* =========================
+   NAME + TAG
+========================= */
 
 document.getElementById(
     "profile-username"
@@ -955,29 +1059,60 @@ characterData.playerTag ||
 "New Sprinter";
 
 
+/* =========================
+   CHARACTER
+========================= */
+
 const character =
 document.getElementById(
     "profile-character"
 );
 
-
 character.className =
 "profile-character skin-" +
-characterData.skin;
+(characterData.skin || "light");
 
+
+/* =========================
+   HAIR
+========================= */
 
 document.getElementById(
     "profile-hair"
 ).className =
 "profile-hair " +
-characterData.hair;
+(characterData.hair || "brown");
 
+
+/* =========================
+   SHIRT
+========================= */
 
 document.getElementById(
     "profile-shirt"
 ).className =
 "profile-body " +
-characterData.shirt;
+(characterData.shirt || "blue");
+
+
+/* =========================
+   PANTS
+========================= */
+
+document.getElementById(
+    "profile-leg-left"
+).className =
+"profile-leg pants-" +
+(characterData.pants || "blue") +
+" left";
+
+
+document.getElementById(
+    "profile-leg-right"
+).className =
+"profile-leg pants-" +
+(characterData.pants || "blue") +
+" right";
 
 
 /* =========================
@@ -989,22 +1124,21 @@ document.getElementById(
     "profile-hat"
 );
 
-
 if (
-    characterData.hat ===
-    "none"
+    characterData.hat === "cap" ||
+    characterData.hat === "beanie"
 ) {
 
     hat.className =
-    "profile-hat";
+    "profile-hat " +
+    characterData.hat;
 
 }
 
 else {
 
     hat.className =
-    "profile-hat " +
-    characterData.hat;
+    "profile-hat";
 
 }
 
@@ -1018,18 +1152,10 @@ document.getElementById(
     "profile-backpack"
 );
 
-
 if (
-    characterData.backpack ===
-    "none"
+    characterData.backpack === "blue" ||
+    characterData.backpack === "red"
 ) {
-
-    backpack.className =
-    "profile-backpack";
-
-}
-
-else {
 
     backpack.className =
     "profile-backpack " +
@@ -1037,9 +1163,16 @@ else {
 
 }
 
+else {
+
+    backpack.className =
+    "profile-backpack";
+
+}
+
 
 /* =========================
-   STATS
+   XP
 ========================= */
 
 document.getElementById(
@@ -1047,6 +1180,10 @@ document.getElementById(
 ).textContent =
 totalXP;
 
+
+/* =========================
+   QUIZZES
+========================= */
 
 document.getElementById(
     "quizzes"
@@ -1068,12 +1205,10 @@ let requiredXP =
 
 
 while (
-    remainingXP >=
-    requiredXP
+    remainingXP >= requiredXP
 ) {
 
-    remainingXP -=
-    requiredXP;
+    remainingXP -= requiredXP;
 
     level++;
 
@@ -1181,12 +1316,11 @@ if (best > 0) {
 document.getElementById(
     "best-streak"
 ).textContent =
-bestStreak +
-" days";
+bestStreak + " days";
 
 
 /* =========================
-   XP PROGRESS
+   XP BAR
 ========================= */
 
 document.getElementById(
