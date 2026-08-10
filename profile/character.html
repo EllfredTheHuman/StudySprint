@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -7,259 +6,279 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Character | StudySprint</title>
+<title>Customize Character | StudySprint</title>
 
 <link rel="stylesheet" href="../style.css">
 
 <style>
 
-/* =============================
-CHARACTER
-============================= */
+.character-preview {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:30px auto 50px;
+}
 
 .character {
-    position: relative;
-    width: 220px;
-    height: 330px;
-    margin: 30px auto;
+    position:relative;
+    width:180px;
+    height:250px;
 }
 
-.character-head {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    top: 20px;
-    left: 50px;
-    z-index: 3;
-}
+/* =========================
+   CHARACTER
+========================= */
 
 .character-body {
-    position: absolute;
-    width: 110px;
-    height: 120px;
-    border-radius: 35px;
-    top: 125px;
-    left: 55px;
-    z-index: 2;
+    position:absolute;
+    width:120px;
+    height:120px;
+    left:30px;
+    top:55px;
+    border-radius:50%;
+    background:#f2c29b;
+    z-index:3;
 }
 
-.character-pants {
-    position: absolute;
-    width: 115px;
-    height: 75px;
-    border-radius: 20px;
-    top: 225px;
-    left: 52px;
-    z-index: 1;
+.character-face {
+    position:absolute;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#222;
+    top:105px;
+    left:63px;
+    z-index:5;
+}
+
+.character-face::after {
+    content:"";
+    position:absolute;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#222;
+    left:40px;
 }
 
 .character-hair {
-    position: absolute;
-    width: 120px;
-    height: 42px;
-    border-radius: 60px 60px 25px 25px;
-    top: 12px;
-    left: 50px;
-    z-index: 4;
+    position:absolute;
+    width:120px;
+    height:55px;
+    left:30px;
+    top:50px;
+    border-radius:60px 60px 25px 25px;
+    z-index:6;
 }
 
-.character-hat {
-    position: absolute;
-    top: 0;
-    left: 40px;
-    width: 140px;
-    height: 45px;
-    z-index: 5;
+.character-shirt {
+    position:absolute;
+    width:100px;
+    height:75px;
+    left:40px;
+    top:165px;
+    border-radius:25px 25px 15px 15px;
+    z-index:2;
 }
 
-.character-backpack {
-    position: absolute;
-    width: 35px;
-    height: 90px;
-    border-radius: 15px;
-    top: 140px;
-    left: 28px;
-    z-index: 1;
+.character-pants {
+    position:absolute;
+    width:100px;
+    height:45px;
+    left:40px;
+    top:225px;
+    border-radius:10px 10px 20px 20px;
+    z-index:1;
 }
 
-/* =============================
-COLOURS
-============================= */
-
-.skin-light {
-    background: #f6c7a5;
-}
-
-.skin-medium {
-    background: #c98b61;
-}
-
-.skin-dark {
-    background: #70452f;
-}
+/* =========================
+   HAIR
+========================= */
 
 .hair-brown {
-    background: #6b3e26;
+    background:#6b3e26;
 }
 
 .hair-black {
-    background: #202020;
+    background:#222;
 }
 
 .hair-blonde {
-    background: #e5bd55;
+    background:#f4d35e;
 }
 
+/* =========================
+   SHIRT
+========================= */
+
 .shirt-blue {
-    background: #4f7cff;
+    background:#3b82f6;
 }
 
 .shirt-red {
-    background: #ff4d5a;
+    background:#ef4444;
 }
 
 .shirt-green {
-    background: #35b86b;
+    background:#22c55e;
 }
 
+/* =========================
+   PANTS
+========================= */
+
 .pants-blue {
-    background: #3d5fa8;
+    background:#2563eb;
 }
 
 .pants-black {
-    background: #252525;
+    background:#222;
 }
 
 .pants-brown {
-    background: #76513b;
+    background:#795548;
 }
 
-/* =============================
-HATS
-============================= */
+/* =========================
+   SKIN
+========================= */
+
+.skin-light {
+    background:#f6d1ad;
+}
+
+.skin-medium {
+    background:#c98d63;
+}
+
+.skin-dark {
+    background:#70452d;
+}
+
+/* =========================
+   HATS
+========================= */
 
 .hat-cap {
-    background: #6366f1;
-    border-radius: 70px 70px 15px 15px;
+    position:absolute;
+    width:125px;
+    height:45px;
+    left:28px;
+    top:35px;
+    background:#6366f1;
+    border-radius:70px 70px 20px 20px;
+    z-index:10;
 }
 
 .hat-cap::after {
-    content: "";
-    position: absolute;
-    width: 75px;
-    height: 15px;
-    border-radius: 50%;
-    background: #4f46e5;
-    bottom: -5px;
-    left: 45px;
+    content:"";
+    position:absolute;
+    width:60px;
+    height:15px;
+    left:75px;
+    top:30px;
+    background:#4f46e5;
+    border-radius:0 20px 20px 0;
+    transform:rotate(8deg);
 }
 
 .hat-beanie {
-    background: #6366f1;
-    border-radius: 70px 70px 20px 20px;
-    height: 60px;
+    position:absolute;
+    width:125px;
+    height:65px;
+    left:28px;
+    top:35px;
+    background:#ef4444;
+    border-radius:70px 70px 20px 20px;
+    z-index:10;
 }
 
 .hat-beanie::after {
-    content: "";
-    position: absolute;
-    width: 140px;
-    height: 12px;
-    border-radius: 10px;
-    background: #4f46e5;
-    bottom: 0;
-    left: 0;
+    content:"";
+    position:absolute;
+    width:125px;
+    height:18px;
+    left:0;
+    bottom:0;
+    background:#dc2626;
+    border-radius:10px;
 }
 
-/* =============================
-BACKPACK
-============================= */
+/* =========================
+   BACKPACK
+========================= */
+
+.backpack-blue,
+.backpack-red {
+    position:absolute;
+    width:45px;
+    height:70px;
+    left:5px;
+    top:165px;
+    border-radius:20px;
+    z-index:1;
+}
 
 .backpack-blue {
-    background: #3b82f6;
+    background:#3b82f6;
 }
 
 .backpack-red {
-    background: #ef4444;
+    background:#ef4444;
 }
 
-/* =============================
-EDITOR
-============================= */
-
-.character-preview {
-    background: white;
-    width: 500px;
-    max-width: 90%;
-    margin: 30px auto;
-    padding: 30px;
-    border-radius: 30px;
-    box-shadow: 0 15px 35px rgba(0,0,0,.08);
+.option-group {
+    margin:35px auto;
+    max-width:800px;
+    text-align:center;
 }
 
-.customise-section {
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
-}
-
-.customise-section h2 {
-    text-align: center;
-    margin-top: 35px;
-}
-
-.options {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 15px 0 30px;
+.option-group h2 {
+    margin-bottom:15px;
 }
 
 .option {
-    padding: 12px 20px;
-    border: 3px solid #e5e7eb;
-    border-radius: 15px;
-    background: white;
-    font-weight: 800;
-    cursor: pointer;
+    margin:6px;
+    padding:12px 22px;
+    border:none;
+    border-radius:15px;
+    background:#e5e7eb;
+    font-weight:800;
+    cursor:pointer;
 }
 
-.option:hover,
 .option.selected {
-    border-color: #6366f1;
-    background: #eef2ff;
+    background:#6366f1;
+    color:white;
 }
 
-.character-input {
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    margin: 15px auto;
-    padding: 15px;
-    border: 3px solid #e5e7eb;
-    border-radius: 15px;
-    font-size: 17px;
+input {
+    display:block;
+    width:100%;
+    max-width:450px;
+    margin:12px auto;
+    padding:15px;
+    border:2px solid #e5e7eb;
+    border-radius:15px;
+    font-size:16px;
 }
 
 .save-button {
-    display: block;
-    margin: 30px auto;
+    margin-top:20px;
 }
 
 .back-button {
-    display: block;
-    text-align: center;
-    margin: 20px;
-    color: #6366f1;
-    font-weight: 800;
-    text-decoration: none;
+    display:block;
+    text-align:center;
+    margin:30px;
+    text-decoration:none;
+    font-weight:800;
 }
 
 </style>
 
 </head>
+
 
 <body>
 
@@ -271,65 +290,75 @@ EDITOR
 
 <nav>
 
-<a href="../index.html">Home</a> <a href="../study/index.html">📚 Study</a> <a href="../sprint/index.html">🏃 Sprint</a> <a href="index.html">👤 Profile</a>
+<a href="../index.html">Home</a>
+
+<a href="../study/index.html">📚 Study</a>
+
+<a href="../sprint/index.html">🏃 Sprint</a>
+
+<a href="index.html">👤 Profile</a>
 
 </nav>
 
 </header>
 
+
 <main>
 
 <section class="hero">
 
-<h1>🎨 Customise Your Character</h1>
+<h1>🎨 Customize Character</h1>
 
 <p>Make your StudySprint character yours.</p>
 
 </section>
+
 
 <div class="character-preview">
 
 <div class="character" id="character">
 
 <div
-class="character-backpack"
-id="character-backpack">
+class="backpack"
+id="preview-backpack">
 </div>
 
 <div
 class="character-pants"
-id="character-pants">
+id="preview-pants">
+</div>
+
+<div
+class="character-shirt"
+id="preview-shirt">
 </div>
 
 <div
 class="character-body"
-id="character-body">
-</div>
+id="preview-body">
 
-<div
-class="character-head"
-id="character-head">
+<div class="character-face"></div>
+
 </div>
 
 <div
 class="character-hair"
-id="character-hair">
+id="preview-hair">
 </div>
 
 <div
-class="character-hat"
-id="character-hat">
+class="hat"
+id="preview-hat">
 </div>
 
 </div>
 
 </div>
 
-<section class="customise-section">
+
+<section class="option-group">
 
 <h2>Skin</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('skin','light',this)">
 Light
@@ -343,11 +372,12 @@ Medium
 Dark
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Hair</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('hair','brown',this)">
 Brown
@@ -361,11 +391,12 @@ Black
 Blonde
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Shirt / Jumper</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('shirt','blue',this)">
 Blue
@@ -379,11 +410,12 @@ Red
 Green
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Pants</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('pants','blue',this)">
 Blue
@@ -397,11 +429,12 @@ Black
 Brown
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Hat</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('hat','none',this)">
 None
@@ -415,11 +448,12 @@ Cap
 Beanie
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Backpack</h2>
-
-<div class="options">
 
 <button class="option" onclick="setOption('backpack','none',this)">
 None
@@ -433,38 +467,44 @@ Blue
 Red
 </button>
 
-</div>
+</section>
+
+
+<section class="option-group">
 
 <h2>Username</h2>
 
 <input
 type="text"
 id="username"
-class="character-input"
 maxlength="16"
 placeholder="Username"
-
 >
+
+</section>
+
+
+<section class="option-group">
 
 <button
 class="main-button save-button"
 onclick="saveCharacter()"
-
 >
+💾 Save Character
+</button>
 
-💾 Save Character </button>
+</section>
+
 
 <a
 href="index.html"
 class="back-button"
-
 >
-
-← Back to Profile </a>
-
-</section>
+← Back to Profile
+</a>
 
 </main>
+
 
 <footer>
 
@@ -472,9 +512,15 @@ class="back-button"
 
 </footer>
 
+
 <script>
 
-const defaultCharacter = {
+
+// =============================
+// DEFAULT CHARACTER
+// =============================
+
+let characterData = {
 
     skin: "light",
     hair: "brown",
@@ -486,15 +532,41 @@ const defaultCharacter = {
 };
 
 
-let character =
-JSON.parse(
-    localStorage.getItem("character")
-) || {...defaultCharacter};
+// =============================
+// LOAD SAVED CHARACTER
+// =============================
 
+const savedCharacter =
+    localStorage.getItem("characterData");
+
+if (savedCharacter) {
+
+    try {
+
+        characterData =
+            JSON.parse(savedCharacter);
+
+    }
+
+    catch {
+
+        console.log(
+            "Could not load character."
+        );
+
+    }
+
+}
+
+
+// =============================
+// SET OPTION
+// =============================
 
 function setOption(type, value, button) {
 
-    character[type] = value;
+    characterData[type] =
+        value;
 
     updateCharacter();
 
@@ -502,106 +574,119 @@ function setOption(type, value, button) {
         .querySelectorAll(
             `.option`
         )
-        .forEach(
-            option =>
-                option.classList.remove(
-                    "selected"
-                )
-        );
+        .forEach(option => {
 
-    button.classList.add("selected");
+            option.classList.remove(
+                "selected"
+            );
+
+        });
+
+    button.classList.add(
+        "selected"
+    );
 
 }
 
 
+// =============================
+// UPDATE CHARACTER
+// =============================
+
 function updateCharacter() {
 
-    const head =
+    const body =
         document.getElementById(
-            "character-head"
+            "preview-body"
         );
 
     const hair =
         document.getElementById(
-            "character-hair"
+            "preview-hair"
         );
 
-    const body =
+    const shirt =
         document.getElementById(
-            "character-body"
+            "preview-shirt"
         );
 
     const pants =
         document.getElementById(
-            "character-pants"
+            "preview-pants"
         );
 
     const hat =
         document.getElementById(
-            "character-hat"
+            "preview-hat"
         );
 
     const backpack =
         document.getElementById(
-            "character-backpack"
+            "preview-backpack"
         );
 
 
-    head.className =
-        "character-head skin-" +
-        character.skin;
+    body.className =
+        "character-body skin-" +
+        characterData.skin;
 
 
     hair.className =
         "character-hair hair-" +
-        character.hair;
+        characterData.hair;
 
 
-    body.className =
-        "character-body shirt-" +
-        character.shirt;
+    shirt.className =
+        "character-shirt shirt-" +
+        characterData.shirt;
 
 
     pants.className =
         "character-pants pants-" +
-        character.pants;
-
-
-    hat.className =
-        "character-hat";
-
-
-    if (
-        character.hat !== "none"
-    ) {
-
-        hat.classList.add(
-            "hat-" +
-            character.hat
-        );
-
-    }
+        characterData.pants;
 
 
     backpack.className =
-        "character-backpack";
+        characterData.backpack === "none"
+        ? "backpack"
+        : "backpack-" +
+          characterData.backpack;
 
 
     if (
-        character.backpack !== "none"
+        characterData.hat ===
+        "none"
     ) {
 
-        backpack.classList.add(
-            "backpack-" +
-            character.backpack
-        );
+        hat.className =
+            "hat";
+
+    }
+
+    else {
+
+        hat.className =
+            "hat-" +
+            characterData.hat;
 
     }
 
 }
 
 
+// =============================
+// SAVE CHARACTER
+// =============================
+
 function saveCharacter() {
+
+    localStorage.setItem(
+        "characterData",
+        JSON.stringify(
+            characterData
+        )
+    );
+
 
     const username =
         document.getElementById(
@@ -609,15 +694,18 @@ function saveCharacter() {
         ).value.trim();
 
 
-    localStorage.setItem(
-        "character",
-        JSON.stringify(character)
-    );
+    if (username) {
+
+        localStorage.setItem(
+            "username",
+            username
+        );
+
+    }
 
 
-    localStorage.setItem(
-        "username",
-        username
+    alert(
+        "✅ Character saved!"
     );
 
 
@@ -627,48 +715,30 @@ function saveCharacter() {
 }
 
 
-function loadCharacter() {
+// =============================
+// LOAD USERNAME
+// =============================
 
-    const saved =
-        JSON.parse(
-            localStorage.getItem(
-                "character"
-            )
-        );
+const savedUsername =
+    localStorage.getItem(
+        "username"
+    );
 
+if (savedUsername) {
 
-    if (saved) {
-
-        character = {
-            ...defaultCharacter,
-            ...saved
-        };
-
-    }
-
-
-    const username =
-        localStorage.getItem(
-            "username"
-        );
-
-
-    if (username) {
-
-        document.getElementById(
-            "username"
-        ).value =
-            username;
-
-    }
-
-
-    updateCharacter();
+    document.getElementById(
+        "username"
+    ).value =
+        savedUsername;
 
 }
 
 
-loadCharacter();
+// =============================
+// START
+// =============================
+
+updateCharacter();
 
 </script>
 
