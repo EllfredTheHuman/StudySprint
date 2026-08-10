@@ -1,15 +1,11 @@
-```css
 /* =========================================
-   STUDYPASS PAGE
+   STUDYPASS
 ========================================= */
 
 .pass-page {
-
-    max-width: 1000px;
-
+    max-width: 1100px;
     margin: 0 auto;
-
-    padding: 20px 20px 80px;
+    padding: 40px 20px 80px;
 }
 
 
@@ -18,175 +14,61 @@
 ========================================= */
 
 .pass-header {
-
-    padding-top: 45px;
-
-    padding-bottom: 30px;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-
-.pass-month {
-
-    display: inline-block;
-
-    margin-top: 5px;
-
-    padding: 10px 22px;
-
-    border-radius: 50px;
-
-    background: #6366f1;
-
-    color: white;
-
+.pass-header h1 {
+    font-size: 52px;
     font-weight: 900;
+    margin-bottom: 10px;
+}
 
-    font-size: 17px;
-
+.pass-header p {
+    color: #6b7280;
+    font-size: 20px;
 }
 
 
 /* =========================================
-   PASS SUMMARY
+   PASS XP
 ========================================= */
 
-.pass-summary {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 35px;
-
+.pass-progress-box {
     background: white;
-
-    padding: 30px;
-
     border-radius: 30px;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.08);
-
-    margin-bottom: 45px;
-}
-
-
-.pass-level {
-
-    min-width: 120px;
-
+    padding: 30px;
+    max-width: 700px;
+    margin: 0 auto 50px;
     text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
 
-
-.pass-level span {
-
-    display: block;
-
-    color: #6b7280;
-
-    font-weight: 700;
-
-    margin-bottom: 5px;
+.pass-progress-box h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
 }
-
-
-.pass-level strong {
-
-    font-size: 50px;
-
-    font-weight: 900;
-
-    color: #6366f1;
-}
-
-
-.pass-xp {
-
-    flex: 1;
-}
-
-
-.pass-xp-top {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-
-    font-weight: 900;
-}
-
-
-.pass-xp-top span:last-child {
-
-    color: #6366f1;
-}
-
 
 .pass-progress {
-
     width: 100%;
-
-    height: 22px;
-
+    height: 25px;
     background: #e5e7eb;
-
     border-radius: 50px;
-
     overflow: hidden;
 }
 
-
-.pass-progress-bar {
-
-    width: 0%;
-
+#pass-progress-bar {
     height: 100%;
-
+    width: 0%;
     background: #6366f1;
-
     border-radius: 50px;
-
-    transition: .5s ease;
+    transition: .4s ease;
 }
 
-
-/* =========================================
-   TRACK SECTION
-========================================= */
-
-.pass-track-section {
-
-    background: white;
-
-    padding: 35px;
-
-    border-radius: 35px;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.08);
-}
-
-
-.pass-track-section h2 {
-
-    text-align: center;
-
-    font-size: 34px;
-
-    margin-bottom: 10px;
-}
-
-
-.pass-description {
-
-    text-align: center;
-
+#pass-xp-text {
+    margin-top: 15px;
+    font-weight: 800;
     color: #6b7280;
-
-    margin-bottom: 40px;
 }
 
 
@@ -194,41 +76,10 @@
    PASS TRACK
 ========================================= */
 
-.pass-track {
-
-    position: relative;
-
+#pass-track {
     display: flex;
-
     flex-direction: column;
-
     gap: 18px;
-
-    padding: 10px 5px;
-}
-
-
-/* THE LINE */
-
-.pass-track::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 45px;
-
-    top: 20px;
-
-    bottom: 20px;
-
-    width: 8px;
-
-    background: #e5e7eb;
-
-    border-radius: 20px;
-
-    z-index: 0;
 }
 
 
@@ -237,28 +88,32 @@
 ========================================= */
 
 .pass-tier {
-
     position: relative;
 
-    min-height: 105px;
-
     display: flex;
-
     align-items: center;
 
-    gap: 25px;
+    min-height: 120px;
 
-    padding: 15px 25px 15px 0;
+    padding: 20px 30px;
 
-    border-radius: 25px;
+    background: white;
 
-    background: #f8fafc;
+    border-radius: 28px;
 
-    border: 3px solid #e5e7eb;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.07);
 
-    z-index: 1;
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
 
-    transition: .2s;
+.pass-tier:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.11);
 }
 
 
@@ -267,49 +122,60 @@
 ========================================= */
 
 .tier-number {
+    width: 70px;
+    height: 70px;
 
     flex-shrink: 0;
 
-    width: 65px;
-
-    height: 65px;
-
-    margin-left: 12px;
+    border-radius: 50%;
 
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
-    border-radius: 50%;
 
     background: #e5e7eb;
 
-    color: #6b7280;
-
-    font-size: 23px;
-
+    font-size: 25px;
     font-weight: 900;
 
-    border: 5px solid white;
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.12);
+    margin-right: 30px;
 }
 
 
 /* =========================================
-   EMPTY TIERS
+   CURRENT TIER
 ========================================= */
 
-.tier-empty {
+.pass-tier.current {
+    border: 4px solid #6366f1;
+}
 
-    color: #9ca3af;
+.pass-tier.current .tier-number {
+    background: #6366f1;
+    color: white;
+}
 
-    font-weight: 700;
 
-    font-size: 16px;
+/* =========================================
+   COMPLETED TIER
+========================================= */
+
+.pass-tier.completed {
+    opacity: .95;
+}
+
+.pass-tier.completed .tier-number {
+    background: #22c55e;
+    color: white;
+}
+
+
+/* =========================================
+   LOCKED TIER
+========================================= */
+
+.pass-tier.locked {
+    opacity: .55;
 }
 
 
@@ -318,236 +184,288 @@
 ========================================= */
 
 .tier-reward {
+    position: relative;
+
+    flex: 1;
+
+    min-height: 80px;
 
     display: flex;
-
     align-items: center;
 
-    gap: 15px;
+    gap: 20px;
 
-    padding: 12px 20px;
+    padding: 18px 25px;
+
+    border-radius: 22px;
+
+    background: #f4f7ff;
+
+    overflow: hidden;
+}
+
+.tier-reward strong {
+    font-size: 20px;
+}
+
+
+/* =========================================
+   REWARD ICON
+========================================= */
+
+.reward-icon {
+    width: 55px;
+    height: 55px;
 
     border-radius: 18px;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background: white;
 
-    border: 2px solid #e5e7eb;
+    font-size: 28px;
 
-    min-width: 240px;
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.08);
 }
 
 
-.reward-icon {
+/* =========================================
+   LOCKED REWARD
+========================================= */
 
-    font-size: 32px;
+.reward-locked {
+    background: #eef0f5;
+}
 
-    width: 45px;
-
-    text-align: center;
+.reward-locked .reward-icon {
+    opacity: .45;
 }
 
 
-.tier-reward strong {
+/* =========================================
+   AVAILABLE REWARD
+========================================= */
+
+.reward-current {
+    background: #eef2ff;
+
+    border: 2px solid #6366f1;
+}
+
+
+/* =========================================
+   CLAIM BUTTON
+========================================= */
+
+.claim-button {
+    margin-left: auto;
+
+    border: none;
+
+    padding: 13px 25px;
+
+    border-radius: 16px;
+
+    background: #6366f1;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        background .15s;
+}
+
+.claim-button:hover {
+    transform: scale(1.06);
+
+    background: #4f46e5;
+}
+
+.claim-button:active {
+    transform: scale(.96);
+}
+
+
+/* =========================================
+   CLAIMED REWARD
+========================================= */
+
+.reward-unlocked {
+    background: #ecfdf5;
+
+    border: 3px solid #22c55e;
+}
+
+
+/* =========================================
+   BIG CHECKMARK
+========================================= */
+
+.reward-check {
+    position: absolute;
+
+    right: 15px;
+    top: 50%;
+
+    transform:
+        translateY(-50%)
+        rotate(-8deg);
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 72px;
+
+    font-weight: 1000;
+
+    line-height: 1;
+
+    color: #22c55e;
+
+    -webkit-text-stroke: 3px #166534;
+
+    text-shadow:
+        0 4px 0 rgba(0,0,0,.12);
+
+    pointer-events: none;
+
+    opacity: .9;
+}
+
+
+/* =========================================
+   EMPTY TIER
+========================================= */
+
+.tier-empty {
+    color: #9ca3af;
+
+    font-weight: 700;
 
     font-size: 17px;
 }
 
 
 /* =========================================
-   LOCKED
+   REWARD SUMMARY
 ========================================= */
 
-.pass-tier.locked {
-
-    opacity: .65;
+.rewards-section {
+    margin-top: 70px;
 }
 
+.rewards-section h2 {
+    text-align: center;
 
-.pass-tier.locked .tier-number {
+    font-size: 38px;
 
-    background: #e5e7eb;
+    font-weight: 900;
 
-    color: #9ca3af;
+    margin-bottom: 10px;
 }
 
+.rewards-section > p {
+    text-align: center;
 
-.reward-locked {
+    color: #6b7280;
 
-    background: #f8fafc;
+    font-size: 18px;
 
-    color: #9ca3af;
+    margin-bottom: 35px;
 }
 
 
 /* =========================================
-   CURRENT
+   REWARD SUMMARY GRID
 ========================================= */
 
-.pass-tier.current {
+.rewards-grid {
+    display: grid;
 
-    border-color: #6366f1;
+    grid-template-columns:
+        repeat(2, 1fr);
 
-    background: #eef2ff;
+    gap: 25px;
+}
 
-    transform: scale(1.02);
+
+/* =========================================
+   SUMMARY CARD
+========================================= */
+
+.reward-summary-card {
+    position: relative;
+
+    background: white;
+
+    border-radius: 28px;
+
+    padding: 30px;
+
+    min-height: 150px;
 
     box-shadow:
-        0 8px 25px rgba(99,102,241,.18);
+        0 12px 30px rgba(0,0,0,.08);
+
+    overflow: hidden;
 }
 
+.reward-summary-card h3 {
+    margin-bottom: 8px;
 
-.pass-tier.current .tier-number {
-
-    background: #6366f1;
-
-    color: white;
+    font-size: 23px;
 }
 
+.reward-summary-card p {
+    color: #6b7280;
 
-.reward-current {
+    margin: 0;
+}
 
-    border-color: #6366f1;
+.reward-tier {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 7px 13px;
+
+    border-radius: 12px;
 
     background: #eef2ff;
 
     color: #4f46e5;
+
+    font-weight: 900;
 }
 
 
 /* =========================================
-   COMPLETED
+   CLAIMED SUMMARY
 ========================================= */
 
-.pass-tier.completed {
-
-    border-color: #86efac;
-
-    background: #f0fdf4;
-}
-
-
-.pass-tier.completed .tier-number {
-
-    background: #22c55e;
-
-    color: white;
-}
-
-
-.pass-tier.completed .tier-number::after {
-
-    content: "✓";
-
-    font-size: 20px;
-}
-
-
-.pass-tier.completed .tier-number {
-
-    font-size: 0;
-}
-
-
-.reward-unlocked {
-
-    border-color: #86efac;
-
-    background: #f0fdf4;
-
-    color: #15803d;
+.reward-summary-card.claimed {
+    border: 3px solid #22c55e;
 }
 
 
 /* =========================================
-   BIG REWARD TIERS
+   SUMMARY CHECK
 ========================================= */
 
-.pass-tier:has(.tier-reward) {
+.reward-summary-card .reward-check {
+    font-size: 65px;
 
-    min-height: 125px;
-
-    border-width: 3px;
-}
-
-
-.pass-tier:has(.tier-reward) .tier-number {
-
-    width: 75px;
-
-    height: 75px;
-
-    font-size: 26px;
-}
-
-
-.pass-tier:has(.tier-reward) .tier-reward {
-
-    min-width: 280px;
-
-    padding: 16px 22px;
-}
-
-
-.pass-tier:has(.tier-reward) .reward-icon {
-
-    font-size: 38px;
-}
-
-
-/* =========================================
-   HOVER
-========================================= */
-
-.pass-tier:hover {
-
-    transform:
-        translateX(5px);
-}
-
-
-.pass-tier.current:hover {
-
-    transform:
-        translateX(5px)
-        scale(1.02);
-}
-
-
-/* =========================================
-   INFO CARDS
-========================================= */
-
-.pass-info {
-
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 25px;
-
-    margin-top: 40px;
-}
-
-
-.pass-info .feature-card {
-
-    width: 280px;
-
-    min-height: 180px;
-}
-
-
-/* =========================================
-   BACK BUTTON
-========================================= */
-
-.pass-back {
-
-    text-align: center;
-
-    margin-top: 40px;
+    right: 20px;
 }
 
 
@@ -555,135 +473,49 @@
    MOBILE
 ========================================= */
 
-@media(max-width:700px) {
+@media (max-width: 700px) {
 
-    .pass-summary {
-
-        flex-direction: column;
-
-        gap: 20px;
-
-        text-align: center;
+    .pass-header h1 {
+        font-size: 38px;
     }
-
-
-    .pass-xp {
-
-        width: 100%;
-    }
-
-
-    .pass-xp-top {
-
-        flex-direction: column;
-
-        gap: 5px;
-    }
-
-
-    .pass-track-section {
-
-        padding: 20px 12px;
-    }
-
-
-    .pass-track::before {
-
-        left: 37px;
-    }
-
 
     .pass-tier {
+        padding: 18px;
 
-        gap: 12px;
-
-        padding-right: 10px;
+        min-height: 105px;
     }
 
-
     .tier-number {
-
         width: 55px;
-
         height: 55px;
 
-        margin-left: 5px;
+        font-size: 20px;
 
-        font-size: 18px;
+        margin-right: 15px;
     }
-
 
     .tier-reward {
+        padding: 15px;
 
-        min-width: 0;
-
-        width: 100%;
-
-        padding: 10px;
-
+        gap: 12px;
     }
-
-
-    .pass-tier:has(.tier-reward) .tier-reward {
-
-        min-width: 0;
-
-    }
-
 
     .tier-reward strong {
-
-        font-size: 14px;
+        font-size: 16px;
     }
 
+    .claim-button {
+        padding: 10px 14px;
 
-    .reward-icon {
-
-        font-size: 27px;
+        font-size: 12px;
     }
 
-}
-
-
-/* =========================================
-   SMALL MOBILE
-========================================= */
-
-@media(max-width:450px) {
-
-    .pass-tier {
-
-        min-height: 90px;
-
-        gap: 8px;
-
+    .reward-check {
+        font-size: 55px;
     }
 
-
-    .tier-number {
-
-        width: 48px;
-
-        height: 48px;
-
-        border-width: 3px;
-
-    }
-
-
-    .tier-empty {
-
-        font-size: 13px;
-    }
-
-
-    .tier-reward {
-
-        gap: 8px;
-
-        border-radius: 13px;
-
+    .rewards-grid {
+        grid-template-columns: 1fr;
     }
 
 }
-```
