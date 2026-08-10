@@ -1,95 +1,14 @@
 /* =========================================
-   STUDYSPRINT - STUDYPASS
+   STUDYSPRINT STUDYPASS
 ========================================= */
 
-const TOTAL_TIERS = 50;
-const XP_PER_TIER = 100;
+const PASS_XP_KEY = "studyPassXP";
+const PASS_MONTH_KEY = "studyPassMonth";
+const CLAIMED_KEY = "studyPassClaimed";
 
 
 /* =========================================
-   AUGUST 2026 REWARDS
-========================================= */
-
-const rewards = {
-
-    5: {
-        type: "coins",
-        amount: 250,
-        name: "250 Coins",
-        icon: "coin"
-    },
-
-    10: {
-        type: "ticket",
-        amount: 1,
-        name: "Shop Ticket",
-        icon: "ticket"
-    },
-
-    15: {
-        type: "coins",
-        amount: 250,
-        name: "250 Coins",
-        icon: "coin"
-    },
-
-    20: {
-        type: "streakFreeze",
-        amount: 1,
-        name: "Streak Freeze",
-        icon: "freeze"
-    },
-
-    25: {
-        type: "ticket",
-        amount: 1,
-        name: "Shop Ticket",
-        icon: "ticket"
-    },
-
-    30: {
-        type: "cosmetic",
-        cosmeticType: "banner",
-        cosmeticId: "sprint-grid",
-        name: "Sprint Grid Banner",
-        icon: "banner"
-    },
-
-    35: {
-        type: "cosmetic",
-        cosmeticType: "shirt",
-        cosmeticId: "sprint-blue",
-        name: "Sprint Blue Shirt",
-        icon: "shirt"
-    },
-
-    40: {
-        type: "cosmetic",
-        cosmeticType: "hat",
-        cosmeticId: "sprint-cap",
-        name: "Sprint Cap",
-        icon: "hat"
-    },
-
-    45: {
-        type: "ticket",
-        amount: 1,
-        name: "Shop Ticket",
-        icon: "ticket"
-    },
-
-    50: {
-        type: "title",
-        titleId: "sprint-champion",
-        name: "Sprint Champion",
-        icon: "title"
-    }
-
-};
-
-
-/* =========================================
-   MONTH
+   CURRENT MONTH
 ========================================= */
 
 function getCurrentMonth() {
@@ -107,25 +26,33 @@ function getCurrentMonth() {
 }
 
 
-const currentMonth = getCurrentMonth();
-
-
 /* =========================================
-   LOAD PASS DATA
+   PASS DATA
 ========================================= */
+
+const currentMonth =
+    getCurrentMonth();
 
 let savedMonth =
     localStorage.getItem(
-        "studyPassMonth"
+        PASS_MONTH_KEY
     );
 
 
 let passXP =
     Number(
         localStorage.getItem(
-            "studyPassXP"
+            PASS_XP_KEY
         )
     ) || 0;
+
+
+let claimedRewards =
+    JSON.parse(
+        localStorage.getItem(
+            CLAIMED_KEY
+        )
+    ) || [];
 
 
 /* =========================================
@@ -138,13 +65,20 @@ if (
 
     passXP = 0;
 
+    claimedRewards = [];
+
     localStorage.setItem(
-        "studyPassXP",
+        PASS_XP_KEY,
         "0"
     );
 
     localStorage.setItem(
-        "studyPassMonth",
+        CLAIMED_KEY,
+        JSON.stringify([])
+    );
+
+    localStorage.setItem(
+        PASS_MONTH_KEY,
         currentMonth
     );
 
@@ -152,94 +86,108 @@ if (
 
 
 /* =========================================
-   CLAIMED REWARDS
+   PASS SETTINGS
 ========================================= */
 
-let claimedRewards =
-    JSON.parse(
-        localStorage.getItem(
-            "studyPassClaimed"
-        )
-    ) || [];
+const MAX_TIER = 50;
+
+const XP_PER_TIER = 100;
+
+const MAX_XP =
+    MAX_TIER *
+    XP_PER_TIER;
 
 
 /* =========================================
-   SAVE CLAIMED REWARDS
+   REWARDS
 ========================================= */
 
-function saveClaimedRewards() {
+const rewards = {
 
-    localStorage.setItem(
-        "studyPassClaimed",
-        JSON.stringify(
-            claimedRewards
-        )
-    );
+    5: {
+        id:"coins-250-1",
+        type:"coins",
+        amount:250,
+        name:"250 Coins"
+    },
 
-}
+    10: {
+        id:"streak-freeze",
+        type:"streakFreeze",
+        amount:1,
+        name:"Streak Freeze"
+    },
 
+    15: {
+        id:"shop-ticket-1",
+        type:"shopTicket",
+        amount:1,
+        name:"Shop Ticket"
+    },
 
-/* =========================================
-   INVENTORY HELPERS
-========================================= */
+    20: {
+        id:"sprint-banner",
+        type:"banner",
+        value:"sprint-grid",
+        name:"Sprint Grid Banner"
+    },
 
-function getNumber(key) {
+    25: {
+        id:"coins-250-2",
+        type:"coins",
+        amount:250,
+        name:"250 Coins"
+    },
 
-    return Number(
-        localStorage.getItem(key)
-    ) || 0;
+    30: {
+        id:"shop-ticket-2",
+        type:"shopTicket",
+        amount:1,
+        name:"Shop Ticket"
+    },
 
-}
+    35: {
+        id:"sprint-cap",
+        type:"hat",
+        value:"sprint-cap",
+        name:"Sprint Cap"
+    },
 
+    40: {
+        id:"shop-ticket-3",
+        type:"shopTicket",
+        amount:1,
+        name:"Shop Ticket"
+    },
 
-function setNumber(key, value) {
+    45: {
+        id:"sprint-shirt",
+        type:"shirt",
+        value:"sprint-blue",
+        name:"Sprint Blue Shirt"
+    },
 
-    localStorage.setItem(
-        key,
-        String(value)
-    );
-
-}
-
-
-/* =========================================
-   ADD COSMETIC TO INVENTORY
-========================================= */
-
-function addUnlockedCosmetic(
-    cosmeticType,
-    cosmeticId
-) {
-
-    const key =
-        "unlocked_" +
-        cosmeticType +
-        "s";
-
-
-    let unlocked =
-        JSON.parse(
-            localStorage.getItem(key)
-        ) || [];
-
-
-    if (
-        !unlocked.includes(
-            cosmeticId
-        )
-    ) {
-
-        unlocked.push(
-            cosmeticId
-        );
-
+    50: {
+        id:"sprint-champion",
+        type:"title",
+        value:"sprint-champion",
+        name:"Sprint Champion"
     }
 
+};
 
-    localStorage.setItem(
-        key,
-        JSON.stringify(
-            unlocked
+
+/* =========================================
+   GET TIER
+========================================= */
+
+function getCurrentTier() {
+
+    return Math.min(
+        MAX_TIER,
+        Math.floor(
+            passXP /
+            XP_PER_TIER
         )
     );
 
@@ -247,40 +195,28 @@ function addUnlockedCosmetic(
 
 
 /* =========================================
-   ADD TITLE TO INVENTORY
+   ADD PASS XP
 ========================================= */
 
-function addUnlockedTitle(
-    titleId
-) {
+function addStudyPassXP(amount) {
 
-    let titles =
-        JSON.parse(
-            localStorage.getItem(
-                "unlockedTitles"
-            )
-        ) || [];
+    amount =
+        Number(amount) || 0;
 
-
-    if (
-        !titles.includes(
-            titleId
-        )
-    ) {
-
-        titles.push(
-            titleId
+    passXP =
+        Math.min(
+            MAX_XP,
+            passXP + amount
         );
-
-    }
 
 
     localStorage.setItem(
-        "unlockedTitles",
-        JSON.stringify(
-            titles
-        )
+        PASS_XP_KEY,
+        passXP.toString()
     );
+
+
+    updatePass();
 
 }
 
@@ -291,6 +227,10 @@ function addUnlockedTitle(
 
 function claimReward(tier) {
 
+    tier =
+        Number(tier);
+
+
     const reward =
         rewards[tier];
 
@@ -300,40 +240,30 @@ function claimReward(tier) {
     }
 
 
-    /* =========================
-       CHECK TIER
-    ========================= */
-
-    const currentTier =
-        getCurrentTier();
-
-
     if (
-        currentTier <
+        getCurrentTier() <
         tier
     ) {
 
         return;
+
     }
 
 
-    /* =========================
-       ALREADY CLAIMED
-    ========================= */
-
     if (
         claimedRewards.includes(
-            tier
+            reward.id
         )
     ) {
 
         return;
+
     }
 
 
-    /* =========================
-       GIVE REWARD
-    ========================= */
+    /* =====================================
+       COINS
+    ===================================== */
 
     if (
         reward.type ===
@@ -341,507 +271,163 @@ function claimReward(tier) {
     ) {
 
         const coins =
-            getNumber(
-                "coins"
-            );
+            Number(
+                localStorage.getItem(
+                    "coins"
+                )
+            ) || 0;
 
 
-        setNumber(
+        localStorage.setItem(
             "coins",
-            coins +
-            reward.amount
+            (
+                coins +
+                reward.amount
+            ).toString()
         );
 
     }
 
 
-    else if (
-        reward.type ===
-        "ticket"
-    ) {
+    /* =====================================
+       STREAK FREEZE
+    ===================================== */
 
-        const tickets =
-            getNumber(
-                "shopTickets"
-            );
-
-
-        setNumber(
-            "shopTickets",
-            tickets +
-            reward.amount
-        );
-
-    }
-
-
-    else if (
+    if (
         reward.type ===
         "streakFreeze"
     ) {
 
         const freezes =
-            getNumber(
-                "streakFreezes"
-            );
+            Number(
+                localStorage.getItem(
+                    "streakFreezes"
+                )
+            ) || 0;
 
 
-        setNumber(
+        localStorage.setItem(
             "streakFreezes",
-            freezes +
-            reward.amount
+            (
+                freezes +
+                reward.amount
+            ).toString()
         );
 
     }
 
 
-    else if (
+    /* =====================================
+       SHOP TICKET
+    ===================================== */
+
+    if (
         reward.type ===
-        "cosmetic"
+        "shopTicket"
     ) {
 
-        addUnlockedCosmetic(
-            reward.cosmeticType,
-            reward.cosmeticId
+        const tickets =
+            Number(
+                localStorage.getItem(
+                    "shopTickets"
+                )
+            ) || 0;
+
+
+        localStorage.setItem(
+            "shopTickets",
+            (
+                tickets +
+                reward.amount
+            ).toString()
         );
 
     }
 
 
-    else if (
+    /* =====================================
+       COSMETICS
+    ===================================== */
+
+    if (
         reward.type ===
-        "title"
-    ) {
-
-        addUnlockedTitle(
-            reward.titleId
-        );
-
-    }
-
-
-    /* =========================
-       MARK CLAIMED
-    ========================= */
-
-    claimedRewards.push(
-        tier
-    );
-
-
-    saveClaimedRewards();
-
-
-    /* =========================
-       REDRAW
-    ========================= */
-
-    createPass();
-
-}
-
-
-/* =========================================
-   CURRENT TIER
-========================================= */
-
-function getCurrentTier() {
-
-    let tier =
-        Math.floor(
-            passXP /
-            XP_PER_TIER
-        ) + 1;
-
-
-    if (
-        tier > TOTAL_TIERS
-    ) {
-
-        tier =
-            TOTAL_TIERS;
-
-    }
-
-
-    return tier;
-
-}
-
-
-/* =========================================
-   XP IN CURRENT TIER
-========================================= */
-
-function getTierXP() {
-
-    const maximumXP =
-        TOTAL_TIERS *
-        XP_PER_TIER;
-
-
-    if (
-        passXP >=
-        maximumXP
-    ) {
-
-        return XP_PER_TIER;
-
-    }
-
-
-    return (
-        passXP %
-        XP_PER_TIER
-    );
-
-}
-
-
-/* =========================================
-   REWARD ICON
-========================================= */
-
-function getRewardIcon(type) {
-
-    if (
-        type ===
-        "coin"
-    ) {
-
-        return "🪙";
-
-    }
-
-
-    if (
-        type ===
-        "ticket"
-    ) {
-
-        return "🎟️";
-
-    }
-
-
-    if (
-        type ===
-        "freeze"
-    ) {
-
-        return "❄";
-
-    }
-
-
-    if (
-        type ===
-        "banner"
-    ) {
-
-        return "◆";
-
-    }
-
-
-    if (
-        type ===
         "shirt"
     ) {
 
-        return "■";
+        unlockItem(
+            "unlocked_shirts",
+            reward.value
+        );
 
     }
 
 
     if (
-        type ===
+        reward.type ===
         "hat"
     ) {
 
-        return "▲";
+        unlockItem(
+            "unlocked_hats",
+            reward.value
+        );
 
     }
 
 
     if (
-        type ===
+        reward.type ===
+        "banner"
+    ) {
+
+        unlockItem(
+            "unlocked_banners",
+            reward.value
+        );
+
+    }
+
+
+    if (
+        reward.type ===
         "title"
     ) {
 
-        return "★";
-
-    }
-
-
-    return "";
-
-}
-
-
-/* =========================================
-   CREATE PASS
-========================================= */
-
-function createPass() {
-
-    const track =
-        document.getElementById(
-            "pass-track"
+        unlockItem(
+            "unlockedTitles",
+            reward.value
         );
 
-
-    if (!track) {
-        return;
     }
 
 
-    track.innerHTML = "";
+    /* =====================================
+       MARK CLAIMED
+    ===================================== */
+
+    claimedRewards.push(
+        reward.id
+    );
 
 
-    const currentTier =
-        getCurrentTier();
+    localStorage.setItem(
+        CLAIMED_KEY,
+        JSON.stringify(
+            claimedRewards
+        )
+    );
 
 
-    for (
-        let tier = 1;
-        tier <= TOTAL_TIERS;
-        tier++
+    updatePass();
+
+
+    if (
+        typeof window.showRewardClaimed ===
+        "function"
     ) {
 
-        const tierCard =
-            document.createElement(
-                "div"
-            );
-
-
-        tierCard.className =
-            "pass-tier";
-
-
-        /* =========================
-           TIER STATE
-        ========================= */
-
-        if (
-            tier <
-            currentTier
-        ) {
-
-            tierCard.classList.add(
-                "completed"
-            );
-
-        }
-
-        else if (
-            tier ===
-            currentTier
-        ) {
-
-            tierCard.classList.add(
-                "current"
-            );
-
-        }
-
-        else {
-
-            tierCard.classList.add(
-                "locked"
-            );
-
-        }
-
-
-        /* =========================
-           TIER NUMBER
-        ========================= */
-
-        const number =
-            document.createElement(
-                "div"
-            );
-
-
-        number.className =
-            "tier-number";
-
-
-        number.textContent =
-            tier;
-
-
-        tierCard.appendChild(
-            number
-        );
-
-
-        /* =========================
-           REWARD
-        ========================= */
-
-        if (
-            rewards[tier]
-        ) {
-
-            const reward =
-                rewards[tier];
-
-
-            const rewardBox =
-                document.createElement(
-                    "div"
-                );
-
-
-            rewardBox.className =
-                "tier-reward";
-
-
-            rewardBox.innerHTML = `
-
-                <div class="reward-icon">
-
-                    ${getRewardIcon(
-                        reward.icon
-                    )}
-
-                </div>
-
-                <strong>
-
-                    ${reward.name}
-
-                </strong>
-
-            `;
-
-
-            /* =========================
-               REWARD STATUS
-            ========================= */
-
-            const isUnlocked =
-                currentTier >= tier;
-
-
-            const isClaimed =
-                claimedRewards.includes(
-                    tier
-                );
-
-
-            if (
-                isClaimed
-            ) {
-
-                rewardBox.classList.add(
-                    "reward-unlocked"
-                );
-
-
-                const check =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                check.className =
-                    "reward-check";
-
-
-                check.textContent =
-                    "✓";
-
-
-                rewardBox.appendChild(
-                    check
-                );
-
-            }
-
-
-            else if (
-                isUnlocked
-            ) {
-
-                rewardBox.classList.add(
-                    "reward-current"
-                );
-
-
-                const claimButton =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                claimButton.className =
-                    "claim-button";
-
-
-                claimButton.textContent =
-                    "CLAIM";
-
-
-                claimButton.onclick =
-                    function() {
-
-                        claimReward(
-                            tier
-                        );
-
-                    };
-
-
-                rewardBox.appendChild(
-                    claimButton
-                );
-
-            }
-
-
-            else {
-
-                rewardBox.classList.add(
-                    "reward-locked"
-                );
-
-            }
-
-
-            tierCard.appendChild(
-                rewardBox
-            );
-
-        }
-
-        else {
-
-            const emptyReward =
-                document.createElement(
-                    "div"
-                );
-
-
-            emptyReward.className =
-                "tier-empty";
-
-
-            emptyReward.textContent =
-                "Keep going!";
-
-
-            tierCard.appendChild(
-                emptyReward
-            );
-
-        }
-
-
-        track.appendChild(
-            tierCard
+        window.showRewardClaimed(
+            reward.name
         );
 
     }
@@ -850,161 +436,241 @@ function createPass() {
 
 
 /* =========================================
-   PASS SUMMARY
+   UNLOCK ITEM
 ========================================= */
 
-function updatePassSummary() {
+function unlockItem(
+    storageKey,
+    value
+) {
 
-    const currentTier =
+    let items =
+        JSON.parse(
+            localStorage.getItem(
+                storageKey
+            )
+        ) || [];
+
+
+    if (
+        !items.includes(
+            value
+        )
+    ) {
+
+        items.push(
+            value
+        );
+
+    }
+
+
+    localStorage.setItem(
+        storageKey,
+        JSON.stringify(
+            items
+        )
+    );
+
+}
+
+
+/* =========================================
+   CHECK CLAIMED
+========================================= */
+
+function isRewardClaimed(
+    tier
+) {
+
+    const reward =
+        rewards[tier];
+
+
+    if (!reward) {
+        return false;
+    }
+
+
+    return claimedRewards.includes(
+        reward.id
+    );
+
+}
+
+
+/* =========================================
+   UPDATE PASS
+========================================= */
+
+function updatePass() {
+
+    const tier =
         getCurrentTier();
 
 
-    const tierXP =
-        getTierXP();
+    const progress =
+        passXP %
+        XP_PER_TIER;
 
 
-    const tierElement =
-        document.getElementById(
-            "current-tier"
+    const progressPercent =
+        Math.min(
+            100,
+            (
+                progress /
+                XP_PER_TIER
+            ) * 100
         );
 
 
     const xpText =
         document.getElementById(
-            "pass-xp-text"
+            "pass-xp"
+        );
+
+
+    const tierText =
+        document.getElementById(
+            "pass-tier"
         );
 
 
     const progressBar =
         document.getElementById(
-            "pass-progress-bar"
+            "pass-progress"
         );
 
 
-    if (
-        tierElement
-    ) {
+    if (xpText) {
 
-        tierElement.textContent =
-            currentTier;
-
-    }
-
-
-    if (
-        xpText
-    ) {
-
-        if (
-            passXP >=
-            TOTAL_TIERS *
-            XP_PER_TIER
-        ) {
-
-            xpText.textContent =
-                "MAXED";
-
-        }
-
-        else {
-
-            xpText.textContent =
-                tierXP +
-                " / " +
-                XP_PER_TIER +
-                " XP";
-
-        }
+        xpText.textContent =
+            passXP +
+            " / " +
+            MAX_XP +
+            " XP";
 
     }
 
 
-    if (
-        progressBar
-    ) {
+    if (tierText) {
 
-        const progress =
-            (
-                tierXP /
-                XP_PER_TIER
-            ) * 100;
+        tierText.textContent =
+            "Tier " +
+            tier;
 
+    }
+
+
+    if (progressBar) {
 
         progressBar.style.width =
-            progress + "%";
+            progressPercent +
+            "%";
 
     }
+
+
+    Object.keys(
+        rewards
+    ).forEach(
+        function(tierNumber) {
+
+            const tierValue =
+                Number(
+                    tierNumber
+                );
+
+
+            const button =
+                document.querySelector(
+                    `[data-reward-tier="${tierValue}"]`
+                );
+
+
+            if (!button) {
+                return;
+            }
+
+
+            if (
+                isRewardClaimed(
+                    tierValue
+                )
+            ) {
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "CLAIMED";
+
+                button.classList.add(
+                    "claimed"
+                );
+
+            }
+
+            else if (
+                tier >=
+                tierValue
+            ) {
+
+                button.disabled =
+                    false;
+
+                button.textContent =
+                    "CLAIM";
+
+                button.classList.add(
+                    "available"
+                );
+
+            }
+
+            else {
+
+                button.disabled =
+                    true;
+
+                button.textContent =
+                    "LOCKED";
+
+                button.classList.remove(
+                    "available"
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
 /* =========================================
-   ADD PASS XP
+   MAKE FUNCTIONS AVAILABLE
 ========================================= */
 
-function addPassXP(amount) {
+window.addStudyPassXP =
+    addStudyPassXP;
 
-    amount =
-        Number(amount);
+window.claimReward =
+    claimReward;
 
-
-    if (
-        isNaN(amount) ||
-        amount <= 0
-    ) {
-
-        return;
-    }
-
-
-    passXP += amount;
-
-
-    const maximumXP =
-        TOTAL_TIERS *
-        XP_PER_TIER;
-
-
-    if (
-        passXP >
-        maximumXP
-    ) {
-
-        passXP =
-            maximumXP;
-
-    }
-
-
-    localStorage.setItem(
-        "studyPassXP",
-        passXP
-    );
-
-
-    localStorage.setItem(
-        "studyPassMonth",
-        currentMonth
-    );
-
-
-    updatePassSummary();
-
-    createPass();
-
-}
+window.updatePass =
+    updatePass;
 
 
 /* =========================================
    START
 ========================================= */
 
-localStorage.setItem(
-    "studyPassMonth",
-    currentMonth
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        updatePass();
+
+    }
 );
-
-
-updatePassSummary();
-
-createPass();
