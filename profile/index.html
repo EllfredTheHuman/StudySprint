@@ -10,9 +10,107 @@
 <title>Profile | StudySprint</title>
 
 <link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="character.css">
 
 <style>
+
+/* =============================
+PROFILE BANNER
+============================= */
+
+.profile-banner-link {
+
+    display: block;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    width: 850px;
+
+    max-width: 90%;
+
+    margin: 40px auto;
+
+}
+
+
+.profile-banner {
+
+    position: relative;
+
+    min-height: 230px;
+
+    border-radius: 35px;
+
+    padding: 35px 45px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.12);
+
+    transition: .25s;
+
+}
+
+
+.profile-banner:hover {
+
+    transform: translateY(-6px) scale(1.01);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.17);
+
+}
+
+
+.profile-banner-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    text-align: left;
+
+    padding-left: 180px;
+
+}
+
+
+.profile-banner-username {
+
+    font-size: 38px;
+
+    font-weight: 900;
+
+    margin-bottom: 8px;
+
+}
+
+
+.profile-banner-tag {
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    opacity: .8;
+
+}
+
+
+.profile-banner-title {
+
+    margin-top: 35px;
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    opacity: .75;
+
+}
+
 
 /* =============================
 PROFILE CHARACTER
@@ -20,245 +118,363 @@ PROFILE CHARACTER
 
 .profile-character {
 
-    display:flex;
+    position: absolute;
 
-    justify-content:center;
+    left: 35px;
 
-    padding:20px 20px 40px;
+    bottom: 0;
 
-}
+    width: 150px;
 
-
-.profile-banner-link {
-
-    text-decoration:none;
-
-    color:inherit;
-
-    width:700px;
-
-    max-width:90%;
+    height: 190px;
 
 }
 
 
-.profile-banner {
+/* head */
 
-    min-height:220px;
+.profile-head {
 
-    padding:30px 45px;
+    position: absolute;
 
-    border-radius:45px;
+    width: 85px;
+
+    height: 85px;
+
+    border-radius: 50%;
+
+    left: 32px;
+
+    top: 15px;
+
+}
+
+
+/* hair */
+
+.profile-hair {
+
+    position: absolute;
+
+    width: 90px;
+
+    height: 42px;
+
+    border-radius: 50px 50px 15px 15px;
+
+    left: 29px;
+
+    top: 7px;
+
+    z-index: 2;
+
+}
+
+
+/* body */
+
+.profile-body {
+
+    position: absolute;
+
+    width: 80px;
+
+    height: 95px;
+
+    border-radius: 40px 40px 25px 25px;
+
+    left: 35px;
+
+    top: 88px;
+
+}
+
+
+/* legs */
+
+.profile-leg {
+
+    position: absolute;
+
+    width: 25px;
+
+    height: 55px;
+
+    border-radius: 20px;
+
+    top: 165px;
+
+}
+
+
+.profile-leg-left {
+
+    left: 48px;
+
+}
+
+
+.profile-leg-right {
+
+    left: 78px;
+
+}
+
+
+/* eyes */
+
+.profile-eye {
+
+    position: absolute;
+
+    width: 9px;
+
+    height: 13px;
+
+    border-radius: 50%;
+
+    background: #1f2937;
+
+    top: 60px;
+
+    z-index: 3;
+
+}
+
+
+.profile-eye-left {
+
+    left: 55px;
+
+}
+
+
+.profile-eye-right {
+
+    left: 88px;
+
+}
+
+
+/* hat */
+
+.profile-hat {
+
+    position: absolute;
+
+    z-index: 5;
+
+    left: 48px;
+
+    top: -5px;
+
+    font-size: 45px;
+
+}
+
+
+/* backpack */
+
+.profile-backpack {
+
+    position: absolute;
+
+    z-index: 1;
+
+    left: 0;
+
+    top: 95px;
+
+    font-size: 55px;
+
+}
+
+
+/* =============================
+BANNER COLOURS
+============================= */
+
+.banner-purple {
 
     background:
         linear-gradient(
             135deg,
-            #6366f1,
-            #818cf8
+            #8b5cf6,
+            #6366f1
         );
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:50px;
-
-    box-shadow:
-        0 20px 45px rgba(0,0,0,.15);
-
-    transition:.25s;
-
-    cursor:pointer;
+    color: white;
 
 }
 
 
-.profile-banner:hover {
+.banner-blue {
+
+    background:
+        linear-gradient(
+            135deg,
+            #38bdf8,
+            #2563eb
+        );
+
+    color: white;
+
+}
+
+
+.banner-green {
+
+    background:
+        linear-gradient(
+            135deg,
+            #34d399,
+            #16a34a
+        );
+
+    color: white;
+
+}
+
+
+/* =============================
+STREAK
+============================= */
+
+.streak-section {
+
+    text-align: center;
+
+}
+
+
+.streak-fire-number {
+
+    position: relative;
+
+    display: inline-block;
+
+    font-size: 130px;
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    margin: 20px 0;
+
+    background:
+
+        linear-gradient(
+
+            to top,
+
+            #ff4500 0%,
+
+            #ff7300 35%,
+
+            #ffb000 65%,
+
+            #ffe066 100%
+
+        );
+
+    -webkit-background-clip: text;
+
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    -webkit-text-stroke: 4px #8b2500;
+
+    text-shadow:
+
+        0 0 10px #ff4500,
+
+        0 0 20px #ff7300,
+
+        0 0 35px #ffb000;
+
+}
+
+
+.streak-fire-number::before,
+
+.streak-fire-number::after {
+
+    content: "🔥";
+
+    position: absolute;
+
+    font-size: 45px;
+
+    -webkit-text-fill-color: initial;
+
+    -webkit-text-stroke: 0;
+
+    filter:
+        drop-shadow(
+            0 0 8px #ff7300
+        );
+
+}
+
+
+.streak-fire-number::before {
+
+    top: -25px;
+
+    left: -35px;
 
     transform:
-        translateY(-8px)
-        scale(1.02);
+        rotate(-20deg);
 
-    box-shadow:
-        0 25px 55px rgba(0,0,0,.2);
+}
+
+
+.streak-fire-number::after {
+
+    top: -30px;
+
+    right: -35px;
+
+    transform:
+        rotate(20deg);
+
+}
+
+
+.streak-label {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    margin-top: 0;
+
+}
+
+
+.streak-message {
+
+    margin-top: 10px;
 
 }
 
 
 /* =============================
-PROFILE CHARACTER
+CHARACTER CLICK MESSAGE
 ============================= */
 
-.profile-character-preview {
+.customise-message {
 
-    position:relative;
+    text-align: center;
 
-    width:150px;
+    color: #6b7280;
 
-    height:190px;
+    font-weight: 700;
 
-    flex-shrink:0;
+    margin-top: -25px;
 
-}
-
-
-/* HEAD */
-
-.profile-head {
-
-    position:absolute;
-
-    width:100px;
-
-    height:100px;
-
-    left:25px;
-
-    top:10px;
-
-    background:#ffd1a4;
-
-    border-radius:50%;
-
-}
-
-
-/* EYES */
-
-.profile-head::before,
-.profile-head::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:12px;
-
-    height:17px;
-
-    background:#1f2937;
-
-    border-radius:50%;
-
-    top:40px;
-
-}
-
-
-.profile-head::before {
-
-    left:25px;
-
-}
-
-
-.profile-head::after {
-
-    right:25px;
-
-}
-
-
-/* BODY */
-
-.profile-body {
-
-    position:absolute;
-
-    width:110px;
-
-    height:80px;
-
-    left:20px;
-
-    top:105px;
-
-    background:#6366f1;
-
-    border-radius:
-        35px
-        35px
-        25px
-        25px;
-
-}
-
-
-/* PANTS */
-
-.profile-pants {
-
-    position:absolute;
-
-    width:95px;
-
-    height:50px;
-
-    left:27px;
-
-    top:165px;
-
-    background:#374151;
-
-    border-radius:25px;
-
-}
-
-
-/* =============================
-IDENTITY
-============================= */
-
-.profile-identity {
-
-    color:white;
-
-    text-align:left;
-
-}
-
-
-.profile-identity h2 {
-
-    font-size:34px;
-
-    margin:0 0 8px;
-
-    font-weight:900;
-
-}
-
-
-.profile-identity p {
-
-    font-size:20px;
-
-    margin:0;
-
-    opacity:.9;
-
-}
-
-
-@media(max-width:700px) {
-
-    .profile-banner {
-
-        flex-direction:column;
-
-        gap:10px;
-
-        text-align:center;
-
-    }
-
-    .profile-identity {
-
-        text-align:center;
-
-    }
+    margin-bottom: 30px;
 
 }
 
@@ -276,13 +492,21 @@ IDENTITY
 
 <nav>
 
-<a href="../index.html">Home</a>
+<a href="../index.html">
+Home
+</a>
 
-<a href="../study/index.html">📚 Study</a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-<a href="../sprint/index.html">🏃 Sprint</a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-<a href="index.html">👤 Profile</a>
+<a href="index.html">
+👤 Profile
+</a>
 
 </nav>
 
@@ -291,7 +515,7 @@ IDENTITY
 <main>
 
 <!-- =============================
-PROFILE INTRO
+PROFILE HEADER
 ============================= -->
 
 <section class="hero">
@@ -307,10 +531,8 @@ Track your learning progress!
 </section>
 
 <!-- =============================
-CHARACTER / PLAYER BANNER
+CHARACTER BANNER
 ============================= -->
-
-<section class="profile-character">
 
 <a
 href="character.html"
@@ -318,36 +540,92 @@ class="profile-banner-link"
 
 >
 
-<div class="profile-banner">
+<div
+class="profile-banner"
+id="profile-banner"
+>
 
-<div class="profile-character-preview">
+<div
+class="profile-character"
+>
+
+<div
+class="profile-backpack"
+id="profile-backpack"
+>
+</div>
 
 <div
 class="profile-head"
 id="profile-head"
-></div>
+>
+</div>
+
+<div
+class="profile-hair"
+id="profile-hair"
+>
+</div>
+
+<div
+class="profile-eye profile-eye-left"
+>
+</div>
+
+<div
+class="profile-eye profile-eye-right"
+>
+</div>
 
 <div
 class="profile-body"
 id="profile-body"
-></div>
+>
+</div>
 
 <div
-class="profile-pants"
-id="profile-pants"
-></div>
+class="profile-leg profile-leg-left"
+id="profile-leg-left"
+>
+</div>
+
+<div
+class="profile-leg profile-leg-right"
+id="profile-leg-right"
+>
+</div>
+
+<div
+class="profile-hat"
+id="profile-hat"
+>
+</div>
 
 </div>
 
-<div class="profile-identity">
+<div
+class="profile-banner-content"
+>
 
-<h2 id="profile-username">
+<div
+class="profile-banner-username"
+id="profile-username"
+>
 Player
-</h2>
+</div>
 
-<p id="profile-tag">
-New Squeezer
-</p>
+<div
+class="profile-banner-tag"
+id="profile-tag"
+>
+@Student
+</div>
+
+<div
+class="profile-banner-title"
+>
+StudySprint Student
+</div>
 
 </div>
 
@@ -355,10 +633,12 @@ New Squeezer
 
 </a>
 
-</section>
+<p class="customise-message">
+Click your character to customise them!
+</p>
 
 <!-- =============================
-MAIN PROFILE STATS
+MAIN STATS
 ============================= -->
 
 <section class="features">
@@ -415,9 +695,7 @@ STREAK
 class="streak-fire-number"
 id="streak"
 >
-
 0
-
 </div>
 
 <p class="streak-label">
@@ -428,9 +706,7 @@ DAY STREAK
 class="streak-message"
 id="streak-message"
 >
-
 Complete a Sprint every day to keep your streak alive!
-
 </p>
 
 </section>
@@ -456,15 +732,13 @@ id="xp-bar"
 </div>
 
 <p id="xp-text">
-
 0 / 100 XP to next level
-
 </p>
 
 </section>
 
 <!-- =============================
-OTHER PROFILE INFORMATION
+OTHER INFORMATION
 ============================= -->
 
 <section class="features">
@@ -476,9 +750,7 @@ OTHER PROFILE INFORMATION
 </h2>
 
 <p id="best-score">
-
 No quizzes completed yet.
-
 </p>
 
 </div>
@@ -490,9 +762,7 @@ No quizzes completed yet.
 </h2>
 
 <p id="best-streak">
-
 0 days
-
 </p>
 
 </div>
@@ -532,231 +802,43 @@ No quizzes completed yet.
 <script>
 
 
-// =============================
+// ========================================
 // GET SAVED DATA
-// =============================
+// ========================================
 
 let totalXP =
-
 Number(
     localStorage.getItem("XP")
 ) || 0;
 
 
 let quizzes =
-
 Number(
     localStorage.getItem("quizzes")
 ) || 0;
 
 
 let best =
-
 Number(
     localStorage.getItem("bestScore")
 ) || 0;
 
 
 let streak =
-
 Number(
     localStorage.getItem("streak")
 ) || 0;
 
 
 let bestStreak =
-
 Number(
     localStorage.getItem("bestStreak")
 ) || 0;
 
 
-// =============================
-// LOAD CHARACTER DATA
-// =============================
-
-let characterData =
-
-JSON.parse(
-    localStorage.getItem(
-        "characterData"
-    )
-) || {
-
-    skin:"light",
-
-    hair:"brown",
-
-    shirt:"blue",
-
-    pants:"black",
-
-    hat:"none",
-
-    backpack:"none",
-
-    banner:"purple",
-
-    username:"Player",
-
-    tag:"New Squeezer"
-
-};
-
-
-// =============================
-// CHARACTER DISPLAY
-// =============================
-
-document.getElementById(
-    "profile-username"
-).textContent =
-
-characterData.username;
-
-
-document.getElementById(
-    "profile-tag"
-).textContent =
-
-characterData.tag;
-
-
-// =============================
-// CHARACTER SKIN
-// =============================
-
-const profileHead =
-
-document.getElementById(
-    "profile-head"
-);
-
-
-if(characterData.skin === "light") {
-
-    profileHead.style.background =
-        "#ffd1a4";
-
-}
-
-else if(characterData.skin === "medium") {
-
-    profileHead.style.background =
-        "#c68642";
-
-}
-
-else {
-
-    profileHead.style.background =
-        "#6b4423";
-
-}
-
-
-// =============================
-// SHIRT
-// =============================
-
-const profileBody =
-
-document.getElementById(
-    "profile-body"
-);
-
-
-if(characterData.shirt === "blue") {
-
-    profileBody.style.background =
-        "#6366f1";
-
-}
-
-else if(characterData.shirt === "red") {
-
-    profileBody.style.background =
-        "#ef4444";
-
-}
-
-else {
-
-    profileBody.style.background =
-        "#22c55e";
-
-}
-
-
-// =============================
-// PANTS
-// =============================
-
-const profilePants =
-
-document.getElementById(
-    "profile-pants"
-);
-
-
-if(characterData.pants === "blue") {
-
-    profilePants.style.background =
-        "#2563eb";
-
-}
-
-else if(characterData.pants === "brown") {
-
-    profilePants.style.background =
-        "#92400e";
-
-}
-
-else {
-
-    profilePants.style.background =
-        "#374151";
-
-}
-
-
-// =============================
-// BANNER
-// =============================
-
-const profileBanner =
-
-document.querySelector(
-    ".profile-banner"
-);
-
-
-if(characterData.banner === "blue") {
-
-    profileBanner.style.background =
-        "linear-gradient(135deg,#2563eb,#60a5fa)";
-
-}
-
-else if(characterData.banner === "green") {
-
-    profileBanner.style.background =
-        "linear-gradient(135deg,#16a34a,#4ade80)";
-
-}
-
-else {
-
-    profileBanner.style.background =
-        "linear-gradient(135deg,#6366f1,#818cf8)";
-
-}
-
-
-// =============================
+// ========================================
 // LEVEL SYSTEM
-// =============================
+// ========================================
 
 let level = 1;
 
@@ -765,13 +847,11 @@ let remainingXP = totalXP;
 let requiredXP = 100;
 
 
-while(
-    remainingXP >=
-    requiredXP
+while (
+    remainingXP >= requiredXP
 ) {
 
-    remainingXP -=
-        requiredXP;
+    remainingXP -= requiredXP;
 
     level++;
 
@@ -788,89 +868,78 @@ while(
 
 
 let progress =
-
 Math.round(
-
     (
         remainingXP /
         requiredXP
     ) * 100
-
 );
 
 
-// =============================
-// DISPLAY PROFILE
-// =============================
+// ========================================
+// DISPLAY STATS
+// ========================================
 
 document.getElementById(
     "xp"
 ).textContent =
-
-totalXP;
+    totalXP;
 
 
 document.getElementById(
     "level"
 ).textContent =
-
-level;
+    level;
 
 
 document.getElementById(
     "quizzes"
 ).textContent =
+    quizzes;
 
-quizzes;
 
-
-// =============================
+// ========================================
 // STREAK
-// =============================
+// ========================================
 
 document.getElementById(
     "streak"
 ).textContent =
+    streak;
 
-streak;
 
-
-if(streak === 0) {
+if (streak === 0) {
 
     document.getElementById(
         "streak-message"
     ).textContent =
-
         "Complete a Sprint to start your streak!";
 
 }
 
-else if(streak === 1) {
+else if (streak === 1) {
 
     document.getElementById(
         "streak-message"
     ).textContent =
-
         "You've started your streak! Keep it going!";
 
 }
 
-else if(streak < 7) {
+else if (streak < 7) {
 
     document.getElementById(
         "streak-message"
     ).textContent =
-
         "🔥 Keep going! You're building a streak!";
 
 }
 
-else if(streak < 30) {
+else if (streak < 30) {
 
     document.getElementById(
         "streak-message"
     ).textContent =
-
         "🔥 You're on fire! Keep the streak alive!";
 
 }
@@ -880,46 +949,42 @@ else {
     document.getElementById(
         "streak-message"
     ).textContent =
-
         "🔥 INCREDIBLE STREAK!";
 
 }
 
 
-// =============================
+// ========================================
 // BEST SCORE
-// =============================
+// ========================================
 
-if(best > 0) {
+if (best > 0) {
 
     document.getElementById(
         "best-score"
     ).textContent =
-
         best + "%";
 
 }
 
 
-// =============================
+// ========================================
 // BEST STREAK
-// =============================
+// ========================================
 
 document.getElementById(
     "best-streak"
 ).textContent =
-
     bestStreak + " days";
 
 
-// =============================
+// ========================================
 // XP PROGRESS
-// =============================
+// ========================================
 
 document.getElementById(
     "xp-bar"
 ).style.width =
-
     progress + "%";
 
 
@@ -932,6 +997,240 @@ document.getElementById(
     requiredXP +
     " XP to next level";
 
+
+// ========================================
+// LOAD CHARACTER
+// ========================================
+
+let character = {
+
+    skin: "medium",
+
+    hair: "brown",
+
+    shirt: "blue",
+
+    pants: "black",
+
+    hat: "none",
+
+    backpack: "none",
+
+    banner: "purple",
+
+    username: ""
+
+};
+
+
+const savedCharacter =
+localStorage.getItem(
+    "character"
+);
+
+
+if (savedCharacter) {
+
+    try {
+
+        character =
+            JSON.parse(
+                savedCharacter
+            );
+
+    }
+
+    catch {
+
+        console.log(
+            "Could not load character."
+        );
+
+    }
+
+}
+
+
+// ========================================
+// CHARACTER COLOURS
+// ========================================
+
+const skinColours = {
+
+    light: "#f5c6a5",
+
+    medium: "#c68642",
+
+    dark: "#6d4428"
+
+};
+
+
+const hairColours = {
+
+    brown: "#6b3e26",
+
+    black: "#1f2937",
+
+    blonde: "#f5c542"
+
+};
+
+
+const shirtColours = {
+
+    blue: "#3b82f6",
+
+    red: "#ef4444",
+
+    green: "#22c55e"
+
+};
+
+
+const pantsColours = {
+
+    blue: "#2563eb",
+
+    black: "#1f2937",
+
+    brown: "#78350f"
+
+};
+
+
+// ========================================
+// APPLY CHARACTER
+// ========================================
+
+document.getElementById(
+    "profile-head"
+).style.background =
+    skinColours[
+        character.skin
+    ] || skinColours.medium;
+
+
+document.getElementById(
+    "profile-body"
+).style.background =
+    shirtColours[
+        character.shirt
+    ] || shirtColours.blue;
+
+
+document.getElementById(
+    "profile-hair"
+).style.background =
+    hairColours[
+        character.hair
+    ] || hairColours.brown;
+
+
+document.getElementById(
+    "profile-leg-left"
+).style.background =
+    pantsColours[
+        character.pants
+    ] || pantsColours.black;
+
+
+document.getElementById(
+    "profile-leg-right"
+).style.background =
+    pantsColours[
+        character.pants
+    ] || pantsColours.black;
+
+
+// ========================================
+// HAT
+// ========================================
+
+const hat =
+document.getElementById(
+    "profile-hat"
+);
+
+
+if (
+    character.hat === "cap"
+) {
+
+    hat.textContent = "🧢";
+
+}
+
+else if (
+    character.hat === "beanie"
+) {
+
+    hat.textContent = "🎩";
+
+}
+
+
+// ========================================
+// BACKPACK
+// ========================================
+
+const backpack =
+document.getElementById(
+    "profile-backpack"
+);
+
+
+if (
+    character.backpack === "blue"
+) {
+
+    backpack.textContent = "🎒";
+
+}
+
+else if (
+    character.backpack === "red"
+) {
+
+    backpack.textContent = "🎒";
+
+}
+
+
+// ========================================
+// BANNER
+// ========================================
+
+const banner =
+document.getElementById(
+    "profile-banner"
+);
+
+
+banner.classList.add(
+    "banner-" +
+    (
+        character.banner ||
+        "purple"
+    )
+);
+
+
+// ========================================
+// USERNAME
+// ========================================
+
+if (
+    character.username &&
+    character.username.trim() !== ""
+) {
+
+    document.getElementById(
+        "profile-username"
+    ).textContent =
+        character.username;
+
+}
 
 </script>
 
