@@ -1,0 +1,689 @@
+```css
+/* =========================================
+   STUDYPASS PAGE
+========================================= */
+
+.pass-page {
+
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    padding: 20px 20px 80px;
+}
+
+
+/* =========================================
+   PASS HEADER
+========================================= */
+
+.pass-header {
+
+    padding-top: 45px;
+
+    padding-bottom: 30px;
+}
+
+
+.pass-month {
+
+    display: inline-block;
+
+    margin-top: 5px;
+
+    padding: 10px 22px;
+
+    border-radius: 50px;
+
+    background: #6366f1;
+
+    color: white;
+
+    font-weight: 900;
+
+    font-size: 17px;
+
+}
+
+
+/* =========================================
+   PASS SUMMARY
+========================================= */
+
+.pass-summary {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+
+    margin-bottom: 45px;
+}
+
+
+.pass-level {
+
+    min-width: 120px;
+
+    text-align: center;
+}
+
+
+.pass-level span {
+
+    display: block;
+
+    color: #6b7280;
+
+    font-weight: 700;
+
+    margin-bottom: 5px;
+}
+
+
+.pass-level strong {
+
+    font-size: 50px;
+
+    font-weight: 900;
+
+    color: #6366f1;
+}
+
+
+.pass-xp {
+
+    flex: 1;
+}
+
+
+.pass-xp-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    font-weight: 900;
+}
+
+
+.pass-xp-top span:last-child {
+
+    color: #6366f1;
+}
+
+
+.pass-progress {
+
+    width: 100%;
+
+    height: 22px;
+
+    background: #e5e7eb;
+
+    border-radius: 50px;
+
+    overflow: hidden;
+}
+
+
+.pass-progress-bar {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #6366f1;
+
+    border-radius: 50px;
+
+    transition: .5s ease;
+}
+
+
+/* =========================================
+   TRACK SECTION
+========================================= */
+
+.pass-track-section {
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 35px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+}
+
+
+.pass-track-section h2 {
+
+    text-align: center;
+
+    font-size: 34px;
+
+    margin-bottom: 10px;
+}
+
+
+.pass-description {
+
+    text-align: center;
+
+    color: #6b7280;
+
+    margin-bottom: 40px;
+}
+
+
+/* =========================================
+   PASS TRACK
+========================================= */
+
+.pass-track {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding: 10px 5px;
+}
+
+
+/* THE LINE */
+
+.pass-track::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 45px;
+
+    top: 20px;
+
+    bottom: 20px;
+
+    width: 8px;
+
+    background: #e5e7eb;
+
+    border-radius: 20px;
+
+    z-index: 0;
+}
+
+
+/* =========================================
+   TIER
+========================================= */
+
+.pass-tier {
+
+    position: relative;
+
+    min-height: 105px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 25px;
+
+    padding: 15px 25px 15px 0;
+
+    border-radius: 25px;
+
+    background: #f8fafc;
+
+    border: 3px solid #e5e7eb;
+
+    z-index: 1;
+
+    transition: .2s;
+}
+
+
+/* =========================================
+   TIER NUMBER
+========================================= */
+
+.tier-number {
+
+    flex-shrink: 0;
+
+    width: 65px;
+
+    height: 65px;
+
+    margin-left: 12px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: #e5e7eb;
+
+    color: #6b7280;
+
+    font-size: 23px;
+
+    font-weight: 900;
+
+    border: 5px solid white;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,.12);
+}
+
+
+/* =========================================
+   EMPTY TIERS
+========================================= */
+
+.tier-empty {
+
+    color: #9ca3af;
+
+    font-weight: 700;
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   REWARD
+========================================= */
+
+.tier-reward {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 12px 20px;
+
+    border-radius: 18px;
+
+    background: white;
+
+    border: 2px solid #e5e7eb;
+
+    min-width: 240px;
+}
+
+
+.reward-icon {
+
+    font-size: 32px;
+
+    width: 45px;
+
+    text-align: center;
+}
+
+
+.tier-reward strong {
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   LOCKED
+========================================= */
+
+.pass-tier.locked {
+
+    opacity: .65;
+}
+
+
+.pass-tier.locked .tier-number {
+
+    background: #e5e7eb;
+
+    color: #9ca3af;
+}
+
+
+.reward-locked {
+
+    background: #f8fafc;
+
+    color: #9ca3af;
+}
+
+
+/* =========================================
+   CURRENT
+========================================= */
+
+.pass-tier.current {
+
+    border-color: #6366f1;
+
+    background: #eef2ff;
+
+    transform: scale(1.02);
+
+    box-shadow:
+        0 8px 25px rgba(99,102,241,.18);
+}
+
+
+.pass-tier.current .tier-number {
+
+    background: #6366f1;
+
+    color: white;
+}
+
+
+.reward-current {
+
+    border-color: #6366f1;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+}
+
+
+/* =========================================
+   COMPLETED
+========================================= */
+
+.pass-tier.completed {
+
+    border-color: #86efac;
+
+    background: #f0fdf4;
+}
+
+
+.pass-tier.completed .tier-number {
+
+    background: #22c55e;
+
+    color: white;
+}
+
+
+.pass-tier.completed .tier-number::after {
+
+    content: "✓";
+
+    font-size: 20px;
+}
+
+
+.pass-tier.completed .tier-number {
+
+    font-size: 0;
+}
+
+
+.reward-unlocked {
+
+    border-color: #86efac;
+
+    background: #f0fdf4;
+
+    color: #15803d;
+}
+
+
+/* =========================================
+   BIG REWARD TIERS
+========================================= */
+
+.pass-tier:has(.tier-reward) {
+
+    min-height: 125px;
+
+    border-width: 3px;
+}
+
+
+.pass-tier:has(.tier-reward) .tier-number {
+
+    width: 75px;
+
+    height: 75px;
+
+    font-size: 26px;
+}
+
+
+.pass-tier:has(.tier-reward) .tier-reward {
+
+    min-width: 280px;
+
+    padding: 16px 22px;
+}
+
+
+.pass-tier:has(.tier-reward) .reward-icon {
+
+    font-size: 38px;
+}
+
+
+/* =========================================
+   HOVER
+========================================= */
+
+.pass-tier:hover {
+
+    transform:
+        translateX(5px);
+}
+
+
+.pass-tier.current:hover {
+
+    transform:
+        translateX(5px)
+        scale(1.02);
+}
+
+
+/* =========================================
+   INFO CARDS
+========================================= */
+
+.pass-info {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 25px;
+
+    margin-top: 40px;
+}
+
+
+.pass-info .feature-card {
+
+    width: 280px;
+
+    min-height: 180px;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.pass-back {
+
+    text-align: center;
+
+    margin-top: 40px;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:700px) {
+
+    .pass-summary {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+        text-align: center;
+    }
+
+
+    .pass-xp {
+
+        width: 100%;
+    }
+
+
+    .pass-xp-top {
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+
+    .pass-track-section {
+
+        padding: 20px 12px;
+    }
+
+
+    .pass-track::before {
+
+        left: 37px;
+    }
+
+
+    .pass-tier {
+
+        gap: 12px;
+
+        padding-right: 10px;
+    }
+
+
+    .tier-number {
+
+        width: 55px;
+
+        height: 55px;
+
+        margin-left: 5px;
+
+        font-size: 18px;
+    }
+
+
+    .tier-reward {
+
+        min-width: 0;
+
+        width: 100%;
+
+        padding: 10px;
+
+    }
+
+
+    .pass-tier:has(.tier-reward) .tier-reward {
+
+        min-width: 0;
+
+    }
+
+
+    .tier-reward strong {
+
+        font-size: 14px;
+    }
+
+
+    .reward-icon {
+
+        font-size: 27px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media(max-width:450px) {
+
+    .pass-tier {
+
+        min-height: 90px;
+
+        gap: 8px;
+
+    }
+
+
+    .tier-number {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-width: 3px;
+
+    }
+
+
+    .tier-empty {
+
+        font-size: 13px;
+    }
+
+
+    .tier-reward {
+
+        gap: 8px;
+
+        border-radius: 13px;
+
+    }
+
+}
+```
