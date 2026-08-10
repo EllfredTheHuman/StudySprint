@@ -4,38 +4,320 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Profile | StudySprint</title>
 
-<link rel="stylesheet" href="../style.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
 
 <style>
 
-/* =============================
-   STREAK
-============================= */
+/* =========================================
+   PROFILE BANNER
+========================================= */
 
-.streak-section {
+.profile-banner-link {
+    display:block;
+    text-decoration:none;
+    color:inherit;
+}
 
-    text-align: center;
+.profile-banner {
+    width:90%;
+    max-width:1000px;
+    min-height:240px;
 
+    margin:40px auto;
+
+    border-radius:35px;
+
+    position:relative;
+    overflow:hidden;
+
+    padding:35px;
+
+    display:flex;
+    align-items:center;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.10);
+
+    transition:.25s;
+}
+
+.profile-banner:hover {
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 22px 45px rgba(0,0,0,.15);
 }
 
 
+/* =========================================
+   BANNER COLOURS
+========================================= */
+
+.banner-purple {
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #6366f1
+        );
+}
+
+.banner-blue {
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #38bdf8
+        );
+}
+
+.banner-green {
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #4ade80
+        );
+}
+
+.banner-sprint-grid {
+    background:
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6366f1
+        );
+}
+
+.banner-sprint-grid::before {
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        );
+
+    background-size:25px 25px;
+}
+
+
+/* =========================================
+   PROFILE INFO
+========================================= */
+
+.profile-info {
+    position:relative;
+    z-index:2;
+
+    color:white;
+}
+
+.profile-username {
+    font-size:42px;
+    font-weight:900;
+}
+
+.profile-tag {
+    display:inline-block;
+
+    margin-top:8px;
+
+    padding:7px 14px;
+
+    border-radius:12px;
+
+    background:rgba(0,0,0,.20);
+
+    font-weight:800;
+}
+
+
+/* =========================================
+   SIMPLE PROFILE CHARACTER
+========================================= */
+
+.profile-character {
+    position:absolute;
+
+    right:70px;
+    bottom:0;
+
+    width:150px;
+    height:210px;
+}
+
+
+/* head */
+
+.profile-head {
+    position:absolute;
+
+    width:105px;
+    height:105px;
+
+    left:22px;
+    top:0;
+
+    border-radius:50%;
+}
+
+
+/* face */
+
+.profile-face {
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    left:40px;
+    top:45px;
+
+    background:#1f2937;
+
+    border-radius:50%;
+
+    box-shadow:
+        27px 0 0 #1f2937;
+
+    z-index:5;
+}
+
+
+/* hair */
+
+.profile-hair {
+    position:absolute;
+
+    width:98px;
+    height:43px;
+
+    left:25px;
+    top:-3px;
+
+    border-radius:
+        50px 50px 15px 15px;
+
+    z-index:4;
+}
+
+
+/* body */
+
+.profile-body {
+    position:absolute;
+
+    width:92px;
+    height:75px;
+
+    left:29px;
+    top:88px;
+
+    border-radius:
+        30px 30px 15px 15px;
+}
+
+
+/* legs */
+
+.profile-leg {
+    position:absolute;
+
+    width:30px;
+    height:55px;
+
+    top:150px;
+
+    border-radius:12px;
+}
+
+.profile-leg-left {
+    left:38px;
+}
+
+.profile-leg-right {
+    left:80px;
+}
+
+
+/* =========================================
+   LEVEL PROGRESS LINK
+========================================= */
+
+.level-progress-link {
+    display:block;
+
+    width:90%;
+    max-width:900px;
+
+    margin:40px auto;
+
+    text-decoration:none;
+    color:inherit;
+}
+
+.level-progress-link .hero {
+    margin:0;
+
+    border-radius:35px;
+
+    background:white;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+
+    transition:.25s;
+}
+
+.level-progress-link:hover .hero {
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.14);
+}
+
+
+/* =========================================
+   STREAK
+========================================= */
+
+.streak-section {
+    text-align:center;
+}
+
 .streak-fire-number {
+    position:relative;
 
-    position: relative;
+    display:inline-block;
 
-    display: inline-block;
+    font-size:130px;
 
-    font-size: 130px;
+    font-weight:900;
 
-    font-weight: 900;
+    line-height:1;
 
-    line-height: 1;
-
-    margin: 20px 0;
+    margin:20px 0;
 
     background:
         linear-gradient(
@@ -46,138 +328,79 @@
             #ffe066 100%
         );
 
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip:text;
+    background-clip:text;
 
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color:transparent;
 
-    -webkit-text-stroke: 4px #8b2500;
+    -webkit-text-stroke:4px #8b2500;
 
     text-shadow:
         0 0 10px #ff4500,
         0 0 20px #ff7300,
         0 0 35px #ffb000;
-
 }
-
-
-/* Flames around number */
 
 .streak-fire-number::before,
 .streak-fire-number::after {
 
-    content: "🔥";
+    content:"🔥";
 
-    position: absolute;
+    position:absolute;
 
-    font-size: 45px;
+    font-size:45px;
 
-    -webkit-text-fill-color: initial;
+    -webkit-text-fill-color:initial;
 
-    -webkit-text-stroke: 0;
+    -webkit-text-stroke:0;
 
     filter:
         drop-shadow(
             0 0 8px #ff7300
         );
-
 }
-
 
 .streak-fire-number::before {
-
-    top: -25px;
-
-    left: -35px;
-
-    transform: rotate(-20deg);
-
+    top:-25px;
+    left:-35px;
+    transform:rotate(-20deg);
 }
-
 
 .streak-fire-number::after {
-
-    top: -30px;
-
-    right: -35px;
-
-    transform: rotate(20deg);
-
+    top:-30px;
+    right:-35px;
+    transform:rotate(20deg);
 }
-
 
 .streak-label {
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    margin-top: 0;
-
+    font-size:24px;
+    font-weight:bold;
 }
-
 
 .streak-message {
-
-    margin-top: 10px;
-
+    margin-top:10px;
 }
 
 
-/* =============================
-   STUDYPASS LINK
-============================= */
-
-.level-progress-link {
-
-    display: block;
-
-    text-decoration: none;
-
-    color: inherit;
-
-}
-
-
-.level-progress-link .hero {
-
-    cursor: pointer;
-
-    transition:
-        transform .2s,
-        box-shadow .2s;
-
-}
-
-
-.level-progress-link:hover .hero {
-
-    transform: translateY(-5px);
-
-}
-
-
-.study-pass-hint {
-
-    color: #6366f1;
-
-    font-weight: 900;
-
-    margin-top: 10px;
-
-}
-
-
-/* =============================
+/* =========================================
    MOBILE
-============================= */
+========================================= */
 
 @media(max-width:700px) {
 
-    .streak-fire-number {
+    .profile-banner {
+        min-height:300px;
+        padding:25px;
+    }
 
-        font-size: 100px;
+    .profile-character {
+        right:20px;
+        transform:scale(.8);
+        transform-origin:bottom right;
+    }
 
+    .profile-username {
+        font-size:32px;
     }
 
 }
@@ -196,24 +419,15 @@
 🚀 StudySprint
 </div>
 
-
 <nav>
 
-<a href="../index.html">
-Home
-</a>
+<a href="../index.html">Home</a>
 
-<a href="../study/index.html">
-📚 Study
-</a>
+<a href="../study/index.html">📚 Study</a>
 
-<a href="../sprint/index.html">
-🏃 Sprint
-</a>
+<a href="../sprint/index.html">🏃 Sprint</a>
 
-<a href="index.html">
-👤 Profile
-</a>
+<a href="index.html">👤 Profile</a>
 
 </nav>
 
@@ -222,10 +436,6 @@ Home
 
 <main>
 
-
-<!-- =============================
-     PROFILE HEADER
-============================= -->
 
 <section class="hero">
 
@@ -240,12 +450,83 @@ Track your learning progress!
 </section>
 
 
-<!-- =============================
-     MAIN PROFILE STATS
-============================= -->
+<!-- =========================================
+     PROFILE BANNER
+========================================= -->
+
+<a
+    href="character.html"
+    class="profile-banner-link"
+>
+
+<section
+    id="profile-banner"
+    class="profile-banner banner-purple"
+>
+
+
+<div class="profile-info">
+
+<div
+    id="profile-username"
+    class="profile-username"
+>
+Player
+</div>
+
+<div
+    id="profile-tag"
+    class="profile-tag"
+>
+</div>
+
+</div>
+
+
+<div class="profile-character">
+
+<div
+    id="profile-head"
+    class="profile-head"
+></div>
+
+<div
+    class="profile-hair"
+    id="profile-hair"
+></div>
+
+<div
+    class="profile-face"
+></div>
+
+<div
+    id="profile-body"
+    class="profile-body"
+></div>
+
+<div
+    id="profile-leg-left"
+    class="profile-leg profile-leg-left"
+></div>
+
+<div
+    id="profile-leg-right"
+    class="profile-leg profile-leg-right"
+></div>
+
+</div>
+
+
+</section>
+
+</a>
+
+
+<!-- =========================================
+     STATS
+========================================= -->
 
 <section class="features">
-
 
 <div class="stat">
 
@@ -285,13 +566,12 @@ Track your learning progress!
 
 </div>
 
-
 </section>
 
 
-<!-- =============================
+<!-- =========================================
      STREAK
-============================= -->
+========================================= -->
 
 <section class="hero streak-section">
 
@@ -299,23 +579,20 @@ Track your learning progress!
 🔥 Streak
 </h1>
 
-
 <div
-class="streak-fire-number"
-id="streak"
+    class="streak-fire-number"
+    id="streak"
 >
 0
 </div>
-
 
 <p class="streak-label">
 DAY STREAK
 </p>
 
-
 <p
-class="streak-message"
-id="streak-message"
+    class="streak-message"
+    id="streak-message"
 >
 Complete a Sprint every day to keep your streak alive!
 </p>
@@ -323,52 +600,46 @@ Complete a Sprint every day to keep your streak alive!
 </section>
 
 
-<!-- =============================
-     LEVEL PROGRESS / STUDYPASS
-============================= -->
+<!-- =========================================
+     STUDYPASS
+========================================= -->
 
 <a
-href="../pass/index.html"
-class="level-progress-link"
+    href="../pass/index.html"
+    class="level-progress-link"
 >
 
 <section class="hero">
 
-
 <h1>
-📊 Level Progress
+📊 StudyPass
 </h1>
 
+<p>
+Open your 50-tier StudyPass and claim your rewards.
+</p>
 
 <div class="progress">
 
 <div
-class="progress-bar"
-id="xp-bar"
->
-</div>
+    class="progress-bar"
+    id="xp-bar"
+></div>
 
 </div>
-
 
 <p id="xp-text">
 0 / 100 XP to next level
 </p>
-
-
-<p class="study-pass-hint">
-🎟️ Open StudyPass →
-</p>
-
 
 </section>
 
 </a>
 
 
-<!-- =============================
-     OTHER PROFILE INFORMATION
-============================= -->
+<!-- =========================================
+     OTHER INFORMATION
+========================================= -->
 
 <section class="features">
 
@@ -378,7 +649,6 @@ id="xp-bar"
 <h2>
 🏅 Best Score
 </h2>
-
 
 <p id="best-score">
 No quizzes completed yet.
@@ -393,7 +663,6 @@ No quizzes completed yet.
 🔥 Best Streak
 </h2>
 
-
 <p id="best-streak">
 0 days
 </p>
@@ -406,7 +675,6 @@ No quizzes completed yet.
 <h2>
 🎖️ Achievements
 </h2>
-
 
 <p>
 
@@ -440,61 +708,51 @@ No quizzes completed yet.
 
 <script>
 
+/* =========================================
+   PROFILE DATA
+========================================= */
 
-// =============================
-// GET SAVED DATA
-// =============================
+const totalXP =
+    Number(
+        localStorage.getItem("XP")
+    ) || 0;
 
-let totalXP =
-Number(
-    localStorage.getItem("XP")
-) || 0;
+const quizzes =
+    Number(
+        localStorage.getItem("quizzes")
+    ) || 0;
 
+const best =
+    Number(
+        localStorage.getItem("bestScore")
+    ) || 0;
 
-let quizzes =
-Number(
-    localStorage.getItem("quizzes")
-) || 0;
+const streak =
+    Number(
+        localStorage.getItem("streak")
+    ) || 0;
 
-
-let best =
-Number(
-    localStorage.getItem("bestScore")
-) || 0;
-
-
-let streak =
-Number(
-    localStorage.getItem("streak")
-) || 0;
-
-
-let bestStreak =
-Number(
-    localStorage.getItem("bestStreak")
-) || 0;
+const bestStreak =
+    Number(
+        localStorage.getItem("bestStreak")
+    ) || 0;
 
 
-// =============================
-// LEVEL SYSTEM
-// =============================
+/* =========================================
+   LEVEL
+========================================= */
 
 let level = 1;
 
-let remainingXP =
-    totalXP;
+let remainingXP = totalXP;
 
-let requiredXP =
-    100;
-
+let requiredXP = 100;
 
 while (
-    remainingXP >=
-    requiredXP
+    remainingXP >= requiredXP
 ) {
 
-    remainingXP -=
-        requiredXP;
+    remainingXP -= requiredXP;
 
     level++;
 
@@ -510,7 +768,7 @@ while (
 }
 
 
-let progress =
+const progress =
     Math.round(
         (
             remainingXP /
@@ -518,10 +776,6 @@ let progress =
         ) * 100
     );
 
-
-// =============================
-// DISPLAY PROFILE
-// =============================
 
 document.getElementById(
     "xp"
@@ -541,9 +795,9 @@ document.getElementById(
     quizzes;
 
 
-// =============================
-// STREAK
-// =============================
+/* =========================================
+   STREAK
+========================================= */
 
 document.getElementById(
     "streak"
@@ -597,9 +851,9 @@ else {
 }
 
 
-// =============================
-// BEST SCORE
-// =============================
+/* =========================================
+   OTHER STATS
+========================================= */
 
 if (best > 0) {
 
@@ -611,20 +865,11 @@ if (best > 0) {
 }
 
 
-// =============================
-// BEST STREAK
-// =============================
-
 document.getElementById(
     "best-streak"
 ).textContent =
-    bestStreak +
-    " days";
+    bestStreak + " days";
 
-
-// =============================
-// XP PROGRESS
-// =============================
 
 document.getElementById(
     "xp-bar"
@@ -635,12 +880,224 @@ document.getElementById(
 document.getElementById(
     "xp-text"
 ).textContent =
-
     remainingXP +
     " / " +
     requiredXP +
     " XP to next level";
 
+
+/* =========================================
+   CHARACTER
+========================================= */
+
+const character = {
+
+    skin:
+        localStorage.getItem(
+            "character_skin"
+        ) || "light",
+
+    hair:
+        localStorage.getItem(
+            "character_hair"
+        ) || "brown",
+
+    shirt:
+        localStorage.getItem(
+            "character_shirt"
+        ) || "blue",
+
+    pants:
+        localStorage.getItem(
+            "character_pants"
+        ) || "blue",
+
+    banner:
+        localStorage.getItem(
+            "character_banner"
+        ) || "purple",
+
+    tag:
+        localStorage.getItem(
+            "character_tag"
+        ) || "none"
+
+};
+
+
+/* =========================================
+   USERNAME
+========================================= */
+
+const username =
+    localStorage.getItem(
+        "username"
+    ) || "Player";
+
+
+document.getElementById(
+    "profile-username"
+).textContent =
+    username;
+
+
+/* =========================================
+   PLAYER TAG
+========================================= */
+
+const titleNames = {
+
+    "sprint-champion":
+        "Sprint Champion"
+
+};
+
+
+const tagElement =
+    document.getElementById(
+        "profile-tag"
+    );
+
+
+if (
+    character.tag !==
+    "none" &&
+    titleNames[
+        character.tag
+    ]
+) {
+
+    tagElement.textContent =
+        titleNames[
+            character.tag
+        ];
+
+}
+else {
+
+    tagElement.style.display =
+        "none";
+
+}
+
+
+/* =========================================
+   COLOURS
+========================================= */
+
+const skinColours = {
+
+    light:"#f6c7a8",
+
+    medium:"#c98b68",
+
+    dark:"#70452f"
+
+};
+
+
+const hairColours = {
+
+    brown:"#78350f",
+
+    black:"#111827",
+
+    blonde:"#facc15"
+
+};
+
+
+const shirtColours = {
+
+    blue:"#3b82f6",
+
+    red:"#ef4444",
+
+    green:"#22c55e",
+
+    "sprint-blue":
+        "#2563eb"
+
+};
+
+
+const pantsColours = {
+
+    blue:"#2563eb",
+
+    black:"#111827",
+
+    brown:"#78350f"
+
+};
+
+
+/* =========================================
+   APPLY CHARACTER
+========================================= */
+
+document.getElementById(
+    "profile-head"
+).style.background =
+    skinColours[
+        character.skin
+    ] || skinColours.light;
+
+
+document.getElementById(
+    "profile-hair"
+).style.background =
+    hairColours[
+        character.hair
+    ] || hairColours.brown;
+
+
+document.getElementById(
+    "profile-body"
+).style.background =
+    shirtColours[
+        character.shirt
+    ] || shirtColours.blue;
+
+
+document.getElementById(
+    "profile-leg-left"
+).style.background =
+    pantsColours[
+        character.pants
+    ] || pantsColours.blue;
+
+
+document.getElementById(
+    "profile-leg-right"
+).style.background =
+    pantsColours[
+        character.pants
+    ] || pantsColours.blue;
+
+
+/* =========================================
+   APPLY BANNER
+========================================= */
+
+const banner =
+    document.getElementById(
+        "profile-banner"
+    );
+
+
+banner.classList.remove(
+    "banner-purple",
+    "banner-blue",
+    "banner-green",
+    "banner-sprint-grid"
+);
+
+
+banner.classList.add(
+    "banner-" +
+    character.banner
+);
 
 </script>
 
