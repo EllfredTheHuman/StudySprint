@@ -1,1 +1,426 @@
+.character-editor {
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:40px;
+
+padding:40px 20px 80px;
+
+}
+
+.banner-preview {
+
+width:700px;
+
+max-width:90%;
+
+min-height:260px;
+
+border-radius:45px;
+
+padding:35px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+gap:50px;
+
+background:linear-gradient(135deg,#6366f1,#818cf8);
+
+box-shadow:0 20px 45px rgba(0,0,0,.15);
+
+transition:.3s;
+
+}
+
+.banner-preview.blue {
+
+background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+}
+
+.banner-preview.green {
+
+background:linear-gradient(135deg,#16a34a,#4ade80);
+
+}
+
+.character {
+
+position:relative;
+
+width:170px;
+
+height:210px;
+
+flex-shrink:0;
+
+}
+
+.character-head {
+
+position:absolute;
+
+width:110px;
+
+height:110px;
+
+background:#ffd1a4;
+
+border-radius:50%;
+
+left:30px;
+
+top:15px;
+
+z-index:3;
+
+}
+
+.eye {
+
+position:absolute;
+
+width:13px;
+
+height:18px;
+
+background:#1f2937;
+
+border-radius:50%;
+
+top:43px;
+
+}
+
+.left-eye {
+
+left:28px;
+
+}
+
+.right-eye {
+
+right:28px;
+
+}
+
+.mouth {
+
+position:absolute;
+
+width:28px;
+
+height:14px;
+
+border-bottom:4px solid #1f2937;
+
+border-radius:50%;
+
+left:41px;
+
+top:67px;
+
+}
+
+.character-body {
+
+position:absolute;
+
+width:115px;
+
+height:90px;
+
+left:27px;
+
+top:110px;
+
+background:#6366f1;
+
+border-radius:35px 35px 25px 25px;
+
+z-index:2;
+
+}
+
+.character-pants {
+
+position:absolute;
+
+width:100px;
+
+height:55px;
+
+left:34px;
+
+top:175px;
+
+background:#374151;
+
+border-radius:25px;
+
+z-index:1;
+
+}
+
+.character-hair {
+
+position:absolute;
+
+width:105px;
+
+height:45px;
+
+left:33px;
+
+top:8px;
+
+background:#4b2e20;
+
+border-radius:55px 55px 20px 20px;
+
+z-index:4;
+
+}
+
+.character-hair.black {
+
+background:#111827;
+
+}
+
+.character-hair.blonde {
+
+background:#facc15;
+
+}
+
+.hat {
+
+position:absolute;
+
+width:115px;
+
+height:35px;
+
+left:28px;
+
+top:0;
+
+background:#ef4444;
+
+border-radius:60px 60px 15px 15px;
+
+z-index:5;
+
+display:none;
+
+}
+
+.hat.cap {
+
+display:block;
+
+}
+
+.hat.beanie {
+
+display:block;
+
+height:50px;
+
+border-radius:60px;
+
+background:#22c55e;
+
+}
+
+.backpack {
+
+position:absolute;
+
+width:45px;
+
+height:80px;
+
+left:0;
+
+top:120px;
+
+background:#2563eb;
+
+border-radius:25px;
+
+display:none;
+
+z-index:1;
+
+}
+
+.backpack.blue {
+
+display:block;
+
+background:#2563eb;
+
+}
+
+.backpack.red {
+
+display:block;
+
+background:#ef4444;
+
+}
+
+.player-info {
+
+text-align:left;
+
+color:white;
+
+}
+
+.player-info h2 {
+
+font-size:34px;
+
+margin:0 0 8px;
+
+}
+
+.player-info p {
+
+font-size:20px;
+
+margin:0;
+
+opacity:.9;
+
+}
+
+.customization-section {
+
+background:white;
+
+width:700px;
+
+max-width:90%;
+
+padding:40px;
+
+border-radius:35px;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.customization-section h2 {
+
+margin-top:25px;
+
+margin-bottom:20px;
+
+}
+
+.customization-section label {
+
+display:block;
+
+font-weight:800;
+
+margin-top:20px;
+
+margin-bottom:10px;
+
+}
+
+.options {
+
+display:flex;
+
+flex-wrap:wrap;
+
+gap:10px;
+
+}
+
+.options button {
+
+border:none;
+
+padding:12px 18px;
+
+border-radius:15px;
+
+background:#eef2ff;
+
+color:#3730a3;
+
+font-weight:800;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.options button:hover {
+
+transform:translateY(-3px);
+
+background:#e0e7ff;
+
+}
+
+.customization-section input {
+
+width:100%;
+
+padding:15px;
+
+border:2px solid #e5e7eb;
+
+border-radius:15px;
+
+font-size:17px;
+
+margin-bottom:10px;
+
+}
+
+.save-button {
+
+margin-top:35px;
+
+width:100%;
+
+}
+
+@media(max-width:700px){
+
+.banner-preview {
+
+flex-direction:column;
+
+gap:15px;
+
+text-align:center;
+
+}
+
+.player-info {
+
+text-align:center;
+
+}
+
+}
 
