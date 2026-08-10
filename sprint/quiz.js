@@ -618,62 +618,91 @@ function finishSprint() {
     }
 
 
-    // =============================
-    // STREAK
-    // =============================
+   // =============================
+// STREAK
+// =============================
 
-    let streak =
-        Number(
-            localStorage.getItem(
-                "streak"
-            )
-        ) || 0;
+let streak =
+    Number(
+        localStorage.getItem("streak")
+    ) || 0;
 
 
-    const lastSprintDate =
-        localStorage.getItem(
-            "lastSprintDate"
-        );
-
-
-    const yesterday =
-        new Date();
-
-
-    yesterday.setDate(
-        yesterday.getDate() - 1
+const lastSprintDate =
+    localStorage.getItem(
+        "lastSprintDate"
     );
 
 
-    const yesterdayString =
-        yesterday.toDateString();
+const now =
+    new Date();
 
 
-    if (
-        lastSprintDate ===
-        yesterdayString
-    ) {
-
-        streak++;
-
-    }
-
-    else if (
-        lastSprintDate !==
-        today
-    ) {
-
-        streak = 1;
-
-    }
+const yesterday =
+    new Date(now);
 
 
-    localStorage.setItem(
-        "streak",
-        streak
-    );
+yesterday.setDate(
+    yesterday.getDate() - 1
+);
 
 
+const yesterdayString =
+    yesterday.toDateString();
+
+
+// First Sprint ever
+
+if (!lastSprintDate) {
+
+    streak = 1;
+
+}
+
+
+// Already completed a Sprint today
+
+else if (
+    lastSprintDate === today
+) {
+
+    // Don't increase the streak.
+
+}
+
+
+// Completed a Sprint yesterday
+
+else if (
+    lastSprintDate === yesterdayString
+) {
+
+    streak++;
+
+}
+
+
+// Missed one or more days
+
+else {
+
+    streak = 1;
+
+}
+
+
+localStorage.setItem(
+    "streak",
+    streak
+);
+
+
+// Save today's date
+
+localStorage.setItem(
+    "lastSprintDate",
+    today
+);
     // =============================
     // BEST STREAK
     // =============================
