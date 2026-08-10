@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -6,418 +7,261 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Customize Character | StudySprint</title>
+<title>Character | StudySprint</title>
 
 <link rel="stylesheet" href="../style.css">
 
 <style>
 
 /* =============================
-CUSTOMIZER
-============================= */
-
-.customizer {
-
-    width:900px;
-    max-width:92%;
-
-    margin:40px auto;
-
-    background:white;
-
-    padding:45px;
-
-    border-radius:35px;
-
-    box-shadow:0 15px 35px rgba(0,0,0,.1);
-
-}
-
-
-.character-preview {
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-height:300px;
-
-    margin-bottom:40px;
-
-}
-
-
-/* =============================
 CHARACTER
 ============================= */
 
 .character {
-
-    position:relative;
-
-    width:190px;
-
-    height:250px;
-
+    position: relative;
+    width: 220px;
+    height: 330px;
+    margin: 30px auto;
 }
 
-
-/* HEAD */
-
-.head {
-
-    position:absolute;
-
-    width:125px;
-
-    height:125px;
-
-    left:32px;
-
-    top:10px;
-
-    border-radius:50%;
-
-    background:#ffd1a4;
-
-    z-index:3;
-
+.character-head {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    top: 20px;
+    left: 50px;
+    z-index: 3;
 }
 
-
-/* EYES */
-
-.eye {
-
-    position:absolute;
-
-    width:14px;
-
-    height:20px;
-
-    border-radius:50%;
-
-    background:#222;
-
-    top:50px;
-
+.character-body {
+    position: absolute;
+    width: 110px;
+    height: 120px;
+    border-radius: 35px;
+    top: 125px;
+    left: 55px;
+    z-index: 2;
 }
 
-
-.eye.left {
-
-    left:30px;
-
+.character-pants {
+    position: absolute;
+    width: 115px;
+    height: 75px;
+    border-radius: 20px;
+    top: 225px;
+    left: 52px;
+    z-index: 1;
 }
 
-
-.eye.right {
-
-    right:30px;
-
+.character-hair {
+    position: absolute;
+    width: 120px;
+    height: 42px;
+    border-radius: 60px 60px 25px 25px;
+    top: 12px;
+    left: 50px;
+    z-index: 4;
 }
 
-
-/* BODY */
-
-.body {
-
-    position:absolute;
-
-    width:135px;
-
-    height:95px;
-
-    left:27px;
-
-    top:125px;
-
-    border-radius:45px 45px 30px 30px;
-
-    background:#6366f1;
-
-    z-index:2;
-
+.character-hat {
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 140px;
+    height: 45px;
+    z-index: 5;
 }
 
-
-/* LEGS */
-
-.leg {
-
-    position:absolute;
-
-    width:45px;
-
-    height:65px;
-
-    background:#374151;
-
-    border-radius:20px;
-
-    top:200px;
-
+.character-backpack {
+    position: absolute;
+    width: 35px;
+    height: 90px;
+    border-radius: 15px;
+    top: 140px;
+    left: 28px;
+    z-index: 1;
 }
-
-
-.leg.left {
-
-    left:42px;
-
-}
-
-
-.leg.right {
-
-    right:42px;
-
-}
-
 
 /* =============================
-HAT
+COLOURS
 ============================= */
 
-.hat {
-
-    position:absolute;
-
-    z-index:5;
-
-    display:none;
-
+.skin-light {
+    background: #f6c7a5;
 }
 
-
-/* CAP */
-
-.hat.cap {
-
-    display:block;
-
-    width:120px;
-
-    height:45px;
-
-    left:35px;
-
-    top:0;
-
-    background:#ef4444;
-
-    border-radius:60px 60px 15px 15px;
-
+.skin-medium {
+    background: #c98b61;
 }
 
-
-.hat.cap::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:65px;
-
-    height:18px;
-
-    background:#ef4444;
-
-    left:75px;
-
-    top:30px;
-
-    border-radius:20px;
-
+.skin-dark {
+    background: #70452f;
 }
 
-
-/* BEANIE */
-
-.hat.beanie {
-
-    display:block;
-
-    width:115px;
-
-    height:65px;
-
-    left:37px;
-
-    top:0;
-
-    background:#ef4444;
-
-    border-radius:60px 60px 20px 20px;
-
+.hair-brown {
+    background: #6b3e26;
 }
 
+.hair-black {
+    background: #202020;
+}
+
+.hair-blonde {
+    background: #e5bd55;
+}
+
+.shirt-blue {
+    background: #4f7cff;
+}
+
+.shirt-red {
+    background: #ff4d5a;
+}
+
+.shirt-green {
+    background: #35b86b;
+}
+
+.pants-blue {
+    background: #3d5fa8;
+}
+
+.pants-black {
+    background: #252525;
+}
+
+.pants-brown {
+    background: #76513b;
+}
+
+/* =============================
+HATS
+============================= */
+
+.hat-cap {
+    background: #6366f1;
+    border-radius: 70px 70px 15px 15px;
+}
+
+.hat-cap::after {
+    content: "";
+    position: absolute;
+    width: 75px;
+    height: 15px;
+    border-radius: 50%;
+    background: #4f46e5;
+    bottom: -5px;
+    left: 45px;
+}
+
+.hat-beanie {
+    background: #6366f1;
+    border-radius: 70px 70px 20px 20px;
+    height: 60px;
+}
+
+.hat-beanie::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 12px;
+    border-radius: 10px;
+    background: #4f46e5;
+    bottom: 0;
+    left: 0;
+}
 
 /* =============================
 BACKPACK
 ============================= */
 
-.backpack {
-
-    position:absolute;
-
-    width:55px;
-
-    height:80px;
-
-    right:5px;
-
-    top:130px;
-
-    border-radius:20px;
-
-    background:#2563eb;
-
-    z-index:1;
-
-    display:none;
-
+.backpack-blue {
+    background: #3b82f6;
 }
 
-
-.backpack.blue {
-
-    display:block;
-
-    background:#2563eb;
-
+.backpack-red {
+    background: #ef4444;
 }
-
-
-.backpack.red {
-
-    display:block;
-
-    background:#ef4444;
-
-}
-
 
 /* =============================
-CONTROLS
+EDITOR
 ============================= */
 
-.custom-section {
-
-    margin-top:35px;
-
+.character-preview {
+    background: white;
+    width: 500px;
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.08);
 }
 
-
-.custom-section h2 {
-
-    font-size:25px;
-
-    margin-bottom:15px;
-
+.customise-section {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
 }
 
+.customise-section h2 {
+    text-align: center;
+    margin-top: 35px;
+}
 
 .options {
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:12px;
-
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 15px 0 30px;
 }
-
 
 .option {
-
-    padding:12px 20px;
-
-    border:3px solid #e5e7eb;
-
-    border-radius:18px;
-
-    background:#f9fafb;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
-
+    padding: 12px 20px;
+    border: 3px solid #e5e7eb;
+    border-radius: 15px;
+    background: white;
+    font-weight: 800;
+    cursor: pointer;
 }
 
-
-.option:hover {
-
-    transform:translateY(-3px);
-
-}
-
-
+.option:hover,
 .option.selected {
-
-    border-color:#6366f1;
-
-    background:#eef2ff;
-
+    border-color: #6366f1;
+    background: #eef2ff;
 }
 
-
-.option.locked {
-
-    opacity:.45;
-
-    cursor:not-allowed;
-
+.character-input {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto;
+    padding: 15px;
+    border: 3px solid #e5e7eb;
+    border-radius: 15px;
+    font-size: 17px;
 }
-
-
-input {
-
-    width:100%;
-
-    padding:15px;
-
-    margin-top:10px;
-
-    border:3px solid #e5e7eb;
-
-    border-radius:18px;
-
-    font-size:18px;
-
-    box-sizing:border-box;
-
-}
-
 
 .save-button {
-
-    margin-top:35px;
-
+    display: block;
+    margin: 30px auto;
 }
-
 
 .back-button {
-
-    display:block;
-
-    text-align:center;
-
-    margin-top:20px;
-
+    display: block;
+    text-align: center;
+    margin: 20px;
+    color: #6366f1;
+    font-weight: 800;
+    text-decoration: none;
 }
-
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -425,405 +269,202 @@ input {
 🚀 StudySprint
 </div>
 
-
 <nav>
 
-<a href="../index.html">Home</a>
-
-<a href="../study/index.html">📚 Study</a>
-
-<a href="../sprint/index.html">🏃 Sprint</a>
-
-<a href="index.html">👤 Profile</a>
+<a href="../index.html">Home</a> <a href="../study/index.html">📚 Study</a> <a href="../sprint/index.html">🏃 Sprint</a> <a href="index.html">👤 Profile</a>
 
 </nav>
 
 </header>
 
-
 <main>
-
 
 <section class="hero">
 
-<h1>
-🧑 Customize Your Character
-</h1>
+<h1>🎨 Customise Your Character</h1>
 
-<p>
-Make your StudySprint character yours.
-</p>
+<p>Make your StudySprint character yours.</p>
 
 </section>
 
-
-<div class="customizer">
-
-
-<!-- =============================
-CHARACTER PREVIEW
-============================= -->
-
 <div class="character-preview">
 
-<div class="character">
+<div class="character" id="character">
 
 <div
-class="backpack"
-id="backpack"
-></div>
-
-
-<div
-class="hat"
-id="hat"
-></div>
-
-
-<div
-class="head"
-id="head"
->
-
-<div class="eye left"></div>
-<div class="eye right"></div>
-
+class="character-backpack"
+id="character-backpack">
 </div>
 
+<div
+class="character-pants"
+id="character-pants">
+</div>
 
 <div
-class="body"
-id="body"
-></div>
-
-
-<div
-class="leg left"
-id="left-leg"
-></div>
+class="character-body"
+id="character-body">
+</div>
 
 <div
-class="leg right"
-id="right-leg"
-></div>
+class="character-head"
+id="character-head">
+</div>
+
+<div
+class="character-hair"
+id="character-hair">
+</div>
+
+<div
+class="character-hat"
+id="character-hat">
+</div>
 
 </div>
 
 </div>
 
-
-<!-- =============================
-SKIN
-============================= -->
-
-<div class="custom-section">
+<section class="customise-section">
 
 <h2>Skin</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('skin','light',this)"
->
+<button class="option" onclick="setOption('skin','light',this)">
 Light
 </button>
 
-<button
-class="option"
-onclick="setOption('skin','medium',this)"
->
+<button class="option" onclick="setOption('skin','medium',this)">
 Medium
 </button>
 
-<button
-class="option"
-onclick="setOption('skin','dark',this)"
->
+<button class="option" onclick="setOption('skin','dark',this)">
 Dark
 </button>
 
 </div>
 
-</div>
-
-
-<!-- =============================
-HAIR
-============================= -->
-
-<div class="custom-section">
-
 <h2>Hair</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('hair','brown',this)"
->
+<button class="option" onclick="setOption('hair','brown',this)">
 Brown
 </button>
 
-<button
-class="option"
-onclick="setOption('hair','black',this)"
->
+<button class="option" onclick="setOption('hair','black',this)">
 Black
 </button>
 
-<button
-class="option"
-onclick="setOption('hair','blonde',this)"
->
+<button class="option" onclick="setOption('hair','blonde',this)">
 Blonde
 </button>
 
 </div>
 
-</div>
-
-
-<!-- =============================
-SHIRT
-============================= -->
-
-<div class="custom-section">
-
 <h2>Shirt / Jumper</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('shirt','blue',this)"
->
+<button class="option" onclick="setOption('shirt','blue',this)">
 Blue
 </button>
 
-<button
-class="option"
-onclick="setOption('shirt','red',this)"
->
+<button class="option" onclick="setOption('shirt','red',this)">
 Red
 </button>
 
-<button
-class="option"
-onclick="setOption('shirt','green',this)"
->
+<button class="option" onclick="setOption('shirt','green',this)">
 Green
 </button>
 
 </div>
 
-</div>
-
-
-<!-- =============================
-PANTS
-============================= -->
-
-<div class="custom-section">
-
 <h2>Pants</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('pants','blue',this)"
->
+<button class="option" onclick="setOption('pants','blue',this)">
 Blue
 </button>
 
-<button
-class="option"
-onclick="setOption('pants','black',this)"
->
+<button class="option" onclick="setOption('pants','black',this)">
 Black
 </button>
 
-<button
-class="option"
-onclick="setOption('pants','brown',this)"
->
+<button class="option" onclick="setOption('pants','brown',this)">
 Brown
 </button>
 
 </div>
 
-</div>
-
-
-<!-- =============================
-HAT
-============================= -->
-
-<div class="custom-section">
-
 <h2>Hat</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('hat','none',this)"
->
+<button class="option" onclick="setOption('hat','none',this)">
 None
 </button>
 
-<button
-class="option"
-onclick="setOption('hat','cap',this)"
->
+<button class="option" onclick="setOption('hat','cap',this)">
 Cap
 </button>
 
-<button
-class="option"
-onclick="setOption('hat','beanie',this)"
->
+<button class="option" onclick="setOption('hat','beanie',this)">
 Beanie
 </button>
 
 </div>
 
-</div>
-
-
-<!-- =============================
-BACKPACK
-============================= -->
-
-<div class="custom-section">
-
 <h2>Backpack</h2>
 
 <div class="options">
 
-<button
-class="option"
-onclick="setOption('backpack','none',this)"
->
+<button class="option" onclick="setOption('backpack','none',this)">
 None
 </button>
 
-<button
-class="option"
-onclick="setOption('backpack','blue',this)"
->
+<button class="option" onclick="setOption('backpack','blue',this)">
 Blue
 </button>
 
-<button
-class="option"
-onclick="setOption('backpack','red',this)"
->
+<button class="option" onclick="setOption('backpack','red',this)">
 Red
 </button>
 
 </div>
-
-</div>
-
-
-<!-- =============================
-USERNAME
-============================= -->
-
-<div class="custom-section">
 
 <h2>Username</h2>
 
 <input
 type="text"
 id="username"
+class="character-input"
 maxlength="16"
 placeholder="Username"
+
 >
-
-</div>
-
-
-<!-- =============================
-PLAYER TAG
-============================= -->
-
-<div class="custom-section">
-
-<h2>Player Tag</h2>
-
-<div
-class="options"
-id="tag-options"
->
-</div>
-
-</div>
-
-
-<!-- =============================
-BANNER
-============================= -->
-
-<div class="custom-section">
-
-<h2>Banner</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('banner','purple',this)"
->
-Purple
-</button>
-
-<button
-class="option"
-onclick="setOption('banner','blue',this)"
->
-Blue
-</button>
-
-<button
-class="option"
-onclick="setOption('banner','green',this)"
->
-Green
-</button>
-
-</div>
-
-</div>
-
 
 <button
 class="main-button save-button"
 onclick="saveCharacter()"
+
 >
 
-💾 Save Character
-
-</button>
-
+💾 Save Character </button>
 
 <a
 href="index.html"
 class="back-button"
+
 >
 
-← Back to Profile
+← Back to Profile </a>
 
-</a>
-
-
-</div>
-
+</section>
 
 </main>
-
 
 <footer>
 
@@ -831,63 +472,27 @@ class="back-button"
 
 </footer>
 
-
 <script>
-
-
-// =============================
-// DEFAULT CHARACTER
-// =============================
 
 const defaultCharacter = {
 
-    skin:"light",
-
-    hair:"brown",
-
-    shirt:"blue",
-
-    pants:"black",
-
-    hat:"none",
-
-    backpack:"none",
-
-    banner:"purple",
-
-    username:"Player",
-
-    tag:"New Squeezer"
+    skin: "light",
+    hair: "brown",
+    shirt: "blue",
+    pants: "blue",
+    hat: "none",
+    backpack: "none"
 
 };
 
-
-// =============================
-// LOAD CHARACTER
-// =============================
 
 let character =
-
 JSON.parse(
-    localStorage.getItem(
-        "characterData"
-    )
-) || {
-
-    ...defaultCharacter
-
-};
+    localStorage.getItem("character")
+) || {...defaultCharacter};
 
 
-// =============================
-// UPDATE OPTION
-// =============================
-
-function setOption(
-    type,
-    value,
-    button
-) {
+function setOption(type, value, button) {
 
     character[type] = value;
 
@@ -895,7 +500,7 @@ function setOption(
 
     document
         .querySelectorAll(
-            `[onclick^="setOption('${type}'"]`
+            `.option`
         )
         .forEach(
             option =>
@@ -904,149 +509,90 @@ function setOption(
                 )
         );
 
-    button.classList.add(
-        "selected"
-    );
+    button.classList.add("selected");
 
 }
 
 
-// =============================
-// UPDATE CHARACTER
-// =============================
-
 function updateCharacter() {
 
     const head =
-        document.getElementById("head");
+        document.getElementById(
+            "character-head"
+        );
+
+    const hair =
+        document.getElementById(
+            "character-hair"
+        );
 
     const body =
-        document.getElementById("body");
+        document.getElementById(
+            "character-body"
+        );
 
-    const legs = [
-        document.getElementById("left-leg"),
-        document.getElementById("right-leg")
-    ];
-
-
-    // SKIN
-
-    if(character.skin === "light") {
-
-        head.style.background =
-            "#ffd1a4";
-
-    }
-
-    else if(character.skin === "medium") {
-
-        head.style.background =
-            "#c68642";
-
-    }
-
-    else {
-
-        head.style.background =
-            "#6b4423";
-
-    }
-
-
-    // SHIRT
-
-    if(character.shirt === "blue") {
-
-        body.style.background =
-            "#6366f1";
-
-    }
-
-    else if(character.shirt === "red") {
-
-        body.style.background =
-            "#ef4444";
-
-    }
-
-    else {
-
-        body.style.background =
-            "#22c55e";
-
-    }
-
-
-    // PANTS
-
-    let pantsColour =
-        "#374151";
-
-
-    if(character.pants === "blue") {
-
-        pantsColour =
-            "#2563eb";
-
-    }
-
-    else if(character.pants === "brown") {
-
-        pantsColour =
-            "#92400e";
-
-    }
-
-
-    legs.forEach(
-        leg =>
-            leg.style.background =
-                pantsColour
-    );
-
-
-    // HAT
+    const pants =
+        document.getElementById(
+            "character-pants"
+        );
 
     const hat =
-        document.getElementById("hat");
-
-    hat.className =
-        "hat";
-
-
-    if(
-        character.hat === "cap"
-    ) {
-
-        hat.classList.add("cap");
-
-    }
-
-    else if(
-        character.hat === "beanie"
-    ) {
-
-        hat.classList.add("beanie");
-
-    }
-
-
-    // BACKPACK
+        document.getElementById(
+            "character-hat"
+        );
 
     const backpack =
         document.getElementById(
-            "backpack"
+            "character-backpack"
         );
 
+
+    head.className =
+        "character-head skin-" +
+        character.skin;
+
+
+    hair.className =
+        "character-hair hair-" +
+        character.hair;
+
+
+    body.className =
+        "character-body shirt-" +
+        character.shirt;
+
+
+    pants.className =
+        "character-pants pants-" +
+        character.pants;
+
+
+    hat.className =
+        "character-hat";
+
+
+    if (
+        character.hat !== "none"
+    ) {
+
+        hat.classList.add(
+            "hat-" +
+            character.hat
+        );
+
+    }
+
+
     backpack.className =
-        "backpack";
+        "character-backpack";
 
 
-    if(
+    if (
         character.backpack !== "none"
     ) {
 
         backpack.classList.add(
+            "backpack-" +
             character.backpack
         );
 
@@ -1055,331 +601,23 @@ function updateCharacter() {
 }
 
 
-// =============================
-// PLAYER TAGS
-// =============================
-
-const tags = [
-
-    {
-        id:"new_squeezer",
-        name:"New Squeezer",
-        unlocked:true
-    },
-
-    {
-        id:"sprint_starter",
-        name:"Sprint Starter",
-        unlocked:false
-    },
-
-    {
-        id:"speed_demon",
-        name:"Speed Demon",
-        unlocked:false
-    },
-
-    {
-        id:"brainiac",
-        name:"Brainiac",
-        unlocked:false
-    },
-
-    {
-        id:"on_fire",
-        name:"On Fire",
-        unlocked:false
-    },
-
-    {
-        id:"study_machine",
-        name:"Study Machine",
-        unlocked:false
-    }
-
-];
-
-
-// =============================
-// CHECK TAG UNLOCKS
-// =============================
-
-function getUnlockedTags() {
-
-    const quizzes =
-        Number(
-            localStorage.getItem(
-                "quizzes"
-            )
-        ) || 0;
-
-
-    const level =
-        calculateLevel();
-
-
-    const streak =
-        Number(
-            localStorage.getItem(
-                "streak"
-            )
-        ) || 0;
-
-
-    return {
-
-        new_squeezer:true,
-
-        sprint_starter:
-            quizzes >= 5,
-
-        speed_demon:
-            quizzes >= 10,
-
-        brainiac:
-            level >= 5,
-
-        on_fire:
-            streak >= 7,
-
-        study_machine:
-            quizzes >= 50
-
-    };
-
-}
-
-
-// =============================
-// CALCULATE LEVEL
-// =============================
-
-function calculateLevel() {
-
-    const totalXP =
-        Number(
-            localStorage.getItem(
-                "XP"
-            )
-        ) || 0;
-
-
-    let level = 1;
-
-    let remainingXP =
-        totalXP;
-
-    let requiredXP =
-        100;
-
-
-    while(
-        remainingXP >=
-        requiredXP
-    ) {
-
-        remainingXP -=
-            requiredXP;
-
-        level++;
-
-        requiredXP =
-            Math.round(
-                100 *
-                Math.pow(
-                    1.5,
-                    level - 1
-                )
-            );
-
-    }
-
-
-    return level;
-
-}
-
-
-// =============================
-// DISPLAY TAGS
-// =============================
-
-function loadTags() {
-
-    const container =
-        document.getElementById(
-            "tag-options"
-        );
-
-
-    container.innerHTML = "";
-
-
-    const unlocked =
-        getUnlockedTags();
-
-
-    tags.forEach(
-        tag => {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "option";
-
-
-            if(
-                unlocked[tag.id]
-            ) {
-
-                button.textContent =
-                    tag.name;
-
-
-                button.onclick =
-                    () => {
-
-                        character.tag =
-                            tag.name;
-
-                        loadTags();
-
-                    };
-
-
-                if(
-                    character.tag ===
-                    tag.name
-                ) {
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-                }
-
-            }
-
-            else {
-
-                button.textContent =
-                    "🔒 " + tag.name;
-
-                button.classList.add(
-                    "locked"
-                );
-
-                button.disabled =
-                    true;
-
-            }
-
-
-            container.appendChild(
-                button
-            );
-
-        }
-    );
-
-}
-
-
-// =============================
-// LOAD SAVED VALUES
-// =============================
-
-document.getElementById(
-    "username"
-).value =
-
-    character.username;
-
-
-updateCharacter();
-
-loadTags();
-
-
-// =============================
-// SELECT SAVED OPTIONS
-// =============================
-
-document
-    .querySelectorAll(".option")
-    .forEach(
-        button => {
-
-            const text =
-                button.textContent
-                    .trim()
-                    .toLowerCase();
-
-
-            if(
-                text ===
-                character.skin
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-        }
-    );
-
-
-// =============================
-// USERNAME
-// =============================
-
-document.getElementById(
-    "username"
-).addEventListener(
-    "input",
-    function() {
-
-        character.username =
-            this.value
-                .trim()
-                .slice(0,16);
-
-    }
-);
-
-
-// =============================
-// SAVE
-// =============================
-
 function saveCharacter() {
 
-    if(
-        !character.username
-    ) {
-
-        character.username =
-            "Player";
-
-    }
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
 
 
     localStorage.setItem(
-        "characterData",
-        JSON.stringify(
-            character
-        )
+        "character",
+        JSON.stringify(character)
     );
 
 
-    alert(
-        "✅ Character saved!"
+    localStorage.setItem(
+        "username",
+        username
     );
 
 
@@ -1389,8 +627,50 @@ function saveCharacter() {
 }
 
 
-</script>
+function loadCharacter() {
 
+    const saved =
+        JSON.parse(
+            localStorage.getItem(
+                "character"
+            )
+        );
+
+
+    if (saved) {
+
+        character = {
+            ...defaultCharacter,
+            ...saved
+        };
+
+    }
+
+
+    const username =
+        localStorage.getItem(
+            "username"
+        );
+
+
+    if (username) {
+
+        document.getElementById(
+            "username"
+        ).value =
+            username;
+
+    }
+
+
+    updateCharacter();
+
+}
+
+
+loadCharacter();
+
+</script>
 
 </body>
 
