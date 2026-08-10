@@ -4,618 +4,658 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Character | StudySprint</title>
 
-<link rel="stylesheet" href="../style.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
 
 <style>
 
-/* =========================
+/* =========================================
    PAGE
-========================= */
+========================================= */
 
 .character-page {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto;
+    margin:0 auto;
 
-    padding: 40px 20px 80px;
+    padding:50px 20px 80px;
+
 }
 
 
-/* =========================
+.character-header {
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+
+.character-header h1 {
+
+    font-size:48px;
+
+    font-weight:900;
+
+}
+
+
+.character-header p {
+
+    color:#6b7280;
+
+    font-size:18px;
+
+}
+
+
+/* =========================================
    CHARACTER PREVIEW
-========================= */
+========================================= */
 
 .character-preview {
 
-    width: 100%;
+    background:white;
 
-    min-height: 330px;
+    border-radius:35px;
 
-    display: flex;
+    min-height:380px;
 
-    justify-content: center;
+    padding:40px;
 
-    align-items: flex-end;
+    display:flex;
 
-    margin-bottom: 40px;
+    justify-content:center;
 
-    border-radius: 35px;
+    align-items:center;
 
-    overflow: hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
 
-    position: relative;
+    margin-bottom:40px;
 
-    transition: .2s;
-}
-
-.character-preview.purple {
-    background: #6366f1;
-}
-
-.character-preview.blue {
-    background: #2563eb;
-}
-
-.character-preview.green {
-    background: #16a34a;
 }
 
 
-/* =========================
-   CHARACTER
-========================= */
+/* =========================================
+   ROUND CHARACTER
+========================================= */
 
 .character {
 
-    position: relative;
+    position:relative;
 
-    width: 150px;
-    height: 260px;
+    width:180px;
 
-    margin-bottom: 15px;
+    height:280px;
+
 }
 
 
 /* HEAD */
 
-.head {
+.character-head {
 
-    position: absolute;
+    position:absolute;
 
-    width: 100px;
-    height: 100px;
+    width:130px;
 
-    left: 25px;
-    top: 20px;
+    height:130px;
 
-    border-radius: 50%;
+    left:25px;
 
-    background: #f1c27d;
+    top:0;
 
-    z-index: 4;
-}
+    border-radius:50%;
 
-.skin-medium .head {
-    background: #c68642;
-}
+    z-index:5;
 
-.skin-dark .head {
-    background: #6b4226;
-}
-
-
-/* HAIR */
-
-.hair {
-
-    position: absolute;
-
-    width: 108px;
-    height: 55px;
-
-    left: 21px;
-    top: 10px;
-
-    border-radius:
-        55px 55px 25px 25px;
-
-    z-index: 6;
-}
-
-.hair.brown {
-    background: #6b3e26;
-}
-
-.hair.black {
-    background: #222;
-}
-
-.hair.blonde {
-    background: #f4c542;
 }
 
 
 /* FACE */
 
-.eye {
+.character-face {
 
-    position: absolute;
+    position:absolute;
 
-    width: 10px;
-    height: 14px;
+    width:8px;
 
-    border-radius: 50%;
+    height:8px;
 
-    background: #222;
+    background:#1f2937;
 
-    z-index: 7;
-}
+    border-radius:50%;
 
-.eye.left {
+    left:48px;
 
-    left: 50px;
-    top: 57px;
-}
+    top:55px;
 
-.eye.right {
+    box-shadow:
 
-    left: 90px;
-    top: 57px;
-}
+        30px 0 0 #1f2937;
 
-.mouth {
+    z-index:7;
 
-    position: absolute;
-
-    width: 25px;
-    height: 12px;
-
-    left: 63px;
-    top: 81px;
-
-    border-bottom:
-        4px solid #222;
-
-    border-radius:
-        0 0 50% 50%;
-
-    z-index: 7;
 }
 
 
 /* BODY */
 
-.body {
+.character-body {
 
-    position: absolute;
+    position:absolute;
 
-    width: 105px;
-    height: 80px;
+    width:115px;
 
-    left: 22px;
-    top: 113px;
+    height:90px;
 
-    border-radius:
-        35px 35px 25px 25px;
+    left:32px;
 
-    z-index: 3;
-}
+    top:110px;
 
-.body.blue {
-    background: #3b82f6;
-}
+    border-radius:35px 35px 20px 20px;
 
-.body.red {
-    background: #ef4444;
-}
+    z-index:3;
 
-.body.green {
-    background: #22c55e;
-}
-
-
-/* ARMS */
-
-.arm {
-
-    position: absolute;
-
-    width: 30px;
-    height: 65px;
-
-    top: 120px;
-
-    border-radius: 20px;
-
-    background: #f1c27d;
-
-    z-index: 2;
-}
-
-.skin-medium .arm {
-    background: #c68642;
-}
-
-.skin-dark .arm {
-    background: #6b4226;
-}
-
-.arm.left {
-
-    left: 0;
-
-    transform: rotate(8deg);
-}
-
-.arm.right {
-
-    right: 0;
-
-    transform: rotate(-8deg);
 }
 
 
 /* LEGS */
 
-.leg {
+.character-leg {
 
-    position: absolute;
+    position:absolute;
 
-    width: 38px;
-    height: 58px;
+    width:38px;
 
-    top: 182px;
+    height:75px;
 
-    border-radius: 18px;
+    top:190px;
 
-    z-index: 2;
-}
+    border-radius:15px;
 
-.leg.left {
-    left: 32px;
-}
+    z-index:2;
 
-.leg.right {
-    left: 80px;
-}
-
-.pants-blue {
-    background: #2563eb;
-}
-
-.pants-black {
-    background: #222;
-}
-
-.pants-brown {
-    background: #795548;
 }
 
 
-/* SHOES */
+.character-leg.left {
 
-.shoe {
+    left:38px;
 
-    position: absolute;
+}
 
-    width: 43px;
-    height: 20px;
 
-    top: 235px;
+.character-leg.right {
+
+    left:88px;
+
+}
+
+
+/* HAIR */
+
+.character-hair {
+
+    position:absolute;
+
+    width:120px;
+
+    height:55px;
+
+    left:30px;
+
+    top:-5px;
 
     border-radius:
-        20px 20px 12px 12px;
 
-    background: #333;
+        60px 60px 20px 20px;
 
-    z-index: 3;
-}
+    z-index:6;
 
-.shoe.left {
-    left: 27px;
-}
-
-.shoe.right {
-    left: 75px;
 }
 
 
-/* =========================
-   BACKPACK
-========================= */
+/* =========================================
+   HAT
+========================================= */
 
-.backpack {
+.character-hat {
 
-    display: none;
+    position:absolute;
 
-    position: absolute;
+    z-index:10;
 
-    width: 40px;
-    height: 68px;
+    pointer-events:none;
 
-    right: 0;
-    top: 118px;
-
-    border-radius: 18px;
-
-    z-index: 2;
-}
-
-.backpack.blue {
-
-    display: block;
-
-    background: #2563eb;
-}
-
-.backpack.red {
-
-    display: block;
-
-    background: #dc2626;
-}
-
-
-/* =========================
-   HATS
-========================= */
-
-.hat {
-
-    position: absolute;
-
-    z-index: 8;
 }
 
 
 /* CAP */
 
-.hat.cap {
+.character-hat.cap {
 
-    width: 92px;
-    height: 28px;
+    width:115px;
 
-    left: 29px;
-    top: 5px;
+    height:35px;
+
+    left:30px;
+
+    top:-8px;
 
     border-radius:
-        50px 50px 15px 15px;
 
-    background: #6366f1;
+        60px 60px 15px 15px;
+
 }
 
-.hat.cap::after {
 
-    content: "";
+.character-hat.cap::after {
 
-    position: absolute;
+    content:"";
 
-    width: 42px;
-    height: 10px;
+    position:absolute;
 
-    left: 55px;
-    top: 20px;
+    width:55px;
 
-    border-radius: 50%;
+    height:14px;
 
-    background: #4f46e5;
+    left:65px;
 
-    transform: rotate(4deg);
+    top:24px;
+
+    border-radius:50%;
+
+    transform:rotate(-8deg);
+
 }
 
 
 /* BEANIE */
 
-.hat.beanie {
+.character-hat.beanie {
 
-    width: 96px;
-    height: 48px;
+    width:125px;
 
-    left: 27px;
-    top: 3px;
+    height:65px;
+
+    left:27px;
+
+    top:-10px;
 
     border-radius:
-        50px 50px 18px 18px;
 
-    background: #ef4444;
-}
+        65px 65px 20px 20px;
 
-.hat.beanie::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 96px;
-    height: 12px;
-
-    left: 0;
-    bottom: -2px;
-
-    border-radius: 12px;
-
-    background: #dc2626;
 }
 
 
-/* =========================
-   CUSTOMISATION
-========================= */
+.character-hat.beanie::after {
 
-.customise {
+    content:"";
 
-    background: white;
+    position:absolute;
 
-    padding: 35px;
+    width:125px;
 
-    border-radius: 30px;
+    height:18px;
 
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.08);
+    left:0;
+
+    bottom:-5px;
+
+    border-radius:10px;
+
 }
+
+
+/* =========================================
+   BACKPACK
+========================================= */
+
+.character-backpack {
+
+    position:absolute;
+
+    width:38px;
+
+    height:75px;
+
+    left:5px;
+
+    top:120px;
+
+    border-radius:15px;
+
+    z-index:1;
+
+}
+
+
+/* =========================================
+   OPTIONS
+========================================= */
 
 .customise-section {
 
-    margin-bottom: 35px;
+    background:white;
+
+    padding:35px;
+
+    border-radius:35px;
+
+    box-shadow:
+
+        0 15px 35px rgba(0,0,0,.08);
+
+    margin-bottom:30px;
+
 }
+
 
 .customise-section h2 {
 
-    font-size: 25px;
+    font-size:28px;
 
-    margin-bottom: 15px;
+    margin-bottom:20px;
+
 }
 
-.options {
 
-    display: flex;
+.option-grid {
 
-    flex-wrap: wrap;
+    display:flex;
 
-    gap: 12px;
+    flex-wrap:wrap;
+
+    gap:12px;
+
 }
+
 
 .option {
 
-    border: 3px solid #e5e7eb;
+    border:none;
 
-    background: #f8fafc;
+    background:#f1f5f9;
 
-    padding: 12px 20px;
+    padding:12px 18px;
 
-    border-radius: 15px;
+    border-radius:15px;
 
-    font-weight: 800;
+    font-weight:800;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    transition: .2s;
+    transition:.2s;
+
 }
+
 
 .option:hover {
 
-    transform:
-        translateY(-3px);
+    transform:translateY(-3px);
 
-    border-color: #6366f1;
+    background:#e2e8f0;
+
 }
+
 
 .option.selected {
 
-    border-color: #6366f1;
+    background:#6366f1;
 
-    background: #eef2ff;
+    color:white;
 
-    box-shadow:
-        0 4px 0 #6366f1;
 }
 
 
-/* =========================
-   USERNAME
-========================= */
+/* =========================================
+   LOCKED OPTIONS
+========================================= */
 
-.username-input {
+.option.locked {
 
-    width: 100%;
+    opacity:.45;
 
-    max-width: 450px;
+    cursor:not-allowed;
 
-    padding: 15px 18px;
+}
+
+
+.option.locked:hover {
+
+    transform:none;
+
+}
+
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.character-input {
+
+    width:100%;
+
+    padding:15px 18px;
 
     border:
-        3px solid #e5e7eb;
 
-    border-radius: 15px;
+        2px solid #e5e7eb;
 
-    font-size: 18px;
+    border-radius:15px;
 
-    font-weight: 700;
+    font-size:16px;
 
-    outline: none;
-}
+    font-weight:700;
 
-.username-input:focus {
+    margin-bottom:15px;
 
-    border-color:
-        #6366f1;
-}
+    outline:none;
 
-
-/* =========================
-   PLAYER TAG
-========================= */
-
-.tag-note {
-
-    color: #6b7280;
-
-    margin-bottom: 15px;
-}
-
-.locked-tag {
-
-    opacity: .55;
-
-    cursor: not-allowed;
 }
 
 
-/* =========================
+.character-input:focus {
+
+    border-color:#6366f1;
+
+}
+
+
+/* =========================================
    SAVE
-========================= */
-
-.save-area {
-
-    text-align: center;
-
-    margin-top: 35px;
-}
+========================================= */
 
 .save-button {
 
-    font-size: 20px;
+    display:block;
 
-    padding:
-        16px 40px;
+    margin:35px auto 0;
+
 }
 
 
-/* =========================
-   SAVED MESSAGE
-========================= */
+/* =========================================
+   BACK
+========================================= */
 
-.saved-message {
+.back-button {
 
-    margin-top: 15px;
+    display:block;
 
-    font-weight: 800;
+    text-align:center;
 
-    color: #16a34a;
+    margin-top:25px;
 
-    min-height: 24px;
+    color:#6366f1;
+
+    font-weight:800;
+
+    text-decoration:none;
+
 }
 
 
-/* =========================
+/* =========================================
+   BANNER
+========================================= */
+
+.banner-preview {
+
+    width:100%;
+
+    height:90px;
+
+    border-radius:25px;
+
+    margin-bottom:25px;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+
+.banner-purple {
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #7c3aed,
+
+            #6366f1
+
+        );
+
+}
+
+
+.banner-blue {
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #2563eb,
+
+            #38bdf8
+
+        );
+
+}
+
+
+.banner-green {
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #16a34a,
+
+            #4ade80
+
+        );
+
+}
+
+
+/* STUDYPASS BANNER */
+
+.banner-sprint-grid {
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #312e81,
+
+            #6366f1
+
+        );
+
+}
+
+
+.banner-sprint-grid::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+
+        linear-gradient(
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        );
+
+    background-size:
+
+        25px 25px;
+
+}
+
+
+/* =========================================
+   HIDDEN
+========================================= */
+
+.hidden {
+
+    display:none;
+
+}
+
+
+/* =========================================
    MOBILE
-========================= */
+========================================= */
 
 @media(max-width:700px) {
 
-    .customise {
+    .character-header h1 {
 
-        padding: 25px 18px;
+        font-size:38px;
+
     }
 
-    .character-preview {
+    .customise-section {
 
-        min-height: 290px;
+        padding:25px;
+
     }
 
 }
@@ -661,465 +701,440 @@ Home
 <main class="character-page">
 
 
-<section class="hero">
+<section class="character-header">
 
 <h1>
-🎨 Your Character
+🎨 Customize Character
 </h1>
 
 <p>
-Customise your StudySprint character.
+Make your StudySprint character yours.
 </p>
 
 </section>
 
 
-<!-- =========================
-     PREVIEW
-========================= -->
+<!-- =========================================
+     CHARACTER PREVIEW
+========================================= -->
+
+<section class="character-preview">
+
+<div class="character">
 
 <div
-class="character-preview purple"
-id="character-preview"
->
-
-
-<div
-class="character skin-light"
-id="character"
->
-
-
-<div
-class="hair brown"
-id="hair"
-></div>
-
-
-<div
-class="hat"
-id="hat"
-></div>
-
-
-<div
-class="head"
-></div>
-
-
-<div
-class="eye left"
+    id="character-backpack"
+    class="character-backpack hidden"
 ></div>
 
 <div
-class="eye right"
+    id="character-hat"
+    class="character-hat hidden"
 ></div>
 
 <div
-class="mouth"
-></div>
-
-
-<div
-class="arm left"
+    id="character-hair"
+    class="character-hair"
 ></div>
 
 <div
-class="arm right"
-></div>
-
-
-<div
-class="body blue"
-id="shirt"
-></div>
-
-
-<div
-class="leg pants-blue left"
-id="leg-left"
+    id="character-head"
+    class="character-head"
 ></div>
 
 <div
-class="leg pants-blue right"
-id="leg-right"
-></div>
-
-
-<div
-class="shoe left"
+    class="character-face"
 ></div>
 
 <div
-class="shoe right"
+    id="character-body"
+    class="character-body"
 ></div>
-
 
 <div
-class="backpack"
-id="backpack"
+    id="character-leg-left"
+    class="character-leg left"
 ></div>
 
+<div
+    id="character-leg-right"
+    class="character-leg right"
+></div>
 
 </div>
 
-</div>
+</section>
 
 
-<!-- =========================
-     CUSTOMISATION
-========================= -->
+<!-- =========================================
+     USERNAME
+========================================= -->
 
-<section class="customise">
-
-
-<!-- SKIN -->
-
-<div class="customise-section">
-
-<h2>
-Skin
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('skin','light',this)"
->
-Light
-</button>
-
-<button
-class="option"
-onclick="setOption('skin','medium',this)"
->
-Medium
-</button>
-
-<button
-class="option"
-onclick="setOption('skin','dark',this)"
->
-Dark
-</button>
-
-</div>
-
-</div>
-
-
-<!-- HAIR -->
-
-<div class="customise-section">
-
-<h2>
-Hair
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('hair','brown',this)"
->
-Brown
-</button>
-
-<button
-class="option"
-onclick="setOption('hair','black',this)"
->
-Black
-</button>
-
-<button
-class="option"
-onclick="setOption('hair','blonde',this)"
->
-Blonde
-</button>
-
-</div>
-
-</div>
-
-
-<!-- SHIRT -->
-
-<div class="customise-section">
-
-<h2>
-Shirt / Jumper
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('shirt','blue',this)"
->
-Blue
-</button>
-
-<button
-class="option"
-onclick="setOption('shirt','red',this)"
->
-Red
-</button>
-
-<button
-class="option"
-onclick="setOption('shirt','green',this)"
->
-Green
-</button>
-
-</div>
-
-</div>
-
-
-<!-- PANTS -->
-
-<div class="customise-section">
-
-<h2>
-Pants
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('pants','blue',this)"
->
-Blue
-</button>
-
-<button
-class="option"
-onclick="setOption('pants','black',this)"
->
-Black
-</button>
-
-<button
-class="option"
-onclick="setOption('pants','brown',this)"
->
-Brown
-</button>
-
-</div>
-
-</div>
-
-
-<!-- HAT -->
-
-<div class="customise-section">
-
-<h2>
-Hat
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('hat','none',this)"
->
-None
-</button>
-
-<button
-class="option"
-onclick="setOption('hat','cap',this)"
->
-Cap
-</button>
-
-<button
-class="option"
-onclick="setOption('hat','beanie',this)"
->
-Beanie
-</button>
-
-</div>
-
-</div>
-
-
-<!-- BACKPACK -->
-
-<div class="customise-section">
-
-<h2>
-Backpack
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('backpack','none',this)"
->
-None
-</button>
-
-<button
-class="option"
-onclick="setOption('backpack','blue',this)"
->
-Blue
-</button>
-
-<button
-class="option"
-onclick="setOption('backpack','red',this)"
->
-Red
-</button>
-
-</div>
-
-</div>
-
-
-<!-- USERNAME -->
-
-<div class="customise-section">
+<section class="customise-section">
 
 <h2>
 Username
 </h2>
 
 <input
-type="text"
-id="username"
-class="username-input"
-maxlength="16"
-placeholder="Username"
+    type="text"
+    id="username"
+    class="character-input"
+    maxlength="16"
+    placeholder="Username"
 >
-
-
-</div>
-
-
-<!-- PLAYER TAG -->
-
-<div class="customise-section">
-
-<h2>
-Player Tag
-</h2>
-
-<p class="tag-note">
-Unlock player tags through the StudyPass.
-</p>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setTag('New Sprinter',this)"
->
-New Sprinter
-</button>
-
-<button
-class="option"
-onclick="setTag('Study Starter',this)"
->
-Study Starter
-</button>
-
-<button
-class="option locked-tag"
-disabled
->
-🔒 Quiz Master
-</button>
-
-<button
-class="option locked-tag"
-disabled
->
-🔒 Sprint Legend
-</button>
-
-</div>
-
-</div>
-
-
-<!-- BANNER -->
-
-<div class="customise-section">
-
-<h2>
-Banner
-</h2>
-
-<div class="options">
-
-<button
-class="option"
-onclick="setOption('banner','purple',this)"
->
-Purple
-</button>
-
-<button
-class="option"
-onclick="setOption('banner','blue',this)"
->
-Blue
-</button>
-
-<button
-class="option"
-onclick="setOption('banner','green',this)"
->
-Green
-</button>
-
-</div>
-
-</div>
-
-
-<!-- SAVE -->
-
-<div class="save-area">
-
-<button
-class="main-button save-button"
-onclick="saveCharacter()"
->
-💾 Save Character
-</button>
-
-<p
-class="saved-message"
-id="saved-message"
-></p>
-
-</div>
 
 
 </section>
 
 
-<br>
+<!-- =========================================
+     SKIN
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Skin
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('skin','light',this)"
+>
+Light
+</button>
+
+<button
+    class="option"
+    onclick="setOption('skin','medium',this)"
+>
+Medium
+</button>
+
+<button
+    class="option"
+    onclick="setOption('skin','dark',this)"
+>
+Dark
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     HAIR
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Hair
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('hair','brown',this)"
+>
+Brown
+</button>
+
+<button
+    class="option"
+    onclick="setOption('hair','black',this)"
+>
+Black
+</button>
+
+<button
+    class="option"
+    onclick="setOption('hair','blonde',this)"
+>
+Blonde
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     SHIRT
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Shirt / Jumper
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('shirt','blue',this)"
+>
+Blue
+</button>
+
+<button
+    class="option"
+    onclick="setOption('shirt','red',this)"
+>
+Red
+</button>
+
+<button
+    class="option"
+    onclick="setOption('shirt','green',this)"
+>
+Green
+</button>
+
+
+<!-- STUDYPASS -->
+
+<button
+    id="sprint-blue-shirt"
+    class="option locked"
+    onclick="setOption('shirt','sprint-blue',this)"
+    disabled
+>
+Sprint Blue
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     PANTS
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Pants
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('pants','blue',this)"
+>
+Blue
+</button>
+
+<button
+    class="option"
+    onclick="setOption('pants','black',this)"
+>
+Black
+</button>
+
+<button
+    class="option"
+    onclick="setOption('pants','brown',this)"
+>
+Brown
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     HAT
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Hat
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('hat','none',this)"
+>
+None
+</button>
+
+<button
+    class="option"
+    onclick="setOption('hat','cap',this)"
+>
+Cap
+</button>
+
+<button
+    class="option"
+    onclick="setOption('hat','beanie',this)"
+>
+Beanie
+</button>
+
+
+<!-- STUDYPASS -->
+
+<button
+    id="sprint-cap"
+    class="option locked"
+    onclick="setOption('hat','sprint-cap',this)"
+    disabled
+>
+Sprint Cap
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     BACKPACK
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Backpack
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('backpack','none',this)"
+>
+None
+</button>
+
+<button
+    class="option"
+    onclick="setOption('backpack','blue',this)"
+>
+Blue
+</button>
+
+<button
+    class="option"
+    onclick="setOption('backpack','red',this)"
+>
+Red
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     BANNER
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Banner
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('banner','purple',this)"
+>
+Purple
+</button>
+
+<button
+    class="option"
+    onclick="setOption('banner','blue',this)"
+>
+Blue
+</button>
+
+<button
+    class="option"
+    onclick="setOption('banner','green',this)"
+>
+Green
+</button>
+
+
+<!-- STUDYPASS -->
+
+<button
+    id="sprint-grid-banner"
+    class="option locked"
+    onclick="setOption('banner','sprint-grid',this)"
+    disabled
+>
+Sprint Grid
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+     PLAYER TAG
+========================================= -->
+
+<section class="customise-section">
+
+<h2>
+Player Tag
+</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('tag','none',this)"
+>
+None
+</button>
+
+
+<button
+    id="sprint-champion-title"
+    class="option locked"
+    onclick="setOption('tag','sprint-champion',this)"
+    disabled
+>
+Sprint Champion
+</button>
+
+</div>
+
+</section>
+
+
+<button
+    class="main-button save-button"
+    onclick="saveCharacter()"
+>
+💾 Save Character
+</button>
 
 
 <a
-href="index.html"
-class="main-button"
+    href="index.html"
+    class="back-button"
 >
 ← Back to Profile
 </a>
@@ -1137,61 +1152,218 @@ class="main-button"
 
 <script>
 
-/* =========================
-   DEFAULT CHARACTER
-========================= */
+/* =========================================
+   CHARACTER DATA
+========================================= */
 
-let characterData = {
+let character = {
 
-    skin: "light",
+    skin:
+        localStorage.getItem(
+            "character_skin"
+        ) || "light",
 
-    hair: "brown",
+    hair:
+        localStorage.getItem(
+            "character_hair"
+        ) || "brown",
 
-    shirt: "blue",
+    shirt:
+        localStorage.getItem(
+            "character_shirt"
+        ) || "blue",
 
-    pants: "blue",
+    pants:
+        localStorage.getItem(
+            "character_pants"
+        ) || "blue",
 
-    hat: "none",
+    hat:
+        localStorage.getItem(
+            "character_hat"
+        ) || "none",
 
-    backpack: "none",
+    backpack:
+        localStorage.getItem(
+            "character_backpack"
+        ) || "none",
 
-    banner: "purple",
+    banner:
+        localStorage.getItem(
+            "character_banner"
+        ) || "purple",
 
-    username: "Sprinter",
-
-    playerTag: "New Sprinter"
+    tag:
+        localStorage.getItem(
+            "character_tag"
+        ) || "none"
 
 };
 
 
-/* =========================
-   LOAD CHARACTER
-========================= */
+/* =========================================
+   USERNAME
+========================================= */
 
-const savedCharacter =
-localStorage.getItem("character");
+const usernameInput =
+    document.getElementById(
+        "username"
+    );
 
 
-if (savedCharacter) {
+usernameInput.value =
+    localStorage.getItem(
+        "username"
+    ) || "";
 
-    try {
 
-        characterData = {
+/* =========================================
+   UNLOCKED COSMETICS
+========================================= */
 
-            ...characterData,
+function getUnlocked(type) {
 
-            ...JSON.parse(
-                savedCharacter
-            )
+    return JSON.parse(
+        localStorage.getItem(
+            "unlocked_" +
+            type +
+            "s"
+        )
+    ) || [];
 
-        };
+}
+
+
+function getUnlockedTitles() {
+
+    return JSON.parse(
+        localStorage.getItem(
+            "unlockedTitles"
+        )
+    ) || [];
+
+}
+
+
+/* =========================================
+   CHECK STUDYPASS COSMETICS
+========================================= */
+
+function updateUnlockedCosmetics() {
+
+    const shirts =
+        getUnlocked(
+            "shirt"
+        );
+
+
+    const hats =
+        getUnlocked(
+            "hat"
+        );
+
+
+    const banners =
+        getUnlocked(
+            "banner"
+        );
+
+
+    const titles =
+        getUnlockedTitles();
+
+
+    const sprintShirt =
+        document.getElementById(
+            "sprint-blue-shirt"
+        );
+
+
+    const sprintCap =
+        document.getElementById(
+            "sprint-cap"
+        );
+
+
+    const sprintBanner =
+        document.getElementById(
+            "sprint-grid-banner"
+        );
+
+
+    const sprintTitle =
+        document.getElementById(
+            "sprint-champion-title"
+        );
+
+
+    /* SHIRT */
+
+    if (
+        shirts.includes(
+            "sprint-blue"
+        )
+    ) {
+
+        sprintShirt.disabled =
+            false;
+
+        sprintShirt.classList.remove(
+            "locked"
+        );
 
     }
 
-    catch {
 
-        console.log(
-            "Could not load character."
+    /* HAT */
+
+    if (
+        hats.includes(
+            "sprint-cap"
+        )
+    ) {
+
+        sprintCap.disabled =
+            false;
+
+        sprintCap.classList.remove(
+            "locked"
+        );
+
+    }
+
+
+    /* BANNER */
+
+    if (
+        banners.includes(
+            "sprint-grid"
+        )
+    ) {
+
+        sprintBanner.disabled =
+            false;
+
+        sprintBanner.classList.remove(
+            "locked"
+        );
+
+    }
+
+
+    /* TITLE */
+
+    if (
+        titles.includes(
+            "sprint-champion"
+        )
+    ) {
+
+        sprintTitle.disabled =
+            false;
+
+        sprintTitle.classList.remove(
+            "locked"
         );
 
     }
@@ -1199,466 +1371,472 @@ if (savedCharacter) {
 }
 
 
-/* =========================
+/* =========================================
+   SET OPTION
+========================================= */
+
+function setOption(
+    type,
+    value,
+    button
+) {
+
+    if (
+        button.disabled
+    ) {
+
+        return;
+
+    }
+
+
+    character[type] =
+        value;
+
+
+    const buttons =
+        button
+        .parentElement
+        .querySelectorAll(
+            ".option"
+        );
+
+
+    buttons.forEach(
+        function(
+            option
+        ) {
+
+            option.classList.remove(
+                "selected"
+            );
+
+        }
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    updateCharacter();
+
+}
+
+
+/* =========================================
    UPDATE CHARACTER
-========================= */
+========================================= */
 
 function updateCharacter() {
 
+    const head =
+        document.getElementById(
+            "character-head"
+        );
 
-    const character =
-    document.getElementById(
-        "character"
-    );
+
+    const body =
+        document.getElementById(
+            "character-body"
+        );
+
+
+    const leftLeg =
+        document.getElementById(
+            "character-leg-left"
+        );
+
+
+    const rightLeg =
+        document.getElementById(
+            "character-leg-right"
+        );
+
+
+    const hair =
+        document.getElementById(
+            "character-hair"
+        );
+
+
+    const hat =
+        document.getElementById(
+            "character-hat"
+        );
+
+
+    const backpack =
+        document.getElementById(
+            "character-backpack"
+        );
 
 
     /* SKIN */
 
-    character.className =
-    "character skin-" +
-    characterData.skin;
+    const skinColours = {
+
+        light:"#f6c7a8",
+
+        medium:"#c98b68",
+
+        dark:"#70452f"
+
+    };
+
+
+    head.style.background =
+        skinColours[
+            character.skin
+        ];
+
+
+    /* BODY */
+
+    const shirtColours = {
+
+        blue:"#3b82f6",
+
+        red:"#ef4444",
+
+        green:"#22c55e",
+
+        "sprint-blue":
+            "#2563eb"
+
+    };
+
+
+    body.style.background =
+        shirtColours[
+            character.shirt
+        ];
+
+
+    /* LEGS */
+
+    const pantsColours = {
+
+        blue:"#2563eb",
+
+        black:"#111827",
+
+        brown:"#78350f"
+
+    };
+
+
+    leftLeg.style.background =
+        pantsColours[
+            character.pants
+        ];
+
+
+    rightLeg.style.background =
+        pantsColours[
+            character.pants
+        ];
 
 
     /* HAIR */
 
-    document.getElementById(
-        "hair"
-    ).className =
-    "hair " +
-    characterData.hair;
+    const hairColours = {
+
+        brown:"#78350f",
+
+        black:"#111827",
+
+        blonde:"#facc15"
+
+    };
 
 
-    /* SHIRT */
-
-    document.getElementById(
-        "shirt"
-    ).className =
-    "body " +
-    characterData.shirt;
-
-
-    /* PANTS */
-
-    document.getElementById(
-        "leg-left"
-    ).className =
-    "leg pants-" +
-    characterData.pants +
-    " left";
-
-
-    document.getElementById(
-        "leg-right"
-    ).className =
-    "leg pants-" +
-    characterData.pants +
-    " right";
+    hair.style.background =
+        hairColours[
+            character.hair
+        ];
 
 
     /* HAT */
 
-    const hat =
-    document.getElementById(
-        "hat"
+    hat.className =
+        "character-hat";
+
+
+    hat.classList.remove(
+        "cap",
+        "beanie"
     );
 
 
-    if (
-        characterData.hat ===
-        "cap" ||
+    hat.style.background =
+        "";
 
-        characterData.hat ===
+
+    hat.innerHTML =
+        "";
+
+
+    if (
+        character.hat ===
+        "cap"
+    ) {
+
+        hat.classList.add(
+            "cap"
+        );
+
+        hat.style.background =
+            "#2563eb";
+
+        hat.style.display =
+            "block";
+
+        hat.style.setProperty(
+            "--hat-colour",
+            "#2563eb"
+        );
+
+        hat.style.setProperty(
+            "background",
+            "#2563eb"
+        );
+
+        hat.style.setProperty(
+            "box-shadow",
+            "inset 0 -8px 0 rgba(0,0,0,.15)"
+        );
+
+    }
+
+    else if (
+        character.hat ===
         "beanie"
     ) {
 
-        hat.className =
-        "hat " +
-        characterData.hat;
+        hat.classList.add(
+            "beanie"
+        );
+
+        hat.style.background =
+            "#ef4444";
+
+    }
+
+    else if (
+        character.hat ===
+        "sprint-cap"
+    ) {
+
+        hat.classList.add(
+            "cap"
+        );
+
+        hat.style.background =
+            "#2563eb";
+
+        hat.style.boxShadow =
+            "inset 0 -8px 0 rgba(0,0,0,.15)";
 
     }
 
     else {
 
-        hat.className =
-        "hat";
+        hat.style.display =
+            "none";
 
     }
 
 
     /* BACKPACK */
 
-    const backpack =
-    document.getElementById(
-        "backpack"
-    );
-
-
     if (
-        characterData.backpack ===
-        "blue" ||
-
-        characterData.backpack ===
-        "red"
+        character.backpack ===
+        "none"
     ) {
 
-        backpack.className =
-        "backpack " +
-        characterData.backpack;
+        backpack.classList.add(
+            "hidden"
+        );
 
     }
 
     else {
 
-        backpack.className =
-        "backpack";
+        backpack.classList.remove(
+            "hidden"
+        );
+
+
+        const backpackColours = {
+
+            blue:"#2563eb",
+
+            red:"#dc2626"
+
+        };
+
+
+        backpack.style.background =
+            backpackColours[
+                character.backpack
+            ];
 
     }
 
 
     /* BANNER */
 
-    document.getElementById(
-        "character-preview"
-    ).className =
-    "character-preview " +
-    characterData.banner;
-
-
-    /* USERNAME */
-
-    document.getElementById(
-        "username"
-    ).value =
-    characterData.username || "";
+    document.body.style
+        .setProperty(
+            "--character-banner",
+            character.banner
+        );
 
 }
 
 
-/* =========================
-   CHANGE OPTION
-========================= */
-
-function setOption(
-    option,
-    value,
-    button
-) {
-
-    characterData[option] =
-    value;
-
-
-    updateCharacter();
-
-
-    /*
-       Highlight selected option
-    */
-
-    const buttons =
-    button.parentElement
-    .querySelectorAll(
-        ".option"
-    );
-
-
-    buttons.forEach(
-        function(item) {
-
-            item.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    button.classList.add(
-        "selected"
-    );
-
-}
-
-
-/* =========================
-   PLAYER TAG
-========================= */
-
-function setTag(
-    tag,
-    button
-) {
-
-    characterData.playerTag =
-    tag;
-
-
-    const buttons =
-    button.parentElement
-    .querySelectorAll(
-        ".option"
-    );
-
-
-    buttons.forEach(
-        function(item) {
-
-            item.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    button.classList.add(
-        "selected"
-    );
-
-}
-
-
-/* =========================
+/* =========================================
    SAVE
-========================= */
+========================================= */
 
 function saveCharacter() {
 
+    localStorage.setItem(
+        "username",
+        usernameInput.value
+    );
 
-    const username =
-    document.getElementById(
-        "username"
-    ).value.trim();
-
-
-    if (username.length > 0) {
-
-        characterData.username =
-        username;
-
-    }
-
-    else {
-
-        characterData.username =
-        "Sprinter";
-
-    }
-
-
-    /*
-       SAVE EVERYTHING
-    */
 
     localStorage.setItem(
-        "character",
-        JSON.stringify(
-            characterData
+        "character_skin",
+        character.skin
+    );
+
+
+    localStorage.setItem(
+        "character_hair",
+        character.hair
+    );
+
+
+    localStorage.setItem(
+        "character_shirt",
+        character.shirt
+    );
+
+
+    localStorage.setItem(
+        "character_pants",
+        character.pants
+    );
+
+
+    localStorage.setItem(
+        "character_hat",
+        character.hat
+    );
+
+
+    localStorage.setItem(
+        "character_backpack",
+        character.backpack
+    );
+
+
+    localStorage.setItem(
+        "character_banner",
+        character.banner
+    );
+
+
+    localStorage.setItem(
+        "character_tag",
+        character.tag
+    );
+
+
+    alert(
+        "Character saved!"
+    );
+
+}
+
+
+/* =========================================
+   SELECT CURRENT OPTIONS
+========================================= */
+
+function selectCurrentOptions() {
+
+    document
+        .querySelectorAll(
+            ".option"
         )
-    );
+        .forEach(
+            function(button) {
+
+                const onclick =
+                    button.getAttribute(
+                        "onclick"
+                    );
 
 
-    /*
-       Show confirmation
-    */
-
-    const message =
-    document.getElementById(
-        "saved-message"
-    );
+                if (
+                    !onclick
+                ) {
+                    return;
+                }
 
 
-    message.textContent =
-    "✓ Character saved!";
+                const match =
+                    onclick.match(
+                        /setOption\('([^']+)','([^']+)'/
+                    );
 
 
-    setTimeout(
-        function() {
+                if (
+                    !match
+                ) {
+                    return;
+                }
 
-            message.textContent =
-            "";
 
-        },
-        2000
-    );
+                const type =
+                    match[1];
+
+
+                const value =
+                    match[2];
+
+
+                if (
+                    character[type] ===
+                    value
+                ) {
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                }
+
+            }
+        );
 
 }
 
 
-/* =========================
-   HIGHLIGHT SAVED OPTIONS
-========================= */
-
-function highlightSavedOptions() {
-
-
-    const allButtons =
-    document.querySelectorAll(
-        ".option"
-    );
-
-
-    allButtons.forEach(
-        function(button) {
-
-            button.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    /*
-       Find buttons whose
-       onclick contains the
-       saved values.
-    */
-
-    allButtons.forEach(
-        function(button) {
-
-            const action =
-            button.getAttribute(
-                "onclick"
-            );
-
-
-            if (!action) return;
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.skin +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.hair +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.shirt +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.pants +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.hat +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.backpack +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.banner +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                action.includes(
-                    "'" +
-                    characterData.playerTag +
-                    "'"
-                )
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================
+/* =========================================
    START
-========================= */
+========================================= */
+
+updateUnlockedCosmetics();
 
 updateCharacter();
 
-highlightSavedOptions();
+selectCurrentOptions();
 
 </script>
 
