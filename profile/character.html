@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Customize Character | StudySprint</title>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="character.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+<nav>
+
+<a href="../index.html">Home</a> <a href="../study/index.html">📚 Study</a> <a href="../sprint/index.html">🏃 Sprint</a> <a href="index.html">👤 Profile</a>
+
+</nav>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+<h1>
+🧍 Customize Your Character
+</h1>
+
+<p>
+Make your StudySprint character yours!
+</p>
+
+</section>
+
+<section class="character-editor">
+
+<div class="banner-preview" id="banner">
+
+<div class="character" id="character">
+
+<div class="character-hair" id="character-hair"></div>
+
+<div class="character-head">
+
+<div class="eye left-eye"></div>
+<div class="eye right-eye"></div>
+
+<div class="mouth"></div>
+
+</div>
+
+<div class="character-body">
+
+<div class="shirt"></div>
+
+</div>
+
+<div class="character-pants"></div>
+
+<div class="backpack"></div>
+
+<div class="hat"></div>
+
+</div>
+
+<div class="player-info">
+
+<h2 id="preview-username">
+Player
+</h2>
+
+<p id="preview-tag">
+New Squeezer
+</p>
+
+</div>
+
+</div>
+
+<div class="customization-section">
+
+<h2>🎨 Character</h2>
+
+<label>
+Skin
+</label>
+
+<div class="options">
+
+<button onclick="setOption('skin','light')">Light</button> <button onclick="setOption('skin','medium')">Medium</button> <button onclick="setOption('skin','dark')">Dark</button>
+
+</div>
+
+<label>
+Hair
+</label>
+
+<div class="options">
+
+<button onclick="setOption('hair','brown')">Brown</button> <button onclick="setOption('hair','black')">Black</button> <button onclick="setOption('hair','blonde')">Blonde</button>
+
+</div>
+
+<label>
+Shirt / Jumper
+</label>
+
+<div class="options">
+
+<button onclick="setOption('shirt','blue')">Blue</button> <button onclick="setOption('shirt','red')">Red</button> <button onclick="setOption('shirt','green')">Green</button>
+
+</div>
+
+<label>
+Pants
+</label>
+
+<div class="options">
+
+<button onclick="setOption('pants','blue')">Blue</button> <button onclick="setOption('pants','black')">Black</button> <button onclick="setOption('pants','brown')">Brown</button>
+
+</div>
+
+<label>
+Hat</label>
+
+<div class="options">
+
+<button onclick="setOption('hat','none')">None</button> <button onclick="setOption('hat','cap')">Cap</button> <button onclick="setOption('hat','beanie')">Beanie</button>
+
+</div>
+
+<label>
+Backpack
+</label>
+
+<div class="options">
+
+<button onclick="setOption('backpack','none')">None</button> <button onclick="setOption('backpack','blue')">Blue</button> <button onclick="setOption('backpack','red')">Red</button>
+
+</div>
+
+<h2>🏷️ Identity</h2>
+
+<label>
+Username
+</label>
+
+<input
+type="text"
+id="username"
+maxlength="16"
+placeholder="Username"
+oninput="updateUsername()"
+
+>
+
+<label>
+Player Tag
+</label>
+
+<input
+type="text"
+id="player-tag"
+maxlength="20"
+placeholder="Player Tag"
+oninput="updateTag()"
+
+>
+
+<h2>🖼️ Banner</h2>
+
+<div class="options">
+
+<button onclick="setBanner('purple')">Purple</button> <button onclick="setBanner('blue')">Blue</button> <button onclick="setBanner('green')">Green</button>
+
+</div>
+
+<button
+class="main-button save-button"
+onclick="saveCharacter()"
+
+>
+
+💾 Save Character </button>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+<script src="character.js"></script>
+
+</body>
+
+</html>
 
