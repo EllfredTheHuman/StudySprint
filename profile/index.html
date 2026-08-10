@@ -17,20 +17,19 @@
 ========================= */
 
 .streak-section {
-    text-align:center;
+    text-align: center;
 }
 
 .streak-fire-number {
-    position:relative;
+    position: relative;
 
-    display:inline-block;
+    display: inline-block;
 
-    font-size:130px;
-    font-weight:900;
+    font-size: 130px;
+    font-weight: 900;
+    line-height: 1;
 
-    line-height:1;
-
-    margin:20px 0;
+    margin: 20px 0;
 
     background:
         linear-gradient(
@@ -41,12 +40,12 @@
             #ffe066 100%
         );
 
-    -webkit-background-clip:text;
-    background-clip:text;
+    -webkit-background-clip: text;
+    background-clip: text;
 
-    -webkit-text-fill-color:transparent;
+    -webkit-text-fill-color: transparent;
 
-    -webkit-text-stroke:4px #8b2500;
+    -webkit-text-stroke: 4px #8b2500;
 
     text-shadow:
         0 0 10px #ff4500,
@@ -57,14 +56,14 @@
 .streak-fire-number::before,
 .streak-fire-number::after {
 
-    content:"🔥";
+    content: "🔥";
 
-    position:absolute;
+    position: absolute;
 
-    font-size:45px;
+    font-size: 45px;
 
-    -webkit-text-fill-color:initial;
-    -webkit-text-stroke:0;
+    -webkit-text-fill-color: initial;
+    -webkit-text-stroke: 0;
 
     filter:
         drop-shadow(
@@ -74,411 +73,431 @@
 
 .streak-fire-number::before {
 
-    top:-25px;
-    left:-35px;
+    top: -25px;
+    left: -35px;
 
-    transform:rotate(-20deg);
-
+    transform: rotate(-20deg);
 }
 
 .streak-fire-number::after {
 
-    top:-30px;
-    right:-35px;
+    top: -30px;
+    right: -35px;
 
-    transform:rotate(20deg);
-
+    transform: rotate(20deg);
 }
 
 .streak-label {
 
-    font-size:24px;
-    font-weight:bold;
-    margin-top:0;
+    font-size: 24px;
 
+    font-weight: bold;
+
+    margin-top: 0;
 }
 
 .streak-message {
 
-    margin-top:10px;
-
+    margin-top: 10px;
 }
 
 
 /* =========================
-   PROFILE CHARACTER
+   PROFILE BANNER
 ========================= */
 
 .profile-banner-link {
 
-    display:block;
+    display: block;
 
-    text-decoration:none;
+    width: 700px;
+    max-width: 90%;
 
-    color:inherit;
+    min-height: 190px;
 
-    width:700px;
+    margin: 40px auto;
 
-    max-width:90%;
+    text-decoration: none;
 
-    margin:40px auto;
+    color: white;
 
-}
+    border-radius: 35px;
 
-.profile-banner {
+    position: relative;
 
-    position:relative;
-
-    min-height:180px;
-
-    border-radius:35px;
-
-    padding:35px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:30px;
-
-    background:#6366f1;
-
-    color:white;
+    overflow: hidden;
 
     box-shadow:
-        0 15px 35px
-        rgba(0,0,0,.12);
+        0 15px 35px rgba(0,0,0,.12);
 
-    transition:.25s;
-
+    transition: .3s;
 }
 
-.profile-banner:hover {
+.profile-banner-link:hover {
 
-    transform:translateY(-6px);
+    transform:
+        translateY(-8px)
+        scale(1.01);
 
     box-shadow:
-        0 20px 45px
-        rgba(0,0,0,.18);
+        0 20px 45px rgba(0,0,0,.18);
+}
 
+.profile-banner-link.purple {
+    background: #6366f1;
+}
+
+.profile-banner-link.blue {
+    background: #2563eb;
+}
+
+.profile-banner-link.green {
+    background: #16a34a;
 }
 
 
 /* =========================
-   ROUND CHARACTER
+   BANNER CHARACTER
 ========================= */
+
+.profile-banner-character {
+
+    position: absolute;
+
+    left: 25px;
+    bottom: 0;
+
+    width: 150px;
+    height: 180px;
+
+    transform: scale(.65);
+
+    transform-origin:
+        bottom left;
+}
 
 .profile-character {
 
-    position:relative;
+    position: absolute;
 
-    width:140px;
+    width: 150px;
+    height: 250px;
 
-    height:175px;
-
-    flex-shrink:0;
-
+    left: 0;
+    bottom: 0;
 }
 
-.profile-body {
 
-    position:absolute;
+/* HEAD */
 
-    width:90px;
-    height:90px;
+.profile-head {
 
-    left:25px;
-    top:35px;
+    position: absolute;
 
-    border-radius:50%;
+    width: 100px;
+    height: 100px;
 
-    z-index:3;
+    left: 25px;
+    top: 25px;
 
+    border-radius: 50%;
+
+    background: #f1c27d;
+
+    z-index: 4;
 }
 
-.profile-face {
+.profile-character.skin-medium
+.profile-head {
 
-    position:absolute;
-
-    width:11px;
-    height:11px;
-
-    left:47px;
-    top:78px;
-
-    background:#222;
-
-    border-radius:50%;
-
-    z-index:5;
-
+    background: #c68642;
 }
 
-.profile-face::after {
+.profile-character.skin-dark
+.profile-head {
 
-    content:"";
-
-    position:absolute;
-
-    width:11px;
-    height:11px;
-
-    left:28px;
-
-    background:#222;
-
-    border-radius:50%;
-
+    background: #6b4226;
 }
+
+
+/* HAIR */
 
 .profile-hair {
 
-    position:absolute;
+    position: absolute;
 
-    width:90px;
-    height:42px;
+    width: 108px;
+    height: 55px;
 
-    left:25px;
-    top:32px;
-
-    border-radius:
-        50px 50px
-        20px 20px;
-
-    z-index:6;
-
-}
-
-.profile-shirt {
-
-    position:absolute;
-
-    width:78px;
-    height:55px;
-
-    left:31px;
-    top:110px;
+    left: 21px;
+    top: 16px;
 
     border-radius:
-        20px 20px
-        12px 12px;
+        55px 55px 25px 25px;
 
-    z-index:2;
-
+    z-index: 6;
 }
 
-.profile-pants {
+.profile-hair.brown {
+    background: #6b3e26;
+}
 
-    position:absolute;
+.profile-hair.black {
+    background: #222;
+}
 
-    width:78px;
-    height:35px;
+.profile-hair.blonde {
+    background: #f4c542;
+}
 
-    left:31px;
-    top:150px;
+
+/* BODY */
+
+.profile-body {
+
+    position: absolute;
+
+    width: 110px;
+    height: 105px;
+
+    left: 20px;
+    top: 125px;
 
     border-radius:
-        8px 8px
-        15px 15px;
+        35px 35px 25px 25px;
 
-    z-index:1;
-
+    z-index: 2;
 }
 
-.profile-hat-cap {
+.profile-body.blue {
+    background: #3b82f6;
+}
 
-    position:absolute;
+.profile-body.red {
+    background: #ef4444;
+}
 
-    width:94px;
-    height:34px;
+.profile-body.green {
+    background: #22c55e;
+}
 
-    left:23px;
-    top:20px;
 
-    background:#6366f1;
+/* ARMS */
+
+.profile-arm {
+
+    position: absolute;
+
+    width: 34px;
+    height: 78px;
+
+    top: 132px;
+
+    border-radius: 20px;
+
+    background: #f1c27d;
+
+    z-index: 1;
+}
+
+.profile-character.skin-medium
+.profile-arm {
+
+    background: #c68642;
+}
+
+.profile-character.skin-dark
+.profile-arm {
+
+    background: #6b4226;
+}
+
+.profile-arm.left {
+
+    left: 0;
+
+    transform:
+        rotate(8deg);
+}
+
+.profile-arm.right {
+
+    right: 0;
+
+    transform:
+        rotate(-8deg);
+}
+
+
+/* BACKPACK */
+
+.profile-backpack {
+
+    display: none;
+
+    position: absolute;
+
+    width: 42px;
+    height: 70px;
+
+    right: 0;
+    top: 130px;
+
+    border-radius: 15px;
+
+    z-index: 3;
+}
+
+.profile-backpack.blue {
+
+    display: block;
+
+    background: #2563eb;
+}
+
+.profile-backpack.red {
+
+    display: block;
+
+    background: #dc2626;
+}
+
+
+/* HAT */
+
+.profile-hat {
+
+    position: absolute;
+
+    z-index: 8;
+}
+
+.profile-hat.cap {
+
+    width: 95px;
+    height: 25px;
+
+    left: 28px;
+    top: 9px;
 
     border-radius:
-        50px 50px
-        15px 15px;
+        50px 50px 8px 8px;
 
-    z-index:10;
-
+    background: #6366f1;
 }
 
-.profile-hat-cap::after {
+.profile-hat.cap::after {
 
-    content:"";
+    content: "";
 
-    position:absolute;
+    position: absolute;
 
-    width:45px;
-    height:11px;
+    width: 38px;
+    height: 9px;
 
-    left:57px;
-    top:24px;
+    left: 58px;
+    top: 19px;
 
-    background:#4f46e5;
+    border-radius: 50%;
+
+    background: #4f46e5;
+
+    transform: rotate(5deg);
+}
+
+.profile-hat.beanie {
+
+    width: 96px;
+    height: 47px;
+
+    left: 27px;
+    top: 5px;
 
     border-radius:
-        0 15px 15px 0;
+        50px 50px 14px 14px;
 
+    background: #ef4444;
 }
 
-.profile-hat-beanie {
+.profile-hat.beanie::after {
 
-    position:absolute;
+    content: "";
 
-    width:94px;
-    height:48px;
+    position: absolute;
 
-    left:23px;
-    top:20px;
+    width: 96px;
+    height: 12px;
 
-    background:#ef4444;
+    left: 0;
+    bottom: -3px;
 
-    border-radius:
-        50px 50px
-        15px 15px;
+    border-radius: 10px;
 
-    z-index:10;
-
-}
-
-.profile-hat-beanie::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:94px;
-    height:14px;
-
-    left:0;
-    bottom:0;
-
-    background:#dc2626;
-
-    border-radius:10px;
-
-}
-
-.profile-backpack-blue,
-.profile-backpack-red {
-
-    position:absolute;
-
-    width:34px;
-    height:55px;
-
-    left:3px;
-    top:110px;
-
-    border-radius:15px;
-
-    z-index:1;
-
-}
-
-.profile-backpack-blue {
-    background:#3b82f6;
-}
-
-.profile-backpack-red {
-    background:#ef4444;
+    background: #dc2626;
 }
 
 
 /* =========================
-   CHARACTER COLOURS
+   BANNER TEXT
 ========================= */
-
-.profile-skin-light {
-    background:#f6d1ad;
-}
-
-.profile-skin-medium {
-    background:#c98d63;
-}
-
-.profile-skin-dark {
-    background:#70452d;
-}
-
-.profile-hair-brown {
-    background:#6b3e26;
-}
-
-.profile-hair-black {
-    background:#222;
-}
-
-.profile-hair-blonde {
-    background:#f4d35e;
-}
-
-.profile-shirt-blue {
-    background:#3b82f6;
-}
-
-.profile-shirt-red {
-    background:#ef4444;
-}
-
-.profile-shirt-green {
-    background:#22c55e;
-}
-
-.profile-pants-blue {
-    background:#2563eb;
-}
-
-.profile-pants-black {
-    background:#222;
-}
-
-.profile-pants-brown {
-    background:#795548;
-}
 
 .profile-banner-info {
 
-    text-align:left;
+    position: absolute;
 
+    left: 190px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    text-align: left;
 }
 
-.profile-banner-info h2 {
+.profile-banner-username {
 
-    margin:0 0 8px;
+    font-size: 32px;
 
-    font-size:30px;
+    font-weight: 900;
 
+    margin-bottom: 6px;
 }
 
-.profile-banner-info p {
+.profile-banner-tag {
 
-    margin:0;
+    font-size: 18px;
 
-    color:rgba(255,255,255,.85);
+    font-weight: 700;
 
+    opacity: .9;
 }
 
 
-/* Mobile */
+/* =========================
+   MOBILE
+========================= */
 
-@media(max-width:600px) {
+@media(max-width:700px) {
 
-    .profile-banner {
+    .profile-banner-link {
 
-        flex-direction:column;
-
-        text-align:center;
-
+        min-height: 170px;
     }
 
     .profile-banner-info {
 
-        text-align:center;
+        left: 150px;
+    }
 
+    .profile-banner-username {
+
+        font-size: 24px;
+    }
+
+    .profile-banner-tag {
+
+        font-size: 15px;
     }
 
 }
@@ -490,21 +509,31 @@
 
 <body>
 
+
 <header>
 
 <div class="logo">
 🚀 StudySprint
 </div>
 
+
 <nav>
 
-<a href="../index.html">Home</a>
+<a href="../index.html">
+Home
+</a>
 
-<a href="../study/index.html">📚 Study</a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-<a href="../sprint/index.html">🏃 Sprint</a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-<a href="index.html">👤 Profile</a>
+<a href="index.html">
+👤 Profile
+</a>
 
 </nav>
 
@@ -527,56 +556,74 @@ Track your learning progress!
 </section>
 
 
-<!-- CHARACTER -->
+<!-- =========================
+     PROFILE CHARACTER
+========================= -->
 
 <a
 href="character.html"
-class="profile-banner-link"
+class="profile-banner-link purple"
+id="profile-banner"
 >
 
-<div class="profile-banner">
 
+<div
+class="profile-banner-character"
+>
 
 <div
 class="profile-character"
 id="profile-character"
 >
 
-<div
-id="profile-backpack"
->
-</div>
 
 <div
-class="profile-pants"
-id="profile-pants"
->
-</div>
-
-<div
-class="profile-shirt"
-id="profile-shirt"
->
-</div>
-
-<div
-class="profile-body"
-id="profile-body"
->
-
-<div class="profile-face"></div>
-
-</div>
-
-<div
-class="profile-hair"
+class="profile-hair brown"
 id="profile-hair"
 >
 </div>
 
+
 <div
+class="profile-hat"
 id="profile-hat"
 >
+</div>
+
+
+<div
+class="profile-head"
+id="profile-head"
+>
+</div>
+
+
+<div
+class="profile-arm left"
+>
+</div>
+
+
+<div
+class="profile-arm right"
+>
+</div>
+
+
+<div
+class="profile-body blue"
+id="profile-shirt"
+>
+</div>
+
+
+<div
+class="profile-backpack"
+id="profile-backpack"
+>
+</div>
+
+
 </div>
 
 </div>
@@ -584,23 +631,30 @@ id="profile-hat"
 
 <div class="profile-banner-info">
 
-<h2 id="profile-username">
-Player
-</h2>
-
-<p>
-Click to customise your character →
-</p>
-
+<div
+class="profile-banner-username"
+id="profile-username"
+>
+Sprinter
 </div>
 
 
+<div
+class="profile-banner-tag"
+id="profile-tag"
+>
+New Sprinter
 </div>
+
+</div>
+
 
 </a>
 
 
-<!-- MAIN PROFILE STATS -->
+<!-- =========================
+     MAIN PROFILE STATS
+========================= -->
 
 <section class="features">
 
@@ -647,13 +701,16 @@ Click to customise your character →
 </section>
 
 
-<!-- STREAK -->
+<!-- =========================
+     STREAK
+========================= -->
 
 <section class="hero streak-section">
 
 <h1>
 🔥 Streak
 </h1>
+
 
 <div
 class="streak-fire-number"
@@ -662,9 +719,11 @@ id="streak"
 0
 </div>
 
+
 <p class="streak-label">
 DAY STREAK
 </p>
+
 
 <p
 class="streak-message"
@@ -676,7 +735,9 @@ Complete a Sprint every day to keep your streak alive!
 </section>
 
 
-<!-- LEVEL PROGRESS -->
+<!-- =========================
+     LEVEL PROGRESS
+========================= -->
 
 <section class="hero">
 
@@ -684,14 +745,17 @@ Complete a Sprint every day to keep your streak alive!
 📊 Level Progress
 </h1>
 
+
 <div class="progress">
 
 <div
 class="progress-bar"
 id="xp-bar"
-></div>
+>
+</div>
 
 </div>
+
 
 <p id="xp-text">
 0 / 100 XP to next level
@@ -700,7 +764,9 @@ id="xp-bar"
 </section>
 
 
-<!-- OTHER PROFILE INFORMATION -->
+<!-- =========================
+     OTHER INFORMATION
+========================= -->
 
 <section class="features">
 
@@ -769,10 +835,9 @@ No quizzes completed yet.
 
 <script>
 
-
-// =============================
-// GET SAVED DATA
-// =============================
+/* =========================
+   LOAD PROFILE DATA
+========================= */
 
 let totalXP =
 Number(
@@ -804,25 +869,34 @@ Number(
 ) || 0;
 
 
-// =============================
-// LOAD CHARACTER
-// =============================
+/* =========================
+   LOAD CHARACTER
+========================= */
 
-let character = {
+let characterData = {
 
-    skin:"light",
-    hair:"brown",
-    shirt:"blue",
-    pants:"blue",
-    hat:"none",
-    backpack:"none"
+    skin: "light",
+
+    hair: "brown",
+
+    shirt: "blue",
+
+    hat: "none",
+
+    backpack: "none",
+
+    banner: "purple",
+
+    username: "Sprinter",
+
+    playerTag: "New Sprinter"
 
 };
 
 
 const savedCharacter =
 localStorage.getItem(
-    "characterData"
+    "character"
 );
 
 
@@ -830,17 +904,21 @@ if (savedCharacter) {
 
     try {
 
-        character =
-        JSON.parse(
-            savedCharacter
-        );
+        characterData =
+        {
+            ...characterData,
+
+            ...JSON.parse(
+                savedCharacter
+            )
+        };
 
     }
 
     catch {
 
         console.log(
-            "Character data invalid."
+            "Could not load saved character."
         );
 
     }
@@ -848,121 +926,137 @@ if (savedCharacter) {
 }
 
 
-// =============================
-// RENDER CHARACTER
-// =============================
+/* =========================
+   DISPLAY CHARACTER
+========================= */
+
+const banner =
+document.getElementById(
+    "profile-banner"
+);
+
+
+banner.className =
+"profile-banner-link " +
+characterData.banner;
+
 
 document.getElementById(
-    "profile-body"
-).className =
-"profile-body profile-skin-" +
-character.skin;
+    "profile-username"
+).textContent =
+characterData.username ||
+"Sprinter";
+
+
+document.getElementById(
+    "profile-tag"
+).textContent =
+characterData.playerTag ||
+"New Sprinter";
+
+
+const character =
+document.getElementById(
+    "profile-character"
+);
+
+
+character.className =
+"profile-character skin-" +
+characterData.skin;
 
 
 document.getElementById(
     "profile-hair"
 ).className =
-"profile-hair profile-hair-" +
-character.hair;
+"profile-hair " +
+characterData.hair;
 
 
 document.getElementById(
     "profile-shirt"
 ).className =
-"profile-shirt profile-shirt-" +
-character.shirt;
+"profile-body " +
+characterData.shirt;
 
 
-document.getElementById(
-    "profile-pants"
-).className =
-"profile-pants profile-pants-" +
-character.pants;
+/* =========================
+   HAT
+========================= */
 
-
-const profileHat =
+const hat =
 document.getElementById(
     "profile-hat"
 );
 
 
-if (character.hat === "cap") {
-
-    profileHat.className =
-        "profile-hat-cap";
-
-}
-
-else if (
-    character.hat === "beanie"
+if (
+    characterData.hat ===
+    "none"
 ) {
 
-    profileHat.className =
-        "profile-hat-beanie";
+    hat.className =
+    "profile-hat";
 
 }
 
 else {
 
-    profileHat.className = "";
+    hat.className =
+    "profile-hat " +
+    characterData.hat;
 
 }
 
 
-const profileBackpack =
+/* =========================
+   BACKPACK
+========================= */
+
+const backpack =
 document.getElementById(
     "profile-backpack"
 );
 
 
 if (
-    character.backpack === "blue"
+    characterData.backpack ===
+    "none"
 ) {
 
-    profileBackpack.className =
-        "profile-backpack-blue";
-
-}
-
-else if (
-    character.backpack === "red"
-) {
-
-    profileBackpack.className =
-        "profile-backpack-red";
+    backpack.className =
+    "profile-backpack";
 
 }
 
 else {
 
-    profileBackpack.className = "";
+    backpack.className =
+    "profile-backpack " +
+    characterData.backpack;
 
 }
 
 
-// =============================
-// USERNAME
-// =============================
+/* =========================
+   STATS
+========================= */
 
-const username =
-localStorage.getItem(
-    "username"
-);
-
-
-if (username) {
-
-    document.getElementById(
-        "profile-username"
-    ).textContent =
-        username;
-
-}
+document.getElementById(
+    "xp"
+).textContent =
+totalXP;
 
 
-// =============================
-// LEVEL SYSTEM
-// =============================
+document.getElementById(
+    "quizzes"
+).textContent =
+quizzes;
+
+
+/* =========================
+   LEVEL
+========================= */
 
 let level = 1;
 
@@ -979,18 +1073,18 @@ while (
 ) {
 
     remainingXP -=
-        requiredXP;
+    requiredXP;
 
     level++;
 
     requiredXP =
-        Math.round(
-            100 *
-            Math.pow(
-                1.5,
-                level - 1
-            )
-        );
+    Math.round(
+        100 *
+        Math.pow(
+            1.5,
+            level - 1
+        )
+    );
 
 }
 
@@ -1004,36 +1098,20 @@ Math.round(
 );
 
 
-// =============================
-// DISPLAY PROFILE
-// =============================
-
-document.getElementById(
-    "xp"
-).textContent =
-    totalXP;
-
-
 document.getElementById(
     "level"
 ).textContent =
-    level;
+level;
 
 
-document.getElementById(
-    "quizzes"
-).textContent =
-    quizzes;
-
-
-// =============================
-// STREAK
-// =============================
+/* =========================
+   STREAK
+========================= */
 
 document.getElementById(
     "streak"
 ).textContent =
-    streak;
+streak;
 
 
 if (streak === 0) {
@@ -1041,7 +1119,7 @@ if (streak === 0) {
     document.getElementById(
         "streak-message"
     ).textContent =
-        "Complete a Sprint to start your streak!";
+    "Complete a Sprint to start your streak!";
 
 }
 
@@ -1050,7 +1128,7 @@ else if (streak === 1) {
     document.getElementById(
         "streak-message"
     ).textContent =
-        "You've started your streak! Keep it going!";
+    "You've started your streak! Keep it going!";
 
 }
 
@@ -1059,7 +1137,7 @@ else if (streak < 7) {
     document.getElementById(
         "streak-message"
     ).textContent =
-        "🔥 Keep going! You're building a streak!";
+    "🔥 Keep going! You're building a streak!";
 
 }
 
@@ -1068,7 +1146,7 @@ else if (streak < 30) {
     document.getElementById(
         "streak-message"
     ).textContent =
-        "🔥 You're on fire! Keep the streak alive!";
+    "🔥 You're on fire! Keep the streak alive!";
 
 }
 
@@ -1077,55 +1155,56 @@ else {
     document.getElementById(
         "streak-message"
     ).textContent =
-        "🔥 INCREDIBLE STREAK!";
+    "🔥 INCREDIBLE STREAK!";
 
 }
 
 
-// =============================
-// BEST SCORE
-// =============================
+/* =========================
+   BEST SCORE
+========================= */
 
 if (best > 0) {
 
     document.getElementById(
         "best-score"
     ).textContent =
-        best + "%";
+    best + "%";
 
 }
 
 
-// =============================
-// BEST STREAK
-// =============================
+/* =========================
+   BEST STREAK
+========================= */
 
 document.getElementById(
     "best-streak"
 ).textContent =
-    bestStreak + " days";
+bestStreak +
+" days";
 
 
-// =============================
-// XP PROGRESS
-// =============================
+/* =========================
+   XP PROGRESS
+========================= */
 
 document.getElementById(
     "xp-bar"
 ).style.width =
-    progress + "%";
+progress + "%";
 
 
 document.getElementById(
     "xp-text"
 ).textContent =
-    remainingXP +
-    " / " +
-    requiredXP +
-    " XP to next level";
-
+remainingXP +
+" / " +
+requiredXP +
+" XP to next level";
 
 </script>
+
 
 </body>
 
