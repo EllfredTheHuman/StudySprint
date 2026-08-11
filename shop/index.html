@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shop | StudySprint</title>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="shop.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+🚀 StudySprint
+</div>
+
+<nav>
+
+<a href="../index.html">Home</a>
+
+<a href="../study/index.html">📚 Study</a>
+
+<a href="../sprint/index.html">🏃 Sprint</a>
+
+<a href="../profile/index.html">👤 Profile</a>
+
+</nav>
+
+</header>
+
+
+
+<main class="shop-page">
+
+
+<!-- =========================
+     FORTNIGHTLY SHOP
+========================= -->
+
+<section id="fortnightly-shop"
+         class="shop-section">
+
+
+<div class="shop-header">
+
+<div>
+
+<h1>🛍️ Fortnightly Shop</h1>
+
+<p>
+New items every 14 days.
+</p>
+
+</div>
+
+
+<div class="currency-display">
+
+<span id="coin-count">
+0
+</span>
+
+Coins
+
+</div>
+
+</div>
+
+
+
+<div class="shop-countdown">
+
+Next shop refreshes in:
+
+<strong id="countdown">
+Loading...
+</strong>
+
+</div>
+
+
+
+<div
+id="fortnightly-items"
+class="shop-grid"
+>
+</div>
+
+
+
+<button
+class="ticket-shop-button"
+onclick="showTicketShop()"
+>
+
+🎟️ Open Ticket Shop
+
+</button>
+
+
+</section>
+
+
+
+<!-- =========================
+     TICKET SHOP
+========================= -->
+
+<section
+id="ticket-shop"
+class="shop-section hidden"
+>
+
+
+<div class="shop-header">
+
+<div>
+
+<h1>🎟️ Ticket Shop</h1>
+
+<p>
+Permanent prestige cosmetics.
+</p>
+
+</div>
+
+
+<div class="currency-display">
+
+<span id="ticket-count">
+0
+</span>
+
+Tickets
+
+</div>
+
+</div>
+
+
+
+<button
+class="back-shop-button"
+onclick="showFortnightlyShop()"
+>
+
+← Back to Fortnightly Shop
+
+</button>
+
+
+
+<div
+id="ticket-items"
+class="ticket-grid"
+>
+</div>
+
+
+</section>
+
+
+
+</main>
+
+
+
+<script src="shop.js"></script>
+
+</body>
+
+</html>
