@@ -3,83 +3,253 @@
 ========================================= */
 
 .pass-page {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
+
+    max-width:1100px;
+
+    margin:auto;
+
+    padding:45px 20px 80px;
+
 }
 
 
 /* =========================================
-   PASS HEADER
+   HEADER
 ========================================= */
 
 .pass-header {
-    text-align: center;
-    margin-bottom: 40px;
+
+    background:white;
+
+    border-radius:35px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.08);
+
 }
+
 
 .pass-header h1 {
-    font-size: 52px;
-    font-weight: 900;
-    margin-bottom: 10px;
+
+    font-size:50px;
+
+    margin:0 0 10px;
+
+    font-weight:900;
+
 }
+
 
 .pass-header p {
-    color: #6b7280;
-    font-size: 20px;
+
+    color:#6b7280;
+
+    font-size:18px;
+
+}
+
+
+.pass-stats {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:25px;
+
+    margin:30px 0 20px;
+
+}
+
+
+.pass-stats div {
+
+    padding:12px 20px;
+
+    background:#f1f5f9;
+
+    border-radius:15px;
+
+    font-weight:900;
+
 }
 
 
 /* =========================================
-   PASS XP
+   XP BAR
 ========================================= */
 
-.pass-progress-box {
-    background: white;
-    border-radius: 30px;
-    padding: 30px;
-    max-width: 700px;
-    margin: 0 auto 50px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,.08);
+.pass-progress-track {
+
+    width:100%;
+
+    height:25px;
+
+    background:#e5e7eb;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
 }
 
-.pass-progress-box h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-}
 
 .pass-progress {
-    width: 100%;
-    height: 25px;
-    background: #e5e7eb;
-    border-radius: 50px;
-    overflow: hidden;
-}
 
-#pass-progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #6366f1;
-    border-radius: 50px;
-    transition: .4s ease;
-}
+    height:100%;
 
-#pass-xp-text {
-    margin-top: 15px;
-    font-weight: 800;
-    color: #6b7280;
+    width:0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #facc15,
+            #f59e0b
+        );
+
+    border-radius:999px;
+
+    transition:
+        width .4s ease;
+
 }
 
 
 /* =========================================
-   PASS TRACK
+   REWARDS
 ========================================= */
 
-#pass-track {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+.rewards-section {
+
+    margin-top:45px;
+
+}
+
+
+.section-heading {
+
+    margin-bottom:20px;
+
+}
+
+
+.section-heading h2 {
+
+    font-size:32px;
+
+    margin-bottom:5px;
+
+}
+
+
+.section-heading p {
+
+    color:#6b7280;
+
+}
+
+
+/* =========================================
+   HORIZONTAL SCROLLER
+========================================= */
+
+.reward-scroller {
+
+    display:flex;
+
+    gap:20px;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    padding:
+        15px
+        5px
+        25px;
+
+    scroll-behavior:smooth;
+
+    scroll-snap-type:x proximity;
+
+}
+
+
+/* scrollbar */
+
+.reward-scroller::-webkit-scrollbar {
+
+    height:12px;
+
+}
+
+
+.reward-scroller::-webkit-scrollbar-track {
+
+    background:#e5e7eb;
+
+    border-radius:999px;
+
+}
+
+
+.reward-scroller::-webkit-scrollbar-thumb {
+
+    background:#6366f1;
+
+    border-radius:999px;
+
+}
+
+
+/* =========================================
+   REWARD CARD
+========================================= */
+
+.reward-card {
+
+    position:relative;
+
+    flex:
+        0 0
+        245px;
+
+    min-height:270px;
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:25px;
+
+    box-sizing:border-box;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+
+    scroll-snap-align:start;
+
+    overflow:hidden;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+}
+
+
+.reward-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 16px 35px rgba(0,0,0,.12);
+
 }
 
 
@@ -87,172 +257,52 @@
    TIER
 ========================================= */
 
-.pass-tier {
-    position: relative;
+.reward-tier {
 
-    display: flex;
-    align-items: center;
+    display:inline-block;
 
-    min-height: 120px;
+    padding:7px 12px;
 
-    padding: 20px 30px;
+    background:#eef2ff;
 
-    background: white;
+    color:#4f46e5;
 
-    border-radius: 28px;
+    border-radius:10px;
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
+    font-weight:900;
 
-    transition:
-        transform .2s,
-        box-shadow .2s;
-}
+    font-size:14px;
 
-.pass-tier:hover {
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 15px 30px rgba(0,0,0,.11);
 }
 
 
 /* =========================================
-   TIER NUMBER
+   NAME
 ========================================= */
 
-.tier-number {
-    width: 70px;
-    height: 70px;
+.reward-name {
 
-    flex-shrink: 0;
+    margin-top:28px;
 
-    border-radius: 50%;
+    font-size:25px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-weight:900;
 
-    background: #e5e7eb;
+    line-height:1.1;
 
-    font-size: 25px;
-    font-weight: 900;
-
-    margin-right: 30px;
 }
 
 
-/* =========================================
-   CURRENT TIER
-========================================= */
+.reward-description {
 
-.pass-tier.current {
-    border: 4px solid #6366f1;
-}
+    margin-top:12px;
 
-.pass-tier.current .tier-number {
-    background: #6366f1;
-    color: white;
-}
+    color:#6b7280;
 
+    line-height:1.45;
 
-/* =========================================
-   COMPLETED TIER
-========================================= */
+    min-height:62px;
 
-.pass-tier.completed {
-    opacity: .95;
-}
-
-.pass-tier.completed .tier-number {
-    background: #22c55e;
-    color: white;
-}
-
-
-/* =========================================
-   LOCKED TIER
-========================================= */
-
-.pass-tier.locked {
-    opacity: .55;
-}
-
-
-/* =========================================
-   REWARD
-========================================= */
-
-.tier-reward {
-    position: relative;
-
-    flex: 1;
-
-    min-height: 80px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 20px;
-
-    padding: 18px 25px;
-
-    border-radius: 22px;
-
-    background: #f4f7ff;
-
-    overflow: hidden;
-}
-
-.tier-reward strong {
-    font-size: 20px;
-}
-
-
-/* =========================================
-   REWARD ICON
-========================================= */
-
-.reward-icon {
-    width: 55px;
-    height: 55px;
-
-    border-radius: 18px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: white;
-
-    font-size: 28px;
-
-    box-shadow:
-        0 5px 12px rgba(0,0,0,.08);
-}
-
-
-/* =========================================
-   LOCKED REWARD
-========================================= */
-
-.reward-locked {
-    background: #eef0f5;
-}
-
-.reward-locked .reward-icon {
-    opacity: .45;
-}
-
-
-/* =========================================
-   AVAILABLE REWARD
-========================================= */
-
-.reward-current {
-    background: #eef2ff;
-
-    border: 2px solid #6366f1;
 }
 
 
@@ -261,211 +311,155 @@
 ========================================= */
 
 .claim-button {
-    margin-left: auto;
 
-    border: none;
+    width:100%;
 
-    padding: 13px 25px;
+    margin-top:20px;
 
-    border-radius: 16px;
+    padding:13px;
 
-    background: #6366f1;
+    border:none;
 
-    color: white;
+    border-radius:13px;
 
-    font-size: 15px;
+    font-weight:900;
 
-    font-weight: 900;
+    font-size:15px;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    transition:
-        transform .15s,
-        background .15s;
-}
+    background:#d1d5db;
 
-.claim-button:hover {
-    transform: scale(1.06);
+    color:#6b7280;
 
-    background: #4f46e5;
-}
-
-.claim-button:active {
-    transform: scale(.96);
 }
 
 
-/* =========================================
-   CLAIMED REWARD
-========================================= */
+.claim-button.available {
 
-.reward-unlocked {
-    background: #ecfdf5;
+    background:#6366f1;
 
-    border: 3px solid #22c55e;
+    color:white;
+
 }
 
 
-/* =========================================
-   BIG CHECKMARK
-========================================= */
+.claim-button.available:hover {
 
-.reward-check {
-    position: absolute;
-
-    right: 15px;
-    top: 50%;
+    background:#4f46e5;
 
     transform:
-        translateY(-50%)
-        rotate(-8deg);
+        translateY(-2px);
 
-    font-family:
-        Arial,
-        sans-serif;
+}
 
-    font-size: 72px;
 
-    font-weight: 1000;
+.claim-button:disabled {
 
-    line-height: 1;
+    cursor:not-allowed;
 
-    color: #22c55e;
-
-    -webkit-text-stroke: 3px #166534;
-
-    text-shadow:
-        0 4px 0 rgba(0,0,0,.12);
-
-    pointer-events: none;
-
-    opacity: .9;
 }
 
 
 /* =========================================
-   EMPTY TIER
+   CLAIMED
 ========================================= */
 
-.tier-empty {
-    color: #9ca3af;
-
-    font-weight: 700;
-
-    font-size: 17px;
-}
-
-
-/* =========================================
-   REWARD SUMMARY
-========================================= */
-
-.rewards-section {
-    margin-top: 70px;
-}
-
-.rewards-section h2 {
-    text-align: center;
-
-    font-size: 38px;
-
-    font-weight: 900;
-
-    margin-bottom: 10px;
-}
-
-.rewards-section > p {
-    text-align: center;
-
-    color: #6b7280;
-
-    font-size: 18px;
-
-    margin-bottom: 35px;
-}
-
-
-/* =========================================
-   REWARD SUMMARY GRID
-========================================= */
-
-.rewards-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
-    gap: 25px;
-}
-
-
-/* =========================================
-   SUMMARY CARD
-========================================= */
-
-.reward-summary-card {
-    position: relative;
-
-    background: white;
-
-    border-radius: 28px;
-
-    padding: 30px;
-
-    min-height: 150px;
+.reward-card.claimed {
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,.08);
+        0 0 0 3px #22c55e,
+        0 10px 25px rgba(0,0,0,.08);
 
-    overflow: hidden;
 }
 
-.reward-summary-card h3 {
-    margin-bottom: 8px;
 
-    font-size: 23px;
+.reward-card.claimed
+.claimed-overlay {
+
+    opacity:1;
+
+    pointer-events:none;
+
 }
 
-.reward-summary-card p {
-    color: #6b7280;
 
-    margin: 0;
+.claimed-overlay {
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .82
+        );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    opacity:0;
+
+    transition:.25s;
+
 }
 
-.reward-tier {
-    display: inline-block;
 
-    margin-top: 15px;
+.claimed-tick {
 
-    padding: 7px 13px;
+    width:95px;
 
-    border-radius: 12px;
+    height:50px;
 
-    background: #eef2ff;
+    border-left:
+        15px solid #16a34a;
 
-    color: #4f46e5;
+    border-bottom:
+        15px solid #16a34a;
 
-    font-weight: 900;
+    transform:
+        rotate(-45deg)
+        scale(.8);
+
+    filter:
+        drop-shadow(
+            0 5px 4px
+            rgba(0,0,0,.15)
+        );
+
 }
 
 
 /* =========================================
-   CLAIMED SUMMARY
+   INFO
 ========================================= */
 
-.reward-summary-card.claimed {
-    border: 3px solid #22c55e;
+.pass-info {
+
+    margin-top:45px;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:30px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.06);
+
 }
 
 
-/* =========================================
-   SUMMARY CHECK
-========================================= */
+.pass-info h2 {
 
-.reward-summary-card .reward-check {
-    font-size: 65px;
+    margin-top:0;
 
-    right: 20px;
 }
 
 
@@ -473,49 +467,35 @@
    MOBILE
 ========================================= */
 
-@media (max-width: 700px) {
+@media(max-width:600px) {
+
+    .pass-header {
+
+        padding:25px;
+
+    }
+
 
     .pass-header h1 {
-        font-size: 38px;
+
+        font-size:38px;
+
     }
 
-    .pass-tier {
-        padding: 18px;
 
-        min-height: 105px;
+    .pass-stats {
+
+        flex-direction:column;
+
+        gap:10px;
+
     }
 
-    .tier-number {
-        width: 55px;
-        height: 55px;
 
-        font-size: 20px;
+    .reward-card {
 
-        margin-right: 15px;
-    }
+        flex-basis:230px;
 
-    .tier-reward {
-        padding: 15px;
-
-        gap: 12px;
-    }
-
-    .tier-reward strong {
-        font-size: 16px;
-    }
-
-    .claim-button {
-        padding: 10px 14px;
-
-        font-size: 12px;
-    }
-
-    .reward-check {
-        font-size: 55px;
-    }
-
-    .rewards-grid {
-        grid-template-columns: 1fr;
     }
 
 }
