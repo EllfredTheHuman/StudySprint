@@ -1,15 +1,27 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>Shop | StudySprint</title>
 
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="shop.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
+
+<link
+    rel="stylesheet"
+    href="shop.css"
+>
 
 </head>
 
@@ -23,15 +35,24 @@
 🚀 StudySprint
 </div>
 
+
 <nav>
 
-<a href="../index.html">Home</a>
+<a href="../index.html">
+Home
+</a>
 
-<a href="../study/index.html">📚 Study</a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-<a href="../sprint/index.html">🏃 Sprint</a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-<a href="../profile/index.html">👤 Profile</a>
+<a href="../profile/index.html">
+👤 Profile
+</a>
 
 </nav>
 
@@ -42,25 +63,19 @@
 <main class="shop-page">
 
 
-<!-- =========================
+<!-- =====================================
      FORTNIGHTLY SHOP
-========================= -->
+===================================== -->
 
-<section id="fortnightly-shop"
-         class="shop-section">
+<section
+    id="fortnightly-shop"
+    class="shop-section"
+>
 
 
-<div class="shop-header">
-
-<div>
-
-<h1>🛍️ Fortnightly Shop</h1>
-
-<p>
-New items every 14 days.
-</p>
-
-</div>
+<h1>
+Fortnightly Shop
+</h1>
 
 
 <div class="currency-display">
@@ -73,36 +88,38 @@ Coins
 
 </div>
 
-</div>
-
-
-
-<div class="shop-countdown">
-
-Next shop refreshes in:
-
-<strong id="countdown">
-Loading...
-</strong>
-
-</div>
-
 
 
 <div
-id="fortnightly-items"
-class="shop-grid"
+    id="fortnightly-items"
+    class="shop-grid"
 >
+</div>
+
+
+
+<!-- REFRESH COUNTDOWN -->
+
+<div class="shop-countdown">
+
+    <span>
+        Next shop refreshes in:
+    </span>
+
+    <strong id="countdown">
+        Loading...
+    </strong>
+
 </div>
 
 
 
 <button
-class="ticket-shop-button"
-onclick="showTicketShop()"
+    class="ticket-shop-button"
+    onclick="showTicketShop()"
 >
 
-🎟️ Open Ticket Shop
+🎟️ Ticket Shop
 
 </button>
 
@@ -111,27 +128,19 @@ onclick="showTicketShop()"
 
 
 
-<!-- =========================
+<!-- =====================================
      TICKET SHOP
-========================= -->
+===================================== -->
 
 <section
-id="ticket-shop"
-class="shop-section hidden"
+    id="ticket-shop"
+    class="shop-section hidden"
 >
 
 
-<div class="shop-header">
-
-<div>
-
-<h1>🎟️ Ticket Shop</h1>
-
-<p>
-Permanent prestige cosmetics.
-</p>
-
-</div>
+<h1>
+Ticket Shop
+</h1>
 
 
 <div class="currency-display">
@@ -140,34 +149,31 @@ Permanent prestige cosmetics.
 0
 </span>
 
-Tickets
-
-</div>
+Shop Tickets
 
 </div>
 
 
 
 <button
-class="back-shop-button"
-onclick="showFortnightlyShop()"
+    class="back-shop-button"
+    onclick="showFortnightlyShop()"
 >
 
-← Back to Fortnightly Shop
+← Back to Shop
 
 </button>
 
 
 
 <div
-id="ticket-items"
-class="ticket-grid"
+    id="ticket-items"
+    class="ticket-grid"
 >
 </div>
 
 
 </section>
-
 
 
 </main>
@@ -179,3 +185,4 @@ class="ticket-grid"
 </body>
 
 </html>
+```
