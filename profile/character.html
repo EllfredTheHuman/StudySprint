@@ -24,40 +24,24 @@
 ========================================= */
 
 .character-page {
-
     max-width:1100px;
-
     margin:auto;
-
     padding:45px 20px 80px;
-
 }
-
 
 .character-header {
-
     text-align:center;
-
     margin-bottom:35px;
-
 }
-
 
 .character-header h1 {
-
     font-size:45px;
-
     font-weight:900;
-
 }
 
-
 .character-header p {
-
     color:#6b7280;
-
     font-size:18px;
-
 }
 
 
@@ -66,24 +50,20 @@
 ========================================= */
 
 .character-preview {
-
     min-height:400px;
-
     background:white;
-
     border-radius:35px;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.08);
-
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
     margin-bottom:35px;
+}
 
+.character {
+    width:180px;
+    height:290px;
+    position:relative;
 }
 
 
@@ -91,138 +71,63 @@
    CHARACTER
 ========================================= */
 
-.character {
-
-    width:180px;
-
-    height:290px;
-
-    position:relative;
-
-}
-
-
-/* HEAD */
-
 .character-head {
-
     position:absolute;
-
     width:130px;
-
     height:130px;
-
     left:25px;
-
     top:0;
-
     border-radius:50%;
-
     z-index:5;
-
 }
-
-
-/* FACE */
 
 .character-face {
-
     position:absolute;
-
     width:9px;
-
     height:9px;
-
     left:50px;
-
     top:58px;
-
     border-radius:50%;
-
     background:#202020;
-
-    box-shadow:
-        30px 0 0 #202020;
-
+    box-shadow:30px 0 0 #202020;
     z-index:8;
-
 }
-
-
-/* BODY */
 
 .character-body {
-
     position:absolute;
-
     width:115px;
-
     height:90px;
-
     left:32px;
-
     top:110px;
-
-    border-radius:
-        35px 35px 18px 18px;
-
+    border-radius:35px 35px 18px 18px;
     z-index:3;
-
 }
-
-
-/* LEGS */
 
 .character-leg {
-
     position:absolute;
-
     width:38px;
-
     height:78px;
-
     top:190px;
-
     border-radius:15px;
-
     z-index:2;
-
 }
-
 
 .character-leg.left {
-
     left:38px;
-
 }
-
 
 .character-leg.right {
-
     left:88px;
-
 }
 
-
-/* HAIR */
-
 .character-hair {
-
     position:absolute;
-
     width:120px;
-
     height:55px;
-
     left:30px;
-
     top:-4px;
-
-    border-radius:
-        60px 60px 18px 18px;
-
+    border-radius:60px 60px 18px 18px;
     z-index:7;
-
 }
 
 
@@ -231,85 +136,48 @@
 ========================================= */
 
 .character-hat {
-
     position:absolute;
-
     z-index:10;
-
     pointer-events:none;
-
 }
-
 
 .character-hat.cap {
-
     width:108px;
-
     height:38px;
-
     left:36px;
-
     top:-8px;
-
-    border-radius:
-        55px 55px 12px 12px;
-
+    border-radius:55px 55px 12px 12px;
 }
-
 
 .character-hat.cap::after {
-
     content:"";
-
     position:absolute;
-
     width:48px;
-
     height:12px;
-
     left:67px;
-
     top:25px;
-
     border-radius:50%;
-
     transform:rotate(-8deg);
-
+    background:inherit;
 }
-
 
 .character-hat.beanie {
-
     width:122px;
-
     height:61px;
-
     left:29px;
-
     top:-9px;
-
-    border-radius:
-        60px 60px 18px 18px;
-
+    border-radius:60px 60px 18px 18px;
 }
 
-
 .character-hat.beanie::after {
-
     content:"";
-
     position:absolute;
-
     left:0;
-
     bottom:-3px;
-
     width:122px;
-
     height:17px;
-
     border-radius:10px;
-
+    background:inherit;
 }
 
 
@@ -318,21 +186,141 @@
 ========================================= */
 
 .character-backpack {
-
     position:absolute;
-
     width:42px;
-
     height:80px;
-
     left:1px;
-
     top:120px;
-
     border-radius:15px;
-
     z-index:1;
+}
 
+
+/* =========================================
+   EFFECT LAYER
+========================================= */
+
+.character-effect {
+    position:absolute;
+    inset:-45px;
+    pointer-events:none;
+    z-index:20;
+    border-radius:50%;
+    display:none;
+}
+
+
+/* SPARKLE */
+
+.character-effect.sparkle {
+    display:block;
+    box-shadow:
+        0 -55px 0 -18px #fff,
+        55px 0 0 -18px #fff,
+        0 55px 0 -18px #fff,
+        -55px 0 0 -18px #fff;
+}
+
+
+/* SPEED TRAIL */
+
+.character-effect.speed-trail {
+    display:block;
+    box-shadow:
+        -70px 40px 0 -24px rgba(59,130,246,.5),
+        -90px 70px 0 -28px rgba(59,130,246,.35),
+        -110px 100px 0 -32px rgba(59,130,246,.2);
+}
+
+
+/* LIGHTNING */
+
+.character-effect.lightning {
+    display:block;
+    border:5px solid #facc15;
+    box-shadow:
+        0 0 18px #facc15,
+        0 0 35px #fde047;
+}
+
+
+/* RAINBOW */
+
+.character-effect.rainbow {
+    display:block;
+    border:7px solid transparent;
+    box-shadow:
+        0 0 0 7px #ef4444,
+        0 0 0 14px #f97316,
+        0 0 0 21px #facc15,
+        0 0 0 28px #22c55e,
+        0 0 0 35px #3b82f6,
+        0 0 0 42px #8b5cf6;
+}
+
+
+/* FIRE */
+
+.character-effect.fire {
+    display:block;
+    box-shadow:
+        0 0 25px #ef4444,
+        0 0 45px #f97316,
+        0 0 70px #facc15;
+}
+
+
+/* CROWN */
+
+.character-effect.crown {
+    display:block;
+    border:6px solid #facc15;
+    box-shadow:
+        0 0 20px #facc15,
+        0 0 45px #fbbf24;
+}
+
+
+/* COSMIC */
+
+.character-effect.cosmic {
+    display:block;
+    border:4px solid #8b5cf6;
+    box-shadow:
+        0 0 20px #8b5cf6,
+        0 0 45px #3b82f6,
+        0 0 70px #ec4899;
+}
+
+
+/* CRYSTAL */
+
+.character-effect.crystal {
+    display:block;
+    border:5px solid #67e8f9;
+    box-shadow:
+        0 0 20px #67e8f9,
+        0 0 45px #22d3ee;
+}
+
+
+/* SHADOW */
+
+.character-effect.shadow {
+    display:block;
+    box-shadow:
+        0 0 35px 15px rgba(0,0,0,.45);
+}
+
+
+/* GLITCH */
+
+.character-effect.glitch {
+    display:block;
+    border:4px dashed #ec4899;
+    box-shadow:
+        8px 0 0 #22d3ee,
+        -8px 0 0 #facc15;
 }
 
 
@@ -341,89 +329,50 @@
 ========================================= */
 
 .customise-section {
-
     background:white;
-
     padding:30px;
-
     margin-bottom:25px;
-
     border-radius:30px;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.07);
-
+    box-shadow:0 12px 30px rgba(0,0,0,.07);
 }
-
 
 .customise-section h2 {
-
     margin-bottom:18px;
-
     font-size:27px;
-
 }
-
 
 .option-grid {
-
     display:flex;
-
     flex-wrap:wrap;
-
     gap:12px;
-
 }
-
 
 .option {
-
     border:none;
-
     background:#eef2f7;
-
     padding:12px 18px;
-
     border-radius:14px;
-
     font-weight:800;
-
     cursor:pointer;
-
     transition:.2s;
-
 }
-
 
 .option:hover {
-
     transform:translateY(-2px);
-
 }
-
 
 .option.selected {
-
     background:#6366f1;
-
     color:white;
-
 }
-
 
 .option.locked {
-
     opacity:.4;
-
     cursor:not-allowed;
-
 }
 
-
 .option.locked:hover {
-
     transform:none;
-
 }
 
 
@@ -432,31 +381,18 @@
 ========================================= */
 
 .character-input {
-
     width:100%;
-
     padding:15px;
-
-    border:
-        2px solid #e5e7eb;
-
+    border:2px solid #e5e7eb;
     border-radius:14px;
-
     font-size:16px;
-
     font-weight:700;
-
     box-sizing:border-box;
-
 }
 
-
 .character-input:focus {
-
     outline:none;
-
     border-color:#6366f1;
-
 }
 
 
@@ -465,26 +401,16 @@
 ========================================= */
 
 .save-button {
-
     display:block;
-
     margin:35px auto 20px;
-
 }
 
-
 .back-button {
-
     display:block;
-
     text-align:center;
-
     text-decoration:none;
-
     font-weight:800;
-
     color:#6366f1;
-
 }
 
 
@@ -493,9 +419,7 @@
 ========================================= */
 
 .hidden {
-
     display:none;
-
 }
 
 </style>
@@ -514,21 +438,13 @@
 
 <nav>
 
-<a href="../index.html">
-Home
-</a>
+<a href="../index.html">Home</a>
 
-<a href="../study/index.html">
-📚 Study
-</a>
+<a href="../study/index.html">📚 Study</a>
 
-<a href="../sprint/index.html">
-🏃 Sprint
-</a>
+<a href="../sprint/index.html">🏃 Sprint</a>
 
-<a href="index.html">
-👤 Profile
-</a>
+<a href="index.html">👤 Profile</a>
 
 </nav>
 
@@ -540,24 +456,24 @@ Home
 
 <section class="character-header">
 
-<h1>
-🎨 Customize Character
-</h1>
+<h1>🎨 Customize Character</h1>
 
-<p>
-Build your own StudySprint character.
-</p>
+<p>Build your own StudySprint character.</p>
 
 </section>
 
 
-<!-- =========================================
-     CHARACTER PREVIEW
-========================================= -->
+<!-- CHARACTER PREVIEW -->
 
 <section class="character-preview">
 
 <div class="character">
+
+
+<div
+    id="character-effect"
+    class="character-effect"
+></div>
 
 
 <div
@@ -584,9 +500,7 @@ Build your own StudySprint character.
 ></div>
 
 
-<div
-    class="character-face"
-></div>
+<div class="character-face"></div>
 
 
 <div
@@ -612,15 +526,11 @@ Build your own StudySprint character.
 </section>
 
 
-<!-- =========================================
-     USERNAME
-========================================= -->
+<!-- USERNAME -->
 
 <section class="customise-section">
 
-<h2>
-Username
-</h2>
+<h2>Username</h2>
 
 <input
     type="text"
@@ -633,114 +543,51 @@ Username
 </section>
 
 
-<!-- =========================================
-     SKIN
-========================================= -->
+<!-- SKIN -->
 
 <section class="customise-section">
 
-<h2>
-Skin
-</h2>
+<h2>Skin</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('skin','light',this)"
->
-Light
-</button>
-
-<button
-    class="option"
-    onclick="setOption('skin','medium',this)"
->
-Medium
-</button>
-
-<button
-    class="option"
-    onclick="setOption('skin','dark',this)"
->
-Dark
-</button>
+<button class="option" onclick="setOption('skin','light',this)">Light</button>
+<button class="option" onclick="setOption('skin','medium',this)">Medium</button>
+<button class="option" onclick="setOption('skin','dark',this)">Dark</button>
 
 </div>
 
 </section>
 
 
-<!-- =========================================
-     HAIR
-========================================= -->
+<!-- HAIR -->
 
 <section class="customise-section">
 
-<h2>
-Hair
-</h2>
+<h2>Hair</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('hair','brown',this)"
->
-Brown
-</button>
-
-<button
-    class="option"
-    onclick="setOption('hair','black',this)"
->
-Black
-</button>
-
-<button
-    class="option"
-    onclick="setOption('hair','blonde',this)"
->
-Blonde
-</button>
+<button class="option" onclick="setOption('hair','brown',this)">Brown</button>
+<button class="option" onclick="setOption('hair','black',this)">Black</button>
+<button class="option" onclick="setOption('hair','blonde',this)">Blonde</button>
 
 </div>
 
 </section>
 
 
-<!-- =========================================
-     SHIRT
-========================================= -->
+<!-- SHIRT -->
 
 <section class="customise-section">
 
-<h2>
-Shirt
-</h2>
+<h2>Shirt</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('shirt','blue',this)"
->
-Blue
-</button>
-
-<button
-    class="option"
-    onclick="setOption('shirt','red',this)"
->
-Red
-</button>
-
-<button
-    class="option"
-    onclick="setOption('shirt','green',this)"
->
-Green
-</button>
+<button class="option" onclick="setOption('shirt','blue',this)">Blue</button>
+<button class="option" onclick="setOption('shirt','red',this)">Red</button>
+<button class="option" onclick="setOption('shirt','green',this)">Green</button>
 
 <button
     id="sprint-blue-shirt"
@@ -756,76 +603,34 @@ Sprint Blue
 </section>
 
 
-<!-- =========================================
-     PANTS
-========================================= -->
+<!-- PANTS -->
 
 <section class="customise-section">
 
-<h2>
-Pants
-</h2>
+<h2>Pants</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('pants','blue',this)"
->
-Blue
-</button>
-
-<button
-    class="option"
-    onclick="setOption('pants','black',this)"
->
-Black
-</button>
-
-<button
-    class="option"
-    onclick="setOption('pants','brown',this)"
->
-Brown
-</button>
+<button class="option" onclick="setOption('pants','blue',this)">Blue</button>
+<button class="option" onclick="setOption('pants','black',this)">Black</button>
+<button class="option" onclick="setOption('pants','brown',this)">Brown</button>
 
 </div>
 
 </section>
 
 
-<!-- =========================================
-     HAT
-========================================= -->
+<!-- HAT -->
 
 <section class="customise-section">
 
-<h2>
-Hat
-</h2>
+<h2>Hat</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('hat','none',this)"
->
-None
-</button>
-
-<button
-    class="option"
-    onclick="setOption('hat','cap',this)"
->
-Cap
-</button>
-
-<button
-    class="option"
-    onclick="setOption('hat','beanie',this)"
->
-Beanie
-</button>
+<button class="option" onclick="setOption('hat','none',this)">None</button>
+<button class="option" onclick="setOption('hat','cap',this)">Cap</button>
+<button class="option" onclick="setOption('hat','beanie',this)">Beanie</button>
 
 <button
     id="sprint-cap"
@@ -841,76 +646,34 @@ Sprint Cap
 </section>
 
 
-<!-- =========================================
-     BACKPACK
-========================================= -->
+<!-- BACKPACK -->
 
 <section class="customise-section">
 
-<h2>
-Backpack
-</h2>
+<h2>Backpack</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('backpack','none',this)"
->
-None
-</button>
-
-<button
-    class="option"
-    onclick="setOption('backpack','blue',this)"
->
-Blue
-</button>
-
-<button
-    class="option"
-    onclick="setOption('backpack','red',this)"
->
-Red
-</button>
+<button class="option" onclick="setOption('backpack','none',this)">None</button>
+<button class="option" onclick="setOption('backpack','blue',this)">Blue</button>
+<button class="option" onclick="setOption('backpack','red',this)">Red</button>
 
 </div>
 
 </section>
 
 
-<!-- =========================================
-     BANNER
-========================================= -->
+<!-- BANNER -->
 
 <section class="customise-section">
 
-<h2>
-Profile Banner
-</h2>
+<h2>Profile Banner</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('banner','purple',this)"
->
-Purple
-</button>
-
-<button
-    class="option"
-    onclick="setOption('banner','blue',this)"
->
-Blue
-</button>
-
-<button
-    class="option"
-    onclick="setOption('banner','green',this)"
->
-Green
-</button>
+<button class="option" onclick="setOption('banner','purple',this)">Purple</button>
+<button class="option" onclick="setOption('banner','blue',this)">Blue</button>
+<button class="option" onclick="setOption('banner','green',this)">Green</button>
 
 <button
     id="sprint-grid-banner"
@@ -926,24 +689,15 @@ Sprint Grid
 </section>
 
 
-<!-- =========================================
-     PLAYER TAG
-========================================= -->
+<!-- PLAYER TAG -->
 
 <section class="customise-section">
 
-<h2>
-Player Tag
-</h2>
+<h2>Player Tag</h2>
 
 <div class="option-grid">
 
-<button
-    class="option"
-    onclick="setOption('tag','none',this)"
->
-None
-</button>
+<button class="option" onclick="setOption('tag','none',this)">None</button>
 
 <button
     id="sprint-champion-title"
@@ -952,6 +706,116 @@ None
     disabled
 >
 Sprint Champion
+</button>
+
+</div>
+
+</section>
+
+
+<!-- EFFECTS -->
+
+<section class="customise-section">
+
+<h2>✨ Effects</h2>
+
+<div class="option-grid">
+
+<button
+    class="option"
+    onclick="setOption('effect','none',this)"
+>
+None
+</button>
+
+<button
+    id="effect-sparkle"
+    class="option locked"
+    onclick="setOption('effect','sparkle',this)"
+    disabled
+>
+✨ Sparkle
+</button>
+
+<button
+    id="effect-speed-trail"
+    class="option locked"
+    onclick="setOption('effect','speed-trail',this)"
+    disabled
+>
+💨 Speed Trail
+</button>
+
+<button
+    id="effect-lightning"
+    class="option locked"
+    onclick="setOption('effect','lightning',this)"
+    disabled
+>
+⚡ Lightning
+</button>
+
+<button
+    id="effect-rainbow"
+    class="option locked"
+    onclick="setOption('effect','rainbow',this)"
+    disabled
+>
+🌈 Rainbow
+</button>
+
+<button
+    id="effect-fire"
+    class="option locked"
+    onclick="setOption('effect','fire',this)"
+    disabled
+>
+🔥 Fire
+</button>
+
+<button
+    id="effect-crown"
+    class="option locked"
+    onclick="setOption('effect','crown',this)"
+    disabled
+>
+👑 Crown
+</button>
+
+<button
+    id="effect-cosmic"
+    class="option locked"
+    onclick="setOption('effect','cosmic',this)"
+    disabled
+>
+🌌 Cosmic
+</button>
+
+<button
+    id="effect-crystal"
+    class="option locked"
+    onclick="setOption('effect','crystal',this)"
+    disabled
+>
+💎 Crystal
+</button>
+
+<button
+    id="effect-shadow"
+    class="option locked"
+    onclick="setOption('effect','shadow',this)"
+    disabled
+>
+🌑 Shadow
+</button>
+
+<button
+    id="effect-glitch"
+    class="option locked"
+    onclick="setOption('effect','glitch',this)"
+    disabled
+>
+👾 Glitch
 </button>
 
 </div>
@@ -979,59 +843,44 @@ Sprint Champion
 
 
 <footer>
-
 © 2026 StudySprint
-
 </footer>
 
 
 <script>
 
 /* =========================================
-   CHARACTER
+   CHARACTER DATA
 ========================================= */
 
 let character = {
 
     skin:
-        localStorage.getItem(
-            "character_skin"
-        ) || "light",
+        localStorage.getItem("character_skin") || "light",
 
     hair:
-        localStorage.getItem(
-            "character_hair"
-        ) || "brown",
+        localStorage.getItem("character_hair") || "brown",
 
     shirt:
-        localStorage.getItem(
-            "character_shirt"
-        ) || "blue",
+        localStorage.getItem("character_shirt") || "blue",
 
     pants:
-        localStorage.getItem(
-            "character_pants"
-        ) || "blue",
+        localStorage.getItem("character_pants") || "blue",
 
     hat:
-        localStorage.getItem(
-            "character_hat"
-        ) || "none",
+        localStorage.getItem("character_hat") || "none",
 
     backpack:
-        localStorage.getItem(
-            "character_backpack"
-        ) || "none",
+        localStorage.getItem("character_backpack") || "none",
 
     banner:
-        localStorage.getItem(
-            "character_banner"
-        ) || "purple",
+        localStorage.getItem("character_banner") || "purple",
 
     tag:
-        localStorage.getItem(
-            "character_tag"
-        ) || "none"
+        localStorage.getItem("character_tag") || "none",
+
+    effect:
+        localStorage.getItem("character_effect") || "none"
 
 };
 
@@ -1041,30 +890,29 @@ let character = {
 ========================================= */
 
 const username =
-    document.getElementById(
-        "username"
-    );
-
+    document.getElementById("username");
 
 username.value =
-    localStorage.getItem(
-        "username"
-    ) || "";
+    localStorage.getItem("username") || "";
 
 
 /* =========================================
    UNLOCK CHECK
 ========================================= */
 
-function getUnlocked(
-    storageKey
-) {
+function getUnlocked(storageKey) {
 
-    return JSON.parse(
-        localStorage.getItem(
-            storageKey
-        )
-    ) || [];
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(storageKey)
+        ) || [];
+
+    } catch {
+
+        return [];
+
+    }
 
 }
 
@@ -1076,110 +924,91 @@ function getUnlocked(
 function updateUnlockedCosmetics() {
 
     const shirts =
-        getUnlocked(
-            "unlocked_shirts"
-        );
+        getUnlocked("unlocked_shirts");
 
     const hats =
-        getUnlocked(
-            "unlocked_hats"
-        );
+        getUnlocked("unlocked_hats");
 
     const banners =
-        getUnlocked(
-            "unlocked_banners"
-        );
+        getUnlocked("unlocked_banners");
 
     const titles =
-        getUnlocked(
-            "unlockedTitles"
-        );
+        getUnlocked("unlockedTitles");
+
+    const effects =
+        getUnlocked("unlocked_effects");
 
 
-    const sprintShirt =
-        document.getElementById(
-            "sprint-blue-shirt"
-        );
+    unlockButton(
+        "sprint-blue-shirt",
+        shirts.includes("sprint-blue")
+    );
 
 
-    const sprintCap =
-        document.getElementById(
-            "sprint-cap"
-        );
+    unlockButton(
+        "sprint-cap",
+        hats.includes("sprint-cap")
+    );
 
 
-    const sprintBanner =
-        document.getElementById(
-            "sprint-grid-banner"
-        );
+    unlockButton(
+        "sprint-grid-banner",
+        banners.includes("sprint-grid")
+    );
 
 
-    const sprintTitle =
-        document.getElementById(
-            "sprint-champion-title"
-        );
+    unlockButton(
+        "sprint-champion-title",
+        titles.includes("sprint-champion")
+    );
 
 
-    if (
-        shirts.includes(
-            "sprint-blue"
-        )
-    ) {
+    const effectIDs = [
+        "sparkle",
+        "speed-trail",
+        "lightning",
+        "rainbow",
+        "fire",
+        "crown",
+        "cosmic",
+        "crystal",
+        "shadow",
+        "glitch"
+    ];
 
-        sprintShirt.disabled =
-            false;
 
-        sprintShirt.classList.remove(
-            "locked"
-        );
+    effectIDs.forEach(
+        function(effectID) {
 
+            unlockButton(
+                "effect-" + effectID,
+                effects.includes(effectID)
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   UNLOCK BUTTON
+========================================= */
+
+function unlockButton(id, unlocked) {
+
+    const button =
+        document.getElementById(id);
+
+    if (!button) {
+        return;
     }
 
+    if (unlocked) {
 
-    if (
-        hats.includes(
-            "sprint-cap"
-        )
-    ) {
+        button.disabled = false;
 
-        sprintCap.disabled =
-            false;
-
-        sprintCap.classList.remove(
-            "locked"
-        );
-
-    }
-
-
-    if (
-        banners.includes(
-            "sprint-grid"
-        )
-    ) {
-
-        sprintBanner.disabled =
-            false;
-
-        sprintBanner.classList.remove(
-            "locked"
-        );
-
-    }
-
-
-    if (
-        titles.includes(
-            "sprint-champion"
-        )
-    ) {
-
-        sprintTitle.disabled =
-            false;
-
-        sprintTitle.classList.remove(
-            "locked"
-        );
+        button.classList.remove("locked");
 
     }
 
@@ -1190,49 +1019,32 @@ function updateUnlockedCosmetics() {
    SET OPTION
 ========================================= */
 
-function setOption(
-    type,
-    value,
-    button
-) {
+function setOption(type, value, button) {
 
-    if (
-        button.disabled
-    ) {
-
+    if (button.disabled) {
         return;
-
     }
 
 
-    character[type] =
-        value;
+    character[type] = value;
 
 
     const buttons =
-        button
-        .parentElement
-        .querySelectorAll(
+        button.parentElement.querySelectorAll(
             ".option"
         );
 
 
     buttons.forEach(
-        function(
-            item
-        ) {
+        function(item) {
 
-            item.classList.remove(
-                "selected"
-            );
+            item.classList.remove("selected");
 
         }
     );
 
 
-    button.classList.add(
-        "selected"
-    );
+    button.classList.add("selected");
 
 
     updateCharacter();
@@ -1247,45 +1059,28 @@ function setOption(
 function updateCharacter() {
 
     const head =
-        document.getElementById(
-            "character-head"
-        );
-
+        document.getElementById("character-head");
 
     const body =
-        document.getElementById(
-            "character-body"
-        );
-
+        document.getElementById("character-body");
 
     const leftLeg =
-        document.getElementById(
-            "character-leg-left"
-        );
-
+        document.getElementById("character-leg-left");
 
     const rightLeg =
-        document.getElementById(
-            "character-leg-right"
-        );
-
+        document.getElementById("character-leg-right");
 
     const hair =
-        document.getElementById(
-            "character-hair"
-        );
-
+        document.getElementById("character-hair");
 
     const hat =
-        document.getElementById(
-            "character-hat"
-        );
-
+        document.getElementById("character-hat");
 
     const backpack =
-        document.getElementById(
-            "character-backpack"
-        );
+        document.getElementById("character-backpack");
+
+    const effect =
+        document.getElementById("character-effect");
 
 
     /* SKIN */
@@ -1293,18 +1088,14 @@ function updateCharacter() {
     const skins = {
 
         light:"#f6c7a8",
-
         medium:"#c98b68",
-
         dark:"#70452f"
 
     };
 
 
     head.style.background =
-        skins[
-            character.skin
-        ];
+        skins[character.skin];
 
 
     /* HAIR */
@@ -1312,18 +1103,14 @@ function updateCharacter() {
     const hairs = {
 
         brown:"#78350f",
-
         black:"#111827",
-
         blonde:"#facc15"
 
     };
 
 
     hair.style.background =
-        hairs[
-            character.hair
-        ];
+        hairs[character.hair];
 
 
     /* SHIRT */
@@ -1331,21 +1118,15 @@ function updateCharacter() {
     const shirts = {
 
         blue:"#3b82f6",
-
         red:"#ef4444",
-
         green:"#22c55e",
-
-        "sprint-blue":
-            "#2563eb"
+        "sprint-blue":"#2563eb"
 
     };
 
 
     body.style.background =
-        shirts[
-            character.shirt
-        ];
+        shirts[character.shirt];
 
 
     /* PANTS */
@@ -1353,24 +1134,17 @@ function updateCharacter() {
     const pants = {
 
         blue:"#2563eb",
-
         black:"#111827",
-
         brown:"#78350f"
 
     };
 
 
     leftLeg.style.background =
-        pants[
-            character.pants
-        ];
-
+        pants[character.pants];
 
     rightLeg.style.background =
-        pants[
-            character.pants
-        ];
+        pants[character.pants];
 
 
     /* HAT */
@@ -1378,19 +1152,13 @@ function updateCharacter() {
     hat.className =
         "character-hat";
 
-
     hat.style.display =
         "none";
 
 
-    if (
-        character.hat ===
-        "cap"
-    ) {
+    if (character.hat === "cap") {
 
-        hat.classList.add(
-            "cap"
-        );
+        hat.classList.add("cap");
 
         hat.style.display =
             "block";
@@ -1398,20 +1166,12 @@ function updateCharacter() {
         hat.style.background =
             "#2563eb";
 
-        hat.style.boxShadow =
-            "inset 0 -7px 0 rgba(0,0,0,.15)";
-
     }
 
 
-    else if (
-        character.hat ===
-        "beanie"
-    ) {
+    if (character.hat === "beanie") {
 
-        hat.classList.add(
-            "beanie"
-        );
+        hat.classList.add("beanie");
 
         hat.style.display =
             "block";
@@ -1422,14 +1182,9 @@ function updateCharacter() {
     }
 
 
-    else if (
-        character.hat ===
-        "sprint-cap"
-    ) {
+    if (character.hat === "sprint-cap") {
 
-        hat.classList.add(
-            "cap"
-        );
+        hat.classList.add("cap");
 
         hat.style.display =
             "block";
@@ -1437,45 +1192,48 @@ function updateCharacter() {
         hat.style.background =
             "#312e81";
 
-        hat.style.boxShadow =
-            "inset 0 -7px 0 rgba(255,255,255,.12)";
-
     }
 
 
     /* BACKPACK */
 
-    if (
-        character.backpack ===
-        "none"
-    ) {
+    if (character.backpack === "none") {
 
-        backpack.classList.add(
-            "hidden"
-        );
+        backpack.classList.add("hidden");
 
-    }
+    } else {
 
-    else {
-
-        backpack.classList.remove(
-            "hidden"
-        );
+        backpack.classList.remove("hidden");
 
 
         const backpacks = {
 
             blue:"#2563eb",
-
             red:"#dc2626"
 
         };
 
 
         backpack.style.background =
-            backpacks[
-                character.backpack
-            ];
+            backpacks[character.backpack];
+
+    }
+
+
+    /* EFFECT */
+
+    effect.className =
+        "character-effect";
+
+
+    if (
+        character.effect &&
+        character.effect !== "none"
+    ) {
+
+        effect.classList.add(
+            character.effect
+        );
 
     }
 
@@ -1483,7 +1241,7 @@ function updateCharacter() {
 
 
 /* =========================================
-   SAVE CHARACTER
+   SAVE
 ========================================= */
 
 function saveCharacter() {
@@ -1493,58 +1251,53 @@ function saveCharacter() {
         username.value
     );
 
-
     localStorage.setItem(
         "character_skin",
         character.skin
     );
-
 
     localStorage.setItem(
         "character_hair",
         character.hair
     );
 
-
     localStorage.setItem(
         "character_shirt",
         character.shirt
     );
-
 
     localStorage.setItem(
         "character_pants",
         character.pants
     );
 
-
     localStorage.setItem(
         "character_hat",
         character.hat
     );
-
 
     localStorage.setItem(
         "character_backpack",
         character.backpack
     );
 
-
     localStorage.setItem(
         "character_banner",
         character.banner
     );
-
 
     localStorage.setItem(
         "character_tag",
         character.tag
     );
 
-
-    alert(
-        "Character saved!"
+    localStorage.setItem(
+        "character_effect",
+        character.effect
     );
+
+
+    alert("Character saved!");
 
 }
 
@@ -1556,9 +1309,7 @@ function saveCharacter() {
 function selectCurrentOptions() {
 
     document
-        .querySelectorAll(
-            ".option"
-        )
+        .querySelectorAll(".option")
         .forEach(
             function(button) {
 
@@ -1587,14 +1338,12 @@ function selectCurrentOptions() {
                 const type =
                     match[1];
 
-
                 const value =
                     match[2];
 
 
                 if (
-                    character[type] ===
-                    value
+                    character[type] === value
                 ) {
 
                     button.classList.add(
@@ -1620,8 +1369,6 @@ updateCharacter();
 selectCurrentOptions();
 
 </script>
-
-  <script src="./character.js?v=2"></script>
 
 </body>
 
