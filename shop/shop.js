@@ -1,4 +1,5 @@
-const SHOP_REFRESH_TIME = 14 * 24 * 60 * 60 * 1000;
+const SHOP_REFRESH_TIME =
+    14 * 24 * 60 * 60 * 1000;
 
 
 /* =========================================
@@ -69,7 +70,6 @@ const SHOP_ITEMS = [
         rarity: "Legendary",
         type: "Player Title",
         price: 750
-
     }
 
 ];
@@ -84,70 +84,90 @@ const TICKET_ITEMS = [
     {
         id: "sparkle",
         name: "Sparkle Effect",
-        description: "Tiny sparkles follow your character.",
+        description:
+            "Tiny sparkles follow your character.",
+        type: "Effect",
         price: 10
     },
 
     {
         id: "speed-trail",
         name: "Speed Trail",
-        description: "Leaves a trail behind your character.",
+        description:
+            "Leaves a trail behind your character.",
+        type: "Effect",
         price: 20
     },
 
     {
         id: "lightning",
         name: "Lightning Effect",
-        description: "Electric sparks surround your character.",
+        description:
+            "Electric sparks surround your character.",
+        type: "Effect",
         price: 35
     },
 
     {
         id: "rainbow",
         name: "Rainbow Aura",
-        description: "A colourful aura surrounds your character.",
+        description:
+            "A colourful aura surrounds your character.",
+        type: "Effect",
         price: 50
     },
 
     {
         id: "fire",
         name: "Fire Aura",
-        description: "A fiery glow surrounds your character.",
+        description:
+            "A fiery glow surrounds your character.",
+        type: "Effect",
         price: 75
     },
 
     {
         id: "glitch",
         name: "Glitch Effect",
-        description: "A strange digital effect surrounds your character.",
+        description:
+            "A strange digital effect surrounds your character.",
+        type: "Effect",
         price: 100
     },
 
     {
         id: "shadow",
         name: "Shadow Aura",
-        description: "A dark shadow surrounds your character.",
+        description:
+            "A dark shadow surrounds your character.",
+        type: "Effect",
         price: 150
     },
 
     {
         id: "crystal",
         name: "Crystal Glow",
-        description: "A bright crystalline glow surrounds your character.",
+        description:
+            "A bright crystalline glow surrounds your character.",
+        type: "Effect",
         price: 250
     },
 
     {
         id: "cosmic",
         name: "Cosmic Aura",
-        description: "Stars and cosmic particles surround your character.",
+        description:
+            "Stars and cosmic particles surround your character.",
+        type: "Effect",
         price: 500
     },
 
     {
         id: "crown",
         name: "Crown + Glow",
-        description: "The extremely rare glowing crown.",
+        description:
+            "The extremely rare glowing crown.",
+        type: "Hat",
         price: 1000
     }
 
@@ -159,22 +179,40 @@ const TICKET_ITEMS = [
 ========================================= */
 
 function getCoins() {
-    return Number(localStorage.getItem("coins")) || 0;
+
+    return Number(
+        localStorage.getItem("coins")
+    ) || 0;
+
 }
 
 
 function getTickets() {
-    return Number(localStorage.getItem("shopTickets")) || 0;
+
+    return Number(
+        localStorage.getItem("shopTickets")
+    ) || 0;
+
 }
 
 
 function setCoins(amount) {
-    localStorage.setItem("coins", amount);
+
+    localStorage.setItem(
+        "coins",
+        amount
+    );
+
 }
 
 
 function setTickets(amount) {
-    localStorage.setItem("shopTickets", amount);
+
+    localStorage.setItem(
+        "shopTickets",
+        amount
+    );
+
 }
 
 
@@ -187,10 +225,14 @@ function getOwnedItems() {
     try {
 
         return JSON.parse(
-            localStorage.getItem("shopOwnedItems")
+            localStorage.getItem(
+                "shopOwnedItems"
+            )
         ) || [];
 
-    } catch {
+    }
+
+    catch {
 
         return [];
 
@@ -211,7 +253,8 @@ function saveOwnedItems(items) {
 
 function ownsItem(id) {
 
-    return getOwnedItems().includes(id);
+    return getOwnedItems()
+        .includes(id);
 
 }
 
@@ -220,37 +263,67 @@ function ownsItem(id) {
    UNLOCK ITEM
 ========================================= */
 
-function unlockItem(id, type) {
+function unlockItem(
+    id,
+    type
+) {
 
-    let storageKey;
+    let storageKey = null;
 
 
     if (type === "Banner") {
-        storageKey = "unlocked_banners";
+
+        storageKey =
+            "unlocked_banners";
+
     }
 
     else if (type === "Shirt") {
-        storageKey = "unlocked_shirts";
+
+        storageKey =
+            "unlocked_shirts";
+
     }
 
     else if (type === "Hat") {
-        storageKey = "unlocked_hats";
+
+        storageKey =
+            "unlocked_hats";
+
     }
 
     else if (type === "Pants") {
-        storageKey = "unlocked_pants";
+
+        storageKey =
+            "unlocked_pants";
+
     }
 
     else if (type === "Player Title") {
-        storageKey = "unlockedTitles";
+
+        storageKey =
+            "unlockedTitles";
+
     }
 
     else if (type === "Effect") {
-        storageKey = "unlocked_effects";
+
+        storageKey =
+            "unlocked_effects";
+
     }
 
-    else {
+
+    if (!storageKey) {
+
+        console.error(
+            "Unknown cosmetic type:",
+            type,
+            id
+        );
+
         return;
+
     }
 
 
@@ -261,7 +334,9 @@ function unlockItem(id, type) {
 
         unlocked =
             JSON.parse(
-                localStorage.getItem(storageKey)
+                localStorage.getItem(
+                    storageKey
+                )
             ) || [];
 
     }
@@ -288,7 +363,9 @@ function unlockItem(id, type) {
 
     console.log(
         "StudySprint unlocked:",
-        id
+        id,
+        "→",
+        storageKey
     );
 
 }
@@ -300,18 +377,14 @@ function unlockItem(id, type) {
 
 function generateShop() {
 
+    const shuffled =
+        [...SHOP_ITEMS].sort(
+            () => Math.random() - 0.5
+        );
+
+
     const selected = [];
 
-    const shuffled =
-        [...SHOP_ITEMS]
-            .sort(
-                () => Math.random() - 0.5
-            );
-
-
-    /*
-       Eight different items.
-    */
 
     for (
         let i = 0;
@@ -338,13 +411,19 @@ function generateShop() {
     );
 
 
+    console.log(
+        "New fortnightly shop generated:",
+        selected
+    );
+
+
     return selected;
 
 }
 
 
 /* =========================================
-   GET SHOP
+   GET CURRENT SHOP
 ========================================= */
 
 function getCurrentShop() {
@@ -405,7 +484,7 @@ function getCurrentShop() {
 
 
 /* =========================================
-   DISPLAY FORTNIGHTLY SHOP
+   DISPLAY MAIN SHOP
 ========================================= */
 
 function displayMainShop() {
@@ -417,7 +496,9 @@ function displayMainShop() {
 
 
     if (!container) {
+
         return;
+
     }
 
 
@@ -433,17 +514,22 @@ function displayMainShop() {
 
             const item =
                 SHOP_ITEMS.find(
-                    x => x.id === id
+                    x =>
+                        x.id === id
                 );
 
 
             if (!item) {
+
                 return;
+
             }
 
 
             const owned =
-                ownsItem(item.id);
+                ownsItem(
+                    item.id
+                );
 
 
             const card =
@@ -496,7 +582,8 @@ function displayMainShop() {
 
             if (owned) {
 
-                button.disabled = true;
+                button.disabled =
+                    true;
 
             }
 
@@ -539,8 +626,14 @@ function buyMainItem(
     button
 ) {
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(
+            item.id
+        )
+    ) {
+
         return;
+
     }
 
 
@@ -548,7 +641,10 @@ function buyMainItem(
         getCoins();
 
 
-    if (coins < item.price) {
+    if (
+        coins <
+        item.price
+    ) {
 
         alert(
             "You don't have enough coins!"
@@ -560,9 +656,15 @@ function buyMainItem(
 
 
     setCoins(
-        coins - item.price
+        coins -
+        item.price
     );
 
+
+    /* IMPORTANT:
+       Unlock using the item's
+       actual cosmetic type.
+    */
 
     unlockItem(
         item.id,
@@ -574,7 +676,11 @@ function buyMainItem(
         getOwnedItems();
 
 
-    if (!owned.includes(item.id)) {
+    if (
+        !owned.includes(
+            item.id
+        )
+    ) {
 
         owned.push(
             item.id
@@ -614,7 +720,9 @@ function displayTicketShop() {
 
 
     if (!container) {
+
         return;
+
     }
 
 
@@ -625,7 +733,9 @@ function displayTicketShop() {
         item => {
 
             const owned =
-                ownsItem(item.id);
+                ownsItem(
+                    item.id
+                );
 
 
             const card =
@@ -639,7 +749,8 @@ function displayTicketShop() {
 
 
             if (
-                item.id === "crown"
+                item.id ===
+                "crown"
             ) {
 
                 card.classList.add(
@@ -685,7 +796,8 @@ function displayTicketShop() {
 
             if (owned) {
 
-                button.disabled = true;
+                button.disabled =
+                    true;
 
             }
 
@@ -728,8 +840,14 @@ function buyTicketItem(
     button
 ) {
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(
+            item.id
+        )
+    ) {
+
         return;
+
     }
 
 
@@ -737,7 +855,10 @@ function buyTicketItem(
         getTickets();
 
 
-    if (tickets < item.price) {
+    if (
+        tickets <
+        item.price
+    ) {
 
         alert(
             "You don't have enough Shop Tickets!"
@@ -749,13 +870,23 @@ function buyTicketItem(
 
 
     setTickets(
-        tickets - item.price
+        tickets -
+        item.price
     );
 
 
+    /*
+        IMPORTANT FIX:
+
+        Crown = Hat
+
+        Everything else in the
+        ticket shop = Effect
+    */
+
     unlockItem(
         item.id,
-        "Effect"
+        item.type
     );
 
 
@@ -763,7 +894,11 @@ function buyTicketItem(
         getOwnedItems();
 
 
-    if (!owned.includes(item.id)) {
+    if (
+        !owned.includes(
+            item.id
+        )
+    ) {
 
         owned.push(
             item.id
@@ -787,11 +922,19 @@ function buyTicketItem(
 
     updateCurrency();
 
+
+    console.log(
+        "Ticket shop purchase:",
+        item.name,
+        "Type:",
+        item.type
+    );
+
 }
 
 
 /* =========================================
-   CURRENCY
+   CURRENCY DISPLAY
 ========================================= */
 
 function updateCurrency() {
@@ -839,7 +982,9 @@ function updateCountdown() {
 
 
     if (!element) {
+
         return;
+
     }
 
 
@@ -874,7 +1019,9 @@ function updateCountdown() {
         Date.now();
 
 
-    if (remaining <= 0) {
+    if (
+        remaining <= 0
+    ) {
 
         generateShop();
 
@@ -960,7 +1107,10 @@ function openTicketShop() {
         );
 
 
-    if (!main || !ticket) {
+    if (
+        !main ||
+        !ticket
+    ) {
 
         console.error(
             "Ticket Shop section missing."
@@ -998,8 +1148,13 @@ function openMainShop() {
         );
 
 
-    if (!main || !ticket) {
+    if (
+        !main ||
+        !ticket
+    ) {
+
         return;
+
     }
 
 
