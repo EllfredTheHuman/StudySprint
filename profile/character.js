@@ -1,11 +1,188 @@
 ```javascript
 /* =========================================
    STUDYSPRINT CHARACTER EDITOR
+   COSMETIC + RENDER SYSTEM
 ========================================= */
 
 
 /* =========================================
-   STORAGE HELPERS
+   COSMETIC DEFINITIONS
+========================================= */
+
+const COSMETICS = {
+
+    shirts: {
+
+        "sprint-blue": {
+            name: "Sprint Shirt",
+            className: "cosmetic-shirt-sprint-blue"
+        }
+
+    },
+
+
+    hats: {
+
+        "sprint-cap": {
+            name: "Sprint Cap",
+            className: "cosmetic-hat-sprint-cap"
+        },
+
+        "star-cap": {
+            name: "Star Cap",
+            className: "cosmetic-hat-star-cap"
+        },
+
+        "visor": {
+            name: "Sprint Visor",
+            className: "cosmetic-hat-visor"
+        }
+
+    },
+
+
+    pants: {
+
+        "split": {
+            name: "Split Pants",
+            className: "cosmetic-pants-split"
+        }
+
+    },
+
+
+    banners: {
+
+        "sprint-grid": {
+            name: "Sprint Grid",
+            className: "cosmetic-banner-sprint-grid"
+        },
+
+        "purple-grid": {
+            name: "Purple Grid",
+            className: "cosmetic-banner-purple-grid"
+        },
+
+        "neon-blue": {
+            name: "Neon Blue",
+            className: "cosmetic-banner-neon-blue"
+        }
+
+    },
+
+
+    titles: {
+
+        "sprint-champion": {
+            name: "Sprint Champion"
+        },
+
+        "first-sprinter": {
+            name: "The First Sprinter"
+        }
+
+    },
+
+
+    effects: {
+
+        "sparkle": {
+            name: "Sparkle Effect",
+            className: "cosmetic-effect-sparkle"
+        },
+
+        "speed-trail": {
+            name: "Speed Trail",
+            className: "cosmetic-effect-speed-trail"
+        },
+
+        "lightning": {
+            name: "Lightning Effect",
+            className: "cosmetic-effect-lightning"
+        },
+
+        "rainbow": {
+            name: "Rainbow Aura",
+            className: "cosmetic-effect-rainbow"
+        },
+
+        "fire": {
+            name: "Fire Aura",
+            className: "cosmetic-effect-fire"
+        },
+
+        "glitch": {
+            name: "Glitch Effect",
+            className: "cosmetic-effect-glitch"
+        },
+
+        "shadow": {
+            name: "Shadow Aura",
+            className: "cosmetic-effect-shadow"
+        },
+
+        "crystal": {
+            name: "Crystal Glow",
+            className: "cosmetic-effect-crystal"
+        },
+
+        "cosmic": {
+            name: "Cosmic Aura",
+            className: "cosmetic-effect-cosmic"
+        },
+
+        "crown": {
+            name: "Crown + Glow",
+            className: "cosmetic-effect-crown"
+        }
+
+    }
+
+};
+
+
+/* =========================================
+   STORAGE
+========================================= */
+
+const CATEGORY_DATA = {
+
+    shirts: {
+        unlockKey: "unlocked_shirts",
+        selectedKey: "character_shirt"
+    },
+
+    hats: {
+        unlockKey: "unlocked_hats",
+        selectedKey: "character_hat"
+    },
+
+    pants: {
+        unlockKey: "unlocked_pants",
+        selectedKey: "character_pants"
+    },
+
+    banners: {
+        unlockKey: "unlocked_banners",
+        selectedKey: "character_banner"
+    },
+
+    titles: {
+        unlockKey: "unlockedTitles",
+        selectedKey: "character_tag"
+    },
+
+    effects: {
+        unlockKey: "unlocked_effects",
+        selectedKey: "character_effect"
+
+    }
+
+};
+
+
+/* =========================================
+   GET UNLOCKED ITEMS
 ========================================= */
 
 function getUnlocked(key) {
@@ -16,7 +193,9 @@ function getUnlocked(key) {
             localStorage.getItem(key)
         ) || [];
 
-    } catch {
+    }
+
+    catch {
 
         return [];
 
@@ -25,86 +204,56 @@ function getUnlocked(key) {
 }
 
 
-function saveCharacterPart(
-    key,
-    value
+/* =========================================
+   FORMAT NAME
+========================================= */
+
+function getCosmeticName(
+    category,
+    id
 ) {
 
-    localStorage.setItem(
-        key,
-        value
-    );
+    if (
+        COSMETICS[category] &&
+        COSMETICS[category][id]
+    ) {
+
+        return COSMETICS[category][id].name;
+
+    }
+
+
+    return id
+        .replaceAll("-", " ")
+        .replace(
+            /\b\w/g,
+            letter =>
+                letter.toUpperCase()
+        );
 
 }
 
 
 /* =========================================
-   CHARACTER OPTIONS
+   RENDER OPTION BUTTONS
 ========================================= */
 
-const CHARACTER_CATEGORIES = {
-
-    shirts: {
-        unlockKey: "unlocked_shirts",
-        selectedKey: "character_shirt",
-        title: "Shirts"
-    },
-
-    hats: {
-        unlockKey: "unlocked_hats",
-        selectedKey: "character_hat",
-        title: "Hats"
-    },
-
-    pants: {
-        unlockKey: "unlocked_pants",
-        selectedKey: "character_pants",
-        title: "Pants"
-    },
-
-    banners: {
-        unlockKey: "unlocked_banners",
-        selectedKey: "character_banner",
-        title: "Banners"
-    },
-
-    titles: {
-        unlockKey: "unlockedTitles",
-        selectedKey: "character_tag",
-        title: "Player Titles"
-    },
-
-    effects: {
-        unlockKey: "unlocked_effects",
-        selectedKey: "character_effect",
-        title: "Effects"
-    }
-
-};
-
-
-/* =========================================
-   DISPLAY CATEGORY
-========================================= */
-
-function displayCategory(
-    categoryName
+function renderCategory(
+    category
 ) {
 
-    const category =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
+    const data =
+        CATEGORY_DATA[category];
 
 
-    if (!category) {
+    if (!data) {
         return;
     }
 
 
     const container =
         document.getElementById(
-            `${categoryName}-options`
+            `${category}-options`
         );
 
 
@@ -115,13 +264,13 @@ function displayCategory(
 
     const unlocked =
         getUnlocked(
-            category.unlockKey
+            data.unlockKey
         );
 
 
-    const selected =
+    const equipped =
         localStorage.getItem(
-            category.selectedKey
+            data.selectedKey
         );
 
 
@@ -131,17 +280,15 @@ function displayCategory(
     if (unlocked.length === 0) {
 
         const empty =
-            document.createElement(
-                "p"
-            );
+            document.createElement("p");
+
+
+        empty.textContent =
+            `No ${category} unlocked yet.`;
 
 
         empty.className =
             "no-options";
-
-
-        empty.textContent =
-            `No ${category.title.toLowerCase()} unlocked yet.`;
 
 
         container.appendChild(
@@ -155,7 +302,7 @@ function displayCategory(
 
 
     unlocked.forEach(
-        function(item) {
+        id => {
 
             const button =
                 document.createElement(
@@ -171,18 +318,12 @@ function displayCategory(
                 "character-option";
 
 
-            button.dataset.value =
-                item;
-
-
-            button.textContent =
-                formatCosmeticName(
-                    item
-                );
+            button.dataset.cosmetic =
+                id;
 
 
             if (
-                item === selected
+                id === equipped
             ) {
 
                 button.classList.add(
@@ -192,13 +333,20 @@ function displayCategory(
             }
 
 
+            button.textContent =
+                getCosmeticName(
+                    category,
+                    id
+                );
+
+
             button.addEventListener(
                 "click",
-                function() {
+                () => {
 
-                    selectCosmetic(
-                        categoryName,
-                        item
+                    equipCosmetic(
+                        category,
+                        id
                     );
 
                 }
@@ -216,180 +364,141 @@ function displayCategory(
 
 
 /* =========================================
-   FORMAT NAMES
+   EQUIP COSMETIC
 ========================================= */
 
-function formatCosmeticName(
-    value
+function equipCosmetic(
+    category,
+    id
 ) {
 
-    const specialNames = {
-
-        "sprint-blue":
-            "Sprint Shirt",
-
-        "sprint-cap":
-            "Sprint Cap",
-
-        "star-cap":
-            "Star Cap",
-
-        "visor":
-            "Sprint Visor",
-
-        "sprint-grid":
-            "Sprint Grid",
-
-        "purple-grid":
-            "Purple Grid",
-
-        "neon-blue":
-            "Neon Blue",
-
-        "sprint-champion":
-            "Sprint Champion",
-
-        "first-sprinter":
-            "The First Sprinter",
-
-        "sparkle":
-            "Sparkle Effect",
-
-        "speed-trail":
-            "Speed Trail",
-
-        "lightning":
-            "Lightning Effect",
-
-        "rainbow":
-            "Rainbow Aura",
-
-        "fire":
-            "Fire Aura",
-
-        "glitch":
-            "Glitch Effect",
-
-        "shadow":
-            "Shadow Aura",
-
-        "crystal":
-            "Crystal Glow",
-
-        "cosmic":
-            "Cosmic Aura",
-
-        "crown":
-            "Crown + Glow"
-
-    };
+    const data =
+        CATEGORY_DATA[category];
 
 
-    if (
-        specialNames[value]
-    ) {
-
-        return specialNames[value];
-
-    }
-
-
-    return value
-        .replaceAll(
-            "-",
-            " "
-        )
-        .replace(
-            /\b\w/g,
-            letter =>
-                letter.toUpperCase()
-        );
-
-}
-
-
-/* =========================================
-   SELECT COSMETIC
-========================================= */
-
-function selectCosmetic(
-    categoryName,
-    value
-) {
-
-    const category =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
-
-
-    if (!category) {
+    if (!data) {
         return;
     }
 
 
-    saveCharacterPart(
-        category.selectedKey,
-        value
+    const unlocked =
+        getUnlocked(
+            data.unlockKey
+        );
+
+
+    if (
+        !unlocked.includes(id)
+    ) {
+
+        console.warn(
+            "Attempted to equip locked cosmetic:",
+            id
+        );
+
+        return;
+
+    }
+
+
+    localStorage.setItem(
+        data.selectedKey,
+        id
     );
 
 
-    displayCategory(
-        categoryName
+    renderCategory(
+        category
     );
 
 
-    updateCharacterPreview();
-
-
-    console.log(
-        `StudySprint: ${category.title} selected:`,
-        value
-    );
+    renderCharacter();
 
 }
 
 
 /* =========================================
-   LOAD CHARACTER
+   UNEQUIP COSMETIC
 ========================================= */
 
-function loadCharacter() {
+function unequipCosmetic(
+    category
+) {
 
-    Object.keys(
-        CHARACTER_CATEGORIES
-    ).forEach(
-        category => {
+    const data =
+        CATEGORY_DATA[category];
 
-            displayCategory(
-                category
-            );
 
-        }
+    if (!data) {
+        return;
+    }
+
+
+    localStorage.removeItem(
+        data.selectedKey
     );
 
 
-    updateCharacterPreview();
+    renderCategory(
+        category
+    );
+
+
+    renderCharacter();
 
 }
 
 
 /* =========================================
-   CHARACTER PREVIEW
+   CHARACTER RENDERER
 ========================================= */
 
-function updateCharacterPreview() {
+function renderCharacter() {
 
-    const character =
+    const preview =
         document.getElementById(
             "character-preview"
         );
 
 
-    if (!character) {
+    if (!preview) {
         return;
     }
 
+
+    /*
+       Remove previous cosmetic classes.
+    */
+
+    preview.classList.remove(
+        "cosmetic-shirt-sprint-blue",
+
+        "cosmetic-hat-sprint-cap",
+        "cosmetic-hat-star-cap",
+        "cosmetic-hat-visor",
+
+        "cosmetic-pants-split",
+
+        "cosmetic-banner-sprint-grid",
+        "cosmetic-banner-purple-grid",
+        "cosmetic-banner-neon-blue",
+
+        "cosmetic-effect-sparkle",
+        "cosmetic-effect-speed-trail",
+        "cosmetic-effect-lightning",
+        "cosmetic-effect-rainbow",
+        "cosmetic-effect-fire",
+        "cosmetic-effect-glitch",
+        "cosmetic-effect-shadow",
+        "cosmetic-effect-crystal",
+        "cosmetic-effect-cosmic",
+        "cosmetic-effect-crown"
+    );
+
+
+    /*
+       Apply equipped cosmetics.
+    */
 
     const shirt =
         localStorage.getItem(
@@ -421,130 +530,225 @@ function updateCharacterPreview() {
         );
 
 
-    character.dataset.shirt =
-        shirt || "";
+    /*
+       Shirt
+    */
 
+    if (
+        shirt &&
+        COSMETICS.shirts[shirt]
+    ) {
 
-    character.dataset.hat =
-        hat || "";
+        preview.classList.add(
+            COSMETICS
+                .shirts[shirt]
+                .className
+        );
 
-
-    character.dataset.pants =
-        pants || "";
-
-
-    character.dataset.banner =
-        banner || "";
-
-
-    character.dataset.effect =
-        effect || "";
+    }
 
 
     /*
-       These classes let your CSS/character
-       preview detect the selected cosmetics.
+       Hat
     */
 
-    character.classList.remove(
-        "shirt-equipped",
-        "hat-equipped",
-        "pants-equipped",
-        "banner-equipped",
-        "effect-equipped"
-    );
+    if (
+        hat &&
+        COSMETICS.hats[hat]
+    ) {
 
-
-    if (shirt) {
-
-        character.classList.add(
-            "shirt-equipped"
+        preview.classList.add(
+            COSMETICS
+                .hats[hat]
+                .className
         );
 
     }
 
 
-    if (hat) {
+    /*
+       Pants
+    */
 
-        character.classList.add(
-            "hat-equipped"
+    if (
+        pants &&
+        COSMETICS.pants[pants]
+    ) {
+
+        preview.classList.add(
+            COSMETICS
+                .pants[pants]
+                .className
         );
 
     }
 
 
-    if (pants) {
+    /*
+       Banner
+    */
 
-        character.classList.add(
-            "pants-equipped"
+    if (
+        banner &&
+        COSMETICS.banners[banner]
+    ) {
+
+        preview.classList.add(
+            COSMETICS
+                .banners[banner]
+                .className
         );
 
     }
 
 
-    if (banner) {
+    /*
+       Effect
+    */
 
-        character.classList.add(
-            "banner-equipped"
+    if (
+        effect &&
+        COSMETICS.effects[effect]
+    ) {
+
+        preview.classList.add(
+            COSMETICS
+                .effects[effect]
+                .className
         );
 
     }
 
 
-    if (effect) {
+    /*
+       Player title
+    */
 
-        character.classList.add(
-            "effect-equipped"
+    const title =
+        localStorage.getItem(
+            "character_tag"
         );
 
+
+    const titleElement =
+        document.getElementById(
+            "character-title"
+        );
+
+
+    if (titleElement) {
+
+        titleElement.textContent =
+            title
+                ? getCosmeticName(
+                    "titles",
+                    title
+                )
+                : "";
+
     }
+
+
+    /*
+       Data attributes are useful for CSS
+       and future rendering.
+    */
+
+    preview.dataset.shirt =
+        shirt || "";
+
+
+    preview.dataset.hat =
+        hat || "";
+
+
+    preview.dataset.pants =
+        pants || "";
+
+
+    preview.dataset.banner =
+        banner || "";
+
+
+    preview.dataset.effect =
+        effect || "";
+
+
+    preview.dataset.title =
+        title || "";
 
 }
 
 
 /* =========================================
-   CLEAR EQUIPPED ITEM
+   RENDER EVERYTHING
 ========================================= */
 
-function clearCosmetic(
-    categoryName
-) {
+function renderEditor() {
 
-    const category =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
+    Object.keys(
+        CATEGORY_DATA
+    ).forEach(
+        category => {
 
+            renderCategory(
+                category
+            );
 
-    if (!category) {
-        return;
-    }
-
-
-    localStorage.removeItem(
-        category.selectedKey
+        }
     );
 
 
-    displayCategory(
-        categoryName
-    );
-
-
-    updateCharacterPreview();
+    renderCharacter();
 
 }
 
 
 /* =========================================
-   INITIALISE
+   AUTO-REFRESH
+========================================= */
+
+window.addEventListener(
+    "storage",
+    function(event) {
+
+        if (
+            event.key ===
+            "unlocked_shirts" ||
+
+            event.key ===
+            "unlocked_hats" ||
+
+            event.key ===
+            "unlocked_pants" ||
+
+            event.key ===
+            "unlocked_banners" ||
+
+            event.key ===
+            "unlockedTitles" ||
+
+            event.key ===
+            "unlocked_effects"
+        ) {
+
+            renderEditor();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   START
 ========================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        loadCharacter();
+        renderEditor();
 
     }
 );
@@ -554,86 +758,15 @@ document.addEventListener(
    GLOBAL FUNCTIONS
 ========================================= */
 
-window.loadCharacter =
-    loadCharacter;
+window.renderEditor =
+    renderEditor;
 
-window.selectCosmetic =
-    selectCosmetic;
+window.renderCharacter =
+    renderCharacter;
 
-window.clearCosmetic =
-    clearCosmetic;
+window.equipCosmetic =
+    equipCosmetic;
 
-window.updateCharacterPreview =
-    updateCharacterPreview;
+window.unequipCosmetic =
+    unequipCosmetic;
 ```
-
-And your character editor HTML needs these option containers somewhere in the page:
-
-```html
-<section class="character-category">
-
-    <h2>Shirts</h2>
-
-    <div id="shirts-options"
-         class="character-options">
-    </div>
-
-</section>
-
-
-<section class="character-category">
-
-    <h2>Hats</h2>
-
-    <div id="hats-options"
-         class="character-options">
-    </div>
-
-</section>
-
-
-<section class="character-category">
-
-    <h2>Pants</h2>
-
-    <div id="pants-options"
-         class="character-options">
-    </div>
-
-</section>
-
-
-<section class="character-category">
-
-    <h2>Banners</h2>
-
-    <div id="banners-options"
-         class="character-options">
-    </div>
-
-</section>
-
-
-<section class="character-category">
-
-    <h2>Player Titles</h2>
-
-    <div id="titles-options"
-         class="character-options">
-    </div>
-
-</section>
-
-
-<section class="character-category">
-
-    <h2>Effects</h2>
-
-    <div id="effects-options"
-         class="character-options">
-    </div>
-
-</section>
-```
-
-**Important:** this fixes the *unlock/options system*. Your actual character preview still needs to know how to visually render each shirt/hat/effect. The big improvement here is that **anything purchased from the shop will appear in the corresponding editor category because both systems now use the same unlock arrays.**
