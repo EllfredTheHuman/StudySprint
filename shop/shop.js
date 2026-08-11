@@ -1,12 +1,14 @@
+```javascript
 /* =========================================
    STUDYSPRINT SHOP
 ========================================= */
 
-const ROTATION_LENGTH = 14 * 24 * 60 * 60 * 1000;
+const ROTATION_LENGTH =
+    14 * 24 * 60 * 60 * 1000;
 
 
 /* =========================================
-   SHOP ITEMS
+   FORTNIGHTLY SHOP ITEMS
 ========================================= */
 
 const SHOP_ITEMS = {
@@ -14,7 +16,7 @@ const SHOP_ITEMS = {
     banner_purple: {
         name: "Purple Grid",
         rarity: "Common",
-        type: "banner",
+        type: "Banner",
         value: "purple-grid",
         price: 100
     },
@@ -22,7 +24,7 @@ const SHOP_ITEMS = {
     banner_blue: {
         name: "Neon Blue",
         rarity: "Common",
-        type: "banner",
+        type: "Banner",
         value: "neon-blue",
         price: 125
     },
@@ -30,7 +32,7 @@ const SHOP_ITEMS = {
     banner_space: {
         name: "Space",
         rarity: "Common",
-        type: "banner",
+        type: "Banner",
         value: "space",
         price: 150
     },
@@ -38,7 +40,7 @@ const SHOP_ITEMS = {
     shirt_lightning: {
         name: "Lightning Shirt",
         rarity: "Rare",
-        type: "shirt",
+        type: "Shirt",
         value: "lightning",
         price: 250
     },
@@ -46,7 +48,7 @@ const SHOP_ITEMS = {
     shirt_sprint: {
         name: "Sprint Shirt",
         rarity: "Rare",
-        type: "shirt",
+        type: "Shirt",
         value: "sprint",
         price: 300
     },
@@ -54,7 +56,7 @@ const SHOP_ITEMS = {
     hat_visor: {
         name: "Sprint Visor",
         rarity: "Ultra Rare",
-        type: "hat",
+        type: "Hat",
         value: "visor",
         price: 450
     },
@@ -62,7 +64,7 @@ const SHOP_ITEMS = {
     hat_star: {
         name: "Star Cap",
         rarity: "Ultra Rare",
-        type: "hat",
+        type: "Hat",
         value: "star-cap",
         price: 500
     },
@@ -70,7 +72,7 @@ const SHOP_ITEMS = {
     pants_split: {
         name: "Split Pants",
         rarity: "Mythic",
-        type: "pants",
+        type: "Pants",
         value: "split",
         price: 600
     },
@@ -78,9 +80,108 @@ const SHOP_ITEMS = {
     title_sprinter: {
         name: "The First Sprinter",
         rarity: "Legendary",
-        type: "title",
+        type: "Player Title",
         value: "first-sprinter",
         price: 750
+    }
+
+};
+
+
+/* =========================================
+   TICKET SHOP ITEMS
+========================================= */
+
+const TICKET_ITEMS = {
+
+    sparkle: {
+        name: "Sparkle Effect",
+        description:
+            "Tiny sparkles follow your character.",
+        price: 10,
+        type: "effect",
+        value: "sparkle"
+    },
+
+    speed: {
+        name: "Speed Trail",
+        description:
+            "Leaves a trail while moving.",
+        price: 20,
+        type: "effect",
+        value: "speed-trail"
+    },
+
+    lightning: {
+        name: "Lightning Effect",
+        description:
+            "Electric sparks surround your character.",
+        price: 35,
+        type: "effect",
+        value: "lightning"
+    },
+
+    rainbow: {
+        name: "Rainbow Aura",
+        description:
+            "A colourful aura surrounds your character.",
+        price: 50,
+        type: "effect",
+        value: "rainbow"
+    },
+
+    fire: {
+        name: "Fire Aura",
+        description:
+            "A fiery glow surrounds your character.",
+        price: 75,
+        type: "effect",
+        value: "fire"
+    },
+
+    glitch: {
+        name: "Glitch Effect",
+        description:
+            "A strange digital effect surrounds you.",
+        price: 100,
+        type: "effect",
+        value: "glitch"
+    },
+
+    shadow: {
+        name: "Shadow Aura",
+        description:
+            "A dark shadow surrounds you.",
+        price: 150,
+        type: "effect",
+        value: "shadow"
+    },
+
+    crystal: {
+        name: "Crystal Glow",
+        description:
+            "A bright crystalline glow surrounds you.",
+        price: 250,
+        type: "effect",
+        value: "crystal"
+    },
+
+    cosmic: {
+        name: "Cosmic Aura",
+        description:
+            "Stars and cosmic particles surround you.",
+        price: 500,
+        type: "effect",
+        value: "cosmic"
+    },
+
+    crown: {
+        name: "Crown + Glow",
+        description:
+            "An extremely rare glowing crown.",
+        price: 1000,
+        type: "effect",
+        value: "crown"
     }
 
 };
@@ -112,7 +213,7 @@ function setCoins(amount) {
 
     localStorage.setItem(
         "coins",
-        amount
+        String(amount)
     );
 
 }
@@ -122,7 +223,7 @@ function setTickets(amount) {
 
     localStorage.setItem(
         "shopTickets",
-        amount
+        String(amount)
     );
 
 }
@@ -170,219 +271,47 @@ function ownsItem(id) {
 
 
 /* =========================================
-   RARITY
-========================================= */
-
-function rollRarity() {
-
-    const roll =
-        Math.random() * 100;
-
-
-    if (roll < 50)
-        return "Very Common";
-
-    if (roll < 75)
-        return "Common";
-
-    if (roll < 85)
-        return "Rare";
-
-    if (roll < 90)
-        return "Ultra Rare";
-
-    if (roll < 92)
-        return "Mythic";
-
-    if (roll < 93)
-        return "Legendary";
-
-    return "Common";
-
-}
-
-
-/* =========================================
-   ITEMS BY RARITY
-========================================= */
-
-function itemsByRarity(rarity) {
-
-    return Object.keys(
-        SHOP_ITEMS
-    ).filter(
-        id =>
-            SHOP_ITEMS[id].rarity === rarity
-    );
-
-}
-
-
-/* =========================================
-   GENERATE SHOP
-========================================= */
-
-function generateShop() {
-
-    const generated = [];
-
-
-    for (let i = 0; i < 8; i++) {
-
-        const rarity =
-            rollRarity();
-
-
-        let possible =
-            itemsByRarity(rarity);
-
-
-        /*
-            If there aren't any items for the
-            rolled rarity, fall back to Common.
-        */
-
-        if (possible.length === 0) {
-
-            possible =
-                itemsByRarity("Common");
-
-        }
-
-
-        const randomIndex =
-            Math.floor(
-                Math.random() *
-                possible.length
-            );
-
-
-        generated.push(
-            possible[randomIndex]
-        );
-
-    }
-
-
-    localStorage.setItem(
-        "fortnightlyShopItems",
-        JSON.stringify(generated)
-    );
-
-
-    localStorage.setItem(
-        "fortnightlyShopStart",
-        Date.now()
-    );
-
-
-    return generated;
-
-}
-
-
-/* =========================================
-   GET CURRENT SHOP
-========================================= */
-
-function getCurrentShop() {
-
-    let items;
-
-
-    try {
-
-        items = JSON.parse(
-            localStorage.getItem(
-                "fortnightlyShopItems"
-            )
-        );
-
-    } catch {
-
-        items = null;
-
-    }
-
-
-    const start =
-        Number(
-            localStorage.getItem(
-                "fortnightlyShopStart"
-            )
-        );
-
-
-    /*
-        New account
-    */
-
-    if (
-        !Array.isArray(items) ||
-        items.length !== 8 ||
-        !start
-    ) {
-
-        return generateShop();
-
-    }
-
-
-    /*
-        Shop expired
-    */
-
-    if (
-        Date.now() - start >=
-        ROTATION_LENGTH
-    ) {
-
-        return generateShop();
-
-    }
-
-
-    return items;
-
-}
-
-
-/* =========================================
    UNLOCK COSMETIC
 ========================================= */
 
 function unlockCosmetic(item) {
 
-    let key;
+    let key = null;
 
 
-    if (item.type === "banner") {
+    if (item.type === "Banner") {
 
         key = "unlocked_banners";
 
     }
 
-    else if (item.type === "shirt") {
+    else if (item.type === "Shirt") {
 
         key = "unlocked_shirts";
 
     }
 
-    else if (item.type === "hat") {
+    else if (item.type === "Hat") {
 
         key = "unlocked_hats";
 
     }
 
-    else if (item.type === "pants") {
+    else if (item.type === "Pants") {
 
         key = "unlocked_pants";
 
     }
 
-    else if (item.type === "title") {
+    else if (item.type === "Player Title") {
 
         key = "unlockedTitles";
+
+    }
+
+    else if (item.type === "effect") {
+
+        key = "unlocked_effects";
 
     }
 
@@ -430,10 +359,193 @@ function unlockCosmetic(item) {
 
 
 /* =========================================
-   DISPLAY SHOP
+   RARITY ROLL
 ========================================= */
 
-function displayFortnightlyShop() {
+function rollRarity() {
+
+    const roll =
+        Math.random() * 100;
+
+
+    if (roll < 50)
+        return "Common";
+
+
+    if (roll < 75)
+        return "Common";
+
+
+    if (roll < 85)
+        return "Rare";
+
+
+    if (roll < 90)
+        return "Ultra Rare";
+
+
+    if (roll < 92)
+        return "Mythic";
+
+
+    return "Legendary";
+
+}
+
+
+/* =========================================
+   GET ITEMS BY RARITY
+========================================= */
+
+function getItemsByRarity(rarity) {
+
+    return Object.keys(
+        SHOP_ITEMS
+    ).filter(
+        id =>
+            SHOP_ITEMS[id].rarity ===
+            rarity
+    );
+
+}
+
+
+/* =========================================
+   GENERATE SHOP
+========================================= */
+
+function generateShop() {
+
+    const generated = [];
+
+
+    for (
+        let i = 0;
+        i < 8;
+        i++
+    ) {
+
+        const rarity =
+            rollRarity();
+
+
+        let possible =
+            getItemsByRarity(
+                rarity
+            );
+
+
+        if (
+            possible.length === 0
+        ) {
+
+            possible =
+                getItemsByRarity(
+                    "Common"
+                );
+
+        }
+
+
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                possible.length
+            );
+
+
+        generated.push(
+            possible[randomIndex]
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "fortnightlyShopItems",
+        JSON.stringify(
+            generated
+        )
+    );
+
+
+    localStorage.setItem(
+        "fortnightlyShopStart",
+        String(
+            Date.now()
+        )
+    );
+
+
+    return generated;
+
+}
+
+
+/* =========================================
+   LOAD SHOP
+========================================= */
+
+function loadShop() {
+
+    let items = null;
+
+
+    try {
+
+        items =
+            JSON.parse(
+                localStorage.getItem(
+                    "fortnightlyShopItems"
+                )
+            );
+
+    } catch {
+
+        items = null;
+
+    }
+
+
+    const start =
+        Number(
+            localStorage.getItem(
+                "fortnightlyShopStart"
+            )
+        ) || 0;
+
+
+    if (
+        !Array.isArray(items) ||
+        items.length !== 8 ||
+        !start
+    ) {
+
+        return generateShop();
+
+    }
+
+
+    if (
+        Date.now() - start >=
+        ROTATION_LENGTH
+    ) {
+
+        return generateShop();
+
+    }
+
+
+    return items;
+
+}
+
+
+/* =========================================
+   DISPLAY MAIN SHOP
+========================================= */
+
+function displayMainShop() {
 
     const container =
         document.getElementById(
@@ -446,7 +558,7 @@ function displayFortnightlyShop() {
 
 
     const items =
-        getCurrentShop();
+        loadShop();
 
 
     container.innerHTML = "";
@@ -479,6 +591,12 @@ function displayFortnightlyShop() {
                     );
 
 
+            const owned =
+                ownsItem(
+                    itemID
+                );
+
+
             card.innerHTML = `
 
                 <div class="rarity">
@@ -502,18 +620,46 @@ function displayFortnightlyShop() {
                 </div>
 
                 <button
+                    type="button"
                     class="buy-button"
-                    onclick="buyShopItem('${itemID}', this)"
-                    ${ownsItem(itemID) ? "disabled" : ""}
+                    ${
+                        owned
+                            ? "disabled"
+                            : ""
+                    }
+                    data-item="${itemID}"
                 >
                     ${
-                        ownsItem(itemID)
+                        owned
                             ? "OWNED"
                             : "BUY"
                     }
                 </button>
 
             `;
+
+
+            const button =
+                card.querySelector(
+                    ".buy-button"
+                );
+
+
+            if (!owned) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        buyShopItem(
+                            itemID,
+                            button
+                        );
+
+                    }
+                );
+
+            }
 
 
             container.appendChild(
@@ -530,7 +676,7 @@ function displayFortnightlyShop() {
 
 
 /* =========================================
-   BUY SHOP ITEM
+   BUY MAIN SHOP ITEM
 ========================================= */
 
 function buyShopItem(
@@ -608,105 +754,6 @@ function buyShopItem(
 
 
 /* =========================================
-   TICKET SHOP
-========================================= */
-
-const TICKET_ITEMS = {
-
-    sparkle: {
-        name: "Sparkle Effect",
-        description:
-            "Tiny sparkles follow your character.",
-        price: 10,
-        type: "effect",
-        value: "sparkle"
-    },
-
-    speed: {
-        name: "Speed Trail",
-        description:
-            "Leaves a trail while moving.",
-        price: 20,
-        type: "effect",
-        value: "speed-trail"
-    },
-
-    lightning: {
-        name: "Lightning Effect",
-        description:
-            "Electric sparks surround your character.",
-        price: 35,
-        type: "effect",
-        value: "lightning"
-    },
-
-    rainbow: {
-        name: "Rainbow Aura",
-        description:
-            "A colourful aura surrounds you.",
-        price: 50,
-        type: "effect",
-        value: "rainbow"
-    },
-
-    fire: {
-        name: "Fire Aura",
-        description:
-            "A fiery glow surrounds you.",
-        price: 75,
-        type: "effect",
-        value: "fire"
-    },
-
-    glitch: {
-        name: "Glitch Effect",
-        description:
-            "A strange digital effect surrounds you.",
-        price: 100,
-        type: "effect",
-        value: "glitch"
-    },
-
-    shadow: {
-        name: "Shadow Aura",
-        description:
-            "A dark shadow surrounds you.",
-        price: 150,
-        type: "effect",
-        value: "shadow"
-    },
-
-    crystal: {
-        name: "Crystal Glow",
-        description:
-            "A bright crystalline glow.",
-        price: 250,
-        type: "effect",
-        value: "crystal"
-    },
-
-    cosmic: {
-        name: "Cosmic Aura",
-        description:
-            "Stars and cosmic particles surround you.",
-        price: 500,
-        type: "effect",
-        value: "cosmic"
-    },
-
-    crown: {
-        name: "Crown + Glow",
-        description:
-            "Extremely rare glowing crown.",
-        price: 1000,
-        type: "effect",
-        value: "crown"
-    }
-
-};
-
-
-/* =========================================
    DISPLAY TICKET SHOP
 ========================================= */
 
@@ -728,10 +775,10 @@ function displayTicketShop() {
     Object.keys(
         TICKET_ITEMS
     ).forEach(
-        function(id) {
+        function(itemID) {
 
             const item =
-                TICKET_ITEMS[id];
+                TICKET_ITEMS[itemID];
 
 
             const card =
@@ -745,7 +792,7 @@ function displayTicketShop() {
 
 
             if (
-                id === "crown"
+                itemID === "crown"
             ) {
 
                 card.classList.add(
@@ -753,6 +800,12 @@ function displayTicketShop() {
                 );
 
             }
+
+
+            const owned =
+                ownsItem(
+                    itemID
+                );
 
 
             card.innerHTML = `
@@ -774,18 +827,45 @@ function displayTicketShop() {
                 </div>
 
                 <button
+                    type="button"
                     class="buy-button"
-                    onclick="buyTicketItem('${id}', this)"
-                    ${ownsItem(id) ? "disabled" : ""}
+                    ${
+                        owned
+                            ? "disabled"
+                            : ""
+                    }
                 >
                     ${
-                        ownsItem(id)
+                        owned
                             ? "OWNED"
                             : "BUY"
                     }
                 </button>
 
             `;
+
+
+            const button =
+                card.querySelector(
+                    ".buy-button"
+                );
+
+
+            if (!owned) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        buyTicketItem(
+                            itemID,
+                            button
+                        );
+
+                    }
+                );
+
+            }
 
 
             container.appendChild(
@@ -847,11 +927,18 @@ function buyTicketItem(
     );
 
 
+    unlockCosmetic(
+        item
+    );
+
+
     const owned =
         getOwnedItems();
 
 
-    owned.push(itemID);
+    owned.push(
+        itemID
+    );
 
 
     saveOwnedItems(
@@ -873,7 +960,7 @@ function buyTicketItem(
 
 
 /* =========================================
-   CURRENCY
+   CURRENCY DISPLAY
 ========================================= */
 
 function updateCurrency() {
@@ -914,13 +1001,13 @@ function updateCurrency() {
 
 function updateCountdown() {
 
-    const element =
+    const countdown =
         document.getElementById(
             "countdown"
         );
 
 
-    if (!element)
+    if (!countdown)
         return;
 
 
@@ -929,12 +1016,12 @@ function updateCountdown() {
             localStorage.getItem(
                 "fortnightlyShopStart"
             )
-        );
+        ) || 0;
 
 
     if (!start) {
 
-        getCurrentShop();
+        loadShop();
 
         start =
             Number(
@@ -960,7 +1047,7 @@ function updateCountdown() {
 
         generateShop();
 
-        displayFortnightlyShop();
+        displayMainShop();
 
         start =
             Number(
@@ -968,6 +1055,7 @@ function updateCountdown() {
                     "fortnightlyShopStart"
                 )
             );
+
 
         remaining =
             (
@@ -1016,34 +1104,47 @@ function updateCountdown() {
         );
 
 
-    element.textContent =
+    countdown.textContent =
         `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
 }
 
 
 /* =========================================
-   SWITCH SHOPS
+   SHOP SWITCHING
 ========================================= */
 
-function showTicketShop() {
+function openTicketShop() {
 
-    document
-        .getElementById(
+    const main =
+        document.getElementById(
             "fortnightly-shop"
-        )
-        ?.classList.add(
-            "hidden"
         );
 
 
-    document
-        .getElementById(
+    const tickets =
+        document.getElementById(
             "ticket-shop"
-        )
-        ?.classList.remove(
-            "hidden"
         );
+
+
+    if (!main || !tickets) {
+
+        console.error(
+            "StudySprint: Ticket Shop sections missing."
+        );
+
+        return;
+
+    }
+
+
+    main.style.display =
+        "none";
+
+
+    tickets.style.display =
+        "block";
 
 
     displayTicketShop();
@@ -1051,27 +1152,40 @@ function showTicketShop() {
 }
 
 
-function showFortnightlyShop() {
+function openMainShop() {
 
-    document
-        .getElementById(
-            "ticket-shop"
-        )
-        ?.classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById(
+    const main =
+        document.getElementById(
             "fortnightly-shop"
-        )
-        ?.classList.remove(
-            "hidden"
         );
 
 
-    displayFortnightlyShop();
+    const tickets =
+        document.getElementById(
+            "ticket-shop"
+        );
+
+
+    if (!main || !tickets) {
+
+        console.error(
+            "StudySprint: Shop sections missing."
+        );
+
+        return;
+
+    }
+
+
+    tickets.style.display =
+        "none";
+
+
+    main.style.display =
+        "block";
+
+
+    displayMainShop();
 
 }
 
@@ -1080,17 +1194,11 @@ function showFortnightlyShop() {
    GLOBAL FUNCTIONS
 ========================================= */
 
-window.buyShopItem =
-    buyShopItem;
+window.openTicketShop =
+    openTicketShop;
 
-window.buyTicketItem =
-    buyTicketItem;
-
-window.showTicketShop =
-    showTicketShop;
-
-window.showFortnightlyShop =
-    showFortnightlyShop;
+window.openMainShop =
+    openMainShop;
 
 
 /* =========================================
@@ -1101,32 +1209,14 @@ document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        /*
-            Generate the shop immediately.
-        */
+        loadShop();
 
-        getCurrentShop();
-
-
-        /*
-            Display everything.
-        */
-
-        displayFortnightlyShop();
+        displayMainShop();
 
         displayTicketShop();
 
-
-        /*
-            Start countdown immediately.
-        */
-
         updateCountdown();
 
-
-        /*
-            Update every second.
-        */
 
         setInterval(
             updateCountdown,
@@ -1135,3 +1225,4 @@ document.addEventListener(
 
     }
 );
+```
