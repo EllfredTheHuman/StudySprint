@@ -7,9 +7,9 @@ const XP_PER_TIER = 100;
 const MAX_XP = 5000;
 
 
-/* =========================
+/* =========================================
    MONTH
-========================= */
+========================================= */
 
 function getCurrentMonth() {
 
@@ -24,9 +24,9 @@ function getCurrentMonth() {
 }
 
 
-/* =========================
+/* =========================================
    LOAD
-========================= */
+========================================= */
 
 const currentMonth = getCurrentMonth();
 
@@ -44,9 +44,9 @@ let claimedRewards =
     ) || [];
 
 
-/* =========================
+/* =========================================
    MONTH RESET
-========================= */
+========================================= */
 
 if (savedMonth !== currentMonth) {
 
@@ -72,9 +72,9 @@ if (savedMonth !== currentMonth) {
 }
 
 
-/* =========================
+/* =========================================
    REWARDS
-========================= */
+========================================= */
 
 const rewards = {
 
@@ -141,9 +141,9 @@ const rewards = {
 };
 
 
-/* =========================
-   TIER
-========================= */
+/* =========================================
+   CURRENT TIER
+========================================= */
 
 function getCurrentTier() {
 
@@ -157,13 +157,13 @@ function getCurrentTier() {
 }
 
 
-/* =========================
-   UNLOCK COSMETIC
-========================= */
+/* =========================================
+   UNLOCK ITEM
+========================================= */
 
 function unlockItem(
     storageKey,
-    item
+    value
 ) {
 
     let unlocked =
@@ -173,11 +173,15 @@ function unlockItem(
             )
         ) || [];
 
-    if (!unlocked.includes(item)) {
 
-        unlocked.push(item);
+    if (
+        !unlocked.includes(value)
+    ) {
+
+        unlocked.push(value);
 
     }
+
 
     localStorage.setItem(
         storageKey,
@@ -187,21 +191,30 @@ function unlockItem(
 }
 
 
-/* =========================
+/* =========================================
    CLAIM REWARD
-========================= */
+========================================= */
 
 function claimReward(tier) {
 
-    tier = Number(tier);
+    const rewardTier =
+        Number(tier);
 
-    const reward = rewards[tier];
+    const reward =
+        rewards[rewardTier];
+
+
+    console.log(
+        "CLAIM CLICKED:",
+        rewardTier
+    );
+
 
     if (!reward) {
 
         console.error(
-            "StudyPass: reward not found",
-            tier
+            "No reward exists for tier",
+            rewardTier
         );
 
         return;
@@ -209,14 +222,13 @@ function claimReward(tier) {
     }
 
 
-    const currentTier =
-        getCurrentTier();
-
-
-    if (currentTier < tier) {
+    if (
+        getCurrentTier() <
+        rewardTier
+    ) {
 
         console.log(
-            "StudyPass: reward is locked."
+            "Reward still locked."
         );
 
         return;
@@ -231,7 +243,7 @@ function claimReward(tier) {
     ) {
 
         console.log(
-            "StudyPass: already claimed."
+            "Reward already claimed."
         );
 
         return;
@@ -239,12 +251,13 @@ function claimReward(tier) {
     }
 
 
-    /* =====================
-       COINS
-    ===================== */
+    /* =====================================
+       GIVE REWARD
+    ===================================== */
 
     if (
-        reward.type === "coins"
+        reward.type ===
+        "coins"
     ) {
 
         const coins =
@@ -253,6 +266,7 @@ function claimReward(tier) {
                     "coins"
                 )
             ) || 0;
+
 
         localStorage.setItem(
             "coins",
@@ -264,10 +278,6 @@ function claimReward(tier) {
 
     }
 
-
-    /* =====================
-       STREAK FREEZE
-    ===================== */
 
     if (
         reward.type ===
@@ -281,20 +291,16 @@ function claimReward(tier) {
                 )
             ) || 0;
 
+
         localStorage.setItem(
             "streakFreezes",
             String(
-                freezes +
-                reward.amount
+                freezes + 1
             )
         );
 
     }
 
-
-    /* =====================
-       SHOP TICKET
-    ===================== */
 
     if (
         reward.type ===
@@ -308,23 +314,20 @@ function claimReward(tier) {
                 )
             ) || 0;
 
+
         localStorage.setItem(
             "shopTickets",
             String(
-                tickets +
-                reward.amount
+                tickets + 1
             )
         );
 
     }
 
 
-    /* =====================
-       BANNER
-    ===================== */
-
     if (
-        reward.type === "banner"
+        reward.type ===
+        "banner"
     ) {
 
         unlockItem(
@@ -335,12 +338,9 @@ function claimReward(tier) {
     }
 
 
-    /* =====================
-       HAT
-    ===================== */
-
     if (
-        reward.type === "hat"
+        reward.type ===
+        "hat"
     ) {
 
         unlockItem(
@@ -351,12 +351,9 @@ function claimReward(tier) {
     }
 
 
-    /* =====================
-       SHIRT
-    ===================== */
-
     if (
-        reward.type === "shirt"
+        reward.type ===
+        "shirt"
     ) {
 
         unlockItem(
@@ -367,12 +364,9 @@ function claimReward(tier) {
     }
 
 
-    /* =====================
-       TITLE
-    ===================== */
-
     if (
-        reward.type === "title"
+        reward.type ===
+        "title"
     ) {
 
         unlockItem(
@@ -383,13 +377,14 @@ function claimReward(tier) {
     }
 
 
-    /* =====================
-       MARK CLAIMED
-    ===================== */
+    /* =====================================
+       SAVE CLAIM
+    ===================================== */
 
     claimedRewards.push(
         reward.id
     );
+
 
     localStorage.setItem(
         CLAIMED_KEY,
@@ -399,20 +394,83 @@ function claimReward(tier) {
     );
 
 
-    console.log(
-        "StudyPass reward claimed:",
-        reward.id
+    /* =====================================
+       FIND CARD
+    ===================================== */
+
+    const card =
+        document.querySelector(
+            `.reward-card[data-reward-tier="${rewardTier}"]`
+        );
+
+
+    if (!card) {
+
+        console.error(
+            "Reward card not found."
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        card.querySelector(
+            ".claim-button"
+        );
+
+
+    /* =====================================
+       VISUAL CLAIM
+    ===================================== */
+
+    card.classList.add(
+        "claimed"
     );
 
 
-    updatePass();
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "CLAIMED";
+
+
+    button.classList.remove(
+        "available"
+    );
+
+
+    /* =====================================
+       ANIMATION
+    ===================================== */
+
+    card.classList.remove(
+        "claim-animation"
+    );
+
+
+    void card.offsetWidth;
+
+
+    card.classList.add(
+        "claim-animation"
+    );
+
+
+    console.log(
+        "Reward successfully claimed:",
+        reward.id
+    );
 
 }
 
 
-/* =========================
+/* =========================================
    UPDATE PASS
-========================= */
+========================================= */
 
 function updatePass() {
 
@@ -425,10 +483,11 @@ function updatePass() {
         XP_PER_TIER;
 
 
-    const progress =
-        (tierXP /
-        XP_PER_TIER) *
-        100;
+    const percentage =
+        (
+            tierXP /
+            XP_PER_TIER
+        ) * 100;
 
 
     const tierElement =
@@ -471,7 +530,7 @@ function updatePass() {
     if (progressElement) {
 
         progressElement.style.width =
-            progress + "%";
+            percentage + "%";
 
     }
 
@@ -502,7 +561,10 @@ function updatePass() {
                     );
 
 
-                if (!reward || !button) {
+                if (
+                    !reward ||
+                    !button
+                ) {
 
                     return;
 
@@ -528,11 +590,6 @@ function updatePass() {
                     return;
 
                 }
-
-
-                card.classList.remove(
-                    "claimed"
-                );
 
 
                 if (
@@ -572,11 +629,13 @@ function updatePass() {
 }
 
 
-/* =========================
+/* =========================================
    ADD XP
-========================= */
+========================================= */
 
-function addStudyPassXP(amount) {
+function addStudyPassXP(
+    amount
+) {
 
     amount =
         Number(amount) || 0;
@@ -600,9 +659,9 @@ function addStudyPassXP(amount) {
 }
 
 
-/* =========================
-   GLOBAL FUNCTIONS
-========================= */
+/* =========================================
+   GLOBAL
+========================================= */
 
 window.claimReward =
     claimReward;
@@ -611,9 +670,9 @@ window.addStudyPassXP =
     addStudyPassXP;
 
 
-/* =========================
+/* =========================================
    START
-========================= */
+========================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
