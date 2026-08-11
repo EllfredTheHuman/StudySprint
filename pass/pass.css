@@ -499,3 +499,93 @@
     }
 
 }
+
+.reward-card.claim-animation {
+
+    animation:
+        rewardClaim
+        0.45s
+        ease;
+
+}
+
+
+@keyframes rewardClaim {
+
+    0% {
+
+        transform:
+            scale(1);
+
+    }
+
+    45% {
+
+        transform:
+            scale(1.06);
+
+    }
+
+    100% {
+
+        transform:
+            scale(1);
+
+    }
+
+}
+
+
+.reward-card.claimed
+.claimed-overlay {
+
+    opacity:1;
+
+}
+
+
+.reward-card.claimed
+.claimed-tick {
+
+    animation:
+        tickAppear
+        0.4s
+        ease
+        forwards;
+
+}
+
+
+@keyframes tickAppear {
+
+    0% {
+
+        transform:
+            rotate(-45deg)
+            scale(0);
+
+        opacity:0;
+
+    }
+
+    70% {
+
+        transform:
+            rotate(-45deg)
+            scale(1.15);
+
+        opacity:1;
+
+    }
+
+    100% {
+
+        transform:
+            rotate(-45deg)
+            scale(1);
+
+        opacity:1;
+
+    }
+
+}
