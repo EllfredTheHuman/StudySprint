@@ -10,10 +10,1158 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Customize Character | StudySprint</title>
+<title>Character | StudySprint</title>
 
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="./character.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
+
+<style>
+
+/* =========================================================
+   CHARACTER EDITOR
+========================================================= */
+
+.character-editor {
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:35px;
+
+    padding:30px 20px 80px;
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.banner-preview {
+
+    width:90%;
+    max-width:1000px;
+
+    min-height:300px;
+
+    margin:0 auto;
+
+    border-radius:35px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:35px;
+
+    display:flex;
+    align-items:center;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.10);
+
+    transition:.25s;
+}
+
+
+/* =========================================================
+   BANNERS
+========================================================= */
+
+.banner-purple {
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #6366f1
+        );
+}
+
+.banner-blue {
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #38bdf8
+        );
+}
+
+.banner-green {
+
+    background:
+        linear-gradient(
+            135deg,
+            #16a34a,
+            #4ade80
+        );
+}
+
+.banner-sprint-grid {
+
+    background:
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6366f1
+        );
+}
+
+.banner-purple-grid {
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #c084fc
+        );
+}
+
+.banner-neon-blue {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0891b2,
+            #22d3ee
+        );
+}
+
+.banner-sprint-grid::before,
+.banner-purple-grid::before,
+.banner-neon-blue::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        );
+
+    background-size:25px 25px;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   PLAYER INFO
+========================================================= */
+
+.player-info {
+
+    position:absolute;
+
+    left:35px;
+    top:35px;
+
+    z-index:20;
+
+    color:white;
+}
+
+.player-username {
+
+    margin:0;
+
+    font-size:42px;
+
+    font-weight:900;
+
+    text-shadow:
+        0 3px 8px rgba(0,0,0,.25);
+}
+
+.player-tag {
+
+    display:inline-block;
+
+    margin-top:8px;
+
+    padding:7px 14px;
+
+    border-radius:12px;
+
+    background:rgba(0,0,0,.20);
+
+    font-weight:800;
+}
+
+
+/* =========================================================
+   CHARACTER
+   EXACT SAME STYLE AS PROFILE
+========================================================= */
+
+.character {
+
+    position:absolute;
+
+    right:70px;
+    bottom:0;
+
+    width:180px;
+    height:235px;
+
+    overflow:visible;
+
+    z-index:10;
+}
+
+
+/* =========================================================
+   CHARACTER BODY
+========================================================= */
+
+.character-head {
+
+    position:absolute;
+
+    width:105px;
+    height:105px;
+
+    left:38px;
+    top:28px;
+
+    border-radius:50%;
+
+    z-index:3;
+}
+
+.character-face {
+
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    left:56px;
+    top:73px;
+
+    background:#1f2937;
+
+    border-radius:50%;
+
+    box-shadow:
+        27px 0 0 #1f2937;
+
+    z-index:7;
+}
+
+.character-hair {
+
+    position:absolute;
+
+    width:98px;
+    height:43px;
+
+    left:41px;
+    top:25px;
+
+    border-radius:
+        50px 50px 15px 15px;
+
+    z-index:5;
+}
+
+.character-body {
+
+    position:absolute;
+
+    width:92px;
+    height:75px;
+
+    left:44px;
+    top:116px;
+
+    border-radius:
+        30px 30px 15px 15px;
+
+    z-index:2;
+}
+
+.character-leg {
+
+    position:absolute;
+
+    width:30px;
+    height:55px;
+
+    top:177px;
+
+    border-radius:12px;
+
+    z-index:1;
+}
+
+.character-leg-left {
+    left:53px;
+}
+
+.character-leg-right {
+    left:95px;
+}
+
+
+/* =========================================================
+   HAT
+========================================================= */
+
+.character-hat {
+
+    position:absolute;
+
+    display:none;
+
+    z-index:12;
+
+    pointer-events:none;
+
+    text-align:center;
+
+    font-weight:900;
+}
+
+.character-hat.cap {
+
+    display:block;
+
+    width:110px;
+    height:32px;
+
+    left:35px;
+    top:15px;
+
+    border-radius:
+        50px 50px 12px 12px;
+
+    box-shadow:
+        inset 0 -6px 0 rgba(0,0,0,.15);
+}
+
+.character-hat.visor {
+
+    display:block;
+
+    width:120px;
+    height:20px;
+
+    left:30px;
+    top:17px;
+
+    border-radius:15px;
+}
+
+
+/* =========================================================
+   CROWN
+========================================================= */
+
+.character-crown {
+
+    position:absolute;
+
+    width:76px;
+    height:55px;
+
+    left:52px;
+    top:8px;
+
+    z-index:15;
+
+    pointer-events:none;
+
+    animation:
+        crownFloat
+        2.2s
+        ease-in-out
+        infinite;
+}
+
+.character-crown::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:76px;
+    height:43px;
+
+    left:0;
+    top:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ae 0%,
+            #ffd700 30%,
+            #f59e0b 70%,
+            #b45309 100%
+        );
+
+    clip-path:
+        polygon(
+            0% 100%,
+            8% 28%,
+            30% 65%,
+            50% 0%,
+            70% 65%,
+            92% 28%,
+            100% 100%
+        );
+
+    filter:
+        drop-shadow(0 0 5px #ffd700)
+        drop-shadow(
+            0 0 12px rgba(255,215,0,.8)
+        );
+}
+
+.character-crown::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:62px;
+    height:10px;
+
+    left:7px;
+    top:32px;
+
+    border-radius:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #d97706,
+            #ffe066,
+            #f59e0b
+        );
+
+    box-shadow:
+        0 0 8px #ffd700;
+}
+
+.character-crown .crown-gem {
+
+    position:absolute;
+
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    z-index:5;
+
+    animation:
+        gemGlow
+        1.3s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+.character-crown .gem-red {
+
+    left:20px;
+    top:29px;
+
+    background:#ef4444;
+
+    box-shadow:
+        0 0 5px #ef4444,
+        0 0 11px #ef4444;
+}
+
+.character-crown .gem-blue {
+
+    left:34px;
+    top:29px;
+
+    background:#38bdf8;
+
+    box-shadow:
+        0 0 5px #38bdf8,
+        0 0 11px #38bdf8;
+}
+
+.character-crown .gem-purple {
+
+    left:48px;
+    top:29px;
+
+    background:#c084fc;
+
+    box-shadow:
+        0 0 5px #c084fc,
+        0 0 11px #c084fc;
+}
+
+
+/* =========================================================
+   EFFECT CONTAINER
+========================================================= */
+
+.character-effect {
+
+    position:absolute;
+
+    inset:-35px;
+
+    z-index:0;
+
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   EFFECTS
+========================================================= */
+
+.effect-sparkle .character-effect::before {
+
+    content:"✦   ✧   ✦   ✧";
+
+    position:absolute;
+
+    inset:0;
+
+    color:white;
+
+    font-size:22px;
+
+    text-shadow:
+        0 0 8px white,
+        0 0 18px #a5b4fc;
+
+    animation:
+        sparkleFloat
+        2s
+        ease-in-out
+        infinite;
+}
+
+.effect-speed-trail .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+    height:90px;
+
+    left:-25px;
+    top:105px;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 8px,
+            rgba(96,165,250,.75) 9px 12px,
+            transparent 13px 20px
+        );
+
+    filter:blur(1px);
+
+    transform:skewX(-25deg);
+
+    opacity:.85;
+
+    animation:
+        speedTrail
+        .7s
+        linear
+        infinite;
+}
+
+.effect-lightning .character-effect::before {
+
+    content:"⚡";
+
+    position:absolute;
+
+    left:8px;
+    top:80px;
+
+    font-size:48px;
+
+    color:#fef08a;
+
+    text-shadow:
+        0 0 8px #38bdf8,
+        0 0 18px #fef08a,
+        0 0 30px #60a5fa;
+
+    animation:
+        lightningFlash
+        .8s
+        infinite;
+}
+
+.effect-lightning .character-effect::after {
+
+    content:"⚡";
+
+    position:absolute;
+
+    right:5px;
+    top:130px;
+
+    font-size:35px;
+
+    color:#bae6fd;
+
+    text-shadow:
+        0 0 10px #38bdf8;
+
+    animation:
+        lightningFlash
+        .6s
+        infinite .2s;
+}
+
+.effect-rainbow .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:20px;
+
+    border-radius:50%;
+
+    background:
+        conic-gradient(
+            #ef4444,
+            #f97316,
+            #facc15,
+            #22c55e,
+            #06b6d4,
+            #3b82f6,
+            #a855f7,
+            #ef4444
+        );
+
+    filter:blur(15px);
+
+    opacity:.55;
+
+    animation:
+        rainbowSpin
+        4s
+        linear
+        infinite;
+}
+
+.effect-fire .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:115px;
+    height:145px;
+
+    left:32px;
+    top:72px;
+
+    border-radius:
+        50% 50% 45% 45%;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 80%,
+            #fff7ae 0%,
+            #facc15 20%,
+            #f97316 48%,
+            #ef4444 70%,
+            transparent 75%
+        );
+
+    filter:blur(5px);
+
+    opacity:.65;
+
+    animation:
+        firePulse
+        .65s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+.effect-glitch .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:30px;
+
+    border:3px solid #22d3ee;
+
+    box-shadow:
+        6px 0 #f43f5e,
+        -6px 0 #a78bfa;
+
+    opacity:.7;
+
+    animation:
+        glitchEffect
+        .35s
+        infinite;
+}
+
+.effect-shadow .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:130px;
+    height:35px;
+
+    left:25px;
+    bottom:22px;
+
+    border-radius:50%;
+
+    background:#020617;
+
+    filter:blur(10px);
+
+    opacity:.85;
+
+    animation:
+        shadowPulse
+        1.8s
+        ease-in-out
+        infinite;
+}
+
+.effect-crystal .character-effect::before {
+
+    content:"◆   ◇   ◆   ◇";
+
+    position:absolute;
+
+    inset:0;
+
+    color:#67e8f9;
+
+    font-size:18px;
+
+    text-shadow:
+        0 0 8px #67e8f9,
+        0 0 18px #a78bfa;
+
+    animation:
+        crystalFloat
+        2.4s
+        ease-in-out
+        infinite;
+}
+
+.effect-cosmic .character-effect::before {
+
+    content:"✦   ·   ★   ·   ✧   ·   ✦";
+
+    position:absolute;
+
+    inset:0;
+
+    color:white;
+
+    font-size:18px;
+
+    text-shadow:
+        0 0 8px #60a5fa,
+        0 0 18px #a78bfa,
+        0 0 25px white;
+
+    animation:
+        cosmicDrift
+        3s
+        ease-in-out
+        infinite;
+}
+
+.effect-cosmic .character-effect::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:130px;
+    height:130px;
+
+    left:25px;
+    top:55px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99,102,241,.25),
+            transparent 70%
+        );
+
+    filter:blur(8px);
+}
+
+.effect-crown .character-effect::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:140px;
+    height:140px;
+
+    left:20px;
+    top:40px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,215,0,.35),
+            rgba(255,215,0,.12) 40%,
+            transparent 72%
+        );
+
+    filter:blur(7px);
+
+    animation:
+        crownGlow
+        1.7s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+
+/* =========================================================
+   CUSTOMISATION
+========================================================= */
+
+.customization-section {
+
+    width:90%;
+    max-width:1000px;
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:30px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.08);
+}
+
+.customization-section h2 {
+
+    margin-top:0;
+
+    margin-bottom:18px;
+}
+
+.options {
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+}
+
+.character-option {
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    background:#eef2ff;
+
+    color:#3730a3;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.character-option:hover {
+
+    transform:
+        translateY(-3px);
+
+    background:#e0e7ff;
+}
+
+.character-option.selected {
+
+    background:#4f46e5;
+
+    color:white;
+
+    box-shadow:
+        0 5px 15px rgba(79,70,229,.3);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes crownFloat {
+
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(-1deg);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            rotate(1deg);
+    }
+}
+
+@keyframes gemGlow {
+
+    from {
+        transform:scale(.8);
+        opacity:.65;
+    }
+
+    to {
+        transform:scale(1.2);
+        opacity:1;
+    }
+}
+
+@keyframes sparkleFloat {
+
+    0%,100% {
+        transform:
+            translateY(8px)
+            scale(.9);
+
+        opacity:.55;
+    }
+
+    50% {
+        transform:
+            translateY(-12px)
+            scale(1.1);
+
+        opacity:1;
+    }
+}
+
+@keyframes speedTrail {
+
+    from {
+        transform:
+            translateX(0)
+            skewX(-25deg);
+    }
+
+    to {
+        transform:
+            translateX(-25px)
+            skewX(-25deg);
+    }
+}
+
+@keyframes lightningFlash {
+
+    0%,100% {
+        opacity:.35;
+        transform:scale(.9);
+    }
+
+    45% {
+        opacity:1;
+        transform:scale(1.1);
+    }
+}
+
+@keyframes rainbowSpin {
+
+    from {
+        transform:rotate(0deg);
+    }
+
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes firePulse {
+
+    from {
+        transform:
+            scale(.92)
+            translateY(3px);
+    }
+
+    to {
+        transform:
+            scale(1.08)
+            translateY(-4px);
+    }
+}
+
+@keyframes glitchEffect {
+
+    0% {
+        transform:translate(0);
+        opacity:.7;
+    }
+
+    25% {
+        transform:translate(5px,-2px);
+    }
+
+    50% {
+        transform:translate(-4px,3px);
+        opacity:.35;
+    }
+
+    75% {
+        transform:translate(3px,1px);
+    }
+
+    100% {
+        transform:translate(0);
+        opacity:.7;
+    }
+}
+
+@keyframes shadowPulse {
+
+    0%,100% {
+        transform:scaleX(.9);
+        opacity:.6;
+    }
+
+    50% {
+        transform:scaleX(1.1);
+        opacity:1;
+    }
+}
+
+@keyframes crystalFloat {
+
+    0%,100% {
+        transform:translateY(5px);
+        opacity:.65;
+    }
+
+    50% {
+        transform:translateY(-8px);
+        opacity:1;
+    }
+}
+
+@keyframes cosmicDrift {
+
+    0%,100% {
+        transform:
+            translate(0,5px)
+            rotate(0deg);
+
+        opacity:.65;
+    }
+
+    50% {
+        transform:
+            translate(5px,-8px)
+            rotate(5deg);
+
+        opacity:1;
+    }
+}
+
+@keyframes crownGlow {
+
+    from {
+        opacity:.45;
+        transform:scale(.9);
+    }
+
+    to {
+        opacity:.9;
+        transform:scale(1.08);
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px) {
+
+    .banner-preview {
+
+        min-height:350px;
+
+        padding:25px;
+    }
+
+    .player-info {
+
+        left:25px;
+        top:25px;
+    }
+
+    .player-username {
+
+        font-size:32px;
+    }
+
+    .character {
+
+        right:15px;
+
+        transform:
+            scale(.78);
+
+        transform-origin:
+            bottom right;
+    }
+
+    .customization-section {
+
+        padding:25px;
+    }
+}
+
+</style>
 
 </head>
 
@@ -23,322 +1171,299 @@
 
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
-    <nav>
+<nav>
 
-        <a href="../index.html">
-            Home
-        </a>
+<a href="../index.html">
+Home
+</a>
 
-        <a href="../study/index.html">
-            📚 Study
-        </a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-        <a href="../sprint/index.html">
-            🏃 Sprint
-        </a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-        <a href="index.html">
-            👤 Profile
-        </a>
+<a href="index.html">
+👤 Profile
+</a>
 
-    </nav>
+</nav>
 
 </header>
 
 
-<main class="character-editor">
+<main>
 
 
 <section class="hero">
 
-    <h1>
-        🎨 Customize Character
-    </h1>
+<h1>
+🎨 Character
+</h1>
 
-    <p>
-        Equip your unlocked StudySprint cosmetics.
-    </p>
+<p>
+Customize your StudySprint character!
+</p>
 
 </section>
 
 
-<!-- =====================================================
+<div class="character-editor">
+
+
+<!-- =========================================================
      CHARACTER PREVIEW
-===================================================== -->
+========================================================= -->
 
 <section
-    id="character-preview"
-    class="banner-preview"
+    id="banner-preview"
+    class="banner-preview banner-purple"
 >
 
 
-    <div class="player-info">
+<div class="player-info">
 
-        <h2 id="character-name">
-            Player
-        </h2>
+<div
+    id="player-username"
+    class="player-username"
+>
+Player
+</div>
 
-        <p id="character-title"></p>
+<div
+    id="player-tag"
+    class="player-tag"
+    style="display:none;"
+>
+</div>
 
-    </div>
-
-
-    <div class="character-stage">
-
-
-        <div
-            id="character-effects"
-            class="character-effects"
-        ></div>
-
-
-        <div class="character">
+</div>
 
 
-            <!-- BACKPACK -->
-
-            <div
-                id="character-backpack"
-                class="character-backpack hidden"
-            ></div>
+<div
+    id="character"
+    class="character"
+>
 
 
-            <!-- LEGS -->
+<!-- EFFECT -->
 
-            <div
-                id="character-leg-left"
-                class="character-leg left"
-            ></div>
-
-            <div
-                id="character-leg-right"
-                class="character-leg right"
-            ></div>
+<div
+    id="character-effect"
+    class="character-effect"
+></div>
 
 
-            <!-- PANTS -->
+<!-- CROWN -->
 
-            <div
-                id="character-pants"
-                class="character-pants"
-            ></div>
+<div
+    id="character-crown"
+    class="character-crown"
+    style="display:none;"
+>
 
+<div class="crown-gem gem-red"></div>
+<div class="crown-gem gem-blue"></div>
+<div class="crown-gem gem-purple"></div>
 
-            <!-- BODY -->
-
-            <div
-                id="character-body"
-                class="character-body"
-            ></div>
-
-
-            <!-- HEAD -->
-
-            <div
-                id="character-head"
-                class="character-head"
-            >
-
-                <div class="character-face">
-
-                    <span class="eye left-eye"></span>
-
-                    <span class="eye right-eye"></span>
-
-                    <span class="mouth"></span>
-
-                </div>
-
-            </div>
+</div>
 
 
-            <!-- HAIR -->
+<!-- HAT -->
 
-            <div
-                id="character-hair"
-                class="character-hair"
-            ></div>
-
-
-            <!-- HAT -->
-
-            <div
-                id="character-hat"
-                class="character-hat"
-            ></div>
+<div
+    id="character-hat"
+    class="character-hat"
+></div>
 
 
-            <!-- CROWN -->
+<!-- CHARACTER -->
 
-            <div
-                id="character-crown"
-                class="character-crown"
-            >
+<div
+    id="character-head"
+    class="character-head"
+></div>
 
-                <div class="crown-gem gem-red"></div>
+<div
+    id="character-hair"
+    class="character-hair"
+></div>
 
-                <div class="crown-gem gem-blue"></div>
+<div class="character-face"></div>
 
-                <div class="crown-gem gem-purple"></div>
+<div
+    id="character-body"
+    class="character-body"
+></div>
 
-            </div>
+<div
+    id="character-leg-left"
+    class="character-leg character-leg-left"
+></div>
+
+<div
+    id="character-leg-right"
+    class="character-leg character-leg-right"
+></div>
 
 
-        </div>
-
-
-    </div>
+</div>
 
 
 </section>
 
 
-<!-- =====================================================
-     USERNAME
-===================================================== -->
+<!-- =========================================================
+     SKIN
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        Username
-    </h2>
+<h2>
+Skin
+</h2>
 
-    <input
-        id="username"
-        type="text"
-        maxlength="16"
-        placeholder="Username"
-    >
+<div
+    id="skin-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
+     HAIR
+========================================================= -->
+
+<section class="customization-section">
+
+<h2>
+Hair
+</h2>
+
+<div
+    id="hair-options"
+    class="options"
+></div>
+
+</section>
+
+
+<!-- =========================================================
      SHIRTS
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        👕 Shirts
-    </h2>
+<h2>
+Shirts
+</h2>
 
-    <div
-        id="shirts-options"
-        class="options"
-    ></div>
+<div
+    id="shirts-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
      HATS
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        🧢 Hats
-    </h2>
+<h2>
+Hats
+</h2>
 
-    <div
-        id="hats-options"
-        class="options"
-    ></div>
+<div
+    id="hats-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
      PANTS
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        👖 Pants
-    </h2>
+<h2>
+Pants
+</h2>
 
-    <div
-        id="pants-options"
-        class="options"
-    ></div>
+<div
+    id="pants-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
      BANNERS
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        🖼️ Banners
-    </h2>
+<h2>
+Banners
+</h2>
 
-    <div
-        id="banners-options"
-        class="options"
-    ></div>
+<div
+    id="banners-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
      TITLES
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        🏷️ Player Titles
-    </h2>
+<h2>
+Player Titles
+</h2>
 
-    <div
-        id="titles-options"
-        class="options"
-    ></div>
+<div
+    id="titles-options"
+    class="options"
+></div>
 
 </section>
 
 
-<!-- =====================================================
+<!-- =========================================================
      EFFECTS
-===================================================== -->
+========================================================= -->
 
 <section class="customization-section">
 
-    <h2>
-        ✨ Effects
-    </h2>
+<h2>
+Effects
+</h2>
 
-    <div
-        id="effects-options"
-        class="options"
-    ></div>
+<div
+    id="effects-options"
+    class="options"
+></div>
 
 </section>
 
 
-<button
-    class="main-button save-button"
-    onclick="saveCharacter()"
->
-    💾 Save Character
-</button>
-
-
-<a
-    href="index.html"
-    class="back-button"
->
-    ← Back to Profile
-</a>
+</div>
 
 
 </main>
@@ -346,12 +1471,583 @@
 
 <footer>
 
-    © 2026 StudySprint
+© 2026 StudySprint
 
 </footer>
 
 
-<script src="./character.js?v=5"></script>
+<script src="character.js"></script>
+
+
+<script>
+
+/* =========================================================
+   CHARACTER EDITOR VISUALS
+   Uses the EXACT same character styling as profile
+========================================================= */
+
+
+/* =========================================================
+   CHARACTER OPTIONS
+========================================================= */
+
+const EDITOR_OPTIONS = {
+
+    skin: [
+        ["light","Light Skin"],
+        ["medium","Medium Skin"],
+        ["dark","Dark Skin"]
+    ],
+
+    hair: [
+        ["brown","Brown Hair"],
+        ["black","Black Hair"],
+        ["blonde","Blonde Hair"]
+    ]
+
+};
+
+
+/* =========================================================
+   COLOURS
+========================================================= */
+
+const skinColours = {
+
+    light:"#f6c7a8",
+    medium:"#c98b68",
+    dark:"#70452f"
+
+};
+
+const hairColours = {
+
+    brown:"#78350f",
+    black:"#111827",
+    blonde:"#facc15"
+
+};
+
+const shirtColours = {
+
+    blue:"#3b82f6",
+    red:"#ef4444",
+    green:"#22c55e",
+    "sprint-blue":"#2563eb"
+
+};
+
+const pantsColours = {
+
+    blue:"#2563eb",
+    black:"#111827",
+    brown:"#78350f",
+    split:
+        "linear-gradient(90deg,#2563eb 50%,#ef4444 50%)"
+
+};
+
+
+/* =========================================================
+   GET VALUE
+========================================================= */
+
+function editorValue(key, fallback) {
+
+    return (
+        localStorage.getItem(key) ||
+        fallback
+    );
+
+}
+
+
+/* =========================================================
+   SAVE VALUE
+========================================================= */
+
+function saveCharacterValue(key, value) {
+
+    localStorage.setItem(
+        key,
+        value
+    );
+
+    renderCharacterPreview();
+
+}
+
+
+/* =========================================================
+   RENDER SKIN / HAIR OPTIONS
+========================================================= */
+
+function renderBasicOptions() {
+
+    const skinContainer =
+        document.getElementById(
+            "skin-options"
+        );
+
+    const hairContainer =
+        document.getElementById(
+            "hair-options"
+        );
+
+
+    skinContainer.innerHTML = "";
+    hairContainer.innerHTML = "";
+
+
+    EDITOR_OPTIONS.skin.forEach(
+        function(option) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type = "button";
+
+            button.className =
+                "character-option";
+
+            button.textContent =
+                option[1];
+
+
+            if (
+                editorValue(
+                    "character_skin",
+                    "light"
+                ) === option[0]
+            ) {
+
+                button.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            button.onclick =
+                function() {
+
+                    saveCharacterValue(
+                        "character_skin",
+                        option[0]
+                    );
+
+                    renderBasicOptions();
+
+                };
+
+
+            skinContainer.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    EDITOR_OPTIONS.hair.forEach(
+        function(option) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.type = "button";
+
+            button.className =
+                "character-option";
+
+            button.textContent =
+                option[1];
+
+
+            if (
+                editorValue(
+                    "character_hair",
+                    "brown"
+                ) === option[0]
+            ) {
+
+                button.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            button.onclick =
+                function() {
+
+                    saveCharacterValue(
+                        "character_hair",
+                        option[0]
+                    );
+
+                    renderBasicOptions();
+
+                };
+
+
+            hairContainer.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RENDER CHARACTER PREVIEW
+========================================================= */
+
+function renderCharacterPreview() {
+
+    const character =
+        document.getElementById(
+            "character"
+        );
+
+
+    const skin =
+        editorValue(
+            "character_skin",
+            "light"
+        );
+
+    const hair =
+        editorValue(
+            "character_hair",
+            "brown"
+        );
+
+    const shirt =
+        editorValue(
+            "character_shirt",
+            "blue"
+        );
+
+    const pants =
+        editorValue(
+            "character_pants",
+            "blue"
+        );
+
+    const banner =
+        editorValue(
+            "character_banner",
+            "purple"
+        );
+
+    const effect =
+        editorValue(
+            "character_effect",
+            "none"
+        );
+
+    const title =
+        editorValue(
+            "character_tag",
+            "none"
+        );
+
+
+    /* =====================================================
+       USERNAME
+    ===================================================== */
+
+    document.getElementById(
+        "player-username"
+    ).textContent =
+        localStorage.getItem(
+            "username"
+        ) || "Player";
+
+
+    /* =====================================================
+       TITLE
+    ===================================================== */
+
+    const titleElement =
+        document.getElementById(
+            "player-tag"
+        );
+
+
+    if (
+        title !== "none"
+    ) {
+
+        titleElement.textContent =
+            getCosmeticName(title);
+
+        titleElement.style.display =
+            "inline-block";
+
+    }
+
+    else {
+
+        titleElement.style.display =
+            "none";
+
+    }
+
+
+    /* =====================================================
+       SKIN
+    ===================================================== */
+
+    document.getElementById(
+        "character-head"
+    ).style.background =
+        skinColours[
+            skin
+        ] ||
+        skinColours.light;
+
+
+    /* =====================================================
+       HAIR
+    ===================================================== */
+
+    document.getElementById(
+        "character-hair"
+    ).style.background =
+        hairColours[
+            hair
+        ] ||
+        hairColours.brown;
+
+
+    /* =====================================================
+       SHIRT
+    ===================================================== */
+
+    document.getElementById(
+        "character-body"
+    ).style.background =
+        shirtColours[
+            shirt
+        ] ||
+        shirtColours.blue;
+
+
+    /* =====================================================
+       PANTS
+    ===================================================== */
+
+    document.getElementById(
+        "character-leg-left"
+    ).style.background =
+        pantsColours[
+            pants
+        ] ||
+        pantsColours.blue;
+
+
+    document.getElementById(
+        "character-leg-right"
+    ).style.background =
+        pantsColours[
+            pants
+        ] ||
+        pantsColours.blue;
+
+
+    /* =====================================================
+       BANNER
+    ===================================================== */
+
+    const bannerElement =
+        document.getElementById(
+            "banner-preview"
+        );
+
+
+    bannerElement.className =
+        "banner-preview";
+
+
+    bannerElement.classList.add(
+        "banner-" +
+        banner
+    );
+
+
+    /* =====================================================
+       EFFECT
+    ===================================================== */
+
+    character.classList.remove(
+
+        "effect-sparkle",
+        "effect-speed-trail",
+        "effect-lightning",
+        "effect-rainbow",
+        "effect-fire",
+        "effect-glitch",
+        "effect-shadow",
+        "effect-crystal",
+        "effect-cosmic",
+        "effect-crown"
+
+    );
+
+
+    if (
+        effect !== "none"
+    ) {
+
+        character.classList.add(
+            "effect-" +
+            effect
+        );
+
+    }
+
+
+    /* =====================================================
+       CROWN
+    ===================================================== */
+
+    const crown =
+        document.getElementById(
+            "character-crown"
+        );
+
+
+    crown.style.display =
+        effect === "crown"
+            ? "block"
+            : "none";
+
+
+    /* =====================================================
+       HAT
+    ===================================================== */
+
+    renderEditorHat();
+
+}
+
+
+/* =========================================================
+   HAT
+========================================================= */
+
+function renderEditorHat() {
+
+    const hat =
+        editorValue(
+            "character_hat",
+            "none"
+        );
+
+
+    const element =
+        document.getElementById(
+            "character-hat"
+        );
+
+
+    element.innerHTML = "";
+
+    element.className =
+        "character-hat";
+
+
+    element.style.display =
+        "none";
+
+
+    if (
+        hat === "sprint-cap"
+    ) {
+
+        element.classList.add(
+            "cap"
+        );
+
+        element.style.display =
+            "block";
+
+        element.style.background =
+            "#312e81";
+
+    }
+
+
+    else if (
+        hat === "star-cap"
+    ) {
+
+        element.classList.add(
+            "cap"
+        );
+
+        element.style.display =
+            "block";
+
+        element.style.background =
+            "#111827";
+
+        element.textContent =
+            "★";
+
+        element.style.color =
+            "#fde68a";
+
+        element.style.lineHeight =
+            "32px";
+
+    }
+
+
+    else if (
+        hat === "visor"
+    ) {
+
+        element.classList.add(
+            "visor"
+        );
+
+        element.style.display =
+            "block";
+
+        element.style.background =
+            "#06b6d4";
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALISE
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderBasicOptions();
+
+        renderCharacterPreview();
+
+    }
+);
+
+</script>
+
 
 </body>
 
