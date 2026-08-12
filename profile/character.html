@@ -17,1077 +17,16 @@
     href="../style.css"
 >
 
-<style>
-
-/* =====================================================
-   PAGE
-===================================================== */
-
-.character-page {
-    max-width:1100px;
-    margin:auto;
-    padding:40px 20px 90px;
-}
-
-.character-header {
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.character-header h1 {
-    font-size:44px;
-    font-weight:900;
-    margin-bottom:8px;
-}
-
-.character-header p {
-    color:#6b7280;
-    font-size:18px;
-}
-
-
-/* =====================================================
-   PREVIEW
-===================================================== */
-
-.character-preview {
-    min-height:430px;
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            #ffffff 0%,
-            #f3f6ff 55%,
-            #e9edff 100%
-        );
-
-    border-radius:36px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-    overflow:hidden;
-
-    margin-bottom:30px;
-
-    box-shadow:
-        0 18px 45px rgba(0,0,0,.10);
-}
-
-.character-preview::before {
-    content:"";
-    position:absolute;
-    width:320px;
-    height:320px;
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(99,102,241,.18),
-            transparent 70%
-        );
-
-    filter:blur(15px);
-}
-
-
-/* =====================================================
-   CHARACTER
-===================================================== */
-
-.character {
-    width:180px;
-    height:300px;
-
-    position:relative;
-
-    z-index:5;
-
-    animation:
-        characterFloat
-        3.5s
-        ease-in-out
-        infinite;
-}
-
-@keyframes characterFloat {
-
-    0%,100% {
-        transform:translateY(0);
-    }
-
-    50% {
-        transform:translateY(-8px);
-    }
-
-}
-
-
-/* =====================================================
-   HEAD
-===================================================== */
-
-.character-head {
-    position:absolute;
-
-    width:130px;
-    height:130px;
-
-    left:25px;
-    top:0;
-
-    border-radius:50%;
-
-    z-index:5;
-
-    box-shadow:
-        inset -8px -10px 0 rgba(0,0,0,.08);
-}
-
-
-/* =====================================================
-   FACE
-===================================================== */
-
-.character-face {
-    position:absolute;
-
-    width:9px;
-    height:9px;
-
-    left:50px;
-    top:58px;
-
-    border-radius:50%;
-
-    background:#202020;
-
-    box-shadow:
-        30px 0 0 #202020;
-
-    z-index:8;
-}
-
-
-/* =====================================================
-   BODY
-===================================================== */
-
-.character-body {
-    position:absolute;
-
-    width:115px;
-    height:90px;
-
-    left:32px;
-    top:110px;
-
-    border-radius:
-        35px 35px 18px 18px;
-
-    z-index:3;
-
-    box-shadow:
-        inset -8px -8px 0 rgba(0,0,0,.10);
-}
-
-
-/* =====================================================
-   LEGS
-===================================================== */
-
-.character-leg {
-    position:absolute;
-
-    width:38px;
-    height:78px;
-
-    top:190px;
-
-    border-radius:15px;
-
-    z-index:2;
-
-    box-shadow:
-        inset -6px -6px 0 rgba(0,0,0,.10);
-}
-
-.character-leg.left {
-    left:38px;
-}
-
-.character-leg.right {
-    left:88px;
-}
-
-
-/* =====================================================
-   HAIR
-===================================================== */
-
-.character-hair {
-    position:absolute;
-
-    width:120px;
-    height:55px;
-
-    left:30px;
-    top:-4px;
-
-    border-radius:
-        60px 60px 18px 18px;
-
-    z-index:7;
-}
-
-
-/* =====================================================
-   HAT
-===================================================== */
-
-.character-hat {
-    position:absolute;
-
-    z-index:20;
-
-    pointer-events:none;
-}
-
-.character-hat.cap {
-    width:108px;
-    height:38px;
-
-    left:36px;
-    top:-10px;
-
-    border-radius:
-        55px 55px 12px 12px;
-}
-
-.character-hat.cap::after {
-    content:"";
-
-    position:absolute;
-
-    width:50px;
-    height:13px;
-
-    left:65px;
-    top:25px;
-
-    border-radius:50%;
-
-    transform:rotate(-8deg);
-}
-
-.character-hat.beanie {
-    width:122px;
-    height:61px;
-
-    left:29px;
-    top:-10px;
-
-    border-radius:
-        60px 60px 18px 18px;
-}
-
-.character-hat.beanie::after {
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    bottom:-3px;
-
-    width:122px;
-    height:17px;
-
-    border-radius:10px;
-}
-
-
-/* =====================================================
-   BACKPACK
-===================================================== */
-
-.character-backpack {
-    position:absolute;
-
-    width:42px;
-    height:80px;
-
-    left:1px;
-    top:120px;
-
-    border-radius:15px;
-
-    z-index:1;
-
-    box-shadow:
-        inset -5px -6px 0 rgba(0,0,0,.15);
-}
-
-.hidden {
-    display:none !important;
-}
-
-
-/* =====================================================
-   EFFECT LAYER
-===================================================== */
-
-.character-effect {
-    position:absolute;
-
-    inset:-80px;
-
-    z-index:30;
-
-    pointer-events:none;
-
-    display:none;
-}
-
-.effect-sparkle {
-    display:block;
-}
-
-.effect-sparkle::before,
-.effect-sparkle::after {
-    content:"✦ ✧ ✦ ✧";
-
-    position:absolute;
-
-    inset:30px;
-
-    font-size:24px;
-
-    color:#facc15;
-
-    text-shadow:
-        0 0 8px #fff,
-        0 0 18px #facc15;
-
-    animation:
-        sparkleFloat
-        2s
-        ease-in-out
-        infinite;
-}
-
-.effect-sparkle::after {
-    transform:rotate(180deg);
-    animation-delay:-1s;
-}
-
-@keyframes sparkleFloat {
-
-    0%,100% {
-        opacity:.35;
-        transform:translateY(5px) scale(.8);
-    }
-
-    50% {
-        opacity:1;
-        transform:translateY(-10px) scale(1.1);
-    }
-
-}
-
-
-/* =====================================================
-   SPEED TRAIL
-===================================================== */
-
-.effect-speed-trail {
-    display:block;
-}
-
-.effect-speed-trail::before {
-    content:"";
-
-    position:absolute;
-
-    width:190px;
-    height:230px;
-
-    left:80px;
-    top:80px;
-
-    border-left:
-        7px solid rgba(59,130,246,.45);
-
-    border-radius:50%;
-
-    filter:blur(2px);
-
-    animation:
-        trailMove
-        .8s
-        linear
-        infinite;
-}
-
-@keyframes trailMove {
-
-    from {
-        transform:translateX(20px);
-        opacity:.2;
-    }
-
-    to {
-        transform:translateX(-35px);
-        opacity:.8;
-    }
-
-}
-
-
-/* =====================================================
-   LIGHTNING
-===================================================== */
-
-.effect-lightning {
-    display:block;
-}
-
-.effect-lightning::before,
-.effect-lightning::after {
-    content:"ϟ";
-
-    position:absolute;
-
-    color:#60a5fa;
-
-    font-size:75px;
-
-    text-shadow:
-        0 0 8px #fff,
-        0 0 18px #38bdf8,
-        0 0 35px #2563eb;
-
-    animation:
-        lightningFlash
-        .7s
-        infinite;
-}
-
-.effect-lightning::before {
-    left:10px;
-    top:90px;
-}
-
-.effect-lightning::after {
-    right:10px;
-    top:150px;
-    animation-delay:.3s;
-}
-
-@keyframes lightningFlash {
-
-    0%,100% {
-        opacity:.15;
-        transform:scale(.8);
-    }
-
-    45% {
-        opacity:1;
-        transform:scale(1.15);
-    }
-
-}
-
-
-/* =====================================================
-   RAINBOW
-===================================================== */
-
-.effect-rainbow {
-    display:block;
-
-    inset:-45px;
-
-    border-radius:50%;
-
-    border:
-        8px solid transparent;
-
-    background:
-        linear-gradient(
-            white,
-            white
-        ) padding-box,
-        conic-gradient(
-            red,
-            orange,
-            yellow,
-            lime,
-            cyan,
-            blue,
-            violet,
-            red
-        ) border-box;
-
-    filter:
-        blur(1px)
-        drop-shadow(0 0 15px rgba(168,85,247,.6));
-
-    animation:
-        rainbowSpin
-        4s
-        linear
-        infinite;
-}
-
-@keyframes rainbowSpin {
-
-    to {
-        transform:rotate(360deg);
-    }
-
-}
-
-
-/* =====================================================
-   FIRE
-===================================================== */
-
-.effect-fire {
-    display:block;
-}
-
-.effect-fire::before {
-    content:"🔥";
-
-    position:absolute;
-
-    left:15px;
-    right:15px;
-    bottom:35px;
-
-    text-align:center;
-
-    font-size:85px;
-
-    filter:
-        drop-shadow(0 0 12px #ff4500)
-        drop-shadow(0 0 28px #ff8c00);
-
-    animation:
-        firePulse
-        .7s
-        ease-in-out
-        infinite alternate;
-}
-
-@keyframes firePulse {
-
-    from {
-        transform:scale(.9) translateY(5px);
-    }
-
-    to {
-        transform:scale(1.08) translateY(-8px);
-    }
-
-}
-
-
-/* =====================================================
-   GLITCH
-===================================================== */
-
-.effect-glitch {
-    display:block;
-}
-
-.effect-glitch::before,
-.effect-glitch::after {
-    content:"";
-
-    position:absolute;
-
-    inset:50px;
-
-    border:3px solid;
-
-    animation:
-        glitch
-        .55s
-        infinite steps(2);
-}
-
-.effect-glitch::before {
-    border-color:#22d3ee;
-}
-
-.effect-glitch::after {
-    border-color:#f43f5e;
-    transform:translate(7px,-4px);
-}
-
-@keyframes glitch {
-
-    0% {
-        clip-path:inset(0 0 70% 0);
-    }
-
-    50% {
-        clip-path:inset(40% 0 20% 0);
-    }
-
-    100% {
-        clip-path:inset(75% 0 0 0);
-    }
-
-}
-
-
-/* =====================================================
-   SHADOW
-===================================================== */
-
-.effect-shadow {
-    display:block;
-
-    inset:-35px;
-
-    background:
-        radial-gradient(
-            ellipse,
-            rgba(0,0,0,.38),
-            transparent 65%
-        );
-
-    filter:blur(10px);
-
-    animation:
-        shadowPulse
-        2s
-        ease-in-out
-        infinite;
-}
-
-@keyframes shadowPulse {
-
-    0%,100% {
-        transform:scale(.9);
-        opacity:.5;
-    }
-
-    50% {
-        transform:scale(1.1);
-        opacity:.85;
-    }
-
-}
-
-
-/* =====================================================
-   CRYSTAL
-===================================================== */
-
-.effect-crystal {
-    display:block;
-}
-
-.effect-crystal::before {
-    content:"◆  ◇  ◆  ◇  ◆";
-
-    position:absolute;
-
-    inset:30px;
-
-    color:#67e8f9;
-
-    font-size:27px;
-
-    text-shadow:
-        0 0 8px #fff,
-        0 0 20px #22d3ee;
-
-    animation:
-        crystalFloat
-        2.5s
-        ease-in-out
-        infinite;
-}
-
-@keyframes crystalFloat {
-
-    0%,100% {
-        transform:translateY(8px);
-    }
-
-    50% {
-        transform:translateY(-12px);
-    }
-
-}
-
-
-/* =====================================================
-   COSMIC
-===================================================== */
-
-.effect-cosmic {
-    display:block;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            white 0 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 75% 20%,
-            white 0 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 40% 80%,
-            white 0 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 85% 70%,
-            white 0 2px,
-            transparent 3px
-        );
-
-    box-shadow:
-        0 0 30px rgba(124,58,237,.7);
-
-    animation:
-        cosmicSpin
-        8s
-        linear
-        infinite;
-}
-
-@keyframes cosmicSpin {
-
-    to {
-        transform:rotate(360deg);
-    }
-
-}
-
-
-/* =====================================================
-   CROWN
-===================================================== */
-
-.character-crown {
-    position:absolute;
-
-    width:115px;
-    height:70px;
-
-    left:32px;
-    top:-58px;
-
-    z-index:40;
-
-    display:none;
-
-    animation:
-        crownFloat
-        2.8s
-        ease-in-out
-        infinite;
-}
-
-.character-crown.active {
-    display:block;
-}
-
-.crown-body {
-    position:absolute;
-
-    left:7px;
-    bottom:0;
-
-    width:101px;
-    height:45px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #fff7a8,
-            #facc15 40%,
-            #d97706 100%
-        );
-
-    clip-path:
-        polygon(
-            0 100%,
-            0 25%,
-            20% 50%,
-            35% 0,
-            50% 48%,
-            67% 0,
-            82% 50%,
-            100% 25%,
-            100% 100%
-        );
-
-    filter:
-        drop-shadow(0 0 7px #facc15)
-        drop-shadow(0 0 18px rgba(250,204,21,.8));
-}
-
-.crown-gem {
-    position:absolute;
-
-    width:13px;
-    height:13px;
-
-    border-radius:50%;
-
-    z-index:3;
-
-    box-shadow:
-        0 0 5px white,
-        0 0 13px currentColor,
-        0 0 22px currentColor;
-
-    animation:
-        gemGlow
-        1.5s
-        ease-in-out
-        infinite alternate;
-}
-
-.crown-gem.red {
-    color:#ef4444;
-    background:#f87171;
-    left:50px;
-    top:37px;
-}
-
-.crown-gem.blue {
-    color:#38bdf8;
-    background:#7dd3fc;
-    left:26px;
-    top:39px;
-    animation-delay:.3s;
-}
-
-.crown-gem.purple {
-    color:#c084fc;
-    background:#d8b4fe;
-    right:26px;
-    top:39px;
-    animation-delay:.6s;
-}
-
-@keyframes gemGlow {
-
-    from {
-        transform:scale(.85);
-        opacity:.7;
-    }
-
-    to {
-        transform:scale(1.15);
-        opacity:1;
-    }
-
-}
-
-@keyframes crownFloat {
-
-    0%,100% {
-        transform:translateY(0) rotate(-1deg);
-    }
-
-    50% {
-        transform:translateY(-9px) rotate(1deg);
-    }
-
-}
-
-
-/* =====================================================
-   CUSTOMIZATION SECTIONS
-===================================================== */
-
-.customise-section {
-    background:white;
-
-    padding:28px;
-
-    margin-bottom:22px;
-
-    border-radius:28px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.07);
-}
-
-.customise-section h2 {
-    margin-bottom:17px;
-    font-size:26px;
-}
-
-.option-grid {
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-.option {
-    border:none;
-
-    background:#eef2f7;
-
-    padding:13px 19px;
-
-    border-radius:15px;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:
-        transform .18s,
-        box-shadow .18s,
-        background .18s;
-}
-
-.option:hover {
-    transform:translateY(-2px);
-
-    box-shadow:
-        0 7px 15px rgba(0,0,0,.08);
-}
-
-.option.selected {
-    background:#6366f1;
-    color:white;
-
-    box-shadow:
-        0 5px 18px rgba(99,102,241,.35);
-}
-
-.option.locked {
-    opacity:.4;
-    cursor:not-allowed;
-}
-
-.option.locked:hover {
-    transform:none;
-    box-shadow:none;
-}
-
-
-/* =====================================================
-   EFFECT OPTIONS
-===================================================== */
-
-.effect-option {
-    min-width:170px;
-    text-align:left;
-}
-
-.effect-option .effect-icon {
-    font-size:25px;
-    display:block;
-    margin-bottom:4px;
-}
-
-.effect-option small {
-    display:block;
-    opacity:.7;
-    font-weight:600;
-    margin-top:3px;
-}
-
-
-/* =====================================================
-   USERNAME
-===================================================== */
-
-.character-input {
-    width:100%;
-
-    padding:15px;
-
-    border:
-        2px solid #e5e7eb;
-
-    border-radius:15px;
-
-    font-size:16px;
-
-    font-weight:700;
-
-    box-sizing:border-box;
-}
-
-.character-input:focus {
-    outline:none;
-    border-color:#6366f1;
-}
-
-
-/* =====================================================
-   SAVE
-===================================================== */
-
-.save-button {
-    display:block;
-    margin:35px auto 20px;
-}
-
-.back-button {
-    display:block;
-
-    text-align:center;
-
-    text-decoration:none;
-
-    font-weight:800;
-
-    color:#6366f1;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:700px) {
-
-    .character-header h1 {
-        font-size:34px;
-    }
-
-    .character-preview {
-        min-height:380px;
-    }
-
-    .customise-section {
-        padding:22px;
-    }
-
-    .option {
-        width:100%;
-    }
-
-}
-
-</style>
+<link
+    rel="stylesheet"
+    href="character.css"
+>
 
 </head>
 
 
 <body>
+
 
 <header>
 
@@ -1097,22 +36,39 @@
 
 <nav>
 
-<a href="../index.html">Home</a>
-<a href="../study/index.html">📚 Study</a>
-<a href="../sprint/index.html">🏃 Sprint</a>
-<a href="index.html">👤 Profile</a>
+<a href="../index.html">
+Home
+</a>
+
+<a href="../study/index.html">
+📚 Study
+</a>
+
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
+
+<a href="index.html">
+👤 Profile
+</a>
 
 </nav>
 
 </header>
 
 
-<main class="character-page">
+<main class="character-editor">
 
 
-<section class="character-header">
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
 
-<h1>🎨 Customize Character</h1>
+<section class="hero">
+
+<h1>
+🎨 Customize Character
+</h1>
 
 <p>
 Build your own StudySprint character.
@@ -1125,41 +81,54 @@ Build your own StudySprint character.
      CHARACTER PREVIEW
 ===================================================== -->
 
-<section class="character-preview">
+<section
+    id="banner-preview"
+    class="banner-preview"
+>
+
 
 <div class="character">
 
+
+<!-- BACKPACK -->
+
 <div
-    id="character-effect"
-    class="character-effect"
+    id="character-backpack"
+    class="backpack"
 ></div>
 
+
+<!-- CROWN -->
 
 <div
     id="character-crown"
     class="character-crown"
 >
 
-    <div class="crown-body"></div>
+<div
+    class="crown-gem gem-red"
+></div>
 
-    <div class="crown-gem red"></div>
-    <div class="crown-gem blue"></div>
-    <div class="crown-gem purple"></div>
+<div
+    class="crown-gem gem-blue"
+></div>
+
+<div
+    class="crown-gem gem-purple"
+></div>
 
 </div>
 
 
-<div
-    id="character-backpack"
-    class="character-backpack hidden"
-></div>
-
+<!-- HAT -->
 
 <div
     id="character-hat"
-    class="character-hat"
+    class="hat"
 ></div>
 
+
+<!-- HAIR -->
 
 <div
     id="character-hair"
@@ -1167,14 +136,31 @@ Build your own StudySprint character.
 ></div>
 
 
+<!-- HEAD -->
+
 <div
     id="character-head"
     class="character-head"
+>
+
+
+<div
+    class="eye left-eye"
+></div>
+
+<div
+    class="eye right-eye"
+></div>
+
+<div
+    class="mouth"
 ></div>
 
 
-<div class="character-face"></div>
+</div>
 
+
+<!-- BODY -->
 
 <div
     id="character-body"
@@ -1182,534 +168,245 @@ Build your own StudySprint character.
 ></div>
 
 
+<!-- PANTS -->
+
 <div
-    id="character-leg-left"
-    class="character-leg left"
+    id="character-pants"
+    class="character-pants"
 ></div>
 
 
+<!-- EFFECT LAYER -->
+
 <div
-    id="character-leg-right"
-    class="character-leg right"
+    id="character-effect"
+    class="character-effect"
 ></div>
+
 
 </div>
+
+
+<!-- PLAYER INFO -->
+
+<div class="player-info">
+
+<h2
+    id="character-preview-name"
+>
+Player
+</h2>
+
+<p
+    id="character-title"
+>
+</p>
+
+</div>
+
 
 </section>
 
 
 <!-- =====================================================
-     USERNAME
+     CUSTOMISATION
 ===================================================== -->
 
-<section class="customise-section">
+<section class="customization-section">
 
-<h2>Username</h2>
+
+<!-- USERNAME -->
+
+<h2>
+Username
+</h2>
 
 <input
     type="text"
     id="username"
-    class="character-input"
     maxlength="16"
     placeholder="Username"
 >
-
-</section>
 
 
 <!-- =====================================================
      SKIN
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Skin
+</h2>
 
-<h2>Skin</h2>
+<div
+    id="skin-options"
+    class="options"
+>
 
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('skin','light',this)">
+<button
+    type="button"
+    data-type="skin"
+    data-value="light"
+>
 Light
 </button>
 
-<button class="option"
-onclick="setOption('skin','medium',this)">
+<button
+    type="button"
+    data-type="skin"
+    data-value="medium"
+>
 Medium
 </button>
 
-<button class="option"
-onclick="setOption('skin','dark',this)">
+<button
+    type="button"
+    data-type="skin"
+    data-value="dark"
+>
 Dark
 </button>
 
 </div>
-
-</section>
 
 
 <!-- =====================================================
      HAIR
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Hair
+</h2>
 
-<h2>Hair</h2>
+<div
+    id="hair-options"
+    class="options"
+>
 
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('hair','brown',this)">
+<button
+    type="button"
+    data-type="hair"
+    data-value="brown"
+>
 Brown
 </button>
 
-<button class="option"
-onclick="setOption('hair','black',this)">
+<button
+    type="button"
+    data-type="hair"
+    data-value="black"
+>
 Black
 </button>
 
-<button class="option"
-onclick="setOption('hair','blonde',this)">
+<button
+    type="button"
+    data-type="hair"
+    data-value="blonde"
+>
 Blonde
 </button>
 
 </div>
 
-</section>
-
 
 <!-- =====================================================
-     SHIRT
+     SHIRTS
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Shirts
+</h2>
 
-<h2>Shirt</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('shirt','blue',this)">
-Blue
-</button>
-
-<button class="option"
-onclick="setOption('shirt','red',this)">
-Red
-</button>
-
-<button class="option"
-onclick="setOption('shirt','green',this)">
-Green
-</button>
-
-<button
-id="sprint-blue-shirt"
-class="option locked"
-disabled
-onclick="setOption('shirt','sprint-blue',this)">
-Sprint Blue
-</button>
-
-</div>
-
-</section>
+<div
+    id="shirts-options"
+    class="options"
+></div>
 
 
 <!-- =====================================================
      PANTS
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Pants
+</h2>
 
-<h2>Pants</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('pants','blue',this)">
-Blue
-</button>
-
-<button class="option"
-onclick="setOption('pants','black',this)">
-Black
-</button>
-
-<button class="option"
-onclick="setOption('pants','brown',this)">
-Brown
-</button>
-
-</div>
-
-</section>
+<div
+    id="pants-options"
+    class="options"
+></div>
 
 
 <!-- =====================================================
-     HAT
+     HATS
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Hats
+</h2>
 
-<h2>Hat</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('hat','none',this)">
-None
-</button>
-
-<button class="option"
-onclick="setOption('hat','cap',this)">
-Cap
-</button>
-
-<button class="option"
-onclick="setOption('hat','beanie',this)">
-Beanie
-</button>
-
-<button
-id="sprint-cap"
-class="option locked"
-disabled
-onclick="setOption('hat','sprint-cap',this)">
-Sprint Cap
-</button>
-
-<button
-id="star-cap"
-class="option locked"
-disabled
-onclick="setOption('hat','star-cap',this)">
-⭐ Star Cap
-</button>
-
-<button
-id="visor"
-class="option locked"
-disabled
-onclick="setOption('hat','visor',this)">
-🕶️ Sprint Visor
-</button>
-
-</div>
-
-</section>
+<div
+    id="hats-options"
+    class="options"
+></div>
 
 
 <!-- =====================================================
-     BACKPACK
+     BANNERS
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Banners
+</h2>
 
-<h2>Backpack</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('backpack','none',this)">
-None
-</button>
-
-<button class="option"
-onclick="setOption('backpack','blue',this)">
-Blue
-</button>
-
-<button class="option"
-onclick="setOption('backpack','red',this)">
-Red
-</button>
-
-</div>
-
-</section>
+<div
+    id="banners-options"
+    class="options"
+></div>
 
 
 <!-- =====================================================
-     BANNER
+     PLAYER TITLES
 ===================================================== -->
 
-<section class="customise-section">
+<h2>
+Player Titles
+</h2>
 
-<h2>Profile Banner</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('banner','purple',this)">
-Purple
-</button>
-
-<button class="option"
-onclick="setOption('banner','blue',this)">
-Blue
-</button>
-
-<button class="option"
-onclick="setOption('banner','green',this)">
-Green
-</button>
-
-<button
-id="sprint-grid-banner"
-class="option locked"
-disabled
-onclick="setOption('banner','sprint-grid',this)">
-Sprint Grid
-</button>
-
-<button
-id="purple-grid-banner"
-class="option locked"
-disabled
-onclick="setOption('banner','purple-grid',this)">
-Purple Grid
-</button>
-
-<button
-id="neon-blue-banner"
-class="option locked"
-disabled
-onclick="setOption('banner','neon-blue',this)">
-Neon Blue
-</button>
-
-</div>
-
-</section>
-
-
-<!-- =====================================================
-     PLAYER TAG
-===================================================== -->
-
-<section class="customise-section">
-
-<h2>Player Tag</h2>
-
-<div class="option-grid">
-
-<button class="option"
-onclick="setOption('tag','none',this)">
-None
-</button>
-
-<button
-id="sprint-champion-title"
-class="option locked"
-disabled
-onclick="setOption('tag','sprint-champion',this)">
-Sprint Champion
-</button>
-
-<button
-id="first-sprinter-title"
-class="option locked"
-disabled
-onclick="setOption('tag','first-sprinter',this)">
-The First Sprinter
-</button>
-
-</div>
-
-</section>
+<div
+    id="titles-options"
+    class="options"
+></div>
 
 
 <!-- =====================================================
      EFFECTS
 ===================================================== -->
 
-<section class="customise-section">
-
-<h2>✨ Effects</h2>
-
-<p style="color:#6b7280;margin-bottom:18px;">
-Equip an effect to make your character stand out.
-</p>
+<h2>
+Effects
+</h2>
 
 <div
-    class="option-grid"
     id="effects-options"
->
+    class="options"
+></div>
 
 
-<button
-    class="option effect-option"
-    onclick="setEffect('none',this)"
->
-
-<span class="effect-icon">🚫</span>
-None
-
-<small>No effect</small>
-
-</button>
-
+<!-- =====================================================
+     SAVE
+===================================================== -->
 
 <button
-    id="effect-sparkle"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('sparkle',this)"
->
-
-<span class="effect-icon">✨</span>
-Sparkle
-
-<small>Shimmering sparkles</small>
-
-</button>
-
-
-<button
-    id="effect-speed-trail"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('speed-trail',this)"
->
-
-<span class="effect-icon">💨</span>
-Speed Trail
-
-<small>Leaves a trail</small>
-
-</button>
-
-
-<button
-    id="effect-lightning"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('lightning',this)"
->
-
-<span class="effect-icon">⚡</span>
-Lightning
-
-<small>Electric sparks</small>
-
-</button>
-
-
-<button
-    id="effect-rainbow"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('rainbow',this)"
->
-
-<span class="effect-icon">🌈</span>
-Rainbow Aura
-
-<small>Colourful aura</small>
-
-</button>
-
-
-<button
-    id="effect-fire"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('fire',this)"
->
-
-<span class="effect-icon">🔥</span>
-Fire Aura
-
-<small>Fiery glow</small>
-
-</button>
-
-
-<button
-    id="effect-glitch"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('glitch',this)"
->
-
-<span class="effect-icon">👾</span>
-Glitch
-
-<small>Digital distortion</small>
-
-</button>
-
-
-<button
-    id="effect-shadow"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('shadow',this)"
->
-
-<span class="effect-icon">🌑</span>
-Shadow Aura
-
-<small>Dark energy</small>
-
-</button>
-
-
-<button
-    id="effect-crystal"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('crystal',this)"
->
-
-<span class="effect-icon">💎</span>
-Crystal Glow
-
-<small>Crystalline energy</small>
-
-</button>
-
-
-<button
-    id="effect-cosmic"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('cosmic',this)"
->
-
-<span class="effect-icon">🌌</span>
-Cosmic Aura
-
-<small>Stars surround you</small>
-
-</button>
-
-
-<button
-    id="effect-crown"
-    class="option effect-option locked"
-    disabled
-    onclick="setEffect('crown',this)"
->
-
-<span class="effect-icon">👑</span>
-Crown + Glow
-
-<small>Extremely rare</small>
-
-</button>
-
-</div>
-
-</section>
-
-
-<button
+    type="button"
     class="main-button save-button"
-    onclick="saveCharacter()"
+    id="save-character"
 >
 💾 Save Character
 </button>
+
+
+</section>
 
 
 <a
@@ -1724,809 +421,325 @@ Crown + Glow
 
 
 <footer>
+
 © 2026 StudySprint
+
 </footer>
+
+
+<script src="./character.js"></script>
 
 
 <script>
 
 /* =====================================================
-   CHARACTER DATA
+   BASIC OPTIONS
 ===================================================== */
 
-let character = {
+const usernameInput =
+    document.getElementById(
+        "username"
+    );
 
-    skin:
-        localStorage.getItem("character_skin") || "light",
 
-    hair:
-        localStorage.getItem("character_hair") || "brown",
+const skinButtons =
+    document.querySelectorAll(
+        '#skin-options button'
+    );
 
-    shirt:
-        localStorage.getItem("character_shirt") || "blue",
 
-    pants:
-        localStorage.getItem("character_pants") || "blue",
-
-    hat:
-        localStorage.getItem("character_hat") || "none",
-
-    backpack:
-        localStorage.getItem("character_backpack") || "none",
-
-    banner:
-        localStorage.getItem("character_banner") || "purple",
-
-    tag:
-        localStorage.getItem("character_tag") || "none",
-
-    effect:
-        localStorage.getItem("character_effect") || "none"
-
-};
+const hairButtons =
+    document.querySelectorAll(
+        '#hair-options button'
+    );
 
 
 /* =====================================================
    USERNAME
 ===================================================== */
 
-const username =
-    document.getElementById("username");
+usernameInput.value =
+    localStorage.getItem(
+        "username"
+    ) || "";
 
-username.value =
-    localStorage.getItem("username") || "";
+
+usernameInput.addEventListener(
+    "input",
+    function() {
+
+        document.getElementById(
+            "character-preview-name"
+        ).textContent =
+            usernameInput.value ||
+            "Player";
+
+    }
+);
 
 
 /* =====================================================
-   SAFE LOCAL STORAGE
+   BASIC CHARACTER OPTIONS
 ===================================================== */
 
-function getUnlocked(key) {
-
-    try {
-
-        const value =
-            JSON.parse(
-                localStorage.getItem(key)
-            );
-
-        return Array.isArray(value)
-            ? value
-            : [];
-
-    }
-
-    catch {
-
-        return [];
-
-    }
-
-}
-
-
-/* =====================================================
-   UNLOCKED COSMETICS
-===================================================== */
-
-function updateUnlockedCosmetics() {
-
-    const shirts =
-        getUnlocked("unlocked_shirts");
-
-    const hats =
-        getUnlocked("unlocked_hats");
-
-    const banners =
-        getUnlocked("unlocked_banners");
-
-    const titles =
-        getUnlocked("unlockedTitles");
-
-    const effects =
-        getUnlocked("unlocked_effects");
-
-
-    const unlockButton = (
-        id,
-        unlocked
-    ) => {
-
-        const button =
-            document.getElementById(id);
-
-        if (!button) {
-            return;
-        }
-
-        if (unlocked) {
-
-            button.disabled = false;
-
-            button.classList.remove(
-                "locked"
-            );
-
-        }
-
-    };
-
-
-    unlockButton(
-        "sprint-blue-shirt",
-        shirts.includes("sprint-blue")
-    );
-
-    unlockButton(
-        "sprint-cap",
-        hats.includes("sprint-cap")
-    );
-
-    unlockButton(
-        "star-cap",
-        hats.includes("star-cap")
-    );
-
-    unlockButton(
-        "visor",
-        hats.includes("visor")
-    );
-
-
-    unlockButton(
-        "sprint-grid-banner",
-        banners.includes("sprint-grid")
-    );
-
-    unlockButton(
-        "purple-grid-banner",
-        banners.includes("purple-grid")
-    );
-
-    unlockButton(
-        "neon-blue-banner",
-        banners.includes("neon-blue")
-    );
-
-
-    unlockButton(
-        "sprint-champion-title",
-        titles.includes("sprint-champion")
-    );
-
-    unlockButton(
-        "first-sprinter-title",
-        titles.includes("first-sprinter")
-    );
-
-
-    effects.forEach(
-        effect => {
-
-            unlockButton(
-                "effect-" + effect,
-                true
-            );
-
-        }
-    );
-
-
-    /* Crown is also supported if it
-       exists in the effects array. */
-
-    if (
-        effects.includes("crown")
-    ) {
-
-        unlockButton(
-            "effect-crown",
-            true
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   SET OPTION
-===================================================== */
-
-function setOption(
+function setBasicOption(
     type,
-    value,
-    button
+    value
 ) {
 
-    if (
-        button.disabled
-    ) {
-        return;
-    }
-
-
-    character[type] =
-        value;
-
-
-    const parent =
-        button.parentElement;
-
-
-    parent
-        .querySelectorAll(".option")
-        .forEach(
-            item =>
-                item.classList.remove(
-                    "selected"
-                )
-        );
-
-
-    button.classList.add(
-        "selected"
+    localStorage.setItem(
+        "character_" + type,
+        value
     );
 
-
-    updateCharacter();
+    renderEditor();
 
 }
 
 
 /* =====================================================
-   SET EFFECT
+   SKIN BUTTONS
 ===================================================== */
 
-function setEffect(
-    effect,
-    button
-) {
+skinButtons.forEach(
+    function(button) {
 
-    if (
-        button.disabled
-    ) {
-        return;
-    }
+        button.addEventListener(
+            "click",
+            function() {
 
+                setBasicOption(
+                    "skin",
+                    button.dataset.value
+                );
 
-    character.effect =
-        effect;
-
-
-    document
-        .querySelectorAll(
-            "#effects-options .option"
-        )
-        .forEach(
-            item =>
-                item.classList.remove(
-                    "selected"
-                )
+            }
         );
 
-
-    button.classList.add(
-        "selected"
-    );
-
-
-    updateEffect();
-
-}
+    }
+);
 
 
 /* =====================================================
-   UPDATE CHARACTER
+   HAIR BUTTONS
 ===================================================== */
 
-function updateCharacter() {
+hairButtons.forEach(
+    function(button) {
 
-    const head =
-        document.getElementById(
-            "character-head"
+        button.addEventListener(
+            "click",
+            function() {
+
+                setBasicOption(
+                    "hair",
+                    button.dataset.value
+                );
+
+            }
         );
 
-    const body =
-        document.getElementById(
-            "character-body"
-        );
+    }
+);
 
-    const leftLeg =
-        document.getElementById(
-            "character-leg-left"
-        );
 
-    const rightLeg =
-        document.getElementById(
-            "character-leg-right"
-        );
+/* =====================================================
+   SAVE CHARACTER
+===================================================== */
+
+document
+    .getElementById(
+        "save-character"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            localStorage.setItem(
+                "username",
+                usernameInput.value.trim()
+            );
+
+            alert(
+                "Character saved!"
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   BASIC CHARACTER RENDERING
+===================================================== */
+
+function renderBasicCharacter() {
+
+    const skin =
+        localStorage.getItem(
+            "character_skin"
+        ) || "light";
+
 
     const hair =
-        document.getElementById(
-            "character-hair"
-        );
-
-    const hat =
-        document.getElementById(
-            "character-hat"
-        );
-
-    const backpack =
-        document.getElementById(
-            "character-backpack"
-        );
+        localStorage.getItem(
+            "character_hair"
+        ) || "brown";
 
 
-    /* SKIN */
+    const shirt =
+        localStorage.getItem(
+            "character_shirt"
+        ) || "blue";
 
-    const skins = {
+
+    const pants =
+        localStorage.getItem(
+            "character_pants"
+        ) || "blue";
+
+
+    const skinColours = {
 
         light:"#f6c7a8",
+
         medium:"#c98b68",
+
         dark:"#70452f"
 
     };
 
-    head.style.background =
-        skins[
-            character.skin
-        ] || skins.light;
 
+    const hairColours = {
 
-    /* HAIR */
+        brown:"#4b2e20",
 
-    const hairs = {
-
-        brown:"#78350f",
         black:"#111827",
+
         blonde:"#facc15"
 
     };
 
-    hair.style.background =
-        hairs[
-            character.hair
-        ] || hairs.brown;
 
+    const shirtColours = {
 
-    /* SHIRT */
+        blue:"#6366f1",
 
-    const shirts = {
-
-        blue:"#3b82f6",
         red:"#ef4444",
+
         green:"#22c55e",
-        "sprint-blue":"#2563eb"
+
+        "sprint-blue":
+            "#2563eb"
 
     };
 
-    body.style.background =
-        shirts[
-            character.shirt
-        ] || shirts.blue;
 
+    const pantsColours = {
 
-    /* PANTS */
+        blue:"#374151",
 
-    const pants = {
-
-        blue:"#2563eb",
         black:"#111827",
-        brown:"#78350f"
+
+        brown:"#78350f",
+
+        split:
+            "linear-gradient(90deg,#2563eb 50%,#ef4444 50%)"
 
     };
 
-    leftLeg.style.background =
-        pants[
-            character.pants
-        ] || pants.blue;
 
-    rightLeg.style.background =
-        pants[
-            character.pants
-        ] || pants.blue;
+    document.getElementById(
+        "character-head"
+    ).style.background =
+        skinColours[skin];
 
 
-    /* HAT */
+    document.getElementById(
+        "character-hair"
+    ).style.background =
+        hairColours[hair];
 
-    hat.className =
-        "character-hat";
 
-    hat.style.display =
-        "none";
+    document.getElementById(
+        "character-body"
+    ).style.background =
+        shirtColours[shirt] ||
+        shirtColours.blue;
 
-    hat.style.background =
-        "";
 
-    hat.style.boxShadow =
-        "";
+    document.getElementById(
+        "character-pants"
+    ).style.background =
+        pantsColours[pants] ||
+        pantsColours.blue;
 
 
-    if (
-        character.hat === "cap"
-    ) {
+    document.getElementById(
+        "character-preview-name"
+    ).textContent =
+        usernameInput.value ||
+        "Player";
 
-        hat.classList.add("cap");
 
-        hat.style.display =
-            "block";
+    skinButtons.forEach(
+        function(button) {
 
-        hat.style.background =
-            "#2563eb";
+            button.classList.toggle(
+                "selected",
+                button.dataset.value === skin
+            );
 
-        hat.style.boxShadow =
-            "inset 0 -7px 0 rgba(0,0,0,.15)";
-
-    }
-
-
-    else if (
-        character.hat === "beanie"
-    ) {
-
-        hat.classList.add("beanie");
-
-        hat.style.display =
-            "block";
-
-        hat.style.background =
-            "#ef4444";
-
-    }
-
-
-    else if (
-        character.hat === "sprint-cap"
-    ) {
-
-        hat.classList.add("cap");
-
-        hat.style.display =
-            "block";
-
-        hat.style.background =
-            "#312e81";
-
-        hat.style.boxShadow =
-            "inset 0 -7px 0 rgba(255,255,255,.15)";
-
-    }
-
-
-    else if (
-        character.hat === "star-cap"
-    ) {
-
-        hat.classList.add("cap");
-
-        hat.style.display =
-            "block";
-
-        hat.style.background =
-            "#111827";
-
-        hat.innerHTML =
-            "⭐";
-
-        hat.style.fontSize =
-            "22px";
-
-        hat.style.textAlign =
-            "center";
-
-        hat.style.paddingTop =
-            "4px";
-
-    }
-
-
-    else if (
-        character.hat === "visor"
-    ) {
-
-        hat.style.display =
-            "block";
-
-        hat.style.width =
-            "112px";
-
-        hat.style.height =
-            "30px";
-
-        hat.style.left =
-            "34px";
-
-        hat.style.top =
-            "48px";
-
-        hat.style.borderRadius =
-            "50%";
-
-        hat.style.background =
-            "rgba(56,189,248,.65)";
-
-        hat.style.border =
-            "4px solid #0ea5e9";
-
-        hat.style.boxShadow =
-            "0 0 12px #38bdf8";
-
-    }
-
-
-    /* BACKPACK */
-
-    if (
-        character.backpack === "none"
-    ) {
-
-        backpack.classList.add(
-            "hidden"
-        );
-
-    }
-
-    else {
-
-        backpack.classList.remove(
-            "hidden"
-        );
-
-        const backpacks = {
-
-            blue:"#2563eb",
-            red:"#dc2626"
-
-        };
-
-        backpack.style.background =
-            backpacks[
-                character.backpack
-            ] || "#2563eb";
-
-    }
-
-
-    updateEffect();
-
-}
-
-
-/* =====================================================
-   UPDATE EFFECT
-===================================================== */
-
-function updateEffect() {
-
-    const effect =
-        document.getElementById(
-            "character-effect"
-        );
-
-    const crown =
-        document.getElementById(
-            "character-crown"
-        );
-
-
-    effect.className =
-        "character-effect";
-
-
-    crown.classList.remove(
-        "active"
+        }
     );
 
 
-    if (
-        character.effect === "none"
-    ) {
+    hairButtons.forEach(
+        function(button) {
 
-        return;
+            button.classList.toggle(
+                "selected",
+                button.dataset.value === hair
+            );
 
-    }
-
-
-    if (
-        character.effect === "crown"
-    ) {
-
-        crown.classList.add(
-            "active"
-        );
-
-        return;
-
-    }
-
-
-    effect.classList.add(
-        "effect-" +
-        character.effect
+        }
     );
 
 }
 
 
 /* =====================================================
-   SAVE
+   OVERRIDE RENDER EDITOR
 ===================================================== */
 
-function saveCharacter() {
-
-    localStorage.setItem(
-        "username",
-        username.value.trim()
-    );
-
-    localStorage.setItem(
-        "character_skin",
-        character.skin
-    );
-
-    localStorage.setItem(
-        "character_hair",
-        character.hair
-    );
-
-    localStorage.setItem(
-        "character_shirt",
-        character.shirt
-    );
-
-    localStorage.setItem(
-        "character_pants",
-        character.pants
-    );
-
-    localStorage.setItem(
-        "character_hat",
-        character.hat
-    );
-
-    localStorage.setItem(
-        "character_backpack",
-        character.backpack
-    );
-
-    localStorage.setItem(
-        "character_banner",
-        character.banner
-    );
-
-    localStorage.setItem(
-        "character_tag",
-        character.tag
-    );
-
-    localStorage.setItem(
-        "character_effect",
-        character.effect
-    );
+const oldRenderEditor =
+    window.renderEditor;
 
 
-    alert(
-        "Character saved!"
-    );
+window.renderEditor =
+    function() {
 
-}
+        renderBasicCharacter();
+
+        if (
+            typeof oldRenderEditor ===
+            "function"
+        ) {
+
+            oldRenderEditor();
+
+        }
+
+    };
 
 
 /* =====================================================
-   SELECT CURRENT OPTIONS
+   INITIAL RENDER
 ===================================================== */
 
-function selectCurrentOptions() {
-
-    document
-        .querySelectorAll(
-            ".option"
-        )
-        .forEach(
-            button => {
-
-                const code =
-                    button.getAttribute(
-                        "onclick"
-                    );
-
-
-                if (!code) {
-                    return;
-                }
-
-
-                const match =
-                    code.match(
-                        /setOption\('([^']+)','([^']+)'/
-                    );
-
-
-                if (!match) {
-                    return;
-                }
-
-
-                const type =
-                    match[1];
-
-                const value =
-                    match[2];
-
-
-                if (
-                    character[type] ===
-                    value
-                ) {
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-                }
-
-            }
-        );
-
-
-    document
-        .querySelectorAll(
-            "#effects-options .option"
-        )
-        .forEach(
-            button => {
-
-                const code =
-                    button.getAttribute(
-                        "onclick"
-                    );
-
-
-                if (!code) {
-                    return;
-                }
-
-
-                const match =
-                    code.match(
-                        /setEffect\('([^']+)'/
-                    );
-
-
-                if (!match) {
-                    return;
-                }
-
-
-                if (
-                    character.effect ===
-                    match[1]
-                ) {
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-                }
-
-            }
-        );
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-updateUnlockedCosmetics();
-
-updateCharacter();
-
-selectCurrentOptions();
+renderBasicCharacter();
 
 </script>
+
 
 </body>
 
