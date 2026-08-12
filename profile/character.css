@@ -1,32 +1,35 @@
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
+   Matches the main StudySprint character
 ========================================================= */
 
 .character-editor {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:40px;
-    padding:40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px 80px;
 }
 
-
 /* =========================================================
-   BANNER PREVIEW
+   PREVIEW
 ========================================================= */
 
 .banner-preview {
-    width:700px;
-    max-width:90%;
-    min-height:260px;
+    width: 700px;
+    max-width: 92%;
+    min-height: 320px;
 
-    border-radius:45px;
-    padding:35px;
+    padding: 35px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:50px;
+    border-radius: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
 
     background:
         linear-gradient(
@@ -36,16 +39,9 @@
         );
 
     box-shadow:
-        0 20px 45px rgba(0,0,0,.15);
+        0 20px 50px rgba(0, 0, 0, .15);
 
-    transition:.3s;
-
-    position:relative;
-    overflow:hidden;
-}
-
-.banner-preview:hover {
-    transform:translateY(-4px);
+    transition: .3s;
 }
 
 .banner-preview.blue {
@@ -66,400 +62,366 @@
         );
 }
 
+.banner-preview.sprint-grid {
+    background:
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6366f1
+        );
+}
+
+.banner-preview.purple-grid {
+    background:
+        linear-gradient(
+            135deg,
+            #6d28d9,
+            #a78bfa
+        );
+}
+
+.banner-preview.neon-blue {
+    background:
+        linear-gradient(
+            135deg,
+            #0369a1,
+            #22d3ee
+        );
+}
 
 /* =========================================================
-   CHARACTER
+   GRID BANNERS
 ========================================================= */
 
-.character {
-    position:relative;
+.banner-preview.sprint-grid::before,
+.banner-preview.purple-grid::before,
+.banner-preview.neon-blue::before {
 
-    width:170px;
-    height:210px;
+    content: "";
 
-    flex-shrink:0;
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.12) 1px,
+            transparent 1px
+        );
+
+    background-size: 25px 25px;
+
+    pointer-events: none;
 }
-
-
-/* =========================================================
-   HEAD
-========================================================= */
-
-.character-head {
-    position:absolute;
-
-    width:110px;
-    height:110px;
-
-    left:30px;
-    top:15px;
-
-    background:#ffd1a4;
-
-    border-radius:50%;
-
-    z-index:3;
-}
-
-
-/* =========================================================
-   EYES
-========================================================= */
-
-.eye {
-    position:absolute;
-
-    width:13px;
-    height:18px;
-
-    background:#1f2937;
-
-    border-radius:50%;
-
-    top:43px;
-
-    z-index:6;
-}
-
-.left-eye {
-    left:28px;
-}
-
-.right-eye {
-    right:28px;
-}
-
-
-/* =========================================================
-   MOUTH
-========================================================= */
-
-.mouth {
-    position:absolute;
-
-    width:28px;
-    height:14px;
-
-    left:41px;
-    top:67px;
-
-    border-bottom:
-        4px solid #1f2937;
-
-    border-radius:50%;
-
-    z-index:6;
-}
-
-
-/* =========================================================
-   HAIR
-========================================================= */
-
-.character-hair {
-    position:absolute;
-
-    width:105px;
-    height:45px;
-
-    left:33px;
-    top:8px;
-
-    background:#4b2e20;
-
-    border-radius:
-        55px 55px 20px 20px;
-
-    z-index:4;
-}
-
-.character-hair.black {
-    background:#111827;
-}
-
-.character-hair.blonde {
-    background:#facc15;
-}
-
-
-/* =========================================================
-   BODY
-========================================================= */
-
-.character-body {
-    position:absolute;
-
-    width:115px;
-    height:90px;
-
-    left:27px;
-    top:110px;
-
-    background:#6366f1;
-
-    border-radius:
-        35px 35px 25px 25px;
-
-    z-index:2;
-}
-
-
-/* =========================================================
-   PANTS
-========================================================= */
-
-.character-pants {
-    position:absolute;
-
-    width:100px;
-    height:55px;
-
-    left:34px;
-    top:175px;
-
-    background:#374151;
-
-    border-radius:25px;
-
-    z-index:1;
-}
-
-
-/* =========================================================
-   HATS
-========================================================= */
-
-.hat {
-    position:absolute;
-
-    width:115px;
-    height:35px;
-
-    left:28px;
-    top:0;
-
-    background:#ef4444;
-
-    border-radius:
-        60px 60px 15px 15px;
-
-    z-index:10;
-
-    display:none;
-}
-
-.hat.cap {
-    display:block;
-}
-
-.hat.beanie {
-    display:block;
-
-    height:50px;
-
-    border-radius:60px;
-
-    background:#22c55e;
-}
-
-
-/* =========================================================
-   BACKPACK
-========================================================= */
-
-.backpack {
-    position:absolute;
-
-    width:45px;
-    height:80px;
-
-    left:0;
-    top:120px;
-
-    background:#2563eb;
-
-    border-radius:25px;
-
-    display:none;
-
-    z-index:1;
-}
-
-.backpack.blue {
-    display:block;
-    background:#2563eb;
-}
-
-.backpack.red {
-    display:block;
-    background:#ef4444;
-}
-
 
 /* =========================================================
    PLAYER INFO
 ========================================================= */
 
 .player-info {
-    text-align:left;
-    color:white;
+    position: absolute;
+
+    left: 35px;
+    top: 35px;
+
+    z-index: 30;
+
+    color: white;
 }
 
 .player-info h2 {
-    font-size:34px;
-    margin:0 0 8px;
+    margin: 0 0 8px;
+
+    font-size: 34px;
+    font-weight: 900;
 }
 
 .player-info p {
-    font-size:20px;
-    margin:0;
-    opacity:.9;
+    margin: 0;
+
+    font-size: 19px;
+    opacity: .9;
 }
 
-
 /* =========================================================
-   CUSTOMISATION PANEL
+   CHARACTER
 ========================================================= */
 
-.customization-section {
-    background:white;
+.character {
+    width: 170px;
+    height: 240px;
 
-    width:700px;
-    max-width:90%;
+    position: relative;
 
-    padding:40px;
+    margin-top: 35px;
 
-    border-radius:35px;
+    flex-shrink: 0;
+
+    transform-origin: center bottom;
+
+    z-index: 10;
+}
+
+/* =========================================================
+   HEAD
+========================================================= */
+
+.character-head {
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    left: 30px;
+    top: 25px;
+
+    background: #f6c7a8;
+
+    border-radius: 50%;
+
+    z-index: 5;
+}
+
+/* =========================================================
+   FACE
+========================================================= */
+
+.character-face {
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    left: 30px;
+    top: 25px;
+
+    z-index: 20;
+
+    pointer-events: none;
+}
+
+/* eyes */
+
+.character-face::before,
+.character-face::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+    height: 17px;
+
+    top: 43px;
+
+    background: #1f2937;
+
+    border-radius: 50%;
+}
+
+.character-face::before {
+    left: 28px;
+}
+
+.character-face::after {
+    right: 28px;
+}
+
+/* =========================================================
+   HAIR
+========================================================= */
+
+.character-hair {
+    position: absolute;
+
+    width: 105px;
+    height: 45px;
+
+    left: 33px;
+    top: 18px;
+
+    background: #78350f;
+
+    border-radius:
+        55px 55px 20px 20px;
+
+    z-index: 15;
+}
+
+.character-hair.black {
+    background: #111827;
+}
+
+.character-hair.blonde {
+    background: #facc15;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.character-body {
+    position: absolute;
+
+    width: 115px;
+    height: 90px;
+
+    left: 27px;
+    top: 120px;
+
+    background: #3b82f6;
+
+    border-radius:
+        35px 35px 25px 25px;
+
+    z-index: 4;
+}
+
+/* =========================================================
+   PANTS
+========================================================= */
+
+.character-pants {
+    position: absolute;
+
+    width: 100px;
+    height: 55px;
+
+    left: 34px;
+    top: 195px;
+
+    background: #2563eb;
+
+    border-radius: 25px;
+
+    z-index: 3;
+}
+
+/* =========================================================
+   LEGS
+========================================================= */
+
+.character-leg {
+    position: absolute;
+
+    width: 42px;
+    height: 55px;
+
+    top: 195px;
+
+    border-radius:
+        10px 10px 15px 15px;
+
+    background: #2563eb;
+
+    z-index: 2;
+}
+
+.character-leg.left {
+    left: 37px;
+}
+
+.character-leg.right {
+    left: 91px;
+}
+
+/* =========================================================
+   HAT
+========================================================= */
+
+.character-hat {
+    position: absolute;
+
+    display: none;
+
+    z-index: 30;
+
+    pointer-events: none;
+}
+
+.character-hat.cap {
+    display: block;
+
+    width: 115px;
+    height: 35px;
+
+    left: 28px;
+    top: 8px;
+
+    border-radius:
+        60px 60px 15px 15px;
+
+    background: #2563eb;
 
     box-shadow:
-        0 15px 35px rgba(0,0,0,.08);
+        inset 0 -7px 0 rgba(0,0,0,.15);
 }
 
-.customization-section h2 {
-    margin-top:25px;
-    margin-bottom:20px;
+.character-hat.beanie {
+    display: block;
+
+    width: 105px;
+    height: 55px;
+
+    left: 33px;
+    top: 5px;
+
+    border-radius:
+        60px 60px 20px 20px;
+
+    background: #ef4444;
 }
-
-.customization-section label {
-    display:block;
-
-    font-weight:800;
-
-    margin-top:20px;
-    margin-bottom:10px;
-}
-
 
 /* =========================================================
-   OPTIONS
+   BACKPACK
 ========================================================= */
 
-.options {
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-}
+.character-backpack {
+    position: absolute;
 
-.options button {
-    border:none;
+    width: 48px;
+    height: 85px;
 
-    padding:12px 18px;
+    left: -3px;
+    top: 125px;
 
-    border-radius:15px;
+    border-radius: 25px;
 
-    background:#eef2ff;
-
-    color:#3730a3;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.options button:hover {
-    transform:translateY(-3px);
-
-    background:#e0e7ff;
-}
-
-.options button.selected {
-    background:#4f46e5;
-    color:white;
+    z-index: 1;
 
     box-shadow:
-        0 0 0 3px #c7d2fe,
-        0 6px 15px rgba(79,70,229,.25);
+        inset -5px 0 rgba(0,0,0,.15),
+        0 5px 10px rgba(0,0,0,.15);
 }
 
-
-/* =========================================================
-   INPUT
-========================================================= */
-
-.customization-section input {
-    width:100%;
-
-    padding:15px;
-
-    border:
-        2px solid #e5e7eb;
-
-    border-radius:15px;
-
-    font-size:17px;
-
-    margin-bottom:10px;
-
-    box-sizing:border-box;
+.character-backpack.hidden {
+    display: none;
 }
-
-
-/* =========================================================
-   SAVE
-========================================================= */
-
-.save-button {
-    margin-top:35px;
-    width:100%;
-}
-
 
 /* =========================================================
    CROWN
 ========================================================= */
 
 .character-crown {
-    position:absolute;
-    top:-5px;
-}
+    position: absolute;
 
-    /*
-       Crown now sits directly on the
-       character's head instead of floating
-       way above it.
-    */
+    display: none;
 
-    width:90px;
-    height:55px;
+    width: 92px;
+    height: 65px;
 
-    left:40px;
-    top:3px;
+    left: 39px;
+    top: 4px;
 
-    z-index:20;
+    z-index: 40;
 
-    display:none;
+    pointer-events: none;
 
-    pointer-events:none;
-
-    filter:
-        drop-shadow(
-            0 0 4px #ffd700
-        )
-        drop-shadow(
-            0 0 10px rgba(255,215,0,.8)
-        );
+    transform-origin: center bottom;
 
     animation:
         crownFloat
@@ -468,239 +430,174 @@
         infinite;
 }
 
-
-/* =========================================================
-   CROWN BODY
-========================================================= */
+.character-crown.active {
+    display: block;
+}
 
 .character-crown::before {
-    content:"";
 
-    position:absolute;
+    content: "";
 
-    left:8px;
-    bottom:5px;
+    position: absolute;
 
-    width:74px;
-    height:38px;
+    left: 7px;
+    top: 23px;
+
+    width: 78px;
+    height: 35px;
 
     background:
         linear-gradient(
             135deg,
-            #fff7a8 0%,
+            #fff7ae 0%,
             #ffd700 35%,
-            #f59e0b 75%,
-            #b45309 100%
+            #f59e0b 70%,
+            #d97706 100%
         );
 
     clip-path:
         polygon(
             0 100%,
             8% 20%,
-            30% 65%,
+            30% 60%,
             50% 0,
-            70% 65%,
+            70% 60%,
             92% 20%,
             100% 100%
         );
+
+    filter:
+        drop-shadow(0 0 5px #ffd700)
+        drop-shadow(
+            0 0 12px rgba(255,215,0,.8)
+        );
 }
-
-
-/* =========================================================
-   CROWN SHINE
-========================================================= */
 
 .character-crown::after {
-    content:"";
 
-    position:absolute;
+    content: "";
 
-    left:15px;
-    bottom:9px;
+    position: absolute;
 
-    width:60px;
-    height:7px;
+    left: 9px;
+    top: 47px;
 
-    border-radius:50%;
+    width: 74px;
+    height: 12px;
+
+    border-radius: 5px;
 
     background:
-        rgba(255,255,255,.6);
+        linear-gradient(
+            90deg,
+            #d97706,
+            #ffe066,
+            #f59e0b,
+            #ffe066,
+            #d97706
+        );
 
-    filter:blur(2px);
-
-    animation:
-        crownShine
-        2s
-        ease-in-out
-        infinite;
+    box-shadow:
+        0 0 8px #ffd700,
+        0 0 15px rgba(255,215,0,.7);
 }
-
 
 /* =========================================================
    CROWN GEMS
 ========================================================= */
 
 .crown-gem {
-    position:absolute;
+    position: absolute;
 
-    width:9px;
-    height:9px;
+    width: 10px;
+    height: 10px;
 
-    border-radius:50%;
+    transform: rotate(45deg);
 
-    transform:rotate(45deg);
+    border-radius: 2px;
 
-    z-index:25;
+    z-index: 50;
 
     animation:
         gemGlow
-        1.4s
+        1.5s
         ease-in-out
         infinite
         alternate;
 }
 
-
-/* RED GEM */
-
 .gem-red {
-    left:29px;
-    bottom:13px;
+    left: 28px;
+    top: 39px;
 
-    background:#ef4444;
+    background: #ef4444;
 
     box-shadow:
         0 0 5px #ef4444,
-        0 0 12px #ef4444,
-        0 0 20px rgba(239,68,68,.7);
+        0 0 12px #ef4444;
 }
-
-
-/* BLUE GEM */
 
 .gem-blue {
-    left:41px;
-    bottom:25px;
+    left: 41px;
+    top: 34px;
 
-    background:#22d3ee;
+    background: #38bdf8;
 
     box-shadow:
-        0 0 5px #22d3ee,
-        0 0 14px #22d3ee,
-        0 0 22px rgba(34,211,238,.7);
+        0 0 5px #38bdf8,
+        0 0 12px #38bdf8;
 
-    animation-delay:.3s;
+    animation-delay: .3s;
 }
 
-
-/* PURPLE GEM */
-
 .gem-purple {
-    left:53px;
-    bottom:13px;
+    left: 54px;
+    top: 39px;
 
-    background:#c084fc;
+    background: #c084fc;
 
     box-shadow:
         0 0 5px #c084fc,
-        0 0 12px #c084fc,
-        0 0 20px rgba(192,132,252,.7);
+        0 0 12px #c084fc;
 
-    animation-delay:.6s;
+    animation-delay: .6s;
 }
-
 
 /* =========================================================
-   CROWN ANIMATIONS
+   EFFECT LAYER
 ========================================================= */
 
-@keyframes crownFloat {
+.character-effects {
+    position: absolute;
 
-    0% {
-        transform:
-            translateY(0)
-            rotate(-1deg);
-    }
+    inset: -40px;
 
-    50% {
-        transform:
-            translateY(-4px)
-            rotate(1deg);
-    }
+    pointer-events: none;
 
-    100% {
-        transform:
-            translateY(0)
-            rotate(-1deg);
-    }
+    z-index: 50;
 }
-
-
-@keyframes crownShine {
-
-    0% {
-        opacity:.15;
-        transform:translateX(-8px);
-    }
-
-    50% {
-        opacity:.85;
-        transform:translateX(8px);
-    }
-
-    100% {
-        opacity:.15;
-        transform:translateX(-8px);
-    }
-}
-
-
-@keyframes gemGlow {
-
-    0% {
-        transform:
-            rotate(45deg)
-            scale(.9);
-
-        filter:
-            brightness(.9);
-    }
-
-    100% {
-        transform:
-            rotate(45deg)
-            scale(1.2);
-
-        filter:
-            brightness(1.5);
-    }
-}
-
 
 /* =========================================================
-   COSMETIC EFFECTS
+   EFFECTS
 ========================================================= */
 
-.cosmetic-effect-sparkle {
-    animation:
-        characterSparkle 1.5s ease-in-out infinite;
-}
+.effect-sparkle::before {
+    content: "✦  ✧  ✦  ✧";
 
-.cosmetic-effect-sparkle::after {
-    content:"✦  ✧  ✦";
+    position: absolute;
+    inset: 0;
 
-    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    left:-25px;
-    top:55px;
+    color: white;
 
-    color:#ffffff;
-
-    font-size:14px;
+    font-size: 28px;
 
     text-shadow:
-        0 0 6px #fff,
-        0 0 12px #a78bfa;
+        0 0 6px white,
+        0 0 15px #a78bfa;
 
     animation:
         sparkleFloat
@@ -709,90 +606,94 @@
         infinite;
 }
 
+.effect-speed-trail::before {
+    content: "";
 
-/* =========================================================
-   SPEED TRAIL
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-speed-trail::before {
-    content:"";
+    width: 190px;
+    height: 120px;
 
-    position:absolute;
-
-    width:100px;
-    height:70px;
-
-    left:-65px;
-    top:120px;
+    left: -45px;
+    top: 70px;
 
     background:
         repeating-linear-gradient(
             0deg,
-            transparent 0 8px,
-            rgba(96,165,250,.8) 9px 12px,
-            transparent 13px 20px
+            transparent 0 10px,
+            rgba(96,165,250,.8) 11px 14px,
+            transparent 15px 25px
         );
 
-    filter:
-        blur(1px)
-        drop-shadow(
-            0 0 5px #60a5fa
-        );
+    filter: blur(1px);
 
-    opacity:.8;
+    opacity: .8;
 
     animation:
-        speedTrail
-        .5s
+        speedMove
+        .7s
         linear
         infinite;
 }
 
+.effect-lightning::before {
+    content: "⚡";
 
-/* =========================================================
-   LIGHTNING
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-lightning::after {
-    content:"⚡";
+    top: 65px;
+    left: 0;
 
-    position:absolute;
+    font-size: 45px;
 
-    left:-18px;
-    top:80px;
-
-    color:#fef08a;
-
-    font-size:25px;
+    color: #fef08a;
 
     text-shadow:
-        0 0 7px #60a5fa,
-        0 0 15px #fef08a,
-        0 0 25px #22d3ee;
+        0 0 8px #60a5fa,
+        0 0 20px #fef08a;
 
     animation:
         lightningFlash
-        .8s
+        .7s
         infinite;
 }
 
+.effect-lightning::after {
+    content: "⚡";
 
-/* =========================================================
-   RAINBOW
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-rainbow::before {
-    content:"";
+    right: 0;
+    bottom: 40px;
 
-    position:absolute;
+    font-size: 32px;
 
-    width:150px;
-    height:150px;
+    color: #93c5fd;
 
-    left:10px;
-    top:35px;
+    text-shadow:
+        0 0 10px #60a5fa;
 
-    border-radius:50%;
+    animation:
+        lightningFlash
+        .9s
+        infinite .2s;
+}
+
+.effect-rainbow::before {
+    content: "";
+
+    position: absolute;
+
+    width: 210px;
+    height: 210px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    border-radius: 50%;
 
     background:
         conic-gradient(
@@ -806,47 +707,47 @@
             red
         );
 
-    filter:blur(18px);
+    filter: blur(22px);
 
-    opacity:.35;
+    opacity: .35;
 
     animation:
         rainbowSpin
-        4s
+        5s
         linear
         infinite;
 }
 
+.effect-fire::before {
+    content: "";
 
-/* =========================================================
-   FIRE
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-fire::before {
-    content:"";
+    width: 170px;
+    height: 190px;
 
-    position:absolute;
+    left: 50%;
+    bottom: 0;
 
-    width:130px;
-    height:120px;
+    transform:
+        translateX(-50%);
 
-    left:20px;
-    top:70px;
-
-    border-radius:50%;
+    border-radius:
+        50% 50% 45% 45%;
 
     background:
         radial-gradient(
-            circle at 50% 80%,
-            #fff7ae,
-            #f97316 35%,
-            #ef4444 60%,
+            ellipse at 50% 80%,
+            #fff7ae 0%,
+            #fbbf24 25%,
+            #f97316 50%,
+            #ef4444 70%,
             transparent 75%
         );
 
-    filter:blur(10px);
+    filter: blur(9px);
 
-    opacity:.65;
+    opacity: .6;
 
     animation:
         firePulse
@@ -856,79 +757,65 @@
         alternate;
 }
 
+.effect-glitch::before {
+    content: "";
 
-/* =========================================================
-   GLITCH
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-glitch::after {
-    content:"";
+    inset: 30px;
 
-    position:absolute;
-
-    inset:10px;
-
-    border:
-        2px solid #22d3ee;
+    border: 3px solid #22d3ee;
 
     box-shadow:
-        4px 0 #f43f5e,
-        -4px 0 #a78bfa;
-
-    opacity:.7;
+        5px 0 #f43f5e,
+        -5px 0 #a78bfa;
 
     animation:
         glitch
-        .35s
+        .3s
         infinite;
 }
 
+.effect-shadow::before {
+    content: "";
 
-/* =========================================================
-   SHADOW
-========================================================= */
+    position: absolute;
 
-.cosmetic-effect-shadow::before {
-    content:"";
+    width: 180px;
+    height: 50px;
 
-    position:absolute;
+    bottom: 5px;
+    left: 50%;
 
-    width:125px;
-    height:35px;
+    transform:
+        translateX(-50%);
 
-    left:20px;
-    bottom:5px;
+    border-radius: 50%;
 
-    border-radius:50%;
+    background: #020617;
 
-    background:#020617;
+    filter: blur(15px);
 
-    filter:blur(12px);
-
-    opacity:.75;
+    opacity: .8;
 }
 
+.effect-crystal::before {
+    content: "◆   ◆   ◆";
 
-/* =========================================================
-   CRYSTAL
-========================================================= */
+    position: absolute;
+    inset: 0;
 
-.cosmetic-effect-crystal::after {
-    content:"◆  ◆  ◆";
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    position:absolute;
+    color: #67e8f9;
 
-    left:20px;
-    top:80px;
-
-    color:#67e8f9;
-
-    font-size:13px;
+    font-size: 28px;
 
     text-shadow:
         0 0 8px #67e8f9,
-        0 0 15px #a78bfa,
-        0 0 25px #ffffff;
+        0 0 20px #a78bfa;
 
     animation:
         crystalFloat
@@ -937,26 +824,24 @@
         infinite;
 }
 
+.effect-cosmic::before {
+    content: "✦   ·   ★   ·   ✧";
 
-/* =========================================================
-   COSMIC
-========================================================= */
+    position: absolute;
+    inset: 0;
 
-.cosmetic-effect-cosmic::after {
-    content:"✦  ·  ★  ·  ✧  ·  ✦";
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    position:absolute;
+    color: white;
 
-    left:-15px;
-    top:65px;
-
-    color:white;
-
-    font-size:12px;
+    font-size: 26px;
 
     text-shadow:
         0 0 8px #60a5fa,
-        0 0 15px #a78bfa;
+        0 0 20px #a78bfa,
+        0 0 30px #c084fc;
 
     animation:
         cosmicDrift
@@ -965,166 +850,245 @@
         infinite;
 }
 
-
 /* =========================================================
-   ANIMATIONS FOR EFFECTS
+   CUSTOMISATION PANELS
 ========================================================= */
 
-@keyframes sparkleFloat {
+.customization-section {
+    width: 700px;
+    max-width: 92%;
 
-    0% {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.08);
+}
+
+.customization-section h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.character-option {
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 14px;
+
+    background: #eef2ff;
+    color: #3730a3;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.character-option:hover {
+    transform:
+        translateY(-3px);
+
+    background: #e0e7ff;
+}
+
+.character-option.selected {
+    background: #4f46e5;
+
+    color: white;
+
+    box-shadow:
+        0 5px 15px rgba(79,70,229,.3);
+}
+
+.no-options {
+    opacity: .6;
+    font-weight: 700;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes crownFloat {
+    0%, 100% {
         transform:
-            translateY(8px)
-            scale(.8);
-
-        opacity:.3;
+            translateY(0)
+            rotate(-1deg);
     }
 
     50% {
         transform:
-            translateY(-8px)
-            scale(1.2);
-
-        opacity:1;
-    }
-
-    100% {
-        transform:
-            translateY(8px)
-            scale(.8);
-
-        opacity:.3;
+            translateY(-7px)
+            rotate(1deg);
     }
 }
 
-
-@keyframes speedTrail {
-
+@keyframes gemGlow {
     from {
-        transform:translateX(15px);
-        opacity:.25;
+        filter:
+            brightness(1)
+            drop-shadow(0 0 3px currentColor);
     }
 
     to {
-        transform:translateX(-15px);
-        opacity:.8;
+        filter:
+            brightness(1.6)
+            drop-shadow(0 0 10px currentColor);
     }
 }
 
+@keyframes sparkleFloat {
+    0%, 100% {
+        transform:
+            translateY(5px)
+            scale(.9);
+
+        opacity: .6;
+    }
+
+    50% {
+        transform:
+            translateY(-10px)
+            scale(1.1);
+
+        opacity: 1;
+    }
+}
+
+@keyframes speedMove {
+    from {
+        transform:
+            translateX(0);
+    }
+
+    to {
+        transform:
+            translateX(-30px);
+    }
+}
 
 @keyframes lightningFlash {
+    0%, 100% {
+        opacity: .35;
 
-    0%,100% {
-        opacity:.3;
-        transform:scale(.8);
+        transform:
+            scale(.85);
     }
 
     50% {
-        opacity:1;
-        transform:scale(1.25);
+        opacity: 1;
+
+        transform:
+            scale(1.15);
     }
 }
-
 
 @keyframes rainbowSpin {
-
     from {
-        transform:rotate(0deg);
+        transform:
+            translate(-50%, -50%)
+            rotate(0deg);
     }
 
     to {
-        transform:rotate(360deg);
+        transform:
+            translate(-50%, -50%)
+            rotate(360deg);
     }
 }
-
 
 @keyframes firePulse {
-
     from {
         transform:
-            scale(.9)
-            translateY(5px);
+            translateX(-50%)
+            scale(.92);
 
-        opacity:.4;
+        opacity: .45;
     }
 
     to {
         transform:
-            scale(1.1)
-            translateY(-5px);
+            translateX(-50%)
+            scale(1.08);
 
-        opacity:.8;
+        opacity: .75;
     }
 }
 
-
 @keyframes glitch {
-
     0% {
-        transform:translate(0);
+        transform:
+            translate(0);
     }
 
     25% {
-        transform:translate(3px,-2px);
+        transform:
+            translate(4px, -2px);
     }
 
     50% {
-        transform:translate(-3px,2px);
+        transform:
+            translate(-4px, 2px);
     }
 
     75% {
-        transform:translate(2px,1px);
+        transform:
+            translate(2px, 3px);
     }
 
     100% {
-        transform:translate(0);
+        transform:
+            translate(0);
     }
 }
 
-
 @keyframes crystalFloat {
-
-    0%,100% {
+    0%, 100% {
         transform:
             translateY(5px)
-            rotate(-3deg);
+            scale(.95);
     }
 
     50% {
         transform:
             translateY(-8px)
-            rotate(3deg);
+            scale(1.08);
     }
 }
 
-
 @keyframes cosmicDrift {
-
-    0% {
+    0%, 100% {
         transform:
-            translate(0,5px)
+            translateY(5px)
             rotate(-2deg);
 
-        opacity:.4;
+        opacity: .7;
     }
 
     50% {
         transform:
-            translate(10px,-5px)
+            translateY(-8px)
             rotate(2deg);
 
-        opacity:1;
-    }
-
-    100% {
-        transform:
-            translate(0,5px)
-            rotate(-2deg);
-
-        opacity:.4;
+        opacity: 1;
     }
 }
-
 
 /* =========================================================
    MOBILE
@@ -1133,17 +1097,28 @@
 @media(max-width:700px) {
 
     .banner-preview {
-        flex-direction:column;
-        gap:15px;
-        text-align:center;
+        min-height: 360px;
+
+        flex-direction: column;
     }
 
     .player-info {
-        text-align:center;
+        position: relative;
+
+        left: auto;
+        top: auto;
+
+        text-align: center;
+
+        margin-bottom: 10px;
+    }
+
+    .character {
+        transform:
+            scale(.85);
     }
 
     .customization-section {
-        padding:25px;
+        padding: 25px;
     }
-
 }
