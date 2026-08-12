@@ -1,5 +1,6 @@
 /* =========================================================
    STUDYSPRINT CHARACTER SYSTEM
+   MATCHES THE PROFILE CHARACTER
 ========================================================= */
 
 
@@ -54,65 +55,31 @@ var CHARACTER_CATEGORIES = {
 
 var COSMETIC_NAMES = {
 
-    "sprint-blue":
-        "Sprint Shirt",
+    "sprint-blue": "Sprint Shirt",
 
-    "sprint-cap":
-        "Sprint Cap",
+    "sprint-cap": "Sprint Cap",
+    "star-cap": "Star Cap",
+    "visor": "Sprint Visor",
 
-    "star-cap":
-        "Star Cap",
+    "split": "Split Pants",
 
-    "visor":
-        "Sprint Visor",
+    "sprint-grid": "Sprint Grid",
+    "purple-grid": "Purple Grid",
+    "neon-blue": "Neon Blue",
 
-    "split":
-        "Split Pants",
+    "sprint-champion": "Sprint Champion",
+    "first-sprinter": "The First Sprinter",
 
-    "sprint-grid":
-        "Sprint Grid",
-
-    "purple-grid":
-        "Purple Grid",
-
-    "neon-blue":
-        "Neon Blue",
-
-    "sprint-champion":
-        "Sprint Champion",
-
-    "first-sprinter":
-        "The First Sprinter",
-
-    "sparkle":
-        "Sparkle Effect",
-
-    "speed-trail":
-        "Speed Trail",
-
-    "lightning":
-        "Lightning Effect",
-
-    "rainbow":
-        "Rainbow Aura",
-
-    "fire":
-        "Fire Aura",
-
-    "glitch":
-        "Glitch Effect",
-
-    "shadow":
-        "Shadow Aura",
-
-    "crystal":
-        "Crystal Glow",
-
-    "cosmic":
-        "Cosmic Aura",
-
-    "crown":
-        "Crown + Glow"
+    "sparkle": "Sparkle Effect",
+    "speed-trail": "Speed Trail",
+    "lightning": "Lightning Effect",
+    "rainbow": "Rainbow Aura",
+    "fire": "Fire Aura",
+    "glitch": "Glitch Effect",
+    "shadow": "Shadow Aura",
+    "crystal": "Crystal Glow",
+    "cosmic": "Cosmic Aura",
+    "crown": "Crown + Glow"
 
 };
 
@@ -124,19 +91,12 @@ var COSMETIC_NAMES = {
 var CHARACTER_DEFAULTS = {
 
     skin: "light",
-
     hair: "brown",
-
     shirt: "blue",
-
     pants: "blue",
-
     hat: "none",
-
     banner: "purple",
-
     tag: "none",
-
     effect: "none"
 
 };
@@ -148,8 +108,7 @@ var CHARACTER_DEFAULTS = {
 
 function getUnlockedItems(key) {
 
-    var value =
-        localStorage.getItem(key);
+    var value = localStorage.getItem(key);
 
     if (!value) {
         return [];
@@ -157,8 +116,7 @@ function getUnlockedItems(key) {
 
     try {
 
-        var parsed =
-            JSON.parse(value);
+        var parsed = JSON.parse(value);
 
         if (Array.isArray(parsed)) {
             return parsed;
@@ -198,40 +156,17 @@ function getCosmeticName(id) {
 
 
 /* =========================================================
-   GET CURRENT CHARACTER VALUE
-========================================================= */
-
-function getCharacterValue(key) {
-
-    return (
-        localStorage.getItem(key) ||
-        CHARACTER_DEFAULTS[
-            key.replace(
-                "character_",
-                ""
-            )
-        ] ||
-        ""
-    );
-
-}
-
-
-/* =========================================================
    RENDER CATEGORY
 ========================================================= */
 
 function renderCategory(categoryName) {
 
     var data =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
+        CHARACTER_CATEGORIES[categoryName];
 
     if (!data) {
         return;
     }
-
 
     var container =
         document.getElementById(
@@ -242,25 +177,22 @@ function renderCategory(categoryName) {
         return;
     }
 
-
     var unlocked =
         getUnlockedItems(
             data.unlockKey
         );
 
-
     var equipped =
         localStorage.getItem(
             data.selectedKey
-        );
-
+        ) || "none";
 
     container.innerHTML = "";
 
 
-    /*
-       Add default / unequip button.
-    */
+    /* =====================================================
+       DEFAULT BUTTON
+    ===================================================== */
 
     if (
         categoryName !== "titles" &&
@@ -268,12 +200,9 @@ function renderCategory(categoryName) {
     ) {
 
         var defaultButton =
-            document.createElement(
-                "button"
-            );
+            document.createElement("button");
 
-        defaultButton.type =
-            "button";
+        defaultButton.type = "button";
 
         defaultButton.className =
             "character-option";
@@ -281,9 +210,7 @@ function renderCategory(categoryName) {
         defaultButton.textContent =
             "Default";
 
-
         if (
-            !equipped ||
             equipped === "none"
         ) {
 
@@ -292,7 +219,6 @@ function renderCategory(categoryName) {
             );
 
         }
-
 
         defaultButton.onclick =
             function() {
@@ -306,7 +232,6 @@ function renderCategory(categoryName) {
 
             };
 
-
         container.appendChild(
             defaultButton
         );
@@ -314,89 +239,37 @@ function renderCategory(categoryName) {
     }
 
 
-    if (
-        categoryName === "effects"
-    ) {
-
-        var noEffectButton =
-            document.createElement(
-                "button"
-            );
-
-        noEffectButton.type =
-            "button";
-
-        noEffectButton.className =
-            "character-option";
-
-        noEffectButton.textContent =
-            "None";
-
-
-        if (
-            !equipped ||
-            equipped === "none"
-        ) {
-
-            noEffectButton.classList.add(
-                "selected"
-            );
-
-        }
-
-
-        noEffectButton.onclick =
-            function() {
-
-                localStorage.setItem(
-                    data.selectedKey,
-                    "none"
-                );
-
-                renderEditor();
-
-            };
-
-
-        container.appendChild(
-            noEffectButton
-        );
-
-    }
-
+    /* =====================================================
+       NONE BUTTON
+    ===================================================== */
 
     if (
+        categoryName === "effects" ||
         categoryName === "titles"
     ) {
 
-        var noTitleButton =
-            document.createElement(
-                "button"
-            );
+        var noneButton =
+            document.createElement("button");
 
-        noTitleButton.type =
-            "button";
+        noneButton.type = "button";
 
-        noTitleButton.className =
+        noneButton.className =
             "character-option";
 
-        noTitleButton.textContent =
+        noneButton.textContent =
             "None";
 
-
         if (
-            !equipped ||
             equipped === "none"
         ) {
 
-            noTitleButton.classList.add(
+            noneButton.classList.add(
                 "selected"
             );
 
         }
 
-
-        noTitleButton.onclick =
+        noneButton.onclick =
             function() {
 
                 localStorage.setItem(
@@ -408,35 +281,30 @@ function renderCategory(categoryName) {
 
             };
 
-
         container.appendChild(
-            noTitleButton
+            noneButton
         );
 
     }
 
 
-    /*
-       Render unlocked cosmetics.
-    */
+    /* =====================================================
+       UNLOCKED COSMETICS
+    ===================================================== */
 
     unlocked.forEach(
         function(id) {
 
             var button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
-            button.type =
-                "button";
+            button.type = "button";
 
             button.className =
                 "character-option";
 
             button.textContent =
                 getCosmeticName(id);
-
 
             if (
                 id === equipped
@@ -448,7 +316,6 @@ function renderCategory(categoryName) {
 
             }
 
-
             button.onclick =
                 function() {
 
@@ -458,7 +325,6 @@ function renderCategory(categoryName) {
                     );
 
                 };
-
 
             container.appendChild(
                 button
@@ -480,20 +346,16 @@ function equipCosmetic(
 ) {
 
     var data =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
+        CHARACTER_CATEGORIES[categoryName];
 
     if (!data) {
         return;
     }
 
-
     var unlocked =
         getUnlockedItems(
             data.unlockKey
         );
-
 
     if (
         unlocked.indexOf(id) === -1
@@ -507,12 +369,10 @@ function equipCosmetic(
         return;
     }
 
-
     localStorage.setItem(
         data.selectedKey,
         id
     );
-
 
     renderEditor();
 
@@ -528,20 +388,16 @@ function unequipCosmetic(
 ) {
 
     var data =
-        CHARACTER_CATEGORIES[
-            categoryName
-        ];
+        CHARACTER_CATEGORIES[categoryName];
 
     if (!data) {
         return;
     }
 
-
     localStorage.setItem(
         data.selectedKey,
         "none"
     );
-
 
     renderEditor();
 
@@ -549,76 +405,193 @@ function unequipCosmetic(
 
 
 /* =========================================================
-   REMOVE COSMETIC CLASSES
+   CHARACTER COLOURS
+   SAME AS PROFILE
 ========================================================= */
 
-function clearCosmeticClasses(
-    element
-) {
+var CHARACTER_SKIN_COLOURS = {
 
-    if (!element) {
+    light: "#f6c7a8",
+    medium: "#c98b68",
+    dark: "#70452f"
+
+};
+
+var CHARACTER_HAIR_COLOURS = {
+
+    brown: "#78350f",
+    black: "#111827",
+    blonde: "#facc15"
+
+};
+
+var CHARACTER_SHIRT_COLOURS = {
+
+    blue: "#3b82f6",
+    red: "#ef4444",
+    green: "#22c55e",
+    "sprint-blue": "#2563eb"
+
+};
+
+var CHARACTER_PANTS_COLOURS = {
+
+    blue: "#2563eb",
+    black: "#111827",
+    brown: "#78350f"
+
+};
+
+
+/* =========================================================
+   RENDER SKIN
+========================================================= */
+
+function renderSkin(skin) {
+
+    var head =
+        document.getElementById(
+            "character-head"
+        );
+
+    if (!head) {
         return;
     }
 
-
-    var classes =
-        Array.from(
-            element.classList
-        );
-
-
-    classes.forEach(
-        function(className) {
-
-            if (
-                className.indexOf(
-                    "cosmetic-"
-                ) === 0
-            ) {
-
-                element.classList.remove(
-                    className
-                );
-
-            }
-
-        }
-    );
+    head.style.background =
+        CHARACTER_SKIN_COLOURS[skin]
+        || CHARACTER_SKIN_COLOURS.light;
 
 }
 
 
 /* =========================================================
-   RENDER CROWN
+   RENDER HAIR
 ========================================================= */
 
-function renderCrown(effect) {
+function renderHair(hair) {
 
-    var crown =
+    var element =
         document.getElementById(
-            "character-crown"
+            "character-hair"
         );
 
-    if (!crown) {
+    if (!element) {
+        return;
+    }
+
+    element.style.background =
+        CHARACTER_HAIR_COLOURS[hair]
+        || CHARACTER_HAIR_COLOURS.brown;
+
+}
+
+
+/* =========================================================
+   RENDER SHIRT
+========================================================= */
+
+function renderShirt(shirt) {
+
+    var body =
+        document.getElementById(
+            "character-body"
+        );
+
+    if (!body) {
+        return;
+    }
+
+    body.style.background =
+        CHARACTER_SHIRT_COLOURS[shirt]
+        || CHARACTER_SHIRT_COLOURS.blue;
+
+}
+
+
+/* =========================================================
+   RENDER PANTS
+========================================================= */
+
+function renderPants(pants) {
+
+    var pantsElement =
+        document.getElementById(
+            "character-pants"
+        );
+
+    var leftLeg =
+        document.querySelector(
+            ".character-leg.left"
+        );
+
+    var rightLeg =
+        document.querySelector(
+            ".character-leg.right"
+        );
+
+
+    if (!pantsElement) {
         return;
     }
 
 
-    crown.style.display =
+    /* Reset */
+
+    pantsElement.style.background =
+        CHARACTER_PANTS_COLOURS[
+            pants
+        ]
+        || CHARACTER_PANTS_COLOURS.blue;
+
+    pantsElement.style.backgroundImage =
         "none";
 
+    if (leftLeg) {
 
-    if (
-        effect !== "crown"
-    ) {
+        leftLeg.style.background =
+            CHARACTER_PANTS_COLOURS[
+                pants
+            ]
+            || CHARACTER_PANTS_COLOURS.blue;
 
-        return;
+    }
+
+    if (rightLeg) {
+
+        rightLeg.style.background =
+            CHARACTER_PANTS_COLOURS[
+                pants
+            ]
+            || CHARACTER_PANTS_COLOURS.blue;
 
     }
 
 
-    crown.style.display =
-        "block";
+    /* Split Pants */
+
+    if (
+        pants === "split"
+    ) {
+
+        pantsElement.style.background =
+            "linear-gradient(90deg,#2563eb 50%,#ef4444 50%)";
+
+        if (leftLeg) {
+
+            leftLeg.style.background =
+                "#2563eb";
+
+        }
+
+        if (rightLeg) {
+
+            rightLeg.style.background =
+                "#ef4444";
+
+        }
+
+    }
 
 }
 
@@ -639,13 +612,49 @@ function renderHat(hat) {
     }
 
 
-    element.className =
-        "hat";
+    /*
+       IMPORTANT:
+       Keep character-hat class.
+       The previous version removed it,
+       which broke the CSS.
+    */
 
+    element.className =
+        "character-hat";
+
+    element.innerHTML = "";
 
     element.style.display =
         "none";
 
+    element.style.background =
+        "";
+
+    element.style.color =
+        "";
+
+    element.style.width =
+        "";
+
+    element.style.height =
+        "";
+
+    element.style.left =
+        "";
+
+    element.style.top =
+        "";
+
+    element.style.lineHeight =
+        "";
+
+    element.style.textAlign =
+        "";
+
+
+    /* =====================================================
+       SPRINT CAP
+    ===================================================== */
 
     if (
         hat === "sprint-cap"
@@ -664,6 +673,10 @@ function renderHat(hat) {
     }
 
 
+    /* =====================================================
+       STAR CAP
+    ===================================================== */
+
     else if (
         hat === "star-cap"
     ) {
@@ -677,7 +690,6 @@ function renderHat(hat) {
 
         element.style.background =
             "#111827";
-
 
         element.innerHTML =
             "★";
@@ -693,6 +705,10 @@ function renderHat(hat) {
 
     }
 
+
+    /* =====================================================
+       VISOR
+    ===================================================== */
 
     else if (
         hat === "visor"
@@ -726,74 +742,38 @@ function renderHat(hat) {
 
 
 /* =========================================================
-   RENDER EFFECT
+   RENDER CROWN
 ========================================================= */
 
-function renderEffect(effect) {
+function renderCrown(effect) {
 
-    var preview =
+    var crown =
         document.getElementById(
-            "banner-preview"
+            "character-crown"
         );
 
-    var character =
-        document.querySelector(
-            ".character"
-        );
-
-    var effectLayer =
-        document.getElementById(
-            "character-effect"
-        );
-
-
-    if (!preview) {
+    if (!crown) {
         return;
     }
 
-
-    clearCosmeticClasses(
-        preview
+    crown.classList.remove(
+        "active"
     );
 
-    clearCosmeticClasses(
-        character
-    );
-
-    clearCosmeticClasses(
-        effectLayer
-    );
+    crown.style.display =
+        "none";
 
 
     if (
-        !effect ||
-        effect === "none"
+        effect === "crown"
     ) {
 
-        return;
-
-    }
-
-
-    var className =
-        "cosmetic-effect-" +
-        effect;
-
-
-    if (character) {
-
-        character.classList.add(
-            className
+        crown.classList.add(
+            "active"
         );
 
-    }
-
-
-    if (effectLayer) {
-
-        effectLayer.classList.add(
-            className
-        );
+        crown.style.display =
+            "block";
 
     }
 
@@ -818,11 +798,22 @@ function renderBanner(banner) {
 
     preview.classList.remove(
         "blue",
-        "green"
+        "green",
+        "sprint-grid",
+        "purple-grid",
+        "neon-blue"
     );
 
 
     preview.style.background =
+        "";
+
+
+    preview.style.backgroundImage =
+        "";
+
+
+    preview.style.backgroundSize =
         "";
 
 
@@ -836,7 +827,6 @@ function renderBanner(banner) {
 
     }
 
-
     else if (
         banner === "green"
     ) {
@@ -847,57 +837,128 @@ function renderBanner(banner) {
 
     }
 
-
     else if (
         banner === "sprint-grid"
     ) {
 
-        preview.style.background =
-            "linear-gradient(135deg,#312e81,#6366f1)";
-
-        preview.style.backgroundImage =
-            "linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px)," +
-            "linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px)," +
-            "linear-gradient(135deg,#312e81,#6366f1)";
-
-        preview.style.backgroundSize =
-            "25px 25px,25px 25px,auto";
+        preview.classList.add(
+            "sprint-grid"
+        );
 
     }
-
 
     else if (
         banner === "purple-grid"
     ) {
 
-        preview.style.background =
-            "linear-gradient(135deg,#7c3aed,#a78bfa)";
-
-        preview.style.backgroundImage =
-            "linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px)," +
-            "linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px)," +
-            "linear-gradient(135deg,#7c3aed,#a78bfa)";
-
-        preview.style.backgroundSize =
-            "25px 25px,25px 25px,auto";
+        preview.classList.add(
+            "purple-grid"
+        );
 
     }
-
 
     else if (
         banner === "neon-blue"
     ) {
 
-        preview.style.background =
-            "linear-gradient(135deg,#06b6d4,#2563eb)";
+        preview.classList.add(
+            "neon-blue"
+        );
 
     }
-
 
     else {
 
         preview.style.background =
             "linear-gradient(135deg,#6366f1,#818cf8)";
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER EFFECT
+========================================================= */
+
+function renderEffect(effect) {
+
+    var character =
+        document.querySelector(
+            ".character"
+        );
+
+    var effectLayer =
+        document.getElementById(
+            "character-effect"
+        );
+
+
+    if (!character) {
+        return;
+    }
+
+
+    var effectClasses = [
+
+        "effect-sparkle",
+        "effect-speed-trail",
+        "effect-lightning",
+        "effect-rainbow",
+        "effect-fire",
+        "effect-glitch",
+        "effect-shadow",
+        "effect-crystal",
+        "effect-cosmic",
+        "effect-crown"
+
+    ];
+
+
+    effectClasses.forEach(
+        function(className) {
+
+            character.classList.remove(
+                className
+            );
+
+            if (effectLayer) {
+
+                effectLayer.classList.remove(
+                    className
+                );
+
+            }
+
+        }
+    );
+
+
+    if (
+        !effect ||
+        effect === "none"
+    ) {
+
+        return;
+
+    }
+
+
+    var className =
+        "effect-" +
+        effect;
+
+
+    character.classList.add(
+        className
+    );
+
+
+    if (effectLayer) {
+
+        effectLayer.classList.add(
+            className
+        );
 
     }
 
@@ -920,35 +981,40 @@ function renderCharacter() {
     }
 
 
+    var skin =
+        localStorage.getItem(
+            "character_skin"
+        ) || "light";
+
+    var hair =
+        localStorage.getItem(
+            "character_hair"
+        ) || "brown";
+
     var shirt =
         localStorage.getItem(
             "character_shirt"
         ) || "blue";
-
 
     var pants =
         localStorage.getItem(
             "character_pants"
         ) || "blue";
 
-
     var hat =
         localStorage.getItem(
             "character_hat"
         ) || "none";
-
 
     var banner =
         localStorage.getItem(
             "character_banner"
         ) || "purple";
 
-
     var effect =
         localStorage.getItem(
             "character_effect"
         ) || "none";
-
 
     var title =
         localStorage.getItem(
@@ -956,89 +1022,35 @@ function renderCharacter() {
         ) || "none";
 
 
-    var body =
-        document.getElementById(
-            "character-body"
-        );
+    /* =====================================================
+       APPLY CHARACTER
+    ===================================================== */
+
+    renderSkin(skin);
+
+    renderHair(hair);
+
+    renderShirt(shirt);
+
+    renderPants(pants);
+
+    renderHat(hat);
+
+    renderBanner(banner);
+
+    renderEffect(effect);
+
+    renderCrown(effect);
 
 
-    var pantsElement =
-        document.getElementById(
-            "character-pants"
-        );
-
-
-    if (body) {
-
-        body.classList.remove(
-            "cosmetic-shirt-sprint-blue"
-        );
-
-
-        if (
-            shirt === "sprint-blue"
-        ) {
-
-            body.classList.add(
-                "cosmetic-shirt-sprint-blue"
-            );
-
-            body.style.background =
-                "#2563eb";
-
-        }
-
-    }
-
-
-    if (pantsElement) {
-
-        pantsElement.classList.remove(
-            "cosmetic-pants-split"
-        );
-
-
-        if (
-            pants === "split"
-        ) {
-
-            pantsElement.classList.add(
-                "cosmetic-pants-split"
-            );
-
-            pantsElement.style.background =
-                "linear-gradient(90deg,#2563eb 50%,#ef4444 50%)";
-
-        }
-
-    }
-
-
-    renderHat(
-        hat
-    );
-
-
-    renderBanner(
-        banner
-    );
-
-
-    renderEffect(
-        effect
-    );
-
-
-    renderCrown(
-        effect
-    );
-
+    /* =====================================================
+       TITLE
+    ===================================================== */
 
     var titleElement =
         document.getElementById(
             "character-title"
         );
-
 
     if (titleElement) {
 
@@ -1050,9 +1062,15 @@ function renderCharacter() {
     }
 
 
-    /*
-       Save useful data attributes.
-    */
+    /* =====================================================
+       DATA
+    ===================================================== */
+
+    character.dataset.skin =
+        skin;
+
+    character.dataset.hair =
+        hair;
 
     character.dataset.shirt =
         shirt;
@@ -1081,29 +1099,17 @@ function renderCharacter() {
 
 function renderEditor() {
 
-    renderCategory(
-        "shirts"
-    );
+    renderCategory("shirts");
 
-    renderCategory(
-        "hats"
-    );
+    renderCategory("hats");
 
-    renderCategory(
-        "pants"
-    );
+    renderCategory("pants");
 
-    renderCategory(
-        "banners"
-    );
+    renderCategory("banners");
 
-    renderCategory(
-        "titles"
-    );
+    renderCategory("titles");
 
-    renderCategory(
-        "effects"
-    );
+    renderCategory("effects");
 
     renderCharacter();
 
