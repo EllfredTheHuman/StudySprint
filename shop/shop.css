@@ -1,665 +1,310 @@
-```css
-* {
-    box-sizing: border-box;
+/* =========================================================
+   MINI COSMETIC PREVIEWS
+========================================================= */
+
+.mini-preview {
+    width:100%;
+    height:62px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    border-radius:13px;
+    overflow:hidden;
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    margin-bottom:9px;
 }
 
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #eef6ff;
-    color: #222;
+.mini-character {
+    width:48px;
+    height:58px;
+    position:relative;
 }
 
-
-.shop-page {
-    width: min(1200px, 94%);
-    margin: 40px auto 80px;
+.mini-head {
+    position:absolute;
+    width:30px;
+    height:30px;
+    left:9px;
+    top:5px;
+    border-radius:50%;
+    background:#ffd1a4;
+    z-index:3;
 }
 
-
-.shop-section {
-    background: white;
-    border-radius: 24px;
-    padding: 30px;
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.08);
+.mini-hair {
+    position:absolute;
+    width:29px;
+    height:12px;
+    left:10px;
+    top:4px;
+    border-radius:20px 20px 5px 5px;
+    background:#4b2e20;
+    z-index:5;
 }
 
-
-.hidden {
-    display: none !important;
+.mini-body {
+    position:absolute;
+    width:34px;
+    height:25px;
+    left:7px;
+    top:31px;
+    border-radius:10px;
+    background:#6366f1;
 }
 
-
-/* =========================================
-   HEADER
-========================================= */
-
-.shop-section h1 {
-    margin: 0 0 20px;
-    font-size: 34px;
+.mini-pants {
+    position:absolute;
+    width:30px;
+    height:12px;
+    left:9px;
+    top:52px;
+    border-radius:5px;
+    background:#374151;
 }
 
-
-.currency-display {
-    display: inline-block;
-    background: #fff7d6;
-    border: 3px solid #f4c542;
-    border-radius: 14px;
-    padding: 10px 18px;
-    margin-bottom: 25px;
-    font-weight: bold;
+.mini-hat {
+    display:none;
+    position:absolute;
+    width:33px;
+    height:10px;
+    left:7px;
+    top:2px;
+    border-radius:15px;
+    background:#ef4444;
+    z-index:8;
 }
 
-
-#coin-count,
-#ticket-count {
-    font-size: 22px;
+.mini-hat-sprint-cap .mini-hat {
+    display:block;
+    background:#312e81;
 }
 
-
-/* =========================================
-   FORTNIGHTLY GRID
-========================================= */
-
-.shop-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 18px;
+.mini-hat-star-cap .mini-hat {
+    display:block;
+    background:#111827;
 }
 
-
-/* =========================================
-   SHOP CARDS
-========================================= */
-
-.shop-card {
-    min-height: 320px;
-    padding: 20px;
-
-    border-radius: 20px;
-
-    background: #f8fbff;
-
-    border: 3px solid #d9e5f5;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    text-align: center;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+.mini-hat-star-cap .mini-hat::after {
+    content:"★";
+    position:absolute;
+    color:#fde68a;
+    font-size:7px;
+    left:13px;
+    top:1px;
 }
 
-
-.shop-card:hover {
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 12px 25px
-        rgba(0, 0, 0, 0.12);
+.mini-hat-visor .mini-hat {
+    display:block;
+    width:39px;
+    left:4px;
+    top:9px;
+    background:#06b6d4;
 }
 
-
-/* =========================================
-   RARITIES
-========================================= */
-
-.rarity {
-    font-size: 13px;
-
-    font-weight: 900;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 12px;
+.mini-shirt-sprint-blue {
+    background:#2563eb;
 }
 
-
-.very-common {
-    border-color: #bfc5cc;
-}
-
-
-.very-common .rarity {
-    color: #72777d;
-}
-
-
-.common {
-    border-color: #55b96b;
-}
-
-
-.common .rarity {
-    color: #319347;
-}
-
-
-.rare {
-    border-color: #4b9bea;
-}
-
-
-.rare .rarity {
-    color: #2477c4;
-}
-
-
-.ultra-rare {
-    border-color: #9b59e8;
-}
-
-
-.ultra-rare .rarity {
-    color: #8134c9;
-}
-
-
-.mythic {
-    border-color: #f39c45;
-
+.mini-pants-split {
     background:
         linear-gradient(
-            145deg,
-            #fff8ef,
-            #fff1df
+            90deg,
+            #2563eb 50%,
+            #ef4444 50%
         );
 }
 
-
-.mythic .rarity {
-    color: #d56c0d;
+.mini-banner-sprint-grid {
+    background:
+        linear-gradient(135deg,#312e81,#6366f1);
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.15) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.15) 1px,
+            transparent 1px
+        ),
+        linear-gradient(135deg,#312e81,#6366f1);
+    background-size:10px 10px,10px 10px,auto;
 }
 
+.mini-banner-purple-grid {
+    background:#8b5cf6;
+}
 
-.legendary {
-    border-color: #e6bd32;
+.mini-banner-neon-blue {
+    background:#06b6d4;
+}
 
+.mini-title {
     background:
         linear-gradient(
-            145deg,
-            #fffbea,
-            #fff2bd
+            135deg,
+            #fef3c7,
+            #f59e0b
         );
+    color:white;
+    font-size:25px;
+    text-shadow:
+        0 0 8px #f59e0b;
+}
 
+/* =========================================================
+   MINI EFFECTS
+========================================================= */
+
+.mini-effect-sparkle::after {
+    content:"✦ ✧ ✦";
+    color:#6366f1;
+    font-size:13px;
+    position:absolute;
+    text-shadow:0 0 8px white;
+    animation:sparkleFloat 1.5s ease-in-out infinite;
+}
+
+.mini-effect-speed-trail::before {
+    content:"";
+    position:absolute;
+    width:70px;
+    height:25px;
+    left:0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 5px,
+            #60a5fa 6px 8px,
+            transparent 9px 14px
+        );
+    opacity:.8;
+}
+
+.mini-effect-lightning::after {
+    content:"⚡";
+    color:#fef08a;
+    font-size:26px;
+    text-shadow:
+        0 0 8px #60a5fa,
+        0 0 15px #fef08a;
+    animation:lightningFlash .8s infinite;
+}
+
+.mini-effect-rainbow::before {
+    content:"";
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:
+        conic-gradient(
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            violet,
+            red
+        );
+    filter:blur(9px);
+    opacity:.5;
+    position:absolute;
+}
+
+.mini-effect-fire::after {
+    content:"";
+    width:40px;
+    height:45px;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle at 50% 80%,
+            #fef08a,
+            #f97316 45%,
+            #ef4444 70%,
+            transparent
+        );
+    filter:blur(3px);
+    animation:firePulse .7s infinite alternate;
+}
+
+.mini-effect-glitch::after {
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:2px solid #22d3ee;
     box-shadow:
-        0 0 20px
-        rgba(230, 189, 50, 0.25);
+        3px 0 #f43f5e,
+        -3px 0 #a78bfa;
+    animation:glitch .35s infinite;
 }
 
-
-.legendary .rarity {
-    color: #b78b00;
+.mini-effect-shadow::after {
+    content:"";
+    position:absolute;
+    width:55px;
+    height:15px;
+    bottom:5px;
+    border-radius:50%;
+    background:#020617;
+    filter:blur(6px);
 }
 
-
-/* =========================================
-   PREVIEW
-========================================= */
-
-.item-preview {
-    width: 150px;
-    height: 125px;
-
-    border-radius: 16px;
-
-    background: #e8f0fa;
-
-    border: 2px solid #d3deeb;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    font-weight: 900;
-
-    margin-bottom: 15px;
+.mini-effect-crystal::after {
+    content:"◆ ◆ ◆";
+    color:#67e8f9;
+    font-size:10px;
+    text-shadow:
+        0 0 8px #67e8f9,
+        0 0 15px #a78bfa;
 }
 
-
-.shop-card h3 {
-    margin: 5px 0;
-
-    font-size: 20px;
+.mini-effect-cosmic::after {
+    content:"✦ · ★ · ✧";
+    color:white;
+    font-size:10px;
+    text-shadow:
+        0 0 8px #60a5fa,
+        0 0 15px #a78bfa;
+    animation:cosmicDrift 3s infinite;
 }
 
-
-.shop-card p {
-    margin: 5px 0 12px;
-
-    color: #777;
-
-    font-size: 14px;
-}
-
-
-.shop-price {
-    margin-top: auto;
-
-    margin-bottom: 12px;
-
-    font-size: 18px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================
-   EMPTY
-========================================= */
-
-.empty-card {
-    border-style: dashed;
-
-    border-color: #cbd4df;
-
-    background: #f5f7fa;
-
-    color: #89919a;
-}
-
-
-.empty-icon {
-    width: 80px;
-    height: 80px;
-
-    border-radius: 50%;
-
-    background: #e0e5eb;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 36px;
-
-    font-weight: 900;
-
-    margin:
-        25px 0 15px;
-}
-
-
-/* =========================================
-   BUTTONS
-========================================= */
-
-.buy-button,
-.ticket-shop-button,
-.back-shop-button {
-
-    border: none;
-
-    cursor: pointer;
-
-    font-weight: 900;
-
-    border-radius: 12px;
-
-    transition:
-        transform 0.15s ease,
-        filter 0.15s ease;
-}
-
-
-.buy-button:hover,
-.ticket-shop-button:hover,
-.back-shop-button:hover {
-
-    transform:
-        translateY(-2px);
-
+.mini-effect-crown::before {
+    content:"";
+    width:36px;
+    height:23px;
+    position:absolute;
+    top:7px;
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ae,
+            #ffd700,
+            #f59e0b
+        );
+    clip-path:polygon(
+        0 100%,
+        10% 25%,
+        32% 65%,
+        50% 0,
+        68% 65%,
+        90% 25%,
+        100% 100%
+    );
     filter:
-        brightness(1.05);
+        drop-shadow(0 0 5px #ffd700);
+    animation:crownFloat 2s infinite;
 }
 
-
-.buy-button:active,
-.ticket-shop-button:active,
-.back-shop-button:active {
-
-    transform:
-        scale(0.96);
+.mini-effect-crown::after {
+    content:"◆ ◆ ◆";
+    position:absolute;
+    top:18px;
+    color:#67e8f9;
+    font-size:5px;
+    text-shadow:
+        0 0 5px #22d3ee;
+    animation:crownGems 1.4s infinite alternate;
 }
-
-
-.buy-button {
-
-    width: 100%;
-
-    padding: 11px;
-
-    background: #4f8cff;
-
-    color: white;
-
-    font-size: 15px;
-}
-
-
-.buy-button:disabled {
-
-    cursor: default;
-
-    background: #aeb6c0;
-}
-
-
-/* =========================================
-   COUNTDOWN
-========================================= */
-
-.shop-countdown {
-
-    margin-top: 30px;
-
-    padding: 15px;
-
-    text-align: center;
-
-    border-radius: 14px;
-
-    background: #edf4ff;
-
-    color: #4c5d72;
-
-    font-weight: bold;
-}
-
-
-#countdown {
-
-    margin-left: 6px;
-
-    color: #222;
-}
-
-
-/* =========================================
-   TICKET SHOP BUTTON
-========================================= */
-
-.ticket-shop-button {
-
-    display: block;
-
-    margin:
-        25px auto 0;
-
-    padding:
-        15px 30px;
-
-    background: #20242b;
-
-    color: white;
-
-    font-size: 17px;
-}
-
-
-/* =========================================
-   BACK
-========================================= */
-
-.back-shop-button {
-
-    padding:
-        11px 18px;
-
-    background: #edf2f7;
-
-    color: #333;
-
-    margin-bottom: 25px;
-}
-
-
-/* =========================================
-   TICKET SHOP
-========================================= */
-
-.ticket-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    gap: 18px;
-}
-
-
-.ticket-card {
-
-    min-height: 300px;
-
-    padding: 20px;
-
-    border-radius: 20px;
-
-    background: #17191e;
-
-    color: white;
-
-    border:
-        2px solid #383c45;
-
-    display: flex;
-
-    flex-direction: column;
-
-    text-align: center;
-
-    align-items: center;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.ticket-card:hover {
-
-    transform:
-        translateY(-5px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(0, 0, 0, 0.25);
-}
-
-
-.ticket-item-preview {
-
-    width: 140px;
-    height: 110px;
-
-    border-radius: 16px;
-
-    background: #22262e;
-
-    border:
-        2px solid #454a55;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    margin-bottom: 15px;
-
-    font-weight: 900;
-}
-
-
-.ticket-card h3 {
-
-    margin:
-        5px 0 8px;
-
-    font-size: 19px;
-}
-
-
-.ticket-card p {
-
-    margin: 0;
-
-    color: #b9bec8;
-
-    font-size: 13px;
-
-    line-height: 1.4;
-}
-
-
-.ticket-price {
-
-    margin-top: auto;
-
-    margin-bottom: 12px;
-
-    font-weight: 900;
-
-    font-size: 18px;
-}
-
-
-/* =========================================
-   COSMIC
-========================================= */
-
-.ticket-card:nth-child(9) {
-
-    border-color: #7f6cff;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #30285c,
-            #14151b 65%
-        );
-
-    box-shadow:
-        0 0 25px
-        rgba(127, 108, 255, 0.2);
-}
-
-
-/* =========================================
-   CROWN
-========================================= */
-
-.crown-card {
-
-    border:
-        3px solid #f3c94b;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #5d4812,
-            #19160c 70%
-        );
-
-    box-shadow:
-        0 0 30px
-        rgba(243, 201, 75, 0.35);
-}
-
-
-.crown-card:hover {
-
-    box-shadow:
-        0 0 45px
-        rgba(243, 201, 75, 0.55);
-}
-
-
-.crown-card
-.ticket-item-preview {
-
-    border-color:
-        #f3c94b;
-
-    color:
-        #ffd95a;
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 1000px) {
-
-    .shop-grid {
-
-        grid-template-columns:
-            repeat(3, 1fr);
-
-    }
-
-
-    .ticket-grid {
-
-        grid-template-columns:
-            repeat(3, 1fr);
-
-    }
-
-}
-
-
-@media (max-width: 700px) {
-
-    .shop-grid,
-    .ticket-grid {
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
-}
-
-
-@media (max-width: 480px) {
-
-    .shop-page {
-
-        width: 96%;
-
-        margin-top: 20px;
-
-    }
-
-
-    .shop-section {
-
-        padding: 18px;
-
-    }
-
-
-    .shop-grid,
-    .ticket-grid {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-}
-```
