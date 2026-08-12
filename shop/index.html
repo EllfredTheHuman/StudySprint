@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -6,160 +7,2556 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
 >
 
 <title>Shop | StudySprint</title>
 
-<link rel="stylesheet" href="../style.css">
+<link
+    rel="stylesheet"
+    href="../style.css"
+>
 
-<link rel="stylesheet" href="shop.css">
+<style>
+
+/* ==================================================
+   SHOP PAGE
+================================================== */
+
+.shop-page {
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:35px 20px 80px;
+
+}
+
+
+/* ==================================================
+   HEADER
+================================================== */
+
+.shop-header {
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+.shop-header h1 {
+
+    font-size:46px;
+
+    font-weight:900;
+
+    margin-bottom:8px;
+
+}
+
+.shop-header p {
+
+    color:#6b7280;
+
+    font-size:18px;
+
+}
+
+
+/* ==================================================
+   CURRENCY
+================================================== */
+
+.currency-bar {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    margin:25px auto 35px;
+
+}
+
+.currency {
+
+    background:white;
+
+    padding:12px 22px;
+
+    border-radius:18px;
+
+    font-size:18px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+
+}
+
+
+/* ==================================================
+   COUNTDOWN
+================================================== */
+
+.shop-countdown {
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    font-weight:800;
+
+    color:#6b7280;
+
+}
+
+.shop-countdown strong {
+
+    color:#6366f1;
+
+}
+
+
+/* ==================================================
+   SHOP NAV
+================================================== */
+
+.shop-navigation {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-bottom:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.shop-navigation button {
+
+    border:none;
+
+    padding:13px 24px;
+
+    border-radius:15px;
+
+    background:#e5e7eb;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.shop-navigation button:hover {
+
+    transform:translateY(-2px);
+
+}
+
+.shop-navigation button.active {
+
+    background:#6366f1;
+
+    color:white;
+
+}
+
+
+/* ==================================================
+   SHOP SECTION
+================================================== */
+
+.shop-section {
+
+    margin-bottom:50px;
+
+}
+
+.shop-section h2 {
+
+    text-align:center;
+
+    font-size:32px;
+
+    font-weight:900;
+
+    margin-bottom:25px;
+
+}
+
+
+/* ==================================================
+   SHOP GRID
+================================================== */
+
+.shop-grid,
+.ticket-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(220px,1fr)
+        );
+
+    gap:22px;
+
+}
+
+
+/* ==================================================
+   SHOP CARD
+================================================== */
+
+.shop-card,
+.ticket-card {
+
+    position:relative;
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:18px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+    overflow:hidden;
+
+}
+
+.shop-card:hover,
+.ticket-card:hover {
+
+    transform:translateY(-6px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.14);
+
+}
+
+
+/* ==================================================
+   RARITY
+================================================== */
+
+.rarity {
+
+    position:absolute;
+
+    top:13px;
+
+    left:13px;
+
+    padding:5px 10px;
+
+    border-radius:9px;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    background:#e5e7eb;
+
+    z-index:5;
+
+}
+
+.shop-card:has(.rarity) .rarity {
+
+    color:#374151;
+
+}
+
+.shop-card:nth-child(3n) .rarity {
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+.shop-card:nth-child(5n) .rarity {
+
+    background:#ede9fe;
+
+    color:#7c3aed;
+
+}
+
+.shop-card:nth-child(7n) .rarity {
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+}
+
+
+/* ==================================================
+   ITEM PREVIEW
+================================================== */
+
+.item-preview,
+.ticket-item-preview {
+
+    height:190px;
+
+    margin:-18px -18px 18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f8fafc
+        );
+
+}
+
+
+/* ==================================================
+   MINI CHARACTER
+================================================== */
+
+.mini-character {
+
+    width:105px;
+
+    height:160px;
+
+    position:relative;
+
+    transform:
+        scale(.95);
+
+    transition:
+        transform .3s;
+
+}
+
+.shop-card:hover .mini-character,
+.ticket-card:hover .mini-character {
+
+    transform:
+        scale(1.04)
+        translateY(-3px);
+
+}
+
+
+.mini-head {
+
+    position:absolute;
+
+    width:72px;
+
+    height:72px;
+
+    left:16px;
+
+    top:10px;
+
+    border-radius:50%;
+
+    background:#f6c7a8;
+
+    z-index:5;
+
+}
+
+.mini-hair {
+
+    position:absolute;
+
+    width:68px;
+
+    height:28px;
+
+    left:18px;
+
+    top:8px;
+
+    border-radius:
+        40px 40px 10px 10px;
+
+    background:#78350f;
+
+    z-index:8;
+
+}
+
+.mini-face {
+
+    position:absolute;
+
+    width:5px;
+
+    height:5px;
+
+    left:30px;
+
+    top:40px;
+
+    border-radius:50%;
+
+    background:#111827;
+
+    box-shadow:
+        20px 0 0 #111827;
+
+    z-index:10;
+
+}
+
+.mini-body {
+
+    position:absolute;
+
+    width:64px;
+
+    height:53px;
+
+    left:20px;
+
+    top:70px;
+
+    border-radius:
+        22px 22px 10px 10px;
+
+    background:#3b82f6;
+
+    z-index:4;
+
+}
+
+.mini-leg {
+
+    position:absolute;
+
+    width:22px;
+
+    height:42px;
+
+    top:117px;
+
+    border-radius:9px;
+
+    background:#2563eb;
+
+    z-index:3;
+
+}
+
+.mini-leg.left {
+
+    left:25px;
+
+}
+
+.mini-leg.right {
+
+    left:58px;
+
+}
+
+
+/* ==================================================
+   MINI HATS
+================================================== */
+
+.mini-hat {
+
+    position:absolute;
+
+    display:none;
+
+    z-index:15;
+
+}
+
+.mini-hat.cap {
+
+    display:block;
+
+    width:62px;
+
+    height:23px;
+
+    left:21px;
+
+    top:2px;
+
+    border-radius:
+        40px 40px 7px 7px;
+
+    background:#2563eb;
+
+}
+
+.mini-hat.cap::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:27px;
+
+    height:7px;
+
+    left:40px;
+
+    top:16px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+}
+
+.mini-hat.beanie {
+
+    display:block;
+
+    width:69px;
+
+    height:34px;
+
+    left:17px;
+
+    top:0;
+
+    border-radius:
+        40px 40px 10px 10px;
+
+    background:#ef4444;
+
+}
+
+
+/* ==================================================
+   MINI CROWN
+================================================== */
+
+.mini-hat.crown {
+
+    display:block;
+
+    width:67px;
+
+    height:43px;
+
+    left:19px;
+
+    top:-17px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fff4a3,
+            #ffd43b 35%,
+            #d99a00
+        );
+
+    clip-path:polygon(
+        2% 20%,
+        18% 55%,
+        35% 12%,
+        50% 55%,
+        66% 12%,
+        82% 55%,
+        98% 20%,
+        89% 90%,
+        11% 90%
+    );
+
+    filter:
+        drop-shadow(
+            0 0 5px #ffd43b
+        );
+
+    animation:
+        miniCrownFloat 2s ease-in-out infinite;
+
+}
+
+.mini-hat.crown::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+
+    height:7px;
+
+    left:12px;
+
+    top:24px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    box-shadow:
+        20px 0 #38bdf8,
+        40px 0 #c084fc,
+        0 0 5px white,
+        20px 0 5px white,
+        40px 0 5px white;
+
+}
+
+@keyframes miniCrownFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0)
+            rotate(-1deg);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-6px)
+            rotate(1deg);
+
+    }
+
+}
+
+
+/* ==================================================
+   EFFECT PREVIEWS
+================================================== */
+
+.preview-effect {
+
+    position:absolute;
+
+    inset:15px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+}
+
+
+/* SPARKLE */
+
+.preview-effect.sparkle {
+
+    background:
+        radial-gradient(
+            circle at 20% 25%,
+            white 0 3px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 75% 20%,
+            white 0 3px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 82% 72%,
+            white 0 3px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 18% 75%,
+            white 0 2px,
+            transparent 3px
+        );
+
+    animation:
+        previewSpin 3s linear infinite;
+
+}
+
+
+/* SPEED */
+
+.preview-effect.speed-trail {
+
+    border-left:
+        12px solid rgba(59,130,246,.5);
+
+    border-right:
+        12px solid rgba(59,130,246,.15);
+
+    filter:
+        blur(2px);
+
+    animation:
+        trailMove .8s infinite alternate;
+
+}
+
+
+/* LIGHTNING */
+
+.preview-effect.lightning {
+
+    border:
+        4px solid #fde047;
+
+    box-shadow:
+        0 0 15px #facc15,
+        inset 0 0 20px #facc15;
+
+    animation:
+        flash .6s infinite;
+
+}
+
+
+/* RAINBOW */
+
+.preview-effect.rainbow {
+
+    border:
+        7px solid transparent;
+
+    background:
+        linear-gradient(
+            white,
+            white
+        ) padding-box,
+        conic-gradient(
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            violet,
+            red
+        ) border-box;
+
+    animation:
+        previewSpin 4s linear infinite;
+
+}
+
+
+/* FIRE */
+
+.preview-effect.fire {
+
+    border:
+        5px solid #ff7300;
+
+    box-shadow:
+        0 0 15px #ff4500,
+        0 0 35px #ff7300,
+        inset 0 0 20px #ff4500;
+
+    animation:
+        firePulse .7s infinite alternate;
+
+}
+
+
+/* GLITCH */
+
+.preview-effect.glitch {
+
+    border:
+        4px dashed #22d3ee;
+
+    box-shadow:
+        5px 0 #ec4899,
+        -5px 0 #22d3ee;
+
+    animation:
+        glitch .2s infinite;
+
+}
+
+
+/* SHADOW */
+
+.preview-effect.shadow {
+
+    box-shadow:
+        0 0 35px #111827,
+        inset 0 0 30px #111827;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(17,24,39,.4),
+            transparent 70%
+        );
+
+}
+
+
+/* CRYSTAL */
+
+.preview-effect.crystal {
+
+    border:
+        5px solid #67e8f9;
+
+    box-shadow:
+        0 0 15px #67e8f9,
+        0 0 30px #22d3ee;
+
+    animation:
+        crystalPulse 1.2s infinite alternate;
+
+}
+
+
+/* COSMIC */
+
+.preview-effect.cosmic {
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            white 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 80% 30%,
+            #c084fc 0 3px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 30% 80%,
+            #60a5fa 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 75% 75%,
+            white 0 2px,
+            transparent 3px
+        );
+
+    box-shadow:
+        0 0 30px #8b5cf6;
+
+    animation:
+        previewSpin 5s linear infinite;
+
+}
+
+
+/* ==================================================
+   EFFECT ANIMATIONS
+================================================== */
+
+@keyframes previewSpin {
+
+    to {
+        transform:rotate(360deg);
+    }
+
+}
+
+@keyframes trailMove {
+
+    from {
+        transform:
+            translateX(-10px);
+
+        opacity:.35;
+    }
+
+    to {
+        transform:
+            translateX(10px);
+
+        opacity:.8;
+    }
+
+}
+
+@keyframes flash {
+
+    0%,100% {
+        opacity:.35;
+    }
+
+    20% {
+        opacity:1;
+    }
+
+    25% {
+        opacity:.4;
+    }
+
+    30% {
+        opacity:1;
+    }
+
+}
+
+@keyframes firePulse {
+
+    from {
+        transform:scale(.94);
+    }
+
+    to {
+        transform:scale(1.04);
+    }
+
+}
+
+@keyframes glitch {
+
+    0% {
+        transform:translate(0);
+    }
+
+    25% {
+        transform:translate(3px,-2px);
+    }
+
+    50% {
+        transform:translate(-3px,2px);
+    }
+
+    75% {
+        transform:translate(2px,3px);
+    }
+
+    100% {
+        transform:translate(0);
+    }
+
+}
+
+@keyframes crystalPulse {
+
+    from {
+        transform:scale(.95);
+    }
+
+    to {
+        transform:scale(1.04);
+    }
+
+}
+
+
+/* ==================================================
+   CARD CONTENT
+================================================== */
+
+.shop-card h3,
+.ticket-card h3 {
+
+    margin:
+        8px 0 4px;
+
+    font-size:20px;
+
+    font-weight:900;
+
+}
+
+.shop-card p,
+.ticket-card p {
+
+    color:#6b7280;
+
+    margin:4px 0;
+
+    min-height:22px;
+
+}
+
+.shop-price,
+.ticket-price {
+
+    margin-top:15px;
+
+    font-weight:900;
+
+    font-size:17px;
+
+}
+
+
+/* ==================================================
+   BUY BUTTON
+================================================== */
+
+.buy-button {
+
+    width:100%;
+
+    margin-top:14px;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:12px;
+
+    background:#6366f1;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.buy-button:hover:not(:disabled) {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.08);
+
+}
+
+.buy-button:disabled {
+
+    background:#d1d5db;
+
+    color:#6b7280;
+
+    cursor:default;
+
+}
+
+
+/* ==================================================
+   TICKET SHOP
+================================================== */
+
+#ticket-shop {
+
+    display:none;
+
+}
+
+.ticket-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            white,
+            #f5f3ff
+        );
+
+}
+
+.crown-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf0,
+            #fff7c2
+        );
+
+    box-shadow:
+        0 10px 30px rgba(234,179,8,.18);
+
+}
+
+
+/* ==================================================
+   EMPTY
+================================================== */
+
+.empty-shop {
+
+    text-align:center;
+
+    padding:50px;
+
+    color:#6b7280;
+
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media(max-width:700px) {
+
+    .shop-header h1 {
+        font-size:36px;
+    }
+
+    .shop-grid,
+    .ticket-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+    }
+
+}
+
+@media(max-width:480px) {
+
+    .shop-grid,
+    .ticket-grid {
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
+<nav>
 
-    <nav>
+<a href="../index.html">
+Home
+</a>
 
-        <a href="../index.html">
-            Home
-        </a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-        <a href="../study/index.html">
-            📚 Study
-        </a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-        <a href="../sprint/index.html">
-            🏃 Sprint
-        </a>
+<a href="../profile/index.html">
+👤 Profile
+</a>
 
-        <a href="../profile/index.html">
-            👤 Profile
-        </a>
-
-    </nav>
+</nav>
 
 </header>
 
-
-
 <main class="shop-page">
 
+<section class="shop-header">
 
-    <!-- =====================================
-         FORTNIGHTLY SHOP
-    ====================================== -->
+<h1>
+🛍️ StudySprint Shop
+</h1>
 
-    <section
-        id="fortnightly-shop"
-        class="shop-section"
-    >
+<p>
+Customize your character with exclusive cosmetics.
+</p>
 
-        <h1>
-            Fortnightly Shop
-        </h1>
+</section>
 
+<!-- CURRENCY -->
 
-        <div class="currency-display">
+<div class="currency-bar">
 
-            <span id="coin-count">
-                0
-            </span>
+<div class="currency">
+🪙 <span id="coin-count">0</span> Coins
+</div>
 
-            Coins
+<div class="currency">
+🎟️ <span id="ticket-count">0</span> Shop Tickets
+</div>
 
-        </div>
+</div>
 
+<!-- NAVIGATION -->
 
-        <div
-            id="fortnightly-items"
-            class="shop-grid"
-        ></div>
+<div class="shop-navigation">
 
+<button
+id="main-shop-button"
+class="active"
+onclick="openMainShop()"
 
-        <!-- COUNTDOWN -->
+>
 
-        <div class="shop-countdown">
+🪙 Coin Shop </button>
 
-            Next shop refreshes in:
+<button
+id="ticket-shop-button"
+onclick="openTicketShop()"
 
-            <strong id="countdown">
-                Loading...
-            </strong>
+>
 
-        </div>
+🎟️ Ticket Shop </button>
 
+</div>
 
-        <button
-            type="button"
-            class="ticket-shop-button"
-            onclick="openTicketShop()"
-        >
-            🎟️ Ticket Shop
-        </button>
+<!-- COUNTDOWN -->
 
-    </section>
+<div class="shop-countdown">
 
+Next shop refreshes in:
 
+<strong id="countdown">
+Loading...
+</strong>
 
-    <!-- =====================================
-         TICKET SHOP
-    ====================================== -->
+</div>
 
-    <section
-        id="ticket-shop"
-        class="shop-section"
-        style="display: none;"
-    >
+<!-- ==================================================
+     MAIN SHOP
+================================================== -->
 
-        <h1>
-            Ticket Shop
-        </h1>
+<section
+    id="fortnightly-shop"
+    class="shop-section"
+>
 
+<h2>
+🪙 Fortnightly Shop
+</h2>
 
-        <div class="currency-display">
+<div
+    id="fortnightly-items"
+    class="shop-grid"
+></div>
 
-            <span id="ticket-count">
-                0
-            </span>
+</section>
 
-            Shop Tickets
+<!-- ==================================================
+     TICKET SHOP
+================================================== -->
 
-        </div>
+<section
+    id="ticket-shop"
+    class="shop-section"
+>
 
+<h2>
+🎟️ Ticket Shop
+</h2>
 
-        <button
-            type="button"
-            class="back-shop-button"
-            onclick="openMainShop()"
-        >
-            ← Back to Shop
-        </button>
+<div
+    id="ticket-items"
+    class="ticket-grid"
+></div>
 
-
-        <div
-            id="ticket-items"
-            class="ticket-grid"
-        ></div>
-
-    </section>
-
+</section>
 
 </main>
 
+<footer>
+
+© 2026 StudySprint
+
+</footer>
+
+<script>
+
+/* ==================================================
+   SHOP DATA
+================================================== */
+
+const SHOP_REFRESH_TIME =
+    14 * 24 * 60 * 60 * 1000;
 
 
-<script src="./shop.js"></script>
+const SHOP_ITEMS = [
+
+    {
+        id:"sprint-grid",
+        name:"Sprint Grid",
+        rarity:"Common",
+        type:"Banner",
+        price:100
+    },
+
+    {
+        id:"purple-grid",
+        name:"Purple Grid",
+        rarity:"Common",
+        type:"Banner",
+        price:125
+    },
+
+    {
+        id:"neon-blue",
+        name:"Neon Blue",
+        rarity:"Common",
+        type:"Banner",
+        price:150
+    },
+
+    {
+        id:"sprint-blue",
+        name:"Sprint Shirt",
+        rarity:"Rare",
+        type:"Shirt",
+        price:300
+    },
+
+    {
+        id:"visor",
+        name:"Sprint Visor",
+        rarity:"Ultra Rare",
+        type:"Hat",
+        price:450
+    },
+
+    {
+        id:"star-cap",
+        name:"Star Cap",
+        rarity:"Ultra Rare",
+        type:"Hat",
+        price:500
+    },
+
+    {
+        id:"split",
+        name:"Split Pants",
+        rarity:"Mythic",
+        type:"Pants",
+        price:600
+    },
+
+    {
+        id:"first-sprinter",
+        name:"The First Sprinter",
+        rarity:"Legendary",
+        type:"Player Title",
+        price:750
+    }
+
+];
+
+
+const TICKET_ITEMS = [
+
+    {
+        id:"sparkle",
+        name:"Sparkle Effect",
+        description:
+            "Tiny sparkles follow your character.",
+        price:10
+    },
+
+    {
+        id:"speed-trail",
+        name:"Speed Trail",
+        description:
+            "Leaves a trail behind your character.",
+        price:20
+    },
+
+    {
+        id:"lightning",
+        name:"Lightning Effect",
+        description:
+            "Electric sparks surround your character.",
+        price:35
+    },
+
+    {
+        id:"rainbow",
+        name:"Rainbow Aura",
+        description:
+            "A colourful aura surrounds your character.",
+        price:50
+    },
+
+    {
+        id:"fire",
+        name:"Fire Aura",
+        description:
+            "A fiery glow surrounds your character.",
+        price:75
+    },
+
+    {
+        id:"glitch",
+        name:"Glitch Effect",
+        description:
+            "A strange digital effect surrounds your character.",
+        price:100
+    },
+
+    {
+        id:"shadow",
+        name:"Shadow Aura",
+        description:
+            "A dark shadow surrounds your character.",
+        price:150
+    },
+
+    {
+        id:"crystal",
+        name:"Crystal Glow",
+        description:
+            "A bright crystalline glow surrounds your character.",
+        price:250
+    },
+
+    {
+        id:"cosmic",
+        name:"Cosmic Aura",
+        description:
+            "Stars and cosmic particles surround your character.",
+        price:500
+    },
+
+    {
+        id:"crown",
+        name:"Crown + Glow",
+        description:
+            "The extremely rare glowing crown.",
+        price:1000
+    }
+
+];
+
+
+/* ==================================================
+   CURRENCY
+================================================== */
+
+function getCoins() {
+
+    return Number(
+        localStorage.getItem("coins")
+    ) || 0;
+
+}
+
+function getTickets() {
+
+    return Number(
+        localStorage.getItem("shopTickets")
+    ) || 0;
+
+}
+
+function setCoins(amount) {
+
+    localStorage.setItem(
+        "coins",
+        amount
+    );
+
+}
+
+function setTickets(amount) {
+
+    localStorage.setItem(
+        "shopTickets",
+        amount
+    );
+
+}
+
+
+/* ==================================================
+   OWNED
+================================================== */
+
+function getOwnedItems() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "shopOwnedItems"
+            )
+        ) || [];
+
+    }
+
+    catch {
+
+        return [];
+
+    }
+
+}
+
+function saveOwnedItems(items) {
+
+    localStorage.setItem(
+        "shopOwnedItems",
+        JSON.stringify(items)
+    );
+
+}
+
+function ownsItem(id) {
+
+    return getOwnedItems()
+        .includes(id);
+
+}
+
+
+/* ==================================================
+   UNLOCK
+================================================== */
+
+function unlockItem(id,type) {
+
+    let key;
+
+    if(type === "Banner")
+        key="unlocked_banners";
+
+    else if(type === "Shirt")
+        key="unlocked_shirts";
+
+    else if(type === "Hat")
+        key="unlocked_hats";
+
+    else if(type === "Pants")
+        key="unlocked_pants";
+
+    else if(type === "Player Title")
+        key="unlockedTitles";
+
+    else if(type === "Effect")
+        key="unlocked_effects";
+
+    else
+        return;
+
+
+    let unlocked=[];
+
+    try {
+
+        unlocked =
+            JSON.parse(
+                localStorage.getItem(key)
+            ) || [];
+
+    }
+
+    catch {
+
+        unlocked=[];
+
+    }
+
+
+    if(!unlocked.includes(id)) {
+
+        unlocked.push(id);
+
+    }
+
+
+    localStorage.setItem(
+        key,
+        JSON.stringify(unlocked)
+    );
+
+}
+
+
+/* ==================================================
+   MINI CHARACTER PREVIEW
+================================================== */
+
+function characterPreview(
+    type,
+    id
+) {
+
+    const character =
+        document.createElement("div");
+
+    character.className =
+        "mini-character";
+
+
+    const effect =
+        document.createElement("div");
+
+    effect.className =
+        "preview-effect";
+
+
+    const head =
+        document.createElement("div");
+
+    head.className =
+        "mini-head";
+
+
+    const hair =
+        document.createElement("div");
+
+    hair.className =
+        "mini-hair";
+
+
+    const face =
+        document.createElement("div");
+
+    face.className =
+        "mini-face";
+
+
+    const body =
+        document.createElement("div");
+
+    body.className =
+        "mini-body";
+
+
+    const left =
+        document.createElement("div");
+
+    left.className =
+        "mini-leg left";
+
+
+    const right =
+        document.createElement("div");
+
+    right.className =
+        "mini-leg right";
+
+
+    const hat =
+        document.createElement("div");
+
+    hat.className =
+        "mini-hat";
+
+
+    character.appendChild(effect);
+    character.appendChild(left);
+    character.appendChild(right);
+    character.appendChild(body);
+    character.appendChild(head);
+    character.appendChild(hair);
+    character.appendChild(face);
+    character.appendChild(hat);
+
+
+    /* COSMETIC */
+
+    if(type === "Hat") {
+
+        if(id === "star-cap") {
+
+            hat.classList.add("cap");
+
+            hat.style.background =
+                "#7c3aed";
+
+            hat.textContent="★";
+
+            hat.style.color="white";
+
+            hat.style.textAlign="center";
+
+            hat.style.fontSize="15px";
+
+        }
+
+        else if(id === "visor") {
+
+            hat.classList.add("cap");
+
+            hat.style.background =
+                "#06b6d4";
+
+        }
+
+        else {
+
+            hat.classList.add("cap");
+
+        }
+
+    }
+
+
+    if(type === "Shirt") {
+
+        body.style.background =
+            "#2563eb";
+
+    }
+
+
+    if(type === "Pants") {
+
+        left.style.background =
+            "#111827";
+
+        right.style.background =
+            "#f97316";
+
+    }
+
+
+    if(type === "Banner") {
+
+        character.style.display =
+            "none";
+
+    }
+
+
+    if(type === "Player Title") {
+
+        character.style.transform =
+            "scale(.7)";
+
+    }
+
+
+    /* EFFECT */
+
+    if(type === "Effect") {
+
+        if(id === "crown") {
+
+            hat.classList.add(
+                "crown"
+            );
+
+        }
+
+        else {
+
+            effect.classList.add(id);
+
+        }
+
+    }
+
+
+    return character;
+
+}
+
+
+/* ==================================================
+   BANNER PREVIEW
+================================================== */
+
+function bannerPreview(id) {
+
+    const preview =
+        document.createElement("div");
+
+    preview.style.width="150px";
+
+    preview.style.height="100px";
+
+    preview.style.borderRadius="15px";
+
+    preview.style.background =
+        id === "sprint-grid"
+            ? "linear-gradient(135deg,#312e81,#6366f1)"
+            : id === "purple-grid"
+            ? "linear-gradient(135deg,#7c3aed,#a855f7)"
+            : "linear-gradient(135deg,#2563eb,#38bdf8)";
+
+    if(
+        id === "sprint-grid" ||
+        id === "purple-grid"
+    ) {
+
+        preview.style.backgroundImage =
+            "linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px)";
+
+        preview.style.backgroundSize =
+            "15px 15px";
+
+    }
+
+    return preview;
+
+}
+
+
+/* ==================================================
+   MAIN PREVIEW
+================================================== */
+
+function createMainPreview(item) {
+
+    if(item.type === "Banner") {
+
+        return bannerPreview(
+            item.id
+        );
+
+    }
+
+    return characterPreview(
+        item.type,
+        item.id
+    );
+
+}
+
+
+/* ==================================================
+   GENERATE SHOP
+================================================== */
+
+function generateShop() {
+
+    const shuffled =
+        [...SHOP_ITEMS]
+            .sort(
+                () =>
+                    Math.random() - .5
+            );
+
+
+    const selected =
+        shuffled
+            .slice(0,8)
+            .map(
+                item => item.id
+            );
+
+
+    localStorage.setItem(
+        "fortnightlyShopItems",
+        JSON.stringify(selected)
+    );
+
+    localStorage.setItem(
+        "fortnightlyShopStart",
+        Date.now()
+    );
+
+
+    return selected;
+
+}
+
+
+/* ==================================================
+   CURRENT SHOP
+================================================== */
+
+function getCurrentShop() {
+
+    let items;
+
+    try {
+
+        items =
+            JSON.parse(
+                localStorage.getItem(
+                    "fortnightlyShopItems"
+                )
+            );
+
+    }
+
+    catch {
+
+        items=null;
+
+    }
+
+
+    const start =
+        Number(
+            localStorage.getItem(
+                "fortnightlyShopStart"
+            )
+        ) || 0;
+
+
+    if(
+        !Array.isArray(items) ||
+        items.length !== 8 ||
+        !start
+    ) {
+
+        return generateShop();
+
+    }
+
+
+    if(
+        Date.now() - start >=
+        SHOP_REFRESH_TIME
+    ) {
+
+        return generateShop();
+
+    }
+
+
+    return items;
+
+}
+
+
+/* ==================================================
+   MAIN SHOP DISPLAY
+================================================== */
+
+function displayMainShop() {
+
+    const container =
+        document.getElementById(
+            "fortnightly-items"
+        );
+
+    if(!container)
+        return;
+
+
+    container.innerHTML="";
+
+
+    getCurrentShop()
+        .forEach(id => {
+
+            const item =
+                SHOP_ITEMS.find(
+                    x => x.id === id
+                );
+
+            if(!item)
+                return;
+
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "shop-card";
+
+
+            const rarity =
+                document.createElement("div");
+
+            rarity.className =
+                "rarity";
+
+            rarity.textContent =
+                item.rarity;
+
+
+            const preview =
+                document.createElement("div");
+
+            preview.className =
+                "item-preview";
+
+
+            preview.appendChild(
+                createMainPreview(item)
+            );
+
+
+            const name =
+                document.createElement("h3");
+
+            name.textContent =
+                item.name;
+
+
+            const type =
+                document.createElement("p");
+
+            type.textContent =
+                item.type;
+
+
+            const price =
+                document.createElement("div");
+
+            price.className =
+                "shop-price";
+
+            price.textContent =
+                item.price +
+                " Coins";
+
+
+            const button =
+                document.createElement("button");
+
+            button.type="button";
+
+            button.className =
+                "buy-button";
+
+
+            if(ownsItem(item.id)) {
+
+                button.textContent =
+                    "OWNED";
+
+                button.disabled=true;
+
+            }
+
+            else {
+
+                button.textContent =
+                    "BUY";
+
+                button.onclick =
+                    () =>
+                        buyMainItem(
+                            item,
+                            button
+                        );
+
+            }
+
+
+            card.appendChild(rarity);
+            card.appendChild(preview);
+            card.appendChild(name);
+            card.appendChild(type);
+            card.appendChild(price);
+            card.appendChild(button);
+
+            container.appendChild(card);
+
+        });
+
+
+    updateCurrency();
+
+}
+
+
+/* ==================================================
+   BUY MAIN
+================================================== */
+
+function buyMainItem(
+    item,
+    button
+) {
+
+    if(ownsItem(item.id))
+        return;
+
+
+    const coins =
+        getCoins();
+
+
+    if(coins < item.price) {
+
+        alert(
+            "You don't have enough coins!"
+        );
+
+        return;
+
+    }
+
+
+    setCoins(
+        coins - item.price
+    );
+
+
+    unlockItem(
+        item.id,
+        item.type
+    );
+
+
+    const owned =
+        getOwnedItems();
+
+
+    owned.push(
+        item.id
+    );
+
+
+    saveOwnedItems(
+        owned
+    );
+
+
+    button.disabled=true;
+
+    button.textContent="OWNED";
+
+
+    updateCurrency();
+
+}
+
+
+/* ==================================================
+   TICKET SHOP DISPLAY
+================================================== */
+
+function displayTicketShop() {
+
+    const container =
+        document.getElementById(
+            "ticket-items"
+        );
+
+    if(!container)
+        return;
+
+
+    container.innerHTML="";
+
+
+    TICKET_ITEMS.forEach(item => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "ticket-card";
+
+
+        if(item.id === "crown") {
+
+            card.classList.add(
+                "crown-card"
+            );
+
+        }
+
+
+        const preview =
+            document.createElement("div");
+
+        preview.className =
+            "ticket-item-preview";
+
+
+        preview.appendChild(
+            characterPreview(
+                "Effect",
+                item.id
+            )
+        );
+
+
+        const name =
+            document.createElement("h3");
+
+        name.textContent =
+            item.name;
+
+
+        const description =
+            document.createElement("p");
+
+        description.textContent =
+            item.description;
+
+
+        const price =
+            document.createElement("div");
+
+        price.className =
+            "ticket-price";
+
+        price.textContent =
+            item.price +
+            " Shop Tickets";
+
+
+        const button =
+            document.createElement("button");
+
+        button.type="button";
+
+        button.className =
+            "buy-button";
+
+
+        if(ownsItem(item.id)) {
+
+            button.textContent =
+                "OWNED";
+
+            button.disabled=true;
+
+        }
+
+        else {
+
+            button.textContent =
+                "BUY";
+
+            button.onclick =
+                () =>
+                    buyTicketItem(
+                        item,
+                        button
+                    );
+
+        }
+
+
+        card.appendChild(preview);
+        card.appendChild(name);
+        card.appendChild(description);
+        card.appendChild(price);
+        card.appendChild(button);
+
+        container.appendChild(card);
+
+    });
+
+
+    updateCurrency();
+
+}
+
+
+/* ==================================================
+   BUY TICKET ITEM
+================================================== */
+
+function buyTicketItem(
+    item,
+    button
+) {
+
+    if(ownsItem(item.id))
+        return;
+
+
+    const tickets =
+        getTickets();
+
+
+    if(tickets < item.price) {
+
+        alert(
+            "You don't have enough Shop Tickets!"
+        );
+
+        return;
+
+    }
+
+
+    setTickets(
+        tickets - item.price
+    );
+
+
+    unlockItem(
+        item.id,
+        "Effect"
+    );
+
+
+    const owned =
+        getOwnedItems();
+
+
+    owned.push(
+        item.id
+    );
+
+
+    saveOwnedItems(
+        owned
+    );
+
+
+    button.disabled=true;
+
+    button.textContent="OWNED";
+
+
+    updateCurrency();
+
+}
+
+
+/* ==================================================
+   CURRENCY UI
+================================================== */
+
+function updateCurrency() {
+
+    const coins =
+        document.getElementById(
+            "coin-count"
+        );
+
+    const tickets =
+        document.getElementById(
+            "ticket-count"
+        );
+
+
+    if(coins)
+        coins.textContent =
+            getCoins();
+
+
+    if(tickets)
+        tickets.textContent =
+            getTickets();
+
+}
+
+
+/* ==================================================
+   COUNTDOWN
+================================================== */
+
+function updateCountdown() {
+
+    const element =
+        document.getElementById(
+            "countdown"
+        );
+
+    if(!element)
+        return;
+
+
+    let start =
+        Number(
+            localStorage.getItem(
+                "fortnightlyShopStart"
+            )
+        ) || 0;
+
+
+    if(!start) {
+
+        getCurrentShop();
+
+        start =
+            Number(
+                localStorage.getItem(
+                    "fortnightlyShopStart"
+                )
+            );
+
+    }
+
+
+    let remaining =
+        start +
+        SHOP_REFRESH_TIME -
+        Date.now();
+
+
+    if(remaining <= 0) {
+
+        generateShop();
+
+        displayMainShop();
+
+        start =
+            Number(
+                localStorage.getItem(
+                    "fortnightlyShopStart"
+                )
+            );
+
+        remaining =
+            start +
+            SHOP_REFRESH_TIME -
+            Date.now();
+
+    }
+
+
+    const days =
+        Math.floor(
+            remaining /
+            86400000
+        );
+
+    const hours =
+        Math.floor(
+            remaining % 86400000 /
+            3600000
+        );
+
+    const minutes =
+        Math.floor(
+            remaining % 3600000 /
+            60000
+        );
+
+    const seconds =
+        Math.floor(
+            remaining % 60000 /
+            1000
+        );
+
+
+    element.textContent =
+        days +
+        "d " +
+        hours +
+        "h " +
+        minutes +
+        "m " +
+        seconds +
+        "s";
+
+}
+
+
+/* ==================================================
+   NAVIGATION
+================================================== */
+
+function openTicketShop() {
+
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display="none";
+
+    document.getElementById(
+        "ticket-shop"
+    ).style.display="block";
+
+
+    document.getElementById(
+        "main-shop-button"
+    ).classList.remove(
+        "active"
+    );
+
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.add(
+        "active"
+    );
+
+
+    displayTicketShop();
+
+}
+
+
+function openMainShop() {
+
+    document.getElementById(
+        "ticket-shop"
+    ).style.display="none";
+
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display="block";
+
+
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.remove(
+        "active"
+    );
+
+    document.getElementById(
+        "main-shop-button"
+    ).classList.add(
+        "active"
+    );
+
+
+    displayMainShop();
+
+}
+
+
+window.openTicketShop =
+    openTicketShop;
+
+window.openMainShop =
+    openMainShop;
+
+
+/* ==================================================
+   START
+================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        getCurrentShop();
+
+        displayMainShop();
+
+        displayTicketShop();
+
+        updateCurrency();
+
+        updateCountdown();
+
+
+        setInterval(
+            updateCountdown,
+            1000
+        );
+
+    }
+);
+
+</script>
 
 </body>
 
