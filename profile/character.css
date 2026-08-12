@@ -432,6 +432,8 @@
 
 .character-crown {
     position:absolute;
+    top:-5px;
+}
 
     /*
        Crown now sits directly on the
