@@ -12,1162 +12,8 @@
 
 <title>Customize Character | StudySprint</title>
 
-<link
-    rel="stylesheet"
-    href="../style.css"
->
-
-<style>
-
-/* =========================================================
-   EDITOR
-========================================================= */
-
-.character-editor {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:30px;
-    padding:40px 20px 80px;
-}
-
-
-/* =========================================================
-   PREVIEW BANNER
-========================================================= */
-
-.banner-preview {
-    width:700px;
-    max-width:92%;
-    min-height:320px;
-
-    border-radius:40px;
-
-    padding:35px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #818cf8
-        );
-
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.15);
-
-    transition:.3s;
-}
-
-.banner-preview.blue {
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #60a5fa
-        );
-}
-
-.banner-preview.green {
-    background:
-        linear-gradient(
-            135deg,
-            #16a34a,
-            #4ade80
-        );
-}
-
-.banner-preview.sprint-grid {
-    background:
-        linear-gradient(
-            135deg,
-            #312e81,
-            #6366f1
-        );
-}
-
-.banner-preview.purple-grid {
-    background:
-        linear-gradient(
-            135deg,
-            #6d28d9,
-            #a78bfa
-        );
-}
-
-.banner-preview.neon-blue {
-    background:
-        linear-gradient(
-            135deg,
-            #0369a1,
-            #22d3ee
-        );
-}
-
-
-/* =========================================================
-   GRID BANNERS
-========================================================= */
-
-.banner-preview.sprint-grid::before,
-.banner-preview.purple-grid::before,
-.banner-preview.neon-blue::before {
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        );
-
-    background-size:25px 25px;
-
-    pointer-events:none;
-}
-
-
-/* =========================================================
-   PLAYER INFO
-========================================================= */
-
-.player-info {
-    position:absolute;
-    left:35px;
-    top:35px;
-    z-index:30;
-
-    color:white;
-}
-
-.player-info h2 {
-    font-size:34px;
-    margin:0 0 8px;
-    font-weight:900;
-}
-
-.player-info p {
-    font-size:19px;
-    margin:0;
-    opacity:.9;
-}
-
-
-/* =========================================================
-   CHARACTER
-========================================================= */
-
-.character {
-    width:170px;
-    height:240px;
-
-    position:relative;
-
-    margin-top:35px;
-
-    z-index:10;
-
-    transform-origin:center bottom;
-
-    transition:.2s;
-}
-
-
-/* =========================================================
-   CHARACTER PARTS
-========================================================= */
-
-.character-head {
-    position:absolute;
-
-    width:110px;
-    height:110px;
-
-    left:30px;
-    top:25px;
-
-    background:#ffd1a4;
-
-    border-radius:50%;
-
-    z-index:5;
-}
-
-.character-face {
-    position:absolute;
-
-    width:100%;
-    height:100%;
-
-    left:0;
-    top:0;
-
-    z-index:20;
-}
-
-.character-face::before,
-.character-face::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:12px;
-    height:17px;
-
-    top:68px;
-
-    background:#1f2937;
-
-    border-radius:50%;
-}
-
-.character-face::before {
-    left:58px;
-}
-
-.character-face::after {
-    left:100px;
-}
-
-
-.character-hair {
-    position:absolute;
-
-    width:105px;
-    height:45px;
-
-    left:33px;
-    top:18px;
-
-    background:#4b2e20;
-
-    border-radius:
-        55px 55px 20px 20px;
-
-    z-index:15;
-}
-
-
-.character-body {
-    position:absolute;
-
-    width:115px;
-    height:90px;
-
-    left:27px;
-    top:120px;
-
-    background:#6366f1;
-
-    border-radius:
-        35px 35px 25px 25px;
-
-    z-index:4;
-}
-
-
-.character-pants {
-    position:absolute;
-
-    width:100px;
-    height:55px;
-
-    left:34px;
-    top:195px;
-
-    background:#374151;
-
-    border-radius:25px;
-
-    z-index:3;
-}
-
-
-/* =========================================================
-   LEGS
-========================================================= */
-
-.character-leg {
-    position:absolute;
-
-    width:42px;
-    height:55px;
-
-    top:195px;
-
-    border-radius:
-        10px 10px 15px 15px;
-
-    background:#374151;
-
-    z-index:2;
-}
-
-.character-leg.left {
-    left:37px;
-}
-
-.character-leg.right {
-    left:91px;
-}
-
-
-/* =========================================================
-   HAT
-========================================================= */
-
-.character-hat {
-    position:absolute;
-
-    display:none;
-
-    z-index:30;
-}
-
-.character-hat.cap {
-    display:block;
-
-    width:115px;
-    height:35px;
-
-    left:28px;
-    top:8px;
-
-    border-radius:
-        60px 60px 15px 15px;
-
-    background:#2563eb;
-
-    box-shadow:
-        inset 0 -7px 0 rgba(0,0,0,.15);
-}
-
-.character-hat.beanie {
-    display:block;
-
-    width:105px;
-    height:55px;
-
-    left:33px;
-    top:5px;
-
-    border-radius:60px 60px 20px 20px;
-
-    background:#ef4444;
-}
-
-
-/* =========================================================
-   BACKPACK
-========================================================= */
-
-.character-backpack {
-    position:absolute;
-
-    width:48px;
-    height:85px;
-
-    left:-3px;
-    top:125px;
-
-    border-radius:25px;
-
-    z-index:1;
-
-    box-shadow:
-        inset -5px 0 rgba(0,0,0,.15),
-        0 5px 10px rgba(0,0,0,.15);
-}
-
-.character-backpack.hidden {
-    display:none;
-}
-
-
-/* =========================================================
-   CROWN
-========================================================= */
-
-.character-crown {
-    position:absolute;
-
-    display:none;
-
-    width:92px;
-    height:65px;
-
-    left:39px;
-
-    /*
-       Kept deliberately lower so the crown
-       sits directly above the hair.
-    */
-    top:4px;
-
-    z-index:40;
-
-    transform-origin:center bottom;
-
-    animation:
-        crownFloat 2.4s ease-in-out infinite;
-}
-
-.character-crown.active {
-    display:block;
-}
-
-
-/* crown body */
-
-.character-crown::before {
-
-    content:"";
-
-    position:absolute;
-
-    left:7px;
-    top:23px;
-
-    width:78px;
-    height:35px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff7ae 0%,
-            #ffd700 35%,
-            #f59e0b 70%,
-            #d97706 100%
-        );
-
-    clip-path:polygon(
-        0 100%,
-        8% 20%,
-        30% 60%,
-        50% 0,
-        70% 60%,
-        92% 20%,
-        100% 100%
-    );
-
-    filter:
-        drop-shadow(0 0 5px #ffd700)
-        drop-shadow(0 0 12px rgba(255,215,0,.8));
-}
-
-
-/* crown base */
-
-.character-crown::after {
-
-    content:"";
-
-    position:absolute;
-
-    left:9px;
-    top:47px;
-
-    width:74px;
-    height:12px;
-
-    border-radius:5px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #d97706,
-            #ffe066,
-            #f59e0b,
-            #ffe066,
-            #d97706
-        );
-
-    box-shadow:
-        0 0 8px #ffd700,
-        0 0 15px rgba(255,215,0,.7);
-}
-
-
-/* =========================================================
-   CROWN GEMS
-========================================================= */
-
-.crown-gem {
-
-    position:absolute;
-
-    width:10px;
-    height:10px;
-
-    transform:
-        rotate(45deg);
-
-    border-radius:2px;
-
-    z-index:50;
-
-    animation:
-        gemGlow 1.5s ease-in-out infinite alternate;
-}
-
-.gem-red {
-    left:28px;
-    top:39px;
-
-    background:#ef4444;
-
-    box-shadow:
-        0 0 5px #ef4444,
-        0 0 12px #ef4444;
-}
-
-.gem-blue {
-    left:41px;
-    top:34px;
-
-    background:#38bdf8;
-
-    box-shadow:
-        0 0 5px #38bdf8,
-        0 0 12px #38bdf8;
-
-    animation-delay:.3s;
-}
-
-.gem-purple {
-    left:54px;
-    top:39px;
-
-    background:#c084fc;
-
-    box-shadow:
-        0 0 5px #c084fc,
-        0 0 12px #c084fc;
-
-    animation-delay:.6s;
-}
-
-
-/* =========================================================
-   EFFECT LAYER
-========================================================= */
-
-.character-effects {
-
-    position:absolute;
-
-    inset:-40px;
-
-    pointer-events:none;
-
-    z-index:50;
-}
-
-
-/* =========================================================
-   EFFECTS
-========================================================= */
-
-.effect-sparkle::before {
-
-    content:"✦  ✧  ✦  ✧";
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:#fff;
-
-    font-size:28px;
-
-    text-shadow:
-        0 0 6px #fff,
-        0 0 15px #a78bfa;
-
-    animation:
-        sparkleFloat 1.5s ease-in-out infinite;
-}
-
-
-.effect-speed-trail::before {
-
-    content:"";
-
-    position:absolute;
-
-    width:190px;
-    height:120px;
-
-    left:-45px;
-    top:70px;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            transparent 0 10px,
-            rgba(96,165,250,.8) 11px 14px,
-            transparent 15px 25px
-        );
-
-    filter:
-        blur(1px);
-
-    opacity:.8;
-
-    animation:
-        speedMove .7s linear infinite;
-}
-
-
-.effect-lightning::before {
-
-    content:"⚡";
-
-    position:absolute;
-
-    top:65px;
-    left:0;
-
-    font-size:45px;
-
-    color:#fef08a;
-
-    text-shadow:
-        0 0 8px #60a5fa,
-        0 0 20px #fef08a;
-
-    animation:
-        lightningFlash .7s infinite;
-}
-
-
-.effect-lightning::after {
-
-    content:"⚡";
-
-    position:absolute;
-
-    right:0;
-    bottom:40px;
-
-    font-size:32px;
-
-    color:#93c5fd;
-
-    text-shadow:
-        0 0 10px #60a5fa;
-
-    animation:
-        lightningFlash .9s infinite .2s;
-}
-
-
-.effect-rainbow::before {
-
-    content:"";
-
-    position:absolute;
-
-    width:210px;
-    height:210px;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    border-radius:50%;
-
-    background:
-        conic-gradient(
-            red,
-            orange,
-            yellow,
-            lime,
-            cyan,
-            blue,
-            violet,
-            red
-        );
-
-    filter:blur(22px);
-
-    opacity:.35;
-
-    animation:
-        rainbowSpin 5s linear infinite;
-}
-
-
-.effect-fire::before {
-
-    content:"";
-
-    position:absolute;
-
-    width:170px;
-    height:190px;
-
-    left:50%;
-    bottom:0;
-
-    transform:
-        translateX(-50%);
-
-    border-radius:
-        50% 50% 45% 45%;
-
-    background:
-        radial-gradient(
-            ellipse at 50% 80%,
-            #fff7ae 0%,
-            #fbbf24 25%,
-            #f97316 50%,
-            #ef4444 70%,
-            transparent 75%
-        );
-
-    filter:blur(9px);
-
-    opacity:.6;
-
-    animation:
-        firePulse .7s ease-in-out infinite alternate;
-}
-
-
-.effect-glitch::before {
-
-    content:"";
-
-    position:absolute;
-
-    inset:30px;
-
-    border:
-        3px solid #22d3ee;
-
-    box-shadow:
-        5px 0 #f43f5e,
-        -5px 0 #a78bfa;
-
-    animation:
-        glitch .3s infinite;
-}
-
-
-.effect-shadow::before {
-
-    content:"";
-
-    position:absolute;
-
-    width:180px;
-    height:50px;
-
-    bottom:5px;
-    left:50%;
-
-    transform:
-        translateX(-50%);
-
-    border-radius:50%;
-
-    background:#020617;
-
-    filter:blur(15px);
-
-    opacity:.8;
-}
-
-
-.effect-crystal::before {
-
-    content:"◆   ◆   ◆";
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:#67e8f9;
-
-    font-size:28px;
-
-    text-shadow:
-        0 0 8px #67e8f9,
-        0 0 20px #a78bfa;
-
-    animation:
-        crystalFloat 2s ease-in-out infinite;
-}
-
-
-.effect-cosmic::before {
-
-    content:"✦   ·   ★   ·   ✧";
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:white;
-
-    font-size:26px;
-
-    text-shadow:
-        0 0 8px #60a5fa,
-        0 0 20px #a78bfa,
-        0 0 30px #c084fc;
-
-    animation:
-        cosmicDrift 3s ease-in-out infinite;
-}
-
-
-/* =========================================================
-   CROWN EFFECT
-========================================================= */
-
-.effect-crown .character-crown {
-    display:block;
-}
-
-
-/* =========================================================
-   OPTIONS
-========================================================= */
-
-.customization-section {
-
-    width:700px;
-    max-width:92%;
-
-    background:white;
-
-    padding:30px;
-
-    border-radius:30px;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.08);
-}
-
-.customization-section h2 {
-
-    margin-top:0;
-
-    margin-bottom:18px;
-
-}
-
-
-.options {
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-}
-
-
-.character-option {
-
-    border:none;
-
-    padding:12px 18px;
-
-    border-radius:14px;
-
-    background:#eef2ff;
-
-    color:#3730a3;
-
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-
-.character-option:hover {
-
-    transform:
-        translateY(-3px);
-
-    background:#e0e7ff;
-}
-
-
-.character-option.selected {
-
-    background:#4f46e5;
-
-    color:white;
-
-    box-shadow:
-        0 5px 15px rgba(79,70,229,.3);
-}
-
-
-.no-options {
-
-    opacity:.6;
-
-    font-weight:700;
-}
-
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes crownFloat {
-
-    0%,100% {
-        transform:
-            translateY(0)
-            rotate(-1deg);
-    }
-
-    50% {
-        transform:
-            translateY(-7px)
-            rotate(1deg);
-    }
-}
-
-
-@keyframes gemGlow {
-
-    from {
-        filter:
-            brightness(1)
-            drop-shadow(0 0 3px currentColor);
-    }
-
-    to {
-        filter:
-            brightness(1.6)
-            drop-shadow(0 0 10px currentColor);
-    }
-}
-
-
-@keyframes sparkleFloat {
-
-    0%,100% {
-        transform:
-            translateY(5px)
-            scale(.9);
-        opacity:.6;
-    }
-
-    50% {
-        transform:
-            translateY(-10px)
-            scale(1.1);
-        opacity:1;
-    }
-}
-
-
-@keyframes speedMove {
-
-    from {
-        transform:
-            translateX(0);
-    }
-
-    to {
-        transform:
-            translateX(-30px);
-    }
-}
-
-
-@keyframes lightningFlash {
-
-    0%,100% {
-        opacity:.35;
-        transform:scale(.85);
-    }
-
-    50% {
-        opacity:1;
-        transform:scale(1.15);
-    }
-}
-
-
-@keyframes rainbowSpin {
-
-    from {
-        transform:
-            translate(-50%,-50%)
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            translate(-50%,-50%)
-            rotate(360deg);
-    }
-}
-
-
-@keyframes firePulse {
-
-    from {
-        transform:
-            translateX(-50%)
-            scale(.92);
-        opacity:.45;
-    }
-
-    to {
-        transform:
-            translateX(-50%)
-            scale(1.08);
-        opacity:.75;
-    }
-}
-
-
-@keyframes glitch {
-
-    0% {
-        transform:
-            translate(0);
-    }
-
-    25% {
-        transform:
-            translate(4px,-2px);
-    }
-
-    50% {
-        transform:
-            translate(-4px,2px);
-    }
-
-    75% {
-        transform:
-            translate(2px,3px);
-    }
-
-    100% {
-        transform:
-            translate(0);
-    }
-}
-
-
-@keyframes crystalFloat {
-
-    0%,100% {
-        transform:
-            translateY(5px)
-            scale(.95);
-    }
-
-    50% {
-        transform:
-            translateY(-8px)
-            scale(1.08);
-    }
-}
-
-
-@keyframes cosmicDrift {
-
-    0%,100% {
-        transform:
-            translateY(5px)
-            rotate(-2deg);
-        opacity:.7;
-    }
-
-    50% {
-        transform:
-            translateY(-8px)
-            rotate(2deg);
-        opacity:1;
-    }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:700px) {
-
-    .banner-preview {
-
-        min-height:360px;
-
-        flex-direction:column;
-
-    }
-
-    .player-info {
-
-        position:relative;
-
-        left:auto;
-        top:auto;
-
-        text-align:center;
-
-        margin-bottom:10px;
-    }
-
-    .character {
-
-        transform:
-            scale(.85);
-    }
-
-}
-
-</style>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="./character.css">
 
 </head>
 
@@ -1177,29 +23,29 @@
 
 <header>
 
-<div class="logo">
-🚀 StudySprint
-</div>
+    <div class="logo">
+        🚀 StudySprint
+    </div>
 
-<nav>
+    <nav>
 
-<a href="../index.html">
-Home
-</a>
+        <a href="../index.html">
+            Home
+        </a>
 
-<a href="../study/index.html">
-📚 Study
-</a>
+        <a href="../study/index.html">
+            📚 Study
+        </a>
 
-<a href="../sprint/index.html">
-🏃 Sprint
-</a>
+        <a href="../sprint/index.html">
+            🏃 Sprint
+        </a>
 
-<a href="index.html">
-👤 Profile
-</a>
+        <a href="index.html">
+            👤 Profile
+        </a>
 
-</nav>
+    </nav>
 
 </header>
 
@@ -1209,20 +55,20 @@ Home
 
 <section class="hero">
 
-<h1>
-🎨 Customize Character
-</h1>
+    <h1>
+        🎨 Customize Character
+    </h1>
 
-<p>
-Equip your unlocked StudySprint cosmetics.
-</p>
+    <p>
+        Equip your unlocked StudySprint cosmetics.
+    </p>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      CHARACTER PREVIEW
-======================================================= -->
+===================================================== -->
 
 <section
     id="character-preview"
@@ -1230,233 +76,251 @@ Equip your unlocked StudySprint cosmetics.
 >
 
 
-<div class="player-info">
+    <div class="player-info">
 
-<h2 id="character-name">
-Player
-</h2>
+        <h2 id="character-name">
+            Player
+        </h2>
 
-<p id="character-title"></p>
+        <p id="character-title"></p>
 
-</div>
-
-
-<div class="character">
+    </div>
 
 
-<div
-    id="character-effects"
-    class="character-effects"
->
+    <div class="character-stage">
 
 
-<div
-    id="character-crown"
-    class="character-crown"
->
-
-<div class="crown-gem gem-red"></div>
-
-<div class="crown-gem gem-blue"></div>
-
-<div class="crown-gem gem-purple"></div>
-
-</div>
+        <div
+            id="character-effects"
+            class="character-effects"
+        ></div>
 
 
-</div>
+        <div class="character">
 
 
-<div
-    id="character-backpack"
-    class="character-backpack"
-></div>
+            <!-- BACKPACK -->
+
+            <div
+                id="character-backpack"
+                class="character-backpack hidden"
+            ></div>
 
 
-<div
-    id="character-hat"
-    class="character-hat"
-></div>
+            <!-- LEGS -->
+
+            <div
+                id="character-leg-left"
+                class="character-leg left"
+            ></div>
+
+            <div
+                id="character-leg-right"
+                class="character-leg right"
+            ></div>
 
 
-<div
-    id="character-hair"
-    class="character-hair"
-></div>
+            <!-- PANTS -->
+
+            <div
+                id="character-pants"
+                class="character-pants"
+            ></div>
 
 
-<div
-    id="character-head"
-    class="character-head"
-></div>
+            <!-- BODY -->
+
+            <div
+                id="character-body"
+                class="character-body"
+            ></div>
 
 
-<div
-    class="character-face"
-></div>
+            <!-- HEAD -->
+
+            <div
+                id="character-head"
+                class="character-head"
+            >
+
+                <div class="character-face">
+
+                    <span class="eye left-eye"></span>
+
+                    <span class="eye right-eye"></span>
+
+                    <span class="mouth"></span>
+
+                </div>
+
+            </div>
 
 
-<div
-    id="character-body"
-    class="character-body"
-></div>
+            <!-- HAIR -->
+
+            <div
+                id="character-hair"
+                class="character-hair"
+            ></div>
 
 
-<div
-    id="character-pants"
-    class="character-pants"
-></div>
+            <!-- HAT -->
+
+            <div
+                id="character-hat"
+                class="character-hat"
+            ></div>
 
 
-<div
-    id="character-leg-left"
-    class="character-leg left"
-></div>
+            <!-- CROWN -->
+
+            <div
+                id="character-crown"
+                class="character-crown"
+            >
+
+                <div class="crown-gem gem-red"></div>
+
+                <div class="crown-gem gem-blue"></div>
+
+                <div class="crown-gem gem-purple"></div>
+
+            </div>
 
 
-<div
-    id="character-leg-right"
-    class="character-leg right"
-></div>
+        </div>
 
 
-</div>
+    </div>
+
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      USERNAME
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-Username
-</h2>
+    <h2>
+        Username
+    </h2>
 
-<input
-    id="username"
-    type="text"
-    maxlength="16"
-    placeholder="Username"
-    style="
-        width:100%;
-        padding:15px;
-        border:2px solid #e5e7eb;
-        border-radius:15px;
-        font-size:17px;
-        box-sizing:border-box;
-    "
->
+    <input
+        id="username"
+        type="text"
+        maxlength="16"
+        placeholder="Username"
+    >
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      SHIRTS
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-👕 Shirts
-</h2>
+    <h2>
+        👕 Shirts
+    </h2>
 
-<div
-    id="shirts-options"
-    class="options"
-></div>
+    <div
+        id="shirts-options"
+        class="options"
+    ></div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      HATS
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-🧢 Hats
-</h2>
+    <h2>
+        🧢 Hats
+    </h2>
 
-<div
-    id="hats-options"
-    class="options"
-></div>
+    <div
+        id="hats-options"
+        class="options"
+    ></div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      PANTS
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-👖 Pants
-</h2>
+    <h2>
+        👖 Pants
+    </h2>
 
-<div
-    id="pants-options"
-    class="options"
-></div>
+    <div
+        id="pants-options"
+        class="options"
+    ></div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      BANNERS
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-🖼️ Banners
-</h2>
+    <h2>
+        🖼️ Banners
+    </h2>
 
-<div
-    id="banners-options"
-    class="options"
-></div>
+    <div
+        id="banners-options"
+        class="options"
+    ></div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      TITLES
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-🏷️ Player Titles
-</h2>
+    <h2>
+        🏷️ Player Titles
+    </h2>
 
-<div
-    id="titles-options"
-    class="options"
-></div>
+    <div
+        id="titles-options"
+        class="options"
+    ></div>
 
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      EFFECTS
-======================================================= -->
+===================================================== -->
 
 <section class="customization-section">
 
-<h2>
-✨ Effects
-</h2>
+    <h2>
+        ✨ Effects
+    </h2>
 
-<div
-    id="effects-options"
-    class="options"
-></div>
+    <div
+        id="effects-options"
+        class="options"
+    ></div>
 
 </section>
 
@@ -1465,7 +329,7 @@ Username
     class="main-button save-button"
     onclick="saveCharacter()"
 >
-💾 Save Character
+    💾 Save Character
 </button>
 
 
@@ -1473,7 +337,7 @@ Username
     href="index.html"
     class="back-button"
 >
-← Back to Profile
+    ← Back to Profile
 </a>
 
 
@@ -1482,550 +346,12 @@ Username
 
 <footer>
 
-© 2026 StudySprint
+    © 2026 StudySprint
 
 </footer>
 
 
-<script>
-
-/* =========================================================
-   USERNAME
-========================================================= */
-
-var usernameInput =
-    document.getElementById(
-        "username"
-    );
-
-
-usernameInput.value =
-    localStorage.getItem(
-        "username"
-    ) || "Player";
-
-
-usernameInput.addEventListener(
-    "input",
-    function() {
-
-        document.getElementById(
-            "character-name"
-        ).textContent =
-            usernameInput.value ||
-            "Player";
-
-    }
-);
-
-
-/* =========================================================
-   BASE CHARACTER COLOURS
-========================================================= */
-
-var skinColours = {
-
-    light:"#f6c7a8",
-    medium:"#c98b68",
-    dark:"#70452f"
-
-};
-
-
-var hairColours = {
-
-    brown:"#78350f",
-    black:"#111827",
-    blonde:"#facc15"
-
-};
-
-
-var shirtColours = {
-
-    blue:"#3b82f6",
-    red:"#ef4444",
-    green:"#22c55e",
-    "sprint-blue":"#2563eb"
-
-};
-
-
-var pantsColours = {
-
-    blue:"#2563eb",
-    black:"#111827",
-    brown:"#78350f",
-    split:"transparent"
-
-};
-
-
-/* =========================================================
-   UPDATE BASE CHARACTER
-========================================================= */
-
-function updateBaseCharacter() {
-
-    var skin =
-        localStorage.getItem(
-            "character_skin"
-        ) || "light";
-
-    var hair =
-        localStorage.getItem(
-            "character_hair"
-        ) || "brown";
-
-    var shirt =
-        localStorage.getItem(
-            "character_shirt"
-        ) || "blue";
-
-    var pants =
-        localStorage.getItem(
-            "character_pants"
-        ) || "blue";
-
-
-    document.getElementById(
-        "character-head"
-    ).style.background =
-        skinColours[skin] ||
-        skinColours.light;
-
-
-    document.getElementById(
-        "character-hair"
-    ).style.background =
-        hairColours[hair] ||
-        hairColours.brown;
-
-
-    document.getElementById(
-        "character-body"
-    ).style.background =
-        shirtColours[shirt] ||
-        shirtColours.blue;
-
-
-    var left =
-        document.getElementById(
-            "character-leg-left"
-        );
-
-    var right =
-        document.getElementById(
-            "character-leg-right"
-        );
-
-
-    if (pants === "split") {
-
-        left.style.background =
-            "#2563eb";
-
-        right.style.background =
-            "#ef4444";
-
-    }
-
-    else {
-
-        left.style.background =
-            pantsColours[pants] ||
-            pantsColours.blue;
-
-        right.style.background =
-            pantsColours[pants] ||
-            pantsColours.blue;
-
-    }
-
-
-    document.getElementById(
-        "character-name"
-    ).textContent =
-        usernameInput.value ||
-        "Player";
-
-}
-
-
-/* =========================================================
-   UPDATE HAT
-========================================================= */
-
-function updateHat() {
-
-    var hat =
-        localStorage.getItem(
-            "character_hat"
-        ) || "none";
-
-
-    var element =
-        document.getElementById(
-            "character-hat"
-        );
-
-
-    element.className =
-        "character-hat";
-
-
-    element.style.display =
-        "none";
-
-
-    if (hat === "sprint-cap") {
-
-        element.classList.add("cap");
-
-        element.style.display =
-            "block";
-
-        element.style.background =
-            "#312e81";
-
-    }
-
-    else if (hat === "star-cap") {
-
-        element.classList.add("cap");
-
-        element.style.display =
-            "block";
-
-        element.style.background =
-            "#111827";
-
-        element.innerHTML =
-            "★";
-
-        element.style.color =
-            "#fde68a";
-
-        element.style.textAlign =
-            "center";
-
-        element.style.fontSize =
-            "18px";
-
-        element.style.paddingTop =
-            "5px";
-
-        element.style.boxSizing =
-            "border-box";
-
-    }
-
-    else if (hat === "visor") {
-
-        element.classList.add("cap");
-
-        element.style.display =
-            "block";
-
-        element.style.width =
-            "125px";
-
-        element.style.left =
-            "23px";
-
-        element.style.top =
-            "35px";
-
-        element.style.background =
-            "#06b6d4";
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE BACKPACK
-========================================================= */
-
-function updateBackpack() {
-
-    var backpack =
-        localStorage.getItem(
-            "character_backpack"
-        ) || "none";
-
-
-    var element =
-        document.getElementById(
-            "character-backpack"
-        );
-
-
-    element.classList.remove(
-        "hidden"
-    );
-
-
-    if (backpack === "none") {
-
-        element.classList.add(
-            "hidden"
-        );
-
-        return;
-
-    }
-
-
-    if (backpack === "blue") {
-
-        element.style.background =
-            "#2563eb";
-
-    }
-
-    else if (backpack === "red") {
-
-        element.style.background =
-            "#dc2626";
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE CROWN
-========================================================= */
-
-function updateCrown() {
-
-    var effect =
-        localStorage.getItem(
-            "character_effect"
-        ) || "";
-
-
-    var crown =
-        document.getElementById(
-            "character-crown"
-        );
-
-
-    if (
-        effect === "crown" &&
-        getUnlockedItems(
-            "unlocked_effects"
-        ).includes("crown")
-    ) {
-
-        crown.classList.add(
-            "active"
-        );
-
-    }
-
-    else {
-
-        crown.classList.remove(
-            "active"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   UPDATE EFFECT
-========================================================= */
-
-function updateEffect() {
-
-    var effects =
-        document.getElementById(
-            "character-effects"
-        );
-
-
-    var effect =
-        localStorage.getItem(
-            "character_effect"
-        ) || "none";
-
-
-    effects.className =
-        "character-effects";
-
-
-    if (
-        effect &&
-        effect !== "none"
-    ) {
-
-        effects.classList.add(
-            "effect-" +
-            effect
-        );
-
-    }
-
-
-    updateCrown();
-
-}
-
-
-/* =========================================================
-   BANNER
-========================================================= */
-
-function updateBanner() {
-
-    var banner =
-        localStorage.getItem(
-            "character_banner"
-        ) || "purple";
-
-
-    var preview =
-        document.getElementById(
-            "character-preview"
-        );
-
-
-    preview.classList.remove(
-        "blue",
-        "green",
-        "sprint-grid",
-        "purple-grid",
-        "neon-blue"
-    );
-
-
-    if (
-        banner === "blue" ||
-        banner === "green" ||
-        banner === "sprint-grid" ||
-        banner === "purple-grid" ||
-        banner === "neon-blue"
-    ) {
-
-        preview.classList.add(
-            banner
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   TITLE
-========================================================= */
-
-function updateTitle() {
-
-    var title =
-        localStorage.getItem(
-            "character_tag"
-        ) || "";
-
-
-    var names = {
-
-        "sprint-champion":
-            "Sprint Champion",
-
-        "first-sprinter":
-            "The First Sprinter"
-
-    };
-
-
-    document.getElementById(
-        "character-title"
-    ).textContent =
-        names[title] || "";
-
-}
-
-
-/* =========================================================
-   EVERYTHING
-========================================================= */
-
-function updateCharacterPreview() {
-
-    updateBaseCharacter();
-
-    updateHat();
-
-    updateBackpack();
-
-    updateBanner();
-
-    updateEffect();
-
-    updateTitle();
-
-}
-
-
-/* =========================================================
-   SAVE
-========================================================= */
-
-function saveCharacter() {
-
-    localStorage.setItem(
-        "username",
-        usernameInput.value ||
-        "Player"
-    );
-
-
-    updateCharacterPreview();
-
-
-    alert(
-        "Character saved!"
-    );
-
-}
-
-
-window.saveCharacter =
-    saveCharacter;
-
-
-/* =========================================================
-   START
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        updateCharacterPreview();
-
-        if (
-            typeof renderEditor ===
-            "function"
-        ) {
-
-            renderEditor();
-
-        }
-
-    }
-);
-
-</script>
-
-
-<script src="./character.js?v=4"></script>
+<script src="./character.js?v=5"></script>
 
 </body>
 
