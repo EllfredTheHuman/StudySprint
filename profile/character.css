@@ -1,35 +1,36 @@
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   Matches the main StudySprint character
+   Matches the PROFILE character
 ========================================================= */
 
 .character-editor {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-    padding: 40px 20px 80px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:40px;
+    padding:40px 20px 80px;
 }
+
 
 /* =========================================================
    PREVIEW
 ========================================================= */
 
 .banner-preview {
-    width: 700px;
-    max-width: 92%;
-    min-height: 320px;
+    width:700px;
+    max-width:92%;
+    min-height:320px;
 
-    padding: 35px;
+    padding:35px;
 
-    border-radius: 40px;
+    border-radius:40px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    position: relative;
-    overflow: hidden;
+    position:relative;
+    overflow:hidden;
 
     background:
         linear-gradient(
@@ -39,9 +40,9 @@
         );
 
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, .15);
+        0 20px 50px rgba(0,0,0,.15);
 
-    transition: .3s;
+    transition:.3s;
 }
 
 .banner-preview.blue {
@@ -89,6 +90,7 @@
         );
 }
 
+
 /* =========================================================
    GRID BANNERS
 ========================================================= */
@@ -97,10 +99,11 @@
 .banner-preview.purple-grid::before,
 .banner-preview.neon-blue::before {
 
-    content: "";
+    content:"";
 
-    position: absolute;
-    inset: 0;
+    position:absolute;
+
+    inset:0;
 
     background-image:
         linear-gradient(
@@ -113,356 +116,592 @@
             transparent 1px
         );
 
-    background-size: 25px 25px;
+    background-size:25px 25px;
 
-    pointer-events: none;
+    pointer-events:none;
 }
+
 
 /* =========================================================
    PLAYER INFO
 ========================================================= */
 
 .player-info {
-    position: absolute;
+    position:absolute;
 
-    left: 35px;
-    top: 35px;
+    left:35px;
+    top:35px;
 
-    z-index: 30;
+    z-index:30;
 
-    color: white;
+    color:white;
 }
 
 .player-info h2 {
-    margin: 0 0 8px;
+    margin:0 0 8px;
 
-    font-size: 34px;
-    font-weight: 900;
+    font-size:34px;
+    font-weight:900;
 }
 
 .player-info p {
-    margin: 0;
+    margin:0;
 
-    font-size: 19px;
-    opacity: .9;
+    font-size:19px;
+
+    opacity:.9;
 }
+
 
 /* =========================================================
    CHARACTER
 ========================================================= */
 
 .character {
-    width: 170px;
-    height: 240px;
 
-    position: relative;
+    width:180px;
+    height:240px;
 
-    margin-top: 35px;
+    position:relative;
 
-    flex-shrink: 0;
+    margin-top:35px;
 
-    transform-origin: center bottom;
+    flex-shrink:0;
 
-    z-index: 10;
+    transform-origin:center bottom;
+
+    z-index:10;
+
 }
+
 
 /* =========================================================
    HEAD
+   Matches profile character
 ========================================================= */
 
 .character-head {
-    position: absolute;
 
-    width: 110px;
-    height: 110px;
+    position:absolute;
 
-    left: 30px;
-    top: 25px;
+    width:105px;
+    height:105px;
 
-    background: #f6c7a8;
+    left:38px;
+    top:28px;
 
-    border-radius: 50%;
+    background:#f6c7a8;
 
-    z-index: 5;
+    border-radius:50%;
+
+    z-index:3;
+
 }
+
 
 /* =========================================================
    FACE
 ========================================================= */
 
 .character-face {
-    position: absolute;
 
-    width: 110px;
-    height: 110px;
+    position:absolute;
 
-    left: 30px;
-    top: 25px;
+    width:7px;
+    height:7px;
 
-    z-index: 20;
+    left:56px;
+    top:73px;
 
-    pointer-events: none;
+    background:#1f2937;
+
+    border-radius:50%;
+
+    box-shadow:
+        27px 0 0 #1f2937;
+
+    z-index:7;
+
+    pointer-events:none;
+
 }
 
-/* eyes */
-
-.character-face::before,
-.character-face::after {
-
-    content: "";
-
-    position: absolute;
-
-    width: 12px;
-    height: 17px;
-
-    top: 43px;
-
-    background: #1f2937;
-
-    border-radius: 50%;
-}
-
-.character-face::before {
-    left: 28px;
-}
-
-.character-face::after {
-    right: 28px;
-}
 
 /* =========================================================
    HAIR
 ========================================================= */
 
 .character-hair {
-    position: absolute;
 
-    width: 105px;
-    height: 45px;
+    position:absolute;
 
-    left: 33px;
-    top: 18px;
+    width:98px;
+    height:43px;
 
-    background: #78350f;
+    left:41px;
+    top:25px;
+
+    background:#78350f;
 
     border-radius:
-        55px 55px 20px 20px;
+        50px 50px 15px 15px;
 
-    z-index: 15;
+    z-index:5;
+
 }
 
 .character-hair.black {
-    background: #111827;
+    background:#111827;
 }
 
 .character-hair.blonde {
-    background: #facc15;
+    background:#facc15;
 }
+
 
 /* =========================================================
    BODY
 ========================================================= */
 
 .character-body {
-    position: absolute;
 
-    width: 115px;
-    height: 90px;
+    position:absolute;
 
-    left: 27px;
-    top: 120px;
+    width:92px;
+    height:75px;
 
-    background: #3b82f6;
+    left:44px;
+    top:116px;
+
+    background:#3b82f6;
 
     border-radius:
-        35px 35px 25px 25px;
+        30px 30px 15px 15px;
 
-    z-index: 4;
+    z-index:2;
+
 }
+
 
 /* =========================================================
    PANTS
 ========================================================= */
 
 .character-pants {
-    position: absolute;
 
-    width: 100px;
-    height: 55px;
+    position:absolute;
 
-    left: 34px;
-    top: 195px;
+    width:82px;
+    height:42px;
 
-    background: #2563eb;
+    left:49px;
+    top:171px;
 
-    border-radius: 25px;
+    background:#2563eb;
 
-    z-index: 3;
+    border-radius:
+        15px 15px 10px 10px;
+
+    z-index:3;
+
+    box-sizing:border-box;
+
 }
+
 
 /* =========================================================
    LEGS
 ========================================================= */
 
 .character-leg {
-    position: absolute;
 
-    width: 42px;
-    height: 55px;
+    position:absolute;
 
-    top: 195px;
+    width:30px;
+    height:55px;
 
-    border-radius:
-        10px 10px 15px 15px;
+    top:177px;
 
-    background: #2563eb;
+    background:#2563eb;
 
-    z-index: 2;
+    border-radius:12px;
+
+    z-index:1;
+
+    box-shadow:
+        inset 0 -5px 0 rgba(0,0,0,.08);
+
 }
 
 .character-leg.left {
-    left: 37px;
+    left:53px;
 }
 
 .character-leg.right {
-    left: 91px;
+    left:95px;
 }
+
+
+/* =========================================================
+   SPRINT JOGGERS
+========================================================= */
+
+.character-pants.cosmetic-pants-split {
+
+    background:
+        linear-gradient(
+            to bottom,
+            #1d4ed8,
+            #2563eb
+        ) !important;
+
+    border-radius:
+        15px 15px 10px 10px;
+
+    box-shadow:
+        inset 0 5px 0 rgba(255,255,255,.08),
+        inset 0 -5px 0 rgba(0,0,0,.12);
+
+}
+
+
+/* waistband */
+
+.character-pants.cosmetic-pants-split::before {
+
+    content:"";
+
+    position:absolute;
+
+    left:8px;
+    right:8px;
+    top:6px;
+
+    height:5px;
+
+    border-radius:5px;
+
+    background:#60a5fa;
+
+}
+
+
+/* white sprint stripe */
+
+.character-pants.cosmetic-pants-split::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+    height:29px;
+
+    left:38px;
+    top:13px;
+
+    border-radius:5px;
+
+    background:white;
+
+    opacity:.9;
+
+}
+
 
 /* =========================================================
    HAT
 ========================================================= */
 
 .character-hat {
-    position: absolute;
 
-    display: none;
+    position:absolute;
 
-    z-index: 30;
+    display:none;
 
-    pointer-events: none;
+    pointer-events:none;
+
+    z-index:30;
+
 }
 
+
+/* =========================================================
+   CHAMPION CAP
+========================================================= */
+
+.character-hat.champion-cap {
+
+    display:block;
+
+    width:112px;
+    height:38px;
+
+    left:32px;
+    top:8px;
+
+    border-radius:
+        58px 58px 18px 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1e3a8a,
+            #2563eb
+        );
+
+    box-shadow:
+        inset 0 -6px 0 rgba(0,0,0,.15),
+        0 4px 8px rgba(0,0,0,.15);
+
+}
+
+
+/* star */
+
+.character-hat.champion-cap::before {
+
+    content:"★";
+
+    position:absolute;
+
+    left:43px;
+    top:1px;
+
+    font-size:21px;
+
+    line-height:25px;
+
+    color:#fde68a;
+
+    text-shadow:
+        0 1px 2px rgba(0,0,0,.3),
+        0 0 5px rgba(253,230,138,.5);
+
+}
+
+
+/* brim */
+
+.character-hat.champion-cap::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:52px;
+    height:13px;
+
+    left:54px;
+    top:27px;
+
+    border-radius:
+        50% 50% 60% 40%;
+
+    background:#1d4ed8;
+
+    transform:rotate(-7deg);
+
+    box-shadow:
+        inset 0 -3px 0 rgba(0,0,0,.15);
+
+}
+
+
+/* =========================================================
+   SPEED VISOR
+========================================================= */
+
+.character-hat.speed-visor {
+
+    display:block;
+
+    width:120px;
+    height:24px;
+
+    left:30px;
+    top:13px;
+
+    border-radius:
+        50px 50px 12px 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0891b2,
+            #22d3ee
+        );
+
+    box-shadow:
+        inset 0 -5px 0 rgba(0,0,0,.14),
+        0 3px 8px rgba(0,0,0,.15);
+
+}
+
+
+/* visor highlight */
+
+.character-hat.speed-visor::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:65px;
+    height:4px;
+
+    left:28px;
+    top:6px;
+
+    border-radius:4px;
+
+    background:
+        rgba(255,255,255,.65);
+
+}
+
+
+/* visor brim */
+
+.character-hat.speed-visor::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:72px;
+    height:9px;
+
+    left:38px;
+    top:18px;
+
+    border-radius:50%;
+
+    background:#0369a1;
+
+    transform:rotate(-3deg);
+
+}
+
+
+/* =========================================================
+   DEFAULT CAP
+========================================================= */
+
 .character-hat.cap {
-    display: block;
 
-    width: 115px;
-    height: 35px;
+    width:115px;
+    height:35px;
 
-    left: 28px;
-    top: 8px;
+    left:28px;
+    top:8px;
 
     border-radius:
         60px 60px 15px 15px;
 
-    background: #2563eb;
+    background:#2563eb;
 
     box-shadow:
         inset 0 -7px 0 rgba(0,0,0,.15);
+
 }
 
-.character-hat.beanie {
-    display: block;
-
-    width: 105px;
-    height: 55px;
-
-    left: 33px;
-    top: 5px;
-
-    border-radius:
-        60px 60px 20px 20px;
-
-    background: #ef4444;
-}
 
 /* =========================================================
    BACKPACK
 ========================================================= */
 
 .character-backpack {
-    position: absolute;
 
-    width: 48px;
-    height: 85px;
+    position:absolute;
 
-    left: -3px;
-    top: 125px;
+    width:48px;
+    height:85px;
 
-    border-radius: 25px;
+    left:-3px;
+    top:125px;
 
-    z-index: 1;
+    border-radius:25px;
+
+    z-index:1;
 
     box-shadow:
         inset -5px 0 rgba(0,0,0,.15),
         0 5px 10px rgba(0,0,0,.15);
+
 }
 
 .character-backpack.hidden {
-    display: none;
+    display:none;
 }
+
 
 /* =========================================================
    CROWN
 ========================================================= */
 
 .character-crown {
-    position: absolute;
 
-    display: none;
+    position:absolute;
 
-    width: 92px;
-    height: 65px;
+    display:none;
 
-    left: 39px;
-    top: 4px;
+    width:76px;
+    height:55px;
 
-    z-index: 40;
+    left:52px;
+    top:8px;
 
-    pointer-events: none;
+    z-index:40;
 
-    transform-origin: center bottom;
+    pointer-events:none;
+
+    transform-origin:center bottom;
 
     animation:
         crownFloat
-        2.4s
+        2.2s
         ease-in-out
         infinite;
+
 }
 
 .character-crown.active {
-    display: block;
+    display:block;
 }
+
+
+/* crown body */
 
 .character-crown::before {
 
-    content: "";
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    left: 7px;
-    top: 23px;
+    width:76px;
+    height:43px;
 
-    width: 78px;
-    height: 35px;
+    left:0;
+    top:0;
 
     background:
         linear-gradient(
             135deg,
             #fff7ae 0%,
-            #ffd700 35%,
+            #ffd700 30%,
             #f59e0b 70%,
-            #d97706 100%
+            #b45309 100%
         );
 
     clip-path:
         polygon(
-            0 100%,
-            8% 20%,
-            30% 60%,
-            50% 0,
-            70% 60%,
-            92% 20%,
+            0% 100%,
+            8% 28%,
+            30% 65%,
+            50% 0%,
+            70% 65%,
+            92% 28%,
             100% 100%
         );
 
@@ -471,129 +710,129 @@
         drop-shadow(
             0 0 12px rgba(255,215,0,.8)
         );
+
 }
+
+
+/* crown band */
 
 .character-crown::after {
 
-    content: "";
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    left: 9px;
-    top: 47px;
+    width:62px;
+    height:10px;
 
-    width: 74px;
-    height: 12px;
+    left:7px;
+    top:32px;
 
-    border-radius: 5px;
+    border-radius:5px;
 
     background:
         linear-gradient(
             90deg,
             #d97706,
             #ffe066,
-            #f59e0b,
-            #ffe066,
-            #d97706
+            #f59e0b
         );
 
     box-shadow:
-        0 0 8px #ffd700,
-        0 0 15px rgba(255,215,0,.7);
+        0 0 8px #ffd700;
+
 }
+
 
 /* =========================================================
    CROWN GEMS
 ========================================================= */
 
 .crown-gem {
-    position: absolute;
 
-    width: 10px;
-    height: 10px;
+    position:absolute;
 
-    transform: rotate(45deg);
+    width:8px;
+    height:8px;
 
-    border-radius: 2px;
+    border-radius:50%;
 
-    z-index: 50;
+    z-index:50;
 
     animation:
         gemGlow
-        1.5s
+        1.3s
         ease-in-out
         infinite
         alternate;
+
 }
 
 .gem-red {
-    left: 28px;
-    top: 39px;
-
-    background: #ef4444;
-
+    left:20px;
+    top:29px;
+    background:#ef4444;
     box-shadow:
         0 0 5px #ef4444,
-        0 0 12px #ef4444;
+        0 0 11px #ef4444;
 }
 
 .gem-blue {
-    left: 41px;
-    top: 34px;
-
-    background: #38bdf8;
-
+    left:34px;
+    top:29px;
+    background:#38bdf8;
     box-shadow:
         0 0 5px #38bdf8,
-        0 0 12px #38bdf8;
-
-    animation-delay: .3s;
+        0 0 11px #38bdf8;
 }
 
 .gem-purple {
-    left: 54px;
-    top: 39px;
-
-    background: #c084fc;
-
+    left:48px;
+    top:29px;
+    background:#c084fc;
     box-shadow:
         0 0 5px #c084fc,
-        0 0 12px #c084fc;
-
-    animation-delay: .6s;
+        0 0 11px #c084fc;
 }
+
 
 /* =========================================================
    EFFECT LAYER
 ========================================================= */
 
 .character-effects {
-    position: absolute;
 
-    inset: -40px;
+    position:absolute;
 
-    pointer-events: none;
+    inset:-40px;
 
-    z-index: 50;
+    pointer-events:none;
+
+    z-index:50;
+
 }
+
 
 /* =========================================================
    EFFECTS
 ========================================================= */
 
 .effect-sparkle::before {
-    content: "✦  ✧  ✦  ✧";
 
-    position: absolute;
-    inset: 0;
+    content:"✦  ✧  ✦  ✧";
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position:absolute;
 
-    color: white;
+    inset:0;
 
-    font-size: 28px;
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    font-size:28px;
 
     text-shadow:
         0 0 6px white,
@@ -604,18 +843,20 @@
         1.5s
         ease-in-out
         infinite;
+
 }
 
 .effect-speed-trail::before {
-    content: "";
 
-    position: absolute;
+    content:"";
 
-    width: 190px;
-    height: 120px;
+    position:absolute;
 
-    left: -45px;
-    top: 70px;
+    width:190px;
+    height:120px;
+
+    left:-45px;
+    top:70px;
 
     background:
         repeating-linear-gradient(
@@ -625,28 +866,30 @@
             transparent 15px 25px
         );
 
-    filter: blur(1px);
+    filter:blur(1px);
 
-    opacity: .8;
+    opacity:.8;
 
     animation:
         speedMove
         .7s
         linear
         infinite;
+
 }
 
 .effect-lightning::before {
-    content: "⚡";
 
-    position: absolute;
+    content:"⚡";
 
-    top: 65px;
-    left: 0;
+    position:absolute;
 
-    font-size: 45px;
+    top:65px;
+    left:0;
 
-    color: #fef08a;
+    font-size:45px;
+
+    color:#fef08a;
 
     text-shadow:
         0 0 8px #60a5fa,
@@ -656,19 +899,21 @@
         lightningFlash
         .7s
         infinite;
+
 }
 
 .effect-lightning::after {
-    content: "⚡";
 
-    position: absolute;
+    content:"⚡";
 
-    right: 0;
-    bottom: 40px;
+    position:absolute;
 
-    font-size: 32px;
+    right:0;
+    bottom:40px;
 
-    color: #93c5fd;
+    font-size:32px;
+
+    color:#93c5fd;
 
     text-shadow:
         0 0 10px #60a5fa;
@@ -676,24 +921,27 @@
     animation:
         lightningFlash
         .9s
-        infinite .2s;
+        infinite
+        .2s;
+
 }
 
 .effect-rainbow::before {
-    content: "";
 
-    position: absolute;
+    content:"";
 
-    width: 210px;
-    height: 210px;
+    position:absolute;
 
-    left: 50%;
-    top: 50%;
+    width:210px;
+    height:210px;
+
+    left:50%;
+    top:50%;
 
     transform:
-        translate(-50%, -50%);
+        translate(-50%,-50%);
 
-    border-radius: 50%;
+    border-radius:50%;
 
     background:
         conic-gradient(
@@ -707,27 +955,29 @@
             red
         );
 
-    filter: blur(22px);
+    filter:blur(22px);
 
-    opacity: .35;
+    opacity:.35;
 
     animation:
         rainbowSpin
         5s
         linear
         infinite;
+
 }
 
 .effect-fire::before {
-    content: "";
 
-    position: absolute;
+    content:"";
 
-    width: 170px;
-    height: 190px;
+    position:absolute;
 
-    left: 50%;
-    bottom: 0;
+    width:170px;
+    height:190px;
+
+    left:50%;
+    bottom:0;
 
     transform:
         translateX(-50%);
@@ -745,9 +995,9 @@
             transparent 75%
         );
 
-    filter: blur(9px);
+    filter:blur(9px);
 
-    opacity: .6;
+    opacity:.6;
 
     animation:
         firePulse
@@ -755,16 +1005,18 @@
         ease-in-out
         infinite
         alternate;
+
 }
 
 .effect-glitch::before {
-    content: "";
 
-    position: absolute;
+    content:"";
 
-    inset: 30px;
+    position:absolute;
 
-    border: 3px solid #22d3ee;
+    inset:30px;
+
+    border:3px solid #22d3ee;
 
     box-shadow:
         5px 0 #f43f5e,
@@ -774,44 +1026,50 @@
         glitch
         .3s
         infinite;
+
 }
 
 .effect-shadow::before {
-    content: "";
 
-    position: absolute;
+    content:"";
 
-    width: 180px;
-    height: 50px;
+    position:absolute;
 
-    bottom: 5px;
-    left: 50%;
+    width:180px;
+    height:50px;
+
+    bottom:5px;
+    left:50%;
 
     transform:
         translateX(-50%);
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    background: #020617;
+    background:#020617;
 
-    filter: blur(15px);
+    filter:blur(15px);
 
-    opacity: .8;
+    opacity:.8;
+
 }
 
 .effect-crystal::before {
-    content: "◆   ◆   ◆";
 
-    position: absolute;
-    inset: 0;
+    content:"◆   ◆   ◆";
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position:absolute;
 
-    color: #67e8f9;
+    inset:0;
 
-    font-size: 28px;
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#67e8f9;
+
+    font-size:28px;
 
     text-shadow:
         0 0 8px #67e8f9,
@@ -822,21 +1080,25 @@
         2s
         ease-in-out
         infinite;
+
 }
 
 .effect-cosmic::before {
-    content: "✦   ·   ★   ·   ✧";
 
-    position: absolute;
-    inset: 0;
+    content:"✦   ·   ★   ·   ✧";
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position:absolute;
 
-    color: white;
+    inset:0;
 
-    font-size: 26px;
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    font-size:26px;
 
     text-shadow:
         0 0 8px #60a5fa,
@@ -848,85 +1110,108 @@
         3s
         ease-in-out
         infinite;
+
 }
+
 
 /* =========================================================
    CUSTOMISATION PANELS
 ========================================================= */
 
 .customization-section {
-    width: 700px;
-    max-width: 92%;
 
-    background: white;
+    width:700px;
+    max-width:92%;
 
-    padding: 30px;
+    background:white;
 
-    border-radius: 30px;
+    padding:30px;
+
+    border-radius:30px;
 
     box-shadow:
         0 12px 30px rgba(0,0,0,.08);
+
 }
 
 .customization-section h2 {
-    margin-top: 0;
-    margin-bottom: 18px;
+
+    margin-top:0;
+    margin-bottom:18px;
+
 }
+
 
 /* =========================================================
    OPTIONS
 ========================================================= */
 
 .options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
 }
 
 .character-option {
-    border: none;
 
-    padding: 12px 18px;
+    border:none;
 
-    border-radius: 14px;
+    padding:12px 18px;
 
-    background: #eef2ff;
-    color: #3730a3;
+    border-radius:14px;
 
-    font-weight: 800;
+    background:#eef2ff;
 
-    cursor: pointer;
+    color:#3730a3;
 
-    transition: .2s;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
 }
 
 .character-option:hover {
+
     transform:
         translateY(-3px);
 
-    background: #e0e7ff;
+    background:#e0e7ff;
+
 }
 
 .character-option.selected {
-    background: #4f46e5;
 
-    color: white;
+    background:#4f46e5;
+
+    color:white;
 
     box-shadow:
         0 5px 15px rgba(79,70,229,.3);
+
 }
 
 .no-options {
-    opacity: .6;
-    font-weight: 700;
+
+    opacity:.6;
+
+    font-weight:700;
+
 }
+
 
 /* =========================================================
    ANIMATIONS
 ========================================================= */
 
 @keyframes crownFloat {
-    0%, 100% {
+
+    0%,100% {
         transform:
             translateY(0)
             rotate(-1deg);
@@ -934,12 +1219,14 @@
 
     50% {
         transform:
-            translateY(-7px)
+            translateY(-5px)
             rotate(1deg);
     }
+
 }
 
 @keyframes gemGlow {
+
     from {
         filter:
             brightness(1)
@@ -951,15 +1238,17 @@
             brightness(1.6)
             drop-shadow(0 0 10px currentColor);
     }
+
 }
 
 @keyframes sparkleFloat {
-    0%, 100% {
+
+    0%,100% {
         transform:
             translateY(5px)
             scale(.9);
 
-        opacity: .6;
+        opacity:.6;
     }
 
     50% {
@@ -967,11 +1256,13 @@
             translateY(-10px)
             scale(1.1);
 
-        opacity: 1;
+        opacity:1;
     }
+
 }
 
 @keyframes speedMove {
+
     from {
         transform:
             translateX(0);
@@ -981,45 +1272,51 @@
         transform:
             translateX(-30px);
     }
+
 }
 
 @keyframes lightningFlash {
-    0%, 100% {
-        opacity: .35;
+
+    0%,100% {
+        opacity:.35;
 
         transform:
             scale(.85);
     }
 
     50% {
-        opacity: 1;
+        opacity:1;
 
         transform:
             scale(1.15);
     }
+
 }
 
 @keyframes rainbowSpin {
+
     from {
         transform:
-            translate(-50%, -50%)
+            translate(-50%,-50%)
             rotate(0deg);
     }
 
     to {
         transform:
-            translate(-50%, -50%)
+            translate(-50%,-50%)
             rotate(360deg);
     }
+
 }
 
 @keyframes firePulse {
+
     from {
         transform:
             translateX(-50%)
             scale(.92);
 
-        opacity: .45;
+        opacity:.45;
     }
 
     to {
@@ -1027,39 +1324,41 @@
             translateX(-50%)
             scale(1.08);
 
-        opacity: .75;
+        opacity:.75;
     }
+
 }
 
 @keyframes glitch {
+
     0% {
-        transform:
-            translate(0);
+        transform:translate(0);
     }
 
     25% {
         transform:
-            translate(4px, -2px);
+            translate(4px,-2px);
     }
 
     50% {
         transform:
-            translate(-4px, 2px);
+            translate(-4px,2px);
     }
 
     75% {
         transform:
-            translate(2px, 3px);
+            translate(2px,3px);
     }
 
     100% {
-        transform:
-            translate(0);
+        transform:translate(0);
     }
+
 }
 
 @keyframes crystalFloat {
-    0%, 100% {
+
+    0%,100% {
         transform:
             translateY(5px)
             scale(.95);
@@ -1070,15 +1369,17 @@
             translateY(-8px)
             scale(1.08);
     }
+
 }
 
 @keyframes cosmicDrift {
-    0%, 100% {
+
+    0%,100% {
         transform:
             translateY(5px)
             rotate(-2deg);
 
-        opacity: .7;
+        opacity:.7;
     }
 
     50% {
@@ -1086,9 +1387,11 @@
             translateY(-8px)
             rotate(2deg);
 
-        opacity: 1;
+        opacity:1;
     }
+
 }
+
 
 /* =========================================================
    MOBILE
@@ -1097,28 +1400,37 @@
 @media(max-width:700px) {
 
     .banner-preview {
-        min-height: 360px;
 
-        flex-direction: column;
+        min-height:360px;
+
+        flex-direction:column;
+
     }
 
     .player-info {
-        position: relative;
 
-        left: auto;
-        top: auto;
+        position:relative;
 
-        text-align: center;
+        left:auto;
+        top:auto;
 
-        margin-bottom: 10px;
+        text-align:center;
+
+        margin-bottom:10px;
+
     }
 
     .character {
+
         transform:
             scale(.85);
+
     }
 
     .customization-section {
-        padding: 25px;
+
+        padding:25px;
+
     }
+
 }
