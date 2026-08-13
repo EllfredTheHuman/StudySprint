@@ -1,689 +1,539 @@
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   Matches the PROFILE character
+   MATCHES PROFILE CHARACTER
 ========================================================= */
 
 .character-editor {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:40px;
-    padding:40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px 80px;
 }
-
 
 /* =========================================================
    PREVIEW
 ========================================================= */
 
 .banner-preview {
-    width:700px;
-    max-width:92%;
-    min-height:320px;
+    width: 700px;
+    max-width: 92%;
+    min-height: 320px;
+    padding: 35px;
+    border-radius: 40px;
 
-    padding:35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius:40px;
+    position: relative;
+    overflow: hidden;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background: linear-gradient(135deg, #7c3aed, #6366f1);
 
-    position:relative;
-    overflow:hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6366f1,
-            #818cf8
-        );
-
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.15);
-
-    transition:.3s;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .15);
 }
 
+/* =========================================================
+   BANNERS
+========================================================= */
+
 .banner-preview.blue {
-    background:
-        linear-gradient(
-            135deg,
-            #2563eb,
-            #60a5fa
-        );
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
 }
 
 .banner-preview.green {
-    background:
-        linear-gradient(
-            135deg,
-            #16a34a,
-            #4ade80
-        );
+    background: linear-gradient(135deg, #16a34a, #4ade80);
 }
 
 .banner-preview.sprint-grid {
     background:
-        linear-gradient(
-            135deg,
-            #312e81,
-            #6366f1
-        );
+        linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(135deg, #312e81, #6366f1);
+
+    background-size:
+        25px 25px,
+        25px 25px,
+        auto;
 }
 
 .banner-preview.purple-grid {
     background:
-        linear-gradient(
-            135deg,
-            #6d28d9,
-            #a78bfa
-        );
+        linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px),
+        linear-gradient(135deg, #7c3aed, #c084fc);
+
+    background-size:
+        25px 25px,
+        25px 25px,
+        auto;
 }
 
 .banner-preview.neon-blue {
-    background:
-        linear-gradient(
-            135deg,
-            #0369a1,
-            #22d3ee
-        );
+    background: linear-gradient(135deg, #0891b2, #22d3ee);
 }
-
-
-/* =========================================================
-   GRID BANNERS
-========================================================= */
-
-.banner-preview.sprint-grid::before,
-.banner-preview.purple-grid::before,
-.banner-preview.neon-blue::before {
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        );
-
-    background-size:25px 25px;
-
-    pointer-events:none;
-}
-
 
 /* =========================================================
    PLAYER INFO
 ========================================================= */
 
 .player-info {
-    position:absolute;
-
-    left:35px;
-    top:35px;
-
-    z-index:30;
-
-    color:white;
+    position: absolute;
+    left: 35px;
+    top: 35px;
+    z-index: 30;
+    color: white;
 }
 
 .player-info h2 {
-    margin:0 0 8px;
-
-    font-size:34px;
-    font-weight:900;
+    margin: 0 0 8px;
+    font-size: 34px;
+    font-weight: 900;
 }
 
 .player-info p {
-    margin:0;
-
-    font-size:19px;
-
-    opacity:.9;
+    margin: 0;
+    font-size: 19px;
+    opacity: .9;
 }
-
 
 /* =========================================================
    CHARACTER
 ========================================================= */
 
 .character {
+    width: 180px;
+    height: 235px;
 
-    width:180px;
-    height:240px;
+    position: relative;
+    flex-shrink: 0;
 
-    position:relative;
+    margin-top: 35px;
 
-    margin-top:35px;
+    transform-origin: center bottom;
 
-    flex-shrink:0;
-
-    transform-origin:center bottom;
-
-    z-index:10;
-
+    z-index: 10;
 }
-
 
 /* =========================================================
    HEAD
-   Matches profile character
 ========================================================= */
 
 .character-head {
+    position: absolute;
 
-    position:absolute;
+    width: 105px;
+    height: 105px;
 
-    width:105px;
-    height:105px;
+    left: 38px;
+    top: 28px;
 
-    left:38px;
-    top:28px;
+    background: #f6c7a8;
 
-    background:#f6c7a8;
+    border-radius: 50%;
 
-    border-radius:50%;
-
-    z-index:3;
-
+    z-index: 3;
 }
-
 
 /* =========================================================
    FACE
 ========================================================= */
 
 .character-face {
+    position: absolute;
 
-    position:absolute;
+    width: 105px;
+    height: 105px;
 
-    width:7px;
-    height:7px;
+    left: 38px;
+    top: 28px;
 
-    left:56px;
-    top:73px;
+    z-index: 7;
 
-    background:#1f2937;
-
-    border-radius:50%;
-
-    box-shadow:
-        27px 0 0 #1f2937;
-
-    z-index:7;
-
-    pointer-events:none;
-
+    pointer-events: none;
 }
 
+.character-face::before,
+.character-face::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    top: 45px;
+
+    background: #1f2937;
+
+    border-radius: 50%;
+}
+
+.character-face::before {
+    left: 18px;
+}
+
+.character-face::after {
+    right: 18px;
+}
 
 /* =========================================================
    HAIR
 ========================================================= */
 
 .character-hair {
+    position: absolute;
 
-    position:absolute;
+    width: 98px;
+    height: 43px;
 
-    width:98px;
-    height:43px;
+    left: 41px;
+    top: 25px;
 
-    left:41px;
-    top:25px;
+    background: #78350f;
 
-    background:#78350f;
+    border-radius: 50px 50px 15px 15px;
 
-    border-radius:
-        50px 50px 15px 15px;
-
-    z-index:5;
-
+    z-index: 5;
 }
 
 .character-hair.black {
-    background:#111827;
+    background: #111827;
 }
 
 .character-hair.blonde {
-    background:#facc15;
+    background: #facc15;
 }
-
 
 /* =========================================================
    BODY
 ========================================================= */
 
 .character-body {
+    position: absolute;
 
-    position:absolute;
+    width: 92px;
+    height: 75px;
 
-    width:92px;
-    height:75px;
+    left: 44px;
+    top: 116px;
 
-    left:44px;
-    top:116px;
+    background: #3b82f6;
 
-    background:#3b82f6;
+    border-radius: 30px 30px 15px 15px;
 
-    border-radius:
-        30px 30px 15px 15px;
-
-    z-index:2;
-
+    z-index: 2;
 }
-
 
 /* =========================================================
    PANTS
 ========================================================= */
 
 .character-pants {
+    position: absolute;
 
-    position:absolute;
+    width: 84px;
+    height: 48px;
 
-    width:82px;
-    height:42px;
+    left: 48px;
+    top: 169px;
 
-    left:49px;
-    top:171px;
+    background: #2563eb;
 
-    background:#2563eb;
+    border-radius: 20px;
 
-    border-radius:
-        15px 15px 10px 10px;
-
-    z-index:3;
-
-    box-sizing:border-box;
-
+    z-index: 3;
 }
-
 
 /* =========================================================
    LEGS
 ========================================================= */
 
 .character-leg {
+    position: absolute;
 
-    position:absolute;
+    width: 30px;
+    height: 55px;
 
-    width:30px;
-    height:55px;
+    top: 177px;
 
-    top:177px;
+    background: #2563eb;
 
-    background:#2563eb;
+    border-radius: 12px;
 
-    border-radius:12px;
-
-    z-index:1;
-
-    box-shadow:
-        inset 0 -5px 0 rgba(0,0,0,.08);
-
+    z-index: 1;
 }
 
 .character-leg.left {
-    left:53px;
+    left: 53px;
 }
 
 .character-leg.right {
-    left:95px;
+    left: 95px;
 }
 
-
 /* =========================================================
-   SPRINT JOGGERS
+   SPLIT PANTS
 ========================================================= */
 
 .character-pants.cosmetic-pants-split {
-
     background:
         linear-gradient(
-            to bottom,
-            #1d4ed8,
-            #2563eb
-        ) !important;
-
-    border-radius:
-        15px 15px 10px 10px;
-
-    box-shadow:
-        inset 0 5px 0 rgba(255,255,255,.08),
-        inset 0 -5px 0 rgba(0,0,0,.12);
-
-}
-
-
-/* waistband */
-
-.character-pants.cosmetic-pants-split::before {
-
-    content:"";
-
-    position:absolute;
-
-    left:8px;
-    right:8px;
-    top:6px;
-
-    height:5px;
-
-    border-radius:5px;
-
-    background:#60a5fa;
-
-}
-
-
-/* white sprint stripe */
-
-.character-pants.cosmetic-pants-split::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:7px;
-    height:29px;
-
-    left:38px;
-    top:13px;
-
-    border-radius:5px;
-
-    background:white;
-
-    opacity:.9;
-
-}
-
-
-/* =========================================================
-   HAT
-========================================================= */
-
-.character-hat {
-
-    position:absolute;
-
-    display:none;
-
-    pointer-events:none;
-
-    z-index:30;
-
-}
-
-
-/* =========================================================
-   CHAMPION CAP
-========================================================= */
-
-.character-hat.champion-cap {
-
-    display:block;
-
-    width:112px;
-    height:38px;
-
-    left:32px;
-    top:8px;
-
-    border-radius:
-        58px 58px 18px 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #1e3a8a,
-            #2563eb
+            90deg,
+            #2563eb 0%,
+            #2563eb 50%,
+            #ef4444 50%,
+            #ef4444 100%
         );
 
     box-shadow:
-        inset 0 -6px 0 rgba(0,0,0,.15),
-        0 4px 8px rgba(0,0,0,.15);
-
+        inset 0 3px rgba(255,255,255,.12);
 }
 
-
-/* star */
-
-.character-hat.champion-cap::before {
-
-    content:"★";
-
-    position:absolute;
-
-    left:43px;
-    top:1px;
-
-    font-size:21px;
-
-    line-height:25px;
-
-    color:#fde68a;
-
-    text-shadow:
-        0 1px 2px rgba(0,0,0,.3),
-        0 0 5px rgba(253,230,138,.5);
-
+.character.pants-split .character-leg.left {
+    background: #2563eb;
 }
 
-
-/* brim */
-
-.character-hat.champion-cap::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:52px;
-    height:13px;
-
-    left:54px;
-    top:27px;
-
-    border-radius:
-        50% 50% 60% 40%;
-
-    background:#1d4ed8;
-
-    transform:rotate(-7deg);
-
-    box-shadow:
-        inset 0 -3px 0 rgba(0,0,0,.15);
-
+.character.pants-split .character-leg.right {
+    background: #ef4444;
 }
-
 
 /* =========================================================
-   SPEED VISOR
+   HAT BASE
 ========================================================= */
 
-.character-hat.speed-visor {
+.character-hat {
+    position: absolute;
 
-    display:block;
+    display: none;
 
-    width:120px;
-    height:24px;
+    pointer-events: none;
 
-    left:30px;
-    top:13px;
+    z-index: 30;
+}
+
+/* =========================================================
+   SPRINT CAP
+========================================================= */
+
+.character-hat.cap {
+    display: block;
+
+    width: 108px;
+    height: 38px;
+
+    left: 36px;
+    top: 10px;
 
     border-radius:
-        50px 50px 12px 12px;
+        55px 55px 18px 18px;
+
+    background: #312e81;
+
+    box-shadow:
+        inset 0 -7px 0 rgba(0,0,0,.15),
+        0 3px 5px rgba(0,0,0,.15);
+}
+
+/* =========================================================
+   STAR CAP
+========================================================= */
+
+.character-hat.star-cap {
+    display: block;
+
+    width: 108px;
+    height: 39px;
+
+    left: 36px;
+    top: 9px;
+
+    border-radius:
+        55px 55px 17px 17px;
 
     background:
         linear-gradient(
             135deg,
+            #111827,
+            #374151
+        );
+
+    box-shadow:
+        inset 0 -7px 0 rgba(0,0,0,.22),
+        0 4px 8px rgba(0,0,0,.25);
+}
+
+/* star */
+
+.character-hat.star-cap::before {
+    content: "★";
+
+    position: absolute;
+
+    left: 38px;
+    top: 2px;
+
+    font-size: 25px;
+
+    line-height: 30px;
+
+    color: #fde68a;
+
+    text-shadow:
+        0 0 3px #fff7ae,
+        0 0 7px #facc15,
+        0 2px 2px rgba(0,0,0,.35);
+}
+
+/* cap brim */
+
+.character-hat.star-cap::after {
+    content: "";
+
+    position: absolute;
+
+    width: 62px;
+    height: 9px;
+
+    left: 42px;
+    bottom: -4px;
+
+    border-radius: 50%;
+
+    background: #1f2937;
+
+    transform: rotate(-3deg);
+
+    box-shadow:
+        0 2px 3px rgba(0,0,0,.2);
+}
+
+/* =========================================================
+   SPRINT VISOR
+========================================================= */
+
+.character-hat.visor {
+    display: block;
+
+    width: 104px;
+    height: 25px;
+
+    left: 39px;
+    top: 29px;
+
+    border-radius:
+        52px 52px 12px 12px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #22d3ee,
+            #0891b2
+        );
+
+    box-shadow:
+        inset 0 4px rgba(255,255,255,.25),
+        0 3px 7px rgba(0,0,0,.18);
+}
+
+/* visor brim */
+
+.character-hat.visor::after {
+    content: "";
+
+    position: absolute;
+
+    width: 74px;
+    height: 9px;
+
+    left: 43px;
+    bottom: -6px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            90deg,
             #0891b2,
             #22d3ee
         );
 
-    box-shadow:
-        inset 0 -5px 0 rgba(0,0,0,.14),
-        0 3px 8px rgba(0,0,0,.15);
-
-}
-
-
-/* visor highlight */
-
-.character-hat.speed-visor::before {
-
-    content:"";
-
-    position:absolute;
-
-    width:65px;
-    height:4px;
-
-    left:28px;
-    top:6px;
-
-    border-radius:4px;
-
-    background:
-        rgba(255,255,255,.65);
-
-}
-
-
-/* visor brim */
-
-.character-hat.speed-visor::after {
-
-    content:"";
-
-    position:absolute;
-
-    width:72px;
-    height:9px;
-
-    left:38px;
-    top:18px;
-
-    border-radius:50%;
-
-    background:#0369a1;
-
-    transform:rotate(-3deg);
-
-}
-
-
-/* =========================================================
-   DEFAULT CAP
-========================================================= */
-
-.character-hat.cap {
-
-    width:115px;
-    height:35px;
-
-    left:28px;
-    top:8px;
-
-    border-radius:
-        60px 60px 15px 15px;
-
-    background:#2563eb;
+    transform:
+        rotate(-2deg);
 
     box-shadow:
-        inset 0 -7px 0 rgba(0,0,0,.15);
-
+        0 2px 4px rgba(0,0,0,.2);
 }
-
 
 /* =========================================================
    BACKPACK
 ========================================================= */
 
 .character-backpack {
+    position: absolute;
 
-    position:absolute;
+    width: 48px;
+    height: 85px;
 
-    width:48px;
-    height:85px;
+    left: -3px;
+    top: 120px;
 
-    left:-3px;
-    top:125px;
+    border-radius: 25px;
 
-    border-radius:25px;
-
-    z-index:1;
+    z-index: 1;
 
     box-shadow:
         inset -5px 0 rgba(0,0,0,.15),
         0 5px 10px rgba(0,0,0,.15);
-
 }
 
 .character-backpack.hidden {
-    display:none;
+    display: none;
 }
-
 
 /* =========================================================
    CROWN
 ========================================================= */
 
 .character-crown {
+    position: absolute;
 
-    position:absolute;
+    display: none;
 
-    display:none;
+    width: 76px;
+    height: 55px;
 
-    width:76px;
-    height:55px;
+    left: 52px;
+    top: 8px;
 
-    left:52px;
-    top:8px;
+    z-index: 40;
 
-    z-index:40;
+    pointer-events: none;
 
-    pointer-events:none;
-
-    transform-origin:center bottom;
+    transform-origin: center bottom;
 
     animation:
         crownFloat
         2.2s
         ease-in-out
         infinite;
-
 }
 
 .character-crown.active {
-    display:block;
+    display: block;
 }
 
-
-/* crown body */
-
 .character-crown::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    width: 76px;
+    height: 43px;
 
-    width:76px;
-    height:43px;
-
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
 
     background:
         linear-gradient(
@@ -707,28 +557,21 @@
 
     filter:
         drop-shadow(0 0 5px #ffd700)
-        drop-shadow(
-            0 0 12px rgba(255,215,0,.8)
-        );
-
+        drop-shadow(0 0 12px rgba(255,215,0,.8));
 }
 
-
-/* crown band */
-
 .character-crown::after {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    width: 62px;
+    height: 10px;
 
-    width:62px;
-    height:10px;
+    left: 7px;
+    top: 32px;
 
-    left:7px;
-    top:32px;
-
-    border-radius:5px;
+    border-radius: 5px;
 
     background:
         linear-gradient(
@@ -740,24 +583,21 @@
 
     box-shadow:
         0 0 8px #ffd700;
-
 }
-
 
 /* =========================================================
    CROWN GEMS
 ========================================================= */
 
 .crown-gem {
+    position: absolute;
 
-    position:absolute;
+    width: 8px;
+    height: 8px;
 
-    width:8px;
-    height:8px;
+    border-radius: 50%;
 
-    border-radius:50%;
-
-    z-index:50;
+    z-index: 50;
 
     animation:
         gemGlow
@@ -765,222 +605,202 @@
         ease-in-out
         infinite
         alternate;
-
 }
 
 .gem-red {
-    left:20px;
-    top:29px;
-    background:#ef4444;
+    left: 20px;
+    top: 29px;
+
+    background: #ef4444;
+
     box-shadow:
         0 0 5px #ef4444,
         0 0 11px #ef4444;
 }
 
 .gem-blue {
-    left:34px;
-    top:29px;
-    background:#38bdf8;
+    left: 34px;
+    top: 29px;
+
+    background: #38bdf8;
+
     box-shadow:
         0 0 5px #38bdf8,
         0 0 11px #38bdf8;
 }
 
 .gem-purple {
-    left:48px;
-    top:29px;
-    background:#c084fc;
+    left: 48px;
+    top: 29px;
+
+    background: #c084fc;
+
     box-shadow:
         0 0 5px #c084fc,
         0 0 11px #c084fc;
 }
-
 
 /* =========================================================
    EFFECT LAYER
 ========================================================= */
 
 .character-effects {
+    position: absolute;
 
-    position:absolute;
+    inset: -35px;
 
-    inset:-40px;
+    pointer-events: none;
 
-    pointer-events:none;
-
-    z-index:50;
-
+    z-index: 50;
 }
-
 
 /* =========================================================
    EFFECTS
 ========================================================= */
 
 .effect-sparkle::before {
+    content: "✦   ✧   ✦   ✧";
 
-    content:"✦  ✧  ✦  ✧";
+    position: absolute;
+    inset: 0;
 
-    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    inset:0;
+    color: white;
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    color:white;
-
-    font-size:28px;
+    font-size: 22px;
 
     text-shadow:
-        0 0 6px white,
-        0 0 15px #a78bfa;
+        0 0 8px white,
+        0 0 18px #a5b4fc;
 
     animation:
         sparkleFloat
-        1.5s
+        2s
         ease-in-out
         infinite;
-
 }
 
 .effect-speed-trail::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    width: 120px;
+    height: 90px;
 
-    width:190px;
-    height:120px;
-
-    left:-45px;
-    top:70px;
+    left: -25px;
+    top: 105px;
 
     background:
         repeating-linear-gradient(
             0deg,
-            transparent 0 10px,
-            rgba(96,165,250,.8) 11px 14px,
-            transparent 15px 25px
+            transparent 0 8px,
+            rgba(96,165,250,.75) 9px 12px,
+            transparent 13px 20px
         );
 
-    filter:blur(1px);
+    filter: blur(1px);
 
-    opacity:.8;
+    transform: skewX(-25deg);
+
+    opacity: .85;
 
     animation:
         speedMove
         .7s
         linear
         infinite;
-
 }
 
 .effect-lightning::before {
+    content: "⚡";
 
-    content:"⚡";
+    position: absolute;
 
-    position:absolute;
+    left: 8px;
+    top: 80px;
 
-    top:65px;
-    left:0;
+    font-size: 48px;
 
-    font-size:45px;
-
-    color:#fef08a;
+    color: #fef08a;
 
     text-shadow:
-        0 0 8px #60a5fa,
-        0 0 20px #fef08a;
+        0 0 8px #38bdf8,
+        0 0 18px #fef08a,
+        0 0 30px #60a5fa;
 
     animation:
         lightningFlash
-        .7s
+        .8s
         infinite;
-
 }
 
 .effect-lightning::after {
+    content: "⚡";
 
-    content:"⚡";
+    position: absolute;
 
-    position:absolute;
+    right: 5px;
+    top: 130px;
 
-    right:0;
-    bottom:40px;
+    font-size: 35px;
 
-    font-size:32px;
-
-    color:#93c5fd;
+    color: #bae6fd;
 
     text-shadow:
-        0 0 10px #60a5fa;
+        0 0 10px #38bdf8;
 
     animation:
         lightningFlash
-        .9s
-        infinite
-        .2s;
-
+        .6s
+        infinite .2s;
 }
 
 .effect-rainbow::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    inset: 20px;
 
-    width:210px;
-    height:210px;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    border-radius:50%;
+    border-radius: 50%;
 
     background:
         conic-gradient(
-            red,
-            orange,
-            yellow,
-            lime,
-            cyan,
-            blue,
-            violet,
-            red
+            #ef4444,
+            #f97316,
+            #facc15,
+            #22c55e,
+            #06b6d4,
+            #3b82f6,
+            #a855f7,
+            #ef4444
         );
 
-    filter:blur(22px);
+    filter: blur(15px);
 
-    opacity:.35;
+    opacity: .55;
 
     animation:
         rainbowSpin
-        5s
+        4s
         linear
         infinite;
-
 }
 
 .effect-fire::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    width: 115px;
+    height: 145px;
 
-    width:170px;
-    height:190px;
-
-    left:50%;
-    bottom:0;
-
-    transform:
-        translateX(-50%);
+    left: 32px;
+    top: 72px;
 
     border-radius:
         50% 50% 45% 45%;
@@ -989,229 +809,227 @@
         radial-gradient(
             ellipse at 50% 80%,
             #fff7ae 0%,
-            #fbbf24 25%,
-            #f97316 50%,
+            #facc15 20%,
+            #f97316 48%,
             #ef4444 70%,
             transparent 75%
         );
 
-    filter:blur(9px);
+    filter: blur(5px);
 
-    opacity:.6;
+    opacity: .65;
 
     animation:
         firePulse
-        .7s
+        .65s
         ease-in-out
         infinite
         alternate;
-
 }
 
 .effect-glitch::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    inset: 30px;
 
-    inset:30px;
-
-    border:3px solid #22d3ee;
+    border: 3px solid #22d3ee;
 
     box-shadow:
-        5px 0 #f43f5e,
-        -5px 0 #a78bfa;
+        6px 0 #f43f5e,
+        -6px 0 #a78bfa;
+
+    opacity: .7;
 
     animation:
         glitch
-        .3s
+        .35s
         infinite;
-
 }
 
 .effect-shadow::before {
+    content: "";
 
-    content:"";
+    position: absolute;
 
-    position:absolute;
+    width: 130px;
+    height: 35px;
 
-    width:180px;
-    height:50px;
+    left: 25px;
+    bottom: 22px;
 
-    bottom:5px;
-    left:50%;
+    border-radius: 50%;
 
-    transform:
-        translateX(-50%);
+    background: #020617;
 
-    border-radius:50%;
+    filter: blur(10px);
 
-    background:#020617;
+    opacity: .85;
 
-    filter:blur(15px);
-
-    opacity:.8;
-
+    animation:
+        shadowPulse
+        1.8s
+        ease-in-out
+        infinite;
 }
 
 .effect-crystal::before {
+    content: "◆   ◇   ◆   ◇";
 
-    content:"◆   ◆   ◆";
+    position: absolute;
+    inset: 0;
 
-    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    inset:0;
+    color: #67e8f9;
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    color:#67e8f9;
-
-    font-size:28px;
+    font-size: 18px;
 
     text-shadow:
         0 0 8px #67e8f9,
-        0 0 20px #a78bfa;
+        0 0 18px #a78bfa;
 
     animation:
         crystalFloat
-        2s
+        2.4s
         ease-in-out
         infinite;
-
 }
 
 .effect-cosmic::before {
+    content: "✦   ·   ★   ·   ✧   ·   ✦";
 
-    content:"✦   ·   ★   ·   ✧";
+    position: absolute;
+    inset: 0;
 
-    position:absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    inset:0;
+    color: white;
 
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    color:white;
-
-    font-size:26px;
+    font-size: 18px;
 
     text-shadow:
         0 0 8px #60a5fa,
-        0 0 20px #a78bfa,
-        0 0 30px #c084fc;
+        0 0 18px #a78bfa,
+        0 0 25px white;
 
     animation:
         cosmicDrift
         3s
         ease-in-out
         infinite;
-
 }
 
+.effect-crown::before {
+    content: "";
+
+    position: absolute;
+
+    width: 140px;
+    height: 140px;
+
+    left: 20px;
+    top: 40px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,215,0,.35),
+            rgba(255,215,0,.12) 40%,
+            transparent 72%
+        );
+
+    filter: blur(7px);
+
+    animation:
+        crownGlow
+        1.7s
+        ease-in-out
+        infinite
+        alternate;
+}
 
 /* =========================================================
    CUSTOMISATION PANELS
 ========================================================= */
 
 .customization-section {
+    width: 700px;
+    max-width: 92%;
 
-    width:700px;
-    max-width:92%;
+    background: white;
 
-    background:white;
+    padding: 30px;
 
-    padding:30px;
-
-    border-radius:30px;
+    border-radius: 30px;
 
     box-shadow:
         0 12px 30px rgba(0,0,0,.08);
-
 }
 
 .customization-section h2 {
-
-    margin-top:0;
-    margin-bottom:18px;
-
+    margin-top: 0;
+    margin-bottom: 18px;
 }
-
 
 /* =========================================================
    OPTIONS
 ========================================================= */
 
 .options {
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:10px;
-
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .character-option {
+    border: none;
 
-    border:none;
+    padding: 12px 18px;
 
-    padding:12px 18px;
+    border-radius: 14px;
 
-    border-radius:14px;
+    background: #eef2ff;
+    color: #3730a3;
 
-    background:#eef2ff;
+    font-weight: 800;
 
-    color:#3730a3;
+    cursor: pointer;
 
-    font-weight:800;
-
-    cursor:pointer;
-
-    transition:.2s;
-
+    transition: .2s;
 }
 
 .character-option:hover {
-
-    transform:
-        translateY(-3px);
-
-    background:#e0e7ff;
-
+    transform: translateY(-3px);
+    background: #e0e7ff;
 }
 
 .character-option.selected {
-
-    background:#4f46e5;
-
-    color:white;
+    background: #4f46e5;
+    color: white;
 
     box-shadow:
         0 5px 15px rgba(79,70,229,.3);
-
 }
 
 .no-options {
-
-    opacity:.6;
-
-    font-weight:700;
-
+    opacity: .6;
+    font-weight: 700;
 }
-
 
 /* =========================================================
    ANIMATIONS
 ========================================================= */
 
 @keyframes crownFloat {
-
-    0%,100% {
+    0%, 100% {
         transform:
             translateY(0)
             rotate(-1deg);
@@ -1222,176 +1040,163 @@
             translateY(-5px)
             rotate(1deg);
     }
-
 }
 
 @keyframes gemGlow {
-
     from {
-        filter:
-            brightness(1)
-            drop-shadow(0 0 3px currentColor);
+        transform: scale(.8);
+        opacity: .65;
     }
 
     to {
-        filter:
-            brightness(1.6)
-            drop-shadow(0 0 10px currentColor);
+        transform: scale(1.2);
+        opacity: 1;
     }
-
 }
 
 @keyframes sparkleFloat {
-
-    0%,100% {
+    0%, 100% {
         transform:
-            translateY(5px)
+            translateY(8px)
             scale(.9);
 
-        opacity:.6;
+        opacity: .55;
     }
 
     50% {
         transform:
-            translateY(-10px)
+            translateY(-12px)
             scale(1.1);
 
-        opacity:1;
+        opacity: 1;
     }
-
 }
 
 @keyframes speedMove {
-
     from {
         transform:
-            translateX(0);
+            translateX(0)
+            skewX(-25deg);
     }
 
     to {
         transform:
-            translateX(-30px);
+            translateX(-25px)
+            skewX(-25deg);
     }
-
 }
 
 @keyframes lightningFlash {
-
-    0%,100% {
-        opacity:.35;
-
-        transform:
-            scale(.85);
+    0%, 100% {
+        opacity: .35;
+        transform: scale(.9);
     }
 
-    50% {
-        opacity:1;
-
-        transform:
-            scale(1.15);
+    45% {
+        opacity: 1;
+        transform: scale(1.1);
     }
-
 }
 
 @keyframes rainbowSpin {
-
     from {
-        transform:
-            translate(-50%,-50%)
-            rotate(0deg);
+        transform: rotate(0deg);
     }
 
     to {
-        transform:
-            translate(-50%,-50%)
-            rotate(360deg);
+        transform: rotate(360deg);
     }
-
 }
 
 @keyframes firePulse {
-
     from {
         transform:
-            translateX(-50%)
-            scale(.92);
-
-        opacity:.45;
+            scale(.92)
+            translateY(3px);
     }
 
     to {
         transform:
-            translateX(-50%)
-            scale(1.08);
-
-        opacity:.75;
+            scale(1.08)
+            translateY(-4px);
     }
-
 }
 
 @keyframes glitch {
-
     0% {
-        transform:translate(0);
+        transform: translate(0);
     }
 
     25% {
-        transform:
-            translate(4px,-2px);
+        transform: translate(5px,-2px);
     }
 
     50% {
-        transform:
-            translate(-4px,2px);
+        transform: translate(-4px,3px);
     }
 
     75% {
-        transform:
-            translate(2px,3px);
+        transform: translate(3px,1px);
     }
 
     100% {
-        transform:translate(0);
+        transform: translate(0);
+    }
+}
+
+@keyframes shadowPulse {
+    0%, 100% {
+        transform: scaleX(.9);
+        opacity: .6;
     }
 
+    50% {
+        transform: scaleX(1.1);
+        opacity: 1;
+    }
 }
 
 @keyframes crystalFloat {
-
-    0%,100% {
-        transform:
-            translateY(5px)
-            scale(.95);
+    0%, 100% {
+        transform: translateY(5px);
+        opacity: .65;
     }
 
     50% {
-        transform:
-            translateY(-8px)
-            scale(1.08);
+        transform: translateY(-8px);
+        opacity: 1;
     }
-
 }
 
 @keyframes cosmicDrift {
-
-    0%,100% {
+    0%, 100% {
         transform:
-            translateY(5px)
-            rotate(-2deg);
+            translate(0,5px)
+            rotate(0deg);
 
-        opacity:.7;
+        opacity: .65;
     }
 
     50% {
         transform:
-            translateY(-8px)
-            rotate(2deg);
+            translate(5px,-8px)
+            rotate(5deg);
 
-        opacity:1;
+        opacity: 1;
     }
-
 }
 
+@keyframes crownGlow {
+    from {
+        opacity: .45;
+        transform: scale(.9);
+    }
+
+    to {
+        opacity: .9;
+        transform: scale(1.08);
+    }
+}
 
 /* =========================================================
    MOBILE
@@ -1400,37 +1205,26 @@
 @media(max-width:700px) {
 
     .banner-preview {
-
-        min-height:360px;
-
-        flex-direction:column;
-
+        min-height: 360px;
+        flex-direction: column;
     }
 
     .player-info {
+        position: relative;
 
-        position:relative;
+        left: auto;
+        top: auto;
 
-        left:auto;
-        top:auto;
+        text-align: center;
 
-        text-align:center;
-
-        margin-bottom:10px;
-
+        margin-bottom: 10px;
     }
 
     .character {
-
-        transform:
-            scale(.85);
-
+        transform: scale(.85);
     }
 
     .customization-section {
-
-        padding:25px;
-
+        padding: 25px;
     }
-
 }
