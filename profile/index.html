@@ -30,6 +30,7 @@
 }
 
 .profile-banner {
+
     width:90%;
     max-width:1000px;
     min-height:240px;
@@ -53,6 +54,7 @@
 }
 
 .profile-banner:hover {
+
     transform:translateY(-5px);
 
     box-shadow:
@@ -65,6 +67,7 @@
 ========================================================= */
 
 .banner-purple {
+
     background:
         linear-gradient(
             135deg,
@@ -74,6 +77,7 @@
 }
 
 .banner-blue {
+
     background:
         linear-gradient(
             135deg,
@@ -83,6 +87,7 @@
 }
 
 .banner-green {
+
     background:
         linear-gradient(
             135deg,
@@ -92,43 +97,8 @@
 }
 
 .banner-sprint-grid {
+
     background:
-        linear-gradient(
-            135deg,
-            #312e81,
-            #6366f1
-        );
-}
-
-.banner-purple-grid {
-    background:
-        linear-gradient(
-            135deg,
-            #7c3aed,
-            #c084fc
-        );
-}
-
-.banner-neon-blue {
-    background:
-        linear-gradient(
-            135deg,
-            #0891b2,
-            #22d3ee
-        );
-}
-
-.banner-sprint-grid::before,
-.banner-purple-grid::before,
-.banner-neon-blue::before {
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background-image:
         linear-gradient(
             rgba(255,255,255,.12) 1px,
             transparent 1px
@@ -137,11 +107,39 @@
             90deg,
             rgba(255,255,255,.12) 1px,
             transparent 1px
+        ),
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6366f1
         );
 
-    background-size:25px 25px;
+    background-size:
+        25px 25px,
+        25px 25px,
+        auto;
+}
 
-    pointer-events:none;
+.banner-purple-grid {
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #c084fc
+        );
+
+}
+
+.banner-neon-blue {
+
+    background:
+        linear-gradient(
+            135deg,
+            #0891b2,
+            #22d3ee
+        );
+
 }
 
 
@@ -150,14 +148,18 @@
 ========================================================= */
 
 .profile-info {
+
     position:relative;
-    z-index:20;
+
+    z-index:30;
 
     color:white;
 }
 
 .profile-username {
+
     font-size:42px;
+
     font-weight:900;
 
     text-shadow:
@@ -165,6 +167,7 @@
 }
 
 .profile-tag {
+
     display:inline-block;
 
     margin-top:8px;
@@ -173,7 +176,8 @@
 
     border-radius:12px;
 
-    background:rgba(0,0,0,.20);
+    background:
+        rgba(0,0,0,.20);
 
     font-weight:800;
 }
@@ -196,6 +200,22 @@
     overflow:visible;
 
     z-index:10;
+}
+
+
+/* =========================================================
+   EFFECT CONTAINER
+========================================================= */
+
+.profile-effect {
+
+    position:absolute;
+
+    inset:-35px;
+
+    z-index:0;
+
+    pointer-events:none;
 }
 
 
@@ -294,6 +314,188 @@
 
 
 /* =========================================================
+   PROFILE HATS
+========================================================= */
+
+.profile-hat {
+
+    display:none;
+
+    position:absolute;
+
+    z-index:15;
+
+    pointer-events:none;
+}
+
+
+/* ---------------------------------------------------------
+   SPRINT CAP
+--------------------------------------------------------- */
+
+.profile-hat-sprint-cap {
+
+    display:block;
+
+    width:105px;
+    height:35px;
+
+    left:38px;
+    top:17px;
+}
+
+.profile-hat-sprint-cap::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:76px;
+    height:25px;
+
+    left:14px;
+    top:0;
+
+    border-radius:
+        40px 40px 8px 8px;
+
+    background:
+        #312e81;
+}
+
+.profile-hat-sprint-cap::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:55px;
+    height:9px;
+
+    left:38px;
+    top:20px;
+
+    border-radius:50%;
+
+    background:
+        #312e81;
+
+    transform:
+        rotate(5deg);
+}
+
+
+/* ---------------------------------------------------------
+   STAR CAP
+--------------------------------------------------------- */
+
+.profile-hat-star-cap {
+
+    display:block;
+
+    width:105px;
+    height:40px;
+
+    left:38px;
+    top:15px;
+}
+
+.profile-hat-star-cap::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:78px;
+    height:27px;
+
+    left:12px;
+    top:0;
+
+    border-radius:
+        40px 40px 8px 8px;
+
+    background:
+        #111827;
+}
+
+.profile-hat-star-cap::after {
+
+    content:"★";
+
+    position:absolute;
+
+    color:#fde68a;
+
+    font-size:16px;
+
+    left:45px;
+    top:5px;
+
+    text-shadow:
+        0 0 6px #f59e0b;
+}
+
+
+/* ---------------------------------------------------------
+   VISOR
+--------------------------------------------------------- */
+
+.profile-hat-visor {
+
+    display:block;
+
+    width:115px;
+    height:40px;
+
+    left:32px;
+    top:35px;
+
+}
+
+.profile-hat-visor::before {
+
+    content:"";
+
+    position:absolute;
+
+    width:78px;
+    height:22px;
+
+    left:18px;
+    top:-5px;
+
+    border-radius:
+        35px 35px 8px 8px;
+
+    background:
+        #06b6d4;
+}
+
+.profile-hat-visor::after {
+
+    content:"";
+
+    position:absolute;
+
+    width:100px;
+    height:10px;
+
+    left:5px;
+    top:13px;
+
+    border-radius:
+        50%;
+
+    background:
+        #06b6d4;
+
+    transform:
+        rotate(-3deg);
+}
+
+
+/* =========================================================
    CROWN
 ========================================================= */
 
@@ -305,15 +507,9 @@
     height:55px;
 
     left:52px;
-
-    /*
-       This is intentionally lower than
-       the normal crown position.
-    */
-
     top:8px;
 
-    z-index:12;
+    z-index:20;
 
     pointer-events:none;
 
@@ -322,11 +518,7 @@
         2.2s
         ease-in-out
         infinite;
-
 }
-
-
-/* Crown body */
 
 .profile-crown::before {
 
@@ -368,9 +560,6 @@
             0 0 12px rgba(255,215,0,.8)
         );
 }
-
-
-/* Crown band */
 
 .profile-crown::after {
 
@@ -460,25 +649,13 @@
 
 
 /* =========================================================
-   EFFECT CONTAINER
+   EFFECTS
 ========================================================= */
 
-.profile-effect {
 
-    position:absolute;
-
-    inset:-35px;
-
-    z-index:0;
-
-    pointer-events:none;
-
-}
-
-
-/* =========================================================
+/* ---------------------------------------------------------
    SPARKLE
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-sparkle .profile-effect::before {
 
@@ -505,9 +682,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    SPEED TRAIL
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-speed-trail .profile-effect::before {
 
@@ -545,9 +722,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    LIGHTNING
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-lightning .profile-effect::before {
 
@@ -597,9 +774,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    RAINBOW
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-rainbow .profile-effect::before {
 
@@ -636,9 +813,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    FIRE
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-fire .profile-effect::before {
 
@@ -679,9 +856,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    GLITCH
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-glitch .profile-effect::before {
 
@@ -706,9 +883,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    SHADOW
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-shadow .profile-effect::before {
 
@@ -739,9 +916,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    CRYSTAL
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-crystal .profile-effect::before {
 
@@ -768,9 +945,9 @@
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    COSMIC
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-cosmic .profile-effect::before {
 
@@ -818,13 +995,14 @@
             transparent 70%
         );
 
-    filter:blur(8px);
+    filter:
+        blur(8px);
 }
 
 
-/* =========================================================
+/* ---------------------------------------------------------
    CROWN EFFECT
-========================================================= */
+--------------------------------------------------------- */
 
 .effect-crown .profile-effect::before {
 
@@ -848,7 +1026,8 @@
             transparent 72%
         );
 
-    filter:blur(7px);
+    filter:
+        blur(7px);
 
     animation:
         crownGlow
@@ -867,33 +1046,42 @@
 
     0%,
     100% {
-        transform:translateY(0) rotate(-1deg);
+
+        transform:
+            translateY(0)
+            rotate(-1deg);
     }
 
     50% {
-        transform:translateY(-5px) rotate(1deg);
-    }
 
+        transform:
+            translateY(-5px)
+            rotate(1deg);
+    }
 }
 
 @keyframes profileGemGlow {
 
     from {
+
         transform:scale(.8);
+
         opacity:.65;
     }
 
     to {
+
         transform:scale(1.2);
+
         opacity:1;
     }
-
 }
 
 @keyframes sparkleFloat {
 
     0%,
     100% {
+
         transform:
             translateY(8px)
             scale(.9);
@@ -902,44 +1090,48 @@
     }
 
     50% {
+
         transform:
             translateY(-12px)
             scale(1.1);
 
         opacity:1;
     }
-
 }
 
 @keyframes speedTrail {
 
     from {
+
         transform:
             translateX(0)
             skewX(-25deg);
     }
 
     to {
+
         transform:
             translateX(-25px)
             skewX(-25deg);
     }
-
 }
 
 @keyframes lightningFlash {
 
     0%,
     100% {
+
         opacity:.35;
+
         transform:scale(.9);
     }
 
     45% {
+
         opacity:1;
+
         transform:scale(1.1);
     }
-
 }
 
 @keyframes rainbowSpin {
@@ -951,86 +1143,103 @@
     to {
         transform:rotate(360deg);
     }
-
 }
 
 @keyframes firePulse {
 
     from {
+
         transform:
             scale(.92)
             translateY(3px);
     }
 
     to {
+
         transform:
             scale(1.08)
             translateY(-4px);
     }
-
 }
 
 @keyframes glitchEffect {
 
     0% {
+
         transform:translate(0);
+
         opacity:.7;
     }
 
     25% {
-        transform:translate(5px,-2px);
+
+        transform:
+            translate(5px,-2px);
     }
 
     50% {
-        transform:translate(-4px,3px);
+
+        transform:
+            translate(-4px,3px);
+
         opacity:.35;
     }
 
     75% {
-        transform:translate(3px,1px);
+
+        transform:
+            translate(3px,1px);
     }
 
     100% {
+
         transform:translate(0);
+
         opacity:.7;
     }
-
 }
 
 @keyframes shadowPulse {
 
     0%,
     100% {
+
         transform:scaleX(.9);
+
         opacity:.6;
     }
 
     50% {
+
         transform:scaleX(1.1);
+
         opacity:1;
     }
-
 }
 
 @keyframes crystalFloat {
 
     0%,
     100% {
+
         transform:translateY(5px);
+
         opacity:.65;
     }
 
     50% {
+
         transform:translateY(-8px);
+
         opacity:1;
     }
-
 }
 
 @keyframes cosmicDrift {
 
     0%,
     100% {
+
         transform:
             translate(0,5px)
             rotate(0deg);
@@ -1039,27 +1248,30 @@
     }
 
     50% {
+
         transform:
             translate(5px,-8px)
             rotate(5deg);
 
         opacity:1;
     }
-
 }
 
 @keyframes crownGlow {
 
     from {
+
         opacity:.45;
+
         transform:scale(.9);
     }
 
     to {
+
         opacity:.9;
+
         transform:scale(1.08);
     }
-
 }
 
 
@@ -1077,6 +1289,7 @@
     margin:40px auto;
 
     text-decoration:none;
+
     color:inherit;
 }
 
@@ -1108,6 +1321,7 @@
 ========================================================= */
 
 .streak-section {
+
     text-align:center;
 }
 
@@ -1185,10 +1399,12 @@
 .streak-label {
 
     font-size:24px;
+
     font-weight:bold;
 }
 
 .streak-message {
+
     margin-top:10px;
 }
 
@@ -1218,6 +1434,7 @@
     }
 
     .profile-username {
+
         font-size:32px;
     }
 
@@ -1262,6 +1479,10 @@ Home
 
 <main>
 
+
+<!-- =========================================================
+     PROFILE HEADER
+========================================================= -->
 
 <section class="hero">
 
@@ -1315,11 +1536,19 @@ Player
 >
 
 
-<!-- EFFECT LAYER -->
+<!-- EFFECT -->
 
 <div
     id="profile-effect"
     class="profile-effect"
+></div>
+
+
+<!-- HAT -->
+
+<div
+    id="profile-hat"
+    class="profile-hat"
 ></div>
 
 
@@ -1781,6 +2010,11 @@ const character = {
             "character_pants"
         ) || "blue",
 
+    hat:
+        localStorage.getItem(
+            "character_hat"
+        ) || "none",
+
     banner:
         localStorage.getItem(
             "character_banner"
@@ -1863,7 +2097,7 @@ else {
 
 const skinColours = {
 
-    light:"#f6c7a8",
+    light:"#ffd1a4",
 
     medium:"#c98b68",
 
@@ -1874,7 +2108,7 @@ const skinColours = {
 
 const hairColours = {
 
-    brown:"#78350f",
+    brown:"#4b2e20",
 
     black:"#111827",
 
@@ -1885,7 +2119,7 @@ const hairColours = {
 
 const shirtColours = {
 
-    blue:"#3b82f6",
+    blue:"#6366f1",
 
     red:"#ef4444",
 
@@ -1899,7 +2133,7 @@ const shirtColours = {
 
 const pantsColours = {
 
-    blue:"#2563eb",
+    blue:"#374151",
 
     black:"#111827",
 
@@ -1971,19 +2205,91 @@ const banner =
 
 
 banner.classList.remove(
+
     "banner-purple",
     "banner-blue",
     "banner-green",
     "banner-sprint-grid",
     "banner-purple-grid",
     "banner-neon-blue"
+
 );
 
 
-banner.classList.add(
-    "banner-" +
-    character.banner
-);
+const validBanners = [
+
+    "purple",
+    "blue",
+    "green",
+    "sprint-grid",
+    "purple-grid",
+    "neon-blue"
+
+];
+
+
+if (
+    validBanners.includes(
+        character.banner
+    )
+) {
+
+    banner.classList.add(
+        "banner-" +
+        character.banner
+    );
+
+}
+else {
+
+    banner.classList.add(
+        "banner-purple"
+    );
+
+}
+
+
+/* =========================================================
+   APPLY HAT
+========================================================= */
+
+const profileHat =
+    document.getElementById(
+        "profile-hat"
+    );
+
+
+const validHats = {
+
+    "sprint-cap":
+        "profile-hat-sprint-cap",
+
+    "star-cap":
+        "profile-hat-star-cap",
+
+    "visor":
+        "profile-hat-visor"
+
+};
+
+
+profileHat.className =
+    "profile-hat";
+
+
+if (
+    validHats[
+        character.hat
+    ]
+) {
+
+    profileHat.classList.add(
+        validHats[
+            character.hat
+        ]
+    );
+
+}
 
 
 /* =========================================================
@@ -2023,16 +2329,6 @@ const profileCharacter =
     );
 
 
-const profileEffect =
-    document.getElementById(
-        "profile-effect"
-    );
-
-
-/*
-   Remove old effect classes.
-*/
-
 profileCharacter.classList.remove(
 
     "effect-sparkle",
@@ -2049,10 +2345,9 @@ profileCharacter.classList.remove(
 );
 
 
-/*
-   Crown gets both the crown
-   and its glow.
-*/
+/* ---------------------------------------------------------
+   CROWN
+--------------------------------------------------------- */
 
 if (
     character.effect ===
@@ -2066,19 +2361,42 @@ if (
 }
 
 
-/*
-   Normal effects.
-*/
+/* ---------------------------------------------------------
+   NORMAL EFFECTS
+--------------------------------------------------------- */
 
 else if (
     character.effect !==
     "none"
 ) {
 
-    profileCharacter.classList.add(
-        "effect-" +
-        character.effect
-    );
+    const validEffects = [
+
+        "sparkle",
+        "speed-trail",
+        "lightning",
+        "rainbow",
+        "fire",
+        "glitch",
+        "shadow",
+        "crystal",
+        "cosmic"
+
+    ];
+
+
+    if (
+        validEffects.includes(
+            character.effect
+        )
+    ) {
+
+        profileCharacter.classList.add(
+            "effect-" +
+            character.effect
+        );
+
+    }
 
 }
 
@@ -2088,8 +2406,11 @@ else if (
 ========================================================= */
 
 console.log(
+
     "StudySprint Profile Character:",
+
     {
+
         skin:
             character.skin,
 
@@ -2102,6 +2423,9 @@ console.log(
         pants:
             character.pants,
 
+        hat:
+            character.hat,
+
         banner:
             character.banner,
 
@@ -2110,7 +2434,9 @@ console.log(
 
         effect:
             character.effect
+
     }
+
 );
 
 </script>
