@@ -232,15 +232,18 @@ const SHOP_ITEMS = [
         design: "golden"
     },
 
-    {
+   {
         id: "galaxy-goober",
         name: "Galaxy Goober",
         type: "Character",
         rarity: "Legendary",
         price: 1200,
         design: "galaxy"
-    },
+    }
 
+];
+
+window.DEBUG_GOOBERS = SHOP_CHARACTERS;
 
     /* =====================================================
        BANNERS
