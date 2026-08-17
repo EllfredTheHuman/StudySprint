@@ -1,152 +1,168 @@
-```css
 /* =========================================================
    STUDYSPRINT SHOP
-   ========================================================= */
+========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
     font-family:
-        Inter,
         Arial,
+        Helvetica,
         sans-serif;
-    background: #f4f5fb;
-    color: #171827;
+    background:
+        #f4f6fb;
+    color:
+        #172033;
 }
 
 
 /* =========================================================
    SHOP HEADER
-   ========================================================= */
+========================================================= */
 
 .shop-header {
-    width: min(1100px, 94%);
-    margin: 30px auto 20px;
-    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 15px;
 }
+
 
 .shop-header h1 {
     margin: 0;
-    font-size: 42px;
+    font-size: 38px;
     font-weight: 900;
 }
 
+
 .shop-header p {
-    margin: 8px 0 0;
-    color: #73758a;
-    font-weight: 600;
+    margin: 7px 0 0;
+    color: #64748b;
 }
 
 
 /* =========================================================
    CURRENCY
-   ========================================================= */
+========================================================= */
 
-.shop-currencies {
+.shop-currency {
     display: flex;
     justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
-    margin: 20px auto;
+    gap: 10px;
+    margin: 10px auto 20px;
 }
 
-.currency {
+
+.currency-pill {
+    padding: 10px 17px;
+    border-radius: 999px;
     background: white;
-    border-radius: 14px;
-    padding: 10px 18px;
     box-shadow:
-        0 5px 18px rgba(20, 20, 40, .08);
+        0 4px 15px rgba(15, 23, 42, .08);
     font-weight: 800;
 }
 
 
 /* =========================================================
    SHOP NAVIGATION
-   ========================================================= */
+========================================================= */
 
 .shop-navigation {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin: 24px auto;
+    flex-wrap: wrap;
+    margin: 10px auto 25px;
 }
 
-.shop-navigation button {
-    border: 0;
+
+.shop-nav-button {
+    border: none;
     border-radius: 13px;
-    padding: 12px 24px;
+    padding: 12px 22px;
+    background: #e2e8f0;
+    color: #334155;
     font-size: 15px;
-    font-weight: 900;
+    font-weight: 800;
     cursor: pointer;
-    background: #e5e7f2;
-    color: #44465b;
     transition:
         transform .15s ease,
         background .15s ease;
 }
 
-.shop-navigation button:hover {
+
+.shop-nav-button:hover {
     transform: translateY(-2px);
 }
 
-.shop-navigation button.active {
-    background: #5146d9;
+
+.shop-nav-button.active {
+    background: #4f46e5;
     color: white;
 }
 
 
 /* =========================================================
-   COUNTDOWN
-   ========================================================= */
-
-.shop-countdown {
-    text-align: center;
-    margin: 0 auto 25px;
-    color: #77798e;
-    font-weight: 700;
-}
-
-#countdown {
-    color: #5146d9;
-}
-
-
-/* =========================================================
    SHOP SECTIONS
-   ========================================================= */
+========================================================= */
 
 .shop-section {
-    width: min(1100px, 94%);
-    margin: 0 auto 45px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
 }
 
+
 .shop-section h2 {
-    margin-bottom: 6px;
+    margin: 0 0 7px;
     font-size: 27px;
     font-weight: 900;
 }
 
-.section-description {
-    margin-top: 0;
-    color: #77798e;
-    font-weight: 600;
+
+.shop-subtitle {
+    margin: 0 0 20px;
+    color: #64748b;
+}
+
+
+#ticket-shop {
+    display: none;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.shop-countdown {
+    display: inline-block;
+    margin: 5px 0 20px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #e0e7ff;
+    color: #3730a3;
+    font-weight: 800;
 }
 
 
 /* =========================================================
    ITEM GRID
-   ========================================================= */
+========================================================= */
 
 .shop-grid {
     display: grid;
     grid-template-columns:
         repeat(3, minmax(0, 1fr));
     gap: 18px;
-    margin-top: 22px;
 }
+
 
 @media (max-width: 850px) {
 
@@ -157,10 +173,12 @@ body {
 
 }
 
-@media (max-width: 550px) {
+
+@media (max-width: 560px) {
 
     .shop-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
     }
 
 }
@@ -168,7 +186,7 @@ body {
 
 /* =========================================================
    SHOP CARD
-   ========================================================= */
+========================================================= */
 
 .shop-card,
 .ticket-card,
@@ -177,987 +195,1081 @@ body {
     overflow: hidden;
     background: white;
     border-radius: 22px;
-    padding: 18px;
+    padding: 17px;
     text-align: center;
     box-shadow:
-        0 8px 28px rgba(25, 25, 50, .09);
+        0 7px 25px rgba(15, 23, 42, .08);
+    border: 2px solid #edf0f5;
     transition:
         transform .18s ease,
         box-shadow .18s ease;
 }
+
 
 .shop-card:hover,
 .ticket-card:hover,
 .studypass-card:hover {
     transform: translateY(-5px);
     box-shadow:
-        0 15px 38px rgba(25, 25, 50, .14);
+        0 15px 35px rgba(15, 23, 42, .13);
 }
 
 
 /* =========================================================
    RARITY
-   ========================================================= */
+========================================================= */
 
 .rarity-badge {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 5px 11px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: .6px;
-    background: #e8e9ef;
-    color: #5f6171;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
 }
+
 
 .rarity-common .rarity-badge {
-    background: #e9ebef;
-    color: #626573;
+    background: #e2e8f0;
+    color: #475569;
 }
+
 
 .rarity-rare .rarity-badge {
-    background: #dceeff;
-    color: #2876c9;
+    background: #dbeafe;
+    color: #1d4ed8;
 }
+
 
 .rarity-epic .rarity-badge {
-    background: #eee0ff;
-    color: #7d3ac7;
+    background: #f3e8ff;
+    color: #7e22ce;
 }
+
 
 .rarity-mythic .rarity-badge {
-    background: #ffe0f0;
-    color: #c52b72;
+    background: #fce7f3;
+    color: #be185d;
 }
 
+
 .rarity-legendary .rarity-badge {
-    background: #fff0bd;
-    color: #a66a00;
+    background: #fef3c7;
+    color: #b45309;
 }
 
 
 /* =========================================================
-   ITEM PREVIEW
-   ========================================================= */
+   PREVIEW
+========================================================= */
 
 .item-preview {
-    height: 210px;
-    margin: 10px 0;
+    height: 190px;
+    border-radius: 18px;
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #eef2ff
+        );
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
     overflow: hidden;
 }
+
 
 .shop-card h3,
 .ticket-card h3,
 .studypass-card h3 {
-    margin: 6px 0;
+    margin: 5px 0;
     font-size: 20px;
     font-weight: 900;
 }
 
+
 .item-type {
-    margin: 0 0 8px;
-    color: #85879a;
+    margin: 3px 0;
+    color: #64748b;
     font-size: 13px;
     font-weight: 700;
 }
 
-.item-price {
-    margin: 10px 0;
+
+.item-price,
+.ticket-price {
+    margin: 12px 0;
     font-weight: 900;
+    color: #3730a3;
 }
 
 
 /* =========================================================
    BUY BUTTON
-   ========================================================= */
+========================================================= */
 
 .buy-button {
     width: 100%;
-    border: 0;
+    border: none;
     border-radius: 12px;
     padding: 12px;
-    background: #5146d9;
+    background: #4f46e5;
     color: white;
     font-weight: 900;
     cursor: pointer;
     transition:
         transform .15s ease,
-        filter .15s ease;
+        background .15s ease;
 }
+
 
 .buy-button:hover:not(:disabled) {
     transform: translateY(-2px);
-    filter: brightness(1.08);
+    background: #4338ca;
 }
+
 
 .buy-button:disabled {
     cursor: default;
 }
 
+
 .buy-button.owned {
-    background: #dfe1e8;
-    color: #76798a;
+    background: #16a34a;
 }
 
 
 /* =========================================================
-   GOOBER SYSTEM
-   ========================================================= */
-
-/*
-   Every Goober uses the same safe container.
-
-   The actual body and design are handled by CSS.
-
-   This prevents the previous broken "feature pile"
-   problem.
-*/
+   GOOBER BASE
+========================================================= */
 
 .goober {
     position: relative;
-    width: 150px;
-    height: 150px;
-    flex: 0 0 150px;
+    width: 145px;
+    height: 145px;
+    flex-shrink: 0;
 }
+
 
 .goober-body {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 96px;
-    height: 88px;
-    transform: translate(-50%, -50%);
-    background: var(--goober-colour);
-    z-index: 2;
+    left: 20px;
+    top: 20px;
+    width: 105px;
+    height: 105px;
+    border-radius: 43% 57% 50% 50%;
+    background: #60a5fa;
+    box-shadow:
+        inset 0 -10px 0 rgba(0, 0, 0, .08),
+        0 8px 0 rgba(15, 23, 42, .08);
 }
 
 
 /* =========================================================
-   UNIVERSAL EYES
-   ========================================================= */
+   FACE
+========================================================= */
 
-.goober .goober-body::before,
-.goober .goober-body::after {
-    content: "";
+.goober-eye {
     position: absolute;
-    width: 11px;
-    height: 15px;
-    background: #171827;
+    z-index: 5;
+    width: 14px;
+    height: 20px;
     border-radius: 50%;
-    top: 32px;
+    background: #172033;
 }
 
-.goober .goober-body::before {
-    left: 27px;
+
+.eye-left {
+    left: 51px;
+    top: 58px;
 }
 
-.goober .goober-body::after {
-    right: 27px;
+
+.eye-right {
+    left: 80px;
+    top: 58px;
+}
+
+
+.goober-mouth {
+    position: absolute;
+    z-index: 5;
+    left: 65px;
+    top: 83px;
+    width: 25px;
+    height: 13px;
+    border-bottom: 4px solid #172033;
+    border-radius: 50%;
 }
 
 
 /* =========================================================
    LEAFY
-   ========================================================= */
+========================================================= */
 
-.goober-leafy .goober-body {
-    border-radius: 48% 52% 45% 55%;
+.goober-leafy .goober-body,
+.goober-study-sprout .goober-body {
+    background: #65a30d;
+    border-radius: 48% 52% 42% 58%;
 }
 
-.goober-leafy .goober-body::after {
-    right: 27px;
-}
 
-.goober-leafy::before {
-    content: "";
+.goober-leaf {
     position: absolute;
+    z-index: 7;
+    left: 69px;
+    top: 3px;
     width: 32px;
-    height: 18px;
-    background: #3f8e27;
+    height: 45px;
+    background: #22c55e;
     border-radius: 100% 0 100% 0;
-    top: 25px;
-    left: 62px;
-    transform: rotate(-25deg);
-    z-index: 3;
+    transform: rotate(25deg);
 }
 
-.goober-leafy::after {
-    content: "";
+
+.goober-leaf-two {
     position: absolute;
-    width: 24px;
-    height: 4px;
-    background: #171827;
-    border-radius: 10px;
-    left: 63px;
-    top: 94px;
-    z-index: 4;
+    z-index: 6;
+    left: 45px;
+    top: 7px;
+    width: 27px;
+    height: 35px;
+    background: #84cc16;
+    border-radius: 0 100% 0 100%;
+    transform: rotate(-25deg);
 }
 
 
 /* =========================================================
    SQUISH
-   ========================================================= */
+========================================================= */
 
 .goober-squish .goober-body {
-    width: 120px;
-    height: 72px;
-    border-radius: 48% 52% 42% 58%;
+    top: 42px;
+    height: 78px;
+    border-radius: 48% 52% 45% 55%;
+    transform: rotate(-5deg);
 }
 
-.goober-squish .goober-body::before {
-    left: 35px;
-    top: 25px;
+
+.goober-squish .eye-left,
+.goober-squish .eye-right {
+    top: 73px;
 }
 
-.goober-squish .goober-body::after {
-    right: 35px;
-    top: 25px;
+
+.goober-squish .goober-mouth {
+    top: 96px;
 }
 
-.goober-squish::after {
-    content: "";
+
+.squish-crease,
+.squish-crease-two {
     position: absolute;
-    width: 30px;
-    height: 5px;
+    z-index: 6;
+    width: 20px;
+    height: 7px;
+    border-top: 3px solid rgba(0, 0, 0, .16);
     border-radius: 50%;
-    border-bottom: 4px solid #171827;
-    left: 60px;
-    top: 88px;
-    z-index: 4;
+}
+
+
+.squish-crease {
+    left: 32px;
+    top: 74px;
+    transform: rotate(25deg);
+}
+
+
+.squish-crease-two {
+    right: 26px;
+    top: 83px;
+    transform: rotate(-25deg);
 }
 
 
 /* =========================================================
    PEBBLE
-   ========================================================= */
+========================================================= */
 
 .goober-pebble .goober-body {
-    width: 102px;
-    height: 91px;
-    border-radius: 45% 55% 53% 47%;
-    transform:
-        translate(-50%, -50%)
-        rotate(-7deg);
+    background: #78716c;
+    border-radius: 45% 55% 52% 48%;
+    box-shadow:
+        inset 0 -12px 0 rgba(0, 0, 0, .13),
+        0 7px 0 rgba(0, 0, 0, .08);
 }
 
-.goober-pebble::after {
-    content: "";
+
+.pebble-crack,
+.pebble-crack-two {
     position: absolute;
-    width: 23px;
-    height: 13px;
-    background: rgba(255,255,255,.22);
-    border-radius: 50%;
-    left: 55px;
-    top: 45px;
-    z-index: 3;
+    z-index: 7;
+    border-left: 3px solid rgba(255,255,255,.45);
+    border-bottom: 3px solid rgba(255,255,255,.45);
+    transform: rotate(-20deg);
+}
+
+
+.pebble-crack {
+    left: 38px;
+    top: 47px;
+    width: 20px;
+    height: 30px;
+}
+
+
+.pebble-crack-two {
+    right: 35px;
+    bottom: 42px;
+    width: 15px;
+    height: 22px;
 }
 
 
 /* =========================================================
    BUTTON
-   ========================================================= */
+========================================================= */
 
 .goober-button .goober-body {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    background: #f472b6;
+    border: 7px solid #db2777;
 }
 
-.goober-button::before {
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 30px;
-    background: #bfc2ce;
-    border-radius: 7px 7px 3px 3px;
-    left: 61px;
-    top: 22px;
-    z-index: 1;
-}
 
-.goober-button::after {
-    content: "";
+.button-ring {
     position: absolute;
-    width: 20px;
-    height: 5px;
-    background: #171827;
+    z-index: 7;
+    left: 54px;
+    top: 58px;
+    width: 42px;
+    height: 42px;
+    border: 3px solid rgba(255,255,255,.6);
     border-radius: 50%;
-    left: 65px;
-    top: 96px;
-    z-index: 4;
+}
+
+
+.button-dot-left,
+.button-dot-right {
+    position: absolute;
+    z-index: 8;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+.button-dot-left {
+    left: 66px;
+    top: 69px;
+}
+
+
+.button-dot-right {
+    left: 82px;
+    top: 87px;
 }
 
 
 /* =========================================================
    HORNS
-   ========================================================= */
+========================================================= */
 
 .goober-horns .goober-body {
-    border-radius: 46% 54% 48% 52%;
+    background: #a78bfa;
 }
 
-.goober-horns::before,
-.goober-horns::after {
-    content: "";
+
+.horn {
     position: absolute;
-    width: 28px;
-    height: 38px;
-    background: #d8c7ff;
-    z-index: 1;
-    top: 35px;
+    z-index: 7;
+    top: 5px;
+    width: 25px;
+    height: 48px;
+    background: #f5f5f4;
+    border-radius: 80% 20% 80% 20%;
 }
 
-.goober-horns::before {
-    left: 35px;
+
+.horn-left {
+    left: 25px;
     transform: rotate(-25deg);
-    border-radius: 70% 30% 20% 80%;
 }
 
-.goober-horns::after {
-    right: 35px;
-    transform: rotate(25deg);
-    border-radius: 30% 70% 80% 20%;
+
+.horn-right {
+    right: 25px;
+    transform: rotate(25deg) scaleX(-1);
 }
 
 
 /* =========================================================
    SHELLBY
-   ========================================================= */
+========================================================= */
 
 .goober-shellby .goober-body {
-    border-radius: 50%;
-    width: 98px;
-    height: 98px;
+    background: #34d399;
+    border-radius: 45%;
 }
 
-.goober-shellby::before {
-    content: "";
+
+.shell {
     position: absolute;
-    width: 112px;
-    height: 92px;
-    border: 8px solid #187b62;
+    z-index: 7;
+    right: 5px;
+    top: 38px;
+    width: 55px;
+    height: 70px;
     border-radius: 50%;
-    left: 19px;
-    top: 29px;
-    z-index: 1;
+    background: #92400e;
+    border: 6px solid #78350f;
 }
 
-.goober-shellby::after {
-    content: "";
+
+.shell-line {
     position: absolute;
-    width: 23px;
-    height: 5px;
-    border-bottom: 4px solid #171827;
-    border-radius: 50%;
-    left: 63px;
-    top: 99px;
-    z-index: 4;
+    z-index: 8;
+    right: 29px;
+    top: 43px;
+    height: 60px;
+    border-left: 3px solid #f59e0b;
 }
 
 
 /* =========================================================
    TALLBOI
-   ========================================================= */
+========================================================= */
 
 .goober-tallboi .goober-body {
-    width: 70px;
-    height: 125px;
-    border-radius: 42% 58% 35% 65%;
+    top: 7px;
+    height: 130px;
+    border-radius: 45% 55% 40% 60%;
+    background: #fbbf24;
 }
 
-.goober-tallboi .goober-body::before {
-    left: 17px;
-    top: 47px;
+
+.goober-tallboi .eye-left {
+    top: 50px;
 }
 
-.goober-tallboi .goober-body::after {
-    right: 17px;
-    top: 47px;
+
+.goober-tallboi .eye-right {
+    top: 50px;
 }
 
-.goober-tallboi::after {
-    content: "";
+
+.goober-tallboi .goober-mouth {
+    top: 78px;
+}
+
+
+.tall-hat {
     position: absolute;
-    width: 25px;
+    z-index: 8;
+    left: 48px;
+    top: 0;
+    width: 50px;
+    height: 18px;
+    background: #92400e;
+    border-radius: 5px;
+}
+
+
+.tall-stripe {
+    position: absolute;
+    z-index: 9;
+    left: 48px;
+    top: 11px;
+    width: 50px;
     height: 5px;
-    background: #171827;
-    border-radius: 50%;
-    left: 63px;
-    top: 105px;
-    z-index: 4;
+    background: #fef3c7;
 }
 
 
 /* =========================================================
    FOUR EYES
-   ========================================================= */
+========================================================= */
 
 .goober-four-eyes .goober-body {
-    width: 104px;
-    height: 94px;
-    border-radius: 42% 58% 50% 50%;
+    background: #fb7185;
 }
 
-.goober-four-eyes::before {
-    content: "•  •";
+
+.extra-eye {
     position: absolute;
-    left: 47px;
-    top: 47px;
-    color: #171827;
-    font-size: 24px;
-    letter-spacing: 14px;
-    z-index: 4;
+    z-index: 7;
+    width: 13px;
+    height: 18px;
+    background: #172033;
+    border-radius: 50%;
 }
 
-.goober-four-eyes::after {
-    content: "•  •";
-    position: absolute;
-    left: 47px;
-    top: 73px;
-    color: #171827;
-    font-size: 24px;
-    letter-spacing: 14px;
-    z-index: 4;
+
+.extra-eye-left {
+    left: 51px;
+    top: 91px;
+}
+
+
+.extra-eye-right {
+    left: 81px;
+    top: 91px;
 }
 
 
 /* =========================================================
    MOTHBALL
-   ========================================================= */
+========================================================= */
 
 .goober-mothball .goober-body {
-    width: 82px;
-    height: 82px;
+    background: #c084fc;
     border-radius: 50%;
 }
 
-.goober-mothball::before,
-.goober-mothball::after {
-    content: "";
+
+.moth-wing {
     position: absolute;
-    width: 64px;
-    height: 90px;
-    background: #b879e2;
-    opacity: .75;
-    top: 33px;
     z-index: 1;
-}
-
-.goober-mothball::before {
-    left: 9px;
+    top: 48px;
+    width: 55px;
+    height: 70px;
+    background: #a855f7;
     border-radius: 70% 30% 70% 30%;
-    transform: rotate(-24deg);
 }
 
-.goober-mothball::after {
-    right: 9px;
-    border-radius: 30% 70% 30% 70%;
-    transform: rotate(24deg);
+
+.moth-wing-left {
+    left: -3px;
+    transform: rotate(-25deg);
+}
+
+
+.moth-wing-right {
+    right: -3px;
+    transform: scaleX(-1) rotate(-25deg);
+}
+
+
+.moth-antenna {
+    position: absolute;
+    z-index: 8;
+    left: 58px;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    border-top: 3px solid #7e22ce;
+    border-radius: 50%;
 }
 
 
 /* =========================================================
    SPIKE
-   ========================================================= */
+========================================================= */
 
 .goober-spike .goober-body {
-    width: 90px;
-    height: 90px;
-    border-radius: 48%;
+    background: #f43f5e;
+    border-radius: 42%;
 }
 
-.goober-spike::before {
-    content: "▲ ▲ ▲";
+
+.spike-one,
+.spike-two,
+.spike-three,
+.spike-four {
     position: absolute;
-    top: 27px;
-    left: 42px;
-    font-size: 22px;
-    color: #f78ca0;
-    letter-spacing: 6px;
-    z-index: 3;
-    transform: rotate(-5deg);
+    z-index: 7;
+    width: 0;
+    height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 35px solid #be123c;
 }
 
-.goober-spike::after {
-    content: "▲ ▲";
-    position: absolute;
-    top: 92px;
-    left: 48px;
-    font-size: 18px;
-    color: #f78ca0;
-    z-index: 3;
+
+.spike-one {
+    left: 22px;
+    top: 23px;
+    transform: rotate(-40deg);
+}
+
+
+.spike-two {
+    right: 22px;
+    top: 23px;
+    transform: rotate(40deg);
+}
+
+
+.spike-three {
+    left: 25px;
+    bottom: 24px;
+    transform: rotate(-140deg);
+}
+
+
+.spike-four {
+    right: 25px;
+    bottom: 24px;
+    transform: rotate(140deg);
 }
 
 
 /* =========================================================
    ORBIT
-   ========================================================= */
+========================================================= */
 
 .goober-orbit .goober-body {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
+    background: #38bdf8;
 }
 
-.goober-orbit::before {
-    content: "";
+
+.orbit-ring {
     position: absolute;
-    width: 126px;
-    height: 45px;
-    border: 5px solid #256b9a;
+    z-index: 7;
+    left: 8px;
+    top: 43px;
+    width: 130px;
+    height: 55px;
+    border: 5px solid #2563eb;
     border-radius: 50%;
-    left: 12px;
-    top: 53px;
-    transform: rotate(-18deg);
-    z-index: 3;
+    transform: rotate(-20deg);
 }
 
-.goober-orbit::after {
-    content: "";
+
+.orbit-dot {
     position: absolute;
-    width: 13px;
-    height: 13px;
+    z-index: 8;
+    right: 6px;
+    top: 45px;
+    width: 14px;
+    height: 14px;
+    background: #facc15;
     border-radius: 50%;
-    background: #e8fbff;
-    left: 25px;
-    top: 72px;
-    z-index: 4;
 }
 
 
 /* =========================================================
    BUBBLE
-   ========================================================= */
+========================================================= */
 
 .goober-bubble .goober-body {
-    width: 105px;
-    height: 105px;
-    border-radius: 50%;
+    background: #22d3ee;
+    border: 5px solid #67e8f9;
     box-shadow:
-        inset -9px -11px 0 rgba(0,0,0,.08),
-        inset 8px 8px 0 rgba(255,255,255,.2);
+        inset -10px -10px 0 rgba(255,255,255,.18),
+        0 8px 20px rgba(34,211,238,.35);
 }
 
-.goober-bubble::before {
-    content: "";
+
+.bubble-highlight {
     position: absolute;
+    z-index: 7;
+    left: 38px;
+    top: 38px;
     width: 23px;
-    height: 23px;
-    background: rgba(255,255,255,.7);
+    height: 13px;
+    background: rgba(255,255,255,.65);
     border-radius: 50%;
-    left: 54px;
-    top: 45px;
-    z-index: 4;
+    transform: rotate(-25deg);
 }
 
-.goober-bubble::after {
-    content: "";
+
+.bubble-small {
     position: absolute;
-    width: 11px;
-    height: 11px;
-    background: rgba(255,255,255,.5);
+    z-index: 7;
+    right: 20px;
+    top: 30px;
+    width: 13px;
+    height: 13px;
+    background: #a5f3fc;
     border-radius: 50%;
-    left: 86px;
-    top: 74px;
-    z-index: 4;
 }
 
 
 /* =========================================================
-   CAPTAIN GOOB
-   ========================================================= */
+   CAPTAIN
+========================================================= */
 
 .goober-captain .goober-body {
-    width: 96px;
-    height: 91px;
-    border-radius: 45% 55% 48% 52%;
+    background: #8b5cf6;
 }
 
-.goober-captain::before {
-    content: "";
+
+.captain-cape {
     position: absolute;
-    width: 105px;
-    height: 24px;
-    background: #20264b;
-    left: 23px;
-    top: 32px;
-    border-radius: 8px 8px 2px 2px;
-    z-index: 3;
+    z-index: 1;
+    left: 16px;
+    top: 65px;
+    width: 112px;
+    height: 70px;
+    background: #dc2626;
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        80% 100%,
+        50% 75%,
+        20% 100%
+    );
 }
 
-.goober-captain::after {
-    content: "★";
+
+.captain-badge {
     position: absolute;
-    left: 68px;
-    top: 69px;
-    color: #ffe58a;
-    font-size: 22px;
-    z-index: 4;
+    z-index: 8;
+    left: 65px;
+    top: 100px;
+    width: 18px;
+    height: 18px;
+    background: #facc15;
+    border-radius: 50%;
+    border: 3px solid white;
 }
 
 
 /* =========================================================
    TAILSPIN
-   ========================================================= */
+========================================================= */
 
 .goober-tailspin .goober-body {
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
+    background: #ec4899;
 }
 
-.goober-tailspin::before {
-    content: "";
+
+.tail {
     position: absolute;
-    width: 70px;
-    height: 48px;
-    border: 9px solid #b42f78;
-    border-top-color: transparent;
-    border-left-color: transparent;
-    border-radius: 50%;
-    left: 67px;
-    top: 73px;
-    transform: rotate(-25deg);
     z-index: 1;
+    right: -7px;
+    bottom: 25px;
+    width: 55px;
+    height: 60px;
+    border: 9px solid #be185d;
+    border-left: none;
+    border-radius: 0 60% 60% 0;
+    transform: rotate(15deg);
 }
 
-.goober-tailspin::after {
-    content: "";
+
+.tail-tip {
     position: absolute;
-    width: 23px;
-    height: 5px;
-    background: #171827;
+    z-index: 7;
+    right: -9px;
+    bottom: 68px;
+    width: 20px;
+    height: 20px;
+    background: #be185d;
     border-radius: 50%;
-    left: 64px;
-    top: 99px;
-    z-index: 4;
 }
 
 
 /* =========================================================
    HOLY MOLY
-   ========================================================= */
+========================================================= */
 
-.goober-holymoly .goober-body {
-    width: 94px;
-    height: 90px;
-    border-radius: 50%;
+.goober-holy .goober-body {
+    background: #fde68a;
+    box-shadow:
+        0 0 22px rgba(250,204,21,.55);
 }
 
-.goober-holymoly::before {
-    content: "";
+
+.holy-halo {
     position: absolute;
-    width: 76px;
-    height: 15px;
-    border: 5px solid #d2a81e;
-    border-radius: 50%;
+    z-index: 8;
     left: 37px;
-    top: 25px;
-    z-index: 3;
+    top: 5px;
+    width: 72px;
+    height: 27px;
+    border: 6px solid #f59e0b;
+    border-radius: 50%;
 }
 
-.goober-holymoly::after {
-    content: "";
+
+.holy-rays {
     position: absolute;
-    width: 22px;
-    height: 5px;
-    background: #171827;
+    z-index: 7;
+    left: 15px;
+    top: 24px;
+    width: 115px;
+    height: 115px;
+    border: 3px dashed rgba(245,158,11,.55);
     border-radius: 50%;
-    left: 64px;
-    top: 99px;
-    z-index: 4;
 }
 
 
 /* =========================================================
    WINGNUT
-   ========================================================= */
+========================================================= */
 
 .goober-wingnut .goober-body {
-    width: 82px;
-    height: 82px;
-    border-radius: 50%;
+    background: #f0abfc;
 }
 
-.goober-wingnut::before,
-.goober-wingnut::after {
-    content: "";
+
+.wing {
     position: absolute;
-    width: 67px;
-    height: 84px;
-    background: #e4a9eb;
     z-index: 1;
-}
-
-.goober-wingnut::before {
-    left: 8px;
-    top: 39px;
+    top: 48px;
+    width: 50px;
+    height: 60px;
+    background: #d946ef;
     border-radius: 80% 20% 80% 20%;
-    transform: rotate(-24deg);
-}
-
-.goober-wingnut::after {
-    right: 8px;
-    top: 39px;
-    border-radius: 20% 80% 20% 80%;
-    transform: rotate(24deg);
 }
 
 
-/* =========================================================
-   JELLYBEAN
-   ========================================================= */
-
-.goober-jellybean .goober-body {
-    width: 84px;
-    height: 120px;
-    border-radius: 48% 52% 44% 56%;
-    transform:
-        translate(-50%, -50%)
-        rotate(12deg);
+.wing-left {
+    left: 0;
+    transform: rotate(-30deg);
 }
 
-.goober-jellybean::before {
-    content: "";
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: #ffb2c1;
-    left: 47px;
-    top: 50px;
-    z-index: 4;
-    box-shadow:
-        35px 20px 0 #ff9fb2,
-        20px 48px 0 #ffb9c7;
+
+.wing-right {
+    right: 0;
+    transform: scaleX(-1) rotate(-30deg);
 }
 
 
 /* =========================================================
    COSMO
-   ========================================================= */
+========================================================= */
 
 .goober-cosmo .goober-body {
-    width: 94px;
-    height: 94px;
-    border-radius: 50%;
-    background:
-        radial-gradient(
-            circle at 30% 30%,
-            #8375dc,
-            var(--goober-colour) 45%,
-            #17144d
-        );
+    background: #312e81;
+    box-shadow:
+        inset 0 -10px 0 rgba(0,0,0,.18),
+        0 0 25px rgba(99,102,241,.4);
 }
 
-.goober-cosmo::before {
-    content: "✦  ·  ★";
-    position: absolute;
-    left: 38px;
-    top: 46px;
-    color: white;
-    font-size: 15px;
-    letter-spacing: 5px;
-    z-index: 4;
+
+.goober-cosmo .goober-eye,
+.goober-study-orbit .goober-eye {
+    background: #fef08a;
 }
 
-.goober-cosmo::after {
-    content: "";
+
+.cosmo-ring {
     position: absolute;
-    width: 128px;
-    height: 46px;
-    border: 4px solid #7467cf;
+    z-index: 7;
+    left: 5px;
+    top: 36px;
+    width: 135px;
+    height: 70px;
+    border: 3px solid #fef08a;
     border-radius: 50%;
-    left: 11px;
-    top: 53px;
-    transform: rotate(28deg);
-    z-index: 3;
+    transform: rotate(20deg);
+}
+
+
+.cosmo-star {
+    position: absolute;
+    z-index: 8;
+    right: 13px;
+    top: 22px;
+    color: #fef08a;
+    font-size: 27px;
+}
+
+
+.cosmo-star::before {
+    content: "★";
 }
 
 
 /* =========================================================
    THE GOOBER
-   ========================================================= */
+========================================================= */
 
 .goober-the-goober .goober-body {
-    width: 108px;
-    height: 96px;
-    border-radius: 42% 58% 54% 46%;
+    background: #f97316;
+    border-radius: 48% 52% 55% 45%;
+    box-shadow:
+        inset 0 -12px 0 rgba(0,0,0,.1),
+        0 8px 0 #c2410c;
 }
 
-.goober-the-goober::before {
-    content: "✦";
+
+.goober-mask {
     position: absolute;
-    left: 37px;
-    top: 25px;
-    color: #ffd75c;
-    font-size: 23px;
-    z-index: 4;
+    z-index: 7;
+    left: 42px;
+    top: 48px;
+    width: 65px;
+    height: 32px;
+    background: #172033;
+    border-radius: 45%;
 }
 
-.goober-the-goober::after {
-    content: "";
+
+.goober-mark {
     position: absolute;
-    width: 35px;
-    height: 9px;
-    border-bottom: 5px solid #171827;
+    z-index: 8;
+    left: 68px;
+    top: 53px;
+    width: 12px;
+    height: 12px;
+    background: #fef08a;
     border-radius: 50%;
-    left: 58px;
-    top: 94px;
-    z-index: 4;
 }
 
 
 /* =========================================================
-   GOLDEN GOOBER
-   ========================================================= */
+   GOLDEN
+========================================================= */
 
 .goober-golden .goober-body {
-    width: 100px;
-    height: 96px;
-    border-radius: 50%;
     background:
         linear-gradient(
-            145deg,
-            #fff2a3,
-            var(--goober-colour) 45%,
-            #d38c05
+            135deg,
+            #fef08a,
+            #f59e0b
         );
+    border: 5px solid #d97706;
     box-shadow:
-        0 0 18px rgba(245,189,50,.7);
+        0 0 25px rgba(245,158,11,.55),
+        inset 0 -10px 0 rgba(180,83,9,.16);
 }
 
-.goober-golden::before {
+
+.golden-collar {
+    position: absolute;
+    z-index: 7;
+    left: 43px;
+    top: 110px;
+    width: 60px;
+    height: 12px;
+    background: #fef3c7;
+    border-radius: 50%;
+}
+
+
+.golden-spark-one,
+.golden-spark-two {
+    position: absolute;
+    z-index: 8;
+    color: #f59e0b;
+    font-size: 22px;
+}
+
+
+.golden-spark-one {
+    left: 18px;
+    top: 24px;
+}
+
+
+.golden-spark-two {
+    right: 8px;
+    bottom: 25px;
+}
+
+
+.golden-spark-one::before,
+.golden-spark-two::before {
     content: "✦";
-    position: absolute;
-    left: 31px;
-    top: 40px;
-    color: white;
-    font-size: 18px;
-    z-index: 4;
-    text-shadow:
-        54px 30px 0 white,
-        65px -16px 0 white;
-}
-
-.goober-golden::after {
-    content: "♛";
-    position: absolute;
-    left: 58px;
-    top: 16px;
-    color: #fff3a6;
-    font-size: 32px;
-    z-index: 5;
 }
 
 
 /* =========================================================
-   STUDY SPROUT
-   ========================================================= */
+   MUSHROOM
+========================================================= */
 
-.goober-study-sprout .goober-body {
-    width: 100px;
-    height: 92px;
+.goober-mushroom .goober-body {
+    top: 67px;
+    height: 63px;
+    border-radius: 35% 35% 48% 48%;
+    background: #f5f5f4;
+}
+
+
+.mushroom-cap {
+    position: absolute;
+    z-index: 8;
+    left: 20px;
+    top: 24px;
+    width: 105px;
+    height: 70px;
+    background: #dc2626;
+    border-radius: 70% 70% 35% 35%;
+    border-bottom: 7px solid #991b1b;
+}
+
+
+.mushroom-spot-one,
+.mushroom-spot-two {
+    position: absolute;
+    z-index: 9;
+    background: #fef2f2;
     border-radius: 50%;
 }
 
-.goober-study-sprout::before {
-    content: "🌱";
-    position: absolute;
-    left: 55px;
-    top: 7px;
-    font-size: 34px;
-    z-index: 5;
+
+.mushroom-spot-one {
+    left: 48px;
+    top: 40px;
+    width: 17px;
+    height: 17px;
 }
 
-.goober-study-sprout::after {
-    content: "📖";
-    position: absolute;
-    left: 53px;
-    top: 94px;
-    font-size: 27px;
-    z-index: 5;
+
+.mushroom-spot-two {
+    right: 43px;
+    top: 57px;
+    width: 13px;
+    height: 13px;
+}
+
+
+.mushroom-stem {
+    display: none;
 }
 
 
 /* =========================================================
    STUDY ORBIT
-   ========================================================= */
+========================================================= */
 
 .goober-study-orbit .goober-body {
-    width: 95px;
-    height: 95px;
-    border-radius: 50%;
-    background:
-        radial-gradient(
-            circle at 35% 30%,
-            #c1adff,
-            var(--goober-colour) 45%,
-            #372071
-        );
+    background: #7c3aed;
+    border: 5px solid #a78bfa;
 }
 
-.goober-study-orbit::before {
-    content: "";
-    position: absolute;
-    width: 135px;
-    height: 47px;
-    border: 5px solid #a38bff;
-    border-radius: 50%;
-    left: 8px;
-    top: 53px;
-    transform: rotate(-20deg);
-    z-index: 3;
-}
 
-.goober-study-orbit::after {
-    content: "★";
-    position: absolute;
-    left: 65px;
-    top: 47px;
-    color: white;
-    font-size: 18px;
-    z-index: 4;
+.goober-study-orbit .goober-mouth {
+    border-bottom-color: #fef08a;
 }
 
 
 /* =========================================================
    BANNERS
-   ========================================================= */
+========================================================= */
 
 .banner-preview {
-    width: 170px;
-    height: 105px;
-    border-radius: 16px;
+    width: 190px;
+    height: 125px;
+    border-radius: 15px;
+    position: relative;
     overflow: hidden;
-    box-shadow:
-        0 8px 20px rgba(0,0,0,.12);
 }
+
 
 .banner-sprint-grid {
     background:
         linear-gradient(
-            135deg,
-            #30267b,
-            #6366f1
-        );
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.15) 1px,
+            rgba(255,255,255,.12) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(255,255,255,.15) 1px,
+            rgba(255,255,255,.12) 1px,
             transparent 1px
         ),
         linear-gradient(
             135deg,
-            #30267b,
+            #312e81,
             #6366f1
         );
     background-size:
@@ -1165,271 +1277,372 @@ body {
         18px 18px,
         auto;
 }
+
 
 .banner-purple-grid {
     background:
         linear-gradient(
-            135deg,
-            #6d3dc7,
-            #b06df0
-        );
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.15) 1px,
+            rgba(255,255,255,.14) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(255,255,255,.15) 1px,
+            rgba(255,255,255,.14) 1px,
             transparent 1px
         ),
-        linear-gradient(
-            135deg,
-            #6d3dc7,
-            #b06df0
-        );
+        #7c3aed;
     background-size:
-        18px 18px,
-        18px 18px,
-        auto;
+        20px 20px,
+        20px 20px;
 }
+
 
 .banner-neon-blue {
     background:
+        radial-gradient(
+            circle at 30% 30%,
+            #67e8f9,
+            transparent 25%
+        ),
         linear-gradient(
             135deg,
-            #06b6d4,
-            #2563eb
+            #0e7490,
+            #1d4ed8
         );
 }
+
 
 .banner-sunset {
     background:
         linear-gradient(
             135deg,
+            #fb7185,
             #f97316,
-            #ec4899,
-            #8b5cf6
+            #facc15
         );
 }
 
-.banner-cosmic-grid {
+
+.banner-cosmic-banner {
     background:
         radial-gradient(
-            circle,
-            #fff 1px,
+            circle at 20% 30%,
+            white 1px,
+            transparent 2px
+        ),
+        radial-gradient(
+            circle at 70% 65%,
+            #c4b5fd 1px,
             transparent 2px
         ),
         linear-gradient(
             135deg,
-            #11114d,
-            #46269b
+            #111827,
+            #312e81
         );
     background-size:
-        25px 25px,
+        30px 30px,
+        45px 45px,
         auto;
 }
 
-.banner-gold-grid {
+
+.banner-glitch-banner {
     background:
-        linear-gradient(
-            135deg,
-            #9c6500,
-            #ffd45a
+        repeating-linear-gradient(
+            0deg,
+            #111827 0,
+            #111827 8px,
+            #ec4899 8px,
+            #ec4899 12px,
+            #06b6d4 12px,
+            #06b6d4 16px
         );
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.22) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.22) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            135deg,
-            #9c6500,
-            #ffd45a
-        );
-    background-size:
-        18px 18px,
-        18px 18px,
-        auto;
 }
 
 
 /* =========================================================
    TITLES
-   ========================================================= */
+========================================================= */
 
 .title-preview {
-    width: 130px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    font-size: 48px;
-    font-weight: 1000;
-    background: #f0f1f7;
-    color: #55576c;
-}
-
-.rarity-rare .title-preview {
-    background: #e4f1ff;
-    color: #2876c9;
-}
-
-.rarity-epic .title-preview {
-    background: #eee0ff;
-    color: #7d3ac7;
-}
-
-.rarity-mythic .title-preview {
-    background: #ffe1ef;
-    color: #c52b72;
-}
-
-.rarity-legendary .title-preview {
-    background: #fff0bd;
-    color: #a66a00;
-}
-
-
-/* =========================================================
-   STUDYPASS
-   ========================================================= */
-
-.studypass-card {
-    border: 2px solid #ded6ff;
-}
-
-.pass-badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: #e8e1ff;
-    color: #6b4ed1;
-    font-size: 11px;
+    padding: 17px 23px;
+    border-radius: 14px;
+    background: #f1f5f9;
+    font-size: 19px;
     font-weight: 900;
-    letter-spacing: .7px;
 }
 
-.studypass-preview {
-    height: 210px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+.title-preview.rarity-common {
+    color: #475569;
+}
+
+
+.title-preview.rarity-rare {
+    color: #2563eb;
+}
+
+
+.title-preview.rarity-epic {
+    color: #7e22ce;
+}
+
+
+.title-preview.rarity-legendary {
+    color: #b45309;
 }
 
 
 /* =========================================================
    TICKET SHOP
-   ========================================================= */
+========================================================= */
 
-.ticket-preview {
-    height: 170px;
+.ticket-item-preview {
+    height: 190px;
+    border-radius: 18px;
+    background:
+        linear-gradient(
+            145deg,
+            #eef2ff,
+            #f8fafc
+        );
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 14px;
 }
 
-.ticket-card p {
-    color: #77798d;
-    font-size: 13px;
-    line-height: 1.45;
+
+.ticket-effect {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+
+.ticket-sparkle::before {
+    content: "✦  ✧  ✦  ·  ✧";
+    position: absolute;
+    inset: 20px;
+    color: #f59e0b;
+    font-size: 25px;
+}
+
+
+.ticket-speed::before {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 40px;
+    left: -20px;
+    top: 70px;
+    border-top: 6px solid #38bdf8;
+    border-radius: 50%;
+    transform: rotate(-10deg);
+}
+
+
+.ticket-lightning::before {
+    content: "⚡";
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    font-size: 45px;
+}
+
+
+.ticket-rainbow {
+    background:
+        conic-gradient(
+            #ef4444,
+            #f59e0b,
+            #eab308,
+            #22c55e,
+            #06b6d4,
+            #6366f1,
+            #ef4444
+        );
+    opacity: .18;
+}
+
+
+.ticket-fire {
+    box-shadow:
+        inset 0 -30px 35px rgba(239,68,68,.4);
+}
+
+
+.ticket-glitch::before {
+    content: "///";
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    font-size: 40px;
+    color: #ec4899;
+    transform: skew(-20deg);
+}
+
+
+.ticket-shadow {
+    background:
+        radial-gradient(
+            circle,
+            rgba(15,23,42,.35),
+            transparent 65%
+        );
+}
+
+
+.ticket-crystal::before {
+    content: "◆ ◇ ◆";
+    position: absolute;
+    inset: 25px;
+    font-size: 35px;
+    color: #67e8f9;
+}
+
+
+.ticket-cosmic {
+    background:
+        radial-gradient(
+            circle,
+            #818cf8 1px,
+            transparent 2px
+        );
+    background-size: 25px 25px;
+}
+
+
+.ticket-crown::before {
+    content: "♛";
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 45px;
+    color: #f59e0b;
+}
+
+
+/* =========================================================
+   STUDYPASS
+========================================================= */
+
+.studypass-card {
+    border:
+        2px solid #c4b5fd;
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f5f3ff
+        );
+}
+
+
+.pass-badge {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: #7c3aed;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
+}
+
+
+.studypass-preview {
+    height: 200px;
+    border-radius: 18px;
+    background:
+        radial-gradient(
+            circle at center,
+            #ede9fe,
+            #ddd6fe
+        );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 
 /* =========================================================
    DEBUG
-   ========================================================= */
+========================================================= */
 
 .debug-overlay {
     position: fixed;
     inset: 0;
     z-index: 999999;
-    background:
-        rgba(0,0,0,.55);
+    background: rgba(15,23,42,.55);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
+
 .debug-box {
-    width: 360px;
+    width: 370px;
     max-width: 100%;
-    background: white;
+    max-height: 90vh;
+    overflow-y: auto;
     padding: 25px;
+    background: white;
     border-radius: 22px;
     box-shadow:
-        0 20px 60px rgba(0,0,0,.3);
+        0 25px 70px rgba(0,0,0,.3);
 }
+
 
 .debug-box h2 {
     margin-top: 0;
 }
 
-.debug-box p {
-    color: #77798d;
+
+.debug-box hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
 }
+
 
 .debug-box select,
 .debug-box input {
     width: 100%;
+    box-sizing: border-box;
     padding: 12px;
-    border: 1px solid #dddfe8;
     border-radius: 10px;
-    margin-bottom: 12px;
+    border: 1px solid #dbe2ea;
+    margin-bottom: 10px;
     font: inherit;
 }
+
 
 .debug-box button {
     width: 100%;
     padding: 12px;
-    border: 0;
+    border: none;
     border-radius: 10px;
+    margin-top: 7px;
     font-weight: 900;
     cursor: pointer;
 }
 
-.debug-apply {
-    background: #5146d9;
+
+#debug-apply {
+    background: #4f46e5;
     color: white;
 }
 
-.debug-close {
-    margin-top: 8px;
-    background: #ececf2;
-    color: #4d4f5d;
+
+#debug-close {
+    background: #e2e8f0;
+    color: #334155;
 }
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-
-    .shop-header h1 {
-        font-size: 34px;
-    }
-
-    .shop-navigation {
-        flex-direction: column;
-        width: 94%;
-    }
-
-    .shop-navigation button {
-        width: 100%;
-    }
-
-    .item-preview {
-        height: 190px;
-    }
-
-}
-```
-
