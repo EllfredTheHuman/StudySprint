@@ -1,4 +1,9 @@
 /* =========================================================
+   STUDYSPRINT SHOP
+========================================================= */
+
+
+/* =========================================================
    SHOP PAGE
 ========================================================= */
 
@@ -25,6 +30,7 @@
 
 }
 
+
 .shop-header h1 {
 
     font-size:46px;
@@ -35,11 +41,25 @@
 
 }
 
+
 .shop-header p {
 
     color:#6b7280;
 
     font-size:18px;
+
+}
+
+
+.shop-subtitle {
+
+    text-align:center;
+
+    color:#6b7280;
+
+    margin-top:-15px;
+
+    margin-bottom:25px;
 
 }
 
@@ -62,6 +82,7 @@
 
 }
 
+
 .currency {
 
     background:white;
@@ -76,57 +97,6 @@
 
     box-shadow:
         0 8px 25px rgba(0,0,0,.08);
-
-}
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-.shop-navigation {
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:12px;
-
-    margin-bottom:30px;
-
-    flex-wrap:wrap;
-
-}
-
-.shop-navigation button {
-
-    border:none;
-
-    padding:13px 24px;
-
-    border-radius:15px;
-
-    background:#e5e7eb;
-
-    font-weight:900;
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-.shop-navigation button:hover {
-
-    transform:translateY(-2px);
-
-}
-
-.shop-navigation button.active {
-
-    background:#6366f1;
-
-    color:white;
 
 }
 
@@ -147,9 +117,65 @@
 
 }
 
+
 .shop-countdown strong {
 
     color:#6366f1;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.shop-navigation {
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-bottom:35px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.shop-navigation button {
+
+    border:none;
+
+    padding:13px 24px;
+
+    border-radius:15px;
+
+    background:#e5e7eb;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.shop-navigation button:hover {
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.shop-navigation button.active {
+
+    background:#6366f1;
+
+    color:white;
 
 }
 
@@ -164,6 +190,7 @@
 
 }
 
+
 .shop-section h2 {
 
     text-align:center;
@@ -172,26 +199,17 @@
 
     font-weight:900;
 
-    margin-bottom:8px;
-
-}
-
-.shop-description {
-
-    text-align:center;
-
-    color:#6b7280;
-
     margin-bottom:25px;
 
 }
 
 
 /* =========================================================
-   GRID
+   GRIDS
 ========================================================= */
 
-.shop-grid {
+.shop-grid,
+.ticket-grid {
 
     display:grid;
 
@@ -207,10 +225,11 @@
 
 
 /* =========================================================
-   CARD
+   CARDS
 ========================================================= */
 
-.shop-card {
+.shop-card,
+.ticket-card {
 
     position:relative;
 
@@ -223,15 +242,17 @@
     box-shadow:
         0 10px 30px rgba(0,0,0,.08);
 
-    overflow:hidden;
-
     transition:
         transform .2s,
         box-shadow .2s;
 
+    overflow:hidden;
+
 }
 
-.shop-card:hover {
+
+.shop-card:hover,
+.ticket-card:hover {
 
     transform:
         translateY(-6px);
@@ -271,11 +292,29 @@
 }
 
 
-/* Common */
+.shop-card:nth-child(3n) .rarity {
 
-.shop-card:has(.rarity:first-child) {
+    background:#dbeafe;
 
-    --rarity-color:#6366f1;
+    color:#1d4ed8;
+
+}
+
+
+.shop-card:nth-child(5n) .rarity {
+
+    background:#ede9fe;
+
+    color:#7c3aed;
+
+}
+
+
+.shop-card:nth-child(7n) .rarity {
+
+    background:#fef3c7;
+
+    color:#b45309;
 
 }
 
@@ -284,7 +323,8 @@
    PREVIEW
 ========================================================= */
 
-.item-preview {
+.item-preview,
+.ticket-item-preview {
 
     height:190px;
 
@@ -311,95 +351,78 @@
 
 
 /* =========================================================
-   CHARACTER PREVIEW
+   SIMPLE CHARACTER
 ========================================================= */
 
-.character-preview {
+.shop-character {
 
-    width:110px;
+    width:120px;
 
-    height:160px;
+    height:150px;
 
     position:relative;
 
-    transform:scale(.95);
-
     transition:
-        transform .3s;
+        transform .25s;
 
 }
+
 
 .shop-card:hover
-.character-preview {
+.shop-character {
 
     transform:
-        scale(1.05)
-        translateY(-4px);
+        translateY(-5px)
+        scale(1.05);
 
 }
 
 
-.preview-head {
+.shop-character-body {
 
     position:absolute;
 
-    width:72px;
+    width:75px;
 
-    height:72px;
+    height:75px;
 
-    left:19px;
+    left:22px;
 
-    top:8px;
+    bottom:10px;
+
+    border-radius:
+        28px
+        28px
+        20px
+        20px;
+
+}
+
+
+.shop-character-face {
+
+    position:absolute;
+
+    width:60px;
+
+    height:60px;
+
+    left:30px;
+
+    top:18px;
 
     border-radius:50%;
 
-    background:#f6c7a8;
+    background:#ffd1a4;
 
     z-index:5;
 
 }
 
-.preview-body {
 
-    position:absolute;
+.shop-character-face::before {
 
-    width:65px;
-
-    height:65px;
-
-    left:22px;
-
-    top:68px;
-
-    border-radius:
-        22px 22px 12px 12px;
-
-    background:#6366f1;
-
-}
-
-.preview-legs {
-
-    position:absolute;
-
-    width:25px;
-
-    height:45px;
-
-    left:27px;
-
-    top:123px;
-
-    border-radius:9px;
-
-    background:#374151;
-
-    box-shadow:
-        33px 0 0 #374151;
-
-}
-
-.preview-face {
+    content:"";
 
     position:absolute;
 
@@ -407,55 +430,630 @@
 
     height:6px;
 
-    left:34px;
+    left:17px;
 
-    top:40px;
+    top:25px;
 
     border-radius:50%;
 
     background:#111827;
 
     box-shadow:
-        25px 0 0 #111827;
-
-    z-index:8;
+        20px 0 0 #111827;
 
 }
 
 
 /* =========================================================
-   BANNER PREVIEW
+   CHARACTER THEMES
 ========================================================= */
 
-.banner-preview {
 
-    width:160px;
+/* LIGHTNING */
+
+.character-lightning
+.shop-character-body {
+
+    background:#facc15;
+
+}
+
+
+.character-lightning
+.shop-character-face::after {
+
+    content:"⚡";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:16px;
+
+    font-size:34px;
+
+}
+
+
+/* SPROUT */
+
+.character-sprout
+.shop-character-body {
+
+    background:#22c55e;
+
+}
+
+
+.character-sprout
+.shop-character-face::after {
+
+    content:"🌱";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:13px;
+
+    font-size:32px;
+
+}
+
+
+/* ICE */
+
+.character-ice
+.shop-character-body {
+
+    background:#67e8f9;
+
+}
+
+
+.character-ice
+.shop-character-face {
+
+    background:#e0faff;
+
+}
+
+
+/* FLAME */
+
+.character-flame
+.shop-character-body {
+
+    background:#f97316;
+
+}
+
+
+.character-flame
+.shop-character-face::after {
+
+    content:"🔥";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:12px;
+
+    font-size:32px;
+
+}
+
+
+/* BERRY */
+
+.character-berry
+.shop-character-body {
+
+    background:#ec4899;
+
+}
+
+
+.character-berry
+.shop-character-face::after {
+
+    content:"🍓";
+
+    position:absolute;
+
+    top:-25px;
+
+    left:13px;
+
+    font-size:29px;
+
+}
+
+
+/* LEMON */
+
+.character-lemon
+.shop-character-body {
+
+    background:#fde047;
+
+}
+
+
+.character-lemon
+.shop-character-face::after {
+
+    content:"🍋";
+
+    position:absolute;
+
+    top:-25px;
+
+    left:13px;
+
+    font-size:29px;
+
+}
+
+
+/* CLOUD */
+
+.character-cloud
+.shop-character-body {
+
+    background:#bae6fd;
+
+}
+
+
+.character-cloud
+.shop-character-face {
+
+    background:#f8fafc;
+
+}
+
+
+.character-cloud
+.shop-character-face::after {
+
+    content:"☁️";
+
+    position:absolute;
+
+    top:-26px;
+
+    left:12px;
+
+    font-size:32px;
+
+}
+
+
+/* MOON */
+
+.character-moon
+.shop-character-body {
+
+    background:#312e81;
+
+}
+
+
+.character-moon
+.shop-character-face::after {
+
+    content:"🌙";
+
+    position:absolute;
+
+    top:-26px;
+
+    left:13px;
+
+    font-size:31px;
+
+}
+
+
+/* SUN */
+
+.character-sun
+.shop-character-body {
+
+    background:#f59e0b;
+
+}
+
+
+.character-sun
+.shop-character-face::after {
+
+    content:"☀️";
+
+    position:absolute;
+
+    top:-28px;
+
+    left:12px;
+
+    font-size:31px;
+
+}
+
+
+/* MUSHROOM */
+
+.character-mushroom
+.shop-character-body {
+
+    background:#ef4444;
+
+}
+
+
+.character-mushroom
+.shop-character-face::after {
+
+    content:"🍄";
+
+    position:absolute;
+
+    top:-28px;
+
+    left:12px;
+
+    font-size:32px;
+
+}
+
+
+/* FROG */
+
+.character-frog
+.shop-character-body {
+
+    background:#16a34a;
+
+}
+
+
+.character-frog
+.shop-character-face {
+
+    background:#86efac;
+
+}
+
+
+.character-frog
+.shop-character-face::after {
+
+    content:"🐸";
+
+    position:absolute;
+
+    top:-26px;
+
+    left:12px;
+
+    font-size:32px;
+
+}
+
+
+/* BEE */
+
+.character-bee
+.shop-character-body {
+
+    background:
+        linear-gradient(
+            #facc15 0 33%,
+            #111827 33% 66%,
+            #facc15 66%
+        );
+
+}
+
+
+/* FISH */
+
+.character-fish
+.shop-character-body {
+
+    background:#38bdf8;
+
+}
+
+
+.character-fish
+.shop-character-face::after {
+
+    content:"🐟";
+
+    position:absolute;
+
+    top:-26px;
+
+    left:12px;
+
+    font-size:32px;
+
+}
+
+
+/* BUTTERFLY */
+
+.character-butterfly
+.shop-character-body {
+
+    background:#a855f7;
+
+}
+
+
+.character-butterfly
+.shop-character-face::after {
+
+    content:"🦋";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:10px;
+
+    font-size:32px;
+
+}
+
+
+/* DINO */
+
+.character-dino
+.shop-character-body {
+
+    background:#65a30d;
+
+}
+
+
+.character-dino
+.shop-character-face {
+
+    background:#bef264;
+
+}
+
+
+.character-dino
+.shop-character-face::after {
+
+    content:"🦖";
+
+    position:absolute;
+
+    top:-28px;
+
+    left:11px;
+
+    font-size:33px;
+
+}
+
+
+/* ROBOT */
+
+.character-robot
+.shop-character-body {
+
+    background:#64748b;
+
+}
+
+
+.character-robot
+.shop-character-face {
+
+    background:#cbd5e1;
+
+    border-radius:15px;
+
+}
+
+
+/* GHOST */
+
+.character-ghost
+.shop-character-body {
+
+    background:#f8fafc;
+
+    border-radius:
+        35px
+        35px
+        10px
+        10px;
+
+}
+
+
+.character-ghost
+.shop-character-face {
+
+    background:#f8fafc;
+
+}
+
+
+/* LAB */
+
+.character-lab
+.shop-character-body {
+
+    background:#14b8a6;
+
+}
+
+
+.character-lab
+.shop-character-face::after {
+
+    content:"🧪";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:13px;
+
+    font-size:30px;
+
+}
+
+
+/* ARTIST */
+
+.character-artist
+.shop-character-body {
+
+    background:#f43f5e;
+
+}
+
+
+.character-artist
+.shop-character-face::after {
+
+    content:"🎨";
+
+    position:absolute;
+
+    top:-27px;
+
+    left:11px;
+
+    font-size:31px;
+
+}
+
+
+/* ROCKET */
+
+.character-rocket
+.shop-character-body {
+
+    background:#64748b;
+
+}
+
+
+.character-rocket
+.shop-character-face::after {
+
+    content:"🚀";
+
+    position:absolute;
+
+    top:-29px;
+
+    left:8px;
+
+    font-size:34px;
+
+}
+
+
+/* GALAXY */
+
+.character-galaxy
+.shop-character-body {
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            #c084fc 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 70% 65%,
+            #60a5fa 0 2px,
+            transparent 3px
+        ),
+        #312e81;
+
+}
+
+
+.character-galaxy
+.shop-character-face::after {
+
+    content:"✦";
+
+    position:absolute;
+
+    top:-28px;
+
+    left:18px;
+
+    color:#c4b5fd;
+
+    font-size:36px;
+
+}
+
+
+/* CHAMPION */
+
+.character-champion
+.shop-character-body {
+
+    background:
+        linear-gradient(
+            135deg,
+            #fef08a,
+            #f59e0b,
+            #d97706
+        );
+
+}
+
+
+.character-champion
+.shop-character-face::after {
+
+    content:"👑";
+
+    position:absolute;
+
+    top:-29px;
+
+    left:10px;
+
+    font-size:34px;
+
+}
+
+
+/* =========================================================
+   BANNERS
+========================================================= */
+
+.shop-banner-preview {
+
+    width:155px;
 
     height:105px;
 
-    border-radius:18px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:white;
-
-    font-weight:900;
-
-    font-size:16px;
-
-    text-align:center;
+    border-radius:16px;
 
     box-shadow:
         0 10px 25px rgba(0,0,0,.15);
 
 }
 
-
-/* Sprint Grid */
 
 .banner-sprint-grid {
 
@@ -492,8 +1090,6 @@
 }
 
 
-/* Purple */
-
 .banner-purple-grid {
 
     background:
@@ -503,46 +1099,53 @@
             #a855f7
         );
 
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.15)
+            1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.15)
+            1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7
+        );
+
+    background-size:
+        15px 15px,
+        15px 15px,
+        auto;
+
 }
 
-
-/* Neon */
 
 .banner-neon-blue {
 
     background:
         linear-gradient(
             135deg,
-            #0891b2,
-            #38bdf8
-        );
-
-}
-
-
-/* Sunset */
-
-.banner-sunset {
-
-    background:
-        linear-gradient(
-            135deg,
-            #f97316,
-            #ec4899
+            #06b6d4,
+            #2563eb
         );
 
 }
 
 
 /* =========================================================
-   EFFECT PREVIEW
+   EFFECT PREVIEWS
 ========================================================= */
 
-.effect-preview {
+.shop-effect-preview {
 
-    width:150px;
+    width:125px;
 
-    height:150px;
+    height:125px;
 
     border-radius:50%;
 
@@ -551,7 +1154,7 @@
 }
 
 
-/* Sparkle */
+/* SPARKLE */
 
 .effect-sparkle {
 
@@ -563,66 +1166,40 @@
         ),
         radial-gradient(
             circle at 75% 20%,
-            white 0 4px,
+            #6366f1 0 4px,
             transparent 5px
         ),
         radial-gradient(
-            circle at 82% 72%,
-            white 0 4px,
-            transparent 5px
-        ),
-        radial-gradient(
-            circle at 18% 75%,
+            circle at 80% 75%,
             white 0 3px,
             transparent 4px
         );
 
-    box-shadow:
-        0 0 25px #c4b5fd;
-
     animation:
-        spin 3s linear infinite;
+        effectSpin 3s linear infinite;
 
 }
 
 
-/* Speed */
+/* SPEED */
 
 .effect-speed-trail {
 
     border-left:
-        15px solid rgba(59,130,246,.5);
+        14px solid rgba(59,130,246,.5);
 
     border-right:
-        15px solid rgba(59,130,246,.15);
+        14px solid rgba(59,130,246,.15);
 
-    filter:
-        blur(2px);
+    filter:blur(2px);
 
     animation:
-        speedMove .8s infinite alternate;
+        trailMove .8s infinite alternate;
 
 }
 
 
-/* Lightning */
-
-.effect-lightning {
-
-    border:
-        5px solid #fde047;
-
-    box-shadow:
-        0 0 20px #facc15,
-        inset 0 0 25px #facc15;
-
-    animation:
-        flash .6s infinite;
-
-}
-
-
-/* Rainbow */
+/* RAINBOW */
 
 .effect-rainbow {
 
@@ -634,7 +1211,6 @@
             white,
             white
         ) padding-box,
-
         conic-gradient(
             red,
             orange,
@@ -647,12 +1223,29 @@
         ) border-box;
 
     animation:
-        spin 4s linear infinite;
+        effectSpin 4s linear infinite;
 
 }
 
 
-/* Fire */
+/* LIGHTNING */
+
+.effect-lightning {
+
+    border:
+        5px solid #fde047;
+
+    box-shadow:
+        0 0 15px #facc15,
+        inset 0 0 20px #facc15;
+
+    animation:
+        flash .6s infinite;
+
+}
+
+
+/* FIRE */
 
 .effect-fire {
 
@@ -660,8 +1253,8 @@
         6px solid #ff7300;
 
     box-shadow:
-        0 0 20px #ff4500,
-        0 0 40px #ff7300,
+        0 0 18px #ff4500,
+        0 0 35px #ff7300,
         inset 0 0 25px #ff4500;
 
     animation:
@@ -670,7 +1263,7 @@
 }
 
 
-/* Glitch */
+/* GLITCH */
 
 .effect-glitch {
 
@@ -687,9 +1280,13 @@
 }
 
 
-/* Shadow */
+/* SHADOW */
 
 .effect-shadow {
+
+    box-shadow:
+        0 0 35px #111827,
+        inset 0 0 30px #111827;
 
     background:
         radial-gradient(
@@ -698,14 +1295,10 @@
             transparent 70%
         );
 
-    box-shadow:
-        0 0 40px #111827,
-        inset 0 0 35px #111827;
-
 }
 
 
-/* Crystal */
+/* CRYSTAL */
 
 .effect-crystal {
 
@@ -713,8 +1306,8 @@
         6px solid #67e8f9;
 
     box-shadow:
-        0 0 20px #67e8f9,
-        0 0 40px #22d3ee;
+        0 0 15px #67e8f9,
+        0 0 30px #22d3ee;
 
     animation:
         crystalPulse 1.2s infinite alternate;
@@ -722,7 +1315,7 @@
 }
 
 
-/* Cosmic */
+/* COSMIC */
 
 .effect-cosmic {
 
@@ -741,69 +1334,196 @@
             circle at 30% 80%,
             #60a5fa 0 3px,
             transparent 4px
-        ),
-        radial-gradient(
-            circle at 75% 75%,
-            white 0 3px,
-            transparent 4px
         );
 
     box-shadow:
-        0 0 35px #8b5cf6;
+        0 0 30px #8b5cf6;
 
     animation:
-        spin 5s linear infinite;
+        effectSpin 5s linear infinite;
 
 }
 
 
-/* Crown */
+/* CROWN */
 
 .effect-crown {
 
-    width:100px;
-
-    height:70px;
-
-    border-radius:0;
-
     background:
         linear-gradient(
-            180deg,
-            #fff4a3,
-            #ffd43b 45%,
-            #d99a00
+            135deg,
+            #fff7ae,
+            #ffd700,
+            #f59e0b
         );
 
     clip-path:
         polygon(
-            2% 20%,
-            18% 55%,
-            35% 12%,
-            50% 55%,
-            66% 12%,
-            82% 55%,
-            98% 20%,
-            89% 90%,
-            11% 90%
+            0 100%,
+            10% 25%,
+            32% 65%,
+            50% 0,
+            68% 65%,
+            90% 25%,
+            100% 100%
         );
 
     filter:
         drop-shadow(
-            0 0 10px #ffd43b
+            0 0 12px #ffd700
         );
 
     animation:
-        crownFloat 2s ease-in-out infinite;
+        crownFloat 2s infinite;
 
 }
 
 
 /* =========================================================
-   TEXT
+   ANIMATIONS
 ========================================================= */
 
-.shop-card h3 {
+@keyframes effectSpin {
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+@keyframes trailMove {
+
+    from {
+
+        transform:
+            translateX(-10px);
+
+        opacity:.35;
+
+    }
+
+    to {
+
+        transform:
+            translateX(10px);
+
+        opacity:.8;
+
+    }
+
+}
+
+
+@keyframes flash {
+
+    0%,100% {
+        opacity:.35;
+    }
+
+    20% {
+        opacity:1;
+    }
+
+    25% {
+        opacity:.4;
+    }
+
+    30% {
+        opacity:1;
+    }
+
+}
+
+
+@keyframes firePulse {
+
+    from {
+        transform:
+            scale(.94);
+    }
+
+    to {
+        transform:
+            scale(1.04);
+    }
+
+}
+
+
+@keyframes glitch {
+
+    0% {
+        transform:
+            translate(0);
+    }
+
+    25% {
+        transform:
+            translate(3px,-2px);
+    }
+
+    50% {
+        transform:
+            translate(-3px,2px);
+    }
+
+    75% {
+        transform:
+            translate(2px,3px);
+    }
+
+    100% {
+        transform:
+            translate(0);
+    }
+
+}
+
+
+@keyframes crystalPulse {
+
+    from {
+        transform:
+            scale(.95);
+    }
+
+    to {
+        transform:
+            scale(1.04);
+    }
+
+}
+
+
+@keyframes crownFloat {
+
+    0%,100% {
+
+        transform:
+            translateY(0)
+            rotate(-2deg);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-7px)
+            rotate(2deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.shop-card h3,
+.ticket-card h3 {
 
     margin:
         8px 0 4px;
@@ -814,7 +1534,9 @@
 
 }
 
-.shop-card p {
+
+.shop-card p,
+.ticket-card p {
 
     color:#6b7280;
 
@@ -824,18 +1546,9 @@
 
 }
 
-.item-description {
 
-    font-size:14px;
-
-}
-
-
-/* =========================================================
-   PRICE
-========================================================= */
-
-.shop-price {
+.shop-price,
+.ticket-price {
 
     margin-top:15px;
 
@@ -876,6 +1589,7 @@
 
 }
 
+
 .buy-button:hover:not(:disabled) {
 
     transform:
@@ -885,6 +1599,7 @@
         brightness(1.08);
 
 }
+
 
 .buy-button:disabled {
 
@@ -908,113 +1623,191 @@
 }
 
 
+.ticket-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            white,
+            #f5f3ff
+        );
+
+}
+
+
+.crown-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            #fffdf0,
+            #fff7c2
+        );
+
+    box-shadow:
+        0 10px 30px rgba(234,179,8,.18);
+
+}
+
+
 /* =========================================================
-   ANIMATIONS
+   DEBUG
 ========================================================= */
 
-@keyframes spin {
+.debug-area {
 
-    to {
-        transform:rotate(360deg);
-    }
+    display:flex;
 
-}
+    justify-content:center;
 
-@keyframes speedMove {
-
-    from {
-        transform:translateX(-10px);
-        opacity:.35;
-    }
-
-    to {
-        transform:translateX(10px);
-        opacity:.8;
-    }
+    padding:
+        0 20px
+        30px;
 
 }
 
-@keyframes flash {
 
-    0%,100% {
-        opacity:.35;
-    }
+.debug-button {
 
-    20% {
-        opacity:1;
-    }
+    border:none;
 
-    25% {
-        opacity:.4;
-    }
+    padding:
+        10px 20px;
 
-    30% {
-        opacity:1;
-    }
+    border-radius:12px;
 
-}
+    background:#e5e7eb;
 
-@keyframes firePulse {
+    color:#6b7280;
 
-    from {
-        transform:scale(.94);
-    }
+    font-weight:800;
 
-    to {
-        transform:scale(1.06);
-    }
+    cursor:pointer;
+
+    transition:.2s;
 
 }
 
-@keyframes glitch {
 
-    0% {
-        transform:translate(0);
-    }
+.debug-button:hover {
 
-    25% {
-        transform:translate(4px,-2px);
-    }
+    background:#d1d5db;
 
-    50% {
-        transform:translate(-4px,2px);
-    }
-
-    75% {
-        transform:translate(2px,3px);
-    }
-
-    100% {
-        transform:translate(0);
-    }
+    transform:
+        translateY(-2px);
 
 }
 
-@keyframes crystalPulse {
 
-    from {
-        transform:scale(.95);
-    }
+/* =========================================================
+   DEBUG OVERLAY
+========================================================= */
 
-    to {
-        transform:scale(1.05);
-    }
+.debug-overlay {
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:999999;
+
+    background:
+        rgba(0,0,0,.55);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-family:
+        Arial,
+        sans-serif;
 
 }
 
-@keyframes crownFloat {
 
-    0%,100% {
-        transform:
-            translateY(0)
-            rotate(-2deg);
-    }
+.debug-overlay.visible {
 
-    50% {
-        transform:
-            translateY(-7px)
-            rotate(2deg);
-    }
+    display:flex;
+
+}
+
+
+.debug-box {
+
+    width:360px;
+
+    max-width:90%;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:22px;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.3);
+
+}
+
+
+.debug-box h2 {
+
+    margin-top:0;
+
+}
+
+
+.debug-box select,
+.debug-box input {
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ddd;
+
+    margin-bottom:12px;
+
+    font-size:15px;
+
+}
+
+
+.debug-box button {
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4f46e5;
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+}
+
+
+.debug-box .debug-cancel {
+
+    background:#eee;
+
+    color:#111827;
+
+    margin-top:8px;
 
 }
 
@@ -1032,7 +1825,8 @@
     }
 
 
-    .shop-grid {
+    .shop-grid,
+    .ticket-grid {
 
         grid-template-columns:
             repeat(
@@ -1047,241 +1841,12 @@
 
 @media(max-width:480px) {
 
-    .shop-grid {
+    .shop-grid,
+    .ticket-grid {
 
-        grid-template-columns:1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
 }
-<button id="debug-button">
-    🛠️ Debug
-</button>
-
-<script>
-document.getElementById("debug-button").onclick = () => {
-
-    const overlay = document.createElement("div");
-
-    overlay.style.cssText = `
-        position:fixed;
-        inset:0;
-        z-index:999999;
-        background:rgba(0,0,0,.55);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-family:Arial,sans-serif;
-    `;
-
-    const box = document.createElement("div");
-
-    box.style.cssText = `
-        width:360px;
-        max-width:90%;
-        background:white;
-        padding:25px;
-        border-radius:22px;
-        box-shadow:0 20px 60px rgba(0,0,0,.3);
-    `;
-
-    box.innerHTML = `
-        <h2 style="margin-top:0">
-            🛠️ StudySprint Debug
-        </h2>
-
-        <p>
-            What do you want to change?
-        </p>
-
-        <select id="debug-type" style="
-            width:100%;
-            padding:12px;
-            border-radius:10px;
-            border:1px solid #ddd;
-            margin-bottom:12px;
-            box-sizing:border-box;
-        ">
-            <option value="xp">⭐ XP</option>
-            <option value="coins">🪙 Coins</option>
-            <option value="tickets">🎟️ Shop Tickets</option>
-            <option value="streak">🔥 Streak</option>
-            <option value="reset">🗑️ Reset Account</option>
-        </select>
-
-        <input
-            id="debug-value"
-            type="number"
-            placeholder="Amount"
-            style="
-                width:100%;
-                box-sizing:border-box;
-                padding:12px;
-                border-radius:10px;
-                border:1px solid #ddd;
-                margin-bottom:12px;
-            "
-        >
-
-        <button id="debug-apply" style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:10px;
-            background:#4f46e5;
-            color:white;
-            font-weight:800;
-            cursor:pointer;
-        ">
-            Apply
-        </button>
-
-        <button id="debug-close" style="
-            width:100%;
-            padding:12px;
-            border:none;
-            border-radius:10px;
-            background:#eee;
-            margin-top:8px;
-            font-weight:700;
-            cursor:pointer;
-        ">
-            Cancel
-        </button>
-    `;
-
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
-
-    const type =
-        box.querySelector("#debug-type");
-
-    const value =
-        box.querySelector("#debug-value");
-
-
-    function updateInput() {
-
-        if (type.value === "reset") {
-
-            value.style.display = "none";
-
-        } else {
-
-            value.style.display = "block";
-
-        }
-
-    }
-
-
-    type.addEventListener(
-        "change",
-        updateInput
-    );
-
-    updateInput();
-
-
-    box.querySelector("#debug-close").onclick =
-        () => {
-
-            overlay.remove();
-
-        };
-
-
-    box.querySelector("#debug-apply").onclick =
-        () => {
-
-            const selected =
-                type.value;
-
-
-            /* ================================
-               RESET ACCOUNT
-            ================================= */
-
-            if (selected === "reset") {
-
-                const confirmed =
-                    confirm(
-                        "⚠️ Reset your entire StudySprint account?\n\n" +
-                        "This will remove your saved XP, coins, " +
-                        "tickets, streak, stats, achievements " +
-                        "and other local account data."
-                    );
-
-
-                if (!confirmed)
-                    return;
-
-
-                localStorage.clear();
-
-
-                alert(
-                    "✅ Account reset!\n\n" +
-                    "Reloading StudySprint..."
-                );
-
-
-                location.reload();
-
-                return;
-
-            }
-
-
-            /* ================================
-               SET VALUE
-            ================================= */
-
-            const amount =
-                Number(value.value);
-
-
-            if (!Number.isFinite(amount)) {
-
-                alert(
-                    "Enter a valid number."
-                );
-
-                return;
-
-            }
-
-
-            const keys = {
-
-                xp: "xp",
-
-                coins: "coins",
-
-                tickets: "shopTickets",
-
-                streak: "streak"
-
-            };
-
-
-            localStorage.setItem(
-                keys[selected],
-                amount
-            );
-
-
-            alert(
-                `✅ ${selected} set to ${amount}!`
-            );
-
-
-            overlay.remove();
-
-
-            location.reload();
-
-        };
-
-};
-</script>
