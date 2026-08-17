@@ -20,17 +20,16 @@
 <style>
 
 /* =========================================================
-   PROFILE PAGE
+   PROFILE
 ========================================================= */
 
 .profile-page {
 
-    width: 90%;
-    max-width: 1000px;
+    max-width:1100px;
 
-    margin: 0 auto;
+    margin:0 auto;
 
-    padding: 30px 0 80px;
+    padding:30px 20px 80px;
 
 }
 
@@ -41,144 +40,370 @@
 
 .profile-header {
 
-    display: flex;
+    text-align:center;
 
-    align-items: center;
-
-    gap: 25px;
-
-    padding: 30px;
-
-    margin-bottom: 25px;
-
-    border-radius: 30px;
-
-    background: white;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.08);
+    margin-bottom:35px;
 
 }
 
-.profile-avatar {
+.profile-header h1 {
 
-    width: 110px;
-    height: 110px;
+    font-size:42px;
 
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    flex-shrink: 0;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7c3aed,
-            #6366f1
-        );
-
-    color: white;
-
-    font-size: 55px;
-
-    box-shadow:
-        0 10px 25px rgba(99,102,241,.25);
+    margin-bottom:8px;
 
 }
 
-.profile-header-text h1 {
+.profile-header p {
 
-    margin: 0 0 5px;
+    opacity:.7;
 
-    font-size: 38px;
-
-    font-weight: 900;
-
-}
-
-.profile-header-text p {
-
-    margin: 0;
-
-    color: #64748b;
-
-    font-weight: 700;
+    font-weight:600;
 
 }
 
 
 /* =========================================================
-   LEVEL CARD
+   STATS GRID
 ========================================================= */
 
-.level-card {
+.stats-grid {
 
-    padding: 30px;
+    display:grid;
 
-    margin-bottom: 25px;
+    grid-template-columns:
+        repeat(4,1fr);
 
-    border-radius: 25px;
+    gap:18px;
 
-    background: white;
+    margin-bottom:30px;
+
+}
+
+
+.stat-card {
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:25px;
+
+    text-align:center;
 
     box-shadow:
         0 10px 25px rgba(0,0,0,.07);
 
 }
 
-.level-top {
 
-    display: flex;
+.stat-icon {
 
-    align-items: center;
+    font-size:32px;
 
-    justify-content: space-between;
-
-    margin-bottom: 14px;
+    margin-bottom:8px;
 
 }
 
-.level-top h2 {
 
-    margin: 0;
+.stat-value {
 
-    font-size: 28px;
+    font-size:32px;
+
+    font-weight:900;
+
+    color:#4f46e5;
+
+}
+
+
+.stat-label {
+
+    margin-top:5px;
+
+    opacity:.65;
+
+    font-weight:700;
 
 }
 
-.level-xp {
 
-    color: #64748b;
+/* =========================================================
+   STREAK
+========================================================= */
 
-    font-weight: 800;
+.streak-card {
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff7ed,
+            #ffedd5
+        );
+
+    border-radius:35px;
+
+    min-height:280px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    margin-bottom:30px;
+
+    box-shadow:
+        0 15px 35px rgba(249,115,22,.15);
 
 }
+
+
+/* =========================================================
+   STREAK NUMBER
+========================================================= */
+
+.streak-number {
+
+    position:relative;
+
+    font-size:180px;
+
+    line-height:.85;
+
+    font-weight:1000;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:#f97316;
+
+    -webkit-text-stroke:
+        5px #ea580c;
+
+    text-shadow:
+
+        0 5px 0 #c2410c,
+
+        0 10px 20px rgba(234,88,12,.35);
+
+    filter:
+        drop-shadow(
+            0 0 12px rgba(249,115,22,.45)
+        );
+
+}
+
+
+/* =========================================================
+   FIRE LAYER
+========================================================= */
+
+.streak-number::before {
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-12px;
+
+    width:130%;
+
+    height:130%;
+
+    transform:
+        translateX(-50%);
+
+    z-index:-1;
+
+    background:
+
+        radial-gradient(
+            ellipse at 50% 85%,
+            #fff7ae 0%,
+            #facc15 20%,
+            #f97316 43%,
+            #ef4444 62%,
+            transparent 72%
+        );
+
+    filter:
+        blur(8px);
+
+    opacity:.9;
+
+    animation:
+        streakFire
+        .7s
+        ease-in-out
+        infinite
+        alternate;
+
+}
+
+
+/* =========================================================
+   INNER FIRE
+========================================================= */
+
+.streak-number::after {
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-5px;
+
+    width:75%;
+
+    height:85%;
+
+    transform:
+        translateX(-50%);
+
+    z-index:-1;
+
+    background:
+
+        radial-gradient(
+            ellipse at 50% 90%,
+            #fff
+            0%,
+            #fff7ae
+            18%,
+            #facc15
+            40%,
+            transparent
+            70%
+        );
+
+    filter:
+        blur(5px);
+
+    opacity:.7;
+
+    animation:
+        streakInnerFire
+        .5s
+        ease-in-out
+        infinite
+        alternate;
+
+}
+
+
+/* =========================================================
+   STREAK LABEL
+========================================================= */
+
+.streak-label {
+
+    margin-top:20px;
+
+    font-size:25px;
+
+    font-weight:900;
+
+    color:#c2410c;
+
+}
+
+
+.streak-subtitle {
+
+    margin-top:5px;
+
+    font-weight:700;
+
+    opacity:.65;
+
+}
+
+
+/* =========================================================
+   XP SECTION
+========================================================= */
+
+.xp-card {
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:30px;
+
+    margin-bottom:30px;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.07);
+
+}
+
+
+.xp-header {
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+}
+
+
+.xp-header h2 {
+
+    margin:0;
+
+}
+
+
+.xp-text {
+
+    font-weight:800;
+
+    color:#4f46e5;
+
+}
+
 
 .xp-bar {
 
-    width: 100%;
+    width:100%;
 
-    height: 18px;
+    height:22px;
 
-    overflow: hidden;
+    background:#e5e7eb;
 
-    border-radius: 20px;
+    border-radius:50px;
 
-    background: #e2e8f0;
+    overflow:hidden;
 
 }
 
+
 .xp-progress {
 
-    width: 0%;
+    height:100%;
 
-    height: 100%;
+    width:0%;
 
-    border-radius: 20px;
+    border-radius:50px;
 
     background:
         linear-gradient(
@@ -188,104 +413,120 @@
         );
 
     transition:
-        width .4s ease;
+        width .5s ease;
 
 }
 
 
 /* =========================================================
-   STATS
+   PROFILE DETAILS
 ========================================================= */
 
-.stats-grid {
+.profile-details {
 
-    display: grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(2,1fr);
 
-    gap: 20px;
-
-    margin-bottom: 25px;
+    gap:20px;
 
 }
 
-.stat-card {
 
-    padding: 25px;
+.detail-card {
 
-    border-radius: 25px;
+    background:white;
 
-    background: white;
+    padding:25px;
+
+    border-radius:25px;
 
     box-shadow:
         0 10px 25px rgba(0,0,0,.07);
 
 }
 
-.stat-label {
 
-    margin-bottom: 8px;
+.detail-card h2 {
 
-    color: #64748b;
-
-    font-weight: 800;
+    margin-top:0;
 
 }
 
-.stat-value {
 
-    font-size: 34px;
+.detail-row {
 
-    font-weight: 900;
+    display:flex;
 
-    color: #312e81;
+    justify-content:
+        space-between;
+
+    padding:12px 0;
+
+    border-bottom:
+        1px solid #eef2f7;
+
+    font-weight:700;
+
+}
+
+
+.detail-row:last-child {
+
+    border-bottom:none;
 
 }
 
 
 /* =========================================================
-   ACHIEVEMENTS
+   ANIMATIONS
 ========================================================= */
 
-.achievements-card {
+@keyframes streakFire {
 
-    padding: 30px;
+    from {
 
-    border-radius: 25px;
+        transform:
+            translateX(-50%)
+            scale(.94)
+            translateY(4px);
 
-    background: white;
+        opacity:.75;
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
+    }
 
-}
+    to {
 
-.achievements-card h2 {
+        transform:
+            translateX(-50%)
+            scale(1.06)
+            translateY(-5px);
 
-    margin-top: 0;
+        opacity:1;
 
-    margin-bottom: 18px;
-
-}
-
-.achievement {
-
-    padding: 15px;
-
-    margin-top: 10px;
-
-    border-radius: 15px;
-
-    background: #f8fafc;
-
-    font-weight: 800;
+    }
 
 }
 
-.achievement.locked {
 
-    opacity: .5;
+@keyframes streakInnerFire {
+
+    from {
+
+        transform:
+            translateX(-50%)
+            scale(.9);
+
+    }
+
+    to {
+
+        transform:
+            translateX(-50%)
+            scale(1.08);
+
+    }
 
 }
 
@@ -294,30 +535,41 @@
    MOBILE
 ========================================================= */
 
-@media(max-width:700px) {
-
-    .profile-header {
-
-        flex-direction: column;
-
-        text-align: center;
-
-    }
+@media(max-width:800px) {
 
     .stats-grid {
 
         grid-template-columns:
-            1fr;
+            repeat(2,1fr);
 
     }
 
-    .level-top {
+    .profile-details {
 
-        flex-direction: column;
+        grid-template-columns:1fr;
 
-        align-items: flex-start;
+    }
 
-        gap: 5px;
+}
+
+
+@media(max-width:500px) {
+
+    .profile-header h1 {
+
+        font-size:34px;
+
+    }
+
+    .streak-number {
+
+        font-size:130px;
+
+    }
+
+    .streak-card {
+
+        min-height:240px;
 
     }
 
@@ -331,15 +583,12 @@
 <body>
 
 
-<!-- =========================================================
-     NAVIGATION
-========================================================= -->
-
 <header>
 
 <div class="logo">
 🚀 StudySprint
 </div>
+
 
 <nav>
 
@@ -364,60 +613,169 @@ Home
 </header>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
-
-<main>
-
-<div class="profile-page">
+<main class="profile-page">
 
 
-<!-- =========================================================
-     PROFILE HEADER
-========================================================= -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <section class="profile-header">
 
-<div class="profile-avatar">
-👤
-</div>
-
-<div class="profile-header-text">
-
-<h1 id="username">
+<h1 id="profile-name">
 Player
 </h1>
 
 <p>
-Your StudySprint profile
+Your StudySprint progress
 </p>
-
-</div>
 
 </section>
 
 
-<!-- =========================================================
-     LEVEL
-========================================================= -->
+<!-- =====================================================
+     STATS
+===================================================== -->
 
-<section class="level-card">
+<section class="stats-grid">
 
-<div class="level-top">
+
+<div class="stat-card">
+
+<div class="stat-icon">
+⭐
+</div>
+
+<div
+    id="stat-xp"
+    class="stat-value"
+>
+0
+</div>
+
+<div class="stat-label">
+XP
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon">
+🏆
+</div>
+
+<div
+    id="stat-level"
+    class="stat-value"
+>
+1
+</div>
+
+<div class="stat-label">
+Level
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon">
+🏃
+</div>
+
+<div
+    id="stat-sprints"
+    class="stat-value"
+>
+0
+</div>
+
+<div class="stat-label">
+Sprints Completed
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon">
+🎯
+</div>
+
+<div
+    id="stat-best"
+    class="stat-value"
+>
+0%
+</div>
+
+<div class="stat-label">
+Best Score
+</div>
+
+</div>
+
+
+</section>
+
+
+<!-- =====================================================
+     STREAK
+===================================================== -->
+
+<section class="streak-card">
+
+
+<div
+    id="streak-number"
+    class="streak-number"
+>
+0
+</div>
+
+
+<div class="streak-label">
+DAY STREAK
+</div>
+
+
+<div
+    id="streak-subtitle"
+    class="streak-subtitle"
+>
+Start a Sprint today!
+</div>
+
+
+</section>
+
+
+<!-- =====================================================
+     XP PROGRESS
+===================================================== -->
+
+<section class="xp-card">
+
+
+<div class="xp-header">
 
 <h2>
-Level <span id="level">1</span>
+⚡ Level Progress
 </h2>
 
 <div
-    id="level-xp"
-    class="level-xp"
+    id="xp-text"
+    class="xp-text"
 >
 0 / 100 XP
 </div>
 
 </div>
+
 
 <div class="xp-bar">
 
@@ -428,116 +786,107 @@ Level <span id="level">1</span>
 
 </div>
 
-</section>
-
-
-<!-- =========================================================
-     STATS
-========================================================= -->
-
-<section class="stats-grid">
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-⭐ Total XP
-</div>
-
-<div
-    id="xp"
-    class="stat-value"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-🏃 Sprints Completed
-</div>
-
-<div
-    id="sprints"
-    class="stat-value"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-🔥 Current Streak
-</div>
-
-<div
-    id="streak"
-    class="stat-value"
->
-0
-</div>
-
-</div>
-
-
-<div class="stat-card">
-
-<div class="stat-label">
-🏆 Best Score
-</div>
-
-<div
-    id="best-score"
-    class="stat-value"
->
-0%
-</div>
-
-</div>
-
 
 </section>
 
 
-<!-- =========================================================
-     ACHIEVEMENTS
-========================================================= -->
+<!-- =====================================================
+     DETAILS
+===================================================== -->
 
-<section class="achievements-card">
+<section class="profile-details">
+
+
+<div class="detail-card">
 
 <h2>
-🏆 Achievements
+📊 Statistics
 </h2>
 
-<div class="achievement">
-🚀 First Sprint — Complete your first Sprint
+
+<div class="detail-row">
+
+<span>
+Total XP
+</span>
+
+<strong id="detail-xp">
+0
+</strong>
+
 </div>
 
-<div class="achievement">
-🔥 Getting Started — Reach a 3 day streak
+
+<div class="detail-row">
+
+<span>
+Sprints Completed
+</span>
+
+<strong id="detail-sprints">
+0
+</strong>
+
 </div>
 
-<div class="achievement locked">
-🔒 Sprint Master — Complete 50 Sprints
+
+<div class="detail-row">
+
+<span>
+Best Score
+</span>
+
+<strong id="detail-best">
+0%
+</strong>
+
 </div>
+
+
+</div>
+
+
+<div class="detail-card">
+
+<h2>
+🔥 Streak
+</h2>
+
+
+<div class="detail-row">
+
+<span>
+Current Streak
+</span>
+
+<strong id="detail-streak">
+0 days
+</strong>
+
+</div>
+
+
+<div class="detail-row">
+
+<span>
+Status
+</span>
+
+<strong id="streak-status">
+Start today!
+</strong>
+
+</div>
+
+
+</div>
+
 
 </section>
 
-
-</div>
 
 </main>
 
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
 
 <footer>
 
@@ -546,142 +895,248 @@ Level <span id="level">1</span>
 </footer>
 
 
-<!-- =========================================================
-     PROFILE SCRIPT
-========================================================= -->
-
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+/* =========================================================
+   STUDYSPRINT PROFILE
+========================================================= */
 
 
-        /* =================================================
-           USERNAME
-        ================================================= */
+/* =========================================================
+   STORAGE HELPER
+========================================================= */
 
-        const username =
-            localStorage.getItem(
-                "username"
-            ) ||
-            "Player";
+function getNumber(
+    key,
+    fallback = 0
+) {
 
+    const value =
+        Number(
+            localStorage.getItem(key)
+        );
 
-        document.getElementById(
-            "username"
-        ).textContent =
-            username;
+    return Number.isFinite(value)
+        ? value
+        : fallback;
 
-
-        /* =================================================
-           XP
-        ================================================= */
-
-        const xp =
-            Number(
-                localStorage.getItem(
-                    "xp"
-                )
-            ) || 0;
+}
 
 
-        document.getElementById(
-            "xp"
-        ).textContent =
-            xp;
+/* =========================================================
+   USERNAME
+========================================================= */
+
+const username =
+    localStorage.getItem(
+        "username"
+    ) ||
+    "Player";
 
 
-        /* =================================================
-           LEVEL
-        ================================================= */
-
-        const level =
-            Math.floor(
-                xp / 100
-            ) + 1;
+document.getElementById(
+    "profile-name"
+).textContent =
+    username;
 
 
-        document.getElementById(
-            "level"
-        ).textContent =
-            level;
+/* =========================================================
+   XP
+========================================================= */
+
+const xp =
+    getNumber(
+        "xp",
+        0
+    );
 
 
-        const currentLevelXP =
-            xp % 100;
+/* =========================================================
+   LEVEL
+========================================================= */
+
+const level =
+    getNumber(
+        "level",
+        Math.max(
+            1,
+            Math.floor(xp / 100) + 1
+        )
+    );
 
 
-        document.getElementById(
-            "level-xp"
-        ).textContent =
-            currentLevelXP +
-            " / 100 XP";
+/* =========================================================
+   SPRINTS
+========================================================= */
+
+const sprints =
+    getNumber(
+        "sprintsCompleted",
+        getNumber(
+            "sprints",
+            0
+        )
+    );
 
 
-        document.getElementById(
-            "xp-progress"
-        ).style.width =
-            currentLevelXP +
-            "%";
+/* =========================================================
+   BEST SCORE
+========================================================= */
+
+const bestScore =
+    getNumber(
+        "bestScore",
+        0
+    );
 
 
-        /* =================================================
-           SPRINTS
-        ================================================= */
+/* =========================================================
+   STREAK
+========================================================= */
 
-        const sprints =
-            Number(
-                localStorage.getItem(
-                    "sprintsCompleted"
-                )
-            ) || 0;
-
-
-        document.getElementById(
-            "sprints"
-        ).textContent =
-            sprints;
+const streak =
+    getNumber(
+        "streak",
+        getNumber(
+            "currentStreak",
+            0
+        )
+    );
 
 
-        /* =================================================
-           STREAK
-        ================================================= */
+/* =========================================================
+   TOP STATS
+========================================================= */
 
-        const streak =
-            Number(
-                localStorage.getItem(
-                    "streak"
-                )
-            ) || 0;
+document.getElementById(
+    "stat-xp"
+).textContent =
+    xp;
 
 
-        document.getElementById(
-            "streak"
-        ).textContent =
-            streak;
+document.getElementById(
+    "stat-level"
+).textContent =
+    level;
 
 
-        /* =================================================
-           BEST SCORE
-        ================================================= */
-
-        const bestScore =
-            Number(
-                localStorage.getItem(
-                    "bestScore"
-                )
-            ) || 0;
+document.getElementById(
+    "stat-sprints"
+).textContent =
+    sprints;
 
 
-        document.getElementById(
-            "best-score"
-        ).textContent =
-            bestScore + "%";
+document.getElementById(
+    "stat-best"
+).textContent =
+    bestScore + "%";
 
 
-    }
-);
+/* =========================================================
+   STREAK
+========================================================= */
+
+document.getElementById(
+    "streak-number"
+).textContent =
+    streak;
+
+
+document.getElementById(
+    "detail-streak"
+).textContent =
+    streak +
+    (streak === 1
+        ? " day"
+        : " days");
+
+
+if(streak > 0) {
+
+    document.getElementById(
+        "streak-subtitle"
+    ).textContent =
+        "Keep it going! 🔥";
+
+    document.getElementById(
+        "streak-status"
+    ).textContent =
+        "🔥 On fire!";
+
+}
+
+else {
+
+    document.getElementById(
+        "streak-subtitle"
+    ).textContent =
+        "Start a Sprint today!";
+
+    document.getElementById(
+        "streak-status"
+    ).textContent =
+        "Start today!";
+
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+document.getElementById(
+    "detail-xp"
+).textContent =
+    xp;
+
+
+document.getElementById(
+    "detail-sprints"
+).textContent =
+    sprints;
+
+
+document.getElementById(
+    "detail-best"
+).textContent =
+    bestScore + "%";
+
+
+/* =========================================================
+   XP LEVEL PROGRESS
+========================================================= */
+
+const xpPerLevel = 100;
+
+const currentLevelXP =
+    xp %
+    xpPerLevel;
+
+
+const progress =
+    Math.min(
+        100,
+        (
+            currentLevelXP /
+            xpPerLevel
+        ) * 100
+    );
+
+
+document.getElementById(
+    "xp-text"
+).textContent =
+    currentLevelXP +
+    " / " +
+    xpPerLevel +
+    " XP";
+
+
+document.getElementById(
+    "xp-progress"
+).style.width =
+    progress + "%";
+
 
 </script>
 
