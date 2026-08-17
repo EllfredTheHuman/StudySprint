@@ -1,38 +1,86 @@
 /* =========================================================
    STUDYSPRINT SHOP
-========================================================= */
+   Full replacement stylesheet
+   ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f1f5f9;
-    color: #172033;
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f8fafc
+        );
+    color: #111827;
+}
+
+
+/* =========================================================
+   SHOP LAYOUT
+   ========================================================= */
+
+.shop-container {
+    width: min(1200px, 94%);
+    margin: 0 auto;
+    padding: 30px 0 60px;
+}
+
+
+.shop-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+
+.shop-header h1 {
+    margin: 0;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+
+.shop-header p {
+    color: #64748b;
 }
 
 
 /* =========================================================
    SHOP NAVIGATION
-========================================================= */
+   ========================================================= */
 
 .shop-navigation {
     display: flex;
-    gap: 10px;
     justify-content: center;
-    margin: 25px auto;
+    gap: 10px;
+    margin: 25px 0;
+    flex-wrap: wrap;
 }
 
+
 .shop-navigation button {
-    border: none;
-    padding: 12px 22px;
-    border-radius: 12px;
+    border: 0;
+    padding: 12px 20px;
+    border-radius: 999px;
     background: #e2e8f0;
+    color: #334155;
     font-weight: 800;
     cursor: pointer;
+    transition:
+        transform .15s ease,
+        background .15s ease;
 }
+
+
+.shop-navigation button:hover {
+    transform: translateY(-2px);
+}
+
 
 .shop-navigation button.active {
     background: #4f46e5;
@@ -41,881 +89,166 @@ body {
 
 
 /* =========================================================
+   CURRENCY
+   ========================================================= */
+
+.shop-currency {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+
+.currency-display {
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: white;
+    box-shadow:
+        0 5px 20px rgba(15, 23, 42, .08);
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+
+.shop-countdown {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #64748b;
+    font-weight: 700;
+}
+
+
+#countdown {
+    color: #4f46e5;
+}
+
+
+/* =========================================================
    SHOP GRID
-========================================================= */
+   ========================================================= */
 
 .shop-grid {
     display: grid;
     grid-template-columns:
-        repeat(auto-fit, minmax(180px, 1fr));
-
+        repeat(3, minmax(0, 1fr));
     gap: 18px;
+}
+
+
+@media (max-width: 850px) {
+
+    .shop-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 
 /* =========================================================
    SHOP CARD
-========================================================= */
+   ========================================================= */
 
 .shop-card,
 .ticket-card,
 .studypass-card {
+    position: relative;
     background: white;
-    border-radius: 20px;
-    padding: 16px;
+    border-radius: 24px;
+    padding: 18px;
     text-align: center;
     box-shadow:
-        0 5px 18px rgba(0, 0, 0, .08);
+        0 12px 35px rgba(15, 23, 42, .09);
+    overflow: hidden;
 }
+
+
+.shop-card {
+    min-height: 360px;
+}
+
+
+.shop-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, .14);
+}
+
+
+.shop-card,
+.ticket-card,
+.studypass-card {
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
 
 .shop-card h3,
 .ticket-card h3,
 .studypass-card h3 {
-    margin: 8px 0 4px;
+    margin: 10px 0 5px;
 }
 
-.shop-card p,
-.ticket-card p,
-.studypass-card p {
+
+.item-type {
+    margin: 0;
     color: #64748b;
-}
-
-
-/* =========================================================
-   PREVIEWS
-========================================================= */
-
-.item-preview,
-.studypass-preview,
-.ticket-item-preview {
-    height: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-radius: 16px;
-    background: #f8fafc;
-}
-
-
-/* =========================================================
-   GOOBER BASE
-========================================================= */
-
-.goober {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    flex-shrink: 0;
-}
-
-
-/* =========================================================
-   GOOBER BODY
-========================================================= */
-
-.goober-body {
-    position: absolute;
-    left: 15px;
-    top: 20px;
-    width: 90px;
-    height: 82px;
-    border-radius: 48% 52% 45% 55%;
-    z-index: 30;
-
-    box-shadow:
-        inset 0 -8px 0 rgba(0,0,0,.12),
-        inset 5px 5px 0 rgba(255,255,255,.18);
-}
-
-
-/* =========================================================
-   FEET
-========================================================= */
-
-.goober-foot {
-    position: absolute;
-    bottom: 10px;
-    width: 30px;
-    height: 17px;
-    background: #1e293b;
-    border-radius: 50%;
-    z-index: 20;
-}
-
-.goober-foot-left {
-    left: 22px;
-    transform: rotate(8deg);
-}
-
-.goober-foot-right {
-    right: 22px;
-    transform: rotate(-8deg);
-}
-
-
-/* =========================================================
-   FACE
-========================================================= */
-
-.goober-eye {
-    position: absolute;
-    width: 14px;
-    height: 19px;
-    background: #111827;
-    border-radius: 50%;
-    z-index: 40;
-}
-
-.goober-eye-left {
-    left: 38px;
-    top: 47px;
-}
-
-.goober-eye-right {
-    right: 38px;
-    top: 47px;
-}
-
-.goober-mouth {
-    position: absolute;
-    left: 51px;
-    top: 70px;
-    width: 18px;
-    height: 10px;
-    border-bottom: 4px solid #111827;
-    border-radius: 50%;
-    z-index: 40;
-}
-
-
-/* =========================================================
-   LEAFY
-========================================================= */
-
-.goober-leafy .goober-body {
-    border-radius: 45% 55% 50% 50%;
-}
-
-.leafy-stem {
-    position: absolute;
-    width: 8px;
-    height: 25px;
-    background: #166534;
-    left: 57px;
-    top: 0;
-    transform: rotate(-8deg);
-    border-radius: 8px;
-    z-index: 45;
-}
-
-.leafy-leaf {
-    position: absolute;
-    width: 40px;
-    height: 22px;
-    background: #22c55e;
-    left: 55px;
-    top: 2px;
-    border-radius: 100% 0 100% 0;
-    transform: rotate(-25deg);
-    z-index: 46;
-}
-
-
-/* =========================================================
-   STUDY SPROUT
-========================================================= */
-
-.goober-studysprout {
-    transform: scale(.9);
-}
-
-.goober-studysprout .goober-body {
-    border-radius: 42% 58% 48% 52%;
-}
-
-.sprout-pot {
-    position: absolute;
-    width: 48px;
-    height: 23px;
-    left: 36px;
-    bottom: 17px;
-    background: #92400e;
-    border-radius: 5px 5px 14px 14px;
-    z-index: 35;
-}
-
-.sprout-leaf {
-    position: absolute;
-    width: 25px;
-    height: 15px;
-    background: #4ade80;
-    border-radius: 100% 0 100% 0;
-    z-index: 47;
-}
-
-.sprout-leaf-one {
-    left: 46px;
-    top: 3px;
-    transform: rotate(-35deg);
-}
-
-.sprout-leaf-two {
-    left: 63px;
-    top: 5px;
-    transform: rotate(35deg);
-}
-
-.sprout-leaf-three {
-    left: 54px;
-    top: -8px;
-    transform: rotate(-5deg);
-}
-
-.sprout-pencil {
-    position: absolute;
-    width: 7px;
-    height: 42px;
-    left: 86px;
-    top: 20px;
-    background: #facc15;
-    transform: rotate(18deg);
-    border-radius: 4px;
-    z-index: 50;
-}
-
-
-/* =========================================================
-   SQUISH
-========================================================= */
-
-.goober-squish {
-    transform: scaleY(.75);
-}
-
-
-/* =========================================================
-   PEBBLE
-========================================================= */
-
-.goober-pebble .goober-body {
-    border-radius: 60% 40% 48% 52%;
-}
-
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.button-antenna {
-    position: absolute;
-    width: 5px;
-    height: 25px;
-    left: 58px;
-    top: 0;
-    background: #334155;
-    z-index: 45;
-}
-
-.button-tip {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    left: 54px;
-    top: -7px;
-    border-radius: 50%;
-    background: #facc15;
-    z-index: 46;
-}
-
-
-/* =========================================================
-   HORNS
-========================================================= */
-
-.horn {
-    position: absolute;
-    width: 22px;
-    height: 30px;
-    background: #f8fafc;
-    z-index: 45;
-}
-
-.horn-left {
-    left: 18px;
-    top: 4px;
-    border-radius: 100% 0 100% 0;
-    transform: rotate(-25deg);
-}
-
-.horn-right {
-    right: 18px;
-    top: 4px;
-    border-radius: 0 100% 0 100%;
-    transform: rotate(25deg);
-}
-
-
-/* =========================================================
-   SHELLBY
-========================================================= */
-
-.goober-shellby .goober-shell {
-    position: absolute;
-    width: 55px;
-    height: 48px;
-    left: 32px;
-    top: 30px;
-    border-radius: 50%;
-    border: 7px solid #166534;
-    z-index: 35;
-}
-
-.goober-shellby .goober-body {
-    border-radius: 50%;
-}
-
-
-/* =========================================================
-   TALLBOI
-========================================================= */
-
-.goober-tallboi {
-    transform: scaleY(1.3);
-}
-
-.tallboi-top {
-    position: absolute;
-    left: 47px;
-    top: -2px;
-    width: 27px;
-    height: 10px;
-    background: #92400e;
-    border-radius: 50%;
-    z-index: 45;
-}
-
-
-/* =========================================================
-   GOGGLE
-========================================================= */
-
-.goggle-frame {
-    position: absolute;
-    left: 25px;
-    top: 42px;
-    width: 70px;
-    height: 32px;
-    border: 7px solid #111827;
-    border-radius: 15px;
-    z-index: 48;
-}
-
-.goggle-lens {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 46px;
-    border-radius: 50%;
-    background: #bfdbfe;
-    border: 3px solid #334155;
-    z-index: 49;
-}
-
-.goggle-left {
-    left: 31px;
-}
-
-.goggle-right {
-    right: 31px;
-}
-
-.goggle-crack {
-    position: absolute;
-    width: 14px;
-    height: 2px;
-    background: #334155;
-    left: 77px;
-    top: 55px;
-    transform: rotate(35deg);
-    z-index: 50;
-}
-
-.goggle-strap {
-    position: absolute;
-    left: 19px;
-    top: 50px;
-    width: 82px;
-    height: 20px;
-    border-top: 4px solid #111827;
-    border-bottom: 4px solid #111827;
-    z-index: 44;
-}
-
-
-/* =========================================================
-   MOTH
-========================================================= */
-
-.goober-moth .goober-wings {
-    position: absolute;
-    width: 110px;
-    height: 70px;
-    left: 5px;
-    top: 32px;
-    background:
-        radial-gradient(circle,#e9d5ff 0 25%,transparent 27%);
-    border-radius: 50%;
-    z-index: 10;
-}
-
-.moth-antennae {
-    position: absolute;
-    width: 40px;
-    height: 25px;
-    left: 40px;
-    top: 0;
-    border-top: 3px solid #581c87;
-    z-index: 45;
-}
-
-.moth-pattern {
-    position: absolute;
-    width: 28px;
-    height: 20px;
-    left: 46px;
-    top: 24px;
-    border-radius: 50%;
-    background: #f0abfc;
-    z-index: 35;
-}
-
-
-/* =========================================================
-   SPIKE
-========================================================= */
-
-.spike-crown {
-    position: absolute;
-    width: 70px;
-    height: 25px;
-    left: 25px;
-    top: 4px;
-    background:
-        linear-gradient(135deg,transparent 45%,#fda4af 46% 55%,transparent 56%);
-    z-index: 45;
-}
-
-.spike-side-one,
-.spike-side-two {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #fda4af;
-    z-index: 45;
-}
-
-.spike-side-one {
-    left: 14px;
-    top: 52px;
-    transform: rotate(45deg);
-}
-
-.spike-side-two {
-    right: 14px;
-    top: 52px;
-    transform: rotate(45deg);
-}
-
-
-/* =========================================================
-   ORBIT
-========================================================= */
-
-.goober-orbit .goober-orbit {
-    position: absolute;
-    width: 125px;
-    height: 45px;
-    left: -2px;
-    top: 38px;
-    border: 5px solid #bae6fd;
-    border-radius: 50%;
-    transform: rotate(-20deg);
-    z-index: 45;
-}
-
-.orbit-dot {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    background: white;
-    border-radius: 50%;
-    left: 99px;
-    top: 32px;
-    z-index: 46;
-}
-
-
-/* =========================================================
-   BUBBLE
-========================================================= */
-
-.bubble-highlight {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    left: 31px;
-    top: 30px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.65);
-    z-index: 45;
-}
-
-.bubble-bubbles {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    right: 15px;
-    top: 15px;
-    border: 3px solid white;
-    border-radius: 50%;
-    z-index: 45;
-}
-
-
-/* =========================================================
-   CAPTAIN GOOB
-========================================================= */
-
-.goober-captain .goober-cape {
-    position: absolute;
-    left: 13px;
-    top: 32px;
-    width: 94px;
-    height: 80px;
-    background: #dc2626;
-    clip-path: polygon(
-        12% 0,
-        88% 0,
-        100% 100%,
-        50% 82%,
-        0 100%
-    );
-    z-index: 12;
-}
-
-.captain-badge {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    left: 48px;
-    top: 82px;
-    border-radius: 50%;
-    background: #facc15;
-    border: 4px solid #92400e;
-    z-index: 50;
-}
-
-.captain-mask {
-    position: absolute;
-    left: 29px;
-    top: 42px;
-    width: 62px;
-    height: 20px;
-    border-radius: 8px;
-    border: 3px solid #312e81;
-    z-index: 48;
-}
-
-
-/* =========================================================
-   TAILSPIN
-========================================================= */
-
-.goober-tailspin .goober-tail {
-    position: absolute;
-    width: 55px;
-    height: 45px;
-    right: 0;
-    top: 55px;
-    border: 10px solid #be185d;
-    border-left: 0;
-    border-radius: 0 40px 40px 0;
-    z-index: 15;
-}
-
-.tail-tip {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    right: 1px;
-    top: 51px;
-    background: #fbcfe8;
-    border-radius: 50%;
-    z-index: 16;
-}
-
-
-/* =========================================================
-   HOLY MOLY
-========================================================= */
-
-.goober-holymoly .goober-halo {
-    position: absolute;
-    left: 30px;
-    top: 3px;
-    width: 60px;
-    height: 20px;
-    border: 5px solid #facc15;
-    border-radius: 50%;
-    z-index: 45;
-}
-
-.halo-sparkles {
-    position: absolute;
-    left: 18px;
-    top: 5px;
-    width: 85px;
-    height: 30px;
-    background:
-        radial-gradient(circle,#fef08a 0 3px,transparent 4px);
-    z-index: 44;
-}
-
-
-/* =========================================================
-   WINGNUT
-========================================================= */
-
-.goober-wingnut .goober-wings {
-    position: absolute;
-    width: 115px;
-    height: 70px;
-    left: 2px;
-    top: 35px;
-    background:
-        linear-gradient(
-            45deg,
-            #f0abfc,
-            #c084fc
-        );
-    clip-path: polygon(
-        0 50%,
-        30% 0,
-        48% 35%,
-        50% 100%,
-        30% 75%
-    );
-    z-index: 10;
-}
-
-.wingnut-headpiece {
-    position: absolute;
-    left: 45px;
-    top: 5px;
-    width: 30px;
-    height: 18px;
-    border-radius: 50%;
-    background: #e879f9;
-    z-index: 45;
-}
-
-
-/* =========================================================
-   COSMO
-========================================================= */
-
-.cosmo-stars {
-    position: absolute;
-    left: 20px;
-    top: 18px;
-    color: white;
     font-size: 14px;
-    z-index: 45;
-}
-
-.cosmo-planet {
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    right: 5px;
-    bottom: 17px;
-    border-radius: 50%;
-    background: #a78bfa;
-    border: 4px solid #c4b5fd;
-    z-index: 45;
 }
 
 
 /* =========================================================
-   THE GOOBER
-========================================================= */
-
-.thegoober-smile {
-    position: absolute;
-    left: 43px;
-    top: 65px;
-    width: 34px;
-    height: 20px;
-    border-bottom: 6px solid #111827;
-    border-radius: 50%;
-    z-index: 45;
-}
-
-.thegoober-mark {
-    position: absolute;
-    left: 53px;
-    top: 24px;
-    width: 15px;
-    height: 15px;
-    background: #fde68a;
-    transform: rotate(45deg);
-    z-index: 45;
-}
-
-
-/* =========================================================
-   GOLDEN
-========================================================= */
-
-.golden-shine {
-    position: absolute;
-    left: 26px;
-    top: 27px;
-    width: 18px;
-    height: 18px;
-    background: white;
-    transform: rotate(45deg);
-    opacity: .75;
-    z-index: 45;
-}
-
-.golden-sparkles {
-    position: absolute;
-    left: 12px;
-    top: 5px;
-    width: 100px;
-    height: 100px;
-    background:
-        radial-gradient(
-            circle,
-            white 0 3px,
-            transparent 4px
-        );
-    opacity: .7;
-    z-index: 44;
-}
-
-
-/* =========================================================
-   CRYSTAL
-========================================================= */
-
-.crystal-spikes {
-    position: absolute;
-    left: 20px;
-    top: 5px;
-    width: 80px;
-    height: 30px;
-    background:
-        linear-gradient(
-            135deg,
-            #cffafe,
-            #67e8f9
-        );
-    clip-path: polygon(
-        0 100%,
-        20% 20%,
-        35% 70%,
-        50% 0,
-        65% 70%,
-        82% 15%,
-        100% 100%
-    );
-    z-index: 45;
-}
-
-.crystal-core {
-    position: absolute;
-    left: 48px;
-    top: 30px;
-    width: 25px;
-    height: 40px;
-    background: rgba(255,255,255,.4);
-    transform: rotate(20deg);
-    z-index: 45;
-}
-
-
-/* =========================================================
-   STUDY ORBIT
-========================================================= */
-
-.study-orbit-ring {
-    position: absolute;
-    left: -4px;
-    top: 30px;
-    width: 128px;
-    height: 60px;
-    border: 5px solid #c4b5fd;
-    border-radius: 50%;
-    transform: rotate(25deg);
-    z-index: 45;
-}
-
-.study-orbit-star {
-    position: absolute;
-    right: 5px;
-    top: 24px;
-    color: #fef08a;
-    font-size: 22px;
-    z-index: 50;
-}
-
-.study-orbit-book {
-    position: absolute;
-    left: 45px;
-    bottom: 8px;
-    width: 32px;
-    height: 20px;
-    background: #f8fafc;
-    border: 3px solid #312e81;
-    border-radius: 3px;
-    z-index: 50;
-}
-
-
-/* =========================================================
-   RARITIES
-========================================================= */
+   RARITY
+   ========================================================= */
 
 .rarity {
     display: inline-block;
-    padding: 5px 9px;
-    border-radius: 8px;
+    padding: 5px 10px;
+    border-radius: 999px;
     font-size: 11px;
     font-weight: 900;
+    text-transform: uppercase;
 }
+
 
 .rarity-common {
     background: #e2e8f0;
     color: #475569;
 }
 
+
 .rarity-rare {
     background: #dbeafe;
     color: #2563eb;
 }
+
 
 .rarity-epic {
     background: #f3e8ff;
     color: #9333ea;
 }
 
+
 .rarity-mythic {
-    background: #fce7f3;
-    color: #db2777;
+    background: #ffe4e6;
+    color: #e11d48;
 }
+
 
 .rarity-legendary {
     background: #fef3c7;
@@ -924,58 +257,1476 @@ body {
 
 
 /* =========================================================
-   BUY BUTTONS
-========================================================= */
+   PREVIEW
+   ========================================================= */
 
-.buy-button {
-    width: 100%;
-    border: none;
-    border-radius: 11px;
-    padding: 11px;
-    background: #4f46e5;
-    color: white;
-    font-weight: 900;
-    cursor: pointer;
+.item-preview {
+    height: 185px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.buy-button:hover:not(:disabled) {
-    transform: translateY(-1px);
+
+.goober {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    flex-shrink: 0;
 }
 
-.buy-button:disabled,
-.buy-button.owned {
-    background: #94a3b8;
-    cursor: default;
+
+.goober-body {
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    width: 100px;
+    height: 90px;
+    border-radius: 46% 54% 48% 52%;
+    box-shadow:
+        inset 0 -9px 0 rgba(0,0,0,.12),
+        0 8px 18px rgba(15,23,42,.18);
+    z-index: 20;
+}
+
+
+.goober-face {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+}
+
+
+.goober-eye {
+    position: absolute;
+    width: 13px;
+    height: 18px;
+    background: #111827;
+    border-radius: 50%;
+    top: 54px;
+}
+
+
+.goober-eye-left {
+    left: 46px;
+}
+
+
+.goober-eye-right {
+    left: 72px;
+}
+
+
+.goober-mouth {
+    position: absolute;
+    left: 61px;
+    top: 78px;
+    width: 17px;
+    height: 10px;
+    border-bottom: 4px solid #111827;
+    border-radius: 0 0 50% 50%;
+}
+
+
+.goober-shadow {
+    position: absolute;
+    left: 22px;
+    bottom: 7px;
+    width: 88px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(15,23,42,.12);
+    z-index: 1;
 }
 
 
 /* =========================================================
-   DEBUG MENU
-========================================================= */
+   COMMON DESIGN DETAILS
+   ========================================================= */
+
+.goober-part {
+    position: absolute;
+    pointer-events: none;
+}
+
+
+.hidden-face-eye {
+    display: none;
+}
+
+
+/* =========================================================
+   LEAFY
+   ========================================================= */
+
+.goober-leafy .goober-body {
+    border-radius: 42% 58% 55% 45%;
+}
+
+
+.leafy-leaf {
+    width: 35px;
+    height: 20px;
+    left: 68px;
+    top: 3px;
+    background: #16a34a;
+    border-radius: 100% 0 100% 0;
+    transform: rotate(-20deg);
+    z-index: 25;
+}
+
+
+.leafy-stem {
+    width: 6px;
+    height: 24px;
+    left: 76px;
+    top: 10px;
+    background: #166534;
+    transform: rotate(25deg);
+    z-index: 24;
+}
+
+
+/* =========================================================
+   SQUISH
+   ========================================================= */
+
+.goober-squish .goober-body {
+    width: 110px;
+    height: 75px;
+    top: 32px;
+    left: 10px;
+    border-radius: 48%;
+}
+
+
+.squish-highlight {
+    width: 25px;
+    height: 10px;
+    left: 30px;
+    top: 45px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.35);
+    z-index: 30;
+}
+
+
+.squish-bottom {
+    width: 60px;
+    height: 9px;
+    left: 35px;
+    top: 102px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.08);
+    z-index: 30;
+}
+
+
+/* =========================================================
+   PEBBLE
+   ========================================================= */
+
+.goober-pebble .goober-body {
+    border-radius: 45% 55% 52% 48%;
+}
+
+
+.pebble-crack {
+    left: 48px;
+    top: 39px;
+    width: 42px;
+    height: 34px;
+    border-left: 3px solid rgba(255,255,255,.28);
+    border-bottom: 3px solid rgba(255,255,255,.28);
+    transform: rotate(15deg);
+    z-index: 30;
+}
+
+
+.pebble-speck {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.3);
+    left: 91px;
+    top: 75px;
+    z-index: 30;
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.goober-button .goober-body {
+    border-radius: 50%;
+}
+
+
+.button-seam {
+    width: 92px;
+    height: 92px;
+    left: 19px;
+    top: 19px;
+    border: 3px dashed rgba(255,255,255,.35);
+    border-radius: 50%;
+    z-index: 30;
+}
+
+
+.button-thread {
+    width: 22px;
+    height: 22px;
+    left: 54px;
+    top: 49px;
+    border: 3px solid rgba(255,255,255,.6);
+    border-radius: 50%;
+    z-index: 31;
+}
+
+
+/* =========================================================
+   HORNS
+   ========================================================= */
+
+.horn-left,
+.horn-right {
+    width: 25px;
+    height: 38px;
+    top: 2px;
+    background: #f1f5f9;
+    border-radius: 70% 30% 50% 50%;
+    z-index: 10;
+}
+
+
+.horn-left {
+    left: 25px;
+    transform: rotate(-25deg);
+}
+
+
+.horn-right {
+    right: 25px;
+    transform: rotate(25deg);
+}
+
+
+.horn-glow {
+    width: 70px;
+    height: 25px;
+    left: 30px;
+    top: 5px;
+    background: rgba(167,139,250,.28);
+    filter: blur(9px);
+    z-index: 5;
+}
+
+
+/* =========================================================
+   SHELLBY
+   ========================================================= */
+
+.shell {
+    width: 65px;
+    height: 75px;
+    left: 35px;
+    top: 26px;
+    border-radius: 50%;
+    background:
+        repeating-radial-gradient(
+            circle,
+            #a7f3d0 0 7px,
+            #059669 8px 10px
+        );
+    opacity: .75;
+    z-index: 8;
+    transform: rotate(-20deg);
+}
+
+
+.shell-line {
+    width: 65px;
+    height: 3px;
+    left: 35px;
+    top: 60px;
+    background: rgba(4,120,87,.6);
+    transform: rotate(-20deg);
+    z-index: 9;
+}
+
+
+.shell-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #065f46;
+    left: 62px;
+    top: 50px;
+    z-index: 10;
+}
+
+
+/* =========================================================
+   TALLBOI
+   ========================================================= */
+
+.goober-tallboi .goober-body {
+    width: 75px;
+    height: 120px;
+    left: 28px;
+    top: 8px;
+    border-radius: 45%;
+}
+
+
+.tall-hat {
+    width: 70px;
+    height: 15px;
+    left: 30px;
+    top: 2px;
+    border-radius: 50%;
+    background: #92400e;
+    z-index: 24;
+}
+
+
+.tall-band {
+    width: 75px;
+    height: 10px;
+    left: 28px;
+    top: 30px;
+    background: #92400e;
+    z-index: 25;
+}
+
+
+.tall-button {
+    width: 12px;
+    height: 12px;
+    left: 59px;
+    top: 82px;
+    border-radius: 50%;
+    background: #fef3c7;
+    z-index: 30;
+}
+
+
+/* =========================================================
+   FOUR EYES
+   ========================================================= */
+
+.four-eye-face {
+    z-index: 45;
+}
+
+
+.four-eye-one,
+.four-eye-two,
+.four-eye-three,
+.four-eye-four {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #111827;
+    z-index: 46;
+}
+
+
+.four-eye-one {
+    left: 41px;
+    top: 47px;
+}
+
+
+.four-eye-two {
+    left: 76px;
+    top: 47px;
+}
+
+
+.four-eye-three {
+    left: 48px;
+    top: 70px;
+}
+
+
+.four-eye-four {
+    left: 69px;
+    top: 70px;
+}
+
+
+.four-brow-left,
+.four-brow-right {
+    width: 24px;
+    height: 4px;
+    background: #111827;
+    border-radius: 5px;
+    z-index: 47;
+}
+
+
+.four-brow-left {
+    left: 37px;
+    top: 40px;
+    transform: rotate(-10deg);
+}
+
+
+.four-brow-right {
+    left: 72px;
+    top: 40px;
+    transform: rotate(10deg);
+}
+
+
+/* =========================================================
+   MUSHROOM
+   ========================================================= */
+
+.mushroom-stem {
+    position: absolute;
+    width: 55px;
+    height: 65px;
+    left: 38px;
+    top: 52px;
+    background: #fef3c7;
+    border-radius: 30% 30% 45% 45%;
+    z-index: 12;
+}
+
+
+.mushroom-cap {
+    width: 110px;
+    height: 62px;
+    left: 10px;
+    top: 7px;
+    border-radius: 55% 55% 35% 35%;
+    background: #dc2626;
+    z-index: 15;
+}
+
+
+.mushroom-spots {
+    width: 100px;
+    height: 45px;
+    left: 15px;
+    top: 12px;
+    background:
+        radial-gradient(
+            circle at 25% 40%,
+            white 0 7px,
+            transparent 8px
+        ),
+        radial-gradient(
+            circle at 55% 25%,
+            white 0 6px,
+            transparent 7px
+        ),
+        radial-gradient(
+            circle at 78% 48%,
+            white 0 8px,
+            transparent 9px
+        );
+    z-index: 16;
+}
+
+
+.mushroom-face {
+    z-index: 50;
+}
+
+
+/* =========================================================
+   SPIKE
+   ========================================================= */
+
+.spike-top,
+.spike-left,
+.spike-right,
+.spike-lower {
+    background: #be123c;
+    z-index: 12;
+}
+
+
+.spike-top {
+    width: 26px;
+    height: 42px;
+    left: 52px;
+    top: 0;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+
+.spike-left {
+    width: 32px;
+    height: 25px;
+    left: 5px;
+    top: 52px;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+}
+
+
+.spike-right {
+    width: 32px;
+    height: 25px;
+    right: 5px;
+    top: 52px;
+    clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+
+.spike-lower {
+    width: 25px;
+    height: 30px;
+    left: 53px;
+    bottom: 8px;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+
+/* =========================================================
+   ORBIT
+   ========================================================= */
+
+.orbit-ring {
+    width: 130px;
+    height: 55px;
+    left: 0;
+    top: 38px;
+    border: 5px solid #7dd3fc;
+    border-radius: 50%;
+    transform: rotate(-20deg);
+    z-index: 35;
+}
+
+
+.orbit-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    left: 103px;
+    top: 30px;
+    box-shadow: 0 0 10px white;
+    z-index: 36;
+}
+
+
+/* =========================================================
+   BUBBLE
+   ========================================================= */
+
+.bubble-highlight {
+    width: 27px;
+    height: 18px;
+    left: 34px;
+    top: 37px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.55);
+    transform: rotate(-20deg);
+    z-index: 30;
+}
+
+
+.bubble-small {
+    width: 24px;
+    height: 24px;
+    right: 8px;
+    top: 16px;
+    border: 4px solid rgba(255,255,255,.55);
+    border-radius: 50%;
+    z-index: 30;
+}
+
+
+/* =========================================================
+   CAPTAIN GOOB
+   ========================================================= */
+
+.captain-cape {
+    width: 112px;
+    height: 90px;
+    left: 9px;
+    top: 34px;
+    background:
+        linear-gradient(
+            135deg,
+            #4c1d95,
+            #7c3aed
+        );
+    clip-path:
+        polygon(
+            12% 0,
+            88% 0,
+            100% 100%,
+            50% 75%,
+            0 100%
+        );
+    z-index: 5;
+}
+
+
+.captain-cape-clasp {
+    width: 15px;
+    height: 15px;
+    left: 57px;
+    top: 34px;
+    border-radius: 50%;
+    background: #fbbf24;
+    border: 3px solid #92400e;
+    z-index: 30;
+}
+
+
+.captain-stripe {
+    width: 80px;
+    height: 7px;
+    left: 25px;
+    top: 74px;
+    background: #c4b5fd;
+    transform: rotate(-5deg);
+    z-index: 25;
+}
+
+
+/* =========================================================
+   TAILSPIN
+   ========================================================= */
+
+.tailspin-tail {
+    width: 80px;
+    height: 38px;
+    left: 64px;
+    top: 66px;
+    border: 10px solid #be185d;
+    border-left: 0;
+    border-radius: 0 60% 60% 0;
+    transform: rotate(-15deg);
+    z-index: 10;
+}
+
+
+.tailspin-tip {
+    width: 15px;
+    height: 15px;
+    left: 121px;
+    top: 46px;
+    border-radius: 50%;
+    background: #f9a8d4;
+    z-index: 11;
+}
+
+
+.tailspin-motion {
+    width: 30px;
+    height: 4px;
+    left: 98px;
+    top: 42px;
+    background: #fbcfe8;
+    transform: rotate(-25deg);
+    z-index: 8;
+}
+
+
+/* =========================================================
+   HOLY MOLY
+   ========================================================= */
+
+.holy-halo {
+    width: 76px;
+    height: 26px;
+    left: 27px;
+    top: 0;
+    border: 6px solid #facc15;
+    border-radius: 50%;
+    box-shadow:
+        0 0 15px rgba(250,204,21,.75);
+    z-index: 35;
+}
+
+
+.holy-rays {
+    width: 100px;
+    height: 100px;
+    left: 15px;
+    top: 15px;
+    border: 2px dashed rgba(250,204,21,.55);
+    border-radius: 50%;
+    z-index: 3;
+}
+
+
+.holy-star {
+    color: #facc15;
+    font-size: 22px;
+    left: 56px;
+    top: 24px;
+    z-index: 36;
+}
+
+
+/* =========================================================
+   WINGNUT
+   ========================================================= */
+
+.wing-left,
+.wing-right {
+    width: 48px;
+    height: 70px;
+    top: 38px;
+    background: #f5d0fe;
+    border: 4px solid #c026d3;
+    z-index: 8;
+}
+
+
+.wing-left {
+    left: -3px;
+    border-radius: 70% 30% 70% 30%;
+    transform: rotate(15deg);
+}
+
+
+.wing-right {
+    right: -3px;
+    border-radius: 30% 70% 30% 70%;
+    transform: rotate(-15deg);
+}
+
+
+.wing-pattern {
+    width: 70px;
+    height: 4px;
+    left: 30px;
+    top: 68px;
+    background: rgba(192,38,211,.5);
+    transform: rotate(35deg);
+    z-index: 9;
+}
+
+
+/* =========================================================
+   COSMO
+   ========================================================= */
+
+.cosmo-stars {
+    color: white;
+    font-size: 17px;
+    left: 25px;
+    top: 25px;
+    z-index: 30;
+    letter-spacing: 13px;
+}
+
+
+.cosmo-ring {
+    width: 130px;
+    height: 48px;
+    left: 0;
+    top: 44px;
+    border: 3px solid #c4b5fd;
+    border-radius: 50%;
+    transform: rotate(25deg);
+    z-index: 35;
+}
+
+
+.cosmo-moon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fef3c7;
+    left: 102px;
+    top: 20px;
+    z-index: 32;
+}
+
+
+.cosmo-spark {
+    width: 10px;
+    height: 10px;
+    background: #e0e7ff;
+    transform: rotate(45deg);
+    left: 100px;
+    top: 91px;
+    z-index: 32;
+}
+
+
+/* =========================================================
+   THE GOOBER
+   ========================================================= */
+
+.goober-antenna {
+    width: 4px;
+    height: 35px;
+    left: 63px;
+    top: -3px;
+    background: #fb923c;
+    z-index: 25;
+}
+
+
+.goober-antenna::after {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #f97316;
+    left: -4px;
+    top: -8px;
+}
+
+
+.goober-tie {
+    width: 23px;
+    height: 32px;
+    left: 54px;
+    top: 94px;
+    background: #f8fafc;
+    clip-path: polygon(
+        50% 0,
+        100% 30%,
+        65% 100%,
+        50% 80%,
+        35% 100%,
+        0 30%
+    );
+    z-index: 35;
+}
+
+
+.goober-badge {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fbbf24;
+    border: 3px solid #78350f;
+    left: 88px;
+    top: 70px;
+    z-index: 35;
+}
+
+
+.goober-shine {
+    width: 22px;
+    height: 9px;
+    left: 31px;
+    top: 42px;
+    background: rgba(255,255,255,.4);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+    z-index: 31;
+}
+
+
+/* =========================================================
+   GOLDEN GOOBER
+   ========================================================= */
+
+.golden-crown {
+    width: 60px;
+    height: 28px;
+    left: 35px;
+    top: 0;
+    background: #facc15;
+    clip-path: polygon(
+        0 100%,
+        10% 15%,
+        38% 55%,
+        50% 0,
+        63% 55%,
+        90% 15%,
+        100% 100%
+    );
+    z-index: 35;
+}
+
+
+.golden-jewel {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ef4444;
+    left: 60px;
+    top: 15px;
+    z-index: 36;
+}
+
+
+.golden-shine {
+    width: 25px;
+    height: 70px;
+    left: 30px;
+    top: 25px;
+    background: rgba(255,255,255,.28);
+    transform: rotate(25deg);
+    border-radius: 50%;
+    z-index: 30;
+}
+
+
+.golden-stars {
+    color: #fef3c7;
+    left: 95px;
+    top: 75px;
+    font-size: 18px;
+    z-index: 35;
+}
+
+
+/* =========================================================
+   CLOCKWORK
+   ========================================================= */
+
+.clock-ring {
+    width: 88px;
+    height: 88px;
+    left: 21px;
+    top: 21px;
+    border: 6px solid #334155;
+    border-radius: 50%;
+    z-index: 30;
+}
+
+
+.clock-hand-one,
+.clock-hand-two {
+    background: #1e293b;
+    transform-origin: left center;
+    left: 65px;
+    top: 65px;
+    z-index: 35;
+}
+
+
+.clock-hand-one {
+    width: 28px;
+    height: 5px;
+    transform: rotate(-25deg);
+}
+
+
+.clock-hand-two {
+    width: 22px;
+    height: 4px;
+    transform: rotate(75deg);
+}
+
+
+.clock-bolt-left,
+.clock-bolt-right {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #64748b;
+    border: 2px solid #1e293b;
+    z-index: 31;
+}
+
+
+.clock-bolt-left {
+    left: 10px;
+    top: 58px;
+}
+
+
+.clock-bolt-right {
+    right: 10px;
+    top: 58px;
+}
+
+
+/* =========================================================
+   STUDY SPROUT
+   ========================================================= */
+
+.goober-study-sprout .goober-body {
+    background:
+        linear-gradient(
+            145deg,
+            #22c55e,
+            #15803d
+        ) !important;
+    border-radius: 48% 52% 55% 45%;
+}
+
+
+.study-sprout-leaf {
+    width: 43px;
+    height: 24px;
+    left: 69px;
+    top: 0;
+    background: #86efac;
+    border-radius: 100% 0 100% 0;
+    transform: rotate(-35deg);
+    z-index: 30;
+}
+
+
+.study-sprout-pencil {
+    width: 12px;
+    height: 70px;
+    left: 105px;
+    top: 37px;
+    background: #facc15;
+    transform: rotate(22deg);
+    z-index: 34;
+}
+
+
+.study-sprout-mark {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #dc2626;
+    left: 104px;
+    top: 39px;
+    z-index: 35;
+}
+
+
+/* =========================================================
+   STUDY ORBIT
+   ========================================================= */
+
+.study-orbit-ring {
+    width: 135px;
+    height: 60px;
+    left: -2px;
+    top: 38px;
+    border: 5px solid #c4b5fd;
+    border-radius: 50%;
+    transform: rotate(-15deg);
+    z-index: 35;
+}
+
+
+.study-orbit-star {
+    color: #fef08a;
+    left: 100px;
+    top: 25px;
+    font-size: 25px;
+    z-index: 36;
+}
+
+
+.study-orbit-book {
+    width: 35px;
+    height: 25px;
+    left: 48px;
+    top: 94px;
+    background: #f8fafc;
+    border: 3px solid #7c3aed;
+    border-radius: 4px;
+    transform: rotate(-7deg);
+    z-index: 35;
+}
+
+
+/* =========================================================
+   BANNERS
+   ========================================================= */
+
+.banner-preview {
+    width: 180px;
+    height: 105px;
+    border-radius: 18px;
+    box-shadow:
+        0 10px 25px rgba(15,23,42,.15);
+}
+
+
+.banner-sprint-grid {
+    background:
+        linear-gradient(
+            rgba(255,255,255,.15) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.15) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            135deg,
+            #312e81,
+            #6366f1
+        );
+    background-size:
+        18px 18px,
+        18px 18px,
+        auto;
+}
+
+
+.banner-purple-grid {
+    background:
+        linear-gradient(
+            rgba(255,255,255,.18) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.18) 1px,
+            transparent 1px
+        ),
+        #8b5cf6;
+    background-size:
+        18px 18px,
+        18px 18px,
+        auto;
+}
+
+
+.banner-neon-blue {
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #2563eb
+        );
+}
+
+
+.banner-sunset {
+    background:
+        linear-gradient(
+            135deg,
+            #fb7185,
+            #f97316,
+            #facc15
+        );
+}
+
+
+.banner-cosmic-banner {
+    background:
+        radial-gradient(
+            circle at 25% 30%,
+            white 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 75% 60%,
+            #c4b5fd 0 2px,
+            transparent 3px
+        ),
+        linear-gradient(
+            135deg,
+            #111827,
+            #312e81
+        );
+}
+
+
+.banner-golden-grid {
+    background:
+        linear-gradient(
+            rgba(255,255,255,.2) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.2) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            135deg,
+            #92400e,
+            #f59e0b
+        );
+    background-size:
+        18px 18px,
+        18px 18px,
+        auto;
+}
+
+
+/* =========================================================
+   TITLES
+   ========================================================= */
+
+.title-preview {
+    min-width: 170px;
+    padding: 18px 15px;
+    border-radius: 18px;
+    background: #f8fafc;
+    border: 3px solid #cbd5e1;
+    font-size: 22px;
+    font-weight: 900;
+    color: #334155;
+}
+
+
+.shop-card.rarity-rare .title-preview {
+    border-color: #60a5fa;
+    color: #2563eb;
+}
+
+
+.shop-card.rarity-epic .title-preview {
+    border-color: #c084fc;
+    color: #9333ea;
+}
+
+
+.shop-card.rarity-mythic .title-preview {
+    border-color: #fb7185;
+    color: #be123c;
+}
+
+
+.shop-card.rarity-legendary .title-preview {
+    border-color: #fbbf24;
+    color: #b45309;
+}
+
+
+/* =========================================================
+   PRICES + BUTTONS
+   ========================================================= */
+
+.shop-price,
+.ticket-price {
+    margin: 12px 0;
+    font-weight: 900;
+    color: #4f46e5;
+}
+
+
+.buy-button {
+    width: 100%;
+    border: 0;
+    border-radius: 13px;
+    padding: 12px;
+    background: #4f46e5;
+    color: white;
+    font-weight: 900;
+    cursor: pointer;
+    transition:
+        transform .15s ease,
+        background .15s ease;
+}
+
+
+.buy-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #4338ca;
+}
+
+
+.buy-button:disabled {
+    cursor: default;
+    opacity: .8;
+}
+
+
+.buy-button.owned {
+    background: #16a34a;
+}
+
+
+/* =========================================================
+   STUDYPASS
+   ========================================================= */
+
+.studypass-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+
+@media (max-width: 650px) {
+
+    .studypass-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+.studypass-preview {
+    height: 190px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.pass-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: #312e81;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   TICKET SHOP
+   ========================================================= */
+
+.ticket-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+
+@media (max-width: 850px) {
+
+    .ticket-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .ticket-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+.ticket-item-preview {
+    position: relative;
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.ticket-item-preview .goober {
+    transform: scale(.8);
+}
+
+
+/* =========================================================
+   EFFECT PREVIEWS
+   ========================================================= */
+
+.preview-effect {
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+
+.preview-effect.sparkle::before {
+    content: "✦ ✧ ✦";
+    color: #facc15;
+    font-size: 25px;
+}
+
+
+.preview-effect.speed-trail {
+    border-bottom: 5px solid #38bdf8;
+}
+
+
+.preview-effect.lightning::before {
+    content: "⚡";
+    font-size: 40px;
+}
+
+
+.preview-effect.rainbow {
+    border: 7px solid #f472b6;
+    box-shadow:
+        0 0 0 12px #facc15,
+        0 0 0 19px #4ade80;
+}
+
+
+.preview-effect.fire {
+    box-shadow:
+        0 0 25px #f97316;
+}
+
+
+.preview-effect.glitch {
+    border:
+        4px dashed #22d3ee;
+}
+
+
+.preview-effect.shadow {
+    box-shadow:
+        0 0 30px #111827;
+}
+
+
+.preview-effect.crystal {
+    border:
+        4px solid #a5f3fc;
+    box-shadow:
+        0 0 30px #67e8f9;
+}
+
+
+.preview-effect.cosmic-aura {
+    border:
+        3px dotted #c4b5fd;
+    box-shadow:
+        0 0 25px #8b5cf6;
+}
+
+
+/* =========================================================
+   DEBUG
+   ========================================================= */
 
 .debug-overlay {
     position: fixed;
     inset: 0;
     z-index: 999999;
-    background: rgba(0,0,0,.6);
-
+    background: rgba(0,0,0,.55);
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-family: Arial, sans-serif;
+    padding: 20px;
 }
+
 
 .debug-box {
     width: 360px;
-    max-width: 90%;
+    max-width: 100%;
     background: white;
     padding: 25px;
     border-radius: 22px;
-
     box-shadow:
         0 20px 60px rgba(0,0,0,.3);
 }
+
+
+.debug-box h2 {
+    margin-top: 0;
+}
+
+
+.debug-box p {
+    color: #64748b;
+}
+
 
 .debug-box select,
 .debug-box input {
@@ -985,46 +1736,79 @@ body {
     border-radius: 10px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
+    font: inherit;
 }
 
-.debug-apply,
-.debug-close {
+
+.debug-box button {
     width: 100%;
     padding: 12px;
-    border: none;
+    border: 0;
     border-radius: 10px;
     font-weight: 800;
     cursor: pointer;
 }
+
 
 .debug-apply {
     background: #4f46e5;
     color: white;
 }
 
+
 .debug-close {
     background: #eee;
+    color: #334155;
     margin-top: 8px;
 }
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
+   ANIMATION
+   ========================================================= */
 
-@media (max-width: 600px) {
+.goober {
+    animation:
+        goober-idle 3s ease-in-out infinite;
+}
 
-    .shop-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
+
+@keyframes goober-idle {
+
+    0% {
+        transform: translateY(0);
     }
 
-    .item-preview {
-        height: 140px;
+    50% {
+        transform: translateY(-5px);
     }
 
-    .goober {
-        transform: scale(.85);
+    100% {
+        transform: translateY(0);
     }
 
+}
+
+
+/* =========================================================
+   RARITY CARD DETAILS
+   ========================================================= */
+
+.shop-card.rarity-rare {
+    border-top: 4px solid #60a5fa;
+}
+
+
+.shop-card.rarity-epic {
+    border-top: 4px solid #c084fc;
+}
+
+
+.shop-card.rarity-mythic {
+    border-top: 4px solid #fb7185;
+}
+
+
+.shop-card.rarity-legendary {
+    border-top: 4px solid #fbbf24;
 }
