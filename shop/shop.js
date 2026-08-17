@@ -1,25 +1,29 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Clean rewrite
+   Clean shop system
    ========================================================= */
+
 
 /* =========================================================
    SHOP SETTINGS
    ========================================================= */
 
 const SHOP_SLOTS = 6;
-const SHOP_INTERVAL = 14 * 24 * 60 * 60 * 1000;
+
+const SHOP_INTERVAL =
+    14 * 24 * 60 * 60 * 1000;
 
 /*
-   Second Sunday at 12:00 AM AEST.
-   AEST = UTC+10.
+   Shop rotation anchor.
 
-   Anchor:
-   Sunday 10 August 2025, 12:00 AM AEST
-   = Saturday 9 August 2025, 2:00 PM UTC.
+   Sunday 10 August 2025
+   12:00 AM AEST
+   = Saturday 9 August 2025
+   2:00 PM UTC
 */
 
-const SHOP_ANCHOR = Date.UTC(2025, 7, 9, 14, 0, 0);
+const SHOP_ANCHOR =
+    Date.UTC(2025, 7, 9, 14, 0, 0);
 
 
 /* =========================================================
@@ -27,23 +31,51 @@ const SHOP_ANCHOR = Date.UTC(2025, 7, 9, 14, 0, 0);
    ========================================================= */
 
 const RARITY_CHANCES = [
-    { name: "Common", weight: 40 },
-    { name: "Rare", weight: 30 },
-    { name: "Epic", weight: 18 },
-    { name: "Mythic", weight: 9 },
-    { name: "Legendary", weight: 3 }
+    {
+        name: "Common",
+        weight: 40
+    },
+
+    {
+        name: "Rare",
+        weight: 30
+    },
+
+    {
+        name: "Epic",
+        weight: 18
+    },
+
+    {
+        name: "Mythic",
+        weight: 9
+    },
+
+    {
+        name: "Legendary",
+        weight: 3
+    }
 ];
 
 
 /* =========================================================
-   COIN SHOP ITEMS
+   ALL COIN SHOP ITEMS
+   =========================================================
+   
+   IMPORTANT:
+   Everything that can appear in the coin shop goes
+   inside this ONE array.
+   
+   Characters
+   Banners
+   Titles
    ========================================================= */
 
 const SHOP_ITEMS = [
 
-    /* -------------------------
+    /* =====================================================
        COMMON GOOBERS
-       ------------------------- */
+       ===================================================== */
 
     {
         id: "leafy",
@@ -81,9 +113,10 @@ const SHOP_ITEMS = [
         design: "button"
     },
 
-    /* -------------------------
+
+    /* =====================================================
        RARE GOOBERS
-       ------------------------- */
+       ===================================================== */
 
     {
         id: "horns",
@@ -121,9 +154,10 @@ const SHOP_ITEMS = [
         design: "fourEyes"
     },
 
-    /* -------------------------
+
+    /* =====================================================
        EPIC GOOBERS
-       ------------------------- */
+       ===================================================== */
 
     {
         id: "mothball",
@@ -161,9 +195,10 @@ const SHOP_ITEMS = [
         design: "bubble"
     },
 
-    /* -------------------------
+
+    /* =====================================================
        MYTHIC GOOBERS
-       ------------------------- */
+       ===================================================== */
 
     {
         id: "captain-goob",
@@ -201,9 +236,10 @@ const SHOP_ITEMS = [
         design: "wingnut"
     },
 
-    /* -------------------------
+
+    /* =====================================================
        LEGENDARY GOOBERS
-       ------------------------- */
+       ===================================================== */
 
     {
         id: "cosmo",
@@ -232,18 +268,15 @@ const SHOP_ITEMS = [
         design: "golden"
     },
 
-   {
+    {
         id: "galaxy-goober",
         name: "Galaxy Goober",
         type: "Character",
         rarity: "Legendary",
         price: 1200,
         design: "galaxy"
-    }
+    },
 
-];
-
-window.DEBUG_GOOBERS = SHOP_CHARACTERS;
 
     /* =====================================================
        BANNERS
@@ -343,7 +376,26 @@ window.DEBUG_GOOBERS = SHOP_CHARACTERS;
 
 
 /* =========================================================
-   STUDYPASS CHARACTERS
+   DEBUG DATA
+   =========================================================
+   
+   These are the items that can potentially appear in the
+   coin shop rotation.
+   
+   This is NOT the current shop.
+   ========================================================= */
+
+window.DEBUG_GOOBERS =
+    SHOP_ITEMS.filter(function(item) {
+        return item.type === "Character";
+    });
+
+window.DEBUG_SHOP_ITEMS =
+    SHOP_ITEMS;
+
+
+/* =========================================================
+   STUDYPASS ITEMS
    ========================================================= */
 
 const STUDYPASS_ITEMS = [
@@ -376,7 +428,8 @@ const TICKET_ITEMS = [
     {
         id: "sparkle",
         name: "Sparkle Effect",
-        description: "Tiny sparkles follow your character.",
+        description:
+            "Tiny sparkles follow your character.",
         type: "Effect",
         price: 10
     },
@@ -384,7 +437,8 @@ const TICKET_ITEMS = [
     {
         id: "speed-trail",
         name: "Speed Trail",
-        description: "Leaves a trail behind your character.",
+        description:
+            "Leaves a trail behind your character.",
         type: "Effect",
         price: 20
     },
@@ -392,7 +446,8 @@ const TICKET_ITEMS = [
     {
         id: "lightning",
         name: "Lightning Effect",
-        description: "Electric sparks surround your character.",
+        description:
+            "Electric sparks surround your character.",
         type: "Effect",
         price: 35
     },
@@ -400,7 +455,8 @@ const TICKET_ITEMS = [
     {
         id: "rainbow",
         name: "Rainbow Aura",
-        description: "A colourful aura surrounds your character.",
+        description:
+            "A colourful aura surrounds your character.",
         type: "Effect",
         price: 50
     },
@@ -408,7 +464,8 @@ const TICKET_ITEMS = [
     {
         id: "fire",
         name: "Fire Aura",
-        description: "A fiery glow surrounds your character.",
+        description:
+            "A fiery glow surrounds your character.",
         type: "Effect",
         price: 75
     },
@@ -416,7 +473,8 @@ const TICKET_ITEMS = [
     {
         id: "glitch",
         name: "Glitch Effect",
-        description: "A strange digital effect surrounds your character.",
+        description:
+            "A strange digital effect surrounds your character.",
         type: "Effect",
         price: 100
     },
@@ -424,7 +482,8 @@ const TICKET_ITEMS = [
     {
         id: "shadow",
         name: "Shadow Aura",
-        description: "A dark shadow surrounds your character.",
+        description:
+            "A dark shadow surrounds your character.",
         type: "Effect",
         price: 150
     },
@@ -432,7 +491,8 @@ const TICKET_ITEMS = [
     {
         id: "crystal",
         name: "Crystal Glow",
-        description: "A bright crystalline glow surrounds your character.",
+        description:
+            "A bright crystalline glow surrounds your character.",
         type: "Effect",
         price: 250
     },
@@ -440,7 +500,8 @@ const TICKET_ITEMS = [
     {
         id: "cosmic-aura",
         name: "Cosmic Aura",
-        description: "Stars and cosmic particles surround your character.",
+        description:
+            "Stars and cosmic particles surround your character.",
         type: "Effect",
         price: 500
     },
@@ -448,7 +509,8 @@ const TICKET_ITEMS = [
     {
         id: "crown",
         name: "Crown + Glow",
-        description: "An extremely rare glowing crown.",
+        description:
+            "An extremely rare glowing crown.",
         type: "Hat",
         price: 1000
     }
@@ -461,19 +523,40 @@ const TICKET_ITEMS = [
    ========================================================= */
 
 function getCoins() {
-    return Number(localStorage.getItem("coins")) || 0;
+
+    return Number(
+        localStorage.getItem("coins")
+    ) || 0;
+
 }
+
 
 function getTickets() {
-    return Number(localStorage.getItem("shopTickets")) || 0;
+
+    return Number(
+        localStorage.getItem("shopTickets")
+    ) || 0;
+
 }
+
 
 function setCoins(value) {
-    localStorage.setItem("coins", String(value));
+
+    localStorage.setItem(
+        "coins",
+        String(value)
+    );
+
 }
 
+
 function setTickets(value) {
-    localStorage.setItem("shopTickets", String(value));
+
+    localStorage.setItem(
+        "shopTickets",
+        String(value)
+    );
+
 }
 
 
@@ -484,14 +567,21 @@ function setTickets(value) {
 function getOwnedItems() {
 
     try {
+
         return JSON.parse(
-            localStorage.getItem("shopOwnedItems")
+            localStorage.getItem(
+                "shopOwnedItems"
+            )
         ) || [];
+
     } catch {
+
         return [];
+
     }
 
 }
+
 
 function saveOwnedItems(items) {
 
@@ -502,8 +592,11 @@ function saveOwnedItems(items) {
 
 }
 
+
 function ownsItem(id) {
+
     return getOwnedItems().indexOf(id) !== -1;
+
 }
 
 
@@ -542,16 +635,24 @@ function unlockItem(id, type) {
     let unlocked = [];
 
     try {
+
         unlocked =
             JSON.parse(
                 localStorage.getItem(key)
             ) || [];
+
     } catch {
+
         unlocked = [];
+
     }
 
-    if (unlocked.indexOf(id) === -1) {
+    if (
+        unlocked.indexOf(id) === -1
+    ) {
+
         unlocked.push(id);
+
     }
 
     localStorage.setItem(
@@ -568,10 +669,13 @@ function unlockItem(id, type) {
 
 function seededRandom(seed) {
 
-    let value = seed % 2147483647;
+    let value =
+        seed % 2147483647;
 
     if (value <= 0) {
+
         value += 2147483646;
+
     }
 
     value =
@@ -591,7 +695,8 @@ function seededRandom(seed) {
 
 function getShopStart() {
 
-    const now = Date.now();
+    const now =
+        Date.now();
 
     const cycles =
         Math.floor(
@@ -624,8 +729,13 @@ function rollRarity(random) {
         total +=
             RARITY_CHANCES[i].weight;
 
-        if (random * 100 < total) {
+        if (
+            random * 100 <
+            total
+        ) {
+
             return RARITY_CHANCES[i].name;
+
         }
 
     }
@@ -651,7 +761,8 @@ function getCurrentShop() {
 
     const result = [];
 
-    const used = new Set();
+    const used =
+        new Set();
 
     for (
         let slot = 0;
@@ -665,37 +776,49 @@ function getCurrentShop() {
                 slot * 7919
             );
 
-        let rarity =
+        const rarity =
             rollRarity(random);
 
         let candidates =
             SHOP_ITEMS.filter(
                 function(item) {
+
                     return (
                         item.rarity === rarity &&
                         !used.has(item.id)
                     );
+
                 }
             );
 
         /*
-           If a rarity has no available items,
-           fall back to any unused item.
+           If there are no unused items of that rarity,
+           use another unused item.
         */
 
-        if (candidates.length === 0) {
+        if (
+            candidates.length === 0
+        ) {
 
             candidates =
                 SHOP_ITEMS.filter(
                     function(item) {
-                        return !used.has(item.id);
+
+                        return !used.has(
+                            item.id
+                        );
+
                     }
                 );
 
         }
 
-        if (candidates.length === 0) {
+        if (
+            candidates.length === 0
+        ) {
+
             break;
+
         }
 
         random =
@@ -737,11 +860,13 @@ function createGoober(data) {
         "goober design-" +
         data.design;
 
+
     const body =
         document.createElement("div");
 
     body.className =
         "goober-body";
+
 
     const face =
         document.createElement("div");
@@ -749,11 +874,13 @@ function createGoober(data) {
     face.className =
         "goober-face";
 
+
     const leftEye =
         document.createElement("div");
 
     leftEye.className =
         "goober-eye eye-left";
+
 
     const rightEye =
         document.createElement("div");
@@ -761,11 +888,13 @@ function createGoober(data) {
     rightEye.className =
         "goober-eye eye-right";
 
+
     const mouth =
         document.createElement("div");
 
     mouth.className =
         "goober-mouth";
+
 
     const feet =
         document.createElement("div");
@@ -773,17 +902,20 @@ function createGoober(data) {
     feet.className =
         "goober-feet";
 
+
     const leftFoot =
         document.createElement("div");
 
     leftFoot.className =
         "goober-foot foot-left";
 
+
     const rightFoot =
         document.createElement("div");
 
     rightFoot.className =
         "goober-foot foot-right";
+
 
     face.appendChild(leftEye);
     face.appendChild(rightEye);
@@ -798,7 +930,7 @@ function createGoober(data) {
 
 
     /* =====================================================
-       DESIGN-SPECIFIC ELEMENTS
+       DESIGN-SPECIFIC PARTS
        ===================================================== */
 
     function addPart(className) {
@@ -817,7 +949,9 @@ function createGoober(data) {
     }
 
 
-    /* Leafy */
+    /* -----------------------------------------------------
+       LEAFY
+       ----------------------------------------------------- */
 
     if (data.design === "leafy") {
 
@@ -829,7 +963,9 @@ function createGoober(data) {
     }
 
 
-    /* Squish */
+    /* -----------------------------------------------------
+       SQUISH
+       ----------------------------------------------------- */
 
     if (data.design === "squish") {
 
@@ -842,7 +978,9 @@ function createGoober(data) {
     }
 
 
-    /* Pebble */
+    /* -----------------------------------------------------
+       PEBBLE
+       ----------------------------------------------------- */
 
     if (data.design === "pebble") {
 
@@ -855,7 +993,9 @@ function createGoober(data) {
     }
 
 
-    /* Button */
+    /* -----------------------------------------------------
+       BUTTON
+       ----------------------------------------------------- */
 
     if (data.design === "button") {
 
@@ -868,7 +1008,9 @@ function createGoober(data) {
     }
 
 
-    /* Horns */
+    /* -----------------------------------------------------
+       HORNS
+       ----------------------------------------------------- */
 
     if (data.design === "horns") {
 
@@ -880,22 +1022,23 @@ function createGoober(data) {
     }
 
 
-    /* Shelby */
+    /* -----------------------------------------------------
+       SHELBY
+       ----------------------------------------------------- */
 
     if (data.design === "shelby") {
 
         body.classList.add("mint");
-
-        /*
-           Shell is added BEFORE the face.
-           The face therefore stays above it.
-        */
 
         const shell =
             document.createElement("div");
 
         shell.className =
             "shelby-shell";
+
+        /*
+           Shell goes behind the face.
+        */
 
         goober.insertBefore(
             shell,
@@ -907,7 +1050,9 @@ function createGoober(data) {
     }
 
 
-    /* Tallboi */
+    /* -----------------------------------------------------
+       TALLBOI
+       ----------------------------------------------------- */
 
     if (data.design === "tallboi") {
 
@@ -919,7 +1064,9 @@ function createGoober(data) {
     }
 
 
-    /* Four Eyes */
+    /* -----------------------------------------------------
+       FOUR EYES
+       ----------------------------------------------------- */
 
     if (data.design === "fourEyes") {
 
@@ -930,6 +1077,7 @@ function createGoober(data) {
 
         third.className =
             "goober-eye extra-eye extra-one";
+
 
         const fourth =
             document.createElement("div");
@@ -945,7 +1093,9 @@ function createGoober(data) {
     }
 
 
-    /* Mothball */
+    /* -----------------------------------------------------
+       MOTHBALL
+       ----------------------------------------------------- */
 
     if (data.design === "mothball") {
 
@@ -959,7 +1109,9 @@ function createGoober(data) {
     }
 
 
-    /* Spike */
+    /* -----------------------------------------------------
+       SPIKE
+       ----------------------------------------------------- */
 
     if (data.design === "spike") {
 
@@ -973,7 +1125,9 @@ function createGoober(data) {
     }
 
 
-    /* Orbit */
+    /* -----------------------------------------------------
+       ORBIT
+       ----------------------------------------------------- */
 
     if (data.design === "orbit") {
 
@@ -985,7 +1139,9 @@ function createGoober(data) {
     }
 
 
-    /* Bubble */
+    /* -----------------------------------------------------
+       BUBBLE
+       ----------------------------------------------------- */
 
     if (data.design === "bubble") {
 
@@ -998,15 +1154,19 @@ function createGoober(data) {
     }
 
 
-    /* Captain Goob */
+    /* -----------------------------------------------------
+       CAPTAIN GOOB
+       ----------------------------------------------------- */
 
     if (data.design === "captainGoob") {
 
         body.classList.add("violet");
 
         /*
-           Cape goes BEHIND the body.
-           No oval/head piece.
+           Cape is inserted before the body,
+           keeping it behind the Goober.
+
+           There is intentionally NO oval head piece.
         */
 
         const cape =
@@ -1026,7 +1186,9 @@ function createGoober(data) {
     }
 
 
-    /* Tailspin */
+    /* -----------------------------------------------------
+       TAILSPIN
+       ----------------------------------------------------- */
 
     if (data.design === "tailspin") {
 
@@ -1038,7 +1200,9 @@ function createGoober(data) {
     }
 
 
-    /* Holy Moly */
+    /* -----------------------------------------------------
+       HOLY MOLY
+       ----------------------------------------------------- */
 
     if (data.design === "holyMoly") {
 
@@ -1050,7 +1214,9 @@ function createGoober(data) {
     }
 
 
-    /* Wingnut */
+    /* -----------------------------------------------------
+       WINGNUT
+       ----------------------------------------------------- */
 
     if (data.design === "wingnut") {
 
@@ -1063,7 +1229,9 @@ function createGoober(data) {
     }
 
 
-    /* Cosmo */
+    /* -----------------------------------------------------
+       COSMO
+       ----------------------------------------------------- */
 
     if (data.design === "cosmo") {
 
@@ -1075,7 +1243,9 @@ function createGoober(data) {
     }
 
 
-    /* The Goober */
+    /* -----------------------------------------------------
+       THE GOOBER
+       ----------------------------------------------------- */
 
     if (data.design === "theGoober") {
 
@@ -1088,7 +1258,9 @@ function createGoober(data) {
     }
 
 
-    /* Golden */
+    /* -----------------------------------------------------
+       GOLDEN GOOBER
+       ----------------------------------------------------- */
 
     if (data.design === "golden") {
 
@@ -1100,7 +1272,9 @@ function createGoober(data) {
     }
 
 
-    /* Galaxy */
+    /* -----------------------------------------------------
+       GALAXY GOOBER
+       ----------------------------------------------------- */
 
     if (data.design === "galaxy") {
 
@@ -1113,7 +1287,9 @@ function createGoober(data) {
     }
 
 
-    /* Study Sprout */
+    /* -----------------------------------------------------
+       STUDY SPROUT
+       ----------------------------------------------------- */
 
     if (data.design === "studySprout") {
 
@@ -1126,7 +1302,9 @@ function createGoober(data) {
     }
 
 
-    /* Study Orbit */
+    /* -----------------------------------------------------
+       STUDY ORBIT
+       ----------------------------------------------------- */
 
     if (data.design === "studyOrbit") {
 
@@ -1144,7 +1322,7 @@ function createGoober(data) {
 
 
 /* =========================================================
-   PREVIEWS
+   BANNER PREVIEW
    ========================================================= */
 
 function createBanner(item) {
@@ -1160,6 +1338,10 @@ function createBanner(item) {
 
 }
 
+
+/* =========================================================
+   TITLE PREVIEW
+   ========================================================= */
 
 function createTitlePreview(item) {
 
@@ -1177,18 +1359,34 @@ function createTitlePreview(item) {
 }
 
 
+/* =========================================================
+   GENERIC PREVIEW
+   ========================================================= */
+
 function createPreview(item) {
 
-    if (item.type === "Character") {
+    if (
+        item.type === "Character"
+    ) {
+
         return createGoober(item);
+
     }
 
-    if (item.type === "Banner") {
+    if (
+        item.type === "Banner"
+    ) {
+
         return createBanner(item);
+
     }
 
-    if (item.type === "Player Title") {
+    if (
+        item.type === "Player Title"
+    ) {
+
         return createTitlePreview(item);
+
     }
 
     return document.createElement("div");
@@ -1211,7 +1409,7 @@ function getRarityClass(rarity) {
 
 
 /* =========================================================
-   SHOP CARD
+   COIN SHOP CARD
    ========================================================= */
 
 function createShopCard(item) {
@@ -1223,6 +1421,7 @@ function createShopCard(item) {
         "shop-card " +
         getRarityClass(item.rarity);
 
+
     const rarity =
         document.createElement("div");
 
@@ -1231,6 +1430,7 @@ function createShopCard(item) {
 
     rarity.textContent =
         item.rarity;
+
 
     const preview =
         document.createElement("div");
@@ -1242,11 +1442,13 @@ function createShopCard(item) {
         createPreview(item)
     );
 
+
     const name =
         document.createElement("h3");
 
     name.textContent =
         item.name;
+
 
     const type =
         document.createElement("p");
@@ -1256,6 +1458,7 @@ function createShopCard(item) {
 
     type.textContent =
         item.type;
+
 
     const price =
         document.createElement("div");
@@ -1267,13 +1470,17 @@ function createShopCard(item) {
         item.price +
         " Coins";
 
+
     const button =
         document.createElement("button");
 
     button.className =
         "buy-button";
 
-    if (ownsItem(item.id)) {
+
+    if (
+        ownsItem(item.id)
+    ) {
 
         button.textContent =
             "OWNED";
@@ -1281,7 +1488,9 @@ function createShopCard(item) {
         button.disabled =
             true;
 
-        button.classList.add("owned");
+        button.classList.add(
+            "owned"
+        );
 
     } else {
 
@@ -1291,14 +1500,17 @@ function createShopCard(item) {
         button.addEventListener(
             "click",
             function() {
+
                 buyCoinItem(
                     item,
                     button
                 );
+
             }
         );
 
     }
+
 
     card.appendChild(rarity);
     card.appendChild(preview);
@@ -1351,14 +1563,20 @@ function displayMainShop() {
 
 function buyCoinItem(item, button) {
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(item.id)
+    ) {
+
         return;
+
     }
 
     const coins =
         getCoins();
 
-    if (coins < item.price) {
+    if (
+        coins < item.price
+    ) {
 
         alert(
             "You don't have enough coins!"
@@ -1378,6 +1596,7 @@ function buyCoinItem(item, button) {
         item.type
     );
 
+
     const owned =
         getOwnedItems();
 
@@ -1389,7 +1608,10 @@ function buyCoinItem(item, button) {
 
     }
 
-    saveOwnedItems(owned);
+    saveOwnedItems(
+        owned
+    );
+
 
     button.disabled =
         true;
@@ -1423,6 +1645,7 @@ function displayTicketShop() {
 
     container.innerHTML = "";
 
+
     TICKET_ITEMS.forEach(
         function(item) {
 
@@ -1434,6 +1657,7 @@ function displayTicketShop() {
             card.className =
                 "ticket-card";
 
+
             const preview =
                 document.createElement(
                     "div"
@@ -1441,6 +1665,7 @@ function displayTicketShop() {
 
             preview.className =
                 "ticket-item-preview";
+
 
             const effect =
                 document.createElement(
@@ -1451,28 +1676,44 @@ function displayTicketShop() {
                 "preview-effect effect-" +
                 item.id;
 
+
             const goober =
                 createGoober({
                     design: "orbit"
                 });
 
-            preview.appendChild(effect);
-            preview.appendChild(goober);
+
+            preview.appendChild(
+                effect
+            );
+
+            preview.appendChild(
+                goober
+            );
+
 
             const name =
-                document.createElement("h3");
+                document.createElement(
+                    "h3"
+                );
 
             name.textContent =
                 item.name;
 
+
             const description =
-                document.createElement("p");
+                document.createElement(
+                    "p"
+                );
 
             description.textContent =
                 item.description;
 
+
             const price =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             price.className =
                 "ticket-price";
@@ -1481,13 +1722,19 @@ function displayTicketShop() {
                 item.price +
                 " Shop Tickets";
 
+
             const button =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
             button.className =
                 "buy-button";
 
-            if (ownsItem(item.id)) {
+
+            if (
+                ownsItem(item.id)
+            ) {
 
                 button.textContent =
                     "OWNED";
@@ -1518,13 +1765,31 @@ function displayTicketShop() {
 
             }
 
-            card.appendChild(preview);
-            card.appendChild(name);
-            card.appendChild(description);
-            card.appendChild(price);
-            card.appendChild(button);
 
-            container.appendChild(card);
+            card.appendChild(
+                preview
+            );
+
+            card.appendChild(
+                name
+            );
+
+            card.appendChild(
+                description
+            );
+
+            card.appendChild(
+                price
+            );
+
+            card.appendChild(
+                button
+            );
+
+
+            container.appendChild(
+                card
+            );
 
         }
     );
@@ -1538,14 +1803,20 @@ function displayTicketShop() {
 
 function buyTicketItem(item, button) {
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(item.id)
+    ) {
+
         return;
+
     }
 
     const tickets =
         getTickets();
 
-    if (tickets < item.price) {
+    if (
+        tickets < item.price
+    ) {
 
         alert(
             "You don't have enough Shop Tickets!"
@@ -1565,6 +1836,7 @@ function buyTicketItem(item, button) {
         item.type
     );
 
+
     const owned =
         getOwnedItems();
 
@@ -1576,7 +1848,10 @@ function buyTicketItem(item, button) {
 
     }
 
-    saveOwnedItems(owned);
+    saveOwnedItems(
+        owned
+    );
+
 
     button.disabled =
         true;
@@ -1610,6 +1885,7 @@ function displayStudyPass() {
 
     container.innerHTML = "";
 
+
     STUDYPASS_ITEMS.forEach(
         function(item) {
 
@@ -1621,8 +1897,11 @@ function displayStudyPass() {
             card.className =
                 "studypass-card";
 
+
             const badge =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             badge.className =
                 "pass-badge";
@@ -1630,8 +1909,11 @@ function displayStudyPass() {
             badge.textContent =
                 "STUDYPASS";
 
+
             const rarity =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             rarity.className =
                 "rarity";
@@ -1639,8 +1921,11 @@ function displayStudyPass() {
             rarity.textContent =
                 item.rarity;
 
+
             const preview =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             preview.className =
                 "studypass-preview";
@@ -1649,25 +1934,49 @@ function displayStudyPass() {
                 createGoober(item)
             );
 
+
             const name =
-                document.createElement("h3");
+                document.createElement(
+                    "h3"
+                );
 
             name.textContent =
                 item.name;
 
+
             const description =
-                document.createElement("p");
+                document.createElement(
+                    "p"
+                );
 
             description.textContent =
                 "Exclusive StudyPass character";
 
-            card.appendChild(badge);
-            card.appendChild(rarity);
-            card.appendChild(preview);
-            card.appendChild(name);
-            card.appendChild(description);
 
-            container.appendChild(card);
+            card.appendChild(
+                badge
+            );
+
+            card.appendChild(
+                rarity
+            );
+
+            card.appendChild(
+                preview
+            );
+
+            card.appendChild(
+                name
+            );
+
+            card.appendChild(
+                description
+            );
+
+
+            container.appendChild(
+                card
+            );
 
         }
     );
@@ -1691,14 +2000,20 @@ function updateCurrency() {
             "ticket-count"
         );
 
+
     if (coins) {
+
         coins.textContent =
             getCoins();
+
     }
 
+
     if (tickets) {
+
         tickets.textContent =
             getTickets();
+
     }
 
 }
@@ -1719,17 +2034,25 @@ function updateCountdown() {
         return;
     }
 
+
     const next =
         getShopStart() +
         SHOP_INTERVAL;
+
 
     let remaining =
         next -
         Date.now();
 
-    if (remaining < 0) {
+
+    if (
+        remaining < 0
+    ) {
+
         remaining = 0;
+
     }
+
 
     const days =
         Math.floor(
@@ -1737,26 +2060,36 @@ function updateCountdown() {
             86400000
         );
 
+
     const hours =
         Math.floor(
-            remaining %
-            86400000 /
+            (
+                remaining %
+                86400000
+            ) /
             3600000
         );
 
+
     const minutes =
         Math.floor(
-            remaining %
-            3600000 /
+            (
+                remaining %
+                3600000
+            ) /
             60000
         );
 
+
     const seconds =
         Math.floor(
-            remaining %
-            60000 /
+            (
+                remaining %
+                60000
+            ) /
             1000
         );
+
 
     element.textContent =
         days +
@@ -1797,26 +2130,38 @@ function openMainShop() {
             "ticket-shop-button"
         );
 
+
     if (main) {
+
         main.style.display =
             "block";
+
     }
+
 
     if (tickets) {
+
         tickets.style.display =
             "none";
+
     }
 
+
     if (mainButton) {
+
         mainButton.classList.add(
             "active"
         );
+
     }
 
+
     if (ticketButton) {
+
         ticketButton.classList.remove(
             "active"
         );
+
     }
 
 }
@@ -1844,26 +2189,38 @@ function openTicketShop() {
             "ticket-shop-button"
         );
 
+
     if (main) {
+
         main.style.display =
             "none";
+
     }
+
 
     if (tickets) {
+
         tickets.style.display =
             "block";
+
     }
 
+
     if (mainButton) {
+
         mainButton.classList.remove(
             "active"
         );
+
     }
 
+
     if (ticketButton) {
+
         ticketButton.classList.add(
             "active"
         );
+
     }
 
 }
@@ -1880,78 +2237,122 @@ function openDebugMenu() {
             ".debug-overlay"
         )
     ) {
+
         return;
+
     }
 
+
     const overlay =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     overlay.className =
         "debug-overlay";
 
+
     const box =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     box.className =
         "debug-box";
 
+
     box.innerHTML =
         "<h2>🛠️ StudySprint Debug</h2>" +
+
         "<p>What do you want to change?</p>" +
 
         "<select id='debug-type'>" +
+
         "<option value='xp'>⭐ XP</option>" +
+
         "<option value='coins'>🪙 Coins</option>" +
+
         "<option value='tickets'>🎟️ Tickets</option>" +
+
         "<option value='streak'>🔥 Streak</option>" +
+
+        "<option value='show-goobers'>🟢 Show All Goobers</option>" +
+
+        "<option value='show-items'>🛍️ Show All Shop Items</option>" +
+
         "<option value='reset'>🗑️ Reset Account</option>" +
+
         "</select>" +
 
-        "<input id='debug-value' type='number' placeholder='Amount'>" +
+        "<input id='debug-value' " +
+        "type='number' " +
+        "placeholder='Amount'>" +
 
-        "<button id='debug-apply' class='debug-apply'>" +
+        "<button id='debug-apply' " +
+        "class='debug-apply'>" +
         "Apply" +
         "</button>" +
 
-        "<button id='debug-close' class='debug-close'>" +
+        "<button id='debug-close' " +
+        "class='debug-close'>" +
         "Cancel" +
         "</button>";
 
-    overlay.appendChild(box);
-    document.body.appendChild(overlay);
+
+    overlay.appendChild(
+        box
+    );
+
+    document.body.appendChild(
+        overlay
+    );
+
 
     const type =
         box.querySelector(
             "#debug-type"
         );
 
+
     const value =
         box.querySelector(
             "#debug-value"
         );
 
+
     function updateDebugInput() {
 
+        const hidden =
+            type.value === "reset" ||
+            type.value === "show-goobers" ||
+            type.value === "show-items";
+
         value.style.display =
-            type.value === "reset"
+            hidden
                 ? "none"
                 : "block";
 
     }
+
 
     type.addEventListener(
         "change",
         updateDebugInput
     );
 
+
     updateDebugInput();
+
 
     box.querySelector(
         "#debug-close"
     ).onclick =
         function() {
+
             overlay.remove();
+
         };
+
 
     box.querySelector(
         "#debug-apply"
@@ -1961,22 +2362,69 @@ function openDebugMenu() {
             const selected =
                 type.value;
 
-            if (selected === "reset") {
+
+            /* ---------------------------------------------
+               SHOW ALL GOOBERS
+               --------------------------------------------- */
+
+            if (
+                selected === "show-goobers"
+            ) {
+
+                showDebugItems(
+                    DEBUG_GOOBERS,
+                    "ALL GOOBERS"
+                );
+
+                return;
+
+            }
+
+
+            /* ---------------------------------------------
+               SHOW ALL SHOP ITEMS
+               --------------------------------------------- */
+
+            if (
+                selected === "show-items"
+            ) {
+
+                showDebugItems(
+                    DEBUG_SHOP_ITEMS,
+                    "ALL COIN SHOP ITEMS"
+                );
+
+                return;
+
+            }
+
+
+            /* ---------------------------------------------
+               RESET
+               --------------------------------------------- */
+
+            if (
+                selected === "reset"
+            ) {
 
                 const confirmed =
                     confirm(
                         "Reset your entire StudySprint account?"
                     );
 
+
                 if (!confirmed) {
                     return;
                 }
 
+
                 localStorage.clear();
+
 
                 alert(
                     "Account reset! Reloading StudySprint..."
                 );
+
 
                 location.reload();
 
@@ -1984,10 +2432,20 @@ function openDebugMenu() {
 
             }
 
-            const amount =
-                Number(value.value);
 
-            if (!Number.isFinite(amount)) {
+            /* ---------------------------------------------
+               NORMAL VALUES
+               --------------------------------------------- */
+
+            const amount =
+                Number(
+                    value.value
+                );
+
+
+            if (
+                !Number.isFinite(amount)
+            ) {
 
                 alert(
                     "Enter a valid number."
@@ -1997,17 +2455,25 @@ function openDebugMenu() {
 
             }
 
+
             const keys = {
+
                 xp: "xp",
+
                 coins: "coins",
+
                 tickets: "shopTickets",
+
                 streak: "streak"
+
             };
+
 
             localStorage.setItem(
                 keys[selected],
                 String(amount)
             );
+
 
             alert(
                 selected +
@@ -2016,11 +2482,210 @@ function openDebugMenu() {
                 "!"
             );
 
+
             overlay.remove();
+
 
             location.reload();
 
         };
+
+}
+
+
+/* =========================================================
+   DEBUG ITEM VIEWER
+   ========================================================= */
+
+function showDebugItems(items, title) {
+
+    const existing =
+        document.querySelector(
+            ".debug-item-overlay"
+        );
+
+    if (existing) {
+        existing.remove();
+    }
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+    overlay.className =
+        "debug-item-overlay";
+
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+    box.className =
+        "debug-item-box";
+
+
+    const heading =
+        document.createElement(
+            "h2"
+        );
+
+    heading.textContent =
+        title;
+
+
+    const count =
+        document.createElement(
+            "p"
+        );
+
+    count.textContent =
+        items.length +
+        " items available";
+
+
+    const grid =
+        document.createElement(
+            "div"
+        );
+
+    grid.className =
+        "debug-item-grid";
+
+
+    items.forEach(
+        function(item) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "debug-item-card";
+
+
+            const preview =
+                document.createElement(
+                    "div"
+                );
+
+            preview.className =
+                "debug-item-preview";
+
+
+            if (
+                item.type === "Character"
+            ) {
+
+                preview.appendChild(
+                    createGoober(item)
+                );
+
+            } else if (
+                item.type === "Banner"
+            ) {
+
+                preview.appendChild(
+                    createBanner(item)
+                );
+
+            } else if (
+                item.type === "Player Title"
+            ) {
+
+                preview.appendChild(
+                    createTitlePreview(item)
+                );
+
+            }
+
+
+            const name =
+                document.createElement(
+                    "strong"
+                );
+
+            name.textContent =
+                item.name;
+
+
+            const rarity =
+                document.createElement(
+                    "span"
+                );
+
+            rarity.textContent =
+                item.rarity;
+
+
+            card.appendChild(
+                preview
+            );
+
+            card.appendChild(
+                name
+            );
+
+            card.appendChild(
+                rarity
+            );
+
+
+            grid.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    const close =
+        document.createElement(
+            "button"
+        );
+
+    close.className =
+        "debug-close";
+
+    close.textContent =
+        "Close";
+
+
+    close.onclick =
+        function() {
+
+            overlay.remove();
+
+        };
+
+
+    box.appendChild(
+        heading
+    );
+
+    box.appendChild(
+        count
+    );
+
+    box.appendChild(
+        grid
+    );
+
+    box.appendChild(
+        close
+    );
+
+
+    overlay.appendChild(
+        box
+    );
+
+    document.body.appendChild(
+        overlay
+    );
 
 }
 
@@ -2038,15 +2703,18 @@ document.addEventListener(
                 "main-shop-button"
             );
 
+
         const ticketButton =
             document.getElementById(
                 "ticket-shop-button"
             );
 
+
         const debugButton =
             document.getElementById(
                 "debug-open"
             );
+
 
         if (mainButton) {
 
@@ -2057,6 +2725,7 @@ document.addEventListener(
 
         }
 
+
         if (ticketButton) {
 
             ticketButton.addEventListener(
@@ -2065,6 +2734,7 @@ document.addEventListener(
             );
 
         }
+
 
         if (debugButton) {
 
@@ -2075,12 +2745,17 @@ document.addEventListener(
 
         }
 
+
         displayMainShop();
+
         displayTicketShop();
+
         displayStudyPass();
 
         updateCurrency();
+
         updateCountdown();
+
 
         setInterval(
             updateCountdown,
@@ -2115,3 +2790,6 @@ window.ownsItem =
 
 window.getCurrentShop =
     getCurrentShop;
+
+window.showDebugItems =
+    showDebugItems;
