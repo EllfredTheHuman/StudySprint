@@ -1,271 +1,240 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Goober Character Edition
 ========================================================= */
 
 
 /* =========================================================
-   SHOP REFRESH
-   Every second Sunday at 12:00 AM AEST
+   SHOP TIMING
 ========================================================= */
-
-const SHOP_REFRESH_TIME =
-    14 * 24 * 60 * 60 * 1000;
-
 
 /*
-    Australia Eastern Standard Time = UTC+10.
+   Shop refreshes every second Sunday at 12:00 AM AEST.
 
-    The shop uses a fixed two-week cycle based on
-    Sunday 00:00 AEST.
+   AEST = UTC+10.
 
-    This means everyone gets the same shop rotation
-    at the same time.
+   The shop uses one fixed UTC calculation so everyone
+   gets the same shop rotation.
 */
 
-function getShopCycleStart() {
+const SHOP_REFRESH_DAYS = 14;
 
-    const now =
-        new Date();
-
-    const utc =
-        now.getTime() +
-        now.getTimezoneOffset() * 60000;
-
-    const aest =
-        new Date(
-            utc + 10 * 60 * 60000
-        );
-
-    const day =
-        aest.getDay();
-
-    const daysSinceSunday =
-        day;
-
-    const sunday =
-        new Date(aest);
-
-    sunday.setDate(
-        aest.getDate() -
-        daysSinceSunday
-    );
-
-    sunday.setHours(
-        0,
-        0,
-        0,
-        0
-    );
-
-    /*
-        Find the nearest valid fortnightly
-        Sunday based on a fixed epoch.
-
-        2026-01-04 was a Sunday.
-    */
-
-    const epoch =
-        new Date(
-            "2026-01-04T00:00:00"
-        );
-
-    const difference =
-        sunday.getTime() -
-        epoch.getTime();
-
-    const cycle =
-        Math.floor(
-            difference /
-            SHOP_REFRESH_TIME
-        );
-
-    return new Date(
-        epoch.getTime() +
-        cycle *
-        SHOP_REFRESH_TIME
-    );
-
-}
+const SHOP_ITEM_COUNT = 6;
 
 
 /* =========================================================
-   CHARACTERS
-   20 rotate through the fortnightly shop.
+   SHOP CHARACTERS
 ========================================================= */
 
-const CHARACTERS = [
+/*
+   20 characters rotate through the fortnightly shop.
+
+   Each character is actually designed differently.
+*/
+
+const SHOP_CHARACTERS = [
 
     {
-        id:"blue-goober",
-        name:"Blue Goober",
+        id:"leafy",
+        name:"Leafy",
         rarity:"Common",
-        theme:"blue",
-        price:150
+        price:250,
+        shape:"round",
+        colour:"#65a30d",
+        feature:"leaf"
     },
 
     {
-        id:"green-goober",
-        name:"Green Goober",
+        id:"squish",
+        name:"Squish",
         rarity:"Common",
-        theme:"green",
-        price:150
+        price:275,
+        shape:"squish",
+        colour:"#60a5fa",
+        feature:"none"
     },
 
     {
-        id:"purple-goober",
-        name:"Purple Goober",
+        id:"pebble",
+        name:"Pebble",
         rarity:"Common",
-        theme:"purple",
-        price:175
+        price:300,
+        shape:"round",
+        colour:"#78716c",
+        feature:"none"
     },
 
     {
-        id:"orange-goober",
-        name:"Orange Goober",
+        id:"button",
+        name:"Button",
         rarity:"Common",
-        theme:"orange",
-        price:175
+        price:325,
+        shape:"round",
+        colour:"#f472b6",
+        feature:"antenna"
     },
 
+
     {
-        id:"pink-goober",
-        name:"Pink Goober",
+        id:"horns",
+        name:"Horns",
         rarity:"Rare",
-        theme:"pink",
-        price:200
+        price:400,
+        shape:"round",
+        colour:"#a78bfa",
+        feature:"horns"
     },
 
     {
-        id:"cyan-goober",
-        name:"Cyan Goober",
+        id:"shellby",
+        name:"Shellby",
         rarity:"Rare",
-        theme:"cyan",
-        price:200
+        price:425,
+        shape:"round",
+        colour:"#34d399",
+        feature:"shell"
     },
 
     {
-        id:"red-goober",
-        name:"Red Goober",
+        id:"tallboi",
+        name:"Tallboi",
         rarity:"Rare",
-        theme:"red",
-        price:225
+        price:450,
+        shape:"tall",
+        colour:"#fbbf24",
+        feature:"none"
     },
 
     {
-        id:"yellow-goober",
-        name:"Yellow Goober",
+        id:"four-eyes",
+        name:"Four Eyes",
         rarity:"Rare",
-        theme:"yellow",
-        price:225
+        price:475,
+        shape:"four-eyes",
+        colour:"#fb7185",
+        feature:"glasses"
     },
 
-    {
-        id:"sleepy-goober",
-        name:"Sleepy Goober",
-        rarity:"Rare",
-        theme:"purple",
-        accessory:"sleepy",
-        price:250
-    },
 
     {
-        id:"happy-goober",
-        name:"Happy Goober",
-        rarity:"Rare",
-        theme:"orange",
-        accessory:"happy",
-        price:250
-    },
-
-    {
-        id:"leafy-goober",
-        name:"Leafy Goober",
+        id:"moth",
+        name:"Mothball",
         rarity:"Epic",
-        theme:"green",
-        accessory:"leaf",
-        price:300
+        price:550,
+        shape:"round",
+        colour:"#c084fc",
+        feature:"wings"
     },
 
     {
-        id:"star-goober",
-        name:"Star Goober",
+        id:"spike",
+        name:"Spike",
         rarity:"Epic",
-        theme:"blue",
-        accessory:"star",
-        price:325
+        price:575,
+        shape:"spiky",
+        colour:"#f43f5e",
+        feature:"spikes"
     },
 
     {
-        id:"bubble-goober",
-        name:"Bubble Goober",
+        id:"orbit",
+        name:"Orbit",
         rarity:"Epic",
-        theme:"cyan",
-        accessory:"bubble",
-        price:350
+        price:600,
+        shape:"floating",
+        colour:"#38bdf8",
+        feature:"ring"
     },
 
     {
-        id:"ghost-goober",
-        name:"Ghost Goober",
+        id:"bubble",
+        name:"Bubble",
         rarity:"Epic",
-        theme:"purple",
-        accessory:"ghost",
-        price:375
+        price:625,
+        shape:"round",
+        colour:"#22d3ee",
+        feature:"halo"
+    },
+
+
+    {
+        id:"cape",
+        name:"Captain Goob",
+        rarity:"Mythic",
+        price:700,
+        shape:"round",
+        colour:"#8b5cf6",
+        feature:"cape"
     },
 
     {
-        id:"lava-goober",
-        name:"Lava Goober",
-        rarity:"Epic",
-        theme:"red",
-        accessory:"lava",
-        price:400
+        id:"tail",
+        name:"Tailspin",
+        rarity:"Mythic",
+        price:725,
+        shape:"round",
+        colour:"#ec4899",
+        feature:"tail"
     },
 
     {
-        id:"space-goober",
-        name:"Space Goober",
+        id:"halo",
+        name:"Holy Moly",
+        rarity:"Mythic",
+        price:750,
+        shape:"round",
+        colour:"#fef08a",
+        feature:"halo"
+    },
+
+    {
+        id:"winged",
+        name:"Wingnut",
+        rarity:"Mythic",
+        price:775,
+        shape:"floating",
+        colour:"#f0abfc",
+        feature:"wings"
+    },
+
+
+    {
+        id:"royal",
+        name:"Royal Goober",
         rarity:"Legendary",
-        theme:"purple",
-        accessory:"space",
-        price:450
+        price:900,
+        shape:"round",
+        colour:"#f59e0b",
+        feature:"crown"
     },
 
     {
-        id:"golden-goober",
+        id:"cosmic",
+        name:"Cosmo",
+        rarity:"Legendary",
+        price:950,
+        shape:"floating",
+        colour:"#312e81",
+        feature:"stars"
+    },
+
+    {
+        id:"legend",
+        name:"The Goober",
+        rarity:"Legendary",
+        price:1000,
+        shape:"round",
+        colour:"#f97316",
+        feature:"orbit"
+    },
+
+    {
+        id:"golden",
         name:"Golden Goober",
         rarity:"Legendary",
-        theme:"yellow",
-        accessory:"gold",
-        price:500
-    },
-
-    {
-        id:"crowned-goober",
-        name:"Crowned Goober",
-        rarity:"Legendary",
-        theme:"blue",
-        accessory:"crown",
-        price:550
-    },
-
-    {
-        id:"rainbow-goober",
-        name:"Rainbow Goober",
-        rarity:"Legendary",
-        theme:"cyan",
-        accessory:"rainbow",
-        price:600
-    },
-
-    {
-        id:"mega-goober",
-        name:"Mega Goober",
-        rarity:"Legendary",
-        theme:"orange",
-        accessory:"mega",
-        price:750
+        price:1100,
+        shape:"round",
+        colour:"#fbbf24",
+        feature:"legendary"
     }
 
 ];
@@ -278,141 +247,54 @@ const CHARACTERS = [
 const STUDYPASS_CHARACTERS = [
 
     {
-        id:"study-goober",
-        name:"Study Goober",
+        id:"study-sprout",
+        name:"Study Sprout",
         rarity:"Epic",
-        theme:"blue",
-        accessory:"book"
+        colour:"#22c55e",
+        shape:"round",
+        feature:"leaf"
     },
 
     {
-        id:"sprint-goober",
-        name:"Sprint Goober",
+        id:"study-orbit",
+        name:"Study Orbit",
         rarity:"Legendary",
-        theme:"red",
-        accessory:"fire"
+        colour:"#8b5cf6",
+        shape:"floating",
+        feature:"orbit"
     }
 
 ];
 
 
 /* =========================================================
-   BANNERS
+   OTHER SHOP ITEMS
 ========================================================= */
 
-const BANNERS = [
+const SHOP_BANNERS = [
 
     {
         id:"sprint-grid",
         name:"Sprint Grid",
         rarity:"Common",
-        price:100,
-        style:"grid"
+        type:"Banner",
+        price:100
     },
 
     {
         id:"purple-grid",
         name:"Purple Grid",
         rarity:"Common",
-        price:125,
-        style:"purple"
+        type:"Banner",
+        price:125
     },
 
     {
         id:"neon-blue",
         name:"Neon Blue",
-        rarity:"Common",
-        price:150,
-        style:"neon"
-    },
-
-    {
-        id:"sunset",
-        name:"Sunset",
         rarity:"Rare",
-        price:200,
-        style:"sunset"
-    },
-
-    {
-        id:"cosmic-banner",
-        name:"Cosmic",
-        rarity:"Epic",
-        price:300,
-        style:"cosmic"
-    },
-
-    {
-        id:"gold-grid",
-        name:"Golden Grid",
-        rarity:"Legendary",
-        price:450,
-        style:"gold"
-    }
-
-];
-
-
-/* =========================================================
-   COMMON EFFECTS
-   Crown and all existing ticket effects stay
-   exclusively in the Ticket Shop.
-========================================================= */
-
-const COMMON_EFFECTS = [
-
-    {
-        id:"bubble",
-        name:"Bubble Effect",
-        rarity:"Common",
-        price:125,
-        description:
-            "Tiny bubbles float around your goober."
-    },
-
-    {
-        id:"spark",
-        name:"Spark Effect",
-        rarity:"Common",
-        price:150,
-        description:
-            "Small sparks pop around your goober."
-    },
-
-    {
-        id:"confetti",
-        name:"Confetti Effect",
-        rarity:"Rare",
-        price:225,
-        description:
-            "Little pieces of confetti fly around."
-    },
-
-    {
-        id:"leaf",
-        name:"Leaf Effect",
-        rarity:"Rare",
-        price:250,
-        description:
-            "Leaves gently float around your goober."
-    },
-
-    {
-        id:"cloud",
-        name:"Cloud Effect",
-        rarity:"Epic",
-        price:300,
-        description:
-            "Soft clouds drift around your goober."
-    },
-
-    {
-        id:"stars",
-        name:"Star Effect",
-        rarity:"Epic",
-        price:350,
-        description:
-            "Small stars orbit your goober."
+        type:"Banner",
+        price:150
     }
 
 ];
@@ -420,7 +302,6 @@ const COMMON_EFFECTS = [
 
 /* =========================================================
    TICKET SHOP
-   These NEVER rotate.
 ========================================================= */
 
 const TICKET_ITEMS = [
@@ -429,7 +310,7 @@ const TICKET_ITEMS = [
         id:"sparkle",
         name:"Sparkle Effect",
         description:
-            "Tiny sparkles follow your goober.",
+            "Tiny sparkles follow your character.",
         type:"Effect",
         price:10
     },
@@ -438,7 +319,7 @@ const TICKET_ITEMS = [
         id:"speed-trail",
         name:"Speed Trail",
         description:
-            "Leaves a trail behind your goober.",
+            "Leaves a trail behind your character.",
         type:"Effect",
         price:20
     },
@@ -447,7 +328,7 @@ const TICKET_ITEMS = [
         id:"lightning",
         name:"Lightning Effect",
         description:
-            "Electric sparks surround your goober.",
+            "Electric sparks surround your character.",
         type:"Effect",
         price:35
     },
@@ -456,7 +337,7 @@ const TICKET_ITEMS = [
         id:"rainbow",
         name:"Rainbow Aura",
         description:
-            "A colourful aura surrounds your goober.",
+            "A colourful aura surrounds your character.",
         type:"Effect",
         price:50
     },
@@ -465,7 +346,7 @@ const TICKET_ITEMS = [
         id:"fire",
         name:"Fire Aura",
         description:
-            "A fiery glow surrounds your goober.",
+            "A fiery glow surrounds your character.",
         type:"Effect",
         price:75
     },
@@ -474,7 +355,7 @@ const TICKET_ITEMS = [
         id:"glitch",
         name:"Glitch Effect",
         description:
-            "A strange digital effect surrounds your goober.",
+            "A strange digital effect surrounds your character.",
         type:"Effect",
         price:100
     },
@@ -483,7 +364,7 @@ const TICKET_ITEMS = [
         id:"shadow",
         name:"Shadow Aura",
         description:
-            "A dark shadow surrounds your goober.",
+            "A dark shadow surrounds your character.",
         type:"Effect",
         price:150
     },
@@ -492,7 +373,7 @@ const TICKET_ITEMS = [
         id:"crystal",
         name:"Crystal Glow",
         description:
-            "A bright crystalline glow surrounds your goober.",
+            "A bright crystalline glow surrounds your character.",
         type:"Effect",
         price:250
     },
@@ -501,7 +382,7 @@ const TICKET_ITEMS = [
         id:"cosmic",
         name:"Cosmic Aura",
         description:
-            "Stars and cosmic particles surround your goober.",
+            "Stars and cosmic particles surround your character.",
         type:"Effect",
         price:500
     },
@@ -604,7 +485,7 @@ function ownsItem(id) {
 
 
 /* =========================================================
-   UNLOCK ITEMS
+   UNLOCK
 ========================================================= */
 
 function unlockItem(
@@ -643,16 +524,16 @@ function unlockItem(
 
     }
 
-    else {
+    else if(type === "Hat") {
 
-        console.warn(
-            "Unknown shop item type:",
-            type
-        );
-
-        return;
+        key =
+            "unlocked_hats";
 
     }
+
+
+    if(!key)
+        return;
 
 
     let unlocked = [];
@@ -674,9 +555,7 @@ function unlockItem(
     }
 
 
-    if(
-        !unlocked.includes(id)
-    ) {
+    if(!unlocked.includes(id)) {
 
         unlocked.push(id);
 
@@ -692,120 +571,64 @@ function unlockItem(
 
 
 /* =========================================================
-   CREATE GOOBER
+   CHARACTER PREVIEW
 ========================================================= */
 
-function createGoober(character) {
+function createGoober(data) {
 
     const goober =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     goober.className =
         "goober goober-" +
-        character.theme;
+        data.shape;
 
-
-    /*
-        Body
-    */
 
     const body =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     body.className =
         "goober-body";
 
 
-    /*
-        Arms
-    */
+    body.style.background =
+        data.colour;
 
-    const leftArm =
-        document.createElement(
-            "div"
-        );
-
-    leftArm.className =
-        "goober-arm left";
-
-
-    const rightArm =
-        document.createElement(
-            "div"
-        );
-
-    rightArm.className =
-        "goober-arm right";
-
-
-    /*
-        Feet
-    */
-
-    const leftFoot =
-        document.createElement(
-            "div"
-        );
-
-    leftFoot.className =
-        "goober-foot left";
-
-
-    const rightFoot =
-        document.createElement(
-            "div"
-        );
-
-    rightFoot.className =
-        "goober-foot right";
-
-
-    /*
-        Eyes
-    */
 
     const leftEye =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     leftEye.className =
         "goober-eye left";
 
 
     const rightEye =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     rightEye.className =
         "goober-eye right";
 
 
-    /*
-        Mouth
-    */
-
     const mouth =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     mouth.className =
         "goober-mouth";
 
 
-    goober.appendChild(
-        leftArm
-    );
+    const leftFoot =
+        document.createElement("div");
 
-    goober.appendChild(
-        rightArm
-    );
+    leftFoot.className =
+        "goober-foot left";
+
+
+    const rightFoot =
+        document.createElement("div");
+
+    rightFoot.className =
+        "goober-foot right";
+
 
     goober.appendChild(
         leftFoot
@@ -832,14 +655,291 @@ function createGoober(character) {
     );
 
 
-    /*
-        Accessories
-    */
+    /* =====================================================
+       FEATURES
+    ===================================================== */
 
-    addGooberAccessory(
-        goober,
-        character.accessory
-    );
+    if(data.feature === "leaf") {
+
+        const leaf =
+            document.createElement("div");
+
+        leaf.className =
+            "goober-leaf";
+
+        goober.appendChild(
+            leaf
+        );
+
+    }
+
+
+    if(data.feature === "antenna") {
+
+        const antenna =
+            document.createElement("div");
+
+        antenna.className =
+            "goober-antenna";
+
+        goober.appendChild(
+            antenna
+        );
+
+    }
+
+
+    if(data.feature === "horns") {
+
+        for(let i=0;i<2;i++) {
+
+            const horn =
+                document.createElement("div");
+
+            horn.className =
+                "goober-horn";
+
+            horn.style.left =
+                i === 0
+                    ? "18px"
+                    : "88px";
+
+            horn.style.transform =
+                i === 0
+                    ? "rotate(-20deg)"
+                    : "rotate(20deg)";
+
+            goober.appendChild(
+                horn
+            );
+
+        }
+
+    }
+
+
+    if(data.feature === "shell") {
+
+        const shell =
+            document.createElement("div");
+
+        shell.className =
+            "goober-shell";
+
+        goober.appendChild(
+            shell
+        );
+
+    }
+
+
+    if(data.feature === "wings") {
+
+        const wings =
+            document.createElement("div");
+
+        wings.className =
+            "goober-wings";
+
+        goober.appendChild(
+            wings
+        );
+
+    }
+
+
+    if(data.feature === "ring") {
+
+        const ring =
+            document.createElement("div");
+
+        ring.className =
+            "goober-ring";
+
+        goober.appendChild(
+            ring
+        );
+
+    }
+
+
+    if(data.feature === "halo") {
+
+        const halo =
+            document.createElement("div");
+
+        halo.className =
+            "goober-halo";
+
+        goober.appendChild(
+            halo
+        );
+
+    }
+
+
+    if(data.feature === "spikes") {
+
+        const spikes =
+            document.createElement("div");
+
+        spikes.className =
+            "goober-spikes";
+
+        goober.appendChild(
+            spikes
+        );
+
+    }
+
+
+    if(data.feature === "cape") {
+
+        const cape =
+            document.createElement("div");
+
+        cape.className =
+            "goober-cape";
+
+        goober.appendChild(
+            cape
+        );
+
+    }
+
+
+    if(data.feature === "tail") {
+
+        const tail =
+            document.createElement("div");
+
+        tail.className =
+            "goober-tail";
+
+        goober.appendChild(
+            tail
+        );
+
+    }
+
+
+    if(data.feature === "crown") {
+
+        const crown =
+            document.createElement("div");
+
+        crown.className =
+            "goober-crown";
+
+        goober.appendChild(
+            crown
+        );
+
+    }
+
+
+    if(data.feature === "orbit") {
+
+        const orbit =
+            document.createElement("div");
+
+        orbit.className =
+            "goober-orbit";
+
+        goober.appendChild(
+            orbit
+        );
+
+    }
+
+
+    if(data.feature === "stars") {
+
+        const stars =
+            document.createElement("div");
+
+        stars.className =
+            "goober-stars";
+
+        stars.textContent =
+            "✦  ·  ★  ·  ✧";
+
+        goober.appendChild(
+            stars
+        );
+
+    }
+
+
+    if(data.feature === "legendary") {
+
+        body.classList.add(
+            "goober-legendary-body"
+        );
+
+        const crown =
+            document.createElement("div");
+
+        crown.className =
+            "goober-crown";
+
+        goober.appendChild(
+            crown
+        );
+
+        const stars =
+            document.createElement("div");
+
+        stars.className =
+            "goober-stars";
+
+        stars.textContent =
+            "✦     ★     ✦";
+
+        goober.appendChild(
+            stars
+        );
+
+    }
+
+
+    if(data.feature === "glasses") {
+
+        body.style.boxShadow =
+            "inset 0 -8px 0 rgba(0,0,0,.1), 0 0 0 4px #111827";
+
+    }
+
+
+    if(data.shape === "four-eyes") {
+
+        const extra1 =
+            document.createElement("div");
+
+        extra1.className =
+            "goober-eye left";
+
+        extra1.style.top =
+            "85px";
+
+        const extra2 =
+            document.createElement("div");
+
+        extra2.className =
+            "goober-eye right";
+
+        extra2.style.top =
+            "85px";
+
+        goober.appendChild(
+            extra1
+        );
+
+        goober.appendChild(
+            extra2
+        );
+
+    }
 
 
     return goober;
@@ -848,218 +948,171 @@ function createGoober(character) {
 
 
 /* =========================================================
-   GOOBER ACCESSORIES
+   RARITY CLASS
 ========================================================= */
 
-function addGooberAccessory(
-    goober,
-    accessory
+function rarityClass(rarity) {
+
+    return "rarity-" +
+        rarity
+            .toLowerCase()
+            .replace(" ","-");
+
+}
+
+
+/* =========================================================
+   SHOP TIME
+========================================================= */
+
+/*
+   Finds the most recent Sunday at midnight AEST
+   where the fortnightly cycle is even.
+
+   12:00 AM AEST = 14:00 UTC Saturday.
+
+   The cycle is anchored to:
+   Sunday 10 August 2025 12:00 AM AEST.
+*/
+
+const SHOP_ANCHOR =
+    Date.UTC(
+        2025,
+        7,
+        9,
+        14,
+        0,
+        0
+    );
+
+
+function getShopStart() {
+
+    const now =
+        Date.now();
+
+
+    const interval =
+        SHOP_REFRESH_DAYS *
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    const cycles =
+        Math.floor(
+            (now - SHOP_ANCHOR) /
+            interval
+        );
+
+
+    return SHOP_ANCHOR +
+        cycles * interval;
+
+}
+
+
+/* =========================================================
+   SHOP GENERATION
+========================================================= */
+
+function seededShuffle(
+    array,
+    seed
 ) {
 
-    if(!accessory)
-        return;
+    const result =
+        [...array];
 
 
-    const element =
-        document.createElement(
-            "div"
+    let value =
+        seed;
+
+
+    for(
+        let i =
+            result.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        value =
+            (
+                value * 9301 +
+                49297
+            ) %
+            233280;
+
+
+        const j =
+            Math.floor(
+                value /
+                233280 *
+                (i + 1)
+            );
+
+
+        [
+            result[i],
+            result[j]
+        ] =
+        [
+            result[j],
+            result[i]
+        ];
+
+    }
+
+
+    return result;
+
+}
+
+
+function getCurrentShop() {
+
+    const start =
+        getShopStart();
+
+
+    const seed =
+        Math.floor(
+            start /
+            1000
         );
 
 
-    element.className =
-        "goober-accessory";
-
-
-    if(accessory === "crown") {
-
-        element.classList.add(
-            "goober-crown"
+    const characters =
+        seededShuffle(
+            SHOP_CHARACTERS,
+            seed
         );
 
-    }
 
-    else if(accessory === "star") {
-
-        element.classList.add(
-            "goober-star"
+    const selectedCharacters =
+        characters.slice(
+            0,
+            SHOP_ITEM_COUNT
         );
 
-        element.textContent =
-            "★";
 
-    }
+    /*
+       Add a banner occasionally.
+       This keeps the shop varied without
+       reducing the 6-item rotation.
+    */
 
-    else if(accessory === "leaf") {
-
-        element.classList.add(
-            "goober-leaf"
+    const result =
+        selectedCharacters.map(
+            character => ({
+                ...character,
+                type:"Character"
+            })
         );
 
-    }
 
-    else if(accessory === "sleepy") {
-
-        element.textContent =
-            "Z";
-
-        element.style.cssText += `
-            top:22px;
-            right:18px;
-            color:#6366f1;
-            font-weight:900;
-            font-size:24px;
-        `;
-
-    }
-
-    else if(accessory === "happy") {
-
-        element.textContent =
-            "✦";
-
-        element.style.cssText += `
-            top:18px;
-            left:48px;
-            color:#fde68a;
-            font-size:28px;
-        `;
-
-    }
-
-    else if(accessory === "bubble") {
-
-        element.textContent =
-            "○ ○";
-
-        element.style.cssText += `
-            top:25px;
-            left:25px;
-            color:#67e8f9;
-            font-size:20px;
-        `;
-
-    }
-
-    else if(accessory === "ghost") {
-
-        element.textContent =
-            "✦";
-
-        element.style.cssText += `
-            top:20px;
-            left:48px;
-            color:white;
-            text-shadow:0 0 10px #a78bfa;
-            font-size:26px;
-        `;
-
-    }
-
-    else if(accessory === "lava") {
-
-        element.textContent =
-            "🔥";
-
-        element.style.cssText += `
-            top:10px;
-            left:43px;
-            font-size:25px;
-        `;
-
-    }
-
-    else if(accessory === "space") {
-
-        element.textContent =
-            "✦";
-
-        element.style.cssText += `
-            top:10px;
-            left:45px;
-            color:white;
-            text-shadow:
-                0 0 8px #60a5fa,
-                0 0 15px #c084fc;
-            font-size:30px;
-        `;
-
-    }
-
-    else if(accessory === "gold") {
-
-        element.textContent =
-            "◆";
-
-        element.style.cssText += `
-            top:20px;
-            left:47px;
-            color:#fff7ae;
-            text-shadow:0 0 10px #f59e0b;
-            font-size:30px;
-        `;
-
-    }
-
-    else if(accessory === "rainbow") {
-
-        element.textContent =
-            "🌈";
-
-        element.style.cssText += `
-            top:10px;
-            left:37px;
-            font-size:30px;
-        `;
-
-    }
-
-    else if(accessory === "mega") {
-
-        element.textContent =
-            "★";
-
-        element.style.cssText += `
-            top:8px;
-            left:43px;
-            color:#fde68a;
-            text-shadow:
-                0 0 8px #f59e0b,
-                0 0 15px #facc15;
-            font-size:34px;
-        `;
-
-    }
-
-    else if(accessory === "book") {
-
-        element.textContent =
-            "📖";
-
-        element.style.cssText += `
-            bottom:15px;
-            left:43px;
-            font-size:25px;
-        `;
-
-    }
-
-    else if(accessory === "fire") {
-
-        element.textContent =
-            "🔥";
-
-        element.style.cssText += `
-            bottom:8px;
-            left:43px;
-            font-size:28px;
-        `;
-
-    }
-
-
-    goober.appendChild(
-        element
-    );
+    return result;
 
 }
 
@@ -1068,9 +1121,7 @@ function addGooberAccessory(
    BANNER PREVIEW
 ========================================================= */
 
-function createBannerPreview(
-    banner
-) {
+function bannerPreview(id) {
 
     const preview =
         document.createElement(
@@ -1078,119 +1129,41 @@ function createBannerPreview(
         );
 
     preview.style.width =
-        "170px";
+        "150px";
 
     preview.style.height =
-        "110px";
+        "100px";
 
     preview.style.borderRadius =
-        "16px";
-
-    preview.style.position =
-        "relative";
-
-    preview.style.overflow =
-        "hidden";
+        "15px";
 
 
-    if(
-        banner.style === "grid"
-    ) {
+    if(id === "sprint-grid") {
 
         preview.style.background =
             "linear-gradient(135deg,#312e81,#6366f1)";
 
         preview.style.backgroundImage =
-            `
-            linear-gradient(
-                rgba(255,255,255,.15) 1px,
-                transparent 1px
-            ),
-            linear-gradient(
-                90deg,
-                rgba(255,255,255,.15) 1px,
-                transparent 1px
-            )
-            `;
+            "linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px)," +
+            "linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px)," +
+            "linear-gradient(135deg,#312e81,#6366f1)";
 
         preview.style.backgroundSize =
-            "15px 15px";
+            "15px 15px,15px 15px,auto";
 
     }
 
-    else if(
-        banner.style === "purple"
-    ) {
+    else if(id === "purple-grid") {
 
         preview.style.background =
-            "linear-gradient(135deg,#6d28d9,#c084fc)";
+            "#8b5cf6";
 
     }
 
-    else if(
-        banner.style === "neon"
-    ) {
+    else {
 
         preview.style.background =
-            "linear-gradient(135deg,#0891b2,#22d3ee)";
-
-    }
-
-    else if(
-        banner.style === "sunset"
-    ) {
-
-        preview.style.background =
-            "linear-gradient(135deg,#f97316,#ec4899)";
-
-    }
-
-    else if(
-        banner.style === "cosmic"
-    ) {
-
-        preview.style.background =
-            "radial-gradient(circle,#4c1d95,#111827)";
-
-        preview.textContent =
-            "✦ · ★ · ✧";
-
-        preview.style.color =
-            "white";
-
-        preview.style.fontSize =
-            "30px";
-
-        preview.style.textAlign =
-            "center";
-
-        preview.style.lineHeight =
-            "110px";
-
-    }
-
-    else if(
-        banner.style === "gold"
-    ) {
-
-        preview.style.background =
-            "linear-gradient(135deg,#facc15,#f59e0b)";
-
-        preview.style.backgroundImage =
-            `
-            linear-gradient(
-                rgba(255,255,255,.18) 1px,
-                transparent 1px
-            ),
-            linear-gradient(
-                90deg,
-                rgba(255,255,255,.18) 1px,
-                transparent 1px
-            )
-            `;
-
-        preview.style.backgroundSize =
-            "15px 15px";
+            "linear-gradient(135deg,#06b6d4,#2563eb)";
 
     }
 
@@ -1201,35 +1174,65 @@ function createBannerPreview(
 
 
 /* =========================================================
-   EFFECT PREVIEW
+   CREATE PREVIEW
 ========================================================= */
 
-function createEffectPreview(
-    id
-) {
+function createPreview(item) {
 
-    const preview =
+    if(item.type === "Character") {
+
+        return createGoober(item);
+
+    }
+
+
+    if(item.type === "Banner") {
+
+        return bannerPreview(
+            item.id
+        );
+
+    }
+
+
+    return createGoober({
+        shape:"round",
+        colour:"#6366f1",
+        feature:"none"
+    });
+
+}
+
+
+/* =========================================================
+   CREATE CARD
+========================================================= */
+
+function createShopCard(item) {
+
+    const card =
         document.createElement(
             "div"
         );
 
-    preview.className =
-        "preview-effect " +
-        id;
+    card.className =
+        "shop-card";
 
 
-    return preview;
+    const rarity =
+        document.createElement(
+            "div"
+        );
 
-}
+    rarity.className =
+        "rarity " +
+        rarityClass(
+            item.rarity
+        );
 
+    rarity.textContent =
+        item.rarity;
 
-/* =========================================================
-   CREATE ITEM PREVIEW
-========================================================= */
-
-function createPreview(
-    item
-) {
 
     const preview =
         document.createElement(
@@ -1240,179 +1243,111 @@ function createPreview(
         "item-preview";
 
 
-    if(
-        item.type === "Character"
-    ) {
-
-        preview.appendChild(
-            createGoober(
-                item
-            )
-        );
-
-    }
-
-    else if(
-        item.type === "Banner"
-    ) {
-
-        preview.appendChild(
-            createBannerPreview(
-                item
-            )
-        );
-
-    }
-
-    else if(
-        item.type === "Effect"
-    ) {
-
-        preview.appendChild(
-            createEffectPreview(
-                item.id
-            )
-        );
-
-        preview.appendChild(
-            createGoober({
-                theme:"blue"
-            })
-        );
-
-    }
-
-
-    return preview;
-
-}
-
-
-/* =========================================================
-   GET ALL ROTATING ITEMS
-========================================================= */
-
-function getAllRotatingItems() {
-
-    return [
-
-        ...CHARACTERS.map(
-            character => ({
-                ...character,
-                type:"Character"
-            })
-        ),
-
-        ...BANNERS.map(
-            banner => ({
-                ...banner,
-                type:"Banner"
-            })
-        ),
-
-        ...COMMON_EFFECTS.map(
-            effect => ({
-                ...effect,
-                type:"Effect"
-            })
+    preview.appendChild(
+        createPreview(
+            item
         )
-
-    ];
-
-}
+    );
 
 
-/* =========================================================
-   DETERMINISTIC SHOP ROTATION
-   Exactly 6 items per fortnight.
-========================================================= */
-
-function getCurrentShop() {
-
-    const allItems =
-        getAllRotatingItems();
-
-
-    const cycleStart =
-        getShopCycleStart();
-
-
-    const cycleNumber =
-        Math.floor(
-            (
-                cycleStart.getTime() -
-                new Date(
-                    "2026-01-04T00:00:00"
-                ).getTime()
-            ) /
-            SHOP_REFRESH_TIME
+    const name =
+        document.createElement(
+            "h3"
         );
 
-
-    /*
-        Deterministic pseudo-random shuffle.
-
-        Everyone gets exactly the same
-        six items for this cycle.
-    */
-
-    const shuffled =
-        [...allItems];
+    name.textContent =
+        item.name;
 
 
-    let seed =
-        cycleNumber * 9301 +
-        49297;
-
-
-    function random() {
-
-        seed =
-            (
-                seed * 233280 +
-                12345
-            ) %
-            2147483647;
-
-        return (
-            seed /
-            2147483647
+    const type =
+        document.createElement(
+            "p"
         );
 
-    }
+    type.textContent =
+        item.type;
 
 
-    for(
-        let i =
-            shuffled.length - 1;
-        i > 0;
-        i--
+    const price =
+        document.createElement(
+            "div"
+        );
+
+    price.className =
+        "shop-price";
+
+    price.textContent =
+        item.price +
+        " Coins";
+
+
+    const button =
+        document.createElement(
+            "button"
+        );
+
+    button.className =
+        "buy-button";
+
+    button.type =
+        "button";
+
+
+    if(
+        ownsItem(
+            item.id
+        )
     ) {
 
-        const j =
-            Math.floor(
-                random() *
-                (i + 1)
-            );
+        button.textContent =
+            "OWNED";
 
+        button.disabled =
+            true;
 
-        [
-            shuffled[i],
-            shuffled[j]
-        ] =
-        [
-            shuffled[j],
-            shuffled[i]
-        ];
+    }
+
+    else {
+
+        button.textContent =
+            "BUY";
+
+        button.onclick =
+            () =>
+                buyMainItem(
+                    item,
+                    button
+                );
 
     }
 
 
-    return shuffled
-        .slice(
-            0,
-            6
-        );
+    card.appendChild(
+        rarity
+    );
+
+    card.appendChild(
+        preview
+    );
+
+    card.appendChild(
+        name
+    );
+
+    card.appendChild(
+        type
+    );
+
+    card.appendChild(
+        price
+    );
+
+    card.appendChild(
+        button
+    );
+
+
+    return card;
 
 }
 
@@ -1444,138 +1379,10 @@ function displayMainShop() {
     items.forEach(
         item => {
 
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-            card.className =
-                "shop-card";
-
-
-            const rarity =
-                document.createElement(
-                    "div"
-                );
-
-            rarity.className =
-                "rarity rarity-" +
-                item.rarity
-                    .toLowerCase()
-                    .replace(
-                        " ",
-                        "-"
-                    );
-
-            rarity.textContent =
-                item.rarity;
-
-
-            const preview =
-                createPreview(
-                    item
-                );
-
-
-            const name =
-                document.createElement(
-                    "h3"
-                );
-
-            name.textContent =
-                item.name;
-
-
-            const type =
-                document.createElement(
-                    "p"
-                );
-
-            type.textContent =
-                item.type;
-
-
-            const price =
-                document.createElement(
-                    "div"
-                );
-
-            price.className =
-                "shop-price";
-
-            price.textContent =
-                item.price +
-                " Coins";
-
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.type =
-                "button";
-
-            button.className =
-                "buy-button";
-
-
-            if(
-                ownsItem(
-                    item.id
-                )
-            ) {
-
-                button.textContent =
-                    "OWNED";
-
-                button.disabled =
-                    true;
-
-            }
-
-            else {
-
-                button.textContent =
-                    "BUY";
-
-                button.onclick =
-                    () =>
-                        buyMainItem(
-                            item,
-                            button
-                        );
-
-            }
-
-
-            card.appendChild(
-                rarity
-            );
-
-            card.appendChild(
-                preview
-            );
-
-            card.appendChild(
-                name
-            );
-
-            card.appendChild(
-                type
-            );
-
-            card.appendChild(
-                price
-            );
-
-            card.appendChild(
-                button
-            );
-
-
             container.appendChild(
-                card
+                createShopCard(
+                    item
+                )
             );
 
         }
@@ -1669,7 +1476,7 @@ function buyMainItem(
 
 
 /* =========================================================
-   DISPLAY TICKET SHOP
+   TICKET SHOP
 ========================================================= */
 
 function displayTicketShop() {
@@ -1701,8 +1508,7 @@ function displayTicketShop() {
 
 
             if(
-                item.id ===
-                "crown"
+                item.id === "crown"
             ) {
 
                 card.classList.add(
@@ -1721,17 +1527,30 @@ function displayTicketShop() {
                 "ticket-item-preview";
 
 
+            const effect =
+                document.createElement(
+                    "div"
+                );
+
+            effect.className =
+                "preview-effect " +
+                item.id;
+
+
+            const goober =
+                createGoober({
+                    shape:"round",
+                    colour:"#6366f1",
+                    feature:"none"
+                });
+
+
             preview.appendChild(
-                createEffectPreview(
-                    item.id
-                )
+                effect
             );
 
-
             preview.appendChild(
-                createGoober({
-                    theme:"blue"
-                })
+                goober
             );
 
 
@@ -1771,11 +1590,11 @@ function displayTicketShop() {
                     "button"
                 );
 
-            button.type =
-                "button";
-
             button.className =
                 "buy-button";
+
+            button.type =
+                "button";
 
 
             if(
@@ -1923,6 +1742,130 @@ function buyTicketItem(
 
 
 /* =========================================================
+   STUDYPASS
+========================================================= */
+
+function displayStudyPass() {
+
+    const container =
+        document.getElementById(
+            "studypass-items"
+        );
+
+
+    if(!container)
+        return;
+
+
+    container.innerHTML =
+        "";
+
+
+    STUDYPASS_CHARACTERS.forEach(
+        item => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "studypass-card";
+
+
+            const badge =
+                document.createElement(
+                    "div"
+                );
+
+            badge.className =
+                "pass-badge";
+
+            badge.textContent =
+                "STUDYPASS";
+
+
+            const rarity =
+                document.createElement(
+                    "div"
+                );
+
+            rarity.className =
+                "rarity " +
+                rarityClass(
+                    item.rarity
+                );
+
+            rarity.textContent =
+                item.rarity;
+
+
+            const preview =
+                document.createElement(
+                    "div"
+                );
+
+            preview.className =
+                "studypass-preview";
+
+
+            preview.appendChild(
+                createGoober(
+                    item
+                )
+            );
+
+
+            const name =
+                document.createElement(
+                    "h3"
+                );
+
+            name.textContent =
+                item.name;
+
+
+            const description =
+                document.createElement(
+                    "p"
+                );
+
+            description.textContent =
+                "Exclusive StudyPass character";
+
+
+            card.appendChild(
+                badge
+            );
+
+            card.appendChild(
+                rarity
+            );
+
+            card.appendChild(
+                preview
+            );
+
+            card.appendChild(
+                name
+            );
+
+            card.appendChild(
+                description
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    CURRENCY
 ========================================================= */
 
@@ -1974,34 +1917,25 @@ function updateCountdown() {
         return;
 
 
-    const now =
+    const next =
+        getShopStart() +
+        SHOP_REFRESH_DAYS *
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    let remaining =
+        next -
         Date.now();
 
 
-    let next =
-        getShopCycleStart()
-            .getTime() +
-        SHOP_REFRESH_TIME;
+    if(remaining < 0) {
 
-
-    /*
-        If somehow the calculated cycle is
-        already in the past, advance it.
-    */
-
-    while(
-        next <= now
-    ) {
-
-        next +=
-            SHOP_REFRESH_TIME;
+        remaining = 0;
 
     }
-
-
-    const remaining =
-        next -
-        now;
 
 
     const days =
@@ -2048,97 +1982,304 @@ function updateCountdown() {
 
 
 /* =========================================================
-   NAVIGATION
+   SHOP NAVIGATION
 ========================================================= */
 
 function openTicketShop() {
 
-    const main =
-        document.getElementById(
-            "fortnightly-shop"
-        );
-
-    const ticket =
-        document.getElementById(
-            "ticket-shop"
-        );
-
-
-    if(
-        !main ||
-        !ticket
-    )
-        return;
-
-
-    main.style.display =
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display =
         "none";
 
-    ticket.style.display =
+
+    document.getElementById(
+        "ticket-shop"
+    ).style.display =
         "block";
 
 
-    displayTicketShop();
+    document.getElementById(
+        "main-shop-button"
+    ).classList.remove(
+        "active"
+    );
+
+
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.add(
+        "active"
+    );
 
 }
 
 
 function openMainShop() {
 
-    const main =
-        document.getElementById(
-            "fortnightly-shop"
-        );
-
-    const ticket =
-        document.getElementById(
-            "ticket-shop"
-        );
-
-
-    if(
-        !main ||
-        !ticket
-    )
-        return;
-
-
-    ticket.style.display =
+    document.getElementById(
+        "ticket-shop"
+    ).style.display =
         "none";
 
-    main.style.display =
+
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display =
         "block";
 
 
-    displayMainShop();
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.remove(
+        "active"
+    );
+
+
+    document.getElementById(
+        "main-shop-button"
+    ).classList.add(
+        "active"
+    );
 
 }
 
 
 /* =========================================================
-   PUBLIC FUNCTIONS
+   DEBUG MENU
 ========================================================= */
 
-window.openTicketShop =
-    openTicketShop;
+function openDebugMenu() {
 
-window.openMainShop =
-    openMainShop;
+    const existing =
+        document.querySelector(
+            ".debug-overlay"
+        );
 
-window.getCoins =
-    getCoins;
 
-window.getTickets =
-    getTickets;
+    if(existing)
+        return;
 
-window.getOwnedItems =
-    getOwnedItems;
 
-window.ownsItem =
-    ownsItem;
+    const overlay =
+        document.createElement(
+            "div"
+        );
 
-window.getCurrentShop =
-    getCurrentShop;
+    overlay.className =
+        "debug-overlay";
+
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+    box.className =
+        "debug-box";
+
+
+    box.innerHTML = `
+
+        <h2>
+            🛠️ StudySprint Debug
+        </h2>
+
+        <p>
+            What do you want to change?
+        </p>
+
+        <select id="debug-type">
+
+            <option value="xp">
+                ⭐ XP
+            </option>
+
+            <option value="coins">
+                🪙 Coins
+            </option>
+
+            <option value="tickets">
+                🎟️ Tickets
+            </option>
+
+            <option value="streak">
+                🔥 Streak
+            </option>
+
+            <option value="reset">
+                🗑️ Reset Account
+            </option>
+
+        </select>
+
+        <input
+            id="debug-value"
+            type="number"
+            placeholder="Amount"
+        >
+
+        <button
+            class="debug-apply"
+            id="debug-apply"
+        >
+            Apply
+        </button>
+
+        <button
+            class="debug-close"
+            id="debug-close"
+        >
+            Cancel
+        </button>
+
+    `;
+
+
+    overlay.appendChild(
+        box
+    );
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const type =
+        box.querySelector(
+            "#debug-type"
+        );
+
+
+    const value =
+        box.querySelector(
+            "#debug-value"
+        );
+
+
+    function updateDebugInput() {
+
+        value.style.display =
+            type.value === "reset"
+                ? "none"
+                : "block";
+
+    }
+
+
+    type.addEventListener(
+        "change",
+        updateDebugInput
+    );
+
+
+    updateDebugInput();
+
+
+    box.querySelector(
+        "#debug-close"
+    ).onclick =
+        () => {
+
+            overlay.remove();
+
+        };
+
+
+    box.querySelector(
+        "#debug-apply"
+    ).onclick =
+        () => {
+
+            const selected =
+                type.value;
+
+
+            if(
+                selected ===
+                "reset"
+            ) {
+
+                const confirmed =
+                    confirm(
+                        "⚠️ Reset your entire StudySprint account?\n\n" +
+                        "This removes saved XP, coins, tickets, streak, " +
+                        "stats, achievements, shop ownership and other local data."
+                    );
+
+
+                if(!confirmed)
+                    return;
+
+
+                localStorage.clear();
+
+
+                alert(
+                    "✅ Account reset!\n\nReloading StudySprint..."
+                );
+
+
+                location.reload();
+
+                return;
+
+            }
+
+
+            const amount =
+                Number(
+                    value.value
+                );
+
+
+            if(
+                !Number.isFinite(
+                    amount
+                )
+            ) {
+
+                alert(
+                    "Enter a valid number."
+                );
+
+                return;
+
+            }
+
+
+            const keys = {
+
+                xp:"xp",
+
+                coins:"coins",
+
+                tickets:"shopTickets",
+
+                streak:"streak"
+
+            };
+
+
+            localStorage.setItem(
+                keys[selected],
+                amount
+            );
+
+
+            alert(
+                `✅ ${selected} set to ${amount}!`
+            );
+
+
+            overlay.remove();
+
+
+            location.reload();
+
+        };
+
+}
 
 
 /* =========================================================
@@ -2149,9 +2290,59 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
 
+        const mainButton =
+            document.getElementById(
+                "main-shop-button"
+            );
+
+
+        const ticketButton =
+            document.getElementById(
+                "ticket-shop-button"
+            );
+
+
+        const debugButton =
+            document.getElementById(
+                "debug-open"
+            );
+
+
+        if(mainButton) {
+
+            mainButton.addEventListener(
+                "click",
+                openMainShop
+            );
+
+        }
+
+
+        if(ticketButton) {
+
+            ticketButton.addEventListener(
+                "click",
+                openTicketShop
+            );
+
+        }
+
+
+        if(debugButton) {
+
+            debugButton.addEventListener(
+                "click",
+                openDebugMenu
+            );
+
+        }
+
+
         displayMainShop();
 
         displayTicketShop();
+
+        displayStudyPass();
 
         updateCurrency();
 
@@ -2165,3 +2356,26 @@ document.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   PUBLIC
+========================================================= */
+
+window.openMainShop =
+    openMainShop;
+
+window.openTicketShop =
+    openTicketShop;
+
+window.getCoins =
+    getCoins;
+
+window.getTickets =
+    getTickets;
+
+window.getOwnedItems =
+    getOwnedItems;
+
+window.ownsItem =
+    ownsItem;
