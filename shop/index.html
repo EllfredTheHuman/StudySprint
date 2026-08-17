@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,83 +20,81 @@
 
 <style>
 
-/* =========================================================
-   SHOP
-========================================================= */
+/* ==================================================
+   SHOP PAGE
+================================================== */
 
 .shop-page {
-
     max-width:1200px;
     margin:auto;
     padding:35px 20px 80px;
-
 }
 
 .shop-header {
-
     text-align:center;
     margin-bottom:25px;
-
 }
 
 .shop-header h1 {
-
     font-size:46px;
     font-weight:900;
     margin-bottom:8px;
-
 }
 
 .shop-header p {
-
     color:#6b7280;
     font-size:18px;
-
 }
 
-
-/* =========================================================
+/* ==================================================
    CURRENCY
-========================================================= */
+================================================== */
 
 .currency-bar {
-
     display:flex;
     justify-content:center;
     gap:15px;
     flex-wrap:wrap;
-    margin:25px auto 30px;
-
+    margin:25px auto 35px;
 }
 
 .currency {
-
     background:white;
     padding:12px 22px;
     border-radius:18px;
     font-size:18px;
     font-weight:900;
     box-shadow:0 8px 25px rgba(0,0,0,.08);
-
 }
 
+/* ==================================================
+   COUNTDOWN
+================================================== */
 
-/* =========================================================
+.shop-countdown {
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:800;
+    color:#6b7280;
+}
+
+.shop-countdown strong {
+    color:#6366f1;
+}
+
+/* ==================================================
    NAVIGATION
-========================================================= */
+================================================== */
 
 .shop-navigation {
-
     display:flex;
     justify-content:center;
     gap:12px;
-    margin-bottom:25px;
+    margin-bottom:35px;
     flex-wrap:wrap;
-
 }
 
 .shop-navigation button {
-
     border:none;
     padding:13px 24px;
     border-radius:15px;
@@ -103,907 +102,678 @@
     font-weight:900;
     cursor:pointer;
     transition:.2s;
-
 }
 
 .shop-navigation button:hover {
-
     transform:translateY(-2px);
-
 }
 
 .shop-navigation button.active {
-
     background:#6366f1;
     color:white;
-
 }
 
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-.shop-countdown {
-
-    text-align:center;
-    margin-bottom:35px;
-    font-weight:800;
-    color:#6b7280;
-
-}
-
-.shop-countdown strong {
-
-    color:#6366f1;
-
-}
-
-
-/* =========================================================
-   SECTION
-========================================================= */
+/* ==================================================
+   SHOP SECTION
+================================================== */
 
 .shop-section {
-
     margin-bottom:50px;
-
 }
 
 .shop-section h2 {
-
     text-align:center;
     font-size:32px;
     font-weight:900;
     margin-bottom:25px;
-
 }
-
-
-/* =========================================================
-   GRID
-========================================================= */
 
 .shop-grid,
 .ticket-grid {
-
     display:grid;
-
-    grid-template-columns:
-        repeat(
-            3,
-            minmax(0,1fr)
-        );
-
+    grid-template-columns:repeat(3,minmax(0,1fr));
     gap:22px;
-
 }
 
-
-/* =========================================================
-   CARD
-========================================================= */
+/* ==================================================
+   SHOP CARD
+================================================== */
 
 .shop-card,
 .ticket-card {
-
     position:relative;
     background:white;
     border-radius:25px;
     padding:18px;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
-
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.2s;
     overflow:hidden;
-
-    transition:
-        transform .2s,
-        box-shadow .2s;
-
 }
 
 .shop-card:hover,
 .ticket-card:hover {
-
     transform:translateY(-6px);
-
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.14);
-
+    box-shadow:0 18px 40px rgba(0,0,0,.14);
 }
 
-
-/* =========================================================
+/* ==================================================
    RARITY
-========================================================= */
+================================================== */
 
 .rarity {
-
     position:absolute;
-
     top:13px;
     left:13px;
-
     padding:5px 10px;
-
     border-radius:9px;
-
     font-size:11px;
     font-weight:900;
-
     text-transform:uppercase;
-
     background:#e5e7eb;
-
     z-index:20;
-
-}
-
-.rarity.common {
-
-    background:#e5e7eb;
-    color:#374151;
-
 }
 
 .rarity.rare {
-
     background:#dbeafe;
     color:#1d4ed8;
-
 }
 
-.rarity.epic {
-
+.rarity.ultra {
     background:#ede9fe;
     color:#7c3aed;
+}
 
+.rarity.mythic {
+    background:#fce7f3;
+    color:#be185d;
 }
 
 .rarity.legendary {
-
     background:#fef3c7;
     color:#b45309;
-
 }
 
-.rarity.pass {
-
-    background:#fce7f3;
-    color:#be185d;
-
-}
-
-
-/* =========================================================
+/* ==================================================
    PREVIEW
-========================================================= */
+================================================== */
 
 .item-preview,
 .ticket-item-preview {
-
-    height:220px;
-
+    height:210px;
     margin:-18px -18px 18px;
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
     position:relative;
-
     overflow:hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eef2ff,
-            #f8fafc
-        );
-
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
 }
 
+/* ==================================================
+   GOOBER CHARACTER
+================================================== */
 
-/* =========================================================
-   CHARACTER
-========================================================= */
-
-.character {
-
-    width:125px;
-    height:180px;
-
+.goober {
     position:relative;
-
-    transform-origin:center bottom;
-
-    animation:
-        characterFloat 3s ease-in-out infinite;
-
+    width:125px;
+    height:145px;
+    transform:translateY(5px);
+    transition:.25s;
 }
 
-@keyframes characterFloat {
-
-    0%,100% {
-
-        transform:translateY(0);
-
-    }
-
-    50% {
-
-        transform:translateY(-5px);
-
-    }
-
+.shop-card:hover .goober {
+    transform:
+        translateY(-4px)
+        scale(1.04);
 }
 
+/*
+   Main body.
+   These are intentionally NOT human-shaped.
+*/
 
-/* =========================================================
-   CHARACTER BODY
-========================================================= */
-
-.character .body {
-
+.goober-body {
     position:absolute;
-
-    width:70px;
-    height:65px;
-
-    left:27px;
-    top:68px;
+    left:17px;
+    top:32px;
+    width:91px;
+    height:91px;
 
     border-radius:
-        25px
-        25px
-        18px
-        18px;
+        45% 55% 48% 52% /
+        48% 45% 55% 52%;
 
     background:#6366f1;
 
-    z-index:4;
-
-}
-
-
-/* =========================================================
-   ARMS
-========================================================= */
-
-.character .arm {
-
-    position:absolute;
-
-    width:19px;
-    height:54px;
-
-    top:76px;
-
-    border-radius:12px;
-
-    background:#f3bd96;
+    box-shadow:
+        inset 0 -8px 0 rgba(0,0,0,.08),
+        0 10px 18px rgba(0,0,0,.12);
 
     z-index:3;
-
 }
 
-.character .arm.left {
+/* little feet */
 
-    left:14px;
-    transform:rotate(10deg);
-
-}
-
-.character .arm.right {
-
-    right:14px;
-    transform:rotate(-10deg);
-
-}
-
-
-/* =========================================================
-   HANDS
-========================================================= */
-
-.character .hand {
-
+.goober-foot {
     position:absolute;
-
-    width:19px;
-    height:19px;
-
+    width:32px;
+    height:18px;
+    top:112px;
     border-radius:50%;
-
-    background:#f3bd96;
-
-    z-index:5;
-
-}
-
-.character .hand.left {
-
-    left:10px;
-    top:121px;
-
-}
-
-.character .hand.right {
-
-    right:10px;
-    top:121px;
-
-}
-
-
-/* =========================================================
-   LEGS
-========================================================= */
-
-.character .leg {
-
-    position:absolute;
-
-    width:27px;
-    height:48px;
-
-    top:125px;
-
-    border-radius:
-        10px
-        10px
-        13px
-        13px;
-
-    background:#374151;
-
+    background:#4f46e5;
     z-index:2;
-
 }
 
-.character .leg.left {
-
-    left:31px;
-
+.goober-foot.left {
+    left:22px;
+    transform:rotate(8deg);
 }
 
-.character .leg.right {
-
-    right:31px;
-
+.goober-foot.right {
+    right:22px;
+    transform:rotate(-8deg);
 }
 
+/* eyes */
 
-/* =========================================================
-   SHOES
-========================================================= */
-
-.character .shoe {
-
+.goober-eye {
     position:absolute;
-
-    width:34px;
-    height:14px;
-
-    top:164px;
-
-    border-radius:
-        10px
-        10px
-        7px
-        7px;
-
+    width:13px;
+    height:18px;
+    top:62px;
+    border-radius:50%;
     background:#111827;
-
-    z-index:5;
-
-}
-
-.character .shoe.left {
-
-    left:24px;
-
-}
-
-.character .shoe.right {
-
-    right:24px;
-
-}
-
-
-/* =========================================================
-   HEAD
-========================================================= */
-
-.character .head {
-
-    position:absolute;
-
-    width:82px;
-    height:82px;
-
-    left:21px;
-    top:5px;
-
-    border-radius:45%;
-
-    background:#f3bd96;
-
     z-index:8;
-
 }
 
-
-/* =========================================================
-   EARS
-========================================================= */
-
-.character .ear {
-
-    position:absolute;
-
-    width:17px;
-    height:25px;
-
-    top:34px;
-
-    border-radius:50%;
-
-    background:#e8ad89;
-
-    z-index:7;
-
-}
-
-.character .ear.left {
-
-    left:16px;
-
-}
-
-.character .ear.right {
-
-    right:16px;
-
-}
-
-
-/* =========================================================
-   FACE
-========================================================= */
-
-.character .eye {
-
-    position:absolute;
-
-    width:8px;
-    height:10px;
-
-    top:38px;
-
-    border-radius:50%;
-
-    background:#111827;
-
-    z-index:12;
-
-}
-
-.character .eye.left {
-
+.goober-eye.left {
     left:43px;
-
 }
 
-.character .eye.right {
-
-    left:71px;
-
+.goober-eye.right {
+    right:43px;
 }
 
+/* eye shine */
 
-.character .mouth {
-
+.goober-eye::after {
+    content:"";
     position:absolute;
-
-    width:16px;
-    height:8px;
-
-    left:54px;
-    top:58px;
-
-    border-bottom:
-        3px solid #7c3f32;
-
+    width:4px;
+    height:5px;
+    top:3px;
+    left:3px;
     border-radius:50%;
-
-    z-index:12;
-
+    background:white;
 }
 
+/* mouth */
 
-/* =========================================================
-   HAIR
-========================================================= */
-
-.character .hair {
-
+.goober-mouth {
     position:absolute;
-
-    width:82px;
-    height:34px;
-
-    left:21px;
-    top:2px;
-
-    border-radius:
-        45px
-        45px
-        15px
-        15px;
-
-    background:#3b2a24;
-
-    z-index:10;
-
+    width:25px;
+    height:13px;
+    left:50px;
+    top:88px;
+    border-bottom:4px solid #111827;
+    border-radius:0 0 50% 50%;
+    z-index:8;
 }
 
+/* tiny arms */
 
-/* =========================================================
-   CHARACTER VARIANTS
-========================================================= */
-
-.character.blue .body {
-
-    background:#3b82f6;
-
+.goober-arm {
+    position:absolute;
+    width:27px;
+    height:14px;
+    top:78px;
+    border-radius:50%;
+    background:#5558d8;
+    z-index:2;
 }
 
-.character.green .body {
-
-    background:#22c55e;
-
+.goober-arm.left {
+    left:2px;
+    transform:rotate(25deg);
 }
 
-.character.red .body {
-
-    background:#ef4444;
-
+.goober-arm.right {
+    right:2px;
+    transform:rotate(-25deg);
 }
 
-.character.orange .body {
+/* ==================================================
+   GOOBER THEMES
+================================================== */
 
-    background:#f97316;
-
-}
-
-.character.yellow .body {
-
-    background:#eab308;
-
-}
-
-.character.purple .body {
-
-    background:#8b5cf6;
-
-}
-
-.character.cyan .body {
-
+.goober.ocean .goober-body {
     background:#06b6d4;
-
 }
 
-.character.pink .body {
-
-    background:#ec4899;
-
+.goober.ocean .goober-foot,
+.goober.ocean .goober-arm {
+    background:#0891b2;
 }
 
-.character.dark .body {
-
-    background:#334155;
-
+.goober.sunny .goober-body {
+    background:#facc15;
 }
 
-
-/* =========================================================
-   CHARACTER HAIR VARIANTS
-========================================================= */
-
-.character.blonde .hair {
-
-    background:#f5c542;
-
+.goober.sunny .goober-foot,
+.goober.sunny .goober-arm {
+    background:#eab308;
 }
 
-.character.blackhair .hair {
-
-    background:#111827;
-
+.goober.lime .goober-body {
+    background:#84cc16;
 }
 
-.character.redhair .hair {
-
-    background:#b45309;
-
+.goober.lime .goober-foot,
+.goober.lime .goober-arm {
+    background:#65a30d;
 }
 
-.character.whitehair .hair {
-
-    background:#e5e7eb;
-
+.goober.berry .goober-body {
+    background:#c084fc;
 }
 
-.character.purplehair .hair {
-
-    background:#7c3aed;
-
+.goober.berry .goober-foot,
+.goober.berry .goober-arm {
+    background:#9333ea;
 }
 
+.goober.fire .goober-body {
+    background:#f97316;
+}
 
-/* =========================================================
-   ACCESSORIES
-========================================================= */
+.goober.fire .goober-foot,
+.goober.fire .goober-arm {
+    background:#ea580c;
+}
 
-.character .accessory {
+.goober.mint .goober-body {
+    background:#34d399;
+}
 
+.goober.mint .goober-foot,
+.goober.mint .goober-arm {
+    background:#059669;
+}
+
+.goober.rose .goober-body {
+    background:#fb7185;
+}
+
+.goober.rose .goober-foot,
+.goober.rose .goober-arm {
+    background:#e11d48;
+}
+
+.goober.shadow .goober-body {
+    background:#374151;
+}
+
+.goober.shadow .goober-foot,
+.goober.shadow .goober-arm {
+    background:#1f2937;
+}
+
+.goober.sky .goober-body {
+    background:#60a5fa;
+}
+
+.goober.sky .goober-foot,
+.goober.sky .goober-arm {
+    background:#2563eb;
+}
+
+.goober.gold .goober-body {
+    background:#f59e0b;
+}
+
+.goober.gold .goober-foot,
+.goober.gold .goober-arm {
+    background:#d97706;
+}
+
+/* ==================================================
+   CHARACTER ACCESSORIES
+================================================== */
+
+.goober-accessory {
     position:absolute;
-
-    z-index:20;
-
-    pointer-events:none;
-
+    z-index:15;
 }
 
+/* antenna */
 
-/* glasses */
-
-.character.glasses .accessory {
-
-    width:62px;
-    height:17px;
-
-    left:31px;
-    top:35px;
-
-    border:
-        3px solid #111827;
-
-    border-radius:8px;
-
-}
-
-
-/* headphones */
-
-.character.headphones .accessory {
-
-    width:91px;
-    height:78px;
-
-    left:17px;
+.accessory-antenna {
+    width:7px;
+    height:30px;
+    left:59px;
     top:7px;
-
-    border:
-        8px solid #374151;
-
-    border-bottom:none;
-
-    border-radius:
-        50px
-        50px
-        0
-        0;
-
+    background:#374151;
+    border-radius:10px;
 }
 
+.accessory-antenna::after {
+    content:"";
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:-3px;
+    top:-7px;
+    border-radius:50%;
+    background:#f43f5e;
+}
 
 /* crown */
 
-.character.crown .accessory {
-
-    width:65px;
-    height:42px;
-
-    left:30px;
-    top:-22px;
+.accessory-crown {
+    width:72px;
+    height:40px;
+    left:26px;
+    top:4px;
 
     background:
         linear-gradient(
             180deg,
             #fff7ae,
-            #ffd43b,
+            #ffd43b 45%,
             #d99a00
         );
 
     clip-path:polygon(
-        0 100%,
-        10% 20%,
-        30% 60%,
-        50% 0,
-        70% 60%,
-        90% 20%,
-        100% 100%
+        0 25%,
+        18% 58%,
+        32% 8%,
+        50% 58%,
+        68% 8%,
+        82% 58%,
+        100% 25%,
+        90% 100%,
+        10% 100%
     );
 
-    filter:
-        drop-shadow(
-            0 0 7px #ffd43b
-        );
-
+    filter:drop-shadow(0 0 7px #ffd43b);
+    animation:crownFloat 2s ease-in-out infinite;
 }
 
+@keyframes crownFloat {
+    0%,100% {
+        transform:translateY(0);
+    }
 
-/* wizard */
-
-.character.wizard .accessory {
-
-    width:0;
-    height:0;
-
-    left:25px;
-    top:-38px;
-
-    border-left:38px solid transparent;
-    border-right:38px solid transparent;
-    border-bottom:65px solid #7c3aed;
-
-    filter:
-        drop-shadow(
-            0 4px 4px rgba(0,0,0,.2)
-        );
-
+    50% {
+        transform:translateY(-5px);
+    }
 }
 
+/* ==================================================
+   EFFECT PREVIEWS
+================================================== */
 
-/* =========================================================
-   CHARACTER DATA LABEL
-========================================================= */
-
-.character-name {
-
+.preview-effect {
     position:absolute;
-
-    bottom:15px;
-
-    font-size:12px;
-
-    font-weight:900;
-
-    color:rgba(17,24,39,.35);
-
+    inset:20px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:1;
 }
 
+.preview-effect.sparkle {
+    background:
+        radial-gradient(circle at 15% 20%,white 0 3px,transparent 4px),
+        radial-gradient(circle at 85% 20%,white 0 3px,transparent 4px),
+        radial-gradient(circle at 80% 80%,white 0 3px,transparent 4px),
+        radial-gradient(circle at 20% 80%,white 0 2px,transparent 3px);
 
-/* =========================================================
+    animation:spin 3s linear infinite;
+}
+
+.preview-effect.fire {
+    box-shadow:
+        0 0 15px #ff4500,
+        0 0 35px #ff7300,
+        inset 0 0 25px #ff4500;
+
+    border:5px solid #ff7300;
+    animation:firePulse .7s infinite alternate;
+}
+
+.preview-effect.lightning {
+    border:4px solid #fde047;
+    box-shadow:
+        0 0 15px #facc15,
+        inset 0 0 20px #facc15;
+
+    animation:flash .6s infinite;
+}
+
+.preview-effect.rainbow {
+    border:7px solid transparent;
+
+    background:
+        linear-gradient(white,white) padding-box,
+        conic-gradient(
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            violet,
+            red
+        ) border-box;
+
+    animation:spin 4s linear infinite;
+}
+
+.preview-effect.glitch {
+    border:4px dashed #22d3ee;
+    box-shadow:
+        5px 0 #ec4899,
+        -5px 0 #22d3ee;
+
+    animation:glitch .2s infinite;
+}
+
+.preview-effect.shadow {
+    box-shadow:
+        0 0 35px #111827,
+        inset 0 0 30px #111827;
+}
+
+.preview-effect.crystal {
+    border:5px solid #67e8f9;
+    box-shadow:
+        0 0 15px #67e8f9,
+        0 0 30px #22d3ee;
+
+    animation:firePulse 1.2s infinite alternate;
+}
+
+.preview-effect.cosmic {
+    background:
+        radial-gradient(circle at 20% 20%,white 0 2px,transparent 3px),
+        radial-gradient(circle at 80% 30%,#c084fc 0 3px,transparent 4px),
+        radial-gradient(circle at 30% 80%,#60a5fa 0 2px,transparent 3px),
+        radial-gradient(circle at 75% 75%,white 0 2px,transparent 3px);
+
+    box-shadow:0 0 30px #8b5cf6;
+    animation:spin 5s linear infinite;
+}
+
+/* ==================================================
+   ANIMATIONS
+================================================== */
+
+@keyframes spin {
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes firePulse {
+    from {
+        transform:scale(.94);
+    }
+
+    to {
+        transform:scale(1.04);
+    }
+}
+
+@keyframes flash {
+    0%,100% {
+        opacity:.35;
+    }
+
+    20% {
+        opacity:1;
+    }
+
+    25% {
+        opacity:.4;
+    }
+
+    30% {
+        opacity:1;
+    }
+}
+
+@keyframes glitch {
+    0% {
+        transform:translate(0);
+    }
+
+    25% {
+        transform:translate(3px,-2px);
+    }
+
+    50% {
+        transform:translate(-3px,2px);
+    }
+
+    75% {
+        transform:translate(2px,3px);
+    }
+
+    100% {
+        transform:translate(0);
+    }
+}
+
+/* ==================================================
    BANNER PREVIEW
-========================================================= */
+================================================== */
 
 .banner-preview {
-
-    width:180px;
-    height:115px;
-
+    width:170px;
+    height:105px;
     border-radius:18px;
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.15);
-
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 .banner-sprint {
-
     background:
         linear-gradient(
             135deg,
             #312e81,
             #6366f1
         );
-
-    background-image:
-        linear-gradient(
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.12) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            135deg,
-            #312e81,
-            #6366f1
-        );
-
-    background-size:
-        18px 18px,
-        18px 18px,
-        auto;
-
 }
 
-.banner-sunset {
-
+.banner-purple {
     background:
         linear-gradient(
             135deg,
-            #f97316,
-            #ec4899
+            #7c3aed,
+            #c084fc
         );
-
 }
 
-.banner-ocean {
-
+.banner-blue {
     background:
         linear-gradient(
             135deg,
             #0284c7,
-            #22d3ee
+            #38bdf8
         );
-
 }
 
-.banner-space {
+/* ==================================================
+   CARD CONTENT
+================================================== */
 
-    background:
-        radial-gradient(
-            circle at 25% 30%,
-            white 0 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 70% 65%,
-            white 0 2px,
-            transparent 3px
-        ),
-        linear-gradient(
-            135deg,
-            #111827,
-            #4c1d95
-        );
-
+.shop-card h3,
+.ticket-card h3 {
+    margin:8px 0 4px;
+    font-size:20px;
+    font-weight:900;
 }
 
-
-/* =========================================================
-   EFFECT PREVIEWS
-========================================================= */
-
-.effect-preview {
-
-    width:145px;
-    height:145px;
-
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:55px;
-
+.shop-card p,
+.ticket-card p {
+    color:#6b7280;
+    margin:4px 0;
+    min-height:22px;
 }
 
+.shop-price,
+.ticket-price {
+    margin-top:15px;
+    font-weight:900;
+    font-size:17px;
+}
 
-/* =========================================================
+/* ==================================================
+   BUY BUTTON
+================================================== */
+
+.buy-button {
+    width:100%;
+    margin-top:14px;
+    border:none;
+    border-radius:14px;
+    padding:12px;
+    background:#6366f1;
+    color:white;
+    font-size:15px;
+    font-weight:900;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.buy-button:hover:not(:disabled) {
+    transform:translateY(-2px);
+    filter:brightness(1.08);
+}
+
+.buy-button:disabled {
+    background:#d1d5db;
+    color:#6b7280;
+    cursor:default;
+}
+
+/* ==================================================
    TICKET SHOP
-========================================================= */
+================================================== */
 
 #ticket-shop {
-
     display:none;
+}
 
+.ticket-card {
+    background:
+        linear-gradient(
+            145deg,
+            white,
+            #f5f3ff
+        );
 }
 
 .crown-card {
-
     background:
         linear-gradient(
             145deg,
@@ -1011,255 +781,117 @@
             #fff7c2
         );
 
+    box-shadow:
+        0 10px 30px rgba(234,179,8,.18);
 }
 
+/* ==================================================
+   DEBUG BUTTON
+================================================== */
 
-/* =========================================================
-   CARD CONTENT
-========================================================= */
-
-.shop-card h3,
-.ticket-card h3 {
-
-    margin:8px 0 4px;
-
-    font-size:20px;
-    font-weight:900;
-
+.debug-area {
+    margin-top:70px;
+    text-align:center;
 }
-
-.shop-card p,
-.ticket-card p {
-
-    color:#6b7280;
-
-    margin:4px 0;
-
-    min-height:22px;
-
-}
-
-.shop-price,
-.ticket-price {
-
-    margin-top:15px;
-
-    font-weight:900;
-    font-size:17px;
-
-}
-
-
-/* =========================================================
-   BUY
-========================================================= */
-
-.buy-button {
-
-    width:100%;
-
-    margin-top:14px;
-
-    border:none;
-
-    border-radius:14px;
-
-    padding:12px;
-
-    background:#6366f1;
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:900;
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-.buy-button:hover:not(:disabled) {
-
-    transform:translateY(-2px);
-
-    filter:brightness(1.08);
-
-}
-
-.buy-button:disabled {
-
-    background:#d1d5db;
-    color:#6b7280;
-    cursor:default;
-
-}
-
-
-/* =========================================================
-   DEBUG
-========================================================= */
 
 .debug-button {
-
-    display:block;
-
-    margin:40px auto 0;
-
     border:none;
-
-    border-radius:14px;
-
-    padding:11px 20px;
-
     background:#111827;
-
     color:white;
-
-    font-weight:900;
-
+    padding:11px 18px;
+    border-radius:12px;
+    font-weight:800;
     cursor:pointer;
-
-    opacity:.65;
-
+    opacity:.75;
 }
 
 .debug-button:hover {
-
     opacity:1;
     transform:translateY(-2px);
-
 }
 
-
-/* =========================================================
-   DEBUG OVERLAY
-========================================================= */
+/* ==================================================
+   DEBUG POPUP
+================================================== */
 
 .debug-overlay {
-
     position:fixed;
-
     inset:0;
-
     z-index:999999;
-
     background:rgba(0,0,0,.55);
-
     display:flex;
-
     align-items:center;
     justify-content:center;
-
     font-family:Arial,sans-serif;
-
 }
 
 .debug-box {
-
     width:360px;
-
     max-width:90%;
-
     background:white;
-
     padding:25px;
-
     border-radius:22px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.3);
-
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
 }
 
 .debug-box h2 {
-
     margin-top:0;
-
 }
 
-.debug-box select,
-.debug-box input {
-
+.debug-select,
+.debug-input {
     width:100%;
-
     box-sizing:border-box;
-
     padding:12px;
-
     border-radius:10px;
-
     border:1px solid #ddd;
-
     margin-bottom:12px;
-
+    font-size:15px;
 }
 
 .debug-apply,
 .debug-close {
-
     width:100%;
-
     padding:12px;
-
     border:none;
-
     border-radius:10px;
-
     font-weight:800;
-
     cursor:pointer;
-
 }
 
 .debug-apply {
-
     background:#4f46e5;
     color:white;
-
 }
 
 .debug-close {
-
     background:#eee;
     margin-top:8px;
-
 }
 
-
-/* =========================================================
+/* ==================================================
    RESPONSIVE
-========================================================= */
+================================================== */
 
 @media(max-width:800px) {
 
     .shop-grid,
     .ticket-grid {
-
         grid-template-columns:
-            repeat(
-                2,
-                minmax(0,1fr)
-            );
-
+            repeat(2,minmax(0,1fr));
     }
 
 }
 
 @media(max-width:500px) {
 
-    .shop-grid,
-    .ticket-grid {
-
-        grid-template-columns:1fr;
-
+    .shop-header h1 {
+        font-size:36px;
     }
 
-    .shop-header h1 {
-
-        font-size:36px;
-
+    .shop-grid,
+    .ticket-grid {
+        grid-template-columns:1fr;
     }
 
 }
@@ -1268,9 +900,7 @@
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -1300,9 +930,7 @@ Home
 
 </header>
 
-
 <main class="shop-page">
-
 
 <section class="shop-header">
 
@@ -1311,40 +939,26 @@ Home
 </h1>
 
 <p>
-Collect characters, banners and effects.
+Collect goofy goobers, banners and effects.
 </p>
 
 </section>
 
-
-<!-- =====================================================
-     CURRENCY
-===================================================== -->
-
 <div class="currency-bar">
 
 <div class="currency">
-
 🪙
 <span id="coin-count">0</span>
 Coins
-
 </div>
 
 <div class="currency">
-
 🎟️
 <span id="ticket-count">0</span>
 Shop Tickets
-
 </div>
 
 </div>
-
-
-<!-- =====================================================
-     NAV
-===================================================== -->
 
 <div class="shop-navigation">
 
@@ -1353,22 +967,17 @@ Shop Tickets
     class="active"
     type="button"
 >
-
 🪙 Coin Shop
-
 </button>
 
 <button
     id="ticket-shop-button"
     type="button"
 >
-
 🎟️ Ticket Shop
-
 </button>
 
 </div>
-
 
 <div class="shop-countdown">
 
@@ -1380,18 +989,13 @@ Loading...
 
 </div>
 
-
-<!-- =====================================================
-     FORTNIGHTLY SHOP
-===================================================== -->
-
 <section
     id="fortnightly-shop"
     class="shop-section"
 >
 
 <h2>
-✨ Fortnightly Shop
+🪙 Fortnightly Shop
 </h2>
 
 <div
@@ -1400,11 +1004,6 @@ Loading...
 ></div>
 
 </section>
-
-
-<!-- =====================================================
-     TICKET SHOP
-===================================================== -->
 
 <section
     id="ticket-shop"
@@ -1422,24 +1021,19 @@ Loading...
 
 </section>
 
-
-<!-- =====================================================
-     DEBUG
-===================================================== -->
+<div class="debug-area">
 
 <button
     id="debug-button"
     class="debug-button"
     type="button"
 >
-
 🛠️ Debug
-
 </button>
 
+</div>
 
 </main>
-
 
 <footer>
 
@@ -1447,251 +1041,223 @@ Loading...
 
 </footer>
 
-
 <script>
 
-/* =========================================================
+/* ==================================================
    SHOP SETTINGS
-========================================================= */
-
-const SHOP_REFRESH_TIME =
-    14 * 24 * 60 * 60 * 1000;
-
+================================================== */
 
 /*
-    EXACTLY 6 ITEMS ARE SELECTED
-    EACH FORTNIGHT.
+   The shop refreshes every second Sunday at 12:00 AM
+   AEST.
+
+   We calculate the next refresh from the calendar
+   rather than storing a random timestamp.
+
+   This means everyone gets the SAME shop schedule.
 */
 
+const SHOP_ITEMS_PER_ROTATION = 6;
 
-/* =========================================================
-   20 ROTATING CHARACTERS
-========================================================= */
+
+/* ==================================================
+   22 CHARACTERS
+================================================== */
+
+/*
+   20 rotate through the normal shop.
+
+   2 are reserved for StudyPass.
+*/
 
 const CHARACTERS = [
 
     {
-        id:"sprinter",
-        name:"The Sprinter",
+        id:"goober",
+        name:"Goober",
         rarity:"Common",
-        colour:"blue",
-        hair:"blackhair",
+        theme:"blue",
+        price:150
+    },
+
+    {
+        id:"bubble",
+        name:"Bubble",
+        rarity:"Common",
+        theme:"ocean",
+        price:175
+    },
+
+    {
+        id:"sunny",
+        name:"Sunny",
+        rarity:"Common",
+        theme:"sunny",
+        price:175
+    },
+
+    {
+        id:"sprout",
+        name:"Sprout",
+        rarity:"Common",
+        theme:"lime",
+        price:200
+    },
+
+    {
+        id:"berry",
+        name:"Berry",
+        rarity:"Common",
+        theme:"berry",
+        price:200
+    },
+
+    {
+        id:"blaze",
+        name:"Blaze",
+        rarity:"Rare",
+        theme:"fire",
         price:250
     },
 
     {
-        id:"scholar",
-        name:"The Scholar",
-        rarity:"Common",
-        colour:"purple",
-        hair:"blackhair",
-        glasses:true,
+        id:"minty",
+        name:"Minty",
+        rarity:"Rare",
+        theme:"mint",
+        price:250
+    },
+
+    {
+        id:"rose",
+        name:"Rose",
+        rarity:"Rare",
+        theme:"rose",
         price:275
     },
 
     {
-        id:"athlete",
-        name:"The Athlete",
-        rarity:"Common",
-        colour:"green",
-        hair:"blackhair",
-        price:250
-    },
-
-    {
-        id:"artist",
-        name:"The Artist",
-        rarity:"Common",
-        colour:"orange",
-        hair:"redhair",
+        id:"shadow",
+        name:"Shadow",
+        rarity:"Rare",
+        theme:"shadow",
         price:300
     },
 
     {
-        id:"gamer",
-        name:"The Gamer",
+        id:"sky",
+        name:"Sky",
         rarity:"Rare",
-        colour:"cyan",
-        hair:"blackhair",
-        headphones:true,
-        price:350
+        theme:"sky",
+        price:300
     },
 
     {
-        id:"scientist",
-        name:"The Scientist",
-        rarity:"Rare",
-        colour:"white",
-        hair:"blackhair",
-        glasses:true,
-        price:375
-    },
-
-    {
-        id:"chef",
-        name:"The Chef",
-        rarity:"Rare",
-        colour:"red",
-        hair:"blackhair",
-        price:350
-    },
-
-    {
-        id:"explorer",
-        name:"The Explorer",
-        rarity:"Rare",
-        colour:"green",
-        hair:"blonde",
+        id:"goldie",
+        name:"Goldie",
+        rarity:"Ultra Rare",
+        theme:"gold",
         price:400
     },
 
     {
-        id:"musician",
-        name:"The Musician",
-        rarity:"Rare",
-        colour:"pink",
-        hair:"blackhair",
-        headphones:true,
-        price:400
-    },
-
-    {
-        id:"inventor",
-        name:"The Inventor",
-        rarity:"Rare",
-        colour:"yellow",
-        hair:"blackhair",
-        glasses:true,
+        id:"squish",
+        name:"Squish",
+        rarity:"Ultra Rare",
+        theme:"berry",
         price:425
     },
 
     {
-        id:"detective",
-        name:"The Detective",
-        rarity:"Epic",
-        colour:"dark",
-        hair:"blackhair",
-        glasses:true,
+        id:"chomp",
+        name:"Chomp",
+        rarity:"Ultra Rare",
+        theme:"lime",
+        price:450
+    },
+
+    {
+        id:"bloop",
+        name:"Bloop",
+        rarity:"Ultra Rare",
+        theme:"ocean",
+        price:450
+    },
+
+    {
+        id:"zappy",
+        name:"Zappy",
+        rarity:"Mythic",
+        theme:"sky",
         price:500
     },
 
     {
-        id:"wizard",
-        name:"The Wizard",
-        rarity:"Epic",
-        colour:"purple",
-        hair:"whitehair",
-        wizard:true,
+        id:"magma",
+        name:"Magma",
+        rarity:"Mythic",
+        theme:"fire",
         price:550
     },
 
     {
-        id:"robot",
-        name:"The Robot",
-        rarity:"Epic",
-        colour:"cyan",
-        hair:"whitehair",
-        price:550
-    },
-
-    {
-        id:"ninja",
-        name:"The Ninja",
-        rarity:"Epic",
-        colour:"dark",
-        hair:"blackhair",
+        id:"ghosty",
+        name:"Ghosty",
+        rarity:"Mythic",
+        theme:"shadow",
         price:600
     },
 
     {
-        id:"astronaut",
-        name:"The Astronaut",
-        rarity:"Epic",
-        colour:"white",
-        hair:"blackhair",
+        id:"jelly",
+        name:"Jelly",
+        rarity:"Mythic",
+        theme:"mint",
         price:625
     },
 
     {
-        id:"racer",
-        name:"The Racer",
-        rarity:"Epic",
-        colour:"red",
-        hair:"blackhair",
-        price:650
-    },
-
-    {
-        id:"cyber",
-        name:"The Cyber",
-        rarity:"Epic",
-        colour:"cyan",
-        hair:"purplehair",
-        price:675
-    },
-
-    {
-        id:"hero",
-        name:"The Hero",
+        id:"royal",
+        name:"Royal Goober",
         rarity:"Legendary",
-        colour:"blue",
-        hair:"blonde",
-        crown:true,
-        price:750
+        theme:"gold",
+        price:750,
+        accessory:"crown"
     },
 
     {
-        id:"shadow",
-        name:"The Shadow",
+        id:"cosmo",
+        name:"Cosmo",
         rarity:"Legendary",
-        colour:"dark",
-        hair:"blackhair",
+        theme:"berry",
         price:800
     },
 
-    {
-        id:"champion",
-        name:"The Champion",
-        rarity:"Legendary",
-        colour:"yellow",
-        hair:"blonde",
-        crown:true,
-        price:900
-    }
-
-];
-
-
-/* =========================================================
-   2 STUDYPASS CHARACTERS
-========================================================= */
-
-const PASS_CHARACTERS = [
+    /* STUDYPASS CHARACTERS */
 
     {
-        id:"studypass-scholar",
-        name:"StudyMaster",
-        rarity:"Pass",
-        colour:"purple",
-        hair:"whitehair",
-        glasses:true
+        id:"pass-star",
+        name:"Star Goober",
+        rarity:"StudyPass",
+        theme:"gold",
+        pass:true
     },
 
     {
-        id:"studypass-sprinter",
-        name:"SprintMaster",
-        rarity:"Pass",
-        colour:"blue",
-        hair:"blonde",
-        crown:true
+        id:"pass-galaxy",
+        name:"Galaxy Goober",
+        rarity:"StudyPass",
+        theme:"shadow",
+        pass:true,
+        accessory:"antenna"
     }
 
 ];
 
 
-/* =========================================================
+/* ==================================================
    BANNERS
-========================================================= */
+================================================== */
 
 const BANNERS = [
 
@@ -1699,98 +1265,89 @@ const BANNERS = [
         id:"sprint-grid",
         name:"Sprint Grid",
         rarity:"Common",
-        type:"Banner",
         price:100,
-        style:"banner-sprint"
+        className:"banner-sprint"
     },
 
     {
-        id:"sunset",
-        name:"Sunset Rush",
+        id:"purple-grid",
+        name:"Purple Grid",
         rarity:"Common",
-        type:"Banner",
         price:125,
-        style:"banner-sunset"
+        className:"banner-purple"
     },
 
     {
-        id:"ocean",
-        name:"Ocean Sprint",
+        id:"neon-blue",
+        name:"Neon Blue",
         rarity:"Common",
-        type:"Banner",
         price:150,
-        style:"banner-ocean"
-    },
-
-    {
-        id:"space",
-        name:"Deep Space",
-        rarity:"Rare",
-        type:"Banner",
-        price:250,
-        style:"banner-space"
+        className:"banner-blue"
     }
 
 ];
 
 
-/* =========================================================
-   COMMON COIN EFFECTS
-========================================================= */
+/* ==================================================
+   NORMAL EFFECTS
+================================================== */
 
-const COIN_EFFECTS = [
+const NORMAL_EFFECTS = [
 
     {
         id:"sparkle",
         name:"Sparkle Effect",
         rarity:"Common",
-        type:"Effect",
-        price:150,
-        icon:"✦"
+        price:125,
+        description:"Tiny sparkles surround your goober."
     },
 
     {
         id:"speed-trail",
         name:"Speed Trail",
         rarity:"Common",
-        type:"Effect",
-        price:200,
-        icon:"💨"
+        price:150,
+        description:"A little trail follows your goober."
     },
 
     {
         id:"lightning",
         name:"Lightning Effect",
         rarity:"Rare",
-        type:"Effect",
-        price:300,
-        icon:"⚡"
+        price:250,
+        description:"Electric sparks surround your goober."
     },
 
     {
         id:"rainbow",
         name:"Rainbow Aura",
         rarity:"Rare",
-        type:"Effect",
-        price:400,
-        icon:"🌈"
+        price:350,
+        description:"A colourful aura surrounds your goober."
     },
 
     {
         id:"glitch",
         name:"Glitch Effect",
-        rarity:"Epic",
-        type:"Effect",
-        price:550,
-        icon:"▦"
+        rarity:"Ultra Rare",
+        price:450,
+        description:"Your goober glitches through reality."
+    },
+
+    {
+        id:"shadow",
+        name:"Shadow Aura",
+        rarity:"Ultra Rare",
+        price:500,
+        description:"A dark aura follows your goober."
     }
 
 ];
 
 
-/* =========================================================
+/* ==================================================
    TICKET SHOP
-========================================================= */
+================================================== */
 
 const TICKET_ITEMS = [
 
@@ -1798,40 +1355,27 @@ const TICKET_ITEMS = [
         id:"fire",
         name:"Fire Aura",
         description:
-            "A fiery glow surrounds your character.",
+            "A fiery glow surrounds your goober.",
         type:"Effect",
-        price:75,
-        icon:"🔥"
-    },
-
-    {
-        id:"shadow",
-        name:"Shadow Aura",
-        description:
-            "A dark shadow surrounds your character.",
-        type:"Effect",
-        price:150,
-        icon:"🌑"
+        price:75
     },
 
     {
         id:"crystal",
         name:"Crystal Glow",
         description:
-            "A bright crystalline glow surrounds your character.",
+            "A bright crystalline glow surrounds your goober.",
         type:"Effect",
-        price:250,
-        icon:"◆"
+        price:250
     },
 
     {
         id:"cosmic",
         name:"Cosmic Aura",
         description:
-            "Stars and cosmic particles surround your character.",
+            "Stars and cosmic particles surround your goober.",
         type:"Effect",
-        price:500,
-        icon:"✦"
+        price:500
     },
 
     {
@@ -1840,36 +1384,15 @@ const TICKET_ITEMS = [
         description:
             "The extremely rare glowing crown.",
         type:"Hat",
-        price:1000,
-        icon:"👑"
+        price:1000
     }
 
 ];
 
 
-/* =========================================================
-   ALL ROTATING SHOP ITEMS
-========================================================= */
-
-const ROTATING_ITEMS = [
-
-    ...CHARACTERS.map(
-        character => ({
-            ...character,
-            type:"Character"
-        })
-    ),
-
-    ...BANNERS,
-
-    ...COIN_EFFECTS
-
-];
-
-
-/* =========================================================
+/* ==================================================
    CURRENCY
-========================================================= */
+================================================== */
 
 function getCoins() {
 
@@ -1879,7 +1402,6 @@ function getCoins() {
 
 }
 
-
 function getTickets() {
 
     return Number(
@@ -1887,7 +1409,6 @@ function getTickets() {
     ) || 0;
 
 }
-
 
 function setCoins(amount) {
 
@@ -1897,7 +1418,6 @@ function setCoins(amount) {
     );
 
 }
-
 
 function setTickets(amount) {
 
@@ -1909,9 +1429,9 @@ function setTickets(amount) {
 }
 
 
-/* =========================================================
+/* ==================================================
    OWNED ITEMS
-========================================================= */
+================================================== */
 
 function getOwnedItems() {
 
@@ -1933,7 +1453,6 @@ function getOwnedItems() {
 
 }
 
-
 function saveOwnedItems(items) {
 
     localStorage.setItem(
@@ -1943,7 +1462,6 @@ function saveOwnedItems(items) {
 
 }
 
-
 function ownsItem(id) {
 
     return getOwnedItems()
@@ -1952,25 +1470,24 @@ function ownsItem(id) {
 }
 
 
-/* =========================================================
-   UNLOCK
-========================================================= */
+/* ==================================================
+   UNLOCK ITEM
+================================================== */
 
-function unlockItem(id,type) {
+function unlockItem(
+    id,
+    type
+) {
 
     const keys = {
 
-        Character:
-            "unlocked_characters",
+        Character:"unlocked_characters",
 
-        Banner:
-            "unlocked_banners",
+        Banner:"unlocked_banners",
 
-        Effect:
-            "unlocked_effects",
+        Effect:"unlocked_effects",
 
-        Hat:
-            "unlocked_hats"
+        Hat:"unlocked_hats"
 
     };
 
@@ -2013,343 +1530,499 @@ function unlockItem(id,type) {
 }
 
 
-/* =========================================================
-   CHARACTER RENDERER
-========================================================= */
+/* ==================================================
+   GOOBER PREVIEW
+================================================== */
 
-function createCharacter(character) {
+function createGoober(
+    character
+) {
 
-    const wrapper =
+    const goober =
         document.createElement("div");
 
-    wrapper.className =
-        "character " +
-        (character.colour || "") +
-        " " +
-        (character.hair || "");
+    goober.className =
+        "goober " +
+        character.theme;
 
-    if(character.glasses)
-        wrapper.classList.add("glasses");
-
-    if(character.headphones)
-        wrapper.classList.add("headphones");
-
-    if(character.crown)
-        wrapper.classList.add("crown");
-
-    if(character.wizard)
-        wrapper.classList.add("wizard");
-
-
-    const armLeft =
+    const effect =
         document.createElement("div");
 
-    armLeft.className =
-        "arm left";
-
-
-    const armRight =
-        document.createElement("div");
-
-    armRight.className =
-        "arm right";
-
-
-    const handLeft =
-        document.createElement("div");
-
-    handLeft.className =
-        "hand left";
-
-
-    const handRight =
-        document.createElement("div");
-
-    handRight.className =
-        "hand right";
-
+    effect.className =
+        "preview-effect";
 
     const body =
         document.createElement("div");
 
     body.className =
-        "body";
+        "goober-body";
 
-
-    const legLeft =
+    const leftFoot =
         document.createElement("div");
 
-    legLeft.className =
-        "leg left";
+    leftFoot.className =
+        "goober-foot left";
 
-
-    const legRight =
+    const rightFoot =
         document.createElement("div");
 
-    legRight.className =
-        "leg right";
+    rightFoot.className =
+        "goober-foot right";
 
-
-    const shoeLeft =
+    const leftArm =
         document.createElement("div");
 
-    shoeLeft.className =
-        "shoe left";
+    leftArm.className =
+        "goober-arm left";
 
-
-    const shoeRight =
+    const rightArm =
         document.createElement("div");
 
-    shoeRight.className =
-        "shoe right";
+    rightArm.className =
+        "goober-arm right";
 
-
-    const earLeft =
+    const leftEye =
         document.createElement("div");
 
-    earLeft.className =
-        "ear left";
+    leftEye.className =
+        "goober-eye left";
 
-
-    const earRight =
+    const rightEye =
         document.createElement("div");
 
-    earRight.className =
-        "ear right";
-
-
-    const head =
-        document.createElement("div");
-
-    head.className =
-        "head";
-
-
-    const hair =
-        document.createElement("div");
-
-    hair.className =
-        "hair";
-
-
-    const eyeLeft =
-        document.createElement("div");
-
-    eyeLeft.className =
-        "eye left";
-
-
-    const eyeRight =
-        document.createElement("div");
-
-    eyeRight.className =
-        "eye right";
-
+    rightEye.className =
+        "goober-eye right";
 
     const mouth =
         document.createElement("div");
 
     mouth.className =
-        "mouth";
+        "goober-mouth";
 
+    goober.appendChild(effect);
+    goober.appendChild(leftFoot);
+    goober.appendChild(rightFoot);
+    goober.appendChild(leftArm);
+    goober.appendChild(rightArm);
+    goober.appendChild(body);
+    goober.appendChild(leftEye);
+    goober.appendChild(rightEye);
+    goober.appendChild(mouth);
 
-    const accessory =
-        document.createElement("div");
+    if(
+        character.accessory
+    ) {
 
-    accessory.className =
-        "accessory";
+        const accessory =
+            document.createElement("div");
 
+        accessory.className =
+            "goober-accessory accessory-" +
+            character.accessory;
 
-    wrapper.appendChild(
-        armLeft
-    );
+        goober.appendChild(
+            accessory
+        );
 
-    wrapper.appendChild(
-        armRight
-    );
+    }
 
-    wrapper.appendChild(
-        handLeft
-    );
-
-    wrapper.appendChild(
-        handRight
-    );
-
-    wrapper.appendChild(
-        legLeft
-    );
-
-    wrapper.appendChild(
-        legRight
-    );
-
-    wrapper.appendChild(
-        shoeLeft
-    );
-
-    wrapper.appendChild(
-        shoeRight
-    );
-
-    wrapper.appendChild(
-        body
-    );
-
-    wrapper.appendChild(
-        earLeft
-    );
-
-    wrapper.appendChild(
-        earRight
-    );
-
-    wrapper.appendChild(
-        head
-    );
-
-    wrapper.appendChild(
-        hair
-    );
-
-    wrapper.appendChild(
-        eyeLeft
-    );
-
-    wrapper.appendChild(
-        eyeRight
-    );
-
-    wrapper.appendChild(
-        mouth
-    );
-
-    wrapper.appendChild(
-        accessory
-    );
-
-
-    return wrapper;
+    return goober;
 
 }
 
 
-/* =========================================================
-   ITEM PREVIEW
-========================================================= */
+/* ==================================================
+   BANNER PREVIEW
+================================================== */
 
-function createPreview(item) {
+function createBannerPreview(
+    banner
+) {
 
     const preview =
         document.createElement("div");
 
     preview.className =
-        "item-preview";
-
-
-    if(item.type === "Character") {
-
-        preview.appendChild(
-            createCharacter(item)
-        );
-
-        return preview;
-
-    }
-
-
-    if(item.type === "Banner") {
-
-        const banner =
-            document.createElement("div");
-
-        banner.className =
-            "banner-preview " +
-            item.style;
-
-        preview.appendChild(
-            banner
-        );
-
-        return preview;
-
-    }
-
-
-    if(item.type === "Effect") {
-
-        const effect =
-            document.createElement("div");
-
-        effect.className =
-            "effect-preview";
-
-        effect.textContent =
-            item.icon || "✦";
-
-        preview.appendChild(
-            effect
-        );
-
-        return preview;
-
-    }
-
+        "banner-preview " +
+        banner.className;
 
     return preview;
 
 }
 
 
-/* =========================================================
+/* ==================================================
+   EFFECT PREVIEW
+================================================== */
+
+function createEffectPreview(
+    effectId
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "goober";
+
+    const body =
+        document.createElement("div");
+
+    body.className =
+        "goober-body";
+
+    const leftEye =
+        document.createElement("div");
+
+    leftEye.className =
+        "goober-eye left";
+
+    const rightEye =
+        document.createElement("div");
+
+    rightEye.className =
+        "goober-eye right";
+
+    const mouth =
+        document.createElement("div");
+
+    mouth.className =
+        "goober-mouth";
+
+    const effect =
+        document.createElement("div");
+
+    effect.className =
+        "preview-effect " +
+        effectId;
+
+    wrapper.appendChild(effect);
+    wrapper.appendChild(body);
+    wrapper.appendChild(leftEye);
+    wrapper.appendChild(rightEye);
+    wrapper.appendChild(mouth);
+
+    return wrapper;
+
+}
+
+
+/* ==================================================
+   ALL SHOP ITEMS
+================================================== */
+
+function getAllShopItems() {
+
+    const characters =
+        CHARACTERS
+            .filter(
+                character =>
+                    !character.pass
+            )
+            .map(
+                character => ({
+                    ...character,
+                    type:"Character"
+                })
+            );
+
+    const banners =
+        BANNERS.map(
+            banner => ({
+                ...banner,
+                type:"Banner"
+            })
+        );
+
+    const effects =
+        NORMAL_EFFECTS.map(
+            effect => ({
+                ...effect,
+                type:"Effect"
+            })
+        );
+
+    return [
+        ...characters,
+        ...banners,
+        ...effects
+    ];
+
+}
+
+
+/* ==================================================
+   SECOND SUNDAY CALCULATOR
+================================================== */
+
+function getSecondSunday(
+    year,
+    month
+) {
+
+    const date =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+    const firstDay =
+        date.getDay();
+
+    const daysToSunday =
+        (7 - firstDay) % 7;
+
+    const firstSunday =
+        1 +
+        daysToSunday;
+
+    return firstSunday + 7;
+
+}
+
+
+/* ==================================================
+   NEXT SHOP REFRESH
+================================================== */
+
+function getNextShopRefresh() {
+
+    const now =
+        new Date();
+
+    let year =
+        now.getFullYear();
+
+    let month =
+        now.getMonth();
+
+    /*
+       We treat the displayed schedule as AEST
+       (UTC+10), which is the fixed Australian
+       Eastern Standard Time schedule requested
+       for StudySprint.
+    */
+
+    function makeRefresh(
+        y,
+        m,
+        day
+    ) {
+
+        /*
+           12:00 AM AEST =
+           14:00 UTC on the previous day.
+        */
+
+        return new Date(
+            Date.UTC(
+                y,
+                m,
+                day - 1,
+                14,
+                0,
+                0,
+                0
+            )
+        );
+
+    }
+
+    let day =
+        getSecondSunday(
+            year,
+            month
+        );
+
+    let refresh =
+        makeRefresh(
+            year,
+            month,
+            day
+        );
+
+    if(
+        refresh <= now
+    ) {
+
+        month++;
+
+        if(
+            month > 11
+        ) {
+
+            month = 0;
+            year++;
+
+        }
+
+        day =
+            getSecondSunday(
+                year,
+                month
+            );
+
+        refresh =
+            makeRefresh(
+                year,
+                month,
+                day
+            );
+
+    }
+
+    return refresh;
+
+}
+
+
+/* ==================================================
+   SHOP ROTATION KEY
+================================================== */
+
+function getRotationKey() {
+
+    const refresh =
+        getNextShopRefresh();
+
+    const previous =
+        new Date(
+            refresh.getTime() -
+            14 * 24 * 60 * 60 * 1000
+        );
+
+    return (
+        previous.getUTCFullYear() +
+        "-" +
+        String(
+            previous.getUTCMonth() + 1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            previous.getUTCDate()
+        ).padStart(2,"0")
+    );
+
+}
+
+
+/* ==================================================
+   DETERMINISTIC SHUFFLE
+================================================== */
+
+function seededRandom(seed) {
+
+    let value = 0;
+
+    for(
+        let i = 0;
+        i < seed.length;
+        i++
+    ) {
+
+        value =
+            (
+                value * 31 +
+                seed.charCodeAt(i)
+            ) >>> 0;
+
+    }
+
+    return function() {
+
+        value =
+            (
+                value * 1664525 +
+                1013904223
+            ) >>> 0;
+
+        return value / 4294967296;
+
+    };
+
+}
+
+
+/* ==================================================
    GENERATE SHOP
-========================================================= */
+================================================== */
 
 function generateShop() {
 
+    const items =
+        getAllShopItems();
+
+    const random =
+        seededRandom(
+            getRotationKey()
+        );
+
     const shuffled =
-        [...ROTATING_ITEMS]
-            .sort(
-                () =>
-                    Math.random() - .5
+        [...items];
+
+    for(
+        let i =
+            shuffled.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                random() *
+                (i + 1)
             );
 
+        [
+            shuffled[i],
+            shuffled[j]
+        ] =
+        [
+            shuffled[j],
+            shuffled[i]
+        ];
 
-    /*
-        EXACTLY SIX ITEMS.
-    */
+    }
 
     const selected =
         shuffled
-            .slice(0,6)
+            .slice(
+                0,
+                SHOP_ITEMS_PER_ROTATION
+            )
             .map(
-                item =>
-                    item.id
+                item => item.id
             );
-
 
     localStorage.setItem(
         "fortnightlyShopItems",
         JSON.stringify(selected)
     );
 
-
     localStorage.setItem(
-        "fortnightlyShopStart",
-        Date.now()
+        "fortnightlyShopRotation",
+        getRotationKey()
     );
-
 
     return selected;
 
 }
 
 
-/* =========================================================
+/* ==================================================
    CURRENT SHOP
-========================================================= */
+================================================== */
 
 function getCurrentShop() {
+
+    const rotation =
+        getRotationKey();
+
+    let savedRotation =
+        localStorage.getItem(
+            "fortnightlyShopRotation"
+        );
 
     let items = null;
 
@@ -2370,64 +2043,172 @@ function getCurrentShop() {
 
     }
 
-
-    const start =
-        Number(
-            localStorage.getItem(
-                "fortnightlyShopStart"
-            )
-        ) || 0;
-
-
-    /*
-        Old shop data with 8
-        or fewer items gets replaced.
-    */
-
     if(
+        savedRotation !== rotation ||
         !Array.isArray(items) ||
-        items.length !== 6 ||
-        !start
+        items.length !==
+            SHOP_ITEMS_PER_ROTATION
     ) {
 
         return generateShop();
 
     }
-
-
-    if(
-        Date.now() -
-        start >=
-        SHOP_REFRESH_TIME
-    ) {
-
-        return generateShop();
-
-    }
-
 
     return items;
 
 }
 
 
-/* =========================================================
-   FIND ITEM
-========================================================= */
+/* ==================================================
+   CREATE MAIN CARD
+================================================== */
 
-function findShopItem(id) {
+function createShopCard(
+    item
+) {
 
-    return ROTATING_ITEMS.find(
-        item =>
-            item.id === id
-    );
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "shop-card";
+
+    const rarity =
+        document.createElement("div");
+
+    rarity.className =
+        "rarity";
+
+    if(
+        item.rarity === "Rare"
+    )
+        rarity.classList.add("rare");
+
+    if(
+        item.rarity === "Ultra Rare"
+    )
+        rarity.classList.add("ultra");
+
+    if(
+        item.rarity === "Mythic"
+    )
+        rarity.classList.add("mythic");
+
+    if(
+        item.rarity === "Legendary"
+    )
+        rarity.classList.add("legendary");
+
+    rarity.textContent =
+        item.rarity;
+
+    const preview =
+        document.createElement("div");
+
+    preview.className =
+        "item-preview";
+
+    if(
+        item.type === "Character"
+    ) {
+
+        preview.appendChild(
+            createGoober(item)
+        );
+
+    }
+
+    else if(
+        item.type === "Banner"
+    ) {
+
+        preview.appendChild(
+            createBannerPreview(item)
+        );
+
+    }
+
+    else if(
+        item.type === "Effect"
+    ) {
+
+        preview.appendChild(
+            createEffectPreview(item.id)
+        );
+
+    }
+
+    const name =
+        document.createElement("h3");
+
+    name.textContent =
+        item.name;
+
+    const type =
+        document.createElement("p");
+
+    type.textContent =
+        item.type;
+
+    const price =
+        document.createElement("div");
+
+    price.className =
+        "shop-price";
+
+    price.textContent =
+        item.price +
+        " Coins";
+
+    const button =
+        document.createElement("button");
+
+    button.className =
+        "buy-button";
+
+    button.type =
+        "button";
+
+    if(
+        ownsItem(item.id)
+    ) {
+
+        button.textContent =
+            "OWNED";
+
+        button.disabled =
+            true;
+
+    }
+
+    else {
+
+        button.textContent =
+            "BUY";
+
+        button.onclick =
+            () => buyMainItem(
+                item,
+                button
+            );
+
+    }
+
+    card.appendChild(rarity);
+    card.appendChild(preview);
+    card.appendChild(name);
+    card.appendChild(type);
+    card.appendChild(price);
+    card.appendChild(button);
+
+    return card;
 
 }
 
 
-/* =========================================================
-   DISPLAY SHOP
-========================================================= */
+/* ==================================================
+   DISPLAY MAIN SHOP
+================================================== */
 
 function displayMainShop() {
 
@@ -2439,162 +2220,37 @@ function displayMainShop() {
     if(!container)
         return;
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     getCurrentShop()
         .forEach(
             id => {
 
                 const item =
-                    findShopItem(id);
+                    getAllShopItems()
+                        .find(
+                            x =>
+                                x.id === id
+                        );
 
                 if(!item)
                     return;
 
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-                card.className =
-                    "shop-card";
-
-
-                const rarity =
-                    document.createElement(
-                        "div"
-                    );
-
-                rarity.className =
-                    "rarity " +
-                    item.rarity
-                        .toLowerCase();
-
-                rarity.textContent =
-                    item.rarity;
-
-
-                const preview =
-                    createPreview(item);
-
-
-                const name =
-                    document.createElement(
-                        "h3"
-                    );
-
-                name.textContent =
-                    item.name;
-
-
-                const type =
-                    document.createElement(
-                        "p"
-                    );
-
-                type.textContent =
-                    item.type;
-
-
-                const price =
-                    document.createElement(
-                        "div"
-                    );
-
-                price.className =
-                    "shop-price";
-
-                price.textContent =
-                    item.price +
-                    " Coins";
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-                button.className =
-                    "buy-button";
-
-                button.type =
-                    "button";
-
-
-                if(
-                    ownsItem(
-                        item.id
-                    )
-                ) {
-
-                    button.textContent =
-                        "OWNED";
-
-                    button.disabled =
-                        true;
-
-                }
-
-                else {
-
-                    button.textContent =
-                        "BUY";
-
-                    button.onclick =
-                        () =>
-                            buyMainItem(
-                                item,
-                                button
-                            );
-
-                }
-
-
-                card.appendChild(
-                    rarity
-                );
-
-                card.appendChild(
-                    preview
-                );
-
-                card.appendChild(
-                    name
-                );
-
-                card.appendChild(
-                    type
-                );
-
-                card.appendChild(
-                    price
-                );
-
-                card.appendChild(
-                    button
-                );
-
-
                 container.appendChild(
-                    card
+                    createShopCard(item)
                 );
 
             }
         );
-
 
     updateCurrency();
 
 }
 
 
-/* =========================================================
+/* ==================================================
    BUY MAIN ITEM
-========================================================= */
+================================================== */
 
 function buyMainItem(
     item,
@@ -2602,16 +2258,12 @@ function buyMainItem(
 ) {
 
     if(
-        ownsItem(
-            item.id
-        )
+        ownsItem(item.id)
     )
         return;
 
-
     const coins =
         getCoins();
-
 
     if(
         coins <
@@ -2626,40 +2278,26 @@ function buyMainItem(
 
     }
 
-
     setCoins(
         coins -
         item.price
     );
-
 
     unlockItem(
         item.id,
         item.type
     );
 
-
     const owned =
         getOwnedItems();
 
-
-    if(
-        !owned.includes(
-            item.id
-        )
-    ) {
-
-        owned.push(
-            item.id
-        );
-
-    }
-
+    owned.push(
+        item.id
+    );
 
     saveOwnedItems(
         owned
     );
-
 
     button.disabled =
         true;
@@ -2667,15 +2305,14 @@ function buyMainItem(
     button.textContent =
         "OWNED";
 
-
     updateCurrency();
 
 }
 
 
-/* =========================================================
-   TICKET SHOP
-========================================================= */
+/* ==================================================
+   DISPLAY TICKET SHOP
+================================================== */
 
 function displayTicketShop() {
 
@@ -2684,14 +2321,10 @@ function displayTicketShop() {
             "ticket-items"
         );
 
-
     if(!container)
         return;
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     TICKET_ITEMS.forEach(
         item => {
@@ -2704,7 +2337,6 @@ function displayTicketShop() {
             card.className =
                 "ticket-card";
 
-
             if(
                 item.id === "crown"
             ) {
@@ -2715,7 +2347,6 @@ function displayTicketShop() {
 
             }
 
-
             const preview =
                 document.createElement(
                     "div"
@@ -2724,23 +2355,11 @@ function displayTicketShop() {
             preview.className =
                 "ticket-item-preview";
 
-
-            const effect =
-                document.createElement(
-                    "div"
-                );
-
-            effect.className =
-                "effect-preview";
-
-            effect.textContent =
-                item.icon;
-
-
             preview.appendChild(
-                effect
+                createEffectPreview(
+                    item.id
+                )
             );
-
 
             const name =
                 document.createElement(
@@ -2750,7 +2369,6 @@ function displayTicketShop() {
             name.textContent =
                 item.name;
 
-
             const description =
                 document.createElement(
                     "p"
@@ -2758,7 +2376,6 @@ function displayTicketShop() {
 
             description.textContent =
                 item.description;
-
 
             const price =
                 document.createElement(
@@ -2772,7 +2389,6 @@ function displayTicketShop() {
                 item.price +
                 " Shop Tickets";
 
-
             const button =
                 document.createElement(
                     "button"
@@ -2784,11 +2400,8 @@ function displayTicketShop() {
             button.type =
                 "button";
 
-
             if(
-                ownsItem(
-                    item.id
-                )
+                ownsItem(item.id)
             ) {
 
                 button.textContent =
@@ -2813,44 +2426,25 @@ function displayTicketShop() {
 
             }
 
+            card.appendChild(preview);
+            card.appendChild(name);
+            card.appendChild(description);
+            card.appendChild(price);
+            card.appendChild(button);
 
-            card.appendChild(
-                preview
-            );
-
-            card.appendChild(
-                name
-            );
-
-            card.appendChild(
-                description
-            );
-
-            card.appendChild(
-                price
-            );
-
-            card.appendChild(
-                button
-            );
-
-
-            container.appendChild(
-                card
-            );
+            container.appendChild(card);
 
         }
     );
-
 
     updateCurrency();
 
 }
 
 
-/* =========================================================
+/* ==================================================
    BUY TICKET ITEM
-========================================================= */
+================================================== */
 
 function buyTicketItem(
     item,
@@ -2858,16 +2452,12 @@ function buyTicketItem(
 ) {
 
     if(
-        ownsItem(
-            item.id
-        )
+        ownsItem(item.id)
     )
         return;
 
-
     const tickets =
         getTickets();
-
 
     if(
         tickets <
@@ -2882,40 +2472,26 @@ function buyTicketItem(
 
     }
 
-
     setTickets(
         tickets -
         item.price
     );
-
 
     unlockItem(
         item.id,
         item.type
     );
 
-
     const owned =
         getOwnedItems();
 
-
-    if(
-        !owned.includes(
-            item.id
-        )
-    ) {
-
-        owned.push(
-            item.id
-        );
-
-    }
-
+    owned.push(
+        item.id
+    );
 
     saveOwnedItems(
         owned
     );
-
 
     button.disabled =
         true;
@@ -2923,15 +2499,14 @@ function buyTicketItem(
     button.textContent =
         "OWNED";
 
-
     updateCurrency();
 
 }
 
 
-/* =========================================================
+/* ==================================================
    CURRENCY
-========================================================= */
+================================================== */
 
 function updateCurrency() {
 
@@ -2945,11 +2520,9 @@ function updateCurrency() {
             "ticket-count"
         );
 
-
     if(coins)
         coins.textContent =
             getCoins();
-
 
     if(tickets)
         tickets.textContent =
@@ -2958,9 +2531,9 @@ function updateCurrency() {
 }
 
 
-/* =========================================================
+/* ==================================================
    COUNTDOWN
-========================================================= */
+================================================== */
 
 function updateCountdown() {
 
@@ -2969,38 +2542,15 @@ function updateCountdown() {
             "countdown"
         );
 
-
     if(!element)
         return;
 
+    const refresh =
+        getNextShopRefresh();
 
-    let start =
-        Number(
-            localStorage.getItem(
-                "fortnightlyShopStart"
-            )
-        ) || 0;
-
-
-    if(!start) {
-
-        getCurrentShop();
-
-        start =
-            Number(
-                localStorage.getItem(
-                    "fortnightlyShopStart"
-                )
-            );
-
-    }
-
-
-    let remaining =
-        start +
-        SHOP_REFRESH_TIME -
+    const remaining =
+        refresh.getTime() -
         Date.now();
-
 
     if(
         remaining <= 0
@@ -3010,20 +2560,9 @@ function updateCountdown() {
 
         displayMainShop();
 
-        start =
-            Number(
-                localStorage.getItem(
-                    "fortnightlyShopStart"
-                )
-            );
-
-        remaining =
-            start +
-            SHOP_REFRESH_TIME -
-            Date.now();
+        return;
 
     }
-
 
     const days =
         Math.floor(
@@ -3031,47 +2570,42 @@ function updateCountdown() {
             86400000
         );
 
-
     const hours =
         Math.floor(
-            remaining %
-            86400000 /
+            (
+                remaining %
+                86400000
+            ) /
             3600000
         );
 
-
     const minutes =
         Math.floor(
-            remaining %
-            3600000 /
+            (
+                remaining %
+                3600000
+            ) /
             60000
         );
 
-
     const seconds =
         Math.floor(
-            remaining %
-            60000 /
+            (
+                remaining %
+                60000
+            ) /
             1000
         );
 
-
     element.textContent =
-        days +
-        "d " +
-        hours +
-        "h " +
-        minutes +
-        "m " +
-        seconds +
-        "s";
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* ==================================================
+   SHOP NAVIGATION
+================================================== */
 
 function openTicketShop() {
 
@@ -3080,12 +2614,10 @@ function openTicketShop() {
     ).style.display =
         "none";
 
-
     document.getElementById(
         "ticket-shop"
     ).style.display =
         "block";
-
 
     document.getElementById(
         "main-shop-button"
@@ -3093,18 +2625,13 @@ function openTicketShop() {
         "active"
     );
 
-
     document.getElementById(
         "ticket-shop-button"
     ).classList.add(
         "active"
     );
 
-
-    displayTicketShop();
-
 }
-
 
 function openMainShop() {
 
@@ -3113,12 +2640,10 @@ function openMainShop() {
     ).style.display =
         "none";
 
-
     document.getElementById(
         "fortnightly-shop"
     ).style.display =
         "block";
-
 
     document.getElementById(
         "ticket-shop-button"
@@ -3126,42 +2651,34 @@ function openMainShop() {
         "active"
     );
 
-
     document.getElementById(
         "main-shop-button"
     ).classList.add(
         "active"
     );
 
-
     displayMainShop();
 
 }
 
 
-/* =========================================================
+/* ==================================================
    DEBUG POPUP
-========================================================= */
+================================================== */
 
-function openDebug() {
+function openDebugPopup() {
 
     const overlay =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     overlay.className =
         "debug-overlay";
 
-
     const box =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     box.className =
         "debug-box";
-
 
     box.innerHTML = `
 
@@ -3173,7 +2690,10 @@ function openDebug() {
             What do you want to change?
         </p>
 
-        <select id="debug-type">
+        <select
+            id="debug-type"
+            class="debug-select"
+        >
 
             <option value="xp">
                 ⭐ XP
@@ -3197,52 +2717,44 @@ function openDebug() {
 
         </select>
 
-
         <input
             id="debug-value"
+            class="debug-input"
             type="number"
             placeholder="Amount"
         >
 
-
         <button
-            class="debug-apply"
             id="debug-apply"
+            class="debug-apply"
         >
             Apply
         </button>
 
-
         <button
-            class="debug-close"
             id="debug-close"
+            class="debug-close"
         >
             Cancel
         </button>
 
     `;
 
-
-    overlay.appendChild(
-        box
-    );
+    overlay.appendChild(box);
 
     document.body.appendChild(
         overlay
     );
-
 
     const type =
         box.querySelector(
             "#debug-type"
         );
 
-
     const value =
         box.querySelector(
             "#debug-value"
         );
-
 
     function updateInput() {
 
@@ -3253,25 +2765,17 @@ function openDebug() {
 
     }
 
-
     type.addEventListener(
         "change",
         updateInput
     );
 
-
     updateInput();
-
 
     box.querySelector(
         "#debug-close"
     ).onclick =
-        () => {
-
-            overlay.remove();
-
-        };
-
+        () => overlay.remove();
 
     box.querySelector(
         "#debug-apply"
@@ -3281,25 +2785,24 @@ function openDebug() {
             const selected =
                 type.value;
 
-
             if(
                 selected === "reset"
             ) {
 
                 const confirmed =
                     confirm(
-                        "⚠️ Reset your entire StudySprint account?"
+                        "⚠️ Reset your entire StudySprint account?\n\n" +
+                        "This will remove your saved XP, coins, tickets, " +
+                        "streak, stats, achievements and local account data."
                     );
-
 
                 if(!confirmed)
                     return;
 
-
                 localStorage.clear();
 
                 alert(
-                    "✅ Account reset!"
+                    "✅ Account reset!\n\nReloading StudySprint..."
                 );
 
                 location.reload();
@@ -3308,17 +2811,13 @@ function openDebug() {
 
             }
 
-
             const amount =
                 Number(
                     value.value
                 );
 
-
             if(
-                !Number.isFinite(
-                    amount
-                )
+                !Number.isFinite(amount)
             ) {
 
                 alert(
@@ -3329,34 +2828,23 @@ function openDebug() {
 
             }
 
-
             const keys = {
 
                 xp:"xp",
-
                 coins:"coins",
-
                 tickets:"shopTickets",
-
                 streak:"streak"
 
             };
-
 
             localStorage.setItem(
                 keys[selected],
                 amount
             );
 
-
             alert(
-                "✅ " +
-                selected +
-                " set to " +
-                amount +
-                "!"
+                `✅ ${selected} set to ${amount}!`
             );
-
 
             overlay.remove();
 
@@ -3367,37 +2855,13 @@ function openDebug() {
 }
 
 
-/* =========================================================
+/* ==================================================
    START
-========================================================= */
+================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-
-        document.getElementById(
-            "main-shop-button"
-        ).addEventListener(
-            "click",
-            openMainShop
-        );
-
-
-        document.getElementById(
-            "ticket-shop-button"
-        ).addEventListener(
-            "click",
-            openTicketShop
-        );
-
-
-        document.getElementById(
-            "debug-button"
-        ).addEventListener(
-            "click",
-            openDebug
-        );
-
 
         getCurrentShop();
 
@@ -3409,6 +2873,26 @@ document.addEventListener(
 
         updateCountdown();
 
+        document.getElementById(
+            "main-shop-button"
+        ).addEventListener(
+            "click",
+            openMainShop
+        );
+
+        document.getElementById(
+            "ticket-shop-button"
+        ).addEventListener(
+            "click",
+            openTicketShop
+        );
+
+        document.getElementById(
+            "debug-button"
+        ).addEventListener(
+            "click",
+            openDebugPopup
+        );
 
         setInterval(
             updateCountdown,
@@ -3419,9 +2903,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   GLOBALS
-========================================================= */
+/* ==================================================
+   PUBLIC
+================================================== */
 
 window.openTicketShop =
     openTicketShop;
@@ -3441,11 +2925,8 @@ window.getOwnedItems =
 window.ownsItem =
     ownsItem;
 
-window.generateShop =
-    generateShop;
-
 </script>
 
 </body>
-
 </html>
+```
