@@ -1,291 +1,284 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Characters + Banners + Effects
 ========================================================= */
 
 
 /* =========================================================
-   SHOP SETTINGS
+   SETTINGS
 ========================================================= */
 
 const SHOP_REFRESH_TIME =
     14 * 24 * 60 * 60 * 1000;
 
+const SHOP_SIZE = 6;
+
 
 /* =========================================================
-   FORTNIGHTLY SHOP ITEMS
+   20 SHOP CHARACTERS
 ========================================================= */
 
-const SHOP_ITEMS = [
-
-    /* =========================================
-       CHARACTER 1
-    ========================================== */
+const CHARACTERS = [
 
     {
-        id: "lightning",
-        name: "Lightning",
-        rarity: "Common",
-        type: "Character",
-        theme: "lightning",
-        price: 150
+        id:"ocean",
+        name:"Ocean",
+        rarity:"Common",
+        theme:"Ocean",
+        price:250,
+        hair:"hair-short"
     },
 
     {
-        id: "sprout",
-        name: "Sprout",
-        rarity: "Common",
-        type: "Character",
-        theme: "sprout",
-        price: 150
+        id:"forest",
+        name:"Forest",
+        rarity:"Common",
+        theme:"Forest",
+        price:250,
+        hair:"hair-curly"
     },
 
     {
-        id: "ice",
-        name: "Ice",
-        rarity: "Common",
-        type: "Character",
-        theme: "ice",
-        price: 175
+        id:"fire",
+        name:"Blaze",
+        rarity:"Rare",
+        theme:"Fire",
+        price:350,
+        hair:"hair-spiky"
     },
 
     {
-        id: "flame",
-        name: "Flame",
-        rarity: "Rare",
-        type: "Character",
-        theme: "flame",
-        price: 200
+        id:"space",
+        name:"Cosmo",
+        rarity:"Rare",
+        theme:"Space",
+        price:350,
+        hair:"hair-spiky"
     },
 
     {
-        id: "berry",
-        name: "Berry",
-        rarity: "Common",
-        type: "Character",
-        theme: "berry",
-        price: 150
+        id:"candy",
+        name:"Candy",
+        rarity:"Rare",
+        theme:"Candy",
+        price:350,
+        hair:"hair-curly"
     },
 
     {
-        id: "lemon",
-        name: "Lemon",
-        rarity: "Common",
-        type: "Character",
-        theme: "lemon",
-        price: 150
+        id:"sun",
+        name:"Sunny",
+        rarity:"Common",
+        theme:"Sun",
+        price:250,
+        hair:"hair-short"
     },
 
     {
-        id: "cloud",
-        name: "Cloud",
-        rarity: "Common",
-        type: "Character",
-        theme: "cloud",
-        price: 175
+        id:"scientist",
+        name:"Scientist",
+        rarity:"Epic",
+        theme:"Science",
+        price:450,
+        hair:"hair-short",
+        accessory:"glasses"
     },
 
     {
-        id: "moon",
-        name: "Moon",
-        rarity: "Rare",
-        type: "Character",
-        theme: "moon",
-        price: 225
+        id:"gamer",
+        name:"Gamer",
+        rarity:"Epic",
+        theme:"Gamer",
+        price:450,
+        hair:"hair-spiky",
+        accessory:"headphones"
     },
 
     {
-        id: "sun",
-        name: "Sun",
-        rarity: "Rare",
-        type: "Character",
-        theme: "sun",
-        price: 225
+        id:"runner",
+        name:"Runner",
+        rarity:"Rare",
+        theme:"Runner",
+        price:350,
+        hair:"hair-short",
+        accessory:"cap"
     },
 
     {
-        id: "mushroom",
-        name: "Mushroom",
-        rarity: "Rare",
-        type: "Character",
-        theme: "mushroom",
-        price: 250
+        id:"artist",
+        name:"Artist",
+        rarity:"Rare",
+        theme:"Artist",
+        price:350,
+        hair:"hair-curly"
     },
 
     {
-        id: "frog",
-        name: "Frog",
-        rarity: "Rare",
-        type: "Character",
-        theme: "frog",
-        price: 250
+        id:"detective",
+        name:"Detective",
+        rarity:"Epic",
+        theme:"Detective",
+        price:450,
+        hair:"hair-short"
     },
 
     {
-        id: "bee",
-        name: "Bee",
-        rarity: "Rare",
-        type: "Character",
-        theme: "bee",
-        price: 250
+        id:"robot",
+        name:"Robo",
+        rarity:"Epic",
+        theme:"Robot",
+        price:450,
+        hair:"hair-spiky"
     },
 
     {
-        id: "fish",
-        name: "Fish",
-        rarity: "Rare",
-        type: "Character",
-        theme: "fish",
-        price: 275
+        id:"wizard",
+        name:"Wizard",
+        rarity:"Epic",
+        theme:"Wizard",
+        price:500,
+        hair:"hair-curly"
     },
 
     {
-        id: "butterfly",
-        name: "Butterfly",
-        rarity: "Ultra Rare",
-        type: "Character",
-        theme: "butterfly",
-        price: 325
+        id:"pirate",
+        name:"Pirate",
+        rarity:"Rare",
+        theme:"Pirate",
+        price:400,
+        hair:"hair-short"
     },
 
     {
-        id: "dino",
-        name: "Dino",
-        rarity: "Ultra Rare",
-        type: "Character",
-        theme: "dino",
-        price: 350
+        id:"chef",
+        name:"Chef",
+        rarity:"Common",
+        theme:"Chef",
+        price:275,
+        hair:"hair-short"
     },
 
     {
-        id: "robot",
-        name: "Robot",
-        rarity: "Ultra Rare",
-        type: "Character",
-        theme: "robot",
-        price: 375
+        id:"athlete",
+        name:"Athlete",
+        rarity:"Rare",
+        theme:"Athlete",
+        price:375,
+        hair:"hair-spiky"
     },
 
     {
-        id: "ghost",
-        name: "Ghost",
-        rarity: "Ultra Rare",
-        type: "Character",
-        theme: "ghost",
-        price: 400
+        id:"musician",
+        name:"Musician",
+        rarity:"Rare",
+        theme:"Music",
+        price:375,
+        hair:"hair-curly"
     },
 
     {
-        id: "lab",
-        name: "Lab",
-        rarity: "Ultra Rare",
-        type: "Character",
-        theme: "lab",
-        price: 400
+        id:"explorer",
+        name:"Explorer",
+        rarity:"Epic",
+        theme:"Explorer",
+        price:475,
+        hair:"hair-short"
     },
 
     {
-        id: "artist",
-        name: "Artist",
-        rarity: "Mythic",
-        type: "Character",
-        theme: "artist",
-        price: 500
+        id:"ninja",
+        name:"Ninja",
+        rarity:"Epic",
+        theme:"Ninja",
+        price:500,
+        hair:"hair-spiky"
     },
 
     {
-        id: "rocket",
-        name: "Rocket",
-        rarity: "Mythic",
-        type: "Character",
-        theme: "rocket",
-        price: 550
-    },
-
-
-    /* =========================================
-       BANNERS
-    ========================================== */
-
-    {
-        id: "sprint-grid",
-        name: "Sprint Grid",
-        rarity: "Common",
-        type: "Banner",
-        price: 100
-    },
-
-    {
-        id: "purple-grid",
-        name: "Purple Grid",
-        rarity: "Common",
-        type: "Banner",
-        price: 125
-    },
-
-    {
-        id: "neon-blue",
-        name: "Neon Blue",
-        rarity: "Common",
-        type: "Banner",
-        price: 150
-    },
-
-
-    /* =========================================
-       COMMON COIN EFFECTS
-    ========================================== */
-
-    {
-        id: "sparkle",
-        name: "Sparkle Effect",
-        rarity: "Common",
-        type: "Effect",
-        theme: "sparkle",
-        price: 200
-    },
-
-    {
-        id: "speed-trail",
-        name: "Speed Trail",
-        rarity: "Common",
-        type: "Effect",
-        theme: "speed-trail",
-        price: 250
-    },
-
-    {
-        id: "rainbow",
-        name: "Rainbow Aura",
-        rarity: "Rare",
-        type: "Effect",
-        theme: "rainbow",
-        price: 350
+        id:"royal",
+        name:"Royal",
+        rarity:"Legendary",
+        theme:"Royal",
+        price:750,
+        hair:"hair-short",
+        accessory:"crown"
     }
 
 ];
 
 
 /* =========================================================
-   STUDYPASS CHARACTERS
+   NORMAL SHOP ITEMS
 ========================================================= */
 
-const STUDYPASS_CHARACTERS = [
+const BANNERS = [
 
     {
-        id: "galaxy",
-        name: "Galaxy",
-        rarity: "Legendary",
-        type: "Character",
-        theme: "galaxy"
+        id:"sprint-grid",
+        name:"Sprint Grid",
+        rarity:"Common",
+        type:"Banner",
+        price:100
     },
 
     {
-        id: "champion",
-        name: "Champion",
-        rarity: "Legendary",
-        type: "Character",
-        theme: "champion"
+        id:"purple-grid",
+        name:"Purple Grid",
+        rarity:"Common",
+        type:"Banner",
+        price:125
+    },
+
+    {
+        id:"neon-blue",
+        name:"Neon Blue",
+        rarity:"Common",
+        type:"Banner",
+        price:150
+    },
+
+    {
+        id:"sunset",
+        name:"Sunset",
+        rarity:"Rare",
+        type:"Banner",
+        price:200
+    }
+
+];
+
+
+const COMMON_EFFECTS = [
+
+    {
+        id:"sparkle",
+        name:"Sparkle",
+        rarity:"Common",
+        type:"Effect",
+        price:150
+    },
+
+    {
+        id:"speed-trail",
+        name:"Speed Trail",
+        rarity:"Common",
+        type:"Effect",
+        price:200
+    },
+
+    {
+        id:"lightning",
+        name:"Lightning",
+        rarity:"Rare",
+        type:"Effect",
+        price:300
+    },
+
+    {
+        id:"rainbow",
+        name:"Rainbow Aura",
+        rarity:"Rare",
+        type:"Effect",
+        price:350
     }
 
 ];
@@ -298,73 +291,103 @@ const STUDYPASS_CHARACTERS = [
 const TICKET_ITEMS = [
 
     {
-        id: "lightning-ticket",
-        name: "Lightning Effect",
+        id:"ticket-sparkle",
+        name:"Sparkle Effect",
+        description:
+            "Tiny sparkles follow your character.",
+        type:"Effect",
+        unlockId:"sparkle",
+        price:10
+    },
+
+    {
+        id:"ticket-speed",
+        name:"Speed Trail",
+        description:
+            "Leaves a trail behind your character.",
+        type:"Effect",
+        unlockId:"speed-trail",
+        price:20
+    },
+
+    {
+        id:"ticket-lightning",
+        name:"Lightning Effect",
         description:
             "Electric sparks surround your character.",
-        type: "Effect",
-        effectId: "lightning",
-        price: 35
+        type:"Effect",
+        unlockId:"lightning",
+        price:35
     },
 
     {
-        id: "fire",
-        name: "Fire Aura",
+        id:"ticket-rainbow",
+        name:"Rainbow Aura",
+        description:
+            "A colourful aura surrounds your character.",
+        type:"Effect",
+        unlockId:"rainbow",
+        price:50
+    },
+
+    {
+        id:"fire",
+        name:"Fire Aura",
         description:
             "A fiery glow surrounds your character.",
-        type: "Effect",
-        effectId: "fire",
-        price: 75
+        type:"Effect",
+        unlockId:"fire",
+        price:75
     },
 
     {
-        id: "glitch",
-        name: "Glitch Effect",
+        id:"glitch",
+        name:"Glitch Effect",
         description:
             "A strange digital effect surrounds your character.",
-        type: "Effect",
-        effectId: "glitch",
-        price: 100
+        type:"Effect",
+        unlockId:"glitch",
+        price:100
     },
 
     {
-        id: "shadow",
-        name: "Shadow Aura",
+        id:"shadow",
+        name:"Shadow Aura",
         description:
             "A dark shadow surrounds your character.",
-        type: "Effect",
-        effectId: "shadow",
-        price: 150
+        type:"Effect",
+        unlockId:"shadow",
+        price:150
     },
 
     {
-        id: "crystal",
-        name: "Crystal Glow",
+        id:"crystal",
+        name:"Crystal Glow",
         description:
             "A bright crystalline glow surrounds your character.",
-        type: "Effect",
-        effectId: "crystal",
-        price: 250
+        type:"Effect",
+        unlockId:"crystal",
+        price:250
     },
 
     {
-        id: "cosmic",
-        name: "Cosmic Aura",
+        id:"cosmic",
+        name:"Cosmic Aura",
         description:
             "Stars and cosmic particles surround your character.",
-        type: "Effect",
-        effectId: "cosmic",
-        price: 500
+        type:"Effect",
+        unlockId:"cosmic",
+        price:500
     },
 
     {
-        id: "crown",
-        name: "Crown + Glow",
+        id:"crown",
+        name:"Crown + Glow",
         description:
             "The extremely rare glowing crown.",
-        type: "Effect",
-        effectId: "crown",
-        price: 1000
+        type:"Effect",
+        unlockId:"crown",
+        price:1000
     }
 
 ];
@@ -396,7 +419,7 @@ function setCoins(amount) {
 
     localStorage.setItem(
         "coins",
-        amount
+        Math.max(0,amount)
     );
 
 }
@@ -406,7 +429,7 @@ function setTickets(amount) {
 
     localStorage.setItem(
         "shopTickets",
-        amount
+        Math.max(0,amount)
     );
 
 }
@@ -456,7 +479,7 @@ function ownsItem(id) {
 
 
 /* =========================================================
-   UNLOCK ITEM
+   UNLOCK
 ========================================================= */
 
 function unlockItem(
@@ -464,48 +487,23 @@ function unlockItem(
     type
 ) {
 
-    let storageKey = null;
+    const keys = {
+
+        Character:"unlocked_characters",
+
+        Banner:"unlocked_banners",
+
+        Effect:"unlocked_effects"
+
+    };
 
 
-    if (
-        type === "Character"
-    ) {
-
-        storageKey =
-            "unlocked_characters";
-
-    }
-
-    else if (
-        type === "Banner"
-    ) {
-
-        storageKey =
-            "unlocked_banners";
-
-    }
-
-    else if (
-        type === "Effect"
-    ) {
-
-        storageKey =
-            "unlocked_effects";
-
-    }
+    const key =
+        keys[type];
 
 
-    if (!storageKey) {
-
-        console.error(
-            "Unknown item type:",
-            type,
-            id
-        );
-
+    if(!key)
         return;
-
-    }
 
 
     let unlocked = [];
@@ -515,9 +513,7 @@ function unlockItem(
 
         unlocked =
             JSON.parse(
-                localStorage.getItem(
-                    storageKey
-                )
+                localStorage.getItem(key)
             ) || [];
 
     }
@@ -529,7 +525,7 @@ function unlockItem(
     }
 
 
-    if (
+    if(
         !unlocked.includes(id)
     ) {
 
@@ -539,7 +535,7 @@ function unlockItem(
 
 
     localStorage.setItem(
-        storageKey,
+        key,
         JSON.stringify(unlocked)
     );
 
@@ -547,227 +543,65 @@ function unlockItem(
 
 
 /* =========================================================
-   SAVE OWNED ITEM
+   ALL NORMAL SHOP ITEMS
 ========================================================= */
 
-function savePurchase(
-    itemId,
-    type
-) {
+function getShopPool() {
 
-    unlockItem(
-        itemId,
-        type
-    );
+    return [
 
+        ...CHARACTERS.map(
+            character => ({
 
-    const owned =
-        getOwnedItems();
+                ...character,
 
+                type:"Character"
 
-    if (
-        !owned.includes(itemId)
-    ) {
+            })
+        ),
 
-        owned.push(itemId);
+        ...BANNERS,
 
-    }
+        ...COMMON_EFFECTS
 
-
-    saveOwnedItems(
-        owned
-    );
+    ];
 
 }
 
 
 /* =========================================================
-   CHARACTER PREVIEW
+   SHUFFLE
 ========================================================= */
 
-function createCharacterPreview(
-    theme
-) {
+function shuffle(array) {
 
-    const character =
-        document.createElement(
-            "div"
+    return [...array]
+        .sort(
+            () =>
+                Math.random() - .5
         );
-
-    character.className =
-        "shop-character";
-
-
-    character.classList.add(
-        "character-" + theme
-    );
-
-
-    const body =
-        document.createElement(
-            "div"
-        );
-
-    body.className =
-        "shop-character-body";
-
-
-    const face =
-        document.createElement(
-            "div"
-        );
-
-    face.className =
-        "shop-character-face";
-
-
-    character.appendChild(
-        body
-    );
-
-    character.appendChild(
-        face
-    );
-
-
-    return character;
 
 }
 
 
 /* =========================================================
-   BANNER PREVIEW
-========================================================= */
-
-function createBannerPreview(
-    id
-) {
-
-    const banner =
-        document.createElement(
-            "div"
-        );
-
-    banner.className =
-        "shop-banner-preview";
-
-
-    banner.classList.add(
-        "banner-" + id
-    );
-
-
-    return banner;
-
-}
-
-
-/* =========================================================
-   EFFECT PREVIEW
-========================================================= */
-
-function createEffectPreview(
-    theme
-) {
-
-    const preview =
-        document.createElement(
-            "div"
-        );
-
-    preview.className =
-        "shop-effect-preview";
-
-
-    preview.classList.add(
-        "effect-" + theme
-    );
-
-
-    return preview;
-
-}
-
-
-/* =========================================================
-   ITEM PREVIEW
-========================================================= */
-
-function createItemPreview(
-    item
-) {
-
-    const wrapper =
-        document.createElement(
-            "div"
-        );
-
-    wrapper.className =
-        "item-preview";
-
-
-    if (
-        item.type === "Character"
-    ) {
-
-        wrapper.appendChild(
-            createCharacterPreview(
-                item.theme
-            )
-        );
-
-    }
-
-    else if (
-        item.type === "Banner"
-    ) {
-
-        wrapper.appendChild(
-            createBannerPreview(
-                item.id
-            )
-        );
-
-    }
-
-    else if (
-        item.type === "Effect"
-    ) {
-
-        wrapper.appendChild(
-            createEffectPreview(
-                item.theme
-            )
-        );
-
-    }
-
-
-    return wrapper;
-
-}
-
-
-/* =========================================================
-   GENERATE FORTNIGHTLY SHOP
+   GENERATE SHOP
 ========================================================= */
 
 function generateShop() {
 
-    const shuffled =
-        [...SHOP_ITEMS]
-            .sort(
-                () =>
-                    Math.random() - 0.5
-            );
+    const pool =
+        getShopPool();
 
 
     const selected =
-        shuffled
-            .slice(0, 8)
+        shuffle(pool)
+            .slice(
+                0,
+                SHOP_SIZE
+            )
             .map(
-                item =>
-                    item.id
+                item => item.id
             );
 
 
@@ -780,6 +614,12 @@ function generateShop() {
     localStorage.setItem(
         "fortnightlyShopStart",
         Date.now()
+    );
+
+
+    console.log(
+        "New StudySprint shop:",
+        selected
     );
 
 
@@ -823,9 +663,9 @@ function getCurrentShop() {
         ) || 0;
 
 
-    if (
+    if(
         !Array.isArray(items) ||
-        items.length !== 8 ||
+        items.length !== SHOP_SIZE ||
         !start
     ) {
 
@@ -834,8 +674,9 @@ function getCurrentShop() {
     }
 
 
-    if (
-        Date.now() - start >=
+    if(
+        Date.now() -
+        start >=
         SHOP_REFRESH_TIME
     ) {
 
@@ -845,6 +686,460 @@ function getCurrentShop() {
 
 
     return items;
+
+}
+
+
+/* =========================================================
+   FIND ITEM
+========================================================= */
+
+function findShopItem(id) {
+
+    return getShopPool()
+        .find(
+            item =>
+                item.id === id
+        );
+
+}
+
+
+/* =========================================================
+   CHARACTER PREVIEW
+========================================================= */
+
+function createCharacterPreview(
+    character
+) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    wrapper.className =
+        "shop-character";
+
+
+    wrapper.classList.add(
+        "character-" +
+        character.id
+    );
+
+
+    /* shadow */
+
+    const shadow =
+        document.createElement(
+            "div"
+        );
+
+    shadow.className =
+        "character-shadow";
+
+
+    /* ears */
+
+    const earLeft =
+        document.createElement(
+            "div"
+        );
+
+    earLeft.className =
+        "character-ear left";
+
+
+    const earRight =
+        document.createElement(
+            "div"
+        );
+
+    earRight.className =
+        "character-ear right";
+
+
+    /* head */
+
+    const head =
+        document.createElement(
+            "div"
+        );
+
+    head.className =
+        "character-head";
+
+
+    /* eyes */
+
+    const eyeLeft =
+        document.createElement(
+            "div"
+        );
+
+    eyeLeft.className =
+        "character-eye left";
+
+
+    const eyeRight =
+        document.createElement(
+            "div"
+        );
+
+    eyeRight.className =
+        "character-eye right";
+
+
+    /* mouth */
+
+    const mouth =
+        document.createElement(
+            "div"
+        );
+
+    mouth.className =
+        "character-mouth";
+
+
+    /* hair */
+
+    const hair =
+        document.createElement(
+            "div"
+        );
+
+    hair.className =
+        "character-hair";
+
+    hair.classList.add(
+        character.hair ||
+        "hair-short"
+    );
+
+
+    /* body */
+
+    const body =
+        document.createElement(
+            "div"
+        );
+
+    body.className =
+        "character-body";
+
+
+    /* arms */
+
+    const armLeft =
+        document.createElement(
+            "div"
+        );
+
+    armLeft.className =
+        "character-arm left";
+
+
+    const armRight =
+        document.createElement(
+            "div"
+        );
+
+    armRight.className =
+        "character-arm right";
+
+
+    /* legs */
+
+    const legLeft =
+        document.createElement(
+            "div"
+        );
+
+    legLeft.className =
+        "character-leg left";
+
+
+    const legRight =
+        document.createElement(
+            "div"
+        );
+
+    legRight.className =
+        "character-leg right";
+
+
+    /* shoes */
+
+    const shoeLeft =
+        document.createElement(
+            "div"
+        );
+
+    shoeLeft.className =
+        "character-shoe left";
+
+
+    const shoeRight =
+        document.createElement(
+            "div"
+        );
+
+    shoeRight.className =
+        "character-shoe right";
+
+
+    wrapper.appendChild(
+        shadow
+    );
+
+    wrapper.appendChild(
+        earLeft
+    );
+
+    wrapper.appendChild(
+        earRight
+    );
+
+    wrapper.appendChild(
+        body
+    );
+
+    wrapper.appendChild(
+        armLeft
+    );
+
+    wrapper.appendChild(
+        armRight
+    );
+
+    wrapper.appendChild(
+        legLeft
+    );
+
+    wrapper.appendChild(
+        legRight
+    );
+
+    wrapper.appendChild(
+        shoeLeft
+    );
+
+    wrapper.appendChild(
+        shoeRight
+    );
+
+    wrapper.appendChild(
+        head
+    );
+
+    wrapper.appendChild(
+        hair
+    );
+
+    wrapper.appendChild(
+        eyeLeft
+    );
+
+    wrapper.appendChild(
+        eyeRight
+    );
+
+    wrapper.appendChild(
+        mouth
+    );
+
+
+    /* accessory */
+
+    if(character.accessory) {
+
+        const accessory =
+            document.createElement(
+                "div"
+            );
+
+        accessory.className =
+            "character-accessory";
+
+        accessory.classList.add(
+            "accessory-" +
+            character.accessory
+        );
+
+        wrapper.appendChild(
+            accessory
+        );
+
+    }
+
+
+    return wrapper;
+
+}
+
+
+/* =========================================================
+   BANNER PREVIEW
+========================================================= */
+
+function createBannerPreview(
+    item
+) {
+
+    const banner =
+        document.createElement(
+            "div"
+        );
+
+
+    banner.className =
+        "banner-preview";
+
+
+    if(
+        item.id ===
+        "sprint-grid"
+    ) {
+
+        banner.style.background =
+            "linear-gradient(135deg,#312e81,#6366f1)";
+
+        banner.style.backgroundImage =
+            `
+            linear-gradient(
+                rgba(255,255,255,.15)
+                1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255,255,255,.15)
+                1px,
+                transparent 1px
+            )
+            `;
+
+        banner.style.backgroundSize =
+            "20px 20px";
+
+    }
+
+    else if(
+        item.id ===
+        "purple-grid"
+    ) {
+
+        banner.style.background =
+            "linear-gradient(135deg,#7c3aed,#c084fc)";
+
+    }
+
+    else if(
+        item.id ===
+        "neon-blue"
+    ) {
+
+        banner.style.background =
+            "linear-gradient(135deg,#0891b2,#38bdf8)";
+
+    }
+
+    else {
+
+        banner.style.background =
+            "linear-gradient(135deg,#f97316,#ec4899)";
+
+    }
+
+
+    return banner;
+
+}
+
+
+/* =========================================================
+   EFFECT PREVIEW
+========================================================= */
+
+function createEffectPreview(
+    item
+) {
+
+    const effect =
+        document.createElement(
+            "div"
+        );
+
+
+    effect.className =
+        "preview-effect";
+
+
+    effect.classList.add(
+        "effect-" +
+        item.id
+    );
+
+
+    return effect;
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+function createPreview(
+    item
+) {
+
+    if(
+        item.type ===
+        "Character"
+    ) {
+
+        return createCharacterPreview(
+            item
+        );
+
+    }
+
+
+    if(
+        item.type ===
+        "Banner"
+    ) {
+
+        return createBannerPreview(
+            item
+        );
+
+    }
+
+
+    return createEffectPreview(
+        item
+    );
+
+}
+
+
+/* =========================================================
+   RARITY CLASS
+========================================================= */
+
+function rarityClass(
+    rarity
+) {
+
+    return rarity
+        .toLowerCase()
+        .replace(
+            /\s+/g,
+            "-"
+        );
 
 }
 
@@ -861,7 +1156,7 @@ function displayMainShop() {
         );
 
 
-    if (!container)
+    if(!container)
         return;
 
 
@@ -869,27 +1164,174 @@ function displayMainShop() {
         "";
 
 
-    const currentShop =
+    const selected =
         getCurrentShop();
 
 
-    currentShop.forEach(
+    selected.forEach(
         id => {
 
             const item =
-                SHOP_ITEMS.find(
-                    x =>
-                        x.id === id
-                );
+                findShopItem(id);
 
 
-            if (!item)
+            if(!item)
                 return;
 
 
-            createShopCard(
-                item,
-                container
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+            card.className =
+                "shop-card";
+
+
+            const rarity =
+                document.createElement(
+                    "div"
+                );
+
+            rarity.className =
+                "rarity " +
+                rarityClass(
+                    item.rarity
+                );
+
+            rarity.textContent =
+                item.rarity;
+
+
+            const preview =
+                document.createElement(
+                    "div"
+                );
+
+            preview.className =
+                "item-preview";
+
+
+            preview.appendChild(
+                createPreview(
+                    item
+                )
+            );
+
+
+            const content =
+                document.createElement(
+                    "div"
+                );
+
+            content.className =
+                "card-content";
+
+
+            const title =
+                document.createElement(
+                    "h3"
+                );
+
+            title.textContent =
+                item.name;
+
+
+            const type =
+                document.createElement(
+                    "p"
+                );
+
+            type.textContent =
+                item.type;
+
+
+            const price =
+                document.createElement(
+                    "div"
+                );
+
+            price.className =
+                "shop-price";
+
+            price.textContent =
+                item.price +
+                " Coins";
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "buy-button";
+
+            button.type =
+                "button";
+
+
+            if(
+                ownsItem(
+                    item.id
+                )
+            ) {
+
+                button.textContent =
+                    "OWNED";
+
+                button.disabled =
+                    true;
+
+            }
+
+            else {
+
+                button.textContent =
+                    "BUY";
+
+                button.onclick =
+                    () =>
+                        buyMainItem(
+                            item,
+                            button
+                        );
+
+            }
+
+
+            content.appendChild(
+                title
+            );
+
+            content.appendChild(
+                type
+            );
+
+            content.appendChild(
+                price
+            );
+
+            content.appendChild(
+                button
+            );
+
+
+            card.appendChild(
+                rarity
+            );
+
+            card.appendChild(
+                preview
+            );
+
+            card.appendChild(
+                content
+            );
+
+
+            container.appendChild(
+                card
             );
 
         }
@@ -897,159 +1339,6 @@ function displayMainShop() {
 
 
     updateCurrency();
-
-}
-
-
-/* =========================================================
-   CREATE SHOP CARD
-========================================================= */
-
-function createShopCard(
-    item,
-    container
-) {
-
-    const card =
-        document.createElement(
-            "div"
-        );
-
-    card.className =
-        "shop-card";
-
-
-    const rarity =
-        document.createElement(
-            "div"
-        );
-
-    rarity.className =
-        "rarity";
-
-
-    rarity.textContent =
-        item.rarity;
-
-
-    const preview =
-        createItemPreview(
-            item
-        );
-
-
-    const name =
-        document.createElement(
-            "h3"
-        );
-
-
-    name.textContent =
-        item.name;
-
-
-    const type =
-        document.createElement(
-            "p"
-        );
-
-
-    type.textContent =
-        item.type;
-
-
-    const price =
-        document.createElement(
-            "div"
-        );
-
-
-    price.className =
-        "shop-price";
-
-
-    price.textContent =
-        item.price +
-        " Coins";
-
-
-    const button =
-        document.createElement(
-            "button"
-        );
-
-
-    button.type =
-        "button";
-
-
-    button.className =
-        "buy-button";
-
-
-    if (
-        ownsItem(
-            item.id
-        )
-    ) {
-
-        button.textContent =
-            "OWNED";
-
-        button.disabled =
-            true;
-
-    }
-
-    else {
-
-        button.textContent =
-            "BUY";
-
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                buyMainItem(
-                    item,
-                    button
-                );
-
-            }
-        );
-
-    }
-
-
-    card.appendChild(
-        rarity
-    );
-
-    card.appendChild(
-        preview
-    );
-
-    card.appendChild(
-        name
-    );
-
-    card.appendChild(
-        type
-    );
-
-    card.appendChild(
-        price
-    );
-
-    card.appendChild(
-        button
-    );
-
-
-    container.appendChild(
-        card
-    );
 
 }
 
@@ -1063,7 +1352,7 @@ function buyMainItem(
     button
 ) {
 
-    if (
+    if(
         ownsItem(
             item.id
         )
@@ -1075,7 +1364,7 @@ function buyMainItem(
         getCoins();
 
 
-    if (
+    if(
         coins <
         item.price
     ) {
@@ -1095,27 +1384,34 @@ function buyMainItem(
     );
 
 
-    savePurchase(
+    unlockItem(
         item.id,
         item.type
+    );
+
+
+    const owned =
+        getOwnedItems();
+
+
+    owned.push(
+        item.id
+    );
+
+
+    saveOwnedItems(
+        [...new Set(owned)]
     );
 
 
     button.disabled =
         true;
 
-
     button.textContent =
         "OWNED";
 
 
     updateCurrency();
-
-
-    console.log(
-        "Purchased:",
-        item.name
-    );
 
 }
 
@@ -1132,7 +1428,7 @@ function displayTicketShop() {
         );
 
 
-    if (!container)
+    if(!container)
         return;
 
 
@@ -1145,23 +1441,11 @@ function displayTicketShop() {
 
             const card =
                 document.createElement(
-                    "div"
+                    "article"
                 );
-
 
             card.className =
-                "ticket-card";
-
-
-            if (
-                item.id === "crown"
-            ) {
-
-                card.classList.add(
-                    "crown-card"
-                );
-
-            }
+                "shop-card";
 
 
             const preview =
@@ -1169,25 +1453,38 @@ function displayTicketShop() {
                     "div"
                 );
 
-
             preview.className =
-                "ticket-item-preview";
+                "item-preview";
+
+
+            const effect =
+                createEffectPreview({
+
+                    id:item.unlockId
+
+                });
 
 
             preview.appendChild(
-                createEffectPreview(
-                    item.effectId
-                )
+                effect
             );
 
 
-            const name =
+            const content =
+                document.createElement(
+                    "div"
+                );
+
+            content.className =
+                "card-content";
+
+
+            const title =
                 document.createElement(
                     "h3"
                 );
 
-
-            name.textContent =
+            title.textContent =
                 item.name;
 
 
@@ -1195,7 +1492,6 @@ function displayTicketShop() {
                 document.createElement(
                     "p"
                 );
-
 
             description.textContent =
                 item.description;
@@ -1206,10 +1502,8 @@ function displayTicketShop() {
                     "div"
                 );
 
-
             price.className =
-                "ticket-price";
-
+                "shop-price";
 
             price.textContent =
                 item.price +
@@ -1221,18 +1515,16 @@ function displayTicketShop() {
                     "button"
                 );
 
+            button.className =
+                "buy-button";
 
             button.type =
                 "button";
 
 
-            button.className =
-                "buy-button";
-
-
-            if (
+            if(
                 ownsItem(
-                    item.id
+                    item.unlockId
                 )
             ) {
 
@@ -1249,20 +1541,31 @@ function displayTicketShop() {
                 button.textContent =
                     "BUY";
 
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
+                button.onclick =
+                    () =>
                         buyTicketItem(
                             item,
                             button
                         );
 
-                    }
-                );
-
             }
+
+
+            content.appendChild(
+                title
+            );
+
+            content.appendChild(
+                description
+            );
+
+            content.appendChild(
+                price
+            );
+
+            content.appendChild(
+                button
+            );
 
 
             card.appendChild(
@@ -1270,19 +1573,7 @@ function displayTicketShop() {
             );
 
             card.appendChild(
-                name
-            );
-
-            card.appendChild(
-                description
-            );
-
-            card.appendChild(
-                price
-            );
-
-            card.appendChild(
-                button
+                content
             );
 
 
@@ -1308,10 +1599,12 @@ function buyTicketItem(
     button
 ) {
 
-    if (
-        ownsItem(
-            item.id
-        )
+    const id =
+        item.unlockId;
+
+
+    if(
+        ownsItem(id)
     )
         return;
 
@@ -1320,7 +1613,7 @@ function buyTicketItem(
         getTickets();
 
 
-    if (
+    if(
         tickets <
         item.price
     ) {
@@ -1340,15 +1633,26 @@ function buyTicketItem(
     );
 
 
-    savePurchase(
-        item.id,
+    unlockItem(
+        id,
         item.type
+    );
+
+
+    const owned =
+        getOwnedItems();
+
+
+    owned.push(id);
+
+
+    saveOwnedItems(
+        [...new Set(owned)]
     );
 
 
     button.disabled =
         true;
-
 
     button.textContent =
         "OWNED";
@@ -1360,18 +1664,7 @@ function buyTicketItem(
 
 
 /* =========================================================
-   STUDYPASS CHARACTERS
-========================================================= */
-
-function getStudyPassCharacters() {
-
-    return STUDYPASS_CHARACTERS;
-
-}
-
-
-/* =========================================================
-   CURRENCY UI
+   CURRENCY
 ========================================================= */
 
 function updateCurrency() {
@@ -1388,7 +1681,7 @@ function updateCurrency() {
         );
 
 
-    if (coins) {
+    if(coins) {
 
         coins.textContent =
             getCoins();
@@ -1396,7 +1689,7 @@ function updateCurrency() {
     }
 
 
-    if (tickets) {
+    if(tickets) {
 
         tickets.textContent =
             getTickets();
@@ -1418,7 +1711,7 @@ function updateCountdown() {
         );
 
 
-    if (!element)
+    if(!element)
         return;
 
 
@@ -1430,10 +1723,9 @@ function updateCountdown() {
         ) || 0;
 
 
-    if (!start) {
+    if(!start) {
 
         getCurrentShop();
-
 
         start =
             Number(
@@ -1451,7 +1743,7 @@ function updateCountdown() {
         Date.now();
 
 
-    if (
+    if(
         remaining <= 0
     ) {
 
@@ -1525,42 +1817,30 @@ function updateCountdown() {
 
 function openTicketShop() {
 
-    const main =
-        document.getElementById(
-            "fortnightly-shop"
-        );
-
-
-    const ticket =
-        document.getElementById(
-            "ticket-shop"
-        );
-
-
-    main.style.display =
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display =
         "none";
 
 
-    ticket.style.display =
+    document.getElementById(
+        "ticket-shop"
+    ).style.display =
         "block";
 
 
-    document
-        .getElementById(
-            "main-shop-button"
-        )
-        .classList.remove(
-            "active"
-        );
+    document.getElementById(
+        "main-shop-button"
+    ).classList.remove(
+        "active"
+    );
 
 
-    document
-        .getElementById(
-            "ticket-shop-button"
-        )
-        .classList.add(
-            "active"
-        );
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.add(
+        "active"
+    );
 
 
     displayTicketShop();
@@ -1570,42 +1850,30 @@ function openTicketShop() {
 
 function openMainShop() {
 
-    const main =
-        document.getElementById(
-            "fortnightly-shop"
-        );
-
-
-    const ticket =
-        document.getElementById(
-            "ticket-shop"
-        );
-
-
-    ticket.style.display =
+    document.getElementById(
+        "ticket-shop"
+    ).style.display =
         "none";
 
 
-    main.style.display =
+    document.getElementById(
+        "fortnightly-shop"
+    ).style.display =
         "block";
 
 
-    document
-        .getElementById(
-            "ticket-shop-button"
-        )
-        .classList.remove(
-            "active"
-        );
+    document.getElementById(
+        "ticket-shop-button"
+    ).classList.remove(
+        "active"
+    );
 
 
-    document
-        .getElementById(
-            "main-shop-button"
-        )
-        .classList.add(
-            "active"
-        );
+    document.getElementById(
+        "main-shop-button"
+    ).classList.add(
+        "active"
+    );
 
 
     displayMainShop();
@@ -1614,295 +1882,284 @@ function openMainShop() {
 
 
 /* =========================================================
-   DEBUG SYSTEM
+   DEBUG POPUP
 ========================================================= */
 
 function openDebug() {
 
+    if(
+        document.querySelector(
+            ".debug-overlay"
+        )
+    )
+        return;
+
+
     const overlay =
-        document.getElementById(
-            "debug-overlay"
+        document.createElement(
+            "div"
+        );
+
+    overlay.className =
+        "debug-overlay";
+
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+    box.className =
+        "debug-box";
+
+
+    box.innerHTML = `
+
+        <h2>
+            🛠️ StudySprint Debug
+        </h2>
+
+        <p>
+            What do you want to change?
+        </p>
+
+        <select id="debug-type">
+
+            <option value="xp">
+                ⭐ XP
+            </option>
+
+            <option value="coins">
+                🪙 Coins
+            </option>
+
+            <option value="tickets">
+                🎟️ Tickets
+            </option>
+
+            <option value="streak">
+                🔥 Streak
+            </option>
+
+            <option value="refresh">
+                🔄 New Shop
+            </option>
+
+            <option value="reset">
+                🗑️ Reset Account
+            </option>
+
+        </select>
+
+
+        <input
+            id="debug-value"
+            type="number"
+            placeholder="Amount"
+        >
+
+
+        <button
+            id="debug-apply"
+            class="buy-button"
+        >
+            Apply
+        </button>
+
+
+        <button
+            id="debug-close"
+            class="debug-close"
+        >
+            Cancel
+        </button>
+
+    `;
+
+
+    overlay.appendChild(
+        box
+    );
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const type =
+        box.querySelector(
+            "#debug-type"
         );
 
 
-    overlay.classList.add(
-        "visible"
+    const value =
+        box.querySelector(
+            "#debug-value"
+        );
+
+
+    function updateDebugInput() {
+
+        value.style.display =
+            type.value === "reset" ||
+            type.value === "refresh"
+
+                ? "none"
+
+                : "block";
+
+    }
+
+
+    type.addEventListener(
+        "change",
+        updateDebugInput
     );
 
 
     updateDebugInput();
 
-}
+
+    box.querySelector(
+        "#debug-close"
+    ).onclick =
+        () => {
+
+            overlay.remove();
+
+        };
 
 
-function closeDebug() {
+    box.querySelector(
+        "#debug-apply"
+    ).onclick =
+        () => {
 
-    document
-        .getElementById(
-            "debug-overlay"
-        )
-        .classList.remove(
-            "visible"
-        );
-
-}
+            const selected =
+                type.value;
 
 
-function updateDebugInput() {
+            if(
+                selected ===
+                "reset"
+            ) {
 
-    const type =
-        document.getElementById(
-            "debug-type"
-        );
-
-
-    const value =
-        document.getElementById(
-            "debug-value"
-        );
-
-
-    if (
-        type.value === "reset"
-    ) {
-
-        value.style.display =
-            "none";
-
-    }
-
-    else {
-
-        value.style.display =
-            "block";
-
-    }
-
-}
+                if(
+                    !confirm(
+                        "Reset your entire StudySprint account?"
+                    )
+                )
+                    return;
 
 
-/* =========================================================
-   DEBUG APPLY
-========================================================= */
+                localStorage.clear();
 
-function applyDebug() {
+                location.reload();
 
-    const type =
-        document.getElementById(
-            "debug-type"
-        ).value;
+                return;
+
+            }
 
 
-    const value =
-        document.getElementById(
-            "debug-value"
-        );
+            if(
+                selected ===
+                "refresh"
+            ) {
+
+                generateShop();
+
+                overlay.remove();
+
+                displayMainShop();
+
+                alert(
+                    "🔄 New 6-item shop generated!"
+                );
+
+                return;
+
+            }
 
 
-    /* =====================================
-       RESET
-    ====================================== */
+            const amount =
+                Number(
+                    value.value
+                );
 
-    if (
-        type === "reset"
-    ) {
 
-        const confirmed =
-            confirm(
-                "⚠️ Reset your entire StudySprint account?\n\n" +
-                "This removes saved XP, coins, tickets, " +
-                "streak, stats, achievements and other " +
-                "local account data."
+            if(
+                !Number.isFinite(
+                    amount
+                )
+            ) {
+
+                alert(
+                    "Enter a valid number."
+                );
+
+                return;
+
+            }
+
+
+            const keys = {
+
+                xp:"xp",
+
+                coins:"coins",
+
+                tickets:"shopTickets",
+
+                streak:"streak"
+
+            };
+
+
+            localStorage.setItem(
+                keys[selected],
+                amount
             );
 
 
-        if (!confirmed)
-            return;
+            overlay.remove();
 
+            location.reload();
 
-        localStorage.clear();
-
-
-        alert(
-            "✅ Account reset!\n\nReloading StudySprint..."
-        );
-
-
-        location.reload();
-
-
-        return;
-
-    }
-
-
-    const amount =
-        Number(
-            value.value
-        );
-
-
-    if (
-        !Number.isFinite(amount)
-    ) {
-
-        alert(
-            "Enter a valid number."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        type === "xp"
-    ) {
-
-        localStorage.setItem(
-            "xp",
-            amount
-        );
-
-    }
-
-
-    else if (
-        type === "coins"
-    ) {
-
-        localStorage.setItem(
-            "coins",
-            amount
-        );
-
-    }
-
-
-    else if (
-        type === "tickets"
-    ) {
-
-        localStorage.setItem(
-            "shopTickets",
-            amount
-        );
-
-    }
-
-
-    else if (
-        type === "streak"
-    ) {
-
-        localStorage.setItem(
-            "streak",
-            amount
-        );
-
-    }
-
-
-    alert(
-        `✅ ${type} set to ${amount}!`
-    );
-
-
-    closeDebug();
-
-
-    location.reload();
+        };
 
 }
 
 
 /* =========================================================
-   BUTTON EVENTS
+   START
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        document
-            .getElementById(
-                "main-shop-button"
-            )
-            .addEventListener(
-                "click",
-                openMainShop
-            );
+        document.getElementById(
+            "main-shop-button"
+        ).addEventListener(
+            "click",
+            openMainShop
+        );
 
 
-        document
-            .getElementById(
-                "ticket-shop-button"
-            )
-            .addEventListener(
-                "click",
-                openTicketShop
-            );
+        document.getElementById(
+            "ticket-shop-button"
+        ).addEventListener(
+            "click",
+            openTicketShop
+        );
 
 
-        document
-            .getElementById(
-                "debug-open"
-            )
-            .addEventListener(
-                "click",
-                openDebug
-            );
-
-
-        document
-            .getElementById(
-                "debug-close"
-            )
-            .addEventListener(
-                "click",
-                closeDebug
-            );
-
-
-        document
-            .getElementById(
-                "debug-apply"
-            )
-            .addEventListener(
-                "click",
-                applyDebug
-            );
-
-
-        document
-            .getElementById(
-                "debug-type"
-            )
-            .addEventListener(
-                "change",
-                updateDebugInput
-            );
-
-
-        document
-            .getElementById(
-                "debug-overlay"
-            )
-            .addEventListener(
-                "click",
-                event => {
-
-                    if (
-                        event.target.id ===
-                        "debug-overlay"
-                    ) {
-
-                        closeDebug();
-
-                    }
-
-                }
-            );
+        document.getElementById(
+            "debug-button"
+        ).addEventListener(
+            "click",
+            openDebug
+        );
 
 
         getCurrentShop();
@@ -1926,14 +2183,14 @@ document.addEventListener(
 
 
 /* =========================================================
-   PUBLIC FUNCTIONS
+   PUBLIC
 ========================================================= */
-
-window.openTicketShop =
-    openTicketShop;
 
 window.openMainShop =
     openMainShop;
+
+window.openTicketShop =
+    openTicketShop;
 
 window.getCoins =
     getCoins;
@@ -1947,5 +2204,5 @@ window.getOwnedItems =
 window.ownsItem =
     ownsItem;
 
-window.getStudyPassCharacters =
-    getStudyPassCharacters;
+window.generateShop =
+    generateShop;
