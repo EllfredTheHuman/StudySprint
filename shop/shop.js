@@ -1640,7 +1640,10 @@ function updateCountdown() {
 
 
  element.textContent =
-    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    days + "d " +
+    hours + "h " +
+    minutes + "m " +
+    seconds + "s";
 
 }
 
