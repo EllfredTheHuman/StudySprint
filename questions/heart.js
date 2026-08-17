@@ -1004,10 +1004,10 @@ correct:0
 {
 question:"Which substance is mainly transported by phloem?",
 answers:[
-"Sucrose",
+"Sugars",
 "Oxygen",
 "Carbon dioxide",
-"Water only"
+"Water Only"
 ],
 correct:0
 },
