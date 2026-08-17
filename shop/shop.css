@@ -1,23 +1,17 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Full replacement stylesheet
+   Clean Goober system
    ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
-
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background:
-        linear-gradient(
-            135deg,
-            #eef2ff,
-            #f8fafc
-        );
-    color: #111827;
+    background: #f5f7ff;
+    color: #17172b;
 }
 
 
@@ -31,12 +25,10 @@ body {
     padding: 30px 0 60px;
 }
 
-
 .shop-header {
     text-align: center;
     margin-bottom: 25px;
 }
-
 
 .shop-header h1 {
     margin: 0;
@@ -44,43 +36,27 @@ body {
     font-weight: 900;
 }
 
-
 .shop-header p {
-    color: #64748b;
+    margin: 8px 0 0;
+    color: #6b7280;
 }
 
-
-/* =========================================================
-   SHOP NAVIGATION
-   ========================================================= */
 
 .shop-navigation {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin: 25px 0;
-    flex-wrap: wrap;
+    margin-bottom: 25px;
 }
-
 
 .shop-navigation button {
-    border: 0;
-    padding: 12px 20px;
-    border-radius: 999px;
-    background: #e2e8f0;
-    color: #334155;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 22px;
     font-weight: 800;
     cursor: pointer;
-    transition:
-        transform .15s ease,
-        background .15s ease;
+    background: #e5e7eb;
 }
-
-
-.shop-navigation button:hover {
-    transform: translateY(-2px);
-}
-
 
 .shop-navigation button.active {
     background: #4f46e5;
@@ -92,21 +68,19 @@ body {
    CURRENCY
    ========================================================= */
 
-.shop-currency {
+.currency-bar {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     flex-wrap: wrap;
 }
 
-
-.currency-display {
-    padding: 10px 16px;
-    border-radius: 14px;
+.currency {
     background: white;
-    box-shadow:
-        0 5px 20px rgba(15, 23, 42, .08);
+    border-radius: 14px;
+    padding: 10px 18px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
     font-weight: 800;
 }
 
@@ -118,10 +92,9 @@ body {
 .shop-countdown {
     text-align: center;
     margin-bottom: 25px;
-    color: #64748b;
+    color: #6b7280;
     font-weight: 700;
 }
-
 
 #countdown {
     color: #4f46e5;
@@ -129,7 +102,7 @@ body {
 
 
 /* =========================================================
-   SHOP GRID
+   ITEM GRID
    ========================================================= */
 
 .shop-grid {
@@ -139,8 +112,7 @@ body {
     gap: 18px;
 }
 
-
-@media (max-width: 850px) {
+@media (max-width: 800px) {
 
     .shop-grid {
         grid-template-columns:
@@ -149,8 +121,7 @@ body {
 
 }
 
-
-@media (max-width: 560px) {
+@media (max-width: 520px) {
 
     .shop-grid {
         grid-template-columns: 1fr;
@@ -166,48 +137,26 @@ body {
 .shop-card,
 .ticket-card,
 .studypass-card {
-    position: relative;
     background: white;
-    border-radius: 24px;
+    border-radius: 22px;
     padding: 18px;
     text-align: center;
     box-shadow:
-        0 12px 35px rgba(15, 23, 42, .09);
+        0 8px 30px rgba(0, 0, 0, .08);
+    position: relative;
     overflow: hidden;
 }
-
-
-.shop-card {
-    min-height: 360px;
-}
-
-
-.shop-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-        0 18px 45px rgba(15, 23, 42, .14);
-}
-
-
-.shop-card,
-.ticket-card,
-.studypass-card {
-    transition:
-        transform .18s ease,
-        box-shadow .18s ease;
-}
-
 
 .shop-card h3,
 .ticket-card h3,
 .studypass-card h3 {
-    margin: 10px 0 5px;
+    margin: 10px 0 4px;
+    font-size: 21px;
 }
-
 
 .item-type {
     margin: 0;
-    color: #64748b;
+    color: #777;
     font-size: 14px;
 }
 
@@ -220,39 +169,34 @@ body {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
-    text-transform: uppercase;
+    margin-bottom: 8px;
 }
 
-
-.rarity-common {
-    background: #e2e8f0;
-    color: #475569;
+.rarity-common .rarity {
+    background: #e5e7eb;
+    color: #374151;
 }
 
-
-.rarity-rare {
+.rarity-rare .rarity {
     background: #dbeafe;
     color: #2563eb;
 }
 
-
-.rarity-epic {
-    background: #f3e8ff;
-    color: #9333ea;
+.rarity-epic .rarity {
+    background: #ede9fe;
+    color: #7c3aed;
 }
 
-
-.rarity-mythic {
+.rarity-mythic .rarity {
     background: #ffe4e6;
     color: #e11d48;
 }
 
-
-.rarity-legendary {
+.rarity-legendary .rarity {
     background: #fef3c7;
-    color: #b45309;
+    color: #d97706;
 }
 
 
@@ -261,99 +205,206 @@ body {
    ========================================================= */
 
 .item-preview {
-    height: 185px;
+    height: 190px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     position: relative;
 }
 
+.studypass-preview {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.goober {
+.ticket-item-preview {
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    width: 130px;
-    height: 130px;
-    flex-shrink: 0;
-}
-
-
-.goober-body {
-    position: absolute;
-    left: 15px;
-    top: 20px;
-    width: 100px;
-    height: 90px;
-    border-radius: 46% 54% 48% 52%;
-    box-shadow:
-        inset 0 -9px 0 rgba(0,0,0,.12),
-        0 8px 18px rgba(15,23,42,.18);
-    z-index: 20;
-}
-
-
-.goober-face {
-    position: absolute;
-    inset: 0;
-    z-index: 40;
-    pointer-events: none;
-}
-
-
-.goober-eye {
-    position: absolute;
-    width: 13px;
-    height: 18px;
-    background: #111827;
-    border-radius: 50%;
-    top: 54px;
-}
-
-
-.goober-eye-left {
-    left: 46px;
-}
-
-
-.goober-eye-right {
-    left: 72px;
-}
-
-
-.goober-mouth {
-    position: absolute;
-    left: 61px;
-    top: 78px;
-    width: 17px;
-    height: 10px;
-    border-bottom: 4px solid #111827;
-    border-radius: 0 0 50% 50%;
-}
-
-
-.goober-shadow {
-    position: absolute;
-    left: 22px;
-    bottom: 7px;
-    width: 88px;
-    height: 14px;
-    border-radius: 50%;
-    background: rgba(15,23,42,.12);
-    z-index: 1;
 }
 
 
 /* =========================================================
-   COMMON DESIGN DETAILS
+   GOOBER BASE
    ========================================================= */
 
-.goober-part {
+.goober {
+    width: 140px;
+    height: 150px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.goober-body {
     position: absolute;
+    width: 108px;
+    height: 105px;
+    left: 16px;
+    top: 27px;
+    border-radius: 45% 45% 42% 42%;
+    z-index: 3;
+    box-shadow:
+        inset 0 -9px 0 rgba(0, 0, 0, .08);
+}
+
+.goober-face {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
     pointer-events: none;
 }
 
+.goober-eye {
+    position: absolute;
+    width: 17px;
+    height: 21px;
+    border-radius: 50%;
+    background: #111827;
+    top: 61px;
+    z-index: 9;
+}
 
-.hidden-face-eye {
-    display: none;
+.eye-left {
+    left: 43px;
+}
+
+.eye-right {
+    left: 80px;
+}
+
+.goober-mouth {
+    position: absolute;
+    width: 28px;
+    height: 14px;
+    border-bottom: 4px solid #111827;
+    border-radius: 50%;
+    left: 56px;
+    top: 91px;
+    z-index: 9;
+}
+
+.goober-feet {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+
+.goober-foot {
+    position: absolute;
+    width: 28px;
+    height: 13px;
+    background: #3f2930;
+    border-radius: 50%;
+    top: 128px;
+}
+
+.foot-left {
+    left: 25px;
+}
+
+.foot-right {
+    right: 25px;
+}
+
+
+/* =========================================================
+   BASIC BODY COLOURS
+   ========================================================= */
+
+.green {
+    background: #65a30d;
+}
+
+.blue {
+    background: #60a5fa;
+}
+
+.stone {
+    background: #78716c;
+}
+
+.pink {
+    background: #f472b6;
+}
+
+.purple {
+    background: #a78bfa;
+}
+
+.mint {
+    background: #34d399;
+}
+
+.yellow {
+    background: #fbbf24;
+}
+
+.coral {
+    background: #fb7185;
+}
+
+.lavender {
+    background: #c084fc;
+}
+
+.red {
+    background: #f43f5e;
+}
+
+.cyan {
+    background: #38bdf8;
+}
+
+.aqua {
+    background: #22d3ee;
+}
+
+.violet {
+    background: #8b5cf6;
+}
+
+.hotpink {
+    background: #ec4899;
+}
+
+.gold {
+    background: #fef08a;
+}
+
+.peach {
+    background: #f0abfc;
+}
+
+.deep-purple {
+    background: #312e81;
+}
+
+.orange {
+    background: #f97316;
+}
+
+.golden {
+    background: #fbbf24;
+}
+
+.galaxy-body {
+    background:
+        radial-gradient(circle at 30% 25%, white 2px, transparent 3px),
+        radial-gradient(circle at 70% 65%, #c4b5fd 2px, transparent 3px),
+        radial-gradient(circle at 60% 30%, #f0abfc 2px, transparent 3px),
+        #312e81;
+}
+
+.study-green {
+    background: #22c55e;
+}
+
+.study-purple {
+    background: #8b5cf6;
 }
 
 
@@ -361,31 +412,26 @@ body {
    LEAFY
    ========================================================= */
 
-.goober-leafy .goober-body {
-    border-radius: 42% 58% 55% 45%;
-}
-
-
 .leafy-leaf {
+    position: absolute;
     width: 35px;
     height: 20px;
-    left: 68px;
-    top: 3px;
-    background: #16a34a;
+    background: #166534;
     border-radius: 100% 0 100% 0;
+    left: 70px;
+    top: 17px;
     transform: rotate(-20deg);
-    z-index: 25;
+    z-index: 7;
 }
 
-
 .leafy-stem {
-    width: 6px;
-    height: 24px;
-    left: 76px;
-    top: 10px;
+    position: absolute;
+    width: 5px;
+    height: 22px;
     background: #166534;
-    transform: rotate(25deg);
-    z-index: 24;
+    left: 69px;
+    top: 18px;
+    z-index: 6;
 }
 
 
@@ -393,34 +439,29 @@ body {
    SQUISH
    ========================================================= */
 
-.goober-squish .goober-body {
-    width: 110px;
-    height: 75px;
-    top: 32px;
-    left: 10px;
-    border-radius: 48%;
+.squishy {
+    height: 82px;
+    top: 40px;
+    border-radius: 50%;
 }
 
-
-.squish-highlight {
-    width: 25px;
+.squish-cheek-left,
+.squish-cheek-right {
+    position: absolute;
+    width: 18px;
     height: 10px;
-    left: 30px;
-    top: 45px;
+    background: #3b82f6;
     border-radius: 50%;
-    background: rgba(255,255,255,.35);
-    z-index: 30;
+    top: 101px;
+    z-index: 7;
 }
 
+.squish-cheek-left {
+    left: 25px;
+}
 
-.squish-bottom {
-    width: 60px;
-    height: 9px;
-    left: 35px;
-    top: 102px;
-    border-radius: 50%;
-    background: rgba(0,0,0,.08);
-    z-index: 30;
+.squish-cheek-right {
+    right: 25px;
 }
 
 
@@ -428,31 +469,30 @@ body {
    PEBBLE
    ========================================================= */
 
-.goober-pebble .goober-body {
-    border-radius: 45% 55% 52% 48%;
-}
-
-
-.pebble-crack {
-    left: 48px;
-    top: 39px;
-    width: 42px;
-    height: 34px;
-    border-left: 3px solid rgba(255,255,255,.28);
-    border-bottom: 3px solid rgba(255,255,255,.28);
-    transform: rotate(15deg);
-    z-index: 30;
-}
-
-
-.pebble-speck {
-    width: 7px;
-    height: 7px;
+.pebble-mark-one,
+.pebble-mark-two,
+.pebble-mark-three {
+    position: absolute;
+    width: 9px;
+    height: 6px;
+    background: #57534e;
     border-radius: 50%;
-    background: rgba(255,255,255,.3);
-    left: 91px;
-    top: 75px;
-    z-index: 30;
+    z-index: 6;
+}
+
+.pebble-mark-one {
+    left: 34px;
+    top: 58px;
+}
+
+.pebble-mark-two {
+    left: 92px;
+    top: 45px;
+}
+
+.pebble-mark-three {
+    left: 75px;
+    top: 112px;
 }
 
 
@@ -460,30 +500,34 @@ body {
    BUTTON
    ========================================================= */
 
-.goober-button .goober-body {
+.button-top {
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    background: #be185d;
     border-radius: 50%;
+    left: 55px;
+    top: 15px;
+    z-index: 7;
 }
 
-
-.button-seam {
-    width: 92px;
-    height: 92px;
-    left: 19px;
-    top: 19px;
-    border: 3px dashed rgba(255,255,255,.35);
+.button-dot-left,
+.button-dot-right {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #831843;
     border-radius: 50%;
-    z-index: 30;
+    top: 67px;
+    z-index: 10;
 }
 
+.button-dot-left {
+    left: 47px;
+}
 
-.button-thread {
-    width: 22px;
-    height: 22px;
-    left: 54px;
-    top: 49px;
-    border: 3px solid rgba(255,255,255,.6);
-    border-radius: 50%;
-    z-index: 31;
+.button-dot-right {
+    left: 86px;
 }
 
 
@@ -493,79 +537,55 @@ body {
 
 .horn-left,
 .horn-right {
-    width: 25px;
-    height: 38px;
-    top: 2px;
-    background: #f1f5f9;
-    border-radius: 70% 30% 50% 50%;
-    z-index: 10;
+    position: absolute;
+    width: 22px;
+    height: 35px;
+    background: #6d28d9;
+    z-index: 1;
 }
-
 
 .horn-left {
-    left: 25px;
+    left: 20px;
+    top: 7px;
     transform: rotate(-25deg);
+    border-radius: 70% 20% 20% 20%;
 }
-
 
 .horn-right {
-    right: 25px;
+    right: 20px;
+    top: 7px;
     transform: rotate(25deg);
-}
-
-
-.horn-glow {
-    width: 70px;
-    height: 25px;
-    left: 30px;
-    top: 5px;
-    background: rgba(167,139,250,.28);
-    filter: blur(9px);
-    z-index: 5;
+    border-radius: 20% 70% 20% 20%;
 }
 
 
 /* =========================================================
-   SHELLBY
+   SHELBY
    ========================================================= */
 
-.shell {
-    width: 65px;
-    height: 75px;
-    left: 35px;
-    top: 26px;
-    border-radius: 50%;
-    background:
-        repeating-radial-gradient(
-            circle,
-            #a7f3d0 0 7px,
-            #059669 8px 10px
-        );
-    opacity: .75;
-    z-index: 8;
-    transform: rotate(-20deg);
-}
-
-
-.shell-line {
-    width: 65px;
-    height: 3px;
-    left: 35px;
-    top: 60px;
-    background: rgba(4,120,87,.6);
-    transform: rotate(-20deg);
-    z-index: 9;
-}
-
-
-.shell-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+.shelby-shell {
+    position: absolute;
+    width: 112px;
+    height: 105px;
+    left: 14px;
+    top: 28px;
     background: #065f46;
-    left: 62px;
-    top: 50px;
-    z-index: 10;
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow:
+        inset 0 0 0 7px #10b981;
+}
+
+.shell-highlight {
+    position: absolute;
+    width: 50px;
+    height: 35px;
+    background: #6ee7b7;
+    border-radius: 50%;
+    left: 45px;
+    top: 47px;
+    transform: rotate(-20deg);
+    z-index: 4;
 }
 
 
@@ -573,44 +593,21 @@ body {
    TALLBOI
    ========================================================= */
 
-.goober-tallboi .goober-body {
-    width: 75px;
-    height: 120px;
-    left: 28px;
-    top: 8px;
-    border-radius: 45%;
+.tall {
+    height: 125px;
+    top: 10px;
+    border-radius: 45% 45% 35% 35%;
 }
 
-
-.tall-hat {
-    width: 70px;
-    height: 15px;
-    left: 30px;
-    top: 2px;
-    border-radius: 50%;
+.tallboi-hat {
+    position: absolute;
+    width: 62px;
+    height: 25px;
     background: #92400e;
-    z-index: 24;
-}
-
-
-.tall-band {
-    width: 75px;
-    height: 10px;
-    left: 28px;
-    top: 30px;
-    background: #92400e;
-    z-index: 25;
-}
-
-
-.tall-button {
-    width: 12px;
-    height: 12px;
-    left: 59px;
-    top: 82px;
-    border-radius: 50%;
-    background: #fef3c7;
-    z-index: 30;
+    left: 39px;
+    top: 3px;
+    border-radius: 8px 8px 3px 3px;
+    z-index: 7;
 }
 
 
@@ -618,126 +615,73 @@ body {
    FOUR EYES
    ========================================================= */
 
-.four-eye-face {
-    z-index: 45;
+.extra-eye {
+    top: 83px;
 }
 
-
-.four-eye-one,
-.four-eye-two,
-.four-eye-three,
-.four-eye-four {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #111827;
-    z-index: 46;
+.extra-one {
+    left: 43px;
 }
 
-
-.four-eye-one {
-    left: 41px;
-    top: 47px;
+.extra-two {
+    left: 80px;
 }
 
-
-.four-eye-two {
-    left: 76px;
-    top: 47px;
-}
-
-
-.four-eye-three {
-    left: 48px;
-    top: 70px;
-}
-
-
-.four-eye-four {
-    left: 69px;
-    top: 70px;
-}
-
-
-.four-brow-left,
-.four-brow-right {
-    width: 24px;
-    height: 4px;
-    background: #111827;
-    border-radius: 5px;
-    z-index: 47;
-}
-
-
-.four-brow-left {
-    left: 37px;
-    top: 40px;
-    transform: rotate(-10deg);
-}
-
-
-.four-brow-right {
-    left: 72px;
-    top: 40px;
-    transform: rotate(10deg);
+.four-eyes-brow {
+    position: absolute;
+    width: 72px;
+    height: 10px;
+    border-top: 4px solid #7f1d1d;
+    left: 35px;
+    top: 48px;
+    z-index: 9;
 }
 
 
 /* =========================================================
-   MUSHROOM
+   MOTHBALL
    ========================================================= */
 
-.mushroom-stem {
+.moth-wing-left,
+.moth-wing-right {
     position: absolute;
-    width: 55px;
-    height: 65px;
-    left: 38px;
-    top: 52px;
-    background: #fef3c7;
-    border-radius: 30% 30% 45% 45%;
-    z-index: 12;
+    width: 50px;
+    height: 75px;
+    background: #a855f7;
+    opacity: .8;
+    z-index: 1;
 }
 
+.moth-wing-left {
+    left: -2px;
+    top: 43px;
+    border-radius: 80% 20% 80% 20%;
+}
 
-.mushroom-cap {
-    width: 110px;
-    height: 62px;
-    left: 10px;
+.moth-wing-right {
+    right: -2px;
+    top: 43px;
+    border-radius: 20% 80% 20% 80%;
+}
+
+.moth-antenna-left,
+.moth-antenna-right {
+    position: absolute;
+    width: 5px;
+    height: 30px;
+    background: #581c87;
     top: 7px;
-    border-radius: 55% 55% 35% 35%;
-    background: #dc2626;
-    z-index: 15;
+    z-index: 6;
 }
 
-
-.mushroom-spots {
-    width: 100px;
-    height: 45px;
-    left: 15px;
-    top: 12px;
-    background:
-        radial-gradient(
-            circle at 25% 40%,
-            white 0 7px,
-            transparent 8px
-        ),
-        radial-gradient(
-            circle at 55% 25%,
-            white 0 6px,
-            transparent 7px
-        ),
-        radial-gradient(
-            circle at 78% 48%,
-            white 0 8px,
-            transparent 9px
-        );
-    z-index: 16;
+.moth-antenna-left {
+    left: 52px;
+    transform: rotate(-25deg);
 }
 
-
-.mushroom-face {
-    z-index: 50;
+.moth-antenna-right {
+    left: 83px;
+    transform: rotate(25deg);
 }
 
 
@@ -745,48 +689,38 @@ body {
    SPIKE
    ========================================================= */
 
-.spike-top,
-.spike-left,
-.spike-right,
-.spike-lower {
-    background: #be123c;
-    z-index: 12;
-}
-
-
-.spike-top {
-    width: 26px;
-    height: 42px;
-    left: 52px;
-    top: 0;
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-
-
-.spike-left {
-    width: 32px;
-    height: 25px;
-    left: 5px;
-    top: 52px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
-}
-
-
-.spike-right {
-    width: 32px;
-    height: 25px;
-    right: 5px;
-    top: 52px;
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-}
-
-
-.spike-lower {
-    width: 25px;
+.spike-one,
+.spike-two,
+.spike-three,
+.spike-four {
+    position: absolute;
+    width: 20px;
     height: 30px;
-    left: 53px;
-    bottom: 8px;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    background: #be123c;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    z-index: 4;
+}
+
+.spike-one {
+    left: 28px;
+    top: 14px;
+    transform: rotate(-25deg);
+}
+
+.spike-two {
+    left: 50px;
+    top: 4px;
+}
+
+.spike-three {
+    left: 72px;
+    top: 4px;
+}
+
+.spike-four {
+    left: 93px;
+    top: 14px;
+    transform: rotate(25deg);
 }
 
 
@@ -794,27 +728,28 @@ body {
    ORBIT
    ========================================================= */
 
-.orbit-ring {
-    width: 130px;
-    height: 55px;
-    left: 0;
-    top: 38px;
-    border: 5px solid #7dd3fc;
+.orbit-ring,
+.study-orbit-ring {
+    position: absolute;
+    width: 145px;
+    height: 48px;
+    border: 5px solid #0284c7;
     border-radius: 50%;
+    left: -3px;
+    top: 55px;
     transform: rotate(-20deg);
-    z-index: 35;
+    z-index: 6;
 }
 
-
 .orbit-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
+    position: absolute;
+    width: 13px;
+    height: 13px;
     background: white;
-    left: 103px;
-    top: 30px;
-    box-shadow: 0 0 10px white;
-    z-index: 36;
+    border-radius: 50%;
+    left: 113px;
+    top: 45px;
+    z-index: 7;
 }
 
 
@@ -822,26 +757,39 @@ body {
    BUBBLE
    ========================================================= */
 
-.bubble-highlight {
-    width: 27px;
-    height: 18px;
-    left: 34px;
-    top: 37px;
+.bubble-small-one,
+.bubble-small-two {
+    position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,.55);
-    transform: rotate(-20deg);
-    z-index: 30;
+    background: rgba(255,255,255,.5);
+    z-index: 7;
 }
 
+.bubble-small-one {
+    width: 22px;
+    height: 22px;
+    left: 13px;
+    top: 34px;
+}
 
-.bubble-small {
-    width: 24px;
-    height: 24px;
-    right: 8px;
-    top: 16px;
-    border: 4px solid rgba(255,255,255,.55);
+.bubble-small-two {
+    width: 13px;
+    height: 13px;
+    right: 15px;
+    top: 20px;
+}
+
+.bubble-shine {
+    position: absolute;
+    width: 20px;
+    height: 8px;
+    background: white;
+    opacity: .6;
     border-radius: 50%;
-    z-index: 30;
+    left: 35px;
+    top: 45px;
+    transform: rotate(-30deg);
+    z-index: 7;
 }
 
 
@@ -850,48 +798,51 @@ body {
    ========================================================= */
 
 .captain-cape {
-    width: 112px;
-    height: 90px;
-    left: 9px;
+    position: absolute;
+    width: 100px;
+    height: 110px;
+    left: 20px;
     top: 34px;
-    background:
-        linear-gradient(
-            135deg,
-            #4c1d95,
-            #7c3aed
-        );
-    clip-path:
-        polygon(
-            12% 0,
-            88% 0,
-            100% 100%,
-            50% 75%,
-            0 100%
-        );
-    z-index: 5;
+    background: #dc2626;
+    clip-path: polygon(
+        10% 0,
+        90% 0,
+        100% 100%,
+        50% 82%,
+        0 100%
+    );
+    z-index: 1;
 }
 
-
-.captain-cape-clasp {
-    width: 15px;
-    height: 15px;
-    left: 57px;
-    top: 34px;
+.captain-badge {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: #facc15;
     border-radius: 50%;
-    background: #fbbf24;
-    border: 3px solid #92400e;
-    z-index: 30;
+    left: 56px;
+    top: 75px;
+    z-index: 10;
 }
 
+.captain-badge::after {
+    content: "S";
+    position: absolute;
+    left: 9px;
+    top: 4px;
+    font-weight: 900;
+    color: #7f1d1d;
+}
 
-.captain-stripe {
-    width: 80px;
-    height: 7px;
-    left: 25px;
-    top: 74px;
-    background: #c4b5fd;
-    transform: rotate(-5deg);
-    z-index: 25;
+.captain-hat {
+    position: absolute;
+    width: 64px;
+    height: 18px;
+    background: #1e3a8a;
+    left: 38px;
+    top: 17px;
+    border-radius: 10px 10px 3px 3px;
+    z-index: 7;
 }
 
 
@@ -900,37 +851,26 @@ body {
    ========================================================= */
 
 .tailspin-tail {
-    width: 80px;
-    height: 38px;
-    left: 64px;
-    top: 66px;
-    border: 10px solid #be185d;
-    border-left: 0;
-    border-radius: 0 60% 60% 0;
-    transform: rotate(-15deg);
-    z-index: 10;
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    border: 12px solid #be185d;
+    border-left-color: transparent;
+    border-radius: 50%;
+    right: -8px;
+    top: 70px;
+    z-index: 1;
 }
-
 
 .tailspin-tip {
-    width: 15px;
-    height: 15px;
-    left: 121px;
-    top: 46px;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #be185d;
     border-radius: 50%;
-    background: #f9a8d4;
-    z-index: 11;
-}
-
-
-.tailspin-motion {
-    width: 30px;
-    height: 4px;
-    left: 98px;
-    top: 42px;
-    background: #fbcfe8;
-    transform: rotate(-25deg);
-    z-index: 8;
+    right: -2px;
+    top: 48px;
+    z-index: 2;
 }
 
 
@@ -939,35 +879,25 @@ body {
    ========================================================= */
 
 .holy-halo {
-    width: 76px;
-    height: 26px;
-    left: 27px;
-    top: 0;
-    border: 6px solid #facc15;
+    position: absolute;
+    width: 82px;
+    height: 24px;
+    border: 6px solid #f59e0b;
     border-radius: 50%;
-    box-shadow:
-        0 0 15px rgba(250,204,21,.75);
-    z-index: 35;
+    left: 29px;
+    top: 3px;
+    z-index: 7;
 }
-
 
 .holy-rays {
-    width: 100px;
-    height: 100px;
-    left: 15px;
-    top: 15px;
-    border: 2px dashed rgba(250,204,21,.55);
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 10px;
+    top: 20px;
+    border: 3px dashed #f59e0b;
     border-radius: 50%;
-    z-index: 3;
-}
-
-
-.holy-star {
-    color: #facc15;
-    font-size: 22px;
-    left: 56px;
-    top: 24px;
-    z-index: 36;
+    z-index: 1;
 }
 
 
@@ -975,39 +905,45 @@ body {
    WINGNUT
    ========================================================= */
 
-.wing-left,
-.wing-right {
-    width: 48px;
+.wingnut-left,
+.wingnut-right {
+    position: absolute;
+    width: 52px;
     height: 70px;
-    top: 38px;
-    background: #f5d0fe;
-    border: 4px solid #c026d3;
-    z-index: 8;
+    background: #d946ef;
+    z-index: 1;
 }
 
-
-.wing-left {
-    left: -3px;
-    border-radius: 70% 30% 70% 30%;
-    transform: rotate(15deg);
+.wingnut-left {
+    left: -5px;
+    top: 52px;
+    border-radius: 100% 0 100% 0;
+    transform: rotate(-20deg);
 }
 
-
-.wing-right {
-    right: -3px;
-    border-radius: 30% 70% 30% 70%;
-    transform: rotate(-15deg);
+.wingnut-right {
+    right: -5px;
+    top: 52px;
+    border-radius: 0 100% 0 100%;
+    transform: rotate(20deg);
 }
 
-
-.wing-pattern {
-    width: 70px;
-    height: 4px;
-    left: 30px;
-    top: 68px;
-    background: rgba(192,38,211,.5);
-    transform: rotate(35deg);
-    z-index: 9;
+.wingnut-nut {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    background: #a21caf;
+    left: 53px;
+    top: 12px;
+    clip-path: polygon(
+        25% 0,
+        75% 0,
+        100% 50%,
+        75% 100%,
+        25% 100%,
+        0 50%
+    );
+    z-index: 7;
 }
 
 
@@ -1016,46 +952,22 @@ body {
    ========================================================= */
 
 .cosmo-stars {
+    position: absolute;
+    inset: 25px;
     color: white;
-    font-size: 17px;
-    left: 25px;
-    top: 25px;
-    z-index: 30;
-    letter-spacing: 13px;
+    font-size: 20px;
+    z-index: 7;
 }
-
-
-.cosmo-ring {
-    width: 130px;
-    height: 48px;
-    left: 0;
-    top: 44px;
-    border: 3px solid #c4b5fd;
-    border-radius: 50%;
-    transform: rotate(25deg);
-    z-index: 35;
-}
-
 
 .cosmo-moon {
-    width: 24px;
-    height: 24px;
+    position: absolute;
+    width: 27px;
+    height: 27px;
     border-radius: 50%;
-    background: #fef3c7;
-    left: 102px;
-    top: 20px;
-    z-index: 32;
-}
-
-
-.cosmo-spark {
-    width: 10px;
-    height: 10px;
-    background: #e0e7ff;
-    transform: rotate(45deg);
-    left: 100px;
-    top: 91px;
-    z-index: 32;
+    background: #fde68a;
+    right: 15px;
+    top: 38px;
+    z-index: 7;
 }
 
 
@@ -1063,184 +975,107 @@ body {
    THE GOOBER
    ========================================================= */
 
-.goober-antenna {
-    width: 4px;
-    height: 35px;
-    left: 63px;
-    top: -3px;
-    background: #fb923c;
-    z-index: 25;
-}
-
-
-.goober-antenna::after {
-    content: "";
+.goober-big-smile {
     position: absolute;
-    width: 13px;
-    height: 13px;
+    width: 48px;
+    height: 25px;
+    border-bottom: 7px solid #7c2d12;
     border-radius: 50%;
-    background: #f97316;
-    left: -4px;
-    top: -8px;
+    left: 46px;
+    top: 88px;
+    z-index: 10;
 }
 
-
-.goober-tie {
-    width: 23px;
-    height: 32px;
-    left: 54px;
-    top: 94px;
-    background: #f8fafc;
+.goober-tuft {
+    position: absolute;
+    width: 40px;
+    height: 30px;
+    background: #ea580c;
+    left: 50px;
+    top: 7px;
     clip-path: polygon(
-        50% 0,
-        100% 30%,
-        65% 100%,
-        50% 80%,
-        35% 100%,
-        0 30%
+        0 100%,
+        20% 0,
+        40% 60%,
+        65% 0,
+        80% 60%,
+        100% 10%,
+        100% 100%
     );
-    z-index: 35;
+    z-index: 7;
 }
 
-
-.goober-badge {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #fbbf24;
-    border: 3px solid #78350f;
-    left: 88px;
-    top: 70px;
-    z-index: 35;
-}
-
-
-.goober-shine {
-    width: 22px;
-    height: 9px;
-    left: 31px;
+.goober-star {
+    position: absolute;
+    color: #fef08a;
+    font-size: 26px;
+    left: 58px;
     top: 42px;
+    z-index: 9;
+}
+
+.golden-shine {
+    position: absolute;
+    width: 30px;
+    height: 60px;
     background: rgba(255,255,255,.4);
     border-radius: 50%;
-    transform: rotate(-20deg);
-    z-index: 31;
+    left: 28px;
+    top: 40px;
+    transform: rotate(25deg);
+    z-index: 7;
 }
 
-
-/* =========================================================
-   GOLDEN GOOBER
-   ========================================================= */
-
 .golden-crown {
-    width: 60px;
-    height: 28px;
-    left: 35px;
-    top: 0;
-    background: #facc15;
+    position: absolute;
+    width: 52px;
+    height: 30px;
+    background: #f59e0b;
+    left: 44px;
+    top: 4px;
     clip-path: polygon(
         0 100%,
         10% 15%,
-        38% 55%,
+        35% 60%,
         50% 0,
-        63% 55%,
+        65% 60%,
         90% 15%,
         100% 100%
     );
-    z-index: 35;
-}
-
-
-.golden-jewel {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #ef4444;
-    left: 60px;
-    top: 15px;
-    z-index: 36;
-}
-
-
-.golden-shine {
-    width: 25px;
-    height: 70px;
-    left: 30px;
-    top: 25px;
-    background: rgba(255,255,255,.28);
-    transform: rotate(25deg);
-    border-radius: 50%;
-    z-index: 30;
-}
-
-
-.golden-stars {
-    color: #fef3c7;
-    left: 95px;
-    top: 75px;
-    font-size: 18px;
-    z-index: 35;
+    z-index: 7;
 }
 
 
 /* =========================================================
-   CLOCKWORK
+   GALAXY
    ========================================================= */
 
-.clock-ring {
-    width: 88px;
-    height: 88px;
-    left: 21px;
-    top: 21px;
-    border: 6px solid #334155;
+.galaxy-stars {
+    position: absolute;
+    inset: 20px;
+    color: white;
+    font-size: 24px;
+    z-index: 7;
+}
+
+.galaxy-ring {
+    position: absolute;
+    width: 150px;
+    height: 55px;
+    border: 4px solid #c4b5fd;
     border-radius: 50%;
-    z-index: 30;
+    left: -5px;
+    top: 55px;
+    transform: rotate(25deg);
+    z-index: 6;
 }
 
-
-.clock-hand-one,
-.clock-hand-two {
-    background: #1e293b;
-    transform-origin: left center;
-    left: 65px;
-    top: 65px;
-    z-index: 35;
-}
-
-
-.clock-hand-one {
-    width: 28px;
-    height: 5px;
-    transform: rotate(-25deg);
-}
-
-
-.clock-hand-two {
-    width: 22px;
-    height: 4px;
-    transform: rotate(75deg);
-}
-
-
-.clock-bolt-left,
-.clock-bolt-right {
-    width: 13px;
-    height: 13px;
+.galaxy-glow {
+    position: absolute;
+    inset: 4px;
     border-radius: 50%;
-    background: #64748b;
-    border: 2px solid #1e293b;
-    z-index: 31;
-}
-
-
-.clock-bolt-left {
-    left: 10px;
-    top: 58px;
-}
-
-
-.clock-bolt-right {
-    right: 10px;
-    top: 58px;
+    box-shadow: 0 0 30px #8b5cf6;
+    z-index: 1;
 }
 
 
@@ -1248,48 +1083,36 @@ body {
    STUDY SPROUT
    ========================================================= */
 
-.goober-study-sprout .goober-body {
-    background:
-        linear-gradient(
-            145deg,
-            #22c55e,
-            #15803d
-        ) !important;
-    border-radius: 48% 52% 55% 45%;
+.study-book {
+    position: absolute;
+    width: 54px;
+    height: 38px;
+    background: #f8fafc;
+    left: 43px;
+    top: 104px;
+    border-radius: 4px;
+    z-index: 10;
+    box-shadow: 0 0 0 3px #166534;
 }
 
+.study-leaf-left,
+.study-leaf-right {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    background: #166534;
+    top: 14px;
+    z-index: 7;
+}
 
-.study-sprout-leaf {
-    width: 43px;
-    height: 24px;
-    left: 69px;
-    top: 0;
-    background: #86efac;
+.study-leaf-left {
+    left: 27px;
     border-radius: 100% 0 100% 0;
-    transform: rotate(-35deg);
-    z-index: 30;
 }
 
-
-.study-sprout-pencil {
-    width: 12px;
-    height: 70px;
-    left: 105px;
-    top: 37px;
-    background: #facc15;
-    transform: rotate(22deg);
-    z-index: 34;
-}
-
-
-.study-sprout-mark {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #dc2626;
-    left: 104px;
-    top: 39px;
-    z-index: 35;
+.study-leaf-right {
+    right: 27px;
+    border-radius: 0 100% 0 100%;
 }
 
 
@@ -1297,37 +1120,13 @@ body {
    STUDY ORBIT
    ========================================================= */
 
-.study-orbit-ring {
-    width: 135px;
-    height: 60px;
-    left: -2px;
-    top: 38px;
-    border: 5px solid #c4b5fd;
-    border-radius: 50%;
-    transform: rotate(-15deg);
-    z-index: 35;
-}
-
-
-.study-orbit-star {
+.study-star {
+    position: absolute;
     color: #fef08a;
-    left: 100px;
+    font-size: 32px;
+    left: 52px;
     top: 25px;
-    font-size: 25px;
-    z-index: 36;
-}
-
-
-.study-orbit-book {
-    width: 35px;
-    height: 25px;
-    left: 48px;
-    top: 94px;
-    background: #f8fafc;
-    border: 3px solid #7c3aed;
-    border-radius: 4px;
-    transform: rotate(-7deg);
-    z-index: 35;
+    z-index: 8;
 }
 
 
@@ -1337,14 +1136,11 @@ body {
 
 .banner-preview {
     width: 180px;
-    height: 105px;
-    border-radius: 18px;
-    box-shadow:
-        0 10px 25px rgba(15,23,42,.15);
+    height: 110px;
+    border-radius: 16px;
 }
 
-
-.banner-sprint-grid {
+.banner-sprintGrid {
     background:
         linear-gradient(
             rgba(255,255,255,.15) 1px,
@@ -1366,27 +1162,16 @@ body {
         auto;
 }
 
-
-.banner-purple-grid {
+.banner-purpleGrid {
     background:
         linear-gradient(
-            rgba(255,255,255,.18) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.18) 1px,
-            transparent 1px
-        ),
-        #8b5cf6;
-    background-size:
-        18px 18px,
-        18px 18px,
-        auto;
+            135deg,
+            #6d28d9,
+            #a78bfa
+        );
 }
 
-
-.banner-neon-blue {
+.banner-neonBlue {
     background:
         linear-gradient(
             135deg,
@@ -1395,58 +1180,29 @@ body {
         );
 }
 
-
-.banner-sunset {
-    background:
-        linear-gradient(
-            135deg,
-            #fb7185,
-            #f97316,
-            #facc15
-        );
-}
-
-
-.banner-cosmic-banner {
+.banner-galaxy {
     background:
         radial-gradient(
-            circle at 25% 30%,
-            white 0 2px,
+            circle at 20% 30%,
+            white 2px,
             transparent 3px
         ),
         radial-gradient(
-            circle at 75% 60%,
-            #c4b5fd 0 2px,
+            circle at 70% 70%,
+            #c4b5fd 2px,
             transparent 3px
         ),
-        linear-gradient(
-            135deg,
-            #111827,
-            #312e81
-        );
+        #1e1b4b;
 }
 
-
-.banner-golden-grid {
+.banner-gold {
     background:
         linear-gradient(
-            rgba(255,255,255,.2) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.2) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
             135deg,
-            #92400e,
-            #f59e0b
+            #f59e0b,
+            #fef3c7,
+            #d97706
         );
-    background-size:
-        18px 18px,
-        18px 18px,
-        auto;
 }
 
 
@@ -1455,79 +1211,38 @@ body {
    ========================================================= */
 
 .title-preview {
-    min-width: 170px;
-    padding: 18px 15px;
-    border-radius: 18px;
-    background: #f8fafc;
-    border: 3px solid #cbd5e1;
-    font-size: 22px;
+    font-size: 23px;
     font-weight: 900;
-    color: #334155;
-}
-
-
-.shop-card.rarity-rare .title-preview {
-    border-color: #60a5fa;
-    color: #2563eb;
-}
-
-
-.shop-card.rarity-epic .title-preview {
-    border-color: #c084fc;
-    color: #9333ea;
-}
-
-
-.shop-card.rarity-mythic .title-preview {
-    border-color: #fb7185;
-    color: #be123c;
-}
-
-
-.shop-card.rarity-legendary .title-preview {
-    border-color: #fbbf24;
-    color: #b45309;
-}
-
-
-/* =========================================================
-   PRICES + BUTTONS
-   ========================================================= */
-
-.shop-price,
-.ticket-price {
-    margin: 12px 0;
-    font-weight: 900;
+    padding: 30px 10px;
     color: #4f46e5;
 }
 
 
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
 .buy-button {
     width: 100%;
-    border: 0;
-    border-radius: 13px;
+    border: none;
+    border-radius: 12px;
     padding: 12px;
+    margin-top: 12px;
     background: #4f46e5;
     color: white;
     font-weight: 900;
     cursor: pointer;
-    transition:
-        transform .15s ease,
-        background .15s ease;
 }
-
 
 .buy-button:hover:not(:disabled) {
-    transform: translateY(-2px);
     background: #4338ca;
+    transform: translateY(-1px);
 }
-
 
 .buy-button:disabled {
     cursor: default;
-    opacity: .8;
+    opacity: .75;
 }
-
 
 .buy-button.owned {
     background: #16a34a;
@@ -1535,159 +1250,28 @@ body {
 
 
 /* =========================================================
-   STUDYPASS
+   PRICES
    ========================================================= */
 
-.studypass-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-    gap: 20px;
-}
-
-
-@media (max-width: 650px) {
-
-    .studypass-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-.studypass-preview {
-    height: 190px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.pass-badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: #312e81;
-    color: white;
-    font-size: 11px;
+.shop-price,
+.ticket-price {
+    margin-top: 12px;
     font-weight: 900;
 }
 
 
 /* =========================================================
-   TICKET SHOP
+   STUDYPASS
    ========================================================= */
 
-.ticket-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-    gap: 18px;
-}
-
-
-@media (max-width: 850px) {
-
-    .ticket-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-}
-
-
-@media (max-width: 560px) {
-
-    .ticket-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-.ticket-item-preview {
-    position: relative;
-    height: 175px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.ticket-item-preview .goober {
-    transform: scale(.8);
-}
-
-
-/* =========================================================
-   EFFECT PREVIEWS
-   ========================================================= */
-
-.preview-effect {
-    position: absolute;
-    inset: 20px;
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-
-.preview-effect.sparkle::before {
-    content: "✦ ✧ ✦";
-    color: #facc15;
-    font-size: 25px;
-}
-
-
-.preview-effect.speed-trail {
-    border-bottom: 5px solid #38bdf8;
-}
-
-
-.preview-effect.lightning::before {
-    content: "⚡";
-    font-size: 40px;
-}
-
-
-.preview-effect.rainbow {
-    border: 7px solid #f472b6;
-    box-shadow:
-        0 0 0 12px #facc15,
-        0 0 0 19px #4ade80;
-}
-
-
-.preview-effect.fire {
-    box-shadow:
-        0 0 25px #f97316;
-}
-
-
-.preview-effect.glitch {
-    border:
-        4px dashed #22d3ee;
-}
-
-
-.preview-effect.shadow {
-    box-shadow:
-        0 0 30px #111827;
-}
-
-
-.preview-effect.crystal {
-    border:
-        4px solid #a5f3fc;
-    box-shadow:
-        0 0 30px #67e8f9;
-}
-
-
-.preview-effect.cosmic-aura {
-    border:
-        3px dotted #c4b5fd;
-    box-shadow:
-        0 0 25px #8b5cf6;
+.pass-badge {
+    display: inline-block;
+    background: #4f46e5;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
 }
 
 
@@ -1706,7 +1290,6 @@ body {
     padding: 20px;
 }
 
-
 .debug-box {
     width: 360px;
     max-width: 100%;
@@ -1717,98 +1300,133 @@ body {
         0 20px 60px rgba(0,0,0,.3);
 }
 
-
 .debug-box h2 {
     margin-top: 0;
 }
 
-
-.debug-box p {
-    color: #64748b;
-}
-
-
 .debug-box select,
 .debug-box input {
     width: 100%;
-    box-sizing: border-box;
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
-    font: inherit;
 }
 
+.debug-box input {
+    box-sizing: border-box;
+}
 
-.debug-box button {
+.debug-apply,
+.debug-close {
     width: 100%;
     padding: 12px;
-    border: 0;
+    border: none;
     border-radius: 10px;
     font-weight: 800;
     cursor: pointer;
 }
-
 
 .debug-apply {
     background: #4f46e5;
     color: white;
 }
 
-
 .debug-close {
-    background: #eee;
-    color: #334155;
     margin-top: 8px;
+    background: #eee;
 }
 
 
 /* =========================================================
-   ANIMATION
+   EFFECT PREVIEWS
    ========================================================= */
 
-.goober {
-    animation:
-        goober-idle 3s ease-in-out infinite;
+.preview-effect {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    pointer-events: none;
 }
 
+.effect-sparkle {
+    box-shadow:
+        0 0 10px #fef08a,
+        35px -25px 0 -5px #fef08a,
+        -35px 20px 0 -5px #fef08a;
+}
 
-@keyframes goober-idle {
+.effect-speed-trail {
+    box-shadow:
+        -45px 20px 0 -15px #60a5fa,
+        -65px 30px 0 -20px #60a5fa;
+}
 
-    0% {
-        transform: translateY(0);
-    }
+.effect-lightning {
+    border: 4px dashed #facc15;
+}
 
-    50% {
-        transform: translateY(-5px);
-    }
+.effect-rainbow {
+    border: 6px solid transparent;
+    background:
+        linear-gradient(white, white) padding-box,
+        linear-gradient(
+            45deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            violet
+        ) border-box;
+}
 
-    100% {
-        transform: translateY(0);
-    }
+.effect-fire {
+    box-shadow:
+        0 0 30px #f97316,
+        0 0 55px #ef4444;
+}
 
+.effect-glitch {
+    border: 4px dashed #ec4899;
+    transform: translateX(5px);
+}
+
+.effect-shadow {
+    box-shadow:
+        0 15px 30px rgba(0,0,0,.6);
+}
+
+.effect-crystal {
+    border: 4px solid #a5f3fc;
+    box-shadow:
+        0 0 30px #67e8f9;
+}
+
+.effect-cosmic-aura {
+    border: 3px dotted #c4b5fd;
+    box-shadow:
+        0 0 30px #8b5cf6;
 }
 
 
 /* =========================================================
-   RARITY CARD DETAILS
+   MOBILE
    ========================================================= */
 
-.shop-card.rarity-rare {
-    border-top: 4px solid #60a5fa;
-}
+@media (max-width: 600px) {
 
+    .shop-header h1 {
+        font-size: 32px;
+    }
 
-.shop-card.rarity-epic {
-    border-top: 4px solid #c084fc;
-}
+    .shop-navigation {
+        flex-direction: column;
+    }
 
+    .shop-navigation button {
+        width: 100%;
+    }
 
-.shop-card.rarity-mythic {
-    border-top: 4px solid #fb7185;
-}
-
-
-.shop-card.rarity-legendary {
-    border-top: 4px solid #fbbf24;
 }
