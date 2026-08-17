@@ -30,29 +30,29 @@
 
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
-    <nav>
+<nav>
 
-        <a href="../index.html">
-            Home
-        </a>
+<a href="../index.html">
+Home
+</a>
 
-        <a href="../study/index.html">
-            📚 Study
-        </a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-        <a href="../sprint/index.html">
-            🏃 Sprint
-        </a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-        <a href="../profile/index.html">
-            👤 Profile
-        </a>
+<a href="../profile/index.html">
+👤 Profile
+</a>
 
-    </nav>
+</nav>
 
 </header>
 
@@ -60,245 +60,174 @@
 <main class="shop-page">
 
 
-    <!-- =========================================
-         HEADER
-    ========================================== -->
+<!-- ==================================================
+     HEADER
+================================================== -->
 
-    <section class="shop-header">
+<section class="shop-header">
 
-        <h1>
-            🛍️ StudySprint Shop
-        </h1>
+<h1>
+🛍️ StudySprint Shop
+</h1>
 
-        <p>
-            Collect characters, banners and effects.
-        </p>
+<p>
+Characters, banners and effects for your profile.
+</p>
 
-    </section>
-
-
-    <!-- =========================================
-         CURRENCY
-    ========================================== -->
-
-    <div class="currency-bar">
-
-        <div class="currency">
-
-            🪙
-
-            <span id="coin-count">
-                0
-            </span>
-
-            Coins
-
-        </div>
+</section>
 
 
-        <div class="currency">
+<!-- ==================================================
+     CURRENCY
+================================================== -->
 
-            🎟️
+<div class="currency-bar">
 
-            <span id="ticket-count">
-                0
-            </span>
+<div class="currency">
 
-            Shop Tickets
+🪙
+<span id="coin-count">0</span>
+Coins
 
-        </div>
-
-    </div>
-
-
-    <!-- =========================================
-         NAVIGATION
-    ========================================== -->
-
-    <div class="shop-navigation">
-
-        <button
-            id="main-shop-button"
-            class="active"
-            type="button"
-        >
-            🪙 Coin Shop
-        </button>
+</div>
 
 
-        <button
-            id="ticket-shop-button"
-            type="button"
-        >
-            🎟️ Ticket Shop
-        </button>
+<div class="currency">
 
-    </div>
+🎟️
+<span id="ticket-count">0</span>
+Shop Tickets
 
+</div>
 
-    <!-- =========================================
-         COUNTDOWN
-    ========================================== -->
-
-    <div class="shop-countdown">
-
-        Next shop refreshes in:
-
-        <strong id="countdown">
-            Loading...
-        </strong>
-
-    </div>
+</div>
 
 
-    <!-- =========================================
-         FORTNIGHTLY SHOP
-    ========================================== -->
+<!-- ==================================================
+     SHOP NAVIGATION
+================================================== -->
 
-    <section
-        id="fortnightly-shop"
-        class="shop-section"
-    >
+<div class="shop-navigation">
 
-        <h2>
-            🪙 Fortnightly Shop
-        </h2>
+<button
+    id="main-shop-button"
+    class="active"
+    type="button"
+>
 
-        <p class="shop-subtitle">
-            New items every two weeks!
-        </p>
+🪙 Coin Shop
 
-        <div
-            id="fortnightly-items"
-            class="shop-grid"
-        ></div>
-
-    </section>
+</button>
 
 
-    <!-- =========================================
-         TICKET SHOP
-    ========================================== -->
+<button
+    id="ticket-shop-button"
+    type="button"
+>
 
-    <section
-        id="ticket-shop"
-        class="shop-section"
-    >
+🎟️ Ticket Shop
 
-        <h2>
-            🎟️ Ticket Shop
-        </h2>
+</button>
 
-        <p class="shop-subtitle">
-            Spend your Shop Tickets on special effects.
-        </p>
+</div>
 
-        <div
-            id="ticket-items"
-            class="ticket-grid"
-        ></div>
 
-    </section>
+<!-- ==================================================
+     COUNTDOWN
+================================================== -->
+
+<div class="shop-countdown">
+
+Next shop refreshes in:
+
+<strong id="countdown">
+Loading...
+</strong>
+
+</div>
+
+
+<!-- ==================================================
+     FORTNIGHTLY SHOP
+================================================== -->
+
+<section
+    id="fortnightly-shop"
+    class="shop-section"
+>
+
+<div class="section-heading">
+
+<h2>
+🪙 Fortnightly Shop
+</h2>
+
+<p>
+6 items rotate every two weeks.
+</p>
+
+</div>
+
+
+<div
+    id="fortnightly-items"
+    class="shop-grid"
+></div>
+
+</section>
+
+
+<!-- ==================================================
+     TICKET SHOP
+================================================== -->
+
+<section
+    id="ticket-shop"
+    class="shop-section"
+>
+
+<div class="section-heading">
+
+<h2>
+🎟️ Ticket Shop
+</h2>
+
+<p>
+Permanent special effects and the Crown.
+</p>
+
+</div>
+
+
+<div
+    id="ticket-items"
+    class="shop-grid"
+></div>
+
+</section>
+
+
+<!-- ==================================================
+     DEBUG BUTTON
+================================================== -->
+
+<button
+    id="debug-button"
+    class="debug-button"
+    type="button"
+>
+
+🛠️ Debug
+
+</button>
 
 
 </main>
 
 
-<!-- =============================================
-     DEBUG BUTTON
-============================================= -->
-
-<div class="debug-area">
-
-    <button
-        id="debug-open"
-        type="button"
-        class="debug-button"
-    >
-        🛠️ Debug
-    </button>
-
-</div>
-
-
-<!-- =============================================
-     DEBUG POPUP
-============================================= -->
-
-<div
-    id="debug-overlay"
-    class="debug-overlay"
->
-
-    <div class="debug-box">
-
-        <h2>
-            🛠️ StudySprint Debug
-        </h2>
-
-        <p>
-            What do you want to change?
-        </p>
-
-
-        <select
-            id="debug-type"
-        >
-
-            <option value="xp">
-                ⭐ XP
-            </option>
-
-            <option value="coins">
-                🪙 Coins
-            </option>
-
-            <option value="tickets">
-                🎟️ Tickets
-            </option>
-
-            <option value="streak">
-                🔥 Streak
-            </option>
-
-            <option value="reset">
-                🗑️ Reset Account
-            </option>
-
-        </select>
-
-
-        <input
-            id="debug-value"
-            type="number"
-            placeholder="Amount"
-        >
-
-
-        <button
-            id="debug-apply"
-            type="button"
-        >
-            Apply
-        </button>
-
-
-        <button
-            id="debug-close"
-            type="button"
-            class="debug-cancel"
-        >
-            Cancel
-        </button>
-
-    </div>
-
-</div>
-
-
 <footer>
 
-    © 2026 StudySprint
+© 2026 StudySprint
 
 </footer>
 
