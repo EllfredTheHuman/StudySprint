@@ -30,29 +30,29 @@
 
 <header>
 
-<div class="logo">
-🚀 StudySprint
-</div>
+    <div class="logo">
+        🚀 StudySprint
+    </div>
 
-<nav>
+    <nav>
 
-<a href="../index.html">
-Home
-</a>
+        <a href="../index.html">
+            Home
+        </a>
 
-<a href="../study/index.html">
-📚 Study
-</a>
+        <a href="../study/index.html">
+            📚 Study
+        </a>
 
-<a href="../sprint/index.html">
-🏃 Sprint
-</a>
+        <a href="../sprint/index.html">
+            🏃 Sprint
+        </a>
 
-<a href="../profile/index.html">
-👤 Profile
-</a>
+        <a href="../profile/index.html">
+            👤 Profile
+        </a>
 
-</nav>
+    </nav>
 
 </header>
 
@@ -60,256 +60,189 @@ Home
 <main class="shop-page">
 
 
-<section class="shop-header">
+    <!-- =========================================
+         HEADER
+    ========================================== -->
 
-<h1>
-🛍️ StudySprint Shop
-</h1>
+    <section class="shop-header">
 
-<p>
-Collect characters, banners and effects!
-</p>
+        <h1>
+            🛍️ StudySprint Shop
+        </h1>
 
-</section>
+        <p>
+            Collect characters, banners and effects.
+        </p>
 
-
-<!-- ==================================================
-     CURRENCY
-================================================== -->
-
-<div class="currency-bar">
-
-<div class="currency">
-
-🪙
-<span id="coin-count">0</span>
-Coins
-
-</div>
+    </section>
 
 
-<div class="currency">
+    <!-- =========================================
+         CURRENCY
+    ========================================== -->
 
-🎟️
-<span id="ticket-count">0</span>
-Shop Tickets
+    <div class="currency-bar">
 
-</div>
+        <div class="currency">
 
-</div>
+            🪙
 
+            <span id="coin-count">
+                0
+            </span>
 
-<!-- ==================================================
-     SHOP NAVIGATION
-================================================== -->
+            Coins
 
-<div class="shop-navigation">
-
-<button
-    id="main-shop-button"
-    class="active"
-    type="button"
->
-
-🪙 Coin Shop
-
-</button>
+        </div>
 
 
-<button
-    id="ticket-shop-button"
-    type="button"
->
+        <div class="currency">
 
-🎟️ Ticket Shop
+            🎟️
 
-</button>
+            <span id="ticket-count">
+                0
+            </span>
 
-</div>
+            Shop Tickets
 
+        </div>
 
-<!-- ==================================================
-     COUNTDOWN
-================================================== -->
-
-<div class="shop-countdown">
-
-Next shop refreshes in:
-
-<strong id="countdown">
-Loading...
-</strong>
-
-</div>
+    </div>
 
 
-<!-- ==================================================
-     FORTNIGHTLY SHOP
-================================================== -->
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
 
-<section
-    id="fortnightly-shop"
-    class="shop-section"
->
+    <div class="shop-navigation">
 
-<h2>
-🪙 Fortnightly Shop
-</h2>
-
-<div
-    id="fortnightly-items"
-    class="shop-grid"
-></div>
-
-</section>
+        <button
+            id="main-shop-button"
+            class="active"
+            type="button"
+        >
+            🪙 Coin Shop
+        </button>
 
 
-<!-- ==================================================
-     TICKET SHOP
-================================================== -->
+        <button
+            id="ticket-shop-button"
+            type="button"
+        >
+            🎟️ Ticket Shop
+        </button>
 
-<section
-    id="ticket-shop"
-    class="shop-section"
->
-
-<h2>
-🎟️ Ticket Shop
-</h2>
-
-<div
-    id="ticket-items"
-    class="ticket-grid"
-></div>
-
-</section>
+    </div>
 
 
-<!-- ==================================================
-     DEBUG BUTTON
-================================================== -->
+    <!-- =========================================
+         COUNTDOWN
+    ========================================== -->
 
-<button
-    id="debug-button"
-    type="button"
-    style="
-        display:block;
-        margin:40px auto 25px;
-        padding:12px 22px;
-        border:none;
-        border-radius:14px;
-        background:#e5e7eb;
-        color:#374151;
-        font-weight:900;
-        font-size:14px;
-        cursor:pointer;
-        transition:.2s;
-    "
->
+    <div class="shop-countdown">
 
-🛠️ Debug
+        Next shop refreshes in:
 
-</button>
+        <strong id="countdown">
+            Loading...
+        </strong>
+
+    </div>
+
+
+    <!-- =========================================
+         FORTNIGHTLY SHOP
+    ========================================== -->
+
+    <section
+        id="fortnightly-shop"
+        class="shop-section"
+    >
+
+        <h2>
+            🪙 Fortnightly Shop
+        </h2>
+
+        <p class="shop-subtitle">
+            New items every two weeks!
+        </p>
+
+        <div
+            id="fortnightly-items"
+            class="shop-grid"
+        ></div>
+
+    </section>
+
+
+    <!-- =========================================
+         TICKET SHOP
+    ========================================== -->
+
+    <section
+        id="ticket-shop"
+        class="shop-section"
+    >
+
+        <h2>
+            🎟️ Ticket Shop
+        </h2>
+
+        <p class="shop-subtitle">
+            Spend your Shop Tickets on special effects.
+        </p>
+
+        <div
+            id="ticket-items"
+            class="ticket-grid"
+        ></div>
+
+    </section>
 
 
 </main>
 
 
-<footer>
+<!-- =============================================
+     DEBUG BUTTON
+============================================= -->
 
-© 2026 StudySprint
+<div class="debug-area">
 
-</footer>
+    <button
+        id="debug-open"
+        type="button"
+        class="debug-button"
+    >
+        🛠️ Debug
+    </button>
 
-
-<script>
-
-/* =========================================================
-   DEBUG MENU
-========================================================= */
-
-function openDebugMenu() {
-
-    /* Prevent duplicate popups */
-
-    const existing =
-        document.getElementById(
-            "debug-overlay"
-        );
-
-    if(existing) {
-
-        existing.remove();
-
-    }
+</div>
 
 
-    const overlay =
-        document.createElement(
-            "div"
-        );
+<!-- =============================================
+     DEBUG POPUP
+============================================= -->
 
-    overlay.id =
-        "debug-overlay";
+<div
+    id="debug-overlay"
+    class="debug-overlay"
+>
 
+    <div class="debug-box">
 
-    overlay.style.cssText = `
-        position:fixed;
-        inset:0;
-        z-index:999999;
-        background:rgba(0,0,0,.55);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-family:Arial,sans-serif;
-    `;
-
-
-    const box =
-        document.createElement(
-            "div"
-        );
-
-
-    box.style.cssText = `
-        width:360px;
-        max-width:90%;
-        background:white;
-        padding:25px;
-        border-radius:22px;
-        box-shadow:0 20px 60px rgba(0,0,0,.3);
-    `;
-
-
-    box.innerHTML = `
-
-        <h2 style="
-            margin-top:0;
-            margin-bottom:8px;
-        ">
+        <h2>
             🛠️ StudySprint Debug
         </h2>
 
-
-        <p style="
-            color:#6b7280;
-            margin-top:0;
-        ">
-            Change your test account.
+        <p>
+            What do you want to change?
         </p>
 
 
         <select
             id="debug-type"
-            style="
-                width:100%;
-                padding:12px;
-                border-radius:10px;
-                border:1px solid #ddd;
-                margin-bottom:12px;
-                box-sizing:border-box;
-                font-size:15px;
-            "
         >
 
             <option value="xp">
@@ -321,7 +254,7 @@ function openDebugMenu() {
             </option>
 
             <option value="tickets">
-                🎟️ Shop Tickets
+                🎟️ Tickets
             </option>
 
             <option value="streak">
@@ -338,34 +271,13 @@ function openDebugMenu() {
         <input
             id="debug-value"
             type="number"
-            min="0"
             placeholder="Amount"
-            style="
-                width:100%;
-                box-sizing:border-box;
-                padding:12px;
-                border-radius:10px;
-                border:1px solid #ddd;
-                margin-bottom:12px;
-                font-size:15px;
-            "
         >
 
 
         <button
             id="debug-apply"
             type="button"
-            style="
-                width:100%;
-                padding:12px;
-                border:none;
-                border-radius:10px;
-                background:#4f46e5;
-                color:white;
-                font-weight:800;
-                cursor:pointer;
-                font-size:15px;
-            "
         >
             Apply
         </button>
@@ -374,301 +286,24 @@ function openDebugMenu() {
         <button
             id="debug-close"
             type="button"
-            style="
-                width:100%;
-                padding:12px;
-                border:none;
-                border-radius:10px;
-                background:#eee;
-                margin-top:8px;
-                font-weight:700;
-                cursor:pointer;
-                font-size:15px;
-            "
+            class="debug-cancel"
         >
             Cancel
         </button>
 
-    `;
+    </div>
 
+</div>
 
-    overlay.appendChild(
-        box
-    );
 
+<footer>
 
-    document.body.appendChild(
-        overlay
-    );
+    © 2026 StudySprint
 
-
-    const type =
-        box.querySelector(
-            "#debug-type"
-        );
-
-
-    const value =
-        box.querySelector(
-            "#debug-value"
-        );
-
-
-    /* =====================================================
-       INPUT VISIBILITY
-    ===================================================== */
-
-    function updateInput() {
-
-        if(
-            type.value ===
-            "reset"
-        ) {
-
-            value.style.display =
-                "none";
-
-        }
-
-        else {
-
-            value.style.display =
-                "block";
-
-        }
-
-    }
-
-
-    type.addEventListener(
-        "change",
-        updateInput
-    );
-
-
-    updateInput();
-
-
-    /* =====================================================
-       CLOSE
-    ===================================================== */
-
-    box.querySelector(
-        "#debug-close"
-    ).onclick = () => {
-
-        overlay.remove();
-
-    };
-
-
-    /* =====================================================
-       APPLY
-    ===================================================== */
-
-    box.querySelector(
-        "#debug-apply"
-    ).onclick = () => {
-
-        const selected =
-            type.value;
-
-
-        /* ================================================
-           RESET ACCOUNT
-        ================================================ */
-
-        if(
-            selected ===
-            "reset"
-        ) {
-
-            const confirmed =
-                confirm(
-                    "⚠️ Reset your entire StudySprint account?\n\n" +
-                    "This will remove your saved XP, coins, " +
-                    "tickets, streak, stats, achievements " +
-                    "and other local account data."
-                );
-
-
-            if(!confirmed) {
-
-                return;
-
-            }
-
-
-            localStorage.clear();
-
-
-            alert(
-                "✅ Account reset!\n\n" +
-                "Reloading StudySprint..."
-            );
-
-
-            location.reload();
-
-
-            return;
-
-        }
-
-
-        /* ================================================
-           NORMAL VALUES
-        ================================================ */
-
-        const amount =
-            Number(
-                value.value
-            );
-
-
-        if(
-            !Number.isFinite(
-                amount
-            ) ||
-            amount < 0
-        ) {
-
-            alert(
-                "Enter a valid number."
-            );
-
-            return;
-
-        }
-
-
-        /* ================================================
-           STORAGE KEYS
-        ================================================ */
-
-        const keys = {
-
-            xp:
-                "xp",
-
-            coins:
-                "coins",
-
-            tickets:
-                "shopTickets",
-
-            streak:
-                "streak"
-
-        };
-
-
-        localStorage.setItem(
-            keys[selected],
-            amount
-        );
-
-
-        alert(
-            `✅ ${selected} set to ${amount}!`
-        );
-
-
-        overlay.remove();
-
-
-        location.reload();
-
-    };
-
-
-    /* =====================================================
-       ESCAPE KEY
-    ===================================================== */
-
-    overlay.addEventListener(
-        "click",
-        event => {
-
-            if(
-                event.target ===
-                overlay
-            ) {
-
-                overlay.remove();
-
-            }
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   DEBUG BUTTON
-========================================================= */
-
-document
-    .getElementById(
-        "debug-button"
-    )
-    .addEventListener(
-        "click",
-        openDebugMenu
-    );
-
-
-/* =========================================================
-   SHOP BUTTONS
-========================================================= */
-
-document
-    .getElementById(
-        "main-shop-button"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            if(
-                typeof openMainShop ===
-                "function"
-            ) {
-
-                openMainShop();
-
-            }
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "ticket-shop-button"
-    )
-    .addEventListener(
-        "click",
-        () => {
-
-            if(
-                typeof openTicketShop ===
-                "function"
-            ) {
-
-                openTicketShop();
-
-            }
-
-        }
-    );
-
-</script>
+</footer>
 
 
 <script src="shop.js"></script>
-
 
 </body>
 
