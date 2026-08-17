@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,31 +28,32 @@
 
 <body>
 
+
 <header>
 
-    <div class="logo">
-        🚀 StudySprint
-    </div>
+<div class="logo">
+🚀 StudySprint
+</div>
 
-    <nav>
+<nav>
 
-        <a href="../index.html">
-            Home
-        </a>
+<a href="../index.html">
+Home
+</a>
 
-        <a href="../study/index.html">
-            📚 Study
-        </a>
+<a href="../study/index.html">
+📚 Study
+</a>
 
-        <a href="../sprint/index.html">
-            🏃 Sprint
-        </a>
+<a href="../sprint/index.html">
+🏃 Sprint
+</a>
 
-        <a href="../profile/index.html">
-            👤 Profile
-        </a>
+<a href="../profile/index.html">
+👤 Profile
+</a>
 
-    </nav>
+</nav>
 
 </header>
 
@@ -59,117 +61,156 @@
 <main class="shop-page">
 
 
-    <section class="shop-header">
+<section class="shop-header">
 
-        <h1>
-            🛍️ StudySprint Shop
-        </h1>
+<h1>
+🛍️ StudySprint Shop
+</h1>
 
-        <p>
-            Characters, banners and effects.
-        </p>
+<p>
+Collect characters, banners and effects!
+</p>
 
-    </section>
-
-
-    <!-- CURRENCY -->
-
-    <div class="currency-bar">
-
-        <div class="currency">
-            🪙
-            <span id="coin-count">0</span>
-            Coins
-        </div>
-
-        <div class="currency">
-            🎟️
-            <span id="ticket-count">0</span>
-            Shop Tickets
-        </div>
-
-    </div>
+</section>
 
 
-    <!-- NAVIGATION -->
+<!-- ==================================================
+     CURRENCY
+================================================== -->
 
-    <div class="shop-navigation">
+<div class="currency-bar">
 
-        <button
-            id="main-shop-button"
-            class="active"
-            type="button"
-        >
-            🪙 Coin Shop
-        </button>
+<div class="currency">
 
-        <button
-            id="ticket-shop-button"
-            type="button"
-        >
-            🎟️ Ticket Shop
-        </button>
+🪙
+<span id="coin-count">0</span>
+Coins
 
-    </div>
+</div>
 
 
-    <!-- COUNTDOWN -->
+<div class="currency">
 
-    <div class="shop-countdown">
+🎟️
+<span id="ticket-count">0</span>
+Shop Tickets
 
-        Next shop refreshes in:
+</div>
 
-        <strong id="countdown">
-            Loading...
-        </strong>
-
-    </div>
+</div>
 
 
-    <!-- FORTNIGHTLY SHOP -->
+<!-- ==================================================
+     SHOP NAVIGATION
+================================================== -->
 
-    <section
-        id="fortnightly-shop"
-        class="shop-section"
-    >
+<div class="shop-navigation">
 
-        <h2>
-            🪙 Fortnightly Shop
-        </h2>
+<button
+    id="main-shop-button"
+    class="active"
+    type="button"
+>
 
-        <p class="shop-description">
-            New characters, banners and common effects every two weeks.
-        </p>
+🪙 Coin Shop
 
-        <div
-            id="fortnightly-items"
-            class="shop-grid"
-        ></div>
-
-    </section>
+</button>
 
 
-    <!-- TICKET SHOP -->
+<button
+    id="ticket-shop-button"
+    type="button"
+>
 
-    <section
-        id="ticket-shop"
-        class="shop-section"
-    >
+🎟️ Ticket Shop
 
-        <h2>
-            🎟️ Ticket Shop
-        </h2>
+</button>
 
-        <p class="shop-description">
-            Special effects that are always available.
-        </p>
+</div>
 
-        <div
-            id="ticket-items"
-            class="shop-grid"
-        ></div>
 
-    </section>
+<!-- ==================================================
+     COUNTDOWN
+================================================== -->
+
+<div class="shop-countdown">
+
+Next shop refreshes in:
+
+<strong id="countdown">
+Loading...
+</strong>
+
+</div>
+
+
+<!-- ==================================================
+     FORTNIGHTLY SHOP
+================================================== -->
+
+<section
+    id="fortnightly-shop"
+    class="shop-section"
+>
+
+<h2>
+🪙 Fortnightly Shop
+</h2>
+
+<div
+    id="fortnightly-items"
+    class="shop-grid"
+></div>
+
+</section>
+
+
+<!-- ==================================================
+     TICKET SHOP
+================================================== -->
+
+<section
+    id="ticket-shop"
+    class="shop-section"
+>
+
+<h2>
+🎟️ Ticket Shop
+</h2>
+
+<div
+    id="ticket-items"
+    class="ticket-grid"
+></div>
+
+</section>
+
+
+<!-- ==================================================
+     DEBUG BUTTON
+================================================== -->
+
+<button
+    id="debug-button"
+    type="button"
+    style="
+        display:block;
+        margin:40px auto 25px;
+        padding:12px 22px;
+        border:none;
+        border-radius:14px;
+        background:#e5e7eb;
+        color:#374151;
+        font-weight:900;
+        font-size:14px;
+        cursor:pointer;
+        transition:.2s;
+    "
+>
+
+🛠️ Debug
+
+</button>
 
 
 </main>
@@ -177,13 +218,483 @@
 
 <footer>
 
-    © 2026 StudySprint
+© 2026 StudySprint
 
 </footer>
 
 
+<script>
+
+/* =========================================================
+   DEBUG MENU
+========================================================= */
+
+function openDebugMenu() {
+
+    /* Prevent duplicate popups */
+
+    const existing =
+        document.getElementById(
+            "debug-overlay"
+        );
+
+    if(existing) {
+
+        existing.remove();
+
+    }
+
+
+    const overlay =
+        document.createElement(
+            "div"
+        );
+
+    overlay.id =
+        "debug-overlay";
+
+
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        z-index:999999;
+        background:rgba(0,0,0,.55);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-family:Arial,sans-serif;
+    `;
+
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.style.cssText = `
+        width:360px;
+        max-width:90%;
+        background:white;
+        padding:25px;
+        border-radius:22px;
+        box-shadow:0 20px 60px rgba(0,0,0,.3);
+    `;
+
+
+    box.innerHTML = `
+
+        <h2 style="
+            margin-top:0;
+            margin-bottom:8px;
+        ">
+            🛠️ StudySprint Debug
+        </h2>
+
+
+        <p style="
+            color:#6b7280;
+            margin-top:0;
+        ">
+            Change your test account.
+        </p>
+
+
+        <select
+            id="debug-type"
+            style="
+                width:100%;
+                padding:12px;
+                border-radius:10px;
+                border:1px solid #ddd;
+                margin-bottom:12px;
+                box-sizing:border-box;
+                font-size:15px;
+            "
+        >
+
+            <option value="xp">
+                ⭐ XP
+            </option>
+
+            <option value="coins">
+                🪙 Coins
+            </option>
+
+            <option value="tickets">
+                🎟️ Shop Tickets
+            </option>
+
+            <option value="streak">
+                🔥 Streak
+            </option>
+
+            <option value="reset">
+                🗑️ Reset Account
+            </option>
+
+        </select>
+
+
+        <input
+            id="debug-value"
+            type="number"
+            min="0"
+            placeholder="Amount"
+            style="
+                width:100%;
+                box-sizing:border-box;
+                padding:12px;
+                border-radius:10px;
+                border:1px solid #ddd;
+                margin-bottom:12px;
+                font-size:15px;
+            "
+        >
+
+
+        <button
+            id="debug-apply"
+            type="button"
+            style="
+                width:100%;
+                padding:12px;
+                border:none;
+                border-radius:10px;
+                background:#4f46e5;
+                color:white;
+                font-weight:800;
+                cursor:pointer;
+                font-size:15px;
+            "
+        >
+            Apply
+        </button>
+
+
+        <button
+            id="debug-close"
+            type="button"
+            style="
+                width:100%;
+                padding:12px;
+                border:none;
+                border-radius:10px;
+                background:#eee;
+                margin-top:8px;
+                font-weight:700;
+                cursor:pointer;
+                font-size:15px;
+            "
+        >
+            Cancel
+        </button>
+
+    `;
+
+
+    overlay.appendChild(
+        box
+    );
+
+
+    document.body.appendChild(
+        overlay
+    );
+
+
+    const type =
+        box.querySelector(
+            "#debug-type"
+        );
+
+
+    const value =
+        box.querySelector(
+            "#debug-value"
+        );
+
+
+    /* =====================================================
+       INPUT VISIBILITY
+    ===================================================== */
+
+    function updateInput() {
+
+        if(
+            type.value ===
+            "reset"
+        ) {
+
+            value.style.display =
+                "none";
+
+        }
+
+        else {
+
+            value.style.display =
+                "block";
+
+        }
+
+    }
+
+
+    type.addEventListener(
+        "change",
+        updateInput
+    );
+
+
+    updateInput();
+
+
+    /* =====================================================
+       CLOSE
+    ===================================================== */
+
+    box.querySelector(
+        "#debug-close"
+    ).onclick = () => {
+
+        overlay.remove();
+
+    };
+
+
+    /* =====================================================
+       APPLY
+    ===================================================== */
+
+    box.querySelector(
+        "#debug-apply"
+    ).onclick = () => {
+
+        const selected =
+            type.value;
+
+
+        /* ================================================
+           RESET ACCOUNT
+        ================================================ */
+
+        if(
+            selected ===
+            "reset"
+        ) {
+
+            const confirmed =
+                confirm(
+                    "⚠️ Reset your entire StudySprint account?\n\n" +
+                    "This will remove your saved XP, coins, " +
+                    "tickets, streak, stats, achievements " +
+                    "and other local account data."
+                );
+
+
+            if(!confirmed) {
+
+                return;
+
+            }
+
+
+            localStorage.clear();
+
+
+            alert(
+                "✅ Account reset!\n\n" +
+                "Reloading StudySprint..."
+            );
+
+
+            location.reload();
+
+
+            return;
+
+        }
+
+
+        /* ================================================
+           NORMAL VALUES
+        ================================================ */
+
+        const amount =
+            Number(
+                value.value
+            );
+
+
+        if(
+            !Number.isFinite(
+                amount
+            ) ||
+            amount < 0
+        ) {
+
+            alert(
+                "Enter a valid number."
+            );
+
+            return;
+
+        }
+
+
+        /* ================================================
+           STORAGE KEYS
+        ================================================ */
+
+        const keys = {
+
+            xp:
+                "xp",
+
+            coins:
+                "coins",
+
+            tickets:
+                "shopTickets",
+
+            streak:
+                "streak"
+
+        };
+
+
+        localStorage.setItem(
+            keys[selected],
+            amount
+        );
+
+
+        alert(
+            `✅ ${selected} set to ${amount}!`
+        );
+
+
+        overlay.remove();
+
+
+        location.reload();
+
+    };
+
+
+    /* =====================================================
+       ESCAPE KEY
+    ===================================================== */
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if(
+                event.target ===
+                overlay
+            ) {
+
+                overlay.remove();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DEBUG BUTTON
+========================================================= */
+
+document
+    .getElementById(
+        "debug-button"
+    )
+    .addEventListener(
+        "click",
+        openDebugMenu
+    );
+
+
+/* =========================================================
+   SHOP BUTTONS
+========================================================= */
+
+document
+    .getElementById(
+        "main-shop-button"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if(
+                typeof openMainShop ===
+                "function"
+            ) {
+
+                openMainShop();
+
+            }
+
+        }
+    );
+
+
+document
+    .getElementById(
+        "ticket-shop-button"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            if(
+                typeof openTicketShop ===
+                "function"
+            ) {
+
+                openTicketShop();
+
+            }
+
+        }
+    );
+
+</script>
+
+
 <script src="shop.js"></script>
+
 
 </body>
 
 </html>
+```
+
+### One important thing
+
+Your existing `shop.js` has the actual shop logic, so this `index.html` **doesn't duplicate all of that code** anymore.
+
+Your folder should now be:
+
+```text
+shop/
+├── index.html
+├── shop.js
+└── shop.css
+```
+
+The **🛠️ Debug** button is at the bottom of the Shop page, and it gives you:
+
+* ⭐ XP
+* 🪙 Coins
+* 🎟️ Shop Tickets
+* 🔥 Streak
+* 🗑️ Reset Account
+
+And **Shop Tickets uses `shopTickets`**, matching your existing shop system.
