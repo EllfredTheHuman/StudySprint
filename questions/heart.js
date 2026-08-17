@@ -133,7 +133,7 @@ correct:0
 },
 
 {
-question:"What can be used to observe cells under a microscope?",
+question:"What can be used to observe cells?",
 answers:[
 "Microscope",
 "Thermometer",
