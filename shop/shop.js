@@ -1,40 +1,45 @@
-```javascript
 /* =========================================================
    STUDYSPRINT SHOP
-   ========================================================= */
-
-/*
-   COIN SHOP ROTATION
-   ------------------
-   4 characters
-   1 banner
-   1 title
-
-   Refresh:
-   Every second Sunday
-   12:00 AM AEST (UTC+10)
-
-   The rotation is deterministic, meaning everyone gets
-   the exact same shop.
-*/
-
-const SHOP_REFRESH_DAYS = 14;
-const CHARACTER_SLOTS = 4;
+   CLEAN SHOP SYSTEM
+========================================================= */
 
 
 /* =========================================================
-   CHARACTERS
-   ========================================================= */
+   SETTINGS
+========================================================= */
 
-const SHOP_CHARACTERS = [
+var SHOP_ITEM_COUNT = 6;
+var SHOP_LENGTH_MS = 14 * 24 * 60 * 60 * 1000;
+
+/*
+   Sunday 10 August 2025
+   12:00 AM AEST
+   = Saturday 9 August 2025
+   2:00 PM UTC
+*/
+
+var SHOP_ANCHOR = Date.UTC(
+    2025,
+    7,
+    9,
+    14,
+    0,
+    0
+);
+
+
+/* =========================================================
+   NORMAL SHOP CHARACTERS
+========================================================= */
+
+var SHOP_CHARACTERS = [
 
     {
         id: "leafy",
         name: "Leafy",
         rarity: "Common",
         price: 250,
-        design: "leafy",
-        colour: "#75b82b"
+        design: "leafy"
     },
 
     {
@@ -42,8 +47,7 @@ const SHOP_CHARACTERS = [
         name: "Squish",
         rarity: "Common",
         price: 275,
-        design: "squish",
-        colour: "#5ba9f7"
+        design: "squish"
     },
 
     {
@@ -51,8 +55,7 @@ const SHOP_CHARACTERS = [
         name: "Pebble",
         rarity: "Common",
         price: 300,
-        design: "pebble",
-        colour: "#817a73"
+        design: "pebble"
     },
 
     {
@@ -60,8 +63,7 @@ const SHOP_CHARACTERS = [
         name: "Button",
         rarity: "Common",
         price: 325,
-        design: "button",
-        colour: "#f47ab4"
+        design: "button"
     },
 
     {
@@ -69,8 +71,7 @@ const SHOP_CHARACTERS = [
         name: "Horns",
         rarity: "Rare",
         price: 400,
-        design: "horns",
-        colour: "#9d83ed"
+        design: "horns"
     },
 
     {
@@ -78,8 +79,7 @@ const SHOP_CHARACTERS = [
         name: "Shellby",
         rarity: "Rare",
         price: 425,
-        design: "shellby",
-        colour: "#39c995"
+        design: "shellby"
     },
 
     {
@@ -87,8 +87,7 @@ const SHOP_CHARACTERS = [
         name: "Tallboi",
         rarity: "Rare",
         price: 450,
-        design: "tallboi",
-        colour: "#f2b93d"
+        design: "tallboi"
     },
 
     {
@@ -96,8 +95,7 @@ const SHOP_CHARACTERS = [
         name: "Four Eyes",
         rarity: "Rare",
         price: 475,
-        design: "four-eyes",
-        colour: "#ed657b"
+        design: "four-eyes"
     },
 
     {
@@ -105,8 +103,7 @@ const SHOP_CHARACTERS = [
         name: "Mothball",
         rarity: "Epic",
         price: 550,
-        design: "mothball",
-        colour: "#ae7be2"
+        design: "mothball"
     },
 
     {
@@ -114,8 +111,7 @@ const SHOP_CHARACTERS = [
         name: "Spike",
         rarity: "Epic",
         price: 575,
-        design: "spike",
-        colour: "#ed405d"
+        design: "spike"
     },
 
     {
@@ -123,8 +119,7 @@ const SHOP_CHARACTERS = [
         name: "Orbit",
         rarity: "Epic",
         price: 600,
-        design: "orbit",
-        colour: "#32b9e8"
+        design: "orbit"
     },
 
     {
@@ -132,17 +127,15 @@ const SHOP_CHARACTERS = [
         name: "Bubble",
         rarity: "Epic",
         price: 625,
-        design: "bubble",
-        colour: "#27c7d4"
+        design: "bubble"
     },
 
     {
-        id: "captain",
+        id: "captain-goob",
         name: "Captain Goob",
         rarity: "Mythic",
         price: 700,
-        design: "captain",
-        colour: "#8056dc"
+        design: "captain"
     },
 
     {
@@ -150,17 +143,15 @@ const SHOP_CHARACTERS = [
         name: "Tailspin",
         rarity: "Mythic",
         price: 725,
-        design: "tailspin",
-        colour: "#dc4792"
+        design: "tailspin"
     },
 
     {
-        id: "holymoly",
+        id: "holy-moly",
         name: "Holy Moly",
         rarity: "Mythic",
         price: 750,
-        design: "holymoly",
-        colour: "#f6dc6d"
+        design: "holy"
     },
 
     {
@@ -168,17 +159,7 @@ const SHOP_CHARACTERS = [
         name: "Wingnut",
         rarity: "Mythic",
         price: 775,
-        design: "wingnut",
-        colour: "#dc8ce5"
-    },
-
-    {
-        id: "jellybean",
-        name: "Jellybean",
-        rarity: "Legendary",
-        price: 850,
-        design: "jellybean",
-        colour: "#f05d76"
+        design: "wingnut"
     },
 
     {
@@ -186,8 +167,7 @@ const SHOP_CHARACTERS = [
         name: "Cosmo",
         rarity: "Legendary",
         price: 950,
-        design: "cosmo",
-        colour: "#373080"
+        design: "cosmo"
     },
 
     {
@@ -195,8 +175,7 @@ const SHOP_CHARACTERS = [
         name: "The Goober",
         rarity: "Legendary",
         price: 1000,
-        design: "the-goober",
-        colour: "#ed722c"
+        design: "the-goober"
     },
 
     {
@@ -204,33 +183,15 @@ const SHOP_CHARACTERS = [
         name: "Golden Goober",
         rarity: "Legendary",
         price: 1100,
-        design: "golden",
-        colour: "#f5bd32"
-    }
-
-];
-
-
-/* =========================================================
-   STUDYPASS CHARACTERS
-   ========================================================= */
-
-const STUDYPASS_CHARACTERS = [
-
-    {
-        id: "study-sprout",
-        name: "Study Sprout",
-        rarity: "Epic",
-        design: "study-sprout",
-        colour: "#28bd63"
+        design: "golden"
     },
 
     {
-        id: "study-orbit",
-        name: "Study Orbit",
+        id: "mushroom",
+        name: "Mushroom",
         rarity: "Legendary",
-        design: "study-orbit",
-        colour: "#8157e8"
+        price: 1150,
+        design: "mushroom"
     }
 
 ];
@@ -238,16 +199,17 @@ const STUDYPASS_CHARACTERS = [
 
 /* =========================================================
    BANNERS
-   ========================================================= */
+========================================================= */
 
-const SHOP_BANNERS = [
+var SHOP_BANNERS = [
 
     {
         id: "sprint-grid",
         name: "Sprint Grid",
         rarity: "Common",
         type: "Banner",
-        price: 100
+        price: 100,
+        design: "sprint-grid"
     },
 
     {
@@ -255,7 +217,8 @@ const SHOP_BANNERS = [
         name: "Purple Grid",
         rarity: "Common",
         type: "Banner",
-        price: 125
+        price: 125,
+        design: "purple-grid"
     },
 
     {
@@ -263,31 +226,35 @@ const SHOP_BANNERS = [
         name: "Neon Blue",
         rarity: "Rare",
         type: "Banner",
-        price: 150
+        price: 150,
+        design: "neon-blue"
     },
 
     {
         id: "sunset",
-        name: "Sunset Sprint",
+        name: "Sunset",
         rarity: "Rare",
         type: "Banner",
-        price: 175
+        price: 175,
+        design: "sunset"
     },
 
     {
-        id: "cosmic-grid",
-        name: "Cosmic Grid",
+        id: "cosmic-banner",
+        name: "Cosmic",
         rarity: "Epic",
         type: "Banner",
-        price: 250
+        price: 300,
+        design: "cosmic-banner"
     },
 
     {
-        id: "gold-grid",
-        name: "Golden Grid",
-        rarity: "Legendary",
+        id: "glitch-banner",
+        name: "Glitch",
+        rarity: "Epic",
         type: "Banner",
-        price: 500
+        price: 325,
+        design: "glitch-banner"
     }
 
 ];
@@ -295,24 +262,16 @@ const SHOP_BANNERS = [
 
 /* =========================================================
    TITLES
-   ========================================================= */
+========================================================= */
 
-const SHOP_TITLES = [
-
-    {
-        id: "fresh-start",
-        name: "Fresh Start",
-        rarity: "Common",
-        type: "Player Title",
-        price: 75
-    },
+var SHOP_TITLES = [
 
     {
-        id: "speedy",
-        name: "Speedy",
+        id: "speedster",
+        name: "Speedster",
         rarity: "Common",
         type: "Player Title",
-        price: 100
+        price: 150
     },
 
     {
@@ -320,15 +279,7 @@ const SHOP_TITLES = [
         name: "Brainiac",
         rarity: "Rare",
         type: "Player Title",
-        price: 150
-    },
-
-    {
-        id: "study-machine",
-        name: "Study Machine",
-        rarity: "Rare",
-        type: "Player Title",
-        price: 175
+        price: 225
     },
 
     {
@@ -336,14 +287,46 @@ const SHOP_TITLES = [
         name: "Overachiever",
         rarity: "Epic",
         type: "Player Title",
-        price: 250
+        price: 350
+    },
+
+    {
+        id: "study-machine",
+        name: "Study Machine",
+        rarity: "Epic",
+        type: "Player Title",
+        price: 400
     },
 
     {
         id: "sprint-legend",
         name: "Sprint Legend",
         rarity: "Legendary",
-        price: 500
+        type: "Player Title",
+        price: 750
+    }
+
+];
+
+
+/* =========================================================
+   STUDYPASS CHARACTERS
+========================================================= */
+
+var STUDYPASS_CHARACTERS = [
+
+    {
+        id: "study-sprout",
+        name: "Study Sprout",
+        rarity: "Epic",
+        design: "study-sprout"
+    },
+
+    {
+        id: "study-orbit",
+        name: "Study Orbit",
+        rarity: "Legendary",
+        design: "study-orbit"
     }
 
 ];
@@ -351,16 +334,17 @@ const SHOP_TITLES = [
 
 /* =========================================================
    TICKET SHOP
-   ========================================================= */
+========================================================= */
 
-const TICKET_ITEMS = [
+var TICKET_ITEMS = [
 
     {
         id: "sparkle",
         name: "Sparkle Effect",
         description: "Tiny sparkles follow your character.",
         type: "Effect",
-        price: 10
+        price: 10,
+        design: "sparkle"
     },
 
     {
@@ -368,7 +352,8 @@ const TICKET_ITEMS = [
         name: "Speed Trail",
         description: "Leaves a trail behind your character.",
         type: "Effect",
-        price: 20
+        price: 20,
+        design: "speed"
     },
 
     {
@@ -376,7 +361,8 @@ const TICKET_ITEMS = [
         name: "Lightning Effect",
         description: "Electric sparks surround your character.",
         type: "Effect",
-        price: 35
+        price: 35,
+        design: "lightning"
     },
 
     {
@@ -384,7 +370,8 @@ const TICKET_ITEMS = [
         name: "Rainbow Aura",
         description: "A colourful aura surrounds your character.",
         type: "Effect",
-        price: 50
+        price: 50,
+        design: "rainbow"
     },
 
     {
@@ -392,7 +379,8 @@ const TICKET_ITEMS = [
         name: "Fire Aura",
         description: "A fiery glow surrounds your character.",
         type: "Effect",
-        price: 75
+        price: 75,
+        design: "fire"
     },
 
     {
@@ -400,7 +388,8 @@ const TICKET_ITEMS = [
         name: "Glitch Effect",
         description: "A strange digital effect surrounds your character.",
         type: "Effect",
-        price: 100
+        price: 100,
+        design: "glitch"
     },
 
     {
@@ -408,7 +397,8 @@ const TICKET_ITEMS = [
         name: "Shadow Aura",
         description: "A dark shadow surrounds your character.",
         type: "Effect",
-        price: 150
+        price: 150,
+        design: "shadow"
     },
 
     {
@@ -416,7 +406,8 @@ const TICKET_ITEMS = [
         name: "Crystal Glow",
         description: "A bright crystalline glow surrounds your character.",
         type: "Effect",
-        price: 250
+        price: 250,
+        design: "crystal"
     },
 
     {
@@ -424,7 +415,8 @@ const TICKET_ITEMS = [
         name: "Cosmic Aura",
         description: "Stars and cosmic particles surround your character.",
         type: "Effect",
-        price: 500
+        price: 500,
+        design: "cosmic"
     },
 
     {
@@ -432,7 +424,8 @@ const TICKET_ITEMS = [
         name: "Crown + Glow",
         description: "The extremely rare glowing crown.",
         type: "Hat",
-        price: 1000
+        price: 1000,
+        design: "crown"
     }
 
 ];
@@ -440,7 +433,7 @@ const TICKET_ITEMS = [
 
 /* =========================================================
    CURRENCY
-   ========================================================= */
+========================================================= */
 
 function getCoins() {
 
@@ -464,7 +457,7 @@ function setCoins(amount) {
 
     localStorage.setItem(
         "coins",
-        Math.max(0, amount)
+        String(amount)
     );
 
 }
@@ -474,38 +467,34 @@ function setTickets(amount) {
 
     localStorage.setItem(
         "shopTickets",
-        Math.max(0, amount)
+        String(amount)
     );
 
 }
 
 
 /* =========================================================
-   OWNERSHIP
-   ========================================================= */
+   OWNED ITEMS
+========================================================= */
 
 function getOwnedItems() {
 
     try {
 
-        const items =
+        var items =
             JSON.parse(
-                localStorage.getItem(
-                    "shopOwnedItems"
-                )
+                localStorage.getItem("shopOwnedItems")
             );
 
-        return Array.isArray(items)
-            ? items
-            : [];
+        if (Array.isArray(items)) {
+            return items;
+        }
+
+    } catch (error) {
 
     }
 
-    catch {
-
-        return [];
-
-    }
+    return [];
 
 }
 
@@ -522,66 +511,62 @@ function saveOwnedItems(items) {
 
 function ownsItem(id) {
 
-    return getOwnedItems().includes(id);
+    return getOwnedItems().indexOf(id) !== -1;
 
 }
 
 
 /* =========================================================
    UNLOCK ITEM
-   ========================================================= */
+========================================================= */
 
 function unlockItem(id, type) {
 
-    const storageKeys = {
+    var key = "";
 
-        "Character":
-            "unlocked_characters",
+    if (type === "Character") {
+        key = "unlocked_characters";
+    }
 
-        "Banner":
-            "unlocked_banners",
+    if (type === "Banner") {
+        key = "unlocked_banners";
+    }
 
-        "Effect":
-            "unlocked_effects",
+    if (type === "Player Title") {
+        key = "unlockedTitles";
+    }
 
-        "Player Title":
-            "unlockedTitles",
+    if (type === "Effect") {
+        key = "unlocked_effects";
+    }
 
-        "Hat":
-            "unlocked_hats"
+    if (type === "Hat") {
+        key = "unlocked_hats";
+    }
 
-    };
+    if (!key) {
+        return;
+    }
 
-    const key =
-        storageKeys[type];
-
-    if (!key) return;
-
-    let unlocked = [];
+    var unlocked = [];
 
     try {
 
-        unlocked =
+        var saved =
             JSON.parse(
                 localStorage.getItem(key)
             );
 
-        if (!Array.isArray(unlocked)) {
-            unlocked = [];
+        if (Array.isArray(saved)) {
+            unlocked = saved;
         }
 
-    }
-
-    catch {
-
-        unlocked = [];
+    } catch (error) {
 
     }
 
-    if (!unlocked.includes(id)) {
-
+    if (unlocked.indexOf(id) === -1) {
         unlocked.push(id);
-
     }
 
     localStorage.setItem(
@@ -593,48 +578,535 @@ function unlockItem(id, type) {
 
 
 /* =========================================================
-   DETERMINISTIC RANDOM
-   ========================================================= */
+   RARITY CLASS
+========================================================= */
+
+function rarityClass(rarity) {
+
+    return "rarity-" +
+        String(rarity)
+            .toLowerCase()
+            .replace(/\s+/g, "-");
+
+}
+
+
+/* =========================================================
+   SIMPLE ELEMENT HELPER
+========================================================= */
+
+function makeElement(className) {
+
+    var element =
+        document.createElement("div");
+
+    element.className =
+        className;
+
+    return element;
+
+}
+
+
+/* =========================================================
+   GOOBER CREATOR
+========================================================= */
+
+function createGoober(data) {
+
+    var wrapper =
+        makeElement(
+            "goober goober-" +
+            data.design
+        );
+
+
+    var body =
+        makeElement(
+            "goober-body"
+        );
+
+
+    var eyeLeft =
+        makeElement(
+            "goober-eye eye-left"
+        );
+
+
+    var eyeRight =
+        makeElement(
+            "goober-eye eye-right"
+        );
+
+
+    var mouth =
+        makeElement(
+            "goober-mouth"
+        );
+
+
+    wrapper.appendChild(body);
+    wrapper.appendChild(eyeLeft);
+    wrapper.appendChild(eyeRight);
+    wrapper.appendChild(mouth);
+
+
+    /*
+       Design-specific parts.
+    */
+
+    if (
+        data.design === "leafy" ||
+        data.design === "study-sprout"
+    ) {
+
+        wrapper.appendChild(
+            makeElement("goober-leaf")
+        );
+
+        wrapper.appendChild(
+            makeElement("goober-leaf-two")
+        );
+
+    }
+
+
+    if (data.design === "squish") {
+
+        wrapper.appendChild(
+            makeElement("squish-crease")
+        );
+
+        wrapper.appendChild(
+            makeElement("squish-crease-two")
+        );
+
+    }
+
+
+    if (data.design === "pebble") {
+
+        wrapper.appendChild(
+            makeElement("pebble-crack")
+        );
+
+        wrapper.appendChild(
+            makeElement("pebble-crack-two")
+        );
+
+    }
+
+
+    if (data.design === "button") {
+
+        wrapper.appendChild(
+            makeElement("button-ring")
+        );
+
+        wrapper.appendChild(
+            makeElement("button-dot-left")
+        );
+
+        wrapper.appendChild(
+            makeElement("button-dot-right")
+        );
+
+    }
+
+
+    if (data.design === "horns") {
+
+        wrapper.appendChild(
+            makeElement("horn horn-left")
+        );
+
+        wrapper.appendChild(
+            makeElement("horn horn-right")
+        );
+
+    }
+
+
+    if (data.design === "shellby") {
+
+        wrapper.appendChild(
+            makeElement("shell")
+        );
+
+        wrapper.appendChild(
+            makeElement("shell-line")
+        );
+
+    }
+
+
+    if (data.design === "tallboi") {
+
+        wrapper.appendChild(
+            makeElement("tall-hat")
+        );
+
+        wrapper.appendChild(
+            makeElement("tall-stripe")
+        );
+
+    }
+
+
+    if (data.design === "four-eyes") {
+
+        wrapper.appendChild(
+            makeElement("extra-eye extra-eye-left")
+        );
+
+        wrapper.appendChild(
+            makeElement("extra-eye extra-eye-right")
+        );
+
+    }
+
+
+    if (data.design === "mothball") {
+
+        wrapper.appendChild(
+            makeElement("moth-wing moth-wing-left")
+        );
+
+        wrapper.appendChild(
+            makeElement("moth-wing moth-wing-right")
+        );
+
+        wrapper.appendChild(
+            makeElement("moth-antenna")
+        );
+
+    }
+
+
+    if (data.design === "spike") {
+
+        wrapper.appendChild(
+            makeElement("spike-one")
+        );
+
+        wrapper.appendChild(
+            makeElement("spike-two")
+        );
+
+        wrapper.appendChild(
+            makeElement("spike-three")
+        );
+
+        wrapper.appendChild(
+            makeElement("spike-four")
+        );
+
+    }
+
+
+    if (data.design === "orbit") {
+
+        wrapper.appendChild(
+            makeElement("orbit-ring")
+        );
+
+        wrapper.appendChild(
+            makeElement("orbit-dot")
+        );
+
+    }
+
+
+    if (data.design === "bubble") {
+
+        wrapper.appendChild(
+            makeElement("bubble-highlight")
+        );
+
+        wrapper.appendChild(
+            makeElement("bubble-small")
+        );
+
+    }
+
+
+    if (data.design === "captain") {
+
+        wrapper.appendChild(
+            makeElement("captain-cape")
+        );
+
+        wrapper.appendChild(
+            makeElement("captain-badge")
+        );
+
+    }
+
+
+    if (data.design === "tailspin") {
+
+        wrapper.appendChild(
+            makeElement("tail")
+        );
+
+        wrapper.appendChild(
+            makeElement("tail-tip")
+        );
+
+    }
+
+
+    if (data.design === "holy") {
+
+        wrapper.appendChild(
+            makeElement("holy-halo")
+        );
+
+        wrapper.appendChild(
+            makeElement("holy-rays")
+        );
+
+    }
+
+
+    if (
+        data.design === "wingnut" ||
+        data.design === "study-orbit"
+    ) {
+
+        wrapper.appendChild(
+            makeElement("wing wing-left")
+        );
+
+        wrapper.appendChild(
+            makeElement("wing wing-right")
+        );
+
+    }
+
+
+    if (
+        data.design === "cosmo" ||
+        data.design === "study-orbit"
+    ) {
+
+        wrapper.appendChild(
+            makeElement("cosmo-ring")
+        );
+
+        wrapper.appendChild(
+            makeElement("cosmo-star")
+        );
+
+    }
+
+
+    if (data.design === "the-goober") {
+
+        wrapper.appendChild(
+            makeElement("goober-mask")
+        );
+
+        wrapper.appendChild(
+            makeElement("goober-mark")
+        );
+
+    }
+
+
+    if (data.design === "golden") {
+
+        wrapper.appendChild(
+            makeElement("golden-collar")
+        );
+
+        wrapper.appendChild(
+            makeElement("golden-spark-one")
+        );
+
+        wrapper.appendChild(
+            makeElement("golden-spark-two")
+        );
+
+    }
+
+
+    if (data.design === "mushroom") {
+
+        wrapper.appendChild(
+            makeElement("mushroom-cap")
+        );
+
+        wrapper.appendChild(
+            makeElement("mushroom-spot-one")
+        );
+
+        wrapper.appendChild(
+            makeElement("mushroom-spot-two")
+        );
+
+        wrapper.appendChild(
+            makeElement("mushroom-stem")
+        );
+
+    }
+
+
+    return wrapper;
+
+}
+
+
+/* =========================================================
+   BANNER PREVIEW
+========================================================= */
+
+function createBanner(data) {
+
+    var banner =
+        makeElement(
+            "banner-preview banner-" +
+            data.design
+        );
+
+    return banner;
+
+}
+
+
+/* =========================================================
+   TITLE PREVIEW
+========================================================= */
+
+function createTitlePreview(data) {
+
+    var title =
+        makeElement(
+            "title-preview " +
+            rarityClass(data.rarity)
+        );
+
+    title.textContent =
+        data.name;
+
+    return title;
+
+}
+
+
+/* =========================================================
+   ITEM PREVIEW
+========================================================= */
+
+function createPreview(item) {
+
+    if (item.type === "Character") {
+
+        return createGoober(item);
+
+    }
+
+    if (item.type === "Banner") {
+
+        return createBanner(item);
+
+    }
+
+    if (item.type === "Player Title") {
+
+        return createTitlePreview(item);
+
+    }
+
+    return createGoober({
+        design: "squish"
+    });
+
+}
+
+
+/* =========================================================
+   CURRENT SHOP PERIOD
+========================================================= */
+
+function getShopStart() {
+
+    var now =
+        Date.now();
+
+    var elapsed =
+        now -
+        SHOP_ANCHOR;
+
+    var cycles =
+        Math.floor(
+            elapsed /
+            SHOP_LENGTH_MS
+        );
+
+    return (
+        SHOP_ANCHOR +
+        cycles *
+        SHOP_LENGTH_MS
+    );
+
+}
+
+
+/* =========================================================
+   SEEDED RANDOM
+========================================================= */
+
+function seededRandom(seed) {
+
+    var value =
+        Math.sin(seed) *
+        10000;
+
+    return value -
+        Math.floor(value);
+
+}
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
 
 function seededShuffle(array, seed) {
 
-    const result =
-        [...array];
+    var result =
+        array.slice();
 
-    let value =
-        Math.abs(
-            Math.floor(seed)
-        ) || 1;
+    var currentSeed =
+        seed;
+
+    var i;
+    var j;
+    var temporary;
 
     for (
-        let i = result.length - 1;
+        i = result.length - 1;
         i > 0;
         i--
     ) {
 
-        value =
-            (
-                value * 9301 +
-                49297
-            ) % 233280;
+        currentSeed += 1;
 
-        const j =
+        j =
             Math.floor(
-                (
-                    value /
-                    233280
-                ) *
+                seededRandom(currentSeed) *
                 (i + 1)
             );
 
-        [
-            result[i],
-            result[j]
-        ] =
-        [
-            result[j],
-            result[i]
-        ];
+        temporary =
+            result[i];
+
+        result[i] =
+            result[j];
+
+        result[j] =
+            temporary;
 
     }
 
@@ -644,318 +1116,97 @@ function seededShuffle(array, seed) {
 
 
 /* =========================================================
-   SHOP DATE
-   ========================================================= */
+   BUILD SHOP POOL
+========================================================= */
 
-/*
-   Anchor:
-   Sunday 10 August 2025
-   12:00 AM AEST
+function getShopPool() {
 
-   AEST is UTC+10.
-   Therefore:
+    var characters =
+        SHOP_CHARACTERS.map(
+            function(character) {
 
-   10 Aug 2025 00:00 AEST
-   =
-   9 Aug 2025 14:00 UTC
-*/
+                return {
+                    id: character.id,
+                    name: character.name,
+                    rarity: character.rarity,
+                    price: character.price,
+                    type: "Character",
+                    design: character.design
+                };
 
-const SHOP_ANCHOR =
-    Date.UTC(
-        2025,
-        7,
-        9,
-        14,
-        0,
-        0
-    );
-
-
-function getShopStart() {
-
-    const now =
-        Date.now();
-
-    const period =
-        SHOP_REFRESH_DAYS *
-        24 *
-        60 *
-        60 *
-        1000;
-
-    const cycles =
-        Math.floor(
-            (
-                now -
-                SHOP_ANCHOR
-            ) /
-            period
+            }
         );
 
-    return (
-        SHOP_ANCHOR +
-        cycles * period
-    );
+
+    var pool =
+        characters.concat(
+            SHOP_BANNERS
+        );
+
+
+    pool =
+        pool.concat(
+            SHOP_TITLES
+        );
+
+
+    return pool;
 
 }
 
 
 /* =========================================================
    CURRENT SHOP
-   ========================================================= */
+========================================================= */
 
 function getCurrentShop() {
 
-    const shopStart =
+    var start =
         getShopStart();
 
-    const seed =
+    var seed =
         Math.floor(
-            shopStart / 1000
+            start /
+            1000
         );
 
 
-    const characters =
+    var pool =
+        getShopPool();
+
+
+    var shuffled =
         seededShuffle(
-            SHOP_CHARACTERS,
-            seed + 101
+            pool,
+            seed
         );
 
 
-    const banners =
-        seededShuffle(
-            SHOP_BANNERS,
-            seed + 202
-        );
-
-
-    const titles =
-        seededShuffle(
-            SHOP_TITLES,
-            seed + 303
-        );
-
-
-    /*
-       EXACTLY:
-
-       4 characters
-       1 banner
-       1 title
-    */
-
-    const selectedCharacters =
-        characters
-            .slice(
-                0,
-                CHARACTER_SLOTS
-            )
-            .map(
-                character => ({
-                    ...character,
-                    type: "Character"
-                })
-            );
-
-
-    const banner = {
-
-        ...banners[0]
-
-    };
-
-
-    const title = {
-
-        ...titles[0]
-
-    };
-
-
-    return [
-
-        ...selectedCharacters,
-
-        banner,
-
-        title
-
-    ];
-
-}
-
-
-/* =========================================================
-   GOOBER CREATION
-   ========================================================= */
-
-/*
-   IMPORTANT:
-
-   Every Goober has exactly ONE base body.
-
-   CSS handles the entire design.
-
-   We do NOT create dozens of randomly-positioned
-   feature elements anymore.
-
-   This keeps the designs stable.
-*/
-
-function createGoober(data) {
-
-    const goober =
-        document.createElement("div");
-
-    goober.className =
-        "goober goober-" +
-        data.design;
-
-    goober.style.setProperty(
-        "--goober-colour",
-        data.colour
-    );
-
-    /*
-       Inner design layer.
-       The CSS creates eyes, mouths, etc.
-    */
-
-    const body =
-        document.createElement("div");
-
-    body.className =
-        "goober-body";
-
-    goober.appendChild(body);
-
-    return goober;
-
-}
-
-
-/* =========================================================
-   BANNER PREVIEW
-   ========================================================= */
-
-function createBannerPreview(item) {
-
-    const banner =
-        document.createElement("div");
-
-    banner.className =
-        "banner-preview banner-" +
-        item.id;
-
-    return banner;
-
-}
-
-
-/* =========================================================
-   TITLE PREVIEW
-   ========================================================= */
-
-function createTitlePreview(item) {
-
-    const title =
-        document.createElement("div");
-
-    title.className =
-        "title-preview";
-
-    title.textContent =
-        "Aa";
-
-    title.dataset.rarity =
-        item.rarity;
-
-    return title;
-
-}
-
-
-/* =========================================================
-   PREVIEW
-   ========================================================= */
-
-function createPreview(item) {
-
-    if (
-        item.type ===
-        "Character"
-    ) {
-
-        return createGoober(item);
-
-    }
-
-
-    if (
-        item.type ===
-        "Banner"
-    ) {
-
-        return createBannerPreview(item);
-
-    }
-
-
-    if (
-        item.type ===
-        "Player Title"
-    ) {
-
-        return createTitlePreview(item);
-
-    }
-
-
-    return document.createElement(
-        "div"
+    return shuffled.slice(
+        0,
+        SHOP_ITEM_COUNT
     );
 
 }
 
 
 /* =========================================================
-   RARITY CLASS
-   ========================================================= */
-
-function rarityClass(rarity) {
-
-    return (
-        "rarity-" +
-        rarity
-            .toLowerCase()
-            .replace(
-                /\s+/g,
-                "-"
-            )
-    );
-
-}
-
-
-/* =========================================================
-   CREATE CARD
-   ========================================================= */
+   SHOP CARD
+========================================================= */
 
 function createShopCard(item) {
 
-    const card =
+    var card =
         document.createElement(
             "article"
         );
 
     card.className =
         "shop-card " +
-        rarityClass(
-            item.rarity
-        );
+        rarityClass(item.rarity);
 
 
-    const rarity =
+    var rarity =
         document.createElement(
             "div"
         );
@@ -967,7 +1218,7 @@ function createShopCard(item) {
         item.rarity;
 
 
-    const preview =
+    var preview =
         document.createElement(
             "div"
         );
@@ -980,7 +1231,7 @@ function createShopCard(item) {
     );
 
 
-    const name =
+    var name =
         document.createElement(
             "h3"
         );
@@ -989,7 +1240,7 @@ function createShopCard(item) {
         item.name;
 
 
-    const type =
+    var type =
         document.createElement(
             "p"
         );
@@ -1001,7 +1252,7 @@ function createShopCard(item) {
         item.type;
 
 
-    const price =
+    var price =
         document.createElement(
             "div"
         );
@@ -1010,27 +1261,20 @@ function createShopCard(item) {
         "item-price";
 
     price.textContent =
-        item.price +
+        String(item.price) +
         " Coins";
 
 
-    const button =
+    var button =
         document.createElement(
             "button"
         );
-
-    button.type =
-        "button";
 
     button.className =
         "buy-button";
 
 
-    if (
-        ownsItem(
-            item.id
-        )
-    ) {
+    if (ownsItem(item.id)) {
 
         button.textContent =
             "OWNED";
@@ -1042,20 +1286,20 @@ function createShopCard(item) {
             "owned"
         );
 
-    }
-
-    else {
+    } else {
 
         button.textContent =
             "BUY";
 
-        button.addEventListener(
-            "click",
-            () => buyMainItem(
-                item,
-                button
-            )
-        );
+        button.onclick =
+            function() {
+
+                buyMainItem(
+                    item,
+                    button
+                );
+
+            };
 
     }
 
@@ -1067,41 +1311,46 @@ function createShopCard(item) {
     card.appendChild(price);
     card.appendChild(button);
 
+
     return card;
 
 }
 
 
 /* =========================================================
-   DISPLAY COIN SHOP
-   ========================================================= */
+   DISPLAY MAIN SHOP
+========================================================= */
 
 function displayMainShop() {
 
-    const container =
+    var container =
         document.getElementById(
             "fortnightly-items"
         );
 
-    if (!container) return;
+    if (!container) {
+        return;
+    }
+
 
     container.innerHTML =
         "";
 
-    const items =
+
+    var items =
         getCurrentShop();
 
+
     items.forEach(
-        item => {
+        function(item) {
 
             container.appendChild(
-                createShopCard(
-                    item
-                )
+                createShopCard(item)
             );
 
         }
     );
+
 
     updateCurrency();
 
@@ -1109,33 +1358,21 @@ function displayMainShop() {
 
 
 /* =========================================================
-   BUY COIN ITEM
-   ========================================================= */
+   BUY MAIN ITEM
+========================================================= */
 
-function buyMainItem(
-    item,
-    button
-) {
+function buyMainItem(item, button) {
 
-    if (
-        ownsItem(
-            item.id
-        )
-    ) {
-
+    if (ownsItem(item.id)) {
         return;
-
     }
 
 
-    const coins =
+    var coins =
         getCoins();
 
 
-    if (
-        coins <
-        item.price
-    ) {
+    if (coins < item.price) {
 
         alert(
             "You don't have enough coins!"
@@ -1158,14 +1395,12 @@ function buyMainItem(
     );
 
 
-    const owned =
+    var owned =
         getOwnedItems();
 
 
     if (
-        !owned.includes(
-            item.id
-        )
+        owned.indexOf(item.id) === -1
     ) {
 
         owned.push(
@@ -1197,142 +1432,157 @@ function buyMainItem(
 
 
 /* =========================================================
-   TICKET SHOP
-   ========================================================= */
+   TICKET SHOP CARD
+========================================================= */
+
+function createTicketCard(item) {
+
+    var card =
+        document.createElement(
+            "article"
+        );
+
+    card.className =
+        "ticket-card";
+
+
+    var preview =
+        document.createElement(
+            "div"
+        );
+
+    preview.className =
+        "ticket-item-preview";
+
+
+    var effect =
+        document.createElement(
+            "div"
+        );
+
+    effect.className =
+        "ticket-effect ticket-" +
+        item.design;
+
+
+    var goober =
+        createGoober({
+            design: "squish"
+        });
+
+
+    preview.appendChild(effect);
+    preview.appendChild(goober);
+
+
+    var name =
+        document.createElement(
+            "h3"
+        );
+
+    name.textContent =
+        item.name;
+
+
+    var description =
+        document.createElement(
+            "p"
+        );
+
+    description.textContent =
+        item.description;
+
+
+    var price =
+        document.createElement(
+            "div"
+        );
+
+    price.className =
+        "ticket-price";
+
+    price.textContent =
+        String(item.price) +
+        " Shop Tickets";
+
+
+    var button =
+        document.createElement(
+            "button"
+        );
+
+    button.className =
+        "buy-button";
+
+
+    if (ownsItem(item.id)) {
+
+        button.textContent =
+            "OWNED";
+
+        button.disabled =
+            true;
+
+        button.classList.add(
+            "owned"
+        );
+
+    } else {
+
+        button.textContent =
+            "BUY";
+
+        button.onclick =
+            function() {
+
+                buyTicketItem(
+                    item,
+                    button
+                );
+
+            };
+
+    }
+
+
+    card.appendChild(preview);
+    card.appendChild(name);
+    card.appendChild(description);
+    card.appendChild(price);
+    card.appendChild(button);
+
+
+    return card;
+
+}
+
+
+/* =========================================================
+   DISPLAY TICKET SHOP
+========================================================= */
 
 function displayTicketShop() {
 
-    const container =
+    var container =
         document.getElementById(
             "ticket-items"
         );
 
-    if (!container) return;
+    if (!container) {
+        return;
+    }
+
 
     container.innerHTML =
         "";
 
 
     TICKET_ITEMS.forEach(
-        item => {
+        function(item) {
 
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-            card.className =
-                "ticket-card";
-
-
-            const preview =
-                document.createElement(
-                    "div"
-                );
-
-            preview.className =
-                "ticket-preview";
-
-            const goober =
-                createGoober({
-
-                    design:
-                        "squish",
-
-                    colour:
-                        "#6366f1"
-
-                });
-
-            preview.appendChild(
-                goober
+            container.appendChild(
+                createTicketCard(item)
             );
-
-
-            const name =
-                document.createElement(
-                    "h3"
-                );
-
-            name.textContent =
-                item.name;
-
-
-            const description =
-                document.createElement(
-                    "p"
-                );
-
-            description.textContent =
-                item.description;
-
-
-            const price =
-                document.createElement(
-                    "div"
-                );
-
-            price.className =
-                "item-price ticket-price";
-
-            price.textContent =
-                item.price +
-                " Shop Tickets";
-
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-            button.type =
-                "button";
-
-            button.className =
-                "buy-button";
-
-
-            if (
-                ownsItem(
-                    item.id
-                )
-            ) {
-
-                button.textContent =
-                    "OWNED";
-
-                button.disabled =
-                    true;
-
-                button.classList.add(
-                    "owned"
-                );
-
-            }
-
-            else {
-
-                button.textContent =
-                    "BUY";
-
-                button.addEventListener(
-                    "click",
-                    () => buyTicketItem(
-                        item,
-                        button
-                    )
-                );
-
-            }
-
-
-            card.appendChild(preview);
-            card.appendChild(name);
-            card.appendChild(description);
-            card.appendChild(price);
-            card.appendChild(button);
-
-            container.appendChild(card);
 
         }
     );
@@ -1345,32 +1595,20 @@ function displayTicketShop() {
 
 /* =========================================================
    BUY TICKET ITEM
-   ========================================================= */
+========================================================= */
 
-function buyTicketItem(
-    item,
-    button
-) {
+function buyTicketItem(item, button) {
 
-    if (
-        ownsItem(
-            item.id
-        )
-    ) {
-
+    if (ownsItem(item.id)) {
         return;
-
     }
 
 
-    const tickets =
+    var tickets =
         getTickets();
 
 
-    if (
-        tickets <
-        item.price
-    ) {
+    if (tickets < item.price) {
 
         alert(
             "You don't have enough Shop Tickets!"
@@ -1393,14 +1631,12 @@ function buyTicketItem(
     );
 
 
-    const owned =
+    var owned =
         getOwnedItems();
 
 
     if (
-        !owned.includes(
-            item.id
-        )
+        owned.indexOf(item.id) === -1
     ) {
 
         owned.push(
@@ -1433,25 +1669,28 @@ function buyTicketItem(
 
 /* =========================================================
    STUDYPASS
-   ========================================================= */
+========================================================= */
 
 function displayStudyPass() {
 
-    const container =
+    var container =
         document.getElementById(
             "studypass-items"
         );
 
-    if (!container) return;
+    if (!container) {
+        return;
+    }
+
 
     container.innerHTML =
         "";
 
 
     STUDYPASS_CHARACTERS.forEach(
-        item => {
+        function(item) {
 
-            const card =
+            var card =
                 document.createElement(
                     "article"
                 );
@@ -1460,7 +1699,7 @@ function displayStudyPass() {
                 "studypass-card";
 
 
-            const badge =
+            var badge =
                 document.createElement(
                     "div"
                 );
@@ -1472,22 +1711,20 @@ function displayStudyPass() {
                 "STUDYPASS";
 
 
-            const rarity =
+            var rarity =
                 document.createElement(
                     "div"
                 );
 
             rarity.className =
                 "rarity-badge " +
-                rarityClass(
-                    item.rarity
-                );
+                rarityClass(item.rarity);
 
             rarity.textContent =
                 item.rarity;
 
 
-            const preview =
+            var preview =
                 document.createElement(
                     "div"
                 );
@@ -1495,12 +1732,13 @@ function displayStudyPass() {
             preview.className =
                 "studypass-preview";
 
+
             preview.appendChild(
                 createGoober(item)
             );
 
 
-            const name =
+            var name =
                 document.createElement(
                     "h3"
                 );
@@ -1509,7 +1747,7 @@ function displayStudyPass() {
                 item.name;
 
 
-            const description =
+            var description =
                 document.createElement(
                     "p"
                 );
@@ -1524,6 +1762,7 @@ function displayStudyPass() {
             card.appendChild(name);
             card.appendChild(description);
 
+
             container.appendChild(card);
 
         }
@@ -1534,33 +1773,34 @@ function displayStudyPass() {
 
 /* =========================================================
    CURRENCY DISPLAY
-   ========================================================= */
+========================================================= */
 
 function updateCurrency() {
 
-    const coins =
+    var coinElement =
         document.getElementById(
             "coin-count"
         );
 
-    const tickets =
+
+    var ticketElement =
         document.getElementById(
             "ticket-count"
         );
 
 
-    if (coins) {
+    if (coinElement) {
 
-        coins.textContent =
-            getCoins();
+        coinElement.textContent =
+            String(getCoins());
 
     }
 
 
-    if (tickets) {
+    if (ticketElement) {
 
-        tickets.textContent =
-            getTickets();
+        ticketElement.textContent =
+            String(getTickets());
 
     }
 
@@ -1569,47 +1809,43 @@ function updateCurrency() {
 
 /* =========================================================
    COUNTDOWN
-   ========================================================= */
+========================================================= */
 
 function updateCountdown() {
 
-    const element =
+    var element =
         document.getElementById(
             "countdown"
         );
 
-    if (!element) return;
+    if (!element) {
+        return;
+    }
 
 
-    const period =
-        SHOP_REFRESH_DAYS *
-        24 *
-        60 *
-        60 *
-        1000;
-
-
-    const next =
+    var next =
         getShopStart() +
-        period;
+        SHOP_LENGTH_MS;
 
 
-    const remaining =
-        Math.max(
-            0,
-            next -
-            Date.now()
-        );
+    var remaining =
+        next -
+        Date.now();
 
 
-    const days =
+    if (remaining < 0) {
+        remaining = 0;
+    }
+
+
+    var days =
         Math.floor(
             remaining /
             86400000
         );
 
 
-    const hours =
+    var hours =
         Math.floor(
             (
                 remaining %
@@ -1619,7 +1855,7 @@ function updateCountdown() {
         );
 
 
-    const minutes =
+    var minutes =
         Math.floor(
             (
                 remaining %
@@ -1629,7 +1865,7 @@ function updateCountdown() {
         );
 
 
-    const seconds =
+    var seconds =
         Math.floor(
             (
                 remaining %
@@ -1639,74 +1875,70 @@ function updateCountdown() {
         );
 
 
- element.textContent =
-    days + "d " +
-    hours + "h " +
-    minutes + "m " +
-    seconds + "s";
+    /*
+       Deliberately NOT using ${...}.
+    */
+
+    element.textContent =
+        String(days) +
+        "d " +
+        String(hours) +
+        "h " +
+        String(minutes) +
+        "m " +
+        String(seconds) +
+        "s";
 
 }
 
 
 /* =========================================================
-   SHOP BUTTONS
-   ========================================================= */
+   SHOP NAVIGATION
+========================================================= */
 
 function openMainShop() {
 
-    const coinShop =
+    var main =
         document.getElementById(
             "fortnightly-shop"
         );
 
-    const ticketShop =
+    var tickets =
         document.getElementById(
             "ticket-shop"
         );
 
-
-    if (coinShop) {
-
-        coinShop.style.display =
-            "block";
-
-    }
-
-
-    if (ticketShop) {
-
-        ticketShop.style.display =
-            "none";
-
-    }
-
-
-    const coinButton =
+    var mainButton =
         document.getElementById(
             "main-shop-button"
         );
 
-    const ticketButton =
+    var ticketButton =
         document.getElementById(
             "ticket-shop-button"
         );
 
 
-    if (coinButton) {
-
-        coinButton.classList.add(
-            "active"
-        );
-
+    if (main) {
+        main.style.display =
+            "block";
     }
 
+    if (tickets) {
+        tickets.style.display =
+            "none";
+    }
+
+    if (mainButton) {
+        mainButton.classList.add(
+            "active"
+        );
+    }
 
     if (ticketButton) {
-
         ticketButton.classList.remove(
             "active"
         );
-
     }
 
 }
@@ -1714,59 +1946,47 @@ function openMainShop() {
 
 function openTicketShop() {
 
-    const coinShop =
+    var main =
         document.getElementById(
             "fortnightly-shop"
         );
 
-    const ticketShop =
+    var tickets =
         document.getElementById(
             "ticket-shop"
         );
 
-
-    if (coinShop) {
-
-        coinShop.style.display =
-            "none";
-
-    }
-
-
-    if (ticketShop) {
-
-        ticketShop.style.display =
-            "block";
-
-    }
-
-
-    const coinButton =
+    var mainButton =
         document.getElementById(
             "main-shop-button"
         );
 
-    const ticketButton =
+    var ticketButton =
         document.getElementById(
             "ticket-shop-button"
         );
 
 
-    if (coinButton) {
-
-        coinButton.classList.remove(
-            "active"
-        );
-
+    if (main) {
+        main.style.display =
+            "none";
     }
 
+    if (tickets) {
+        tickets.style.display =
+            "block";
+    }
+
+    if (mainButton) {
+        mainButton.classList.remove(
+            "active"
+        );
+    }
 
     if (ticketButton) {
-
         ticketButton.classList.add(
             "active"
         );
-
     }
 
 }
@@ -1774,22 +1994,11 @@ function openTicketShop() {
 
 /* =========================================================
    DEBUG MENU
-   ========================================================= */
+========================================================= */
 
 function openDebugMenu() {
 
-    if (
-        document.querySelector(
-            ".debug-overlay"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    const overlay =
+    var overlay =
         document.createElement(
             "div"
         );
@@ -1798,7 +2007,7 @@ function openDebugMenu() {
         "debug-overlay";
 
 
-    const box =
+    var box =
         document.createElement(
             "div"
         );
@@ -1807,72 +2016,34 @@ function openDebugMenu() {
         "debug-box";
 
 
-    box.innerHTML = `
-
-        <h2>🛠️ StudySprint Debug</h2>
-
-        <p>What do you want to change?</p>
-
-        <select id="debug-type">
-
-            <option value="xp">
-                ⭐ XP
-            </option>
-
-            <option value="coins">
-                🪙 Coins
-            </option>
-
-            <option value="tickets">
-                🎟️ Tickets
-            </option>
-
-            <option value="streak">
-                🔥 Streak
-            </option>
-
-            <option value="reset">
-                🗑️ Reset Account
-            </option>
-
-        </select>
-
-        <input
-            id="debug-value"
-            type="number"
-            placeholder="Amount"
-        >
-
-        <button
-            class="debug-apply"
-            id="debug-apply"
-        >
-            Apply
-        </button>
-
-        <button
-            class="debug-close"
-            id="debug-close"
-        >
-            Cancel
-        </button>
-
-    `;
+    box.innerHTML = [
+        "<h2>🛠️ StudySprint Debug</h2>",
+        "<p>Developer tools</p>",
+        "<hr>",
+        "<select id='debug-type'>",
+        "<option value='xp'>⭐ XP</option>",
+        "<option value='coins'>🪙 Coins</option>",
+        "<option value='tickets'>🎟️ Tickets</option>",
+        "<option value='streak'>🔥 Streak</option>",
+        "<option value='reset'>🗑️ Reset Account</option>",
+        "</select>",
+        "<input id='debug-value' type='number' placeholder='Amount'>",
+        "<button id='debug-apply'>Apply</button>",
+        "<button id='debug-close'>Cancel</button>"
+    ].join("");
 
 
     overlay.appendChild(box);
-
-    document.body.appendChild(
-        overlay
-    );
+    document.body.appendChild(overlay);
 
 
-    const type =
+    var type =
         box.querySelector(
             "#debug-type"
         );
 
-    const value =
+
+    var value =
         box.querySelector(
             "#debug-value"
         );
@@ -1880,10 +2051,17 @@ function openDebugMenu() {
 
     function updateInput() {
 
-        value.style.display =
-            type.value === "reset"
-                ? "none"
-                : "block";
+        if (type.value === "reset") {
+
+            value.style.display =
+                "none";
+
+        } else {
+
+            value.style.display =
+                "block";
+
+        }
 
     }
 
@@ -1900,7 +2078,7 @@ function openDebugMenu() {
     box.querySelector(
         "#debug-close"
     ).onclick =
-        () => {
+        function() {
 
             overlay.remove();
 
@@ -1910,33 +2088,34 @@ function openDebugMenu() {
     box.querySelector(
         "#debug-apply"
     ).onclick =
-        () => {
+        function() {
 
-            const selected =
+            var selected =
                 type.value;
 
 
-            if (
-                selected ===
-                "reset"
-            ) {
+            if (selected === "reset") {
 
-                const confirmed =
+                var confirmed =
                     confirm(
                         "⚠️ Reset your entire StudySprint account?\n\n" +
                         "This removes saved XP, coins, tickets, streak, " +
-                        "stats, achievements, shop ownership and other local data."
+                        "stats, achievements and shop ownership."
                     );
 
 
-                if (!confirmed) return;
+                if (!confirmed) {
+                    return;
+                }
 
 
                 localStorage.clear();
 
+
                 alert(
                     "✅ Account reset!\n\nReloading StudySprint..."
                 );
+
 
                 location.reload();
 
@@ -1945,17 +2124,13 @@ function openDebugMenu() {
             }
 
 
-            const amount =
+            var amount =
                 Number(
                     value.value
                 );
 
 
-            if (
-                !Number.isFinite(
-                    amount
-                )
-            ) {
+            if (!Number.isFinite(amount)) {
 
                 alert(
                     "Enter a valid number."
@@ -1966,11 +2141,14 @@ function openDebugMenu() {
             }
 
 
-            const keys = {
+            var keys = {
 
                 xp: "xp",
+
                 coins: "coins",
+
                 tickets: "shopTickets",
+
                 streak: "streak"
 
             };
@@ -1978,12 +2156,16 @@ function openDebugMenu() {
 
             localStorage.setItem(
                 keys[selected],
-                amount
+                String(amount)
             );
 
 
             alert(
-                `✅ ${selected} set to ${amount}!`
+                "✅ " +
+                selected +
+                " set to " +
+                String(amount) +
+                "!"
             );
 
 
@@ -1997,26 +2179,26 @@ function openDebugMenu() {
 
 
 /* =========================================================
-   START
-   ========================================================= */
+   START SHOP
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function() {
 
-        const mainButton =
+        var mainButton =
             document.getElementById(
                 "main-shop-button"
             );
 
 
-        const ticketButton =
+        var ticketButton =
             document.getElementById(
                 "ticket-shop-button"
             );
 
 
-        const debugButton =
+        var debugButton =
             document.getElementById(
                 "debug-open"
             );
@@ -2053,12 +2235,13 @@ document.addEventListener(
 
 
         displayMainShop();
+
         displayTicketShop();
+
         displayStudyPass();
 
-        openMainShop();
-
         updateCurrency();
+
         updateCountdown();
 
 
@@ -2067,13 +2250,16 @@ document.addEventListener(
             1000
         );
 
+
+        openMainShop();
+
     }
 );
 
 
 /* =========================================================
-   PUBLIC
-   ========================================================= */
+   PUBLIC FUNCTIONS
+========================================================= */
 
 window.openMainShop =
     openMainShop;
@@ -2092,7 +2278,3 @@ window.getOwnedItems =
 
 window.ownsItem =
     ownsItem;
-
-window.getCurrentShop =
-    getCurrentShop;
-```
