@@ -20,7 +20,7 @@
 <style>
 
 /* =========================================================
-   PROFILE
+   PROFILE PAGE
 ========================================================= */
 
 .profile-page {
@@ -65,14 +65,14 @@
     width: 110px;
     height: 110px;
 
-    border-radius: 30px;
-
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    font-size: 60px;
+    flex-shrink: 0;
+
+    border-radius: 30px;
 
     background:
         linear-gradient(
@@ -80,6 +80,10 @@
             #7c3aed,
             #6366f1
         );
+
+    color: white;
+
+    font-size: 55px;
 
     box-shadow:
         0 10px 25px rgba(99,102,241,.25);
@@ -108,231 +112,83 @@
 
 
 /* =========================================================
-   CHARACTER CARD
+   LEVEL CARD
 ========================================================= */
 
-.character-card {
+.level-card {
 
-    position: relative;
-
-    min-height: 260px;
+    padding: 30px;
 
     margin-bottom: 25px;
 
-    padding: 35px;
-
-    overflow: hidden;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7c3aed,
-            #6366f1
-        );
-
-    color: white;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,.12);
-
-}
-
-.character-card h2 {
-
-    margin: 0 0 8px;
-
-    font-size: 30px;
-
-    font-weight: 900;
-
-}
-
-.character-card p {
-
-    margin: 0;
-
-    opacity: .9;
-
-    font-weight: 700;
-
-}
-
-.character-placeholder {
-
-    position: absolute;
-
-    right: 70px;
-    bottom: 0;
-
-    width: 130px;
-    height: 190px;
-
-}
-
-
-/* =========================================================
-   SIMPLE PREMADE CHARACTER
-========================================================= */
-
-.premade-character {
-
-    position: absolute;
-
-    left: 15px;
-    top: 10px;
-
-    width: 100px;
-    height: 175px;
-
-}
-
-
-/* HEAD */
-
-.premade-head {
-
-    position: absolute;
-
-    width: 80px;
-    height: 80px;
-
-    left: 10px;
-    top: 0;
-
-    border-radius: 50%;
-
-    background: #f6c7a8;
-
-}
-
-
-/* HAIR */
-
-.premade-hair {
-
-    position: absolute;
-
-    width: 75px;
-    height: 30px;
-
-    left: 13px;
-    top: 0;
-
-    border-radius:
-        40px 40px 10px 10px;
-
-    background: #78350f;
-
-}
-
-
-/* FACE */
-
-.premade-face {
-
-    position: absolute;
-
-    width: 6px;
-    height: 6px;
-
-    left: 28px;
-    top: 43px;
-
-    border-radius: 50%;
-
-    background: #111827;
-
-    box-shadow:
-        22px 0 #111827;
-
-}
-
-
-/* BODY */
-
-.premade-body {
-
-    position: absolute;
-
-    width: 72px;
-    height: 60px;
-
-    left: 14px;
-    top: 78px;
-
-    border-radius:
-        20px 20px 8px 8px;
-
-    background: #3b82f6;
-
-}
-
-
-/* LEGS */
-
-.premade-leg {
-
-    position: absolute;
-
-    width: 25px;
-    height: 45px;
-
-    top: 132px;
-
-    border-radius: 8px;
-
-    background: #2563eb;
-
-}
-
-.premade-leg.left {
-
-    left: 20px;
-
-}
-
-.premade-leg.right {
-
-    left: 55px;
-
-}
-
-
-/* =========================================================
-   CHARACTER BUTTON
-========================================================= */
-
-.character-button {
-
-    display: inline-block;
-
-    margin-top: 25px;
-
-    padding: 12px 20px;
-
-    border-radius: 14px;
+    border-radius: 25px;
 
     background: white;
 
-    color: #4338ca;
-
-    text-decoration: none;
-
-    font-weight: 900;
-
-    transition: .2s;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.07);
 
 }
 
-.character-button:hover {
+.level-top {
 
-    transform:
-        translateY(-3px);
+    display: flex;
 
-    box-shadow:
-        0 8px 20px rgba(0,0,0,.15);
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+
+}
+
+.level-top h2 {
+
+    margin: 0;
+
+    font-size: 28px;
+
+}
+
+.level-xp {
+
+    color: #64748b;
+
+    font-weight: 800;
+
+}
+
+.xp-bar {
+
+    width: 100%;
+
+    height: 18px;
+
+    overflow: hidden;
+
+    border-radius: 20px;
+
+    background: #e2e8f0;
+
+}
+
+.xp-progress {
+
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6366f1,
+            #a855f7
+        );
+
+    transition:
+        width .4s ease;
 
 }
 
@@ -389,83 +245,6 @@
 
 
 /* =========================================================
-   LEVEL
-========================================================= */
-
-.level-card {
-
-    padding: 30px;
-
-    margin-bottom: 25px;
-
-    border-radius: 25px;
-
-    background: white;
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
-
-}
-
-.level-top {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 12px;
-
-}
-
-.level-top h2 {
-
-    margin: 0;
-
-}
-
-.level-xp {
-
-    color: #64748b;
-
-    font-weight: 800;
-
-}
-
-.xp-bar {
-
-    width: 100%;
-
-    height: 18px;
-
-    overflow: hidden;
-
-    border-radius: 20px;
-
-    background: #e2e8f0;
-
-}
-
-.xp-progress {
-
-    width: 0%;
-
-    height: 100%;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #6366f1,
-            #a855f7
-        );
-
-}
-
-
-/* =========================================================
    ACHIEVEMENTS
 ========================================================= */
 
@@ -485,6 +264,8 @@
 .achievements-card h2 {
 
     margin-top: 0;
+
+    margin-bottom: 18px;
 
 }
 
@@ -530,21 +311,13 @@
 
     }
 
-    .character-placeholder {
+    .level-top {
 
-        right: 20px;
+        flex-direction: column;
 
-        transform:
-            scale(.8);
+        align-items: flex-start;
 
-        transform-origin:
-            bottom right;
-
-    }
-
-    .character-card {
-
-        min-height: 280px;
+        gap: 5px;
 
     }
 
@@ -619,53 +392,6 @@ Player
 <p>
 Your StudySprint profile
 </p>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     CHARACTER
-========================================================= -->
-
-<section class="character-card">
-
-<h2>
-🎨 Your Character
-</h2>
-
-<p>
-Your current StudySprint character.
-</p>
-
-<a
-    href="character.html"
-    class="character-button"
->
-Customize Character
-</a>
-
-
-<!-- PREMADE CHARACTER -->
-
-<div class="character-placeholder">
-
-<div class="premade-character">
-
-<div class="premade-head"></div>
-
-<div class="premade-hair"></div>
-
-<div class="premade-face"></div>
-
-<div class="premade-body"></div>
-
-<div class="premade-leg left"></div>
-
-<div class="premade-leg right"></div>
-
-</div>
 
 </div>
 
@@ -809,6 +535,10 @@ Level <span id="level">1</span>
 </main>
 
 
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer>
 
 © 2026 StudySprint
@@ -827,9 +557,9 @@ document.addEventListener(
     function() {
 
 
-        /* =========================================
+        /* =================================================
            USERNAME
-        ========================================= */
+        ================================================= */
 
         const username =
             localStorage.getItem(
@@ -844,9 +574,9 @@ document.addEventListener(
             username;
 
 
-        /* =========================================
+        /* =================================================
            XP
-        ========================================= */
+        ================================================= */
 
         const xp =
             Number(
@@ -862,9 +592,9 @@ document.addEventListener(
             xp;
 
 
-        /* =========================================
+        /* =================================================
            LEVEL
-        ========================================= */
+        ================================================= */
 
         const level =
             Math.floor(
@@ -896,9 +626,9 @@ document.addEventListener(
             "%";
 
 
-        /* =========================================
+        /* =================================================
            SPRINTS
-        ========================================= */
+        ================================================= */
 
         const sprints =
             Number(
@@ -914,9 +644,9 @@ document.addEventListener(
             sprints;
 
 
-        /* =========================================
+        /* =================================================
            STREAK
-        ========================================= */
+        ================================================= */
 
         const streak =
             Number(
@@ -932,9 +662,9 @@ document.addEventListener(
             streak;
 
 
-        /* =========================================
+        /* =================================================
            BEST SCORE
-        ========================================= */
+        ================================================= */
 
         const bestScore =
             Number(
