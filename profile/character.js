@@ -1,55 +1,11 @@
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   Shared cosmetic equipment system
+   Goober-only character system
    ========================================================= */
-
-
-/* =========================================================
-   BASIC CHARACTER OPTIONS
-   ========================================================= */
-
-const CHARACTER_OPTIONS = {
-
-    skin: [
-        "light",
-        "medium",
-        "dark"
-    ],
-
-    hair: [
-        "brown",
-        "black",
-        "blonde"
-    ],
-
-    shirt: [
-        "blue",
-        "red",
-        "green",
-        "sprint-blue"
-    ],
-
-    hat: [
-        "none",
-        "sprint-cap",
-        "star-cap",
-        "visor"
-    ],
-
-    pants: [
-        "blue",
-        "black",
-        "brown",
-        "split"
-    ]
-
-};
 
 
 /* =========================================================
    SHOP CHARACTERS
-   IMPORTANT:
-   These IDs match shop.js exactly.
    ========================================================= */
 
 const SHOP_CHARACTERS = [
@@ -366,12 +322,14 @@ const CHARACTER_EFFECTS = [
    STORAGE
    ========================================================= */
 
-function characterValue(key, fallback) {
+function characterValue(key, fallback = null) {
 
     const value =
         localStorage.getItem(key);
 
-    return value || fallback;
+    return value !== null
+        ? value
+        : fallback;
 
 }
 
@@ -423,47 +381,7 @@ function getOwnedItems() {
 function ownsCharacterItem(id, category) {
 
     /*
-       Free classic cosmetics.
-    */
-
-    if (
-        category === "skin" &&
-        id === "light"
-    ) {
-        return true;
-    }
-
-    if (
-        category === "hair" &&
-        id === "brown"
-    ) {
-        return true;
-    }
-
-    if (
-        category === "shirt" &&
-        id === "blue"
-    ) {
-        return true;
-    }
-
-    if (
-        category === "hat" &&
-        id === "none"
-    ) {
-        return true;
-    }
-
-    if (
-        category === "pants" &&
-        id === "blue"
-    ) {
-        return true;
-    }
-
-
-    /*
-       Free banner defaults.
+       Free banner.
     */
 
     if (
@@ -473,28 +391,44 @@ function ownsCharacterItem(id, category) {
             id === "green"
         )
     ) {
+
         return true;
+
     }
 
 
     /*
-       Free title/effect.
+       Free title.
     */
 
     if (
         category === "title" &&
         id === "none"
     ) {
+
         return true;
+
     }
+
+
+    /*
+       Free effect.
+    */
 
     if (
         category === "effect" &&
         id === "none"
     ) {
+
         return true;
+
     }
 
+
+    /*
+       Characters are controlled entirely
+       by shop ownership.
+    */
 
     return getOwnedItems().includes(id);
 
@@ -510,15 +444,50 @@ function getEquippedCharacter() {
     const id =
         characterValue(
             "character_character",
-            "leafy"
+            null
         );
 
-    return (
+
+    /*
+       IMPORTANT:
+       There is NO default Leafy anymore.
+
+       If the player has not equipped a Goober,
+       return null.
+    */
+
+    if (!id) {
+
+        return null;
+
+    }
+
+
+    const character =
         SHOP_CHARACTERS.find(
-            item => item.id === id
-        ) ||
-        SHOP_CHARACTERS[0]
-    );
+            item =>
+                item.id === id
+        );
+
+
+    /*
+       Don't display characters that aren't owned.
+    */
+
+    if (
+        !character ||
+        !ownsCharacterItem(
+            character.id,
+            "character"
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    return character;
 
 }
 
@@ -536,11 +505,13 @@ function createGooberPreview(data) {
         "goober design-" +
         data.design;
 
+
     const body =
         document.createElement("div");
 
     body.className =
         "goober-body";
+
 
     const face =
         document.createElement("div");
@@ -548,11 +519,13 @@ function createGooberPreview(data) {
     face.className =
         "goober-face";
 
+
     const leftEye =
         document.createElement("div");
 
     leftEye.className =
         "goober-eye eye-left";
+
 
     const rightEye =
         document.createElement("div");
@@ -560,11 +533,13 @@ function createGooberPreview(data) {
     rightEye.className =
         "goober-eye eye-right";
 
+
     const mouth =
         document.createElement("div");
 
     mouth.className =
         "goober-mouth";
+
 
     const feet =
         document.createElement("div");
@@ -572,17 +547,20 @@ function createGooberPreview(data) {
     feet.className =
         "goober-feet";
 
+
     const leftFoot =
         document.createElement("div");
 
     leftFoot.className =
         "goober-foot foot-left";
 
+
     const rightFoot =
         document.createElement("div");
 
     rightFoot.className =
         "goober-foot foot-right";
+
 
     face.appendChild(leftEye);
     face.appendChild(rightEye);
@@ -611,10 +589,6 @@ function createGooberPreview(data) {
 
     }
 
-
-    /*
-       Keep the exact design classes used by shop.js.
-    */
 
     const designs = {
 
@@ -649,6 +623,10 @@ function createGooberPreview(data) {
             "purple",
             "horn-left",
             "horn-right"
+        ],
+
+        shelby: [
+            "mint"
         ],
 
         tallboi: [
@@ -765,30 +743,38 @@ function createGooberPreview(data) {
     parts.forEach(
         function(part) {
 
+            const bodyColours = [
+
+                "green",
+                "blue",
+                "squishy",
+                "stone",
+                "pink",
+                "purple",
+                "yellow",
+                "tall",
+                "coral",
+                "lavender",
+                "red",
+                "cyan",
+                "aqua",
+                "violet",
+                "hotpink",
+                "gold",
+                "peach",
+                "deep-purple",
+                "orange",
+                "golden",
+                "galaxy-body",
+                "study-green",
+                "study-purple",
+                "mint"
+
+            ];
+
+
             if (
-                part === "green" ||
-                part === "blue" ||
-                part === "squishy" ||
-                part === "stone" ||
-                part === "pink" ||
-                part === "purple" ||
-                part === "yellow" ||
-                part === "tall" ||
-                part === "coral" ||
-                part === "lavender" ||
-                part === "red" ||
-                part === "cyan" ||
-                part === "aqua" ||
-                part === "violet" ||
-                part === "hotpink" ||
-                part === "gold" ||
-                part === "peach" ||
-                part === "deep-purple" ||
-                part === "orange" ||
-                part === "golden" ||
-                part === "galaxy-body" ||
-                part === "study-green" ||
-                part === "study-purple"
+                bodyColours.includes(part)
             ) {
 
                 body.classList.add(part);
@@ -806,7 +792,7 @@ function createGooberPreview(data) {
 
 
     /*
-       Four Eyes needs its additional eyes.
+       Four Eyes.
     */
 
     if (
@@ -819,11 +805,13 @@ function createGooberPreview(data) {
         extraOne.className =
             "goober-eye extra-eye extra-one";
 
+
         const extraTwo =
             document.createElement("div");
 
         extraTwo.className =
             "goober-eye extra-eye extra-two";
+
 
         face.appendChild(extraOne);
         face.appendChild(extraTwo);
@@ -832,14 +820,12 @@ function createGooberPreview(data) {
 
 
     /*
-       Shelby's shell needs to sit behind the face.
+       Shelby.
     */
 
     if (
         data.design === "shelby"
     ) {
-
-        body.classList.add("mint");
 
         const shell =
             document.createElement("div");
@@ -847,19 +833,22 @@ function createGooberPreview(data) {
         shell.className =
             "shelby-shell";
 
+
         goober.insertBefore(
             shell,
             face
         );
 
-        addPart("shell-highlight");
+
+        addPart(
+            "shell-highlight"
+        );
 
     }
 
 
     /*
-       Captain Goob cape belongs behind the body.
-       No oval head piece.
+       Captain Goob.
     */
 
     if (
@@ -871,6 +860,7 @@ function createGooberPreview(data) {
 
         cape.className =
             "captain-cape";
+
 
         goober.insertBefore(
             cape,
@@ -896,10 +886,6 @@ function renderEquippedCharacter() {
             "equipped-goober"
         );
 
-    const classic =
-        document.getElementById(
-            "classic-character"
-        );
 
     if (!container)
         return;
@@ -913,24 +899,23 @@ function renderEquippedCharacter() {
         getEquippedCharacter();
 
 
+    /*
+       No equipped/owned character:
+       leave the preview empty.
+    */
+
+    if (!equipped) {
+
+        return;
+
+    }
+
+
     container.appendChild(
         createGooberPreview(
             equipped
         )
     );
-
-
-    /*
-       The shop character replaces
-       the old classic character.
-    */
-
-    if (classic) {
-
-        classic.style.display =
-            "none";
-
-    }
 
 }
 
@@ -945,6 +930,7 @@ function renderCharacterBanner() {
         document.getElementById(
             "banner-preview"
         );
+
 
     if (!preview)
         return;
@@ -973,6 +959,35 @@ function renderCharacterBanner() {
 
 
 /* =========================================================
+   PLAYER NAME
+   ========================================================= */
+
+function renderPlayerInfo() {
+
+    const username =
+        localStorage.getItem(
+            "username"
+        ) ||
+        "Player";
+
+
+    const nameElement =
+        document.getElementById(
+            "player-username"
+        );
+
+
+    if (nameElement) {
+
+        nameElement.textContent =
+            username;
+
+    }
+
+}
+
+
+/* =========================================================
    TITLE
    ========================================================= */
 
@@ -982,6 +997,7 @@ function renderCharacterTitle() {
         document.getElementById(
             "player-tag"
         );
+
 
     if (!element)
         return;
@@ -1021,6 +1037,7 @@ function renderCharacterTitle() {
             ? item.name
             : title;
 
+
     element.style.display =
         "block";
 
@@ -1038,11 +1055,13 @@ function renderCharacterEffect() {
             "character"
         );
 
+
     if (!character)
         return;
 
 
     const effects = [
+
         "sparkle",
         "speed-trail",
         "lightning",
@@ -1053,6 +1072,7 @@ function renderCharacterEffect() {
         "crystal",
         "cosmic-aura",
         "crown"
+
     ];
 
 
@@ -1060,7 +1080,8 @@ function renderCharacterEffect() {
         effect => {
 
             character.classList.remove(
-                "effect-" + effect
+                "effect-" +
+                effect
             );
 
         }
@@ -1080,148 +1101,9 @@ function renderCharacterEffect() {
     ) {
 
         character.classList.add(
-            "effect-" + equipped
+            "effect-" +
+            equipped
         );
-
-    }
-
-}
-
-
-/* =========================================================
-   CLASSIC CHARACTER RENDERERS
-   ========================================================= */
-
-const CHARACTER_SKINS = {
-
-    light: "#f6c7a8",
-    medium: "#c98b68",
-    dark: "#70452f"
-
-};
-
-
-const CHARACTER_HAIR = {
-
-    brown: "#78350f",
-    black: "#111827",
-    blonde: "#facc15"
-
-};
-
-
-const CHARACTER_SHIRTS = {
-
-    blue: "#3b82f6",
-    red: "#ef4444",
-    green: "#22c55e",
-    "sprint-blue": "#2563eb"
-
-};
-
-
-function renderClassicCharacter() {
-
-    const head =
-        document.getElementById(
-            "character-head"
-        );
-
-    const hair =
-        document.getElementById(
-            "character-hair"
-        );
-
-    const body =
-        document.getElementById(
-            "character-body"
-        );
-
-    const leftLeg =
-        document.getElementById(
-            "character-leg-left"
-        );
-
-    const rightLeg =
-        document.getElementById(
-            "character-leg-right"
-        );
-
-
-    if (!head)
-        return;
-
-
-    const skin =
-        characterValue(
-            "character_skin",
-            "light"
-        );
-
-    const hairType =
-        characterValue(
-            "character_hair",
-            "brown"
-        );
-
-    const shirt =
-        characterValue(
-            "character_shirt",
-            "blue"
-        );
-
-    const pants =
-        characterValue(
-            "character_pants",
-            "blue"
-        );
-
-
-    head.style.background =
-        CHARACTER_SKINS[skin] ||
-        CHARACTER_SKINS.light;
-
-
-    hair.style.background =
-        CHARACTER_HAIR[hairType] ||
-        CHARACTER_HAIR.brown;
-
-
-    body.style.background =
-        CHARACTER_SHIRTS[shirt] ||
-        CHARACTER_SHIRTS.blue;
-
-
-    const pantsColours = {
-
-        blue: "#2563eb",
-        black: "#111827",
-        brown: "#78350f"
-
-    };
-
-
-    if (pants === "split") {
-
-        leftLeg.style.background =
-            "#2563eb";
-
-        rightLeg.style.background =
-            "#ef4444";
-
-    }
-
-    else {
-
-        const colour =
-            pantsColours[pants] ||
-            pantsColours.blue;
-
-        leftLeg.style.background =
-            colour;
-
-        rightLeg.style.background =
-            colour;
 
     }
 
@@ -1237,7 +1119,7 @@ function createOption(
     id,
     category,
     name,
-    free
+    free = false
 ) {
 
     if (!container)
@@ -1253,6 +1135,7 @@ function createOption(
     button.type =
         "button";
 
+
     button.className =
         "character-option";
 
@@ -1266,22 +1149,10 @@ function createOption(
         category;
 
 
-    const fallback =
-        category === "banner"
-            ? "purple-grid"
-            : category === "title"
-            ? "none"
-            : category === "effect"
-            ? "none"
-            : category === "character"
-            ? "leafy"
-            : CHARACTER_OPTIONS[category][0];
-
-
     const equipped =
         characterValue(
             key,
-            fallback
+            null
         );
 
 
@@ -1310,8 +1181,10 @@ function createOption(
             "🔒 " +
             name;
 
+
         button.disabled =
             true;
+
 
         button.title =
             "Buy this item in the Shop.";
@@ -1328,6 +1201,7 @@ function createOption(
                     key,
                     id
                 );
+
 
                 renderEditor();
 
@@ -1354,6 +1228,7 @@ function renderCharacterOptions() {
         document.getElementById(
             "character-options"
         );
+
 
     if (!container)
         return;
@@ -1383,48 +1258,7 @@ function renderCharacterOptions() {
 
 
 /* =========================================================
-   SIMPLE OPTIONS
-   ========================================================= */
-
-function renderBasicOptions(
-    category,
-    elementId,
-    names
-) {
-
-    const container =
-        document.getElementById(
-            elementId
-        );
-
-    if (!container)
-        return;
-
-
-    container.innerHTML =
-        "";
-
-
-    CHARACTER_OPTIONS[category]
-        .forEach(
-            function(id) {
-
-                createOption(
-                    container,
-                    id,
-                    category,
-                    names[id] || id,
-                    false
-                );
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   BANNERS
+   BANNER OPTIONS
    ========================================================= */
 
 function renderBannerOptions() {
@@ -1433,6 +1267,7 @@ function renderBannerOptions() {
         document.getElementById(
             "banners-options"
         );
+
 
     if (!container)
         return;
@@ -1460,7 +1295,7 @@ function renderBannerOptions() {
 
 
 /* =========================================================
-   TITLES
+   TITLE OPTIONS
    ========================================================= */
 
 function renderTitleOptions() {
@@ -1469,6 +1304,7 @@ function renderTitleOptions() {
         document.getElementById(
             "titles-options"
         );
+
 
     if (!container)
         return;
@@ -1496,7 +1332,7 @@ function renderTitleOptions() {
 
 
 /* =========================================================
-   EFFECTS
+   EFFECT OPTIONS
    ========================================================= */
 
 function renderEffectOptions() {
@@ -1505,6 +1341,7 @@ function renderEffectOptions() {
         document.getElementById(
             "effects-options"
         );
+
 
     if (!container)
         return;
@@ -1537,9 +1374,9 @@ function renderEffectOptions() {
 
 function renderEditor() {
 
-    renderEquippedCharacter();
+    renderPlayerInfo();
 
-    renderClassicCharacter();
+    renderEquippedCharacter();
 
     renderCharacterBanner();
 
@@ -1547,67 +1384,7 @@ function renderEditor() {
 
     renderCharacterEffect();
 
-
     renderCharacterOptions();
-
-
-    renderBasicOptions(
-        "skin",
-        "skin-options",
-        {
-            light: "Light",
-            medium: "Medium",
-            dark: "Dark"
-        }
-    );
-
-
-    renderBasicOptions(
-        "hair",
-        "hair-options",
-        {
-            brown: "Brown Hair",
-            black: "Black Hair",
-            blonde: "Blonde Hair"
-        }
-    );
-
-
-    renderBasicOptions(
-        "shirt",
-        "shirts-options",
-        {
-            blue: "Blue Shirt",
-            red: "Red Shirt",
-            green: "Green Shirt",
-            "sprint-blue": "Sprint Shirt"
-        }
-    );
-
-
-    renderBasicOptions(
-        "hat",
-        "hats-options",
-        {
-            none: "None",
-            "sprint-cap": "Sprint Cap",
-            "star-cap": "Star Cap",
-            visor: "Sprint Visor"
-        }
-    );
-
-
-    renderBasicOptions(
-        "pants",
-        "pants-options",
-        {
-            blue: "Blue Pants",
-            black: "Black Pants",
-            brown: "Brown Pants",
-            split: "Split Pants"
-        }
-    );
-
 
     renderBannerOptions();
 
@@ -1625,8 +1402,10 @@ function renderEditor() {
 window.renderEditor =
     renderEditor;
 
+
 window.getEquippedCharacter =
     getEquippedCharacter;
+
 
 window.ownsCharacterItem =
     ownsCharacterItem;
