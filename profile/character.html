@@ -22,6 +22,12 @@
     href="character.css"
 >
 
+<!-- Uses the same Goober designs as the shop -->
+<link
+    rel="stylesheet"
+    href="../shop/shop.css"
+>
+
 </head>
 
 <body>
@@ -84,9 +90,7 @@ Customize your StudySprint character!
 
 <div class="player-info">
 
-<h2
-    id="player-username"
->
+<h2 id="player-username">
 Player
 </h2>
 
@@ -108,8 +112,20 @@ Player
     class="character"
 >
 
+<!-- GOOBER PREVIEW -->
 
-<!-- EFFECT -->
+<div
+    id="equipped-goober"
+    class="equipped-goober"
+></div>
+
+
+<!-- OLD CHARACTER SYSTEM -->
+
+<div
+    id="classic-character"
+    class="classic-character"
+>
 
 <div
     id="character-effect"
@@ -117,23 +133,17 @@ Player
 ></div>
 
 
-<!-- CROWN -->
-
 <div
     id="character-crown"
     class="character-crown"
 >
 
 <div class="crown-gem gem-red"></div>
-
 <div class="crown-gem gem-blue"></div>
-
 <div class="crown-gem gem-purple"></div>
 
 </div>
 
-
-<!-- HAT -->
 
 <div
     id="character-hat"
@@ -141,15 +151,11 @@ Player
 ></div>
 
 
-<!-- HEAD -->
-
 <div
     id="character-head"
     class="character-head"
 ></div>
 
-
-<!-- HAIR -->
 
 <div
     id="character-hair"
@@ -157,20 +163,14 @@ Player
 ></div>
 
 
-<!-- FACE -->
-
 <div class="character-face"></div>
 
-
-<!-- BODY -->
 
 <div
     id="character-body"
     class="character-body"
 ></div>
 
-
-<!-- LEGS -->
 
 <div
     id="character-leg-left"
@@ -182,8 +182,27 @@ Player
     class="character-leg character-leg-right"
 ></div>
 
+</div>
 
 </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHARACTERS
+===================================================== -->
+
+<section class="customization-section">
+
+<h2>
+Characters
+</h2>
+
+<div
+    id="character-options"
+    class="options"
+></div>
 
 </section>
 
@@ -344,9 +363,7 @@ Effects
 </footer>
 
 
-<script
-    src="character.js"
-></script>
+<script src="character.js"></script>
 
 </body>
 
