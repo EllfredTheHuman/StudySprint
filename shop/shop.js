@@ -1,4 +1,3 @@
-```js
 /* =========================================================
    STUDYSPRINT SHOP
    Complete shop system
@@ -2911,4 +2910,3 @@ window.resetShopReroll =
 
 window.showDebugItems =
     showDebugItems;
-```
