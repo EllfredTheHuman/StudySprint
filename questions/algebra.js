@@ -158,7 +158,7 @@ correct:0
 
 {
 question:"Solve: 3x - 6 = 12",
-answers:["x = 2","x = 4","x = 6","x = 18"],
+answers:["x = 2","x = 6","x = 4","x = 18"],
 correct:1
 },
 
