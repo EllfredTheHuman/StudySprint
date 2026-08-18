@@ -2,40 +2,60 @@
    STUDYSPRINT CHARACTER EDITOR
 ========================================================= */
 
+
+/* =========================================================
+   PAGE LAYOUT
+========================================================= */
+
 .character-editor {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
 
     width: 100%;
+
     box-sizing: border-box;
 
-    padding: 40px 20px 80px;
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 40px;
+
+    padding:
+        40px 20px 80px;
+
 }
 
 
 /* =========================================================
-   PREVIEW
+   CHARACTER PREVIEW
 ========================================================= */
 
 .banner-preview {
+
+    position: relative;
+
     width: 700px;
+
     max-width: 92%;
+
     min-height: 320px;
 
-    padding: 35px;
-
     box-sizing: border-box;
+
+    padding: 35px;
 
     border-radius: 40px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    position: relative;
     overflow: hidden;
+
+    isolation: isolate;
 
     background:
         linear-gradient(
@@ -45,9 +65,9 @@
         );
 
     box-shadow:
-        0 20px 50px rgba(0,0,0,.15);
+        0 20px 50px
+        rgba(0,0,0,.15);
 
-    transition: .3s;
 }
 
 
@@ -56,71 +76,85 @@
 ========================================================= */
 
 .banner-preview.blue {
+
     background:
         linear-gradient(
             135deg,
             #2563eb,
             #38bdf8
         );
+
 }
 
 .banner-preview.green {
+
     background:
         linear-gradient(
             135deg,
             #16a34a,
             #4ade80
         );
+
 }
 
 .banner-preview.sprint-grid {
+
     background:
         linear-gradient(
             135deg,
             #312e81,
             #6366f1
         );
+
 }
 
 .banner-preview.purple-grid {
+
     background:
         linear-gradient(
             135deg,
             #7c3aed,
             #c084fc
         );
+
 }
 
 .banner-preview.neon-blue {
+
     background:
         linear-gradient(
             135deg,
             #0891b2,
             #22d3ee
         );
+
 }
 
 .banner-preview.galaxy-banner {
+
     background:
         linear-gradient(
             135deg,
             #111827,
             #4c1d95
         );
+
 }
 
 .banner-preview.gold-banner {
+
     background:
         linear-gradient(
             135deg,
             #92400e,
             #f59e0b
         );
+
 }
 
 
 /* =========================================================
-   GRID BANNERS
+   GRID EFFECTS
 ========================================================= */
 
 .banner-preview.sprint-grid::before,
@@ -134,46 +168,64 @@
     inset: 0;
 
     background-image:
+
         linear-gradient(
             rgba(255,255,255,.12) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
             rgba(255,255,255,.12) 1px,
             transparent 1px
         );
 
-    background-size: 25px 25px;
+    background-size:
+        25px 25px;
 
     pointer-events: none;
+
+    z-index: 0;
+
 }
 
 
 /* =========================================================
-   PLAYER INFO
+   PLAYER INFORMATION
 ========================================================= */
 
 .player-info {
+
     position: absolute;
 
     left: 35px;
+
     top: 30px;
 
-    max-width: calc(100% - 70px);
+    width:
+        calc(100% - 70px);
 
-    z-index: 30;
+    max-width:
+        calc(100% - 70px);
+
+    box-sizing: border-box;
 
     color: white;
 
+    z-index: 5;
+
     pointer-events: none;
+
 }
+
 
 .player-info h2 {
 
-    margin: 0 0 6px;
+    margin:
+        0 0 6px;
 
     font-size: 34px;
+
     line-height: 1.1;
 
     font-weight: 900;
@@ -181,90 +233,116 @@
     overflow-wrap: anywhere;
 
     text-shadow:
-        0 3px 8px rgba(0,0,0,.25);
+        0 3px 8px
+        rgba(0,0,0,.25);
+
 }
+
 
 .player-info p {
 
     margin: 0;
 
     font-size: 19px;
+
     line-height: 1.2;
 
     opacity: .9;
 
-    overflow-wrap: anywhere;
 }
 
 
 /* =========================================================
-   CHARACTER CONTAINER
+   CHARACTER AREA
 ========================================================= */
 
 .character {
 
-    width: 180px;
-    height: 235px;
-
     position: relative;
+
+    width: 180px;
+
+    height: 235px;
 
     flex-shrink: 0;
 
-    margin-top: 65px;
+    margin-top: 70px;
 
-    transform-origin:
-        center bottom;
+    z-index: 2;
 
     overflow: visible;
 
-    z-index: 10;
 }
 
 
 /* =========================================================
-   GOOBER
+   GOOBER CONTAINER
 ========================================================= */
 
-.equipped-goober {
+/*
+   The Goober itself is styled by shop.css.
 
-    position: absolute;
+   These rules ONLY control where the Goober sits
+   inside the character editor.
+*/
 
-    left: 50%;
-    bottom: 0;
+#equipped-goober {
+
+    position: absolute !important;
+
+    left: 50% !important;
+
+    top: auto !important;
+
+    right: auto !important;
+
+    bottom: 0 !important;
+
+    width: 180px !important;
+
+    height: 235px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
 
     transform:
-        translateX(-50%);
+        translateX(-50%) !important;
 
-    width: 180px;
-    height: 235px;
+    display: flex !important;
 
-    display: flex;
+    align-items: flex-end !important;
 
-    align-items: flex-end;
-    justify-content: center;
+    justify-content: center !important;
 
-    z-index: 20;
+    z-index: 3 !important;
 
-    overflow: visible;
+    pointer-events: none;
+
 }
 
 
 /*
-   Make sure the generated Goober stays inside
-   the character preview instead of escaping upward.
+   Do NOT alter the Goober's actual design.
+
+   This simply prevents shop.css positioning
+   from moving it relative to the page.
 */
 
-.equipped-goober .goober {
+#equipped-goober > .goober {
 
-    position: relative;
+    position: relative !important;
 
-    width: 180px;
-    height: 235px;
+    left: auto !important;
 
-    flex-shrink: 0;
+    right: auto !important;
 
-    transform-origin:
-        center bottom;
+    top: auto !important;
+
+    bottom: auto !important;
+
+    margin: 0 !important;
+
 }
 
 
@@ -278,17 +356,19 @@
 
     inset: 0;
 
-    width: 100%;
-    height: 100%;
-
     display: none;
 
+    width: 100%;
+
+    height: 100%;
+
     pointer-events: none;
+
 }
 
 
 /* =========================================================
-   HEAD
+   CLASSIC CHARACTER
 ========================================================= */
 
 .character-head {
@@ -296,152 +376,137 @@
     position: absolute;
 
     width: 105px;
+
     height: 105px;
 
     left: 38px;
+
     top: 28px;
 
-    background: #f6c7a8;
+    background:
+        #f6c7a8;
 
     border-radius: 50%;
 
-    z-index: 3;
 }
 
-
-/* =========================================================
-   FACE
-========================================================= */
 
 .character-face {
 
     position: absolute;
 
     width: 7px;
+
     height: 7px;
 
     left: 56px;
+
     top: 73px;
 
-    background: #1f2937;
+    background:
+        #1f2937;
 
     border-radius: 50%;
 
     box-shadow:
-        27px 0 0 #1f2937;
+        27px 0 0
+        #1f2937;
 
-    z-index: 7;
 }
 
-
-/* =========================================================
-   HAIR
-========================================================= */
 
 .character-hair {
 
     position: absolute;
 
     width: 98px;
+
     height: 43px;
 
     left: 41px;
+
     top: 25px;
 
-    background: #78350f;
+    background:
+        #78350f;
 
     border-radius:
         50px 50px 15px 15px;
 
-    z-index: 5;
 }
+
 
 .character-hair.black {
-    background: #111827;
+
+    background:
+        #111827;
+
 }
+
 
 .character-hair.blonde {
-    background: #facc15;
+
+    background:
+        #facc15;
+
 }
 
-
-/* =========================================================
-   BODY
-========================================================= */
 
 .character-body {
 
     position: absolute;
 
     width: 92px;
+
     height: 75px;
 
     left: 44px;
+
     top: 116px;
 
-    background: #3b82f6;
+    background:
+        #3b82f6;
 
     border-radius:
         30px 30px 15px 15px;
 
-    z-index: 2;
 }
 
-
-/* =========================================================
-   PANTS
-========================================================= */
-
-.character-pants {
-
-    position: absolute;
-
-    width: 84px;
-    height: 28px;
-
-    left: 48px;
-    top: 177px;
-
-    background: #2563eb;
-
-    border-radius:
-        10px 10px 8px 8px;
-
-    z-index: 2;
-}
-
-
-/* =========================================================
-   LEGS
-========================================================= */
 
 .character-leg {
 
     position: absolute;
 
     width: 30px;
+
     height: 55px;
 
     top: 177px;
 
     border-radius: 12px;
 
-    background: #2563eb;
+    background:
+        #2563eb;
 
-    z-index: 1;
 }
+
 
 .character-leg-left {
+
     left: 53px;
+
 }
 
+
 .character-leg-right {
+
     left: 95px;
+
 }
 
 
 /* =========================================================
-   EFFECTS
+   CHARACTER EFFECTS
 ========================================================= */
 
 .character-effects {
@@ -452,43 +517,55 @@
 
     pointer-events: none;
 
-    z-index: 50;
+    z-index: 4;
+
 }
 
 
 /* =========================================================
-   CUSTOMISATION SECTIONS
+   CUSTOMISATION PANELS
 ========================================================= */
 
 .customization-section {
 
     width: 700px;
+
     max-width: 92%;
 
     box-sizing: border-box;
 
-    background: white;
+    background:
+        white;
 
-    padding: 30px;
+    padding:
+        30px;
 
-    border-radius: 30px;
+    border-radius:
+        30px;
 
     box-shadow:
-        0 12px 30px rgba(0,0,0,.08);
+        0 12px 30px
+        rgba(0,0,0,.08);
+
 }
+
 
 .customization-section h2 {
 
     margin-top: 0;
+
     margin-bottom: 18px;
+
 }
 
 
 /* =========================================================
-   DROPDOWN / OPTIONS
+   DROPDOWNS
 ========================================================= */
 
 .options {
+
+    width: 100%;
 
     display: flex;
 
@@ -496,14 +573,8 @@
 
     gap: 12px;
 
-    width: 100%;
 }
 
-
-/*
-   If the editor is using <select> dropdowns,
-   keep them clean and readable.
-*/
 
 .options select {
 
@@ -511,43 +582,57 @@
 
     box-sizing: border-box;
 
-    padding: 14px 16px;
+    padding:
+        14px 16px;
 
-    border: 2px solid #e0e7ff;
+    border:
+        2px solid
+        #e0e7ff;
 
-    border-radius: 14px;
+    border-radius:
+        14px;
 
-    background: #f8faff;
+    background:
+        #f8faff;
 
-    color: #312e81;
+    color:
+        #312e81;
 
-    font-size: 16px;
+    font-size:
+        16px;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    outline: none;
+    outline:
+        none;
 
-    transition:
-        border-color .2s,
-        box-shadow .2s,
-        background .2s;
 }
+
 
 .options select:hover {
 
-    background: #eef2ff;
+    background:
+        #eef2ff;
 
-    border-color: #c7d2fe;
+    border-color:
+        #c7d2fe;
+
 }
+
 
 .options select:focus {
 
-    border-color: #6366f1;
+    border-color:
+        #6366f1;
 
     box-shadow:
-        0 0 0 4px rgba(99,102,241,.15);
+        0 0 0 4px
+        rgba(99,102,241,.15);
+
 }
 
 
@@ -559,62 +644,107 @@
 
     width: 100%;
 
+    box-sizing: border-box;
+
     border: none;
 
-    padding: 12px 18px;
+    padding:
+        12px 18px;
 
-    border-radius: 14px;
+    border-radius:
+        14px;
 
-    background: #eef2ff;
+    background:
+        #eef2ff;
 
-    color: #3730a3;
+    color:
+        #3730a3;
 
-    font-weight: 800;
+    font-weight:
+        800;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
-    transition:
-        transform .2s,
-        background .2s;
 }
+
 
 .character-option:hover {
 
-    transform:
-        translateY(-2px);
+    background:
+        #e0e7ff;
 
-    background: #e0e7ff;
 }
+
 
 .character-option.selected {
 
-    background: #4f46e5;
+    background:
+        #4f46e5;
 
-    color: white;
+    color:
+        white;
 
     box-shadow:
-        0 5px 15px rgba(79,70,229,.3);
+        0 5px 15px
+        rgba(79,70,229,.3);
+
 }
+
 
 .character-option:disabled {
 
-    cursor: not-allowed;
+    cursor:
+        not-allowed;
 
-    opacity: .55;
+    opacity:
+        .55;
 
-    transform: none;
 }
 
 
 /* =========================================================
-   NO OPTIONS
+   HEADER STACKING
 ========================================================= */
 
-.no-options {
+/*
+   The site header must ALWAYS be above the
+   character editor when the page is scrolled.
 
-    opacity: .6;
+   This does not change the header's layout.
+*/
 
-    font-weight: 700;
+body > header {
+
+    position: relative;
+
+    z-index: 1000;
+
+}
+
+
+/*
+   If the main stylesheet makes the header sticky,
+   this keeps it above the Goober.
+*/
+
+body > header[style] {
+
+    z-index: 1000;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    position: relative;
+
+    z-index: 1000;
+
 }
 
 
@@ -622,14 +752,16 @@
    MOBILE
 ========================================================= */
 
-@media(max-width:700px) {
+@media (max-width: 700px) {
 
     .character-editor {
 
         padding:
             25px 15px 60px;
 
-        gap: 25px;
+        gap:
+            25px;
+
     }
 
 
@@ -644,33 +776,38 @@
         padding: 25px;
 
         border-radius: 30px;
+
     }
 
 
     .player-info {
 
         left: 20px;
+
         top: 20px;
+
+        width:
+            calc(100% - 40px);
 
         max-width:
             calc(100% - 40px);
 
         text-align: center;
 
-        width:
-            calc(100% - 40px);
     }
 
 
     .player-info h2 {
 
         font-size: 28px;
+
     }
 
 
     .player-info p {
 
         font-size: 16px;
+
     }
 
 
@@ -678,11 +815,6 @@
 
         margin-top: 80px;
 
-        transform:
-            scale(.85);
-
-        transform-origin:
-            center bottom;
     }
 
 
@@ -695,39 +827,36 @@
         padding: 22px;
 
         border-radius: 24px;
+
     }
 
 }
 
 
 /* =========================================================
-   VERY SMALL SCREENS
+   SMALL MOBILE
 ========================================================= */
 
-@media(max-width:400px) {
+@media (max-width: 400px) {
 
     .banner-preview {
 
         min-height: 340px;
+
     }
 
 
     .player-info h2 {
 
         font-size: 24px;
+
     }
 
 
     .player-info p {
 
         font-size: 14px;
-    }
 
-
-    .character {
-
-        transform:
-            scale(.75);
     }
 
 }
