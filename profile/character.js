@@ -1,16 +1,22 @@
-```js
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   GOOBER CHARACTER SYSTEM
-   ========================================================= */
+   Character selection + cosmetic equipment
+========================================================= */
 
 
 /* =========================================================
    SHOP CHARACTERS
-   Leafy is the free starter and is NOT sold in the shop.
-   ========================================================= */
+========================================================= */
 
 const SHOP_CHARACTERS = [
+
+    {
+        id: "leafy",
+        name: "Leafy",
+        rarity: "Common",
+        design: "leafy",
+        starter: true
+    },
 
     {
         id: "squish",
@@ -163,22 +169,8 @@ const SHOP_CHARACTERS = [
 
 
 /* =========================================================
-   STARTER CHARACTER
-   ========================================================= */
-
-const STARTER_CHARACTER = {
-
-    id: "leafy",
-    name: "Leafy",
-    rarity: "Starter",
-    design: "leafy"
-
-};
-
-
-/* =========================================================
    BANNERS
-   ========================================================= */
+========================================================= */
 
 const CHARACTER_BANNERS = [
 
@@ -224,7 +216,7 @@ const CHARACTER_BANNERS = [
 
 /* =========================================================
    TITLES
-   ========================================================= */
+========================================================= */
 
 const CHARACTER_TITLES = [
 
@@ -264,7 +256,7 @@ const CHARACTER_TITLES = [
 
 /* =========================================================
    EFFECTS
-   ========================================================= */
+========================================================= */
 
 const CHARACTER_EFFECTS = [
 
@@ -329,27 +321,19 @@ const CHARACTER_EFFECTS = [
 
 /* =========================================================
    STORAGE
-   ========================================================= */
+========================================================= */
 
-function characterValue(
-    key,
-    fallback = null
-) {
+function characterValue(key, fallback) {
 
     const value =
         localStorage.getItem(key);
 
-    return value !== null
-        ? value
-        : fallback;
+    return value || fallback;
 
 }
 
 
-function setCharacterValue(
-    key,
-    value
-) {
+function setCharacterValue(key, value) {
 
     localStorage.setItem(
         key,
@@ -361,7 +345,7 @@ function setCharacterValue(
 
 /* =========================================================
    OWNED SHOP ITEMS
-   ========================================================= */
+========================================================= */
 
 function getOwnedItems() {
 
@@ -391,14 +375,11 @@ function getOwnedItems() {
 
 /* =========================================================
    OWNERSHIP
-   ========================================================= */
+========================================================= */
 
-function ownsCharacterItem(
-    id,
-    category
-) {
+function ownsCharacterItem(id, category) {
 
-    /* Leafy is always owned. */
+    /* Leafy is always the starter character. */
 
     if (
         category === "character" &&
@@ -456,59 +437,47 @@ function ownsCharacterItem(
 
 /* =========================================================
    EQUIPPED CHARACTER
-   ========================================================= */
+========================================================= */
 
 function getEquippedCharacter() {
 
-    let id =
+    const savedId =
         characterValue(
             "character_character",
             "leafy"
         );
 
 
+    const character =
+        SHOP_CHARACTERS.find(
+            item =>
+                item.id === savedId
+        );
+
+
     /*
-       If there is no valid character saved,
-       automatically use Leafy.
+       If the saved character doesn't exist,
+       return Leafy instead.
     */
 
-    if (!id) {
-
-        id = "leafy";
+    if (!character) {
 
         setCharacterValue(
             "character_character",
             "leafy"
         );
 
-    }
-
-
-    /* Leafy is the permanent starter. */
-
-    if (
-        id === "leafy"
-    ) {
-
-        return STARTER_CHARACTER;
+        return SHOP_CHARACTERS[0];
 
     }
-
-
-    const character =
-        SHOP_CHARACTERS.find(
-            item =>
-                item.id === id
-        );
 
 
     /*
-       If an old/invalid character is saved,
+       If the character isn't owned anymore,
        fall back to Leafy.
     */
 
     if (
-        !character ||
         !ownsCharacterItem(
             character.id,
             "character"
@@ -520,7 +489,7 @@ function getEquippedCharacter() {
             "leafy"
         );
 
-        return STARTER_CHARACTER;
+        return SHOP_CHARACTERS[0];
 
     }
 
@@ -532,7 +501,7 @@ function getEquippedCharacter() {
 
 /* =========================================================
    GOOBER PREVIEW
-   ========================================================= */
+========================================================= */
 
 function createGooberPreview(data) {
 
@@ -604,10 +573,8 @@ function createGooberPreview(data) {
     face.appendChild(rightEye);
     face.appendChild(mouth);
 
-
     feet.appendChild(leftFoot);
     feet.appendChild(rightFoot);
-
 
     goober.appendChild(feet);
     goober.appendChild(body);
@@ -776,42 +743,42 @@ function createGooberPreview(data) {
     };
 
 
-    const bodyColours = [
-
-        "green",
-        "blue",
-        "squishy",
-        "stone",
-        "pink",
-        "purple",
-        "yellow",
-        "tall",
-        "coral",
-        "lavender",
-        "red",
-        "cyan",
-        "aqua",
-        "violet",
-        "hotpink",
-        "gold",
-        "peach",
-        "deep-purple",
-        "orange",
-        "golden",
-        "galaxy-body",
-        "study-green",
-        "study-purple",
-        "mint"
-
-    ];
-
-
     const parts =
         designs[data.design] || [];
 
 
     parts.forEach(
         function(part) {
+
+            const bodyColours = [
+
+                "green",
+                "blue",
+                "squishy",
+                "stone",
+                "pink",
+                "purple",
+                "yellow",
+                "tall",
+                "coral",
+                "lavender",
+                "red",
+                "cyan",
+                "aqua",
+                "violet",
+                "hotpink",
+                "gold",
+                "peach",
+                "deep-purple",
+                "orange",
+                "golden",
+                "galaxy-body",
+                "study-green",
+                "study-purple",
+                "mint"
+
+            ];
+
 
             if (
                 bodyColours.includes(part)
@@ -831,7 +798,7 @@ function createGooberPreview(data) {
     );
 
 
-    /* Four Eyes. */
+    /* Four Eyes */
 
     if (
         data.design === "fourEyes"
@@ -857,7 +824,7 @@ function createGooberPreview(data) {
     }
 
 
-    /* Shelby. */
+    /* Shelby */
 
     if (
         data.design === "shelby"
@@ -883,7 +850,7 @@ function createGooberPreview(data) {
     }
 
 
-    /* Captain Goob. */
+    /* Captain Goob */
 
     if (
         data.design === "captainGoob"
@@ -891,6 +858,7 @@ function createGooberPreview(data) {
 
         const cape =
             document.createElement("div");
+
 
         cape.className =
             "captain-cape";
@@ -911,7 +879,7 @@ function createGooberPreview(data) {
 
 /* =========================================================
    RENDER CHARACTER
-   ========================================================= */
+========================================================= */
 
 function renderEquippedCharacter() {
 
@@ -933,10 +901,6 @@ function renderEquippedCharacter() {
         getEquippedCharacter();
 
 
-    if (!equipped)
-        return;
-
-
     container.appendChild(
         createGooberPreview(
             equipped
@@ -947,8 +911,117 @@ function renderEquippedCharacter() {
 
 
 /* =========================================================
+   CHARACTER DROPDOWN
+========================================================= */
+
+function renderCharacterSelector() {
+
+    const selector =
+        document.getElementById(
+            "character-selector"
+        );
+
+
+    if (!selector)
+        return;
+
+
+    selector.innerHTML =
+        "";
+
+
+    const equipped =
+        getEquippedCharacter();
+
+
+    const ownedCharacters =
+        SHOP_CHARACTERS.filter(
+            character =>
+                ownsCharacterItem(
+                    character.id,
+                    "character"
+                )
+        );
+
+
+    ownedCharacters.forEach(
+        function(character) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                character.id;
+
+
+            option.textContent =
+                character.name +
+                " • " +
+                character.rarity;
+
+
+            if (
+                character.id ===
+                equipped.id
+            ) {
+
+                option.selected =
+                    true;
+
+            }
+
+
+            selector.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    selector.onchange =
+        function() {
+
+            const selected =
+                selector.value;
+
+
+            if (
+                !ownsCharacterItem(
+                    selected,
+                    "character"
+                )
+            ) {
+
+                selector.value =
+                    equipped.id;
+
+                return;
+
+            }
+
+
+            setCharacterValue(
+                "character_character",
+                selected
+            );
+
+
+            renderEquippedCharacter();
+
+            renderCharacterSelector();
+
+        };
+
+}
+
+
+/* =========================================================
    BANNER
-   ========================================================= */
+========================================================= */
 
 function renderCharacterBanner() {
 
@@ -981,37 +1054,8 @@ function renderCharacterBanner() {
 
 
 /* =========================================================
-   PLAYER INFO
-   ========================================================= */
-
-function renderPlayerInfo() {
-
-    const username =
-        localStorage.getItem(
-            "username"
-        ) ||
-        "Player";
-
-
-    const element =
-        document.getElementById(
-            "player-username"
-        );
-
-
-    if (element) {
-
-        element.textContent =
-            username;
-
-    }
-
-}
-
-
-/* =========================================================
    TITLE
-   ========================================================= */
+========================================================= */
 
 function renderCharacterTitle() {
 
@@ -1068,7 +1112,7 @@ function renderCharacterTitle() {
 
 /* =========================================================
    EFFECT
-   ========================================================= */
+========================================================= */
 
 function renderCharacterEffect() {
 
@@ -1102,8 +1146,7 @@ function renderCharacterEffect() {
         effect => {
 
             character.classList.remove(
-                "effect-" +
-                effect
+                "effect-" + effect
             );
 
         }
@@ -1123,8 +1166,7 @@ function renderCharacterEffect() {
     ) {
 
         character.classList.add(
-            "effect-" +
-            equipped
+            "effect-" + equipped
         );
 
     }
@@ -1133,15 +1175,15 @@ function renderCharacterEffect() {
 
 
 /* =========================================================
-   CREATE OPTION
-   ========================================================= */
+   CREATE COSMETIC OPTION
+========================================================= */
 
 function createOption(
     container,
     id,
     category,
     name,
-    free = false
+    free
 ) {
 
     if (!container)
@@ -1171,12 +1213,20 @@ function createOption(
         category;
 
 
+    const fallback =
+        category === "banner"
+            ? "purple-grid"
+            : category === "title"
+            ? "none"
+            : category === "effect"
+            ? "none"
+            : null;
+
+
     const equipped =
         characterValue(
             key,
-            category === "character"
-                ? "leafy"
-                : null
+            fallback
         );
 
 
@@ -1243,61 +1293,8 @@ function createOption(
 
 
 /* =========================================================
-   CHARACTER OPTIONS
-   ========================================================= */
-
-function renderCharacterOptions() {
-
-    const container =
-        document.getElementById(
-            "character-options"
-        );
-
-
-    if (!container)
-        return;
-
-
-    container.innerHTML =
-        "";
-
-
-    /* Leafy is always shown first. */
-
-    createOption(
-        container,
-        STARTER_CHARACTER.id,
-        "character",
-        STARTER_CHARACTER.name +
-        " • Starter",
-        true
-    );
-
-
-    /* Shop characters follow Leafy. */
-
-    SHOP_CHARACTERS.forEach(
-        function(item) {
-
-            createOption(
-                container,
-                item.id,
-                "character",
-                item.name +
-                " • " +
-                item.rarity,
-                false
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   BANNER OPTIONS
-   ========================================================= */
+   BANNERS
+========================================================= */
 
 function renderBannerOptions() {
 
@@ -1333,8 +1330,8 @@ function renderBannerOptions() {
 
 
 /* =========================================================
-   TITLE OPTIONS
-   ========================================================= */
+   TITLES
+========================================================= */
 
 function renderTitleOptions() {
 
@@ -1370,8 +1367,8 @@ function renderTitleOptions() {
 
 
 /* =========================================================
-   EFFECT OPTIONS
-   ========================================================= */
+   EFFECTS
+========================================================= */
 
 function renderEffectOptions() {
 
@@ -1407,22 +1404,47 @@ function renderEffectOptions() {
 
 
 /* =========================================================
+   PLAYER NAME
+========================================================= */
+
+function renderPlayerName() {
+
+    const element =
+        document.getElementById(
+            "player-username"
+        );
+
+
+    if (!element)
+        return;
+
+
+    element.textContent =
+        localStorage.getItem(
+            "username"
+        ) ||
+        "Player";
+
+}
+
+
+/* =========================================================
    RENDER EVERYTHING
-   ========================================================= */
+========================================================= */
 
 function renderEditor() {
 
-    renderPlayerInfo();
+    renderPlayerName();
 
     renderEquippedCharacter();
+
+    renderCharacterSelector();
 
     renderCharacterBanner();
 
     renderCharacterTitle();
 
     renderCharacterEffect();
-
-    renderCharacterOptions();
 
     renderBannerOptions();
 
@@ -1435,13 +1457,15 @@ function renderEditor() {
 
 /* =========================================================
    PUBLIC API
-   ========================================================= */
+========================================================= */
 
 window.renderEditor =
     renderEditor;
 
+
 window.getEquippedCharacter =
     getEquippedCharacter;
+
 
 window.ownsCharacterItem =
     ownsCharacterItem;
@@ -1449,7 +1473,7 @@ window.ownsCharacterItem =
 
 /* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1459,4 +1483,3 @@ document.addEventListener(
 
     }
 );
-```
