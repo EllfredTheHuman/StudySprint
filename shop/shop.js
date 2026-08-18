@@ -1,6 +1,7 @@
+```js
 /* =========================================================
    STUDYSPRINT SHOP
-   Clean shop system
+   Complete shop system
    ========================================================= */
 
 
@@ -63,12 +64,11 @@ const RARITY_CHANCES = [
    =========================================================
    
    IMPORTANT:
-   Everything that can appear in the coin shop goes
-   inside this ONE array.
+   Leafy is NOT included here because Leafy is the
+   starter character and must never appear in the shop.
    
-   Characters
-   Banners
-   Titles
+   Everything else that can appear in the coin shop
+   goes inside this array.
    ========================================================= */
 
 const SHOP_ITEMS = [
@@ -76,15 +76,6 @@ const SHOP_ITEMS = [
     /* =====================================================
        COMMON GOOBERS
        ===================================================== */
-
-    {
-        id: "leafy",
-        name: "Leafy",
-        type: "Character",
-        rarity: "Common",
-        price: 250,
-        design: "leafy"
-    },
 
     {
         id: "squish",
@@ -377,17 +368,13 @@ const SHOP_ITEMS = [
 
 /* =========================================================
    DEBUG DATA
-   =========================================================
-   
-   These are the items that can potentially appear in the
-   coin shop rotation.
-   
-   This is NOT the current shop.
    ========================================================= */
 
 window.DEBUG_GOOBERS =
     SHOP_ITEMS.filter(function(item) {
+
         return item.type === "Character";
+
     });
 
 window.DEBUG_SHOP_ITEMS =
@@ -609,27 +596,39 @@ function unlockItem(id, type) {
     let key = "";
 
     if (type === "Character") {
+
         key = "unlocked_characters";
+
     }
 
     if (type === "Banner") {
+
         key = "unlocked_banners";
+
     }
 
     if (type === "Player Title") {
+
         key = "unlockedTitles";
+
     }
 
     if (type === "Effect") {
+
         key = "unlocked_effects";
+
     }
 
     if (type === "Hat") {
+
         key = "unlocked_hats";
+
     }
 
     if (!key) {
+
         return;
+
     }
 
     let unlocked = [];
@@ -747,6 +746,12 @@ function rollRarity(random) {
 
 /* =========================================================
    SHOP GENERATION
+   =========================================================
+   
+   The normal timer determines which fortnight we're in.
+   
+   shopRerollSeed is ONLY a debug/testing value.
+   It changes the contents without changing the timer.
    ========================================================= */
 
 function getCurrentShop() {
@@ -754,15 +759,27 @@ function getCurrentShop() {
     const start =
         getShopStart();
 
+
+    const rerollSeed =
+        Number(
+            localStorage.getItem(
+                "shopRerollSeed"
+            )
+        ) || 0;
+
+
     const baseSeed =
         Math.floor(
             start / 1000
-        );
+        ) +
+        rerollSeed;
+
 
     const result = [];
 
     const used =
         new Set();
+
 
     for (
         let slot = 0;
@@ -776,8 +793,10 @@ function getCurrentShop() {
                 slot * 7919
             );
 
+
         const rarity =
             rollRarity(random);
+
 
         let candidates =
             SHOP_ITEMS.filter(
@@ -790,6 +809,7 @@ function getCurrentShop() {
 
                 }
             );
+
 
         /*
            If there are no unused items of that rarity,
@@ -813,6 +833,7 @@ function getCurrentShop() {
 
         }
 
+
         if (
             candidates.length === 0
         ) {
@@ -821,11 +842,13 @@ function getCurrentShop() {
 
         }
 
+
         random =
             seededRandom(
                 baseSeed +
                 slot * 15485863
             );
+
 
         const index =
             Math.floor(
@@ -833,8 +856,10 @@ function getCurrentShop() {
                 candidates.length
             );
 
+
         const item =
             candidates[index];
+
 
         used.add(item.id);
 
@@ -842,7 +867,39 @@ function getCurrentShop() {
 
     }
 
+
     return result;
+
+}
+
+
+/* =========================================================
+   DEBUG SHOP REROLL
+   ========================================================= */
+
+function rerollShop() {
+
+    localStorage.setItem(
+        "shopRerollSeed",
+        String(Date.now())
+    );
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   RESET SHOP REROLL
+   ========================================================= */
+
+function resetShopReroll() {
+
+    localStorage.removeItem(
+        "shopRerollSeed"
+    );
+
+    location.reload();
 
 }
 
@@ -1036,10 +1093,6 @@ function createGoober(data) {
         shell.className =
             "shelby-shell";
 
-        /*
-           Shell goes behind the face.
-        */
-
         goober.insertBefore(
             shell,
             face
@@ -1084,6 +1137,7 @@ function createGoober(data) {
 
         fourth.className =
             "goober-eye extra-eye extra-two";
+
 
         face.appendChild(third);
         face.appendChild(fourth);
@@ -1161,13 +1215,6 @@ function createGoober(data) {
     if (data.design === "captainGoob") {
 
         body.classList.add("violet");
-
-        /*
-           Cape is inserted before the body,
-           keeping it behind the Goober.
-
-           There is intentionally NO oval head piece.
-        */
 
         const cape =
             document.createElement("div");
@@ -1536,13 +1583,17 @@ function displayMainShop() {
         );
 
     if (!container) {
+
         return;
+
     }
 
     container.innerHTML = "";
 
+
     const items =
         getCurrentShop();
+
 
     items.forEach(
         function(item) {
@@ -1571,8 +1622,10 @@ function buyCoinItem(item, button) {
 
     }
 
+
     const coins =
         getCoins();
+
 
     if (
         coins < item.price
@@ -1586,10 +1639,12 @@ function buyCoinItem(item, button) {
 
     }
 
+
     setCoins(
         coins -
         item.price
     );
+
 
     unlockItem(
         item.id,
@@ -1600,6 +1655,7 @@ function buyCoinItem(item, button) {
     const owned =
         getOwnedItems();
 
+
     if (
         owned.indexOf(item.id) === -1
     ) {
@@ -1607,6 +1663,7 @@ function buyCoinItem(item, button) {
         owned.push(item.id);
 
     }
+
 
     saveOwnedItems(
         owned
@@ -1622,6 +1679,7 @@ function buyCoinItem(item, button) {
     button.classList.add(
         "owned"
     );
+
 
     updateCurrency();
 
@@ -1640,7 +1698,9 @@ function displayTicketShop() {
         );
 
     if (!container) {
+
         return;
+
     }
 
     container.innerHTML = "";
@@ -1811,8 +1871,10 @@ function buyTicketItem(item, button) {
 
     }
 
+
     const tickets =
         getTickets();
+
 
     if (
         tickets < item.price
@@ -1826,10 +1888,12 @@ function buyTicketItem(item, button) {
 
     }
 
+
     setTickets(
         tickets -
         item.price
     );
+
 
     unlockItem(
         item.id,
@@ -1840,6 +1904,7 @@ function buyTicketItem(item, button) {
     const owned =
         getOwnedItems();
 
+
     if (
         owned.indexOf(item.id) === -1
     ) {
@@ -1847,6 +1912,7 @@ function buyTicketItem(item, button) {
         owned.push(item.id);
 
     }
+
 
     saveOwnedItems(
         owned
@@ -1862,6 +1928,7 @@ function buyTicketItem(item, button) {
     button.classList.add(
         "owned"
     );
+
 
     updateCurrency();
 
@@ -1880,7 +1947,9 @@ function displayStudyPass() {
         );
 
     if (!container) {
+
         return;
+
     }
 
     container.innerHTML = "";
@@ -2031,7 +2100,9 @@ function updateCountdown() {
         );
 
     if (!element) {
+
         return;
+
     }
 
 
@@ -2276,6 +2347,10 @@ function openDebugMenu() {
 
         "<option value='streak'>🔥 Streak</option>" +
 
+        "<option value='reroll-shop'>🔄 Reroll Shop</option>" +
+
+        "<option value='reset-reroll'>↩️ Return To Normal Shop</option>" +
+
         "<option value='show-goobers'>🟢 Show All Goobers</option>" +
 
         "<option value='show-items'>🛍️ Show All Shop Items</option>" +
@@ -2325,7 +2400,10 @@ function openDebugMenu() {
         const hidden =
             type.value === "reset" ||
             type.value === "show-goobers" ||
-            type.value === "show-items";
+            type.value === "show-items" ||
+            type.value === "reroll-shop" ||
+            type.value === "reset-reroll";
+
 
         value.style.display =
             hidden
@@ -2361,6 +2439,36 @@ function openDebugMenu() {
 
             const selected =
                 type.value;
+
+
+            /* ---------------------------------------------
+               REROLL SHOP
+               --------------------------------------------- */
+
+            if (
+                selected === "reroll-shop"
+            ) {
+
+                rerollShop();
+
+                return;
+
+            }
+
+
+            /* ---------------------------------------------
+               RETURN TO NORMAL SHOP
+               --------------------------------------------- */
+
+            if (
+                selected === "reset-reroll"
+            ) {
+
+                resetShopReroll();
+
+                return;
+
+            }
 
 
             /* ---------------------------------------------
@@ -2414,7 +2522,9 @@ function openDebugMenu() {
 
 
                 if (!confirmed) {
+
                     return;
+
                 }
 
 
@@ -2505,7 +2615,9 @@ function showDebugItems(items, title) {
         );
 
     if (existing) {
+
         existing.remove();
+
     }
 
 
@@ -2791,5 +2903,12 @@ window.ownsItem =
 window.getCurrentShop =
     getCurrentShop;
 
+window.rerollShop =
+    rerollShop;
+
+window.resetShopReroll =
+    resetShopReroll;
+
 window.showDebugItems =
     showDebugItems;
+```
