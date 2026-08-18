@@ -1,21 +1,16 @@
+```js
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   Goober-only character system
+   GOOBER CHARACTER SYSTEM
    ========================================================= */
 
 
 /* =========================================================
    SHOP CHARACTERS
+   Leafy is the free starter and is NOT sold in the shop.
    ========================================================= */
 
 const SHOP_CHARACTERS = [
-
-    {
-        id: "leafy",
-        name: "Leafy",
-        rarity: "Common",
-        design: "leafy"
-    },
 
     {
         id: "squish",
@@ -165,6 +160,20 @@ const SHOP_CHARACTERS = [
     }
 
 ];
+
+
+/* =========================================================
+   STARTER CHARACTER
+   ========================================================= */
+
+const STARTER_CHARACTER = {
+
+    id: "leafy",
+    name: "Leafy",
+    rarity: "Starter",
+    design: "leafy"
+
+};
 
 
 /* =========================================================
@@ -322,7 +331,10 @@ const CHARACTER_EFFECTS = [
    STORAGE
    ========================================================= */
 
-function characterValue(key, fallback = null) {
+function characterValue(
+    key,
+    fallback = null
+) {
 
     const value =
         localStorage.getItem(key);
@@ -334,7 +346,10 @@ function characterValue(key, fallback = null) {
 }
 
 
-function setCharacterValue(key, value) {
+function setCharacterValue(
+    key,
+    value
+) {
 
     localStorage.setItem(
         key,
@@ -378,11 +393,24 @@ function getOwnedItems() {
    OWNERSHIP
    ========================================================= */
 
-function ownsCharacterItem(id, category) {
+function ownsCharacterItem(
+    id,
+    category
+) {
 
-    /*
-       Free banner.
-    */
+    /* Leafy is always owned. */
+
+    if (
+        category === "character" &&
+        id === "leafy"
+    ) {
+
+        return true;
+
+    }
+
+
+    /* Free banners. */
 
     if (
         category === "banner" &&
@@ -397,9 +425,7 @@ function ownsCharacterItem(id, category) {
     }
 
 
-    /*
-       Free title.
-    */
+    /* Free title. */
 
     if (
         category === "title" &&
@@ -411,9 +437,7 @@ function ownsCharacterItem(id, category) {
     }
 
 
-    /*
-       Free effect.
-    */
+    /* Free effect. */
 
     if (
         category === "effect" &&
@@ -424,11 +448,6 @@ function ownsCharacterItem(id, category) {
 
     }
 
-
-    /*
-       Characters are controlled entirely
-       by shop ownership.
-    */
 
     return getOwnedItems().includes(id);
 
@@ -441,24 +460,37 @@ function ownsCharacterItem(id, category) {
 
 function getEquippedCharacter() {
 
-    const id =
+    let id =
         characterValue(
             "character_character",
-            null
+            "leafy"
         );
 
 
     /*
-       IMPORTANT:
-       There is NO default Leafy anymore.
-
-       If the player has not equipped a Goober,
-       return null.
+       If there is no valid character saved,
+       automatically use Leafy.
     */
 
     if (!id) {
 
-        return null;
+        id = "leafy";
+
+        setCharacterValue(
+            "character_character",
+            "leafy"
+        );
+
+    }
+
+
+    /* Leafy is the permanent starter. */
+
+    if (
+        id === "leafy"
+    ) {
+
+        return STARTER_CHARACTER;
 
     }
 
@@ -471,7 +503,8 @@ function getEquippedCharacter() {
 
 
     /*
-       Don't display characters that aren't owned.
+       If an old/invalid character is saved,
+       fall back to Leafy.
     */
 
     if (
@@ -482,7 +515,12 @@ function getEquippedCharacter() {
         )
     ) {
 
-        return null;
+        setCharacterValue(
+            "character_character",
+            "leafy"
+        );
+
+        return STARTER_CHARACTER;
 
     }
 
@@ -566,8 +604,10 @@ function createGooberPreview(data) {
     face.appendChild(rightEye);
     face.appendChild(mouth);
 
+
     feet.appendChild(leftFoot);
     feet.appendChild(rightFoot);
+
 
     goober.appendChild(feet);
     goober.appendChild(body);
@@ -736,42 +776,42 @@ function createGooberPreview(data) {
     };
 
 
+    const bodyColours = [
+
+        "green",
+        "blue",
+        "squishy",
+        "stone",
+        "pink",
+        "purple",
+        "yellow",
+        "tall",
+        "coral",
+        "lavender",
+        "red",
+        "cyan",
+        "aqua",
+        "violet",
+        "hotpink",
+        "gold",
+        "peach",
+        "deep-purple",
+        "orange",
+        "golden",
+        "galaxy-body",
+        "study-green",
+        "study-purple",
+        "mint"
+
+    ];
+
+
     const parts =
         designs[data.design] || [];
 
 
     parts.forEach(
         function(part) {
-
-            const bodyColours = [
-
-                "green",
-                "blue",
-                "squishy",
-                "stone",
-                "pink",
-                "purple",
-                "yellow",
-                "tall",
-                "coral",
-                "lavender",
-                "red",
-                "cyan",
-                "aqua",
-                "violet",
-                "hotpink",
-                "gold",
-                "peach",
-                "deep-purple",
-                "orange",
-                "golden",
-                "galaxy-body",
-                "study-green",
-                "study-purple",
-                "mint"
-
-            ];
-
 
             if (
                 bodyColours.includes(part)
@@ -791,9 +831,7 @@ function createGooberPreview(data) {
     );
 
 
-    /*
-       Four Eyes.
-    */
+    /* Four Eyes. */
 
     if (
         data.design === "fourEyes"
@@ -819,9 +857,7 @@ function createGooberPreview(data) {
     }
 
 
-    /*
-       Shelby.
-    */
+    /* Shelby. */
 
     if (
         data.design === "shelby"
@@ -847,9 +883,7 @@ function createGooberPreview(data) {
     }
 
 
-    /*
-       Captain Goob.
-    */
+    /* Captain Goob. */
 
     if (
         data.design === "captainGoob"
@@ -876,7 +910,7 @@ function createGooberPreview(data) {
 
 
 /* =========================================================
-   RENDER EQUIPPED CHARACTER
+   RENDER CHARACTER
    ========================================================= */
 
 function renderEquippedCharacter() {
@@ -899,16 +933,8 @@ function renderEquippedCharacter() {
         getEquippedCharacter();
 
 
-    /*
-       No equipped/owned character:
-       leave the preview empty.
-    */
-
-    if (!equipped) {
-
+    if (!equipped)
         return;
-
-    }
 
 
     container.appendChild(
@@ -947,19 +973,15 @@ function renderCharacterBanner() {
         "banner-preview";
 
 
-    if (banner) {
-
-        preview.classList.add(
-            banner
-        );
-
-    }
+    preview.classList.add(
+        banner
+    );
 
 }
 
 
 /* =========================================================
-   PLAYER NAME
+   PLAYER INFO
    ========================================================= */
 
 function renderPlayerInfo() {
@@ -971,15 +993,15 @@ function renderPlayerInfo() {
         "Player";
 
 
-    const nameElement =
+    const element =
         document.getElementById(
             "player-username"
         );
 
 
-    if (nameElement) {
+    if (element) {
 
-        nameElement.textContent =
+        element.textContent =
             username;
 
     }
@@ -1152,7 +1174,9 @@ function createOption(
     const equipped =
         characterValue(
             key,
-            null
+            category === "character"
+                ? "leafy"
+                : null
         );
 
 
@@ -1237,6 +1261,20 @@ function renderCharacterOptions() {
     container.innerHTML =
         "";
 
+
+    /* Leafy is always shown first. */
+
+    createOption(
+        container,
+        STARTER_CHARACTER.id,
+        "character",
+        STARTER_CHARACTER.name +
+        " • Starter",
+        true
+    );
+
+
+    /* Shop characters follow Leafy. */
 
     SHOP_CHARACTERS.forEach(
         function(item) {
@@ -1402,10 +1440,8 @@ function renderEditor() {
 window.renderEditor =
     renderEditor;
 
-
 window.getEquippedCharacter =
     getEquippedCharacter;
-
 
 window.ownsCharacterItem =
     ownsCharacterItem;
@@ -1423,3 +1459,4 @@ document.addEventListener(
 
     }
 );
+```
