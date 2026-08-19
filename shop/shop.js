@@ -693,14 +693,12 @@ function seededRandom(seed) {
 
 function getShopStart() {
 
-    const debugShopReset =
-        localStorage.getItem("debugShopReset");
+    const debugReset =
+        localStorage.getItem("shopDebugReset");
 
-    if (debugShopReset) {
+    if (debugReset) {
 
-        return Number(
-            debugShopReset
-        );
+        return Number(debugReset);
 
     }
 
