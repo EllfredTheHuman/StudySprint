@@ -693,6 +693,17 @@ function seededRandom(seed) {
 
 function getShopStart() {
 
+    const debugShopReset =
+        localStorage.getItem("debugShopReset");
+
+    if (debugShopReset) {
+
+        return Number(
+            debugShopReset
+        );
+
+    }
+
     const now =
         Date.now();
 
