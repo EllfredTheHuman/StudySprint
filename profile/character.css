@@ -86,6 +86,7 @@
 
 }
 
+
 .banner-preview.green {
 
     background:
@@ -96,6 +97,7 @@
         );
 
 }
+
 
 .banner-preview.sprint-grid {
 
@@ -108,6 +110,7 @@
 
 }
 
+
 .banner-preview.purple-grid {
 
     background:
@@ -118,6 +121,7 @@
         );
 
 }
+
 
 .banner-preview.neon-blue {
 
@@ -130,6 +134,7 @@
 
 }
 
+
 .banner-preview.galaxy-banner {
 
     background:
@@ -140,6 +145,7 @@
         );
 
 }
+
 
 .banner-preview.gold-banner {
 
@@ -333,6 +339,165 @@
 
 
 /* =========================================================
+   OLD CHARACTER SYSTEM
+========================================================= */
+
+.classic-character {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    width: 100%;
+
+    height: 100%;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   CLASSIC CHARACTER
+========================================================= */
+
+.character-head {
+
+    position: absolute;
+
+    width: 105px;
+
+    height: 105px;
+
+    left: 38px;
+
+    top: 28px;
+
+    background:
+        #f6c7a8;
+
+    border-radius: 50%;
+
+}
+
+
+.character-face {
+
+    position: absolute;
+
+    width: 7px;
+
+    height: 7px;
+
+    left: 56px;
+
+    top: 73px;
+
+    background:
+        #1f2937;
+
+    border-radius: 50%;
+
+    box-shadow:
+        27px 0 0
+        #1f2937;
+
+}
+
+
+.character-hair {
+
+    position: absolute;
+
+    width: 98px;
+
+    height: 43px;
+
+    left: 41px;
+
+    top: 25px;
+
+    background:
+        #78350f;
+
+    border-radius:
+        50px 50px 15px 15px;
+
+}
+
+
+.character-hair.black {
+
+    background:
+        #111827;
+
+}
+
+
+.character-hair.blonde {
+
+    background:
+        #facc15;
+
+}
+
+
+.character-body {
+
+    position: absolute;
+
+    width: 92px;
+
+    height: 75px;
+
+    left: 44px;
+
+    top: 116px;
+
+    background:
+        #3b82f6;
+
+    border-radius:
+        30px 30px 15px 15px;
+
+}
+
+
+.character-leg {
+
+    position: absolute;
+
+    width: 30px;
+
+    height: 55px;
+
+    top: 177px;
+
+    border-radius: 12px;
+
+    background:
+        #2563eb;
+
+}
+
+
+.character-leg-left {
+
+    left: 53px;
+
+}
+
+
+.character-leg-right {
+
+    left: 95px;
+
+}
+
+
+/* =========================================================
    CHARACTER EFFECTS
 ========================================================= */
 
@@ -383,10 +548,6 @@
 
     margin-bottom: 8px;
 
-    font-size: 25px;
-
-    font-weight: 900;
-
 }
 
 
@@ -401,8 +562,8 @@
     font-size:
         15px;
 
-    font-weight:
-        600;
+    line-height:
+        1.5;
 
 }
 
@@ -417,14 +578,8 @@
 
     width: 100%;
 
-    box-sizing: border-box;
-
 }
 
-
-/* =========================================================
-   DROPDOWN BUTTON
-========================================================= */
 
 .custom-dropdown-button {
 
@@ -432,16 +587,10 @@
 
     box-sizing: border-box;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
+    min-height: 54px;
 
     padding:
-        15px 18px;
+        14px 17px;
 
     border:
         2px solid
@@ -464,6 +613,21 @@
 
     cursor:
         pointer;
+
+    outline:
+        none;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        12px;
 
     text-align:
         left;
@@ -488,6 +652,18 @@
 }
 
 
+.custom-dropdown-button:focus-visible {
+
+    border-color:
+        #6366f1;
+
+    box-shadow:
+        0 0 0 4px
+        rgba(99,102,241,.15);
+
+}
+
+
 .custom-dropdown.open
 .custom-dropdown-button {
 
@@ -499,35 +675,44 @@
 
     box-shadow:
         0 0 0 4px
-        rgba(99,102,241,.12);
+        rgba(99,102,241,.10);
 
 }
 
-
-.custom-dropdown-button:active {
-
-    transform:
-        scale(.99);
-
-}
-
-
-/* =========================================================
-   DROPDOWN ARROW
-========================================================= */
 
 .custom-dropdown-arrow {
 
     flex-shrink: 0;
 
-    font-size:
-        14px;
+    width: 28px;
+
+    height: 28px;
+
+    border-radius: 9px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #e0e7ff;
 
     color:
-        #6366f1;
+        #4338ca;
+
+    font-size:
+        20px;
+
+    line-height:
+        1;
 
     transition:
-        transform .2s ease;
+        transform .15s ease;
 
 }
 
@@ -541,10 +726,6 @@
 }
 
 
-/* =========================================================
-   DROPDOWN MENU
-========================================================= */
-
 .custom-dropdown-menu {
 
     position: absolute;
@@ -556,12 +737,17 @@
     top:
         calc(100% + 8px);
 
-    z-index: 100;
-
     box-sizing: border-box;
 
+    max-height: 270px;
+
+    overflow-y: auto;
+
     padding:
-        8px;
+        7px;
+
+    background:
+        white;
 
     border:
         2px solid
@@ -570,27 +756,19 @@
     border-radius:
         18px;
 
-    background:
-        white;
-
     box-shadow:
-        0 18px 40px
+        0 15px 35px
         rgba(30,41,59,.16);
 
-    max-height:
-        300px;
+    z-index:
+        500;
 
-    overflow-y:
-        auto;
+    opacity: 0;
 
-    opacity:
-        0;
-
-    visibility:
-        hidden;
+    visibility: hidden;
 
     transform:
-        translateY(-5px);
+        translateY(-6px);
 
     transition:
         opacity .15s ease,
@@ -603,11 +781,9 @@
 .custom-dropdown.open
 .custom-dropdown-menu {
 
-    opacity:
-        1;
+    opacity: 1;
 
-    visibility:
-        visible;
+    visibility: visible;
 
     transform:
         translateY(0);
@@ -616,7 +792,7 @@
 
 
 /* =========================================================
-   DROPDOWN OPTIONS
+   DROPDOWN ITEMS
 ========================================================= */
 
 .custom-dropdown-option {
@@ -625,25 +801,9 @@
 
     box-sizing: border-box;
 
-    display: flex;
+    border: none;
 
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    padding:
-        13px 14px;
-
-    margin:
-        2px 0;
-
-    border:
-        none;
-
-    border-radius:
-        12px;
+    border-radius: 12px;
 
     background:
         transparent;
@@ -651,21 +811,39 @@
     color:
         #3730a3;
 
+    padding:
+        12px 13px;
+
+    min-height:
+        44px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        10px;
+
+    text-align:
+        left;
+
     font-size:
         15px;
 
     font-weight:
         800;
 
-    text-align:
-        left;
-
     cursor:
         pointer;
 
     transition:
         background .12s ease,
-        color .12s ease;
+        transform .08s ease;
 
 }
 
@@ -674,6 +852,14 @@
 
     background:
         #eef2ff;
+
+}
+
+
+.custom-dropdown-option:active {
+
+    transform:
+        scale(.985);
 
 }
 
@@ -705,6 +891,9 @@
     cursor:
         not-allowed;
 
+    background:
+        #f8fafc;
+
 }
 
 
@@ -716,88 +905,38 @@
 }
 
 
-/* =========================================================
-   CHECKMARK
-========================================================= */
+.custom-dropdown-option-name {
 
-.dropdown-check {
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+
+}
+
+
+.custom-dropdown-option-rarity {
 
     flex-shrink: 0;
 
     font-size:
-        14px;
-
-}
-
-
-.custom-dropdown-option.locked
-.dropdown-check {
-
-    display:
-        none;
-
-}
-
-
-/* =========================================================
-   OLD CHARACTER OPTION SUPPORT
-========================================================= */
-
-.character-option {
-
-    width: 100%;
-
-    box-sizing: border-box;
-
-    border: none;
-
-    padding:
-        12px 18px;
-
-    border-radius:
-        14px;
-
-    background:
-        #eef2ff;
-
-    color:
-        #3730a3;
-
-    font-weight:
-        800;
-
-    cursor:
-        pointer;
-
-}
-
-
-.character-option:hover {
-
-    background:
-        #e0e7ff;
-
-}
-
-
-.character-option.selected {
-
-    background:
-        #4f46e5;
-
-    color:
-        white;
-
-}
-
-
-.character-option:disabled {
-
-    cursor:
-        not-allowed;
+        12px;
 
     opacity:
-        .55;
+        .7;
+
+}
+
+
+.custom-dropdown-option.selected
+.custom-dropdown-option-rarity {
+
+    opacity:
+        .9;
 
 }
 
@@ -809,7 +948,7 @@
 .custom-dropdown-menu::-webkit-scrollbar {
 
     width:
-        7px;
+        8px;
 
 }
 
@@ -828,40 +967,7 @@
         #c7d2fe;
 
     border-radius:
-        20px;
-
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-body > header {
-
-    position: relative;
-
-    z-index: 1000;
-
-}
-
-
-body > header[style] {
-
-    z-index: 1000;
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-
-    position: relative;
-
-    z-index: 1000;
+        10px;
 
 }
 
@@ -910,8 +1016,7 @@ footer {
         max-width:
             calc(100% - 40px);
 
-        text-align:
-            center;
+        text-align: center;
 
     }
 
@@ -956,14 +1061,6 @@ footer {
 
     }
 
-
-    .custom-dropdown-menu {
-
-        max-height:
-            250px;
-
-    }
-
 }
 
 
@@ -995,5 +1092,51 @@ footer {
             14px;
 
     }
+
+
+    .custom-dropdown-button {
+
+        font-size:
+            15px;
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER STACKING
+========================================================= */
+
+body > header {
+
+    position:
+        relative;
+
+    z-index:
+        1000;
+
+}
+
+
+body > header[style] {
+
+    z-index:
+        1000;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    position:
+        relative;
+
+    z-index:
+        1000;
 
 }
