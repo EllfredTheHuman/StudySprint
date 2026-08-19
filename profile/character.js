@@ -725,42 +725,42 @@ function createGooberPreview(data) {
     };
 
 
+    const bodyColours = [
+
+        "green",
+        "blue",
+        "squishy",
+        "stone",
+        "pink",
+        "purple",
+        "yellow",
+        "tall",
+        "coral",
+        "lavender",
+        "red",
+        "cyan",
+        "aqua",
+        "violet",
+        "hotpink",
+        "gold",
+        "peach",
+        "deep-purple",
+        "orange",
+        "golden",
+        "galaxy-body",
+        "study-green",
+        "study-purple",
+        "mint"
+
+    ];
+
+
     const parts =
         designs[data.design] || [];
 
 
     parts.forEach(
         function(part) {
-
-            const bodyColours = [
-
-                "green",
-                "blue",
-                "squishy",
-                "stone",
-                "pink",
-                "purple",
-                "yellow",
-                "tall",
-                "coral",
-                "lavender",
-                "red",
-                "cyan",
-                "aqua",
-                "violet",
-                "hotpink",
-                "gold",
-                "peach",
-                "deep-purple",
-                "orange",
-                "golden",
-                "galaxy-body",
-                "study-green",
-                "study-purple",
-                "mint"
-
-            ];
-
 
             if (
                 bodyColours.includes(part)
@@ -780,7 +780,9 @@ function createGooberPreview(data) {
     );
 
 
-    /* Four Eyes */
+    /* =====================================================
+       FOUR EYES
+    ===================================================== */
 
     if (
         data.design === "fourEyes"
@@ -806,7 +808,9 @@ function createGooberPreview(data) {
     }
 
 
-    /* Shelby */
+    /* =====================================================
+       SHELBY
+    ===================================================== */
 
     if (
         data.design === "shelby"
@@ -832,7 +836,9 @@ function createGooberPreview(data) {
     }
 
 
-    /* Captain Goob */
+    /* =====================================================
+       CAPTAIN GOOB
+    ===================================================== */
 
     if (
         data.design === "captainGoob"
@@ -874,8 +880,7 @@ function renderEquippedCharacter() {
         return;
 
 
-    container.innerHTML =
-        "";
+    container.innerHTML = "";
 
 
     const equipped =
@@ -892,303 +897,221 @@ function renderEquippedCharacter() {
 
 
 /* =========================================================
-   CUSTOM DROPDOWN HELPERS
+   CUSTOM DROPDOWN BUILDER
 ========================================================= */
 
-let openDropdown = null;
+function createCustomDropdown(
+    container,
+    items,
+    category,
+    fallback
+) {
 
-
-function closeDropdown(dropdown) {
-
-    if (!dropdown)
+    if (!container)
         return;
 
 
-    dropdown.classList.remove(
-        "open"
+    container.innerHTML = "";
+
+
+    const key =
+        "character_" +
+        category;
+
+
+    const equipped =
+        characterValue(
+            key,
+            fallback
+        );
+
+
+    const current =
+        items.find(
+            item =>
+                item.id === equipped
+        ) ||
+        items[0];
+
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "custom-dropdown-wrapper";
+
+
+    const selected =
+        document.createElement("button");
+
+    selected.type =
+        "button";
+
+    selected.className =
+        "custom-dropdown-selected";
+
+
+    selected.innerHTML =
+        `
+        <span class="custom-dropdown-text">
+            ${current.name}
+        </span>
+
+        <span class="custom-dropdown-arrow">
+            ▼
+        </span>
+        `;
+
+
+    wrapper.appendChild(
+        selected
     );
 
 
-    const button =
-        dropdown.querySelector(
-            ".custom-dropdown-button"
-        );
+    const menu =
+        document.createElement("div");
+
+    menu.className =
+        "custom-dropdown-menu";
 
 
-    if (button) {
+    items.forEach(
+        function(item) {
 
-        button.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+            const option =
+                document.createElement("button");
 
-    }
+            option.type =
+                "button";
 
-
-    if (
-        openDropdown === dropdown
-    ) {
-
-        openDropdown =
-            null;
-
-    }
-
-}
+            option.className =
+                "custom-dropdown-option";
 
 
-function closeAllDropdowns(except = null) {
+            if (
+                item.id === current.id
+            ) {
 
-    document
-        .querySelectorAll(
-            ".custom-dropdown.open"
-        )
-        .forEach(
-            dropdown => {
-
-                if (
-                    dropdown !== except
-                ) {
-
-                    closeDropdown(
-                        dropdown
-                    );
-
-                }
+                option.classList.add(
+                    "selected"
+                );
 
             }
-        );
-
-}
 
 
-function setupDropdownButton(dropdown) {
-
-    if (!dropdown)
-        return;
-
-
-    const button =
-        dropdown.querySelector(
-            ".custom-dropdown-button"
-        );
+            const owned =
+                item.free ||
+                ownsCharacterItem(
+                    item.id,
+                    category
+                );
 
 
-    if (!button)
-        return;
+            option.innerHTML =
+                `
+                <span>
+                    ${
+                        owned
+                            ? ""
+                            : "🔒 "
+                    }
+                    ${item.name}
+                </span>
+
+                <span class="dropdown-check">
+                    ${
+                        item.id === current.id
+                            ? "✓"
+                            : ""
+                    }
+                </span>
+                `;
 
 
-    button.onclick =
+            if (!owned) {
+
+                option.disabled = true;
+
+                option.title =
+                    "Buy this item in the Shop.";
+
+            }
+
+            else {
+
+                option.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+
+                        setCharacterValue(
+                            key,
+                            item.id
+                        );
+
+
+                        renderEditor();
+
+                    }
+                );
+
+            }
+
+
+            menu.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    wrapper.appendChild(
+        menu
+    );
+
+
+    selected.addEventListener(
+        "click",
         function(event) {
 
             event.stopPropagation();
 
 
-            const isOpen =
-                dropdown.classList.contains(
-                    "open"
+            document
+                .querySelectorAll(
+                    ".custom-dropdown-wrapper.open"
+                )
+                .forEach(
+                    other => {
+
+                        if (
+                            other !== wrapper
+                        ) {
+
+                            other.classList.remove(
+                                "open"
+                            );
+
+                        }
+
+                    }
                 );
 
 
-            closeAllDropdowns(
-                dropdown
-            );
-
-
-            if (isOpen) {
-
-                closeDropdown(
-                    dropdown
-                );
-
-                return;
-
-            }
-
-
-            dropdown.classList.add(
+            wrapper.classList.toggle(
                 "open"
             );
 
-
-            button.setAttribute(
-                "aria-expanded",
-                "true"
-            );
-
-
-            openDropdown =
-                dropdown;
-
-        };
-
-}
-
-
-/* =========================================================
-   CREATE DROPDOWN OPTION
-========================================================= */
-
-function createDropdownOption(
-    menu,
-    item,
-    category,
-    equippedId,
-    onSelect
-) {
-
-    const option =
-        document.createElement(
-            "button"
-        );
-
-
-    option.type =
-        "button";
-
-
-    option.className =
-        "custom-dropdown-option";
-
-
-    const owned =
-        item.free ||
-        ownsCharacterItem(
-            item.id,
-            category
-        );
-
-
-    const selected =
-        item.id === equippedId;
-
-
-    if (selected) {
-
-        option.classList.add(
-            "selected"
-        );
-
-    }
-
-
-    if (!owned) {
-
-        option.classList.add(
-            "locked"
-        );
-
-    }
-
-
-    const name =
-        document.createElement(
-            "span"
-        );
-
-
-    name.className =
-        "custom-dropdown-option-name";
-
-
-    name.textContent =
-        owned
-            ? item.name
-            : "🔒 " + item.name;
-
-
-    option.appendChild(
-        name
+        }
     );
 
 
-    if (item.rarity) {
-
-        const rarity =
-            document.createElement(
-                "span"
-            );
-
-
-        rarity.className =
-            "custom-dropdown-option-rarity";
-
-
-        rarity.textContent =
-            item.rarity;
-
-
-        option.appendChild(
-            rarity
-        );
-
-    }
-
-
-    if (owned) {
-
-        option.addEventListener(
-            "click",
-            function(event) {
-
-                event.stopPropagation();
-
-                onSelect(
-                    item.id
-                );
-
-            }
-        );
-
-    }
-
-    else {
-
-        option.disabled =
-            true;
-
-    }
-
-
-    menu.appendChild(
-        option
+    container.appendChild(
+        wrapper
     );
-
-}
-
-
-/* =========================================================
-   UPDATE DROPDOWN LABEL
-========================================================= */
-
-function updateDropdownLabel(
-    labelId,
-    items,
-    equippedId,
-    fallback
-) {
-
-    const label =
-        document.getElementById(
-            labelId
-        );
-
-
-    if (!label)
-        return;
-
-
-    const item =
-        items.find(
-            entry =>
-                entry.id === equippedId
-        );
-
-
-    label.textContent =
-        item
-            ? item.name
-            : fallback;
 
 }
 
@@ -1199,332 +1122,31 @@ function updateDropdownLabel(
 
 function renderCharacterSelector() {
 
-    const dropdown =
+    const container =
         document.getElementById(
-            "character-options"
+            "character-selector"
         );
 
 
-    if (!dropdown)
+    if (!container)
         return;
 
 
-    const menu =
-        document.getElementById(
-            "character-dropdown-menu"
+    const ownedCharacters =
+        SHOP_CHARACTERS.filter(
+            character =>
+                ownsCharacterItem(
+                    character.id,
+                    "character"
+                )
         );
 
 
-    if (!menu)
-        return;
-
-
-    menu.innerHTML =
-        "";
-
-
-    setupDropdownButton(
-        dropdown
-    );
-
-
-    const equipped =
-        getEquippedCharacter();
-
-
-    updateDropdownLabel(
-        "character-dropdown-label",
-        SHOP_CHARACTERS,
-        equipped.id,
-        "Choose Character"
-    );
-
-
-    SHOP_CHARACTERS.forEach(
-        function(character) {
-
-            createDropdownOption(
-                menu,
-                character,
-                "character",
-                equipped.id,
-                function(selected) {
-
-                    if (
-                        !ownsCharacterItem(
-                            selected,
-                            "character"
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    setCharacterValue(
-                        "character_character",
-                        selected
-                    );
-
-
-                    closeDropdown(
-                        dropdown
-                    );
-
-
-                    renderEditor();
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   BANNER DROPDOWN
-========================================================= */
-
-function renderBannerOptions() {
-
-    const dropdown =
-        document.getElementById(
-            "banners-options"
-        );
-
-
-    if (!dropdown)
-        return;
-
-
-    const menu =
-        document.getElementById(
-            "banner-dropdown-menu"
-        );
-
-
-    if (!menu)
-        return;
-
-
-    menu.innerHTML =
-        "";
-
-
-    setupDropdownButton(
-        dropdown
-    );
-
-
-    const equipped =
-        characterValue(
-            "character_banner",
-            "purple-grid"
-        );
-
-
-    updateDropdownLabel(
-        "banner-dropdown-label",
-        CHARACTER_BANNERS,
-        equipped,
-        "Choose Banner"
-    );
-
-
-    CHARACTER_BANNERS.forEach(
-        function(item) {
-
-            createDropdownOption(
-                menu,
-                item,
-                "banner",
-                equipped,
-                function(selected) {
-
-                    setCharacterValue(
-                        "character_banner",
-                        selected
-                    );
-
-
-                    closeDropdown(
-                        dropdown
-                    );
-
-
-                    renderEditor();
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   TITLE DROPDOWN
-========================================================= */
-
-function renderTitleOptions() {
-
-    const dropdown =
-        document.getElementById(
-            "titles-options"
-        );
-
-
-    if (!dropdown)
-        return;
-
-
-    const menu =
-        document.getElementById(
-            "title-dropdown-menu"
-        );
-
-
-    if (!menu)
-        return;
-
-
-    menu.innerHTML =
-        "";
-
-
-    setupDropdownButton(
-        dropdown
-    );
-
-
-    const equipped =
-        characterValue(
-            "character_title",
-            "none"
-        );
-
-
-    updateDropdownLabel(
-        "title-dropdown-label",
-        CHARACTER_TITLES,
-        equipped,
-        "Choose Title"
-    );
-
-
-    CHARACTER_TITLES.forEach(
-        function(item) {
-
-            createDropdownOption(
-                menu,
-                item,
-                "title",
-                equipped,
-                function(selected) {
-
-                    setCharacterValue(
-                        "character_title",
-                        selected
-                    );
-
-
-                    closeDropdown(
-                        dropdown
-                    );
-
-
-                    renderEditor();
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   EFFECT DROPDOWN
-========================================================= */
-
-function renderEffectOptions() {
-
-    const dropdown =
-        document.getElementById(
-            "effects-options"
-        );
-
-
-    if (!dropdown)
-        return;
-
-
-    const menu =
-        document.getElementById(
-            "effect-dropdown-menu"
-        );
-
-
-    if (!menu)
-        return;
-
-
-    menu.innerHTML =
-        "";
-
-
-    setupDropdownButton(
-        dropdown
-    );
-
-
-    const equipped =
-        characterValue(
-            "character_effect",
-            "none"
-        );
-
-
-    updateDropdownLabel(
-        "effect-dropdown-label",
-        CHARACTER_EFFECTS,
-        equipped,
-        "Choose Effect"
-    );
-
-
-    CHARACTER_EFFECTS.forEach(
-        function(item) {
-
-            createDropdownOption(
-                menu,
-                item,
-                "effect",
-                equipped,
-                function(selected) {
-
-                    setCharacterValue(
-                        "character_effect",
-                        selected
-                    );
-
-
-                    closeDropdown(
-                        dropdown
-                    );
-
-
-                    renderEditor();
-
-                }
-            );
-
-        }
+    createCustomDropdown(
+        container,
+        ownedCharacters,
+        "character",
+        "leafy"
     );
 
 }
@@ -1559,6 +1181,32 @@ function renderCharacterBanner() {
 
     preview.classList.add(
         banner
+    );
+
+}
+
+
+/* =========================================================
+   BANNER DROPDOWN
+========================================================= */
+
+function renderBannerOptions() {
+
+    const container =
+        document.getElementById(
+            "banners-options"
+        );
+
+
+    if (!container)
+        return;
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_BANNERS,
+        "banner",
+        "purple-grid"
     );
 
 }
@@ -1622,6 +1270,32 @@ function renderCharacterTitle() {
 
 
 /* =========================================================
+   TITLE DROPDOWN
+========================================================= */
+
+function renderTitleOptions() {
+
+    const container =
+        document.getElementById(
+            "titles-options"
+        );
+
+
+    if (!container)
+        return;
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_TITLES,
+        "title",
+        "none"
+    );
+
+}
+
+
+/* =========================================================
    EFFECT
 ========================================================= */
 
@@ -1664,6 +1338,16 @@ function renderCharacterEffect() {
     );
 
 
+    character
+        .querySelectorAll(
+            ".character-effect-element"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+
     const equipped =
         characterValue(
             "character_effect",
@@ -1672,15 +1356,119 @@ function renderCharacterEffect() {
 
 
     if (
-        equipped !== "none" &&
-        effects.includes(equipped)
+        equipped === "none"
     ) {
 
-        character.classList.add(
-            "effect-" + equipped
+        return;
+
+    }
+
+
+    if (
+        !effects.includes(equipped)
+    ) {
+
+        return;
+
+    }
+
+
+    character.classList.add(
+        "effect-" + equipped
+    );
+
+
+    /* =====================================================
+       CROWN
+    ===================================================== */
+
+    if (
+        equipped === "crown"
+    ) {
+
+        const crown =
+            document.createElement("div");
+
+        crown.className =
+            "character-effect-element " +
+            "character-crown";
+
+
+        crown.innerHTML =
+            `
+            <span class="crown-point"></span>
+            <span class="crown-point"></span>
+            <span class="crown-point"></span>
+            `;
+
+
+        character.appendChild(
+            crown
         );
 
     }
+
+
+    /* =====================================================
+       SPARKLES
+    ===================================================== */
+
+    if (
+        equipped === "sparkle"
+    ) {
+
+        for (
+            let i = 0;
+            i < 6;
+            i++
+        ) {
+
+            const sparkle =
+                document.createElement("div");
+
+            sparkle.className =
+                "character-effect-element " +
+                "effect-sparkle-dot";
+
+            sparkle.style.setProperty(
+                "--sparkle-index",
+                i
+            );
+
+
+            character.appendChild(
+                sparkle
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   EFFECT DROPDOWN
+========================================================= */
+
+function renderEffectOptions() {
+
+    const container =
+        document.getElementById(
+            "effects-options"
+        );
+
+
+    if (!container)
+        return;
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_EFFECTS,
+        "effect",
+        "none"
+    );
 
 }
 
@@ -1711,34 +1499,26 @@ function renderPlayerName() {
 
 
 /* =========================================================
-   CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
+   CLOSE DROPDOWNS WHEN CLICKING ELSEWHERE
 ========================================================= */
 
 document.addEventListener(
     "click",
     function() {
 
-        closeAllDropdowns();
+        document
+            .querySelectorAll(
+                ".custom-dropdown-wrapper.open"
+            )
+            .forEach(
+                dropdown => {
 
-    }
-);
+                    dropdown.classList.remove(
+                        "open"
+                    );
 
-
-/* =========================================================
-   CLOSE DROPDOWNS WITH ESCAPE
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeAllDropdowns();
-
-        }
+                }
+            );
 
     }
 );
