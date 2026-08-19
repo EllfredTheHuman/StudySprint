@@ -379,8 +379,6 @@ function getOwnedItems() {
 
 function ownsCharacterItem(id, category) {
 
-    /* Leafy is always the starter character. */
-
     if (
         category === "character" &&
         id === "leafy"
@@ -390,8 +388,6 @@ function ownsCharacterItem(id, category) {
 
     }
 
-
-    /* Free banners. */
 
     if (
         category === "banner" &&
@@ -406,8 +402,6 @@ function ownsCharacterItem(id, category) {
     }
 
 
-    /* Free title. */
-
     if (
         category === "title" &&
         id === "none"
@@ -417,8 +411,6 @@ function ownsCharacterItem(id, category) {
 
     }
 
-
-    /* Free effect. */
 
     if (
         category === "effect" &&
@@ -455,11 +447,6 @@ function getEquippedCharacter() {
         );
 
 
-    /*
-       If the saved character doesn't exist,
-       return Leafy instead.
-    */
-
     if (!character) {
 
         setCharacterValue(
@@ -471,11 +458,6 @@ function getEquippedCharacter() {
 
     }
 
-
-    /*
-       If the character isn't owned anymore,
-       fall back to Leafy.
-    */
 
     if (
         !ownsCharacterItem(
@@ -798,8 +780,6 @@ function createGooberPreview(data) {
     );
 
 
-    /* Four Eyes */
-
     if (
         data.design === "fourEyes"
     ) {
@@ -823,8 +803,6 @@ function createGooberPreview(data) {
 
     }
 
-
-    /* Shelby */
 
     if (
         data.design === "shelby"
@@ -850,15 +828,12 @@ function createGooberPreview(data) {
     }
 
 
-    /* Captain Goob */
-
     if (
         data.design === "captainGoob"
     ) {
 
         const cape =
             document.createElement("div");
-
 
         cape.className =
             "captain-cape";
@@ -911,23 +886,313 @@ function renderEquippedCharacter() {
 
 
 /* =========================================================
+   CUSTOM DROPDOWN
+========================================================= */
+
+function createCustomDropdown(
+    container,
+    items,
+    category,
+    currentValue,
+    onSelect
+) {
+
+    if (!container)
+        return;
+
+
+    container.innerHTML =
+        "";
+
+    container.className =
+        "custom-dropdown";
+
+
+    const currentItem =
+        items.find(
+            item =>
+                item.id === currentValue
+        );
+
+
+    const fallbackItem =
+        items[0];
+
+
+    const selectedItem =
+        currentItem ||
+        fallbackItem;
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    const button =
+        document.createElement(
+            "button"
+        );
+
+
+    button.type =
+        "button";
+
+    button.className =
+        "custom-dropdown-button";
+
+
+    const buttonText =
+        document.createElement(
+            "span"
+        );
+
+
+    buttonText.className =
+        "custom-dropdown-text";
+
+
+    buttonText.textContent =
+        selectedItem
+            ? selectedItem.name
+            : "Choose...";
+
+
+    const arrow =
+        document.createElement(
+            "span"
+        );
+
+
+    arrow.className =
+        "custom-dropdown-arrow";
+
+    arrow.textContent =
+        "▼";
+
+
+    button.appendChild(
+        buttonText
+    );
+
+    button.appendChild(
+        arrow
+    );
+
+
+    /* =====================================================
+       MENU
+    ===================================================== */
+
+    const menu =
+        document.createElement(
+            "div"
+        );
+
+
+    menu.className =
+        "custom-dropdown-menu";
+
+
+    items.forEach(
+        function(item) {
+
+            const owned =
+                !!item.free ||
+                ownsCharacterItem(
+                    item.id,
+                    category
+                );
+
+
+            const option =
+                document.createElement(
+                    "button"
+                );
+
+
+            option.type =
+                "button";
+
+
+            option.className =
+                "custom-dropdown-option";
+
+
+            if (
+                item.id === currentValue
+            ) {
+
+                option.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            if (!owned) {
+
+                option.classList.add(
+                    "locked"
+                );
+
+            }
+
+
+            const optionText =
+                document.createElement(
+                    "span"
+                );
+
+
+            optionText.textContent =
+                owned
+                    ? item.name
+                    : "🔒 " + item.name;
+
+
+            option.appendChild(
+                optionText
+            );
+
+
+            if (
+                item.id === currentValue &&
+                owned
+            ) {
+
+                const check =
+                    document.createElement(
+                        "span"
+                    );
+
+                check.className =
+                    "dropdown-check";
+
+                check.textContent =
+                    "✓";
+
+                option.appendChild(
+                    check
+                );
+
+            }
+
+
+            if (owned) {
+
+                option.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.stopPropagation();
+
+
+                        onSelect(
+                            item.id
+                        );
+
+
+                        closeAllDropdowns();
+
+                    }
+                );
+
+            }
+
+
+            menu.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    container.appendChild(
+        button
+    );
+
+    container.appendChild(
+        menu
+    );
+
+
+    button.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+            const wasOpen =
+                container.classList.contains(
+                    "open"
+                );
+
+
+            closeAllDropdowns();
+
+
+            if (!wasOpen) {
+
+                container.classList.add(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE DROPDOWNS
+========================================================= */
+
+function closeAllDropdowns() {
+
+    document
+        .querySelectorAll(
+            ".custom-dropdown.open"
+        )
+        .forEach(
+            dropdown => {
+
+                dropdown.classList.remove(
+                    "open"
+                );
+
+            }
+        );
+
+}
+
+
+document.addEventListener(
+    "click",
+    function() {
+
+        closeAllDropdowns();
+
+    }
+);
+
+
+/* =========================================================
    CHARACTER DROPDOWN
 ========================================================= */
 
 function renderCharacterSelector() {
 
-    const selector =
+    const container =
         document.getElementById(
             "character-selector"
         );
 
 
-    if (!selector)
+    if (!container)
         return;
-
-
-    selector.innerHTML =
-        "";
 
 
     const equipped =
@@ -944,50 +1209,12 @@ function renderCharacterSelector() {
         );
 
 
-    ownedCharacters.forEach(
-        function(character) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                character.id;
-
-
-            option.textContent =
-                character.name +
-                " • " +
-                character.rarity;
-
-
-            if (
-                character.id ===
-                equipped.id
-            ) {
-
-                option.selected =
-                    true;
-
-            }
-
-
-            selector.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-    selector.onchange =
-        function() {
-
-            const selected =
-                selector.value;
-
+    createCustomDropdown(
+        container,
+        ownedCharacters,
+        "character",
+        equipped.id,
+        function(selected) {
 
             if (
                 !ownsCharacterItem(
@@ -995,9 +1222,6 @@ function renderCharacterSelector() {
                     "character"
                 )
             ) {
-
-                selector.value =
-                    equipped.id;
 
                 return;
 
@@ -1010,11 +1234,10 @@ function renderCharacterSelector() {
             );
 
 
-            renderEquippedCharacter();
+            renderEditor();
 
-            renderCharacterSelector();
-
-        };
+        }
+    );
 
 }
 
@@ -1048,6 +1271,50 @@ function renderCharacterBanner() {
 
     preview.classList.add(
         banner
+    );
+
+}
+
+
+/* =========================================================
+   BANNER DROPDOWN
+========================================================= */
+
+function renderBannerOptions() {
+
+    const container =
+        document.getElementById(
+            "banners-options"
+        );
+
+
+    if (!container)
+        return;
+
+
+    const equipped =
+        characterValue(
+            "character_banner",
+            "purple-grid"
+        );
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_BANNERS,
+        "banner",
+        equipped,
+        function(selected) {
+
+            setCharacterValue(
+                "character_banner",
+                selected
+            );
+
+
+            renderEditor();
+
+        }
     );
 
 }
@@ -1106,6 +1373,50 @@ function renderCharacterTitle() {
 
     element.style.display =
         "block";
+
+}
+
+
+/* =========================================================
+   TITLE DROPDOWN
+========================================================= */
+
+function renderTitleOptions() {
+
+    const container =
+        document.getElementById(
+            "titles-options"
+        );
+
+
+    if (!container)
+        return;
+
+
+    const equipped =
+        characterValue(
+            "character_title",
+            "none"
+        );
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_TITLES,
+        "title",
+        equipped,
+        function(selected) {
+
+            setCharacterValue(
+                "character_title",
+                selected
+            );
+
+
+            renderEditor();
+
+        }
+    );
 
 }
 
@@ -1175,199 +1486,7 @@ function renderCharacterEffect() {
 
 
 /* =========================================================
-   CREATE COSMETIC OPTION
-========================================================= */
-
-function createOption(
-    container,
-    id,
-    category,
-    name,
-    free
-) {
-
-    if (!container)
-        return;
-
-
-    const button =
-        document.createElement(
-            "button"
-        );
-
-
-    button.type =
-        "button";
-
-
-    button.className =
-        "character-option";
-
-
-    button.textContent =
-        name;
-
-
-    const key =
-        "character_" +
-        category;
-
-
-    const fallback =
-        category === "banner"
-            ? "purple-grid"
-            : category === "title"
-            ? "none"
-            : category === "effect"
-            ? "none"
-            : null;
-
-
-    const equipped =
-        characterValue(
-            key,
-            fallback
-        );
-
-
-    if (
-        equipped === id
-    ) {
-
-        button.classList.add(
-            "selected"
-        );
-
-    }
-
-
-    const owned =
-        free ||
-        ownsCharacterItem(
-            id,
-            category
-        );
-
-
-    if (!owned) {
-
-        button.textContent =
-            "🔒 " +
-            name;
-
-
-        button.disabled =
-            true;
-
-
-        button.title =
-            "Buy this item in the Shop.";
-
-    }
-
-    else {
-
-        button.addEventListener(
-            "click",
-            function() {
-
-                setCharacterValue(
-                    key,
-                    id
-                );
-
-
-                renderEditor();
-
-            }
-        );
-
-    }
-
-
-    container.appendChild(
-        button
-    );
-
-}
-
-
-/* =========================================================
-   BANNERS
-========================================================= */
-
-function renderBannerOptions() {
-
-    const container =
-        document.getElementById(
-            "banners-options"
-        );
-
-
-    if (!container)
-        return;
-
-
-    container.innerHTML =
-        "";
-
-
-    CHARACTER_BANNERS.forEach(
-        item => {
-
-            createOption(
-                container,
-                item.id,
-                "banner",
-                item.name,
-                !!item.free
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   TITLES
-========================================================= */
-
-function renderTitleOptions() {
-
-    const container =
-        document.getElementById(
-            "titles-options"
-        );
-
-
-    if (!container)
-        return;
-
-
-    container.innerHTML =
-        "";
-
-
-    CHARACTER_TITLES.forEach(
-        item => {
-
-            createOption(
-                container,
-                item.id,
-                "title",
-                item.name,
-                !!item.free
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   EFFECTS
+   EFFECT DROPDOWN
 ========================================================= */
 
 function renderEffectOptions() {
@@ -1382,20 +1501,27 @@ function renderEffectOptions() {
         return;
 
 
-    container.innerHTML =
-        "";
+    const equipped =
+        characterValue(
+            "character_effect",
+            "none"
+        );
 
 
-    CHARACTER_EFFECTS.forEach(
-        item => {
+    createCustomDropdown(
+        container,
+        CHARACTER_EFFECTS,
+        "effect",
+        equipped,
+        function(selected) {
 
-            createOption(
-                container,
-                item.id,
-                "effect",
-                item.name,
-                !!item.free
+            setCharacterValue(
+                "character_effect",
+                selected
             );
+
+
+            renderEditor();
 
         }
     );
