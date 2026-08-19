@@ -279,13 +279,6 @@
    GOOBER CONTAINER
 ========================================================= */
 
-/*
-   The Goober itself is styled by shop.css.
-
-   These rules ONLY control where the Goober sits
-   inside the character editor.
-*/
-
 #equipped-goober {
 
     position: absolute !important;
@@ -322,13 +315,6 @@
 }
 
 
-/*
-   Do NOT alter the Goober's actual design.
-
-   This simply prevents shop.css positioning
-   from moving it relative to the page.
-*/
-
 #equipped-goober > .goober {
 
     position: relative !important;
@@ -342,165 +328,6 @@
     bottom: auto !important;
 
     margin: 0 !important;
-
-}
-
-
-/* =========================================================
-   OLD CHARACTER SYSTEM
-========================================================= */
-
-.classic-character {
-
-    position: absolute;
-
-    inset: 0;
-
-    display: none;
-
-    width: 100%;
-
-    height: 100%;
-
-    pointer-events: none;
-
-}
-
-
-/* =========================================================
-   CLASSIC CHARACTER
-========================================================= */
-
-.character-head {
-
-    position: absolute;
-
-    width: 105px;
-
-    height: 105px;
-
-    left: 38px;
-
-    top: 28px;
-
-    background:
-        #f6c7a8;
-
-    border-radius: 50%;
-
-}
-
-
-.character-face {
-
-    position: absolute;
-
-    width: 7px;
-
-    height: 7px;
-
-    left: 56px;
-
-    top: 73px;
-
-    background:
-        #1f2937;
-
-    border-radius: 50%;
-
-    box-shadow:
-        27px 0 0
-        #1f2937;
-
-}
-
-
-.character-hair {
-
-    position: absolute;
-
-    width: 98px;
-
-    height: 43px;
-
-    left: 41px;
-
-    top: 25px;
-
-    background:
-        #78350f;
-
-    border-radius:
-        50px 50px 15px 15px;
-
-}
-
-
-.character-hair.black {
-
-    background:
-        #111827;
-
-}
-
-
-.character-hair.blonde {
-
-    background:
-        #facc15;
-
-}
-
-
-.character-body {
-
-    position: absolute;
-
-    width: 92px;
-
-    height: 75px;
-
-    left: 44px;
-
-    top: 116px;
-
-    background:
-        #3b82f6;
-
-    border-radius:
-        30px 30px 15px 15px;
-
-}
-
-
-.character-leg {
-
-    position: absolute;
-
-    width: 30px;
-
-    height: 55px;
-
-    top: 177px;
-
-    border-radius: 12px;
-
-    background:
-        #2563eb;
-
-}
-
-
-.character-leg-left {
-
-    left: 53px;
-
-}
-
-
-.character-leg-right {
-
-    left: 95px;
 
 }
 
@@ -554,43 +381,74 @@
 
     margin-top: 0;
 
-    margin-bottom: 18px;
+    margin-bottom: 8px;
+
+    font-size: 25px;
+
+    font-weight: 900;
+
+}
+
+
+.selector-description {
+
+    margin:
+        0 0 18px;
+
+    color:
+        #64748b;
+
+    font-size:
+        15px;
+
+    font-weight:
+        600;
 
 }
 
 
 /* =========================================================
-   DROPDOWNS
+   CUSTOM STUDYSPRINT DROPDOWNS
 ========================================================= */
 
-.options {
+.custom-dropdown {
 
-    width: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-
-}
-
-
-.options select {
+    position: relative;
 
     width: 100%;
 
     box-sizing: border-box;
 
+}
+
+
+/* =========================================================
+   DROPDOWN BUTTON
+========================================================= */
+
+.custom-dropdown-button {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
     padding:
-        14px 16px;
+        15px 18px;
 
     border:
         2px solid
         #e0e7ff;
 
     border-radius:
-        14px;
+        16px;
 
     background:
         #f8faff;
@@ -607,13 +465,19 @@
     cursor:
         pointer;
 
-    outline:
-        none;
+    text-align:
+        left;
+
+    transition:
+        background .15s ease,
+        border-color .15s ease,
+        box-shadow .15s ease,
+        transform .1s ease;
 
 }
 
 
-.options select:hover {
+.custom-dropdown-button:hover {
 
     background:
         #eef2ff;
@@ -624,20 +488,259 @@
 }
 
 
-.options select:focus {
+.custom-dropdown.open
+.custom-dropdown-button {
+
+    background:
+        #eef2ff;
 
     border-color:
         #6366f1;
 
     box-shadow:
         0 0 0 4px
-        rgba(99,102,241,.15);
+        rgba(99,102,241,.12);
+
+}
+
+
+.custom-dropdown-button:active {
+
+    transform:
+        scale(.99);
 
 }
 
 
 /* =========================================================
-   OLD BUTTON SUPPORT
+   DROPDOWN ARROW
+========================================================= */
+
+.custom-dropdown-arrow {
+
+    flex-shrink: 0;
+
+    font-size:
+        14px;
+
+    color:
+        #6366f1;
+
+    transition:
+        transform .2s ease;
+
+}
+
+
+.custom-dropdown.open
+.custom-dropdown-arrow {
+
+    transform:
+        rotate(180deg);
+
+}
+
+
+/* =========================================================
+   DROPDOWN MENU
+========================================================= */
+
+.custom-dropdown-menu {
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    top:
+        calc(100% + 8px);
+
+    z-index: 100;
+
+    box-sizing: border-box;
+
+    padding:
+        8px;
+
+    border:
+        2px solid
+        #e0e7ff;
+
+    border-radius:
+        18px;
+
+    background:
+        white;
+
+    box-shadow:
+        0 18px 40px
+        rgba(30,41,59,.16);
+
+    max-height:
+        300px;
+
+    overflow-y:
+        auto;
+
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    transform:
+        translateY(-5px);
+
+    transition:
+        opacity .15s ease,
+        transform .15s ease,
+        visibility .15s ease;
+
+}
+
+
+.custom-dropdown.open
+.custom-dropdown-menu {
+
+    opacity:
+        1;
+
+    visibility:
+        visible;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   DROPDOWN OPTIONS
+========================================================= */
+
+.custom-dropdown-option {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding:
+        13px 14px;
+
+    margin:
+        2px 0;
+
+    border:
+        none;
+
+    border-radius:
+        12px;
+
+    background:
+        transparent;
+
+    color:
+        #3730a3;
+
+    font-size:
+        15px;
+
+    font-weight:
+        800;
+
+    text-align:
+        left;
+
+    cursor:
+        pointer;
+
+    transition:
+        background .12s ease,
+        color .12s ease;
+
+}
+
+
+.custom-dropdown-option:hover {
+
+    background:
+        #eef2ff;
+
+}
+
+
+.custom-dropdown-option.selected {
+
+    background:
+        #4f46e5;
+
+    color:
+        white;
+
+}
+
+
+.custom-dropdown-option.selected:hover {
+
+    background:
+        #4338ca;
+
+}
+
+
+.custom-dropdown-option.locked {
+
+    color:
+        #94a3b8;
+
+    cursor:
+        not-allowed;
+
+}
+
+
+.custom-dropdown-option.locked:hover {
+
+    background:
+        #f8fafc;
+
+}
+
+
+/* =========================================================
+   CHECKMARK
+========================================================= */
+
+.dropdown-check {
+
+    flex-shrink: 0;
+
+    font-size:
+        14px;
+
+}
+
+
+.custom-dropdown-option.locked
+.dropdown-check {
+
+    display:
+        none;
+
+}
+
+
+/* =========================================================
+   OLD CHARACTER OPTION SUPPORT
 ========================================================= */
 
 .character-option {
@@ -685,10 +788,6 @@
     color:
         white;
 
-    box-shadow:
-        0 5px 15px
-        rgba(79,70,229,.3);
-
 }
 
 
@@ -704,15 +803,39 @@
 
 
 /* =========================================================
-   HEADER STACKING
+   SCROLLBAR
 ========================================================= */
 
-/*
-   The site header must ALWAYS be above the
-   character editor when the page is scrolled.
+.custom-dropdown-menu::-webkit-scrollbar {
 
-   This does not change the header's layout.
-*/
+    width:
+        7px;
+
+}
+
+
+.custom-dropdown-menu::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+
+}
+
+
+.custom-dropdown-menu::-webkit-scrollbar-thumb {
+
+    background:
+        #c7d2fe;
+
+    border-radius:
+        20px;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
 
 body > header {
 
@@ -722,11 +845,6 @@ body > header {
 
 }
 
-
-/*
-   If the main stylesheet makes the header sticky,
-   this keeps it above the Goober.
-*/
 
 body > header[style] {
 
@@ -792,41 +910,57 @@ footer {
         max-width:
             calc(100% - 40px);
 
-        text-align: center;
+        text-align:
+            center;
 
     }
 
 
     .player-info h2 {
 
-        font-size: 28px;
+        font-size:
+            28px;
 
     }
 
 
     .player-info p {
 
-        font-size: 16px;
+        font-size:
+            16px;
 
     }
 
 
     .character {
 
-        margin-top: 80px;
+        margin-top:
+            80px;
 
     }
 
 
     .customization-section {
 
-        width: 100%;
+        width:
+            100%;
 
-        max-width: 100%;
+        max-width:
+            100%;
 
-        padding: 22px;
+        padding:
+            22px;
 
-        border-radius: 24px;
+        border-radius:
+            24px;
+
+    }
+
+
+    .custom-dropdown-menu {
+
+        max-height:
+            250px;
 
     }
 
@@ -841,21 +975,24 @@ footer {
 
     .banner-preview {
 
-        min-height: 340px;
+        min-height:
+            340px;
 
     }
 
 
     .player-info h2 {
 
-        font-size: 24px;
+        font-size:
+            24px;
 
     }
 
 
     .player-info p {
 
-        font-size: 14px;
+        font-size:
+            14px;
 
     }
 
