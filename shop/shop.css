@@ -1032,7 +1032,7 @@ body {
     height: 30px;
     background: #f59e0b;
     left: 44px;
-    top: 4px;
+    top: 14px;
     clip-path: polygon(
         0 100%,
         10% 15%,
@@ -1042,9 +1042,8 @@ body {
         90% 15%,
         100% 100%
     );
-    z-index: 7;
+    z-index: 11;
 }
-
 
 /* =========================================================
    GALAXY
