@@ -237,6 +237,7 @@ body {
     height: 150px;
     position: relative;
     flex-shrink: 0;
+    overflow: visible;
 }
 
 .goober-body {
@@ -1032,7 +1033,7 @@ body {
     height: 30px;
     background: #f59e0b;
     left: 44px;
-    top: 14px;
+    top: 4px;
     clip-path: polygon(
         0 100%,
         10% 15%,
@@ -1042,7 +1043,7 @@ body {
         90% 15%,
         100% 100%
     );
-    z-index: 11;
+    z-index: 999;
 }
 
 /* =========================================================
