@@ -394,7 +394,7 @@ async function createLobby(
         ============================================= */
 
         window.location.href =
-            "../lobby/lobby.html?code=" +
+            "../multiplayer/lobby.html?code=" +
             code;
 
     }
