@@ -1,6 +1,6 @@
 /* =========================================================
    STUDYSPRINT GAMES
-   Create / Join Lobby
+   Lobby creation + joining
 ========================================================= */
 
 import {
@@ -10,7 +10,8 @@ import {
 import {
     getDatabase,
     ref,
-    get
+    get,
+    set
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
@@ -33,97 +34,49 @@ const database = getDatabase(app);
 
 
 /* =========================================================
-   GAME LIST
+   PLAYER
 ========================================================= */
 
-const GAMES = [
+function getPlayerId() {
 
-    {
-        id: "islands",
-        name: "Islands",
-        emoji: "🏝️",
-        description:
-            "Build your island, upgrade your factory and steal points from other teams."
-    },
+    let id =
+        localStorage.getItem(
+            "studySprintPlayerId"
+        );
 
-    {
-        id: "modifiers",
-        name: "Modifiers",
-        emoji: "⚡",
-        description:
-            "Vote on modifiers for other teams and answer questions to make them stronger."
-    },
+    if (!id) {
 
-    {
-        id: "tower-defense",
-        name: "Tower Defense",
-        emoji: "🏰",
-        description:
-            "Defend your castle while sending enemies to attack your classmates."
-    },
+        id =
+            crypto.randomUUID();
 
-    {
-        id: "protection",
-        name: "Protection",
-        emoji: "🛡️",
-        description:
-            "Build and protect your room while monsters try to break in."
-    },
-
-    {
-        id: "bossy",
-        name: "Bossy",
-        emoji: "👹",
-        description:
-            "Work together to defeat a massive boss through multiple phases."
-    },
-
-    {
-        id: "bot-builder",
-        name: "Bot Builder",
-        emoji: "🤖",
-        description:
-            "Build and improve your own bot to compete against other players."
-    },
-
-    {
-        id: "influenced",
-        name: "Influenced",
-        emoji: "🧠",
-        description:
-            "A multiplayer battle where your decisions can influence the game."
-    },
-
-    {
-        id: "platform-battles",
-        name: "Platform Battles",
-        emoji: "⚔️",
-        description:
-            "Battle other players in a fast-paced platform arena."
-    },
-
-    {
-        id: "battle",
-        name: "Battle",
-        emoji: "💥",
-        description:
-            "A solo battle challenge you can play and practice at home."
-    },
-
-    {
-        id: "gardeners",
-        name: "Gardeners",
-        emoji: "🌱",
-        description:
-            "Grow, upgrade and manage your own garden."
+        localStorage.setItem(
+            "studySprintPlayerId",
+            id
+        );
     }
 
-];
+    return id;
+}
+
+
+function getPlayerName() {
+
+    return (
+        localStorage.getItem("username") ||
+        "Player"
+    );
+
+}
 
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
+
+const gamesPage =
+    document.querySelector(
+        ".games-page"
+    );
 
 const createButton =
     document.getElementById(
@@ -147,58 +100,12 @@ const joinError =
 
 
 /* =========================================================
-   PLAYER ID
-========================================================= */
-
-function getPlayerId() {
-
-    let playerId =
-        localStorage.getItem(
-            "studySprintPlayerId"
-        );
-
-    if (!playerId) {
-
-        playerId =
-            crypto.randomUUID();
-
-        localStorage.setItem(
-            "studySprintPlayerId",
-            playerId
-        );
-    }
-
-    return playerId;
-}
-
-
-/* =========================================================
-   PLAYER NAME
-========================================================= */
-
-function getPlayerName() {
-
-    return (
-        localStorage.getItem(
-            "username"
-        ) ||
-        "Player"
-    );
-
-}
-
-
-/* =========================================================
-   CREATE LOBBY
+   CREATE LOBBY BUTTON
 ========================================================= */
 
 createButton.addEventListener(
     "click",
-    function () {
-
-        showGameSelection();
-
-    }
+    showGameSelection
 );
 
 
@@ -207,15 +114,6 @@ createButton.addEventListener(
 ========================================================= */
 
 function showGameSelection() {
-
-    const gamesPage =
-        document.querySelector(
-            ".games-page"
-        );
-
-    if (!gamesPage)
-        return;
-
 
     gamesPage.innerHTML = `
 
@@ -226,7 +124,7 @@ function showGameSelection() {
             </h1>
 
             <p>
-                Pick the game you want your class to play.
+                Choose the game you want to play.
             </p>
 
         </section>
@@ -234,31 +132,29 @@ function showGameSelection() {
 
         <section class="game-selection">
 
-            ${GAMES.map(
-                game => `
+            <button
+                class="game-selection-card"
+                id="bossy-card"
+                type="button"
+            >
 
-                    <button
-                        class="game-selection-card"
-                        data-game="${game.id}"
-                        type="button"
-                    >
+                <div class="game-selection-icon">
+                    👹
+                </div>
 
-                        <span class="game-selection-icon">
-                            ${game.emoji}
-                        </span>
+                <h2>
+                    Bossy
+                </h2>
 
-                        <span class="game-selection-name">
-                            ${game.name}
-                        </span>
+                <p>
+                    TEST
+                </p>
 
-                        <span class="game-selection-description">
-                            ${game.description}
-                        </span>
+                <span class="game-test-label">
+                    TEST GAME
+                </span>
 
-                    </button>
-
-                `
-            ).join("")}
+            </button>
 
         </section>
 
@@ -275,24 +171,13 @@ function showGameSelection() {
 
 
     document
-        .querySelectorAll(
-            ".game-selection-card"
-        )
-        .forEach(
-            card => {
+        .getElementById("bossy-card")
+        .addEventListener(
+            "click",
+            function () {
 
-                card.addEventListener(
-                    "click",
-                    function () {
-
-                        const gameId =
-                            card.dataset.game;
-
-                        createLobby(
-                            gameId
-                        );
-
-                    }
+                createLobby(
+                    "bossy"
                 );
 
             }
@@ -300,9 +185,7 @@ function showGameSelection() {
 
 
     document
-        .getElementById(
-            "back-to-games"
-        )
+        .getElementById("back-to-games")
         .addEventListener(
             "click",
             function () {
@@ -316,7 +199,7 @@ function showGameSelection() {
 
 
 /* =========================================================
-   GENERATE LOBBY CODE
+   GENERATE CODE
 ========================================================= */
 
 function generateLobbyCode() {
@@ -343,28 +226,37 @@ function generateLobbyCode() {
     }
 
     return code;
-
 }
 
 
 /* =========================================================
-   CHECK IF CODE EXISTS
+   FIND AVAILABLE CODE
 ========================================================= */
 
-async function lobbyCodeExists(code) {
+async function generateUniqueCode() {
 
-    const lobbyRef =
-        ref(
-            database,
-            "lobbies/" + code
-        );
+    let code;
 
-    const snapshot =
-        await get(
-            lobbyRef
-        );
+    do {
 
-    return snapshot.exists();
+        code =
+            generateLobbyCode();
+
+        const snapshot =
+            await get(
+                ref(
+                    database,
+                    "lobbies/" + code
+                )
+            );
+
+        if (!snapshot.exists()) {
+
+            return code;
+
+        }
+
+    } while (true);
 
 }
 
@@ -374,43 +266,108 @@ async function lobbyCodeExists(code) {
 ========================================================= */
 
 async function createLobby(
-    gameId
+    game
 ) {
 
-    const game =
-        GAMES.find(
-            item =>
-                item.id === gameId
+    const card =
+        document.getElementById(
+            "bossy-card"
         );
 
-    if (!game)
-        return;
+    card.disabled = true;
+
+    card.innerHTML = `
+
+        <div class="game-selection-icon">
+            ⏳
+        </div>
+
+        <h2>
+            Creating Lobby...
+        </h2>
+
+        <p>
+            Connecting to StudySprint...
+        </p>
+
+    `;
 
 
     try {
 
-        let code;
+        const code =
+            await generateUniqueCode();
 
-        do {
+        const playerId =
+            getPlayerId();
 
-            code =
-                generateLobbyCode();
+        const playerName =
+            getPlayerName();
 
-        }
-        while (
-            await lobbyCodeExists(
-                code
-            )
+
+        /* =============================================
+           CREATE FIREBASE LOBBY
+        ============================================= */
+
+        await set(
+            ref(
+                database,
+                "lobbies/" + code
+            ),
+            {
+
+                code: code,
+
+                game: game,
+
+                status: "waiting",
+
+                hostId: playerId,
+
+                createdAt:
+                    Date.now(),
+
+                players: {
+
+                    [playerId]: {
+
+                        id: playerId,
+
+                        name: playerName,
+
+                        character:
+                            localStorage.getItem(
+                                "character_character"
+                            ) || "leafy",
+
+                        banner:
+                            localStorage.getItem(
+                                "character_banner"
+                            ) || "purple-grid",
+
+                        title:
+                            localStorage.getItem(
+                                "character_title"
+                            ) || "none",
+
+                        effect:
+                            localStorage.getItem(
+                                "character_effect"
+                            ) || "none",
+
+                        isHost: true
+
+                    }
+
+                }
+
+            }
         );
 
 
-        /*
-           For now we store the selected
-           game in sessionStorage.
-
-           The actual lobby will be created
-           by lobby.js once we arrive there.
-        */
+        /* =============================================
+           SAVE LOBBY INFORMATION
+        ============================================= */
 
         sessionStorage.setItem(
             "studySprintLobbyCode",
@@ -419,7 +376,7 @@ async function createLobby(
 
         sessionStorage.setItem(
             "studySprintLobbyGame",
-            gameId
+            game
         );
 
         sessionStorage.setItem(
@@ -428,22 +385,30 @@ async function createLobby(
         );
 
 
+        /* =============================================
+           GO TO LOBBY
+        ============================================= */
+
         window.location.href =
             "../lobby/lobby.html?code=" +
             code;
 
-
     }
+
     catch (error) {
 
         console.error(
-            "Could not create lobby:",
+            "Lobby creation failed:",
             error
         );
 
         alert(
-            "Something went wrong while creating the lobby."
+            "Couldn't create the lobby. Check your Firebase connection."
         );
+
+        card.disabled = false;
+
+        showGameSelection();
 
     }
 
@@ -472,36 +437,32 @@ joinForm.addEventListener(
         if (code.length !== 6) {
 
             joinError.textContent =
-                "Please enter a 6-character game code.";
+                "Enter a 6-character code.";
 
             return;
 
         }
 
 
-        const joinButton =
+        const button =
             document.getElementById(
                 "join-lobby-button"
             );
 
+        button.disabled = true;
 
-        joinButton.disabled = true;
-
-        joinButton.textContent =
+        button.textContent =
             "CHECKING...";
 
 
         try {
 
-            const lobbyRef =
-                ref(
-                    database,
-                    "lobbies/" + code
-                );
-
             const snapshot =
                 await get(
-                    lobbyRef
+                    ref(
+                        database,
+                        "lobbies/" + code
+                    )
                 );
 
 
@@ -510,10 +471,9 @@ joinForm.addEventListener(
                 joinError.textContent =
                     "That lobby doesn't exist.";
 
-                joinButton.disabled =
-                    false;
+                button.disabled = false;
 
-                joinButton.textContent =
+                button.textContent =
                     "JOIN LOBBY";
 
                 return;
@@ -526,17 +486,16 @@ joinForm.addEventListener(
 
 
             if (
-                lobby.status &&
-                lobby.status !== "waiting"
+                lobby.status !==
+                "waiting"
             ) {
 
                 joinError.textContent =
                     "That game has already started.";
 
-                joinButton.disabled =
-                    false;
+                button.disabled = false;
 
-                joinButton.textContent =
+                button.textContent =
                     "JOIN LOBBY";
 
                 return;
@@ -544,10 +503,9 @@ joinForm.addEventListener(
             }
 
 
-            /*
-               Store information so lobby.js
-               knows which lobby we're joining.
-            */
+            /* =========================================
+               SAVE JOIN INFORMATION
+            ========================================= */
 
             sessionStorage.setItem(
                 "studySprintLobbyCode",
@@ -556,7 +514,7 @@ joinForm.addEventListener(
 
             sessionStorage.setItem(
                 "studySprintLobbyGame",
-                lobby.game || ""
+                lobby.game
             );
 
             sessionStorage.setItem(
@@ -565,29 +523,32 @@ joinForm.addEventListener(
             );
 
 
+            /* =========================================
+               GO TO LOBBY
+            ========================================= */
+
             window.location.href =
                 "../lobby/lobby.html?code=" +
                 code;
 
-
         }
+
         catch (error) {
 
             console.error(
-                "Could not join lobby:",
+                "Join failed:",
                 error
             );
 
             joinError.textContent =
-                "Couldn't connect to the lobby. Please try again.";
+                "Couldn't connect to Firebase.";
 
         }
 
 
-        joinButton.disabled =
-            false;
+        button.disabled = false;
 
-        joinButton.textContent =
+        button.textContent =
             "JOIN LOBBY";
 
     }
@@ -595,7 +556,7 @@ joinForm.addEventListener(
 
 
 /* =========================================================
-   CLEAN JOIN CODE INPUT
+   CODE INPUT
 ========================================================= */
 
 codeInput.addEventListener(
@@ -614,15 +575,14 @@ codeInput.addEventListener(
                     6
                 );
 
-        joinError.textContent =
-            "";
+        joinError.textContent = "";
 
     }
 );
 
 
 /* =========================================================
-   DEBUG
+   STARTUP
 ========================================================= */
 
 console.log(
@@ -632,9 +592,4 @@ console.log(
 console.log(
     "Player ID:",
     getPlayerId()
-);
-
-console.log(
-    "Player:",
-    getPlayerName()
 );
