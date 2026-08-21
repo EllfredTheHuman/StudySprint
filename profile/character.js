@@ -283,12 +283,12 @@ const CHARACTER_EFFECTS = [
 
     {
         id: "rainbow",
-        name: "Rainbow Effect"
+        name: "Rainbow Aura"
     },
 
     {
         id: "fire",
-        name: "Fire Effect"
+        name: "Fire Aura"
     },
 
     {
@@ -298,17 +298,17 @@ const CHARACTER_EFFECTS = [
 
     {
         id: "shadow",
-        name: "Shadow"
+        name: "Shadow Aura"
     },
 
     {
         id: "crystal",
-        name: "Crystal Effect"
+        name: "Crystal Glow"
     },
 
     {
         id: "cosmic-aura",
-        name: "Cosmic Effect"
+        name: "Cosmic Aura"
     },
 
     {
@@ -554,8 +554,10 @@ function createGooberPreview(data) {
     face.appendChild(rightEye);
     face.appendChild(mouth);
 
+
     feet.appendChild(leftFoot);
     feet.appendChild(rightFoot);
+
 
     goober.appendChild(feet);
     goober.appendChild(body);
@@ -886,17 +888,21 @@ function renderEquippedCharacter() {
         getEquippedCharacter();
 
 
-    container.appendChild(
+    const goober =
         createGooberPreview(
             equipped
-        )
+        );
+
+
+    container.appendChild(
+        goober
     );
 
 }
 
 
 /* =========================================================
-   CUSTOM DROPDOWN
+   CUSTOM DROPDOWN BUILDER
 ========================================================= */
 
 function createCustomDropdown(
@@ -951,7 +957,6 @@ function createCustomDropdown(
 
 
     selected.innerHTML = `
-
         <span class="custom-dropdown-text">
             ${current.name}
         </span>
@@ -959,7 +964,6 @@ function createCustomDropdown(
         <span class="custom-dropdown-arrow">
             ▼
         </span>
-
     `;
 
 
@@ -1008,14 +1012,12 @@ function createCustomDropdown(
 
 
             option.innerHTML = `
-
                 <span>
                     ${
                         owned
                             ? ""
                             : "🔒 "
                     }
-
                     ${item.name}
                 </span>
 
@@ -1026,7 +1028,6 @@ function createCustomDropdown(
                             : ""
                     }
                 </span>
-
             `;
 
 
@@ -1241,8 +1242,7 @@ function renderCharacterTitle() {
         title === "none"
     ) {
 
-        element.textContent =
-            "";
+        element.textContent = "";
 
         element.style.display =
             "none";
@@ -1298,7 +1298,7 @@ function renderTitleOptions() {
 
 
 /* =========================================================
-   CREATE EFFECT ELEMENT
+   EFFECT HELPERS
 ========================================================= */
 
 function createEffectElement(
@@ -1326,39 +1326,90 @@ function createEffectElement(
 
 
 /* =========================================================
-   SPARKLES
+   CLEAR EFFECTS
 ========================================================= */
 
-function createSparkles(character) {
+function clearCharacterEffects(character) {
 
-    const positions = [
+    if (!character)
+        return;
 
-        ["sparkle-one", 0],
-        ["sparkle-two", 0.15],
-        ["sparkle-three", 0.3],
-        ["sparkle-four", 0.45],
-        ["sparkle-five", 0.6],
-        ["sparkle-six", 0.75]
+
+    const effectClasses = [
+
+        "effect-sparkle",
+        "effect-speed-trail",
+        "effect-lightning",
+        "effect-rainbow",
+        "effect-fire",
+        "effect-glitch",
+        "effect-shadow",
+        "effect-crystal",
+        "effect-cosmic-aura",
+        "effect-crown"
 
     ];
 
 
-    positions.forEach(
-        ([className, delay]) => {
+    effectClasses.forEach(
+        className => {
 
-            const sparkle =
-                createEffectElement(
-                    character,
-                    "effect-sparkle " +
-                    className
-                );
-
-
-            sparkle.style.animationDelay =
-                `${delay}s`;
+            character.classList.remove(
+                className
+            );
 
         }
     );
+
+
+    character
+        .querySelectorAll(
+            ".character-effect-element"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+}
+
+
+/* =========================================================
+   SPARKLE EFFECT
+========================================================= */
+
+function createSparkleEffect(character) {
+
+    character.classList.add(
+        "effect-sparkle"
+    );
+
+
+    for (
+        let i = 0;
+        i < 6;
+        i++
+    ) {
+
+        const sparkle =
+            createEffectElement(
+                character,
+                "effect-sparkle-dot"
+            );
+
+
+        sparkle.classList.add(
+            "sparkle-" +
+            (i + 1)
+        );
+
+
+        sparkle.style.setProperty(
+            "--sparkle-index",
+            i
+        );
+
+    }
 
 }
 
@@ -1367,7 +1418,12 @@ function createSparkles(character) {
    SPEED TRAIL
 ========================================================= */
 
-function createSpeedTrail(character) {
+function createSpeedTrailEffect(character) {
+
+    character.classList.add(
+        "effect-speed-trail"
+    );
+
 
     for (
         let i = 0;
@@ -1396,7 +1452,12 @@ function createSpeedTrail(character) {
    LIGHTNING
 ========================================================= */
 
-function createLightning(character) {
+function createLightningEffect(character) {
+
+    character.classList.add(
+        "effect-lightning"
+    );
+
 
     for (
         let i = 0;
@@ -1412,7 +1473,7 @@ function createLightning(character) {
 
 
         bolt.style.setProperty(
-            "--bolt-index",
+            "--lightning-index",
             i
         );
 
@@ -1425,23 +1486,23 @@ function createLightning(character) {
    RAINBOW
 ========================================================= */
 
-function createRainbow(character) {
+function createRainbowEffect(character) {
 
-    const rainbow =
-        createEffectElement(
-            character,
-            "effect-rainbow-arc"
-        );
+    character.classList.add(
+        "effect-rainbow"
+    );
 
 
-    rainbow.innerHTML = `
+    createEffectElement(
+        character,
+        "effect-rainbow-ring"
+    );
 
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
 
-    `;
+    createEffectElement(
+        character,
+        "effect-rainbow-ring-inner"
+    );
 
 }
 
@@ -1450,11 +1511,16 @@ function createRainbow(character) {
    FIRE
 ========================================================= */
 
-function createFire(character) {
+function createFireEffect(character) {
+
+    character.classList.add(
+        "effect-fire"
+    );
+
 
     for (
         let i = 0;
-        i < 5;
+        i < 7;
         i++
     ) {
 
@@ -1479,11 +1545,16 @@ function createFire(character) {
    GLITCH
 ========================================================= */
 
-function createGlitch(character) {
+function createGlitchEffect(character) {
+
+    character.classList.add(
+        "effect-glitch"
+    );
+
 
     for (
         let i = 0;
-        i < 5;
+        i < 3;
         i++
     ) {
 
@@ -1508,11 +1579,16 @@ function createGlitch(character) {
    SHADOW
 ========================================================= */
 
-function createShadow(character) {
+function createShadowEffect(character) {
+
+    character.classList.add(
+        "effect-shadow"
+    );
+
 
     createEffectElement(
         character,
-        "effect-ground-shadow"
+        "effect-shadow-ground"
     );
 
 }
@@ -1522,11 +1598,16 @@ function createShadow(character) {
    CRYSTAL
 ========================================================= */
 
-function createCrystal(character) {
+function createCrystalEffect(character) {
+
+    character.classList.add(
+        "effect-crystal"
+    );
+
 
     for (
         let i = 0;
-        i < 4;
+        i < 6;
         i++
     ) {
 
@@ -1551,37 +1632,35 @@ function createCrystal(character) {
    COSMIC
 ========================================================= */
 
-function createCosmic(character) {
+function createCosmicEffect(character) {
 
-    const orbit =
-        createEffectElement(
-            character,
-            "effect-cosmic-orbit"
-        );
+    character.classList.add(
+        "effect-cosmic-aura"
+    );
+
+
+    createEffectElement(
+        character,
+        "effect-cosmic-ring"
+    );
 
 
     for (
         let i = 0;
-        i < 5;
+        i < 8;
         i++
     ) {
 
         const star =
-            document.createElement("span");
-
-
-        star.className =
-            "cosmic-star";
+            createEffectElement(
+                character,
+                "effect-cosmic-star"
+            );
 
 
         star.style.setProperty(
             "--star-index",
             i
-        );
-
-
-        orbit.appendChild(
-            star
         );
 
     }
@@ -1593,55 +1672,74 @@ function createCosmic(character) {
    CROWN
 ========================================================= */
 
-function createCrown(character) {
+function createCrownEffect(character) {
 
-    const crown =
-        createEffectElement(
-            character,
-            "character-crown"
-        );
-
-
-    crown.innerHTML = `
-
-        <span class="crown-jewel red"></span>
-        <span class="crown-jewel blue"></span>
-        <span class="crown-jewel purple"></span>
-
-    `;
-
-
-    createEffectElement(
-        character,
-        "crown-glow"
+    character.classList.add(
+        "effect-crown"
     );
 
 
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
-
-        const sparkle =
-            createEffectElement(
-                character,
-                "crown-sparkle"
-            );
-
-
-        sparkle.style.setProperty(
-            "--crown-sparkle-index",
-            i
+    const goober =
+        character.querySelector(
+            "#equipped-goober > .goober"
         );
 
-    }
+
+    /*
+       IMPORTANT:
+
+       The crown is attached DIRECTLY to
+       the Goober.
+
+       It therefore cannot change the
+       Goober's horizontal position.
+    */
+
+    if (!goober)
+        return;
+
+
+    const crown =
+        document.createElement("div");
+
+
+    crown.className =
+        "character-effect-element " +
+        "character-crown";
+
+
+    crown.innerHTML = `
+        <span class="crown-point"></span>
+        <span class="crown-point"></span>
+        <span class="crown-point"></span>
+    `;
+
+
+    goober.appendChild(
+        crown
+    );
+
+
+    /*
+       Separate glow so the crown itself
+       stays sharp.
+    */
+
+    const glow =
+        createEffectElement(
+            character,
+            "crown-glow"
+        );
+
+
+    glow.style.pointerEvents =
+        "none";
 
 }
 
 
 /* =========================================================
-   RENDER CHARACTER EFFECT
+   MAIN EFFECT RENDERER
 ========================================================= */
 
 function renderCharacterEffect() {
@@ -1656,40 +1754,8 @@ function renderCharacterEffect() {
         return;
 
 
-    character
-        .querySelectorAll(
-            ".character-effect-element"
-        )
-        .forEach(
-            element =>
-                element.remove()
-        );
-
-
-    const oldEffectClasses = [
-
-        "effect-sparkle",
-        "effect-speed-trail",
-        "effect-lightning",
-        "effect-rainbow",
-        "effect-fire",
-        "effect-glitch",
-        "effect-shadow",
-        "effect-crystal",
-        "effect-cosmic-aura",
-        "effect-crown"
-
-    ];
-
-
-    oldEffectClasses.forEach(
-        effect => {
-
-            character.classList.remove(
-                effect
-            );
-
-        }
+    clearCharacterEffects(
+        character
     );
 
 
@@ -1713,7 +1779,7 @@ function renderCharacterEffect() {
 
         case "sparkle":
 
-            createSparkles(
+            createSparkleEffect(
                 character
             );
 
@@ -1722,7 +1788,7 @@ function renderCharacterEffect() {
 
         case "speed-trail":
 
-            createSpeedTrail(
+            createSpeedTrailEffect(
                 character
             );
 
@@ -1731,7 +1797,7 @@ function renderCharacterEffect() {
 
         case "lightning":
 
-            createLightning(
+            createLightningEffect(
                 character
             );
 
@@ -1740,7 +1806,7 @@ function renderCharacterEffect() {
 
         case "rainbow":
 
-            createRainbow(
+            createRainbowEffect(
                 character
             );
 
@@ -1749,7 +1815,7 @@ function renderCharacterEffect() {
 
         case "fire":
 
-            createFire(
+            createFireEffect(
                 character
             );
 
@@ -1758,7 +1824,7 @@ function renderCharacterEffect() {
 
         case "glitch":
 
-            createGlitch(
+            createGlitchEffect(
                 character
             );
 
@@ -1767,7 +1833,7 @@ function renderCharacterEffect() {
 
         case "shadow":
 
-            createShadow(
+            createShadowEffect(
                 character
             );
 
@@ -1776,7 +1842,7 @@ function renderCharacterEffect() {
 
         case "crystal":
 
-            createCrystal(
+            createCrystalEffect(
                 character
             );
 
@@ -1785,7 +1851,7 @@ function renderCharacterEffect() {
 
         case "cosmic-aura":
 
-            createCosmic(
+            createCosmicEffect(
                 character
             );
 
@@ -1794,7 +1860,7 @@ function renderCharacterEffect() {
 
         case "crown":
 
-            createCrown(
+            createCrownEffect(
                 character
             );
 
