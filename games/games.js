@@ -30,7 +30,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const database = getDatabase(app);
+const database =
+    getDatabase(
+        app,
+        "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app"
+    );
 
 
 /* =========================================================
