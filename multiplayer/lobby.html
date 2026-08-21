@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudySprint | Game Lobby</title>
+
+    <link
+        rel="stylesheet"
+        href="lobby.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         PAGE
+    ====================================================== -->
+
+    <main class="lobby-page">
+
+        <!-- =================================================
+             LOBBY HEADER
+        ================================================== -->
+
+        <section class="lobby-header">
+
+            <p class="lobby-game-label">
+                GAME LOBBY
+            </p>
+
+            <h1 id="game-name">
+                Loading...
+            </h1>
+
+            <p id="lobby-status">
+                Connecting...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             LOBBY CODE
+        ================================================== -->
+
+        <section class="lobby-code-card">
+
+            <p class="lobby-code-label">
+                LOBBY CODE
+            </p>
+
+            <div
+                id="lobby-code"
+                class="lobby-code"
+            >
+                ------
+            </div>
+
+            <button
+                id="copy-code"
+                class="copy-code-button"
+            >
+                Copy Code
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             PLAYERS
+        ================================================== -->
+
+        <section class="players-card">
+
+            <div class="players-header">
+
+                <h2>
+                    Players
+                </h2>
+
+                <span id="player-count">
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="players-list"
+                class="players-list"
+            >
+
+                <p class="empty-players">
+                    Waiting for players...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             HOST CONTROLS
+        ================================================== -->
+
+        <section
+            id="host-controls"
+            class="host-controls"
+        >
+
+            <button
+                id="start-game"
+                class="start-game-button"
+            >
+                START GAME
+            </button>
+
+            <p class="host-message">
+                You are the host
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             PLAYER WAITING MESSAGE
+        ================================================== -->
+
+        <section
+            id="waiting-message"
+            class="waiting-message"
+        >
+
+            <div class="waiting-spinner">
+                ⏳
+            </div>
+
+            <p>
+                Waiting for the host to start the game...
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             LEAVE LOBBY
+        ================================================== -->
+
+        <button
+            id="leave-lobby"
+            class="leave-lobby-button"
+        >
+            Leave Lobby
+        </button>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        type="module"
+        src="lobby.js"
+    ></script>
+
+</body>
+
+</html>
