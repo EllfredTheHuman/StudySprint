@@ -283,12 +283,12 @@ const CHARACTER_EFFECTS = [
 
     {
         id: "rainbow",
-        name: "Rainbow Aura"
+        name: "Rainbow Effect"
     },
 
     {
         id: "fire",
-        name: "Fire Aura"
+        name: "Fire Effect"
     },
 
     {
@@ -298,17 +298,17 @@ const CHARACTER_EFFECTS = [
 
     {
         id: "shadow",
-        name: "Shadow Aura"
+        name: "Shadow"
     },
 
     {
         id: "crystal",
-        name: "Crystal Glow"
+        name: "Crystal Effect"
     },
 
     {
         id: "cosmic-aura",
-        name: "Cosmic Aura"
+        name: "Cosmic Effect"
     },
 
     {
@@ -329,7 +329,6 @@ function characterValue(key, fallback) {
         localStorage.getItem(key);
 
     return value || fallback;
-
 }
 
 
@@ -897,7 +896,7 @@ function renderEquippedCharacter() {
 
 
 /* =========================================================
-   CUSTOM DROPDOWN BUILDER
+   CUSTOM DROPDOWN
 ========================================================= */
 
 function createCustomDropdown(
@@ -952,6 +951,7 @@ function createCustomDropdown(
 
 
     selected.innerHTML = `
+
         <span class="custom-dropdown-text">
             ${current.name}
         </span>
@@ -959,6 +959,7 @@ function createCustomDropdown(
         <span class="custom-dropdown-arrow">
             ▼
         </span>
+
     `;
 
 
@@ -1007,14 +1008,25 @@ function createCustomDropdown(
 
 
             option.innerHTML = `
+
                 <span>
-                    ${owned ? "" : "🔒 "}
+                    ${
+                        owned
+                            ? ""
+                            : "🔒 "
+                    }
+
                     ${item.name}
                 </span>
 
                 <span class="dropdown-check">
-                    ${item.id === current.id ? "✓" : ""}
+                    ${
+                        item.id === current.id
+                            ? "✓"
+                            : ""
+                    }
                 </span>
+
             `;
 
 
@@ -1035,10 +1047,12 @@ function createCustomDropdown(
 
                         event.stopPropagation();
 
+
                         setCharacterValue(
                             key,
                             item.id
                         );
+
 
                         renderEditor();
 
@@ -1284,16 +1298,8 @@ function renderTitleOptions() {
 
 
 /* =========================================================
-   EFFECT HELPERS
+   CREATE EFFECT ELEMENT
 ========================================================= */
-
-/*
-   All effect elements are placed inside the .character
-   positioning box.
-
-   They are absolutely positioned, so they NEVER participate
-   in normal layout and therefore cannot move the Goober.
-*/
 
 function createEffectElement(
     character,
@@ -1309,12 +1315,6 @@ function createEffectElement(
         className;
 
 
-    element.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-
     character.appendChild(
         element
     );
@@ -1326,133 +1326,39 @@ function createEffectElement(
 
 
 /* =========================================================
-   REMOVE OLD EFFECTS
+   SPARKLES
 ========================================================= */
 
-function clearCharacterEffects(character) {
+function createSparkles(character) {
 
-    const effectClasses = [
+    const positions = [
 
-        "sparkle",
-        "speed-trail",
-        "lightning",
-        "rainbow",
-        "fire",
-        "glitch",
-        "shadow",
-        "crystal",
-        "cosmic-aura",
-        "crown"
+        ["sparkle-one", 0],
+        ["sparkle-two", 0.15],
+        ["sparkle-three", 0.3],
+        ["sparkle-four", 0.45],
+        ["sparkle-five", 0.6],
+        ["sparkle-six", 0.75]
 
     ];
 
 
-    effectClasses.forEach(
-        effect => {
+    positions.forEach(
+        ([className, delay]) => {
 
-            character.classList.remove(
-                "effect-" + effect
-            );
+            const sparkle =
+                createEffectElement(
+                    character,
+                    "effect-sparkle " +
+                    className
+                );
+
+
+            sparkle.style.animationDelay =
+                `${delay}s`;
 
         }
     );
-
-
-    character
-        .querySelectorAll(
-            ".character-effect-element"
-        )
-        .forEach(
-            element =>
-                element.remove()
-        );
-
-}
-
-
-/* =========================================================
-   CROWN
-========================================================= */
-
-function createCharacterCrown(character) {
-
-    /*
-       IMPORTANT:
-
-       The crown belongs to the Goober, not the outer
-       .character box.
-
-       This means its 42px width cannot affect the
-       character's horizontal position.
-    */
-
-    const goober =
-        character.querySelector(
-            "#equipped-goober > .goober"
-        );
-
-
-    if (!goober)
-        return;
-
-
-    const crown =
-        document.createElement("div");
-
-
-    crown.className =
-        "character-effect-element " +
-        "character-crown";
-
-
-    crown.innerHTML = `
-        <span class="crown-point"></span>
-        <span class="crown-point"></span>
-        <span class="crown-point"></span>
-    `;
-
-
-    goober.appendChild(
-        crown
-    );
-
-}
-
-
-/* =========================================================
-   SPARKLE EFFECT
-========================================================= */
-
-function createSparkleEffect(character) {
-
-    character.classList.add(
-        "effect-sparkle"
-    );
-
-
-    /*
-       Six small sparkles rather than one giant aura.
-    */
-
-    for (
-        let i = 0;
-        i < 6;
-        i++
-    ) {
-
-        const sparkle =
-            createEffectElement(
-                character,
-                "effect-sparkle-dot"
-            );
-
-
-        sparkle.style.setProperty(
-            "--sparkle-index",
-            i
-        );
-
-    }
 
 }
 
@@ -1461,27 +1367,22 @@ function createSparkleEffect(character) {
    SPEED TRAIL
 ========================================================= */
 
-function createSpeedTrailEffect(character) {
-
-    character.classList.add(
-        "effect-speed-trail"
-    );
-
+function createSpeedTrail(character) {
 
     for (
         let i = 0;
-        i < 3;
+        i < 5;
         i++
     ) {
 
-        const trail =
+        const streak =
             createEffectElement(
                 character,
-                "effect-speed-trail-line"
+                "effect-speed-streak"
             );
 
 
-        trail.style.setProperty(
+        streak.style.setProperty(
             "--trail-index",
             i
         );
@@ -1495,16 +1396,11 @@ function createSpeedTrailEffect(character) {
    LIGHTNING
 ========================================================= */
 
-function createLightningEffect(character) {
-
-    character.classList.add(
-        "effect-lightning"
-    );
-
+function createLightning(character) {
 
     for (
         let i = 0;
-        i < 3;
+        i < 4;
         i++
     ) {
 
@@ -1516,7 +1412,7 @@ function createLightningEffect(character) {
 
 
         bolt.style.setProperty(
-            "--lightning-index",
+            "--bolt-index",
             i
         );
 
@@ -1529,17 +1425,23 @@ function createLightningEffect(character) {
    RAINBOW
 ========================================================= */
 
-function createRainbowEffect(character) {
+function createRainbow(character) {
 
-    character.classList.add(
-        "effect-rainbow"
-    );
+    const rainbow =
+        createEffectElement(
+            character,
+            "effect-rainbow-arc"
+        );
 
 
-    createEffectElement(
-        character,
-        "effect-rainbow-ring"
-    );
+    rainbow.innerHTML = `
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    `;
 
 }
 
@@ -1548,12 +1450,7 @@ function createRainbowEffect(character) {
    FIRE
 ========================================================= */
 
-function createFireEffect(character) {
-
-    character.classList.add(
-        "effect-fire"
-    );
-
+function createFire(character) {
 
     for (
         let i = 0;
@@ -1564,12 +1461,12 @@ function createFireEffect(character) {
         const flame =
             createEffectElement(
                 character,
-                "effect-fire-particle"
+                "effect-flame"
             );
 
 
         flame.style.setProperty(
-            "--fire-index",
+            "--flame-index",
             i
         );
 
@@ -1582,17 +1479,27 @@ function createFireEffect(character) {
    GLITCH
 ========================================================= */
 
-function createGlitchEffect(character) {
+function createGlitch(character) {
 
-    character.classList.add(
-        "effect-glitch"
-    );
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        const glitch =
+            createEffectElement(
+                character,
+                "effect-glitch-piece"
+            );
 
 
-    createEffectElement(
-        character,
-        "effect-glitch-overlay"
-    );
+        glitch.style.setProperty(
+            "--glitch-index",
+            i
+        );
+
+    }
 
 }
 
@@ -1601,16 +1508,11 @@ function createGlitchEffect(character) {
    SHADOW
 ========================================================= */
 
-function createShadowEffect(character) {
-
-    character.classList.add(
-        "effect-shadow"
-    );
-
+function createShadow(character) {
 
     createEffectElement(
         character,
-        "effect-shadow-ground"
+        "effect-ground-shadow"
     );
 
 }
@@ -1620,12 +1522,7 @@ function createShadowEffect(character) {
    CRYSTAL
 ========================================================= */
 
-function createCrystalEffect(character) {
-
-    character.classList.add(
-        "effect-crystal"
-    );
-
+function createCrystal(character) {
 
     for (
         let i = 0;
@@ -1651,20 +1548,16 @@ function createCrystalEffect(character) {
 
 
 /* =========================================================
-   COSMIC AURA
+   COSMIC
 ========================================================= */
 
-function createCosmicAuraEffect(character) {
+function createCosmic(character) {
 
-    character.classList.add(
-        "effect-cosmic-aura"
-    );
-
-
-    createEffectElement(
-        character,
-        "effect-cosmic-ring"
-    );
+    const orbit =
+        createEffectElement(
+            character,
+            "effect-cosmic-orbit"
+        );
 
 
     for (
@@ -1674,14 +1567,71 @@ function createCosmicAuraEffect(character) {
     ) {
 
         const star =
-            createEffectElement(
-                character,
-                "effect-cosmic-star"
-            );
+            document.createElement("span");
+
+
+        star.className =
+            "cosmic-star";
 
 
         star.style.setProperty(
-            "--cosmic-index",
+            "--star-index",
+            i
+        );
+
+
+        orbit.appendChild(
+            star
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CROWN
+========================================================= */
+
+function createCrown(character) {
+
+    const crown =
+        createEffectElement(
+            character,
+            "character-crown"
+        );
+
+
+    crown.innerHTML = `
+
+        <span class="crown-jewel red"></span>
+        <span class="crown-jewel blue"></span>
+        <span class="crown-jewel purple"></span>
+
+    `;
+
+
+    createEffectElement(
+        character,
+        "crown-glow"
+    );
+
+
+    for (
+        let i = 0;
+        i < 3;
+        i++
+    ) {
+
+        const sparkle =
+            createEffectElement(
+                character,
+                "crown-sparkle"
+            );
+
+
+        sparkle.style.setProperty(
+            "--crown-sparkle-index",
             i
         );
 
@@ -1691,7 +1641,7 @@ function createCosmicAuraEffect(character) {
 
 
 /* =========================================================
-   CHARACTER EFFECT
+   RENDER CHARACTER EFFECT
 ========================================================= */
 
 function renderCharacterEffect() {
@@ -1706,8 +1656,40 @@ function renderCharacterEffect() {
         return;
 
 
-    clearCharacterEffects(
-        character
+    character
+        .querySelectorAll(
+            ".character-effect-element"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+
+    const oldEffectClasses = [
+
+        "effect-sparkle",
+        "effect-speed-trail",
+        "effect-lightning",
+        "effect-rainbow",
+        "effect-fire",
+        "effect-glitch",
+        "effect-shadow",
+        "effect-crystal",
+        "effect-cosmic-aura",
+        "effect-crown"
+
+    ];
+
+
+    oldEffectClasses.forEach(
+        effect => {
+
+            character.classList.remove(
+                effect
+            );
+
+        }
     );
 
 
@@ -1731,7 +1713,7 @@ function renderCharacterEffect() {
 
         case "sparkle":
 
-            createSparkleEffect(
+            createSparkles(
                 character
             );
 
@@ -1740,7 +1722,7 @@ function renderCharacterEffect() {
 
         case "speed-trail":
 
-            createSpeedTrailEffect(
+            createSpeedTrail(
                 character
             );
 
@@ -1749,7 +1731,7 @@ function renderCharacterEffect() {
 
         case "lightning":
 
-            createLightningEffect(
+            createLightning(
                 character
             );
 
@@ -1758,7 +1740,7 @@ function renderCharacterEffect() {
 
         case "rainbow":
 
-            createRainbowEffect(
+            createRainbow(
                 character
             );
 
@@ -1767,7 +1749,7 @@ function renderCharacterEffect() {
 
         case "fire":
 
-            createFireEffect(
+            createFire(
                 character
             );
 
@@ -1776,7 +1758,7 @@ function renderCharacterEffect() {
 
         case "glitch":
 
-            createGlitchEffect(
+            createGlitch(
                 character
             );
 
@@ -1785,7 +1767,7 @@ function renderCharacterEffect() {
 
         case "shadow":
 
-            createShadowEffect(
+            createShadow(
                 character
             );
 
@@ -1794,7 +1776,7 @@ function renderCharacterEffect() {
 
         case "crystal":
 
-            createCrystalEffect(
+            createCrystal(
                 character
             );
 
@@ -1803,7 +1785,7 @@ function renderCharacterEffect() {
 
         case "cosmic-aura":
 
-            createCosmicAuraEffect(
+            createCosmic(
                 character
             );
 
@@ -1812,11 +1794,7 @@ function renderCharacterEffect() {
 
         case "crown":
 
-            character.classList.add(
-                "effect-crown"
-            );
-
-            createCharacterCrown(
+            createCrown(
                 character
             );
 
