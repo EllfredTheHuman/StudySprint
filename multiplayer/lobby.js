@@ -3,10 +3,10 @@
 
    Handles:
    - Joining a lobby
-   - Player information
-   - Player cosmetics
    - Host detection
-   - Real-time player syncing
+   - Player syncing
+   - Player cosmetics
+   - Disconnect handling
    - Starting the game
    - Leaving the lobby
    - Copying the lobby code
@@ -65,17 +65,38 @@ const leaveLobbyButton =
 ========================================================= */
 
 /*
-   Each browser gets a unique ID for this lobby session.
+   IMPORTANT:
+
+   games.js already creates this ID when necessary.
+
+   We MUST use the same ID here.
+
+   Otherwise the host gets added to the lobby twice.
 */
 
-const playerId =
-    crypto.randomUUID();
+let playerId =
+    localStorage.getItem(
+        "studySprintPlayerId"
+    );
 
 
 /*
-   StudySprint already stores the player's
-   username in localStorage.
+   Fallback in case someone opens lobby.html
+   directly without going through games.js.
 */
+
+if (!playerId) {
+
+    playerId =
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        "studySprintPlayerId",
+        playerId
+    );
+
+}
+
 
 const playerName =
     localStorage.getItem("username") ||
@@ -153,6 +174,10 @@ let lobbyData = null;
 
 let playerIsHost = false;
 
+let playerWasAdded = false;
+
+let gameStartHandled = false;
+
 
 /* =========================================================
    START
@@ -224,13 +249,13 @@ async function initialiseLobby() {
             );
 
 
+        /*
+           First check that the lobby exists.
+        */
+
         const snapshot =
             await get(lobbyRef);
 
-
-        /* =================================================
-           LOBBY DOES NOT EXIST
-        ================================================= */
 
         if (!snapshot.exists()) {
 
@@ -270,8 +295,8 @@ async function initialiseLobby() {
             lobbyData.started === true
         ) {
 
-            handleGameStarted(
-                lobbyData
+            listenToLobby(
+                lobbyRef
             );
 
             return;
@@ -280,16 +305,41 @@ async function initialiseLobby() {
 
 
         /* =================================================
-           ADD PLAYER
+           DETERMINE WHETHER PLAYER IS ALREADY IN LOBBY
         ================================================= */
 
-        await addPlayer(
-            lobbyRef
-        );
+        const existingPlayer =
+            lobbyData.players &&
+            lobbyData.players[playerId];
+
+
+        /*
+           If games.js created the lobby,
+           the host is ALREADY in Firebase.
+
+           DO NOT add them again.
+        */
+
+        if (existingPlayer) {
+
+            playerWasAdded = true;
+
+        }
+        else {
+
+            /*
+               Normal joining player.
+            */
+
+            await addPlayer(
+                lobbyRef
+            );
+
+        }
 
 
         /* =================================================
-           LISTEN FOR LOBBY CHANGES
+           LISTEN FOR REAL-TIME CHANGES
         ================================================= */
 
         listenToLobby(
@@ -299,6 +349,7 @@ async function initialiseLobby() {
 
         lobbyStatusElement.textContent =
             "Waiting for players...";
+
 
     }
     catch (error) {
@@ -337,13 +388,12 @@ async function addPlayer(
         getEquippedCosmetics();
 
 
-    /*
-       Save the player AND their cosmetics.
-    */
-
     await set(
         playerRef,
         {
+
+            id:
+                playerId,
 
             name:
                 playerName,
@@ -371,13 +421,16 @@ async function addPlayer(
 
 
     /*
-       If the player closes their browser,
-       Firebase automatically removes them.
+       Automatically remove this player
+       if their connection disappears.
     */
 
     await onDisconnect(
         playerRef
     ).remove();
+
+
+    playerWasAdded = true;
 
 }
 
@@ -460,7 +513,7 @@ function updateLobbyUI(
 
 
     /* =====================================================
-       LOBBY CODE
+       CODE
     ====================================================== */
 
     lobbyCodeElement.textContent =
@@ -535,6 +588,21 @@ function updateLobbyUI(
                 "player-item";
 
 
+            /*
+               Highlight yourself.
+            */
+
+            if (
+                id === playerId
+            ) {
+
+                playerElement.classList.add(
+                    "current-player"
+                );
+
+            }
+
+
             /* =============================================
                CHARACTER
             ============================================== */
@@ -546,11 +614,6 @@ function updateLobbyUI(
             characterElement.className =
                 "player-character";
 
-
-            /*
-               Store cosmetic information as
-               data attributes for the CSS/renderer.
-            */
 
             characterElement.dataset.character =
                 player.character ||
@@ -573,13 +636,10 @@ function updateLobbyUI(
 
 
             /*
-               For now, show a simple character
-               placeholder.
+               Temporary character display.
 
-               We can plug your existing
-               createGooberPreview() system into
-               this later so the actual Goober
-               appears here.
+               We'll replace this with the actual
+               Goober renderer later.
             */
 
             characterElement.textContent =
@@ -614,6 +674,33 @@ function updateLobbyUI(
             information.appendChild(
                 name
             );
+
+
+            /* =============================================
+               YOU BADGE
+            ============================================== */
+
+            if (
+                id === playerId
+            ) {
+
+                const youBadge =
+                    document.createElement("span");
+
+
+                youBadge.className =
+                    "you-badge";
+
+
+                youBadge.textContent =
+                    "YOU";
+
+
+                information.appendChild(
+                    youBadge
+                );
+
+            }
 
 
             /* =============================================
@@ -681,7 +768,7 @@ function updateLobbyUI(
             ============================================== */
 
             if (
-                id === data.host
+                id === data.hostId
             ) {
 
                 const hostBadge =
@@ -726,11 +813,11 @@ function updateLobbyUI(
 
 
     /* =====================================================
-       HOST
+       HOST DETECTION
     ====================================================== */
 
     playerIsHost =
-        data.host === playerId;
+        data.hostId === playerId;
 
 
     if (
@@ -744,26 +831,6 @@ function updateLobbyUI(
         waitingMessage.style.display =
             "none";
 
-    }
-    else {
-
-        hostControls.style.display =
-            "none";
-
-
-        waitingMessage.style.display =
-            "block";
-
-    }
-
-
-    /* =====================================================
-       STATUS
-    ====================================================== */
-
-    if (
-        playerIsHost
-    ) {
 
         lobbyStatusElement.textContent =
             "You are the host.";
@@ -771,8 +838,44 @@ function updateLobbyUI(
     }
     else {
 
+        hostControls.style.display =
+            "none";
+
+
+        waitingMessage.style.display =
+            "block";
+
+
         lobbyStatusElement.textContent =
             "Waiting for the host...";
+
+    }
+
+
+    /* =====================================================
+       STARTED STATE
+    ====================================================== */
+
+    if (
+        data.started === true
+    ) {
+
+        lobbyStatusElement.textContent =
+            "Game starting...";
+
+
+        if (
+            startGameButton
+        ) {
+
+            startGameButton.disabled =
+                true;
+
+
+            startGameButton.textContent =
+                "GAME STARTING...";
+
+        }
 
     }
 
@@ -876,79 +979,106 @@ function getEffectName(
    START GAME
 ========================================================= */
 
-startGameButton.addEventListener(
-    "click",
-    async function() {
+if (
+    startGameButton
+) {
 
-        if (
-            !playerIsHost
-        ) {
+    startGameButton.addEventListener(
+        "click",
+        async function() {
 
-            return;
+            /*
+               Safety check.
 
-        }
+               Even if someone somehow makes the button
+               visible, Firebase still determines the
+               actual host.
+            */
 
+            if (
+                !playerIsHost
+            ) {
 
-        if (!lobbyData) {
-
-            return;
-
-        }
-
-
-        startGameButton.disabled =
-            true;
-
-
-        startGameButton.textContent =
-            "STARTING...";
-
-
-        try {
-
-            const lobbyRef =
-                ref(
-                    db,
-                    `lobbies/${lobbyCode}`
+                console.warn(
+                    "Only the host can start the game."
                 );
 
+                return;
 
-            await update(
-                lobbyRef,
-                {
+            }
 
-                    started:
-                        true,
 
-                    state:
-                        "playing",
+            if (!lobbyData) {
 
-                    startedAt:
-                        Date.now()
+                return;
 
-                }
-            );
+            }
 
-        }
-        catch (error) {
 
-            console.error(
-                "Could not start game:",
-                error
-            );
+            if (
+                lobbyData.started === true
+            ) {
+
+                return;
+
+            }
 
 
             startGameButton.disabled =
-                false;
+                true;
 
 
             startGameButton.textContent =
-                "START GAME";
+                "STARTING...";
+
+
+            try {
+
+                const lobbyRef =
+                    ref(
+                        db,
+                        `lobbies/${lobbyCode}`
+                    );
+
+
+                await update(
+                    lobbyRef,
+                    {
+
+                        started:
+                            true,
+
+                        state:
+                            "playing",
+
+                        startedAt:
+                            Date.now()
+
+                    }
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Could not start game:",
+                    error
+                );
+
+
+                startGameButton.disabled =
+                    false;
+
+
+                startGameButton.textContent =
+                    "START GAME";
+
+            }
 
         }
+    );
 
-    }
-);
+}
 
 
 /* =========================================================
@@ -959,24 +1089,42 @@ function handleGameStarted(
     data
 ) {
 
+    /*
+       Prevent the alert from firing repeatedly
+       every time Firebase updates.
+    */
+
+    if (
+        gameStartHandled
+    ) {
+
+        return;
+
+    }
+
+
+    gameStartHandled = true;
+
+
     lobbyStatusElement.textContent =
         "Game starting!";
 
 
     const game =
         data.game ||
-        selectedGame;
+        selectedGame ||
+        "unknown";
 
 
     /*
        TEMPORARY:
 
-       Later this will redirect everyone
-       to the actual game page.
+       Later we will redirect everyone to
+       the actual game page.
 
-       The important thing right now is
-       that every connected player receives
-       the same "started: true" update.
+       Because "started" is stored in Firebase,
+       EVERY player receives this at essentially
+       the same time.
     */
 
     setTimeout(
@@ -997,86 +1145,124 @@ function handleGameStarted(
    COPY CODE
 ========================================================= */
 
-copyCodeButton.addEventListener(
-    "click",
-    async function() {
+if (
+    copyCodeButton
+) {
 
-        try {
+    copyCodeButton.addEventListener(
+        "click",
+        async function() {
 
-            await navigator.clipboard.writeText(
-                lobbyCode
-            );
+            try {
 
-
-            const originalText =
-                copyCodeButton.textContent;
-
-
-            copyCodeButton.textContent =
-                "Copied!";
+                await navigator.clipboard.writeText(
+                    lobbyCode
+                );
 
 
-            setTimeout(
-                function() {
+                const originalText =
+                    copyCodeButton.textContent;
 
-                    copyCodeButton.textContent =
-                        originalText;
 
-                },
-                1500
-            );
+                copyCodeButton.textContent =
+                    "Copied!";
+
+
+                setTimeout(
+                    function() {
+
+                        copyCodeButton.textContent =
+                            originalText;
+
+                    },
+                    1500
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Could not copy lobby code:",
+                    error
+                );
+
+            }
 
         }
-        catch (error) {
+    );
 
-            console.error(
-                "Could not copy lobby code:",
-                error
-            );
-
-        }
-
-    }
-);
+}
 
 
 /* =========================================================
    LEAVE LOBBY
 ========================================================= */
 
-leaveLobbyButton.addEventListener(
-    "click",
-    async function() {
+if (
+    leaveLobbyButton
+) {
 
-        try {
+    leaveLobbyButton.addEventListener(
+        "click",
+        async function() {
 
-            const playerRef =
-                ref(
-                    db,
-                    `lobbies/${lobbyCode}/players/${playerId}`
+            try {
+
+                const playerRef =
+                    ref(
+                        db,
+                        `lobbies/${lobbyCode}/players/${playerId}`
+                    );
+
+
+                await remove(
+                    playerRef
                 );
 
 
-            await remove(
-                playerRef
-            );
+                /*
+                   If the host leaves, remove the
+                   entire lobby for now.
+
+                   Later we can transfer host
+                   to another player instead.
+                */
+
+                if (
+                    playerIsHost
+                ) {
+
+                    const lobbyRef =
+                        ref(
+                            db,
+                            `lobbies/${lobbyCode}`
+                        );
 
 
-            window.location.href =
-                "../games/index.html";
+                    await remove(
+                        lobbyRef
+                    );
+
+                }
+
+
+                window.location.href =
+                    "../games/index.html";
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Could not leave lobby:",
+                    error
+                );
+
+            }
 
         }
-        catch (error) {
+    );
 
-            console.error(
-                "Could not leave lobby:",
-                error
-            );
-
-        }
-
-    }
-);
+}
 
 
 /* =========================================================
@@ -1087,13 +1273,19 @@ function showError(
     message
 ) {
 
-    lobbyStatusElement.textContent =
-        message;
+    if (
+        lobbyStatusElement
+    ) {
+
+        lobbyStatusElement.textContent =
+            message;
 
 
-    lobbyStatusElement.classList.add(
-        "error"
-    );
+        lobbyStatusElement.classList.add(
+            "error"
+        );
+
+    }
 
 
     if (
@@ -1116,3 +1308,27 @@ function showError(
     }
 
 }
+
+
+/* =========================================================
+   DEBUG
+========================================================= */
+
+console.log(
+    "StudySprint Lobby loaded."
+);
+
+console.log(
+    "Lobby code:",
+    lobbyCode
+);
+
+console.log(
+    "Player ID:",
+    playerId
+);
+
+console.log(
+    "Player name:",
+    playerName
+);
