@@ -1,13 +1,14 @@
+```javascript
 /* =========================================================
    STUDYSPRINT — BOSSY
 
-   Multiplayer game
+   Multiplayer side-view game
 
    Handles:
-   - Lobby connection
-   - Loading players
-   - Player characters
-   - Real-time player syncing
+   - Joining the correct lobby
+   - Loading every player
+   - Displaying characters
+   - Real-time movement
    - Left/right movement
    - Jumping
 ========================================================= */
@@ -27,39 +28,37 @@ import {
 ========================================================= */
 
 const loadingScreen =
-    document.getElementById(
-        "bossy-loading"
-    );
+    document.getElementById("bossy-loading");
 
 const gameWorld =
-    document.getElementById(
-        "bossy-world"
-    );
+    document.getElementById("bossy-world");
 
 const errorScreen =
-    document.getElementById(
-        "bossy-error"
-    );
+    document.getElementById("bossy-error");
 
 const errorMessage =
-    document.getElementById(
-        "bossy-error-message"
-    );
+    document.getElementById("bossy-error-message");
 
 const lobbyCodeElement =
-    document.getElementById(
-        "bossy-code"
-    );
+    document.getElementById("bossy-code");
 
 const playersContainer =
-    document.getElementById(
-        "players-container"
-    );
+    document.getElementById("players-container");
+
+const playerCountElement =
+    document.getElementById("player-count");
 
 
 /* =========================================================
    PLAYER ID
 ========================================================= */
+
+/*
+   This MUST be the same ID used by the lobby.
+
+   That means the player who joined the lobby
+   becomes the exact same player inside Bossy.
+*/
 
 function getPlayerId() {
 
@@ -92,7 +91,7 @@ const playerId =
 
 
 /* =========================================================
-   GET LOBBY CODE
+   LOBBY CODE
 ========================================================= */
 
 const params =
@@ -111,7 +110,24 @@ const lobbyCode =
 
 
 /* =========================================================
-   CHECK LOBBY CODE
+   GAME STATE
+========================================================= */
+
+let localX = 100;
+
+let localY = 0;
+
+let velocityY = 0;
+
+let grounded = true;
+
+let keys = {};
+
+let movementLoop = null;
+
+
+/* =========================================================
+   START
 ========================================================= */
 
 if (!lobbyCode) {
@@ -129,7 +145,7 @@ else {
 
 
 /* =========================================================
-   START
+   START BOSSY
 ========================================================= */
 
 async function startBossy() {
@@ -151,13 +167,7 @@ async function startBossy() {
             await get(lobbyRef);
 
 
-        /* =================================================
-           LOBBY DOESN'T EXIST
-        ================================================= */
-
-        if (
-            !snapshot.exists()
-        ) {
+        if (!snapshot.exists()) {
 
             showError(
                 "That lobby no longer exists."
@@ -173,8 +183,8 @@ async function startBossy() {
 
 
         /* =================================================
-           WRONG GAME
-        ================================================= */
+           CHECK GAME
+        ================================================== */
 
         if (
             lobby.game !== "bossy"
@@ -190,31 +200,73 @@ async function startBossy() {
 
 
         /* =================================================
-           LOAD GAME
+           CHECK PLAYER
+        ================================================== */
+
+        const players =
+            lobby.players ||
+            {};
+
+
+        if (
+            !players[playerId]
+        ) {
+
+            showError(
+                "You aren't a player in this lobby. Please return to the lobby and join again."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           GET CURRENT POSITION
+        ================================================== */
+
+        localX =
+            Number(
+                players[playerId].x
+            ) || 100;
+
+
+        localY =
+            Number(
+                players[playerId].y
+            ) || 0;
+
+
+        /* =================================================
+           SHOW GAME
         ================================================= */
 
         loadingScreen.style.display =
             "none";
 
-
         gameWorld.style.display =
-            "block";
+            "flex";
 
 
         /* =================================================
            LISTEN FOR PLAYERS
-        ================================================= */
+        ================================================== */
 
-        listenForPlayers(
-            lobbyCode
-        );
+        listenForPlayers();
 
 
         /* =================================================
-           START CONTROLS
-        ================================================= */
+           CONTROLS
+        ================================================== */
 
         setupControls();
+
+
+        /* =================================================
+           START MOVEMENT LOOP
+        ================================================= */
+
+        startMovementLoop();
 
 
     }
@@ -239,14 +291,12 @@ async function startBossy() {
    LISTEN FOR PLAYERS
 ========================================================= */
 
-function listenForPlayers(
-    code
-) {
+function listenForPlayers() {
 
     const playersRef =
         ref(
             db,
-            `lobbies/${code}/players`
+            `lobbies/${lobbyCode}/players`
         );
 
 
@@ -281,9 +331,17 @@ function renderPlayers(
         "";
 
 
-    Object.entries(
-        players
-    ).forEach(
+    const entries =
+        Object.entries(
+            players
+        );
+
+
+    playerCountElement.textContent =
+        entries.length;
+
+
+    entries.forEach(
         function([
             id,
             player
@@ -310,9 +368,7 @@ function createPlayer(
 ) {
 
     const playerElement =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     playerElement.className =
@@ -323,14 +379,27 @@ function createPlayer(
         id;
 
 
+    /*
+       Local player gets a special class.
+    */
+
+    if (
+        id === playerId
+    ) {
+
+        playerElement.classList.add(
+            "local-player"
+        );
+
+    }
+
+
     /* =====================================================
        CHARACTER
     ====================================================== */
 
     const character =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     character.className =
@@ -343,17 +412,86 @@ function createPlayer(
 
 
     /*
-       Temporary character.
-
-       We'll replace this with the actual
-       StudySprint Goober renderer next.
+       Different characters can have different
+       colours/styles using the character ID.
     */
 
-    character.innerHTML = `
-        <div class="character-body"></div>
-        <div class="character-eye left"></div>
-        <div class="character-eye right"></div>
-    `;
+    character.classList.add(
+        `character-${player.character || "leafy"}`
+    );
+
+
+    /* =====================================================
+       CHARACTER BODY
+    ====================================================== */
+
+    const body =
+        document.createElement("div");
+
+
+    body.className =
+        "character-body";
+
+
+    /* =====================================================
+       EYES
+    ====================================================== */
+
+    const leftEye =
+        document.createElement("div");
+
+
+    leftEye.className =
+        "character-eye eye-left";
+
+
+    const rightEye =
+        document.createElement("div");
+
+
+    rightEye.className =
+        "character-eye eye-right";
+
+
+    /* =====================================================
+       FEET
+    ====================================================== */
+
+    const leftFoot =
+        document.createElement("div");
+
+
+    leftFoot.className =
+        "character-foot foot-left";
+
+
+    const rightFoot =
+        document.createElement("div");
+
+
+    rightFoot.className =
+        "character-foot foot-right";
+
+
+    character.appendChild(
+        body
+    );
+
+    character.appendChild(
+        leftEye
+    );
+
+    character.appendChild(
+        rightEye
+    );
+
+    character.appendChild(
+        leftFoot
+    );
+
+    character.appendChild(
+        rightFoot
+    );
 
 
     /* =====================================================
@@ -361,9 +499,7 @@ function createPlayer(
     ====================================================== */
 
     const name =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
     name.className =
@@ -374,6 +510,38 @@ function createPlayer(
         player.name ||
         "Player";
 
+
+    /* =====================================================
+       HOST BADGE
+    ====================================================== */
+
+    if (
+        id === player.lobbyHostId ||
+        player.role === "host"
+    ) {
+
+        const badge =
+            document.createElement("span");
+
+
+        badge.className =
+            "bossy-host-badge";
+
+
+        badge.textContent =
+            "HOST";
+
+
+        name.appendChild(
+            badge
+        );
+
+    }
+
+
+    /* =====================================================
+       BUILD
+    ====================================================== */
 
     playerElement.appendChild(
         name
@@ -389,12 +557,20 @@ function createPlayer(
        POSITION
     ====================================================== */
 
+    const x =
+        Number(player.x);
+
+
+    const y =
+        Number(player.y);
+
+
     playerElement.style.left =
-        `${player.x || 50}px`;
+        `${Number.isFinite(x) ? x : 100}px`;
 
 
     playerElement.style.bottom =
-        `${player.y || 0}px`;
+        `${Number.isFinite(y) ? y : 0}px`;
 
 
     playersContainer.appendChild(
@@ -408,104 +584,75 @@ function createPlayer(
    CONTROLS
 ========================================================= */
 
-let keys = {};
-
-
-let localX = 100;
-
-let localY = 0;
-
-let velocityY = 0;
-
-let grounded = true;
-
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        keys[event.key.toLowerCase()] =
-            true;
-
-
-        if (
-            event.code === "Space"
-        ) {
-
-            event.preventDefault();
-
-            jump();
-
-        }
-
-    }
-);
-
-
-document.addEventListener(
-    "keyup",
-    function(event) {
-
-        keys[event.key.toLowerCase()] =
-            false;
-
-    }
-);
-
-
-/* =========================================================
-   SETUP CONTROLS
-========================================================= */
-
 function setupControls() {
 
-    const playersRef =
-        ref(
-            db,
-            `lobbies/${lobbyCode}/players/${playerId}`
-        );
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            const key =
+                event.key.toLowerCase();
 
 
-    onValue(
-        playersRef,
-        function(snapshot) {
+            keys[key] =
+                true;
+
 
             if (
-                !snapshot.exists()
+                event.code === "Space"
             ) {
 
-                return;
+                event.preventDefault();
+
+                jump();
 
             }
 
-
-            const player =
-                snapshot.val();
-
-
-            localX =
-                player.x ||
-                100;
-
-
-            localY =
-                player.y ||
-                0;
-
         }
     );
 
 
-    setInterval(
-        function() {
+    document.addEventListener(
+        "keyup",
+        function(event) {
 
-            updateMovement(
-                playersRef
-            );
+            keys[
+                event.key.toLowerCase()
+            ] =
+                false;
 
-        },
-        50
+        }
     );
+
+}
+
+
+/* =========================================================
+   MOVEMENT LOOP
+========================================================= */
+
+function startMovementLoop() {
+
+    if (
+        movementLoop
+    ) {
+
+        clearInterval(
+            movementLoop
+        );
+
+    }
+
+
+    movementLoop =
+        setInterval(
+            function() {
+
+                updateMovement();
+
+            },
+            30
+        );
 
 }
 
@@ -514,13 +661,15 @@ function setupControls() {
    MOVEMENT
 ========================================================= */
 
-function updateMovement(
-    playersRef
-) {
+async function updateMovement() {
 
     let moving =
         false;
 
+
+    /* =====================================================
+       LEFT
+    ====================================================== */
 
     if (
         keys["a"] ||
@@ -534,6 +683,10 @@ function updateMovement(
 
     }
 
+
+    /* =====================================================
+       RIGHT
+    ====================================================== */
 
     if (
         keys["d"] ||
@@ -556,7 +709,7 @@ function updateMovement(
         !grounded
     ) {
 
-        velocityY -= 1;
+        velocityY -= 0.8;
 
         localY += velocityY;
 
@@ -565,11 +718,14 @@ function updateMovement(
             localY <= 0
         ) {
 
-            localY = 0;
+            localY =
+                0;
 
-            velocityY = 0;
+            velocityY =
+                0;
 
-            grounded = true;
+            grounded =
+                true;
 
         }
 
@@ -580,33 +736,65 @@ function updateMovement(
        MAP BOUNDS
     ====================================================== */
 
+    const mapWidth =
+        playersContainer.parentElement
+            .clientWidth;
+
+
+    const playerWidth =
+        60;
+
+
     localX =
         Math.max(
-            20,
+            10,
             Math.min(
-                900,
+                mapWidth - playerWidth,
                 localX
             )
         );
 
+
+    /* =====================================================
+       SAVE POSITION
+    ====================================================== */
 
     if (
         moving ||
         !grounded
     ) {
 
-        update(
-            playersRef,
-            {
+        const playerRef =
+            ref(
+                db,
+                `lobbies/${lobbyCode}/players/${playerId}`
+            );
 
-                x:
-                    localX,
 
-                y:
-                    localY
+        try {
 
-            }
-        );
+            await update(
+                playerRef,
+                {
+
+                    x:
+                        localX,
+
+                    y:
+                        localY
+
+                }
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Movement update failed:",
+                error
+            );
+
+        }
 
     }
 
@@ -662,3 +850,4 @@ function showError(
         message;
 
 }
+```
