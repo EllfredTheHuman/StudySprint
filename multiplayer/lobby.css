@@ -1,14 +1,19 @@
 /* =========================================================
-   STUDYSPRINT — MULTIPLAYER LOBBY
-   Clean game-lobby design
+   STUDYSPRINT MULTIPLAYER LOBBY
 ========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+
+/* =========================================================
+   PAGE
+========================================================= */
+
 body {
     margin: 0;
+
     min-height: 100vh;
 
     font-family:
@@ -17,25 +22,27 @@ body {
         sans-serif;
 
     background:
-        radial-gradient(
-            circle at 50% -10%,
-            #6366f1 0%,
-            #312e81 32%,
-            #17153a 72%,
-            #0f1028 100%
+        linear-gradient(
+            135deg,
+            #eef2ff 0%,
+            #f8fafc 50%,
+            #ede9fe 100%
         );
 
-    color: white;
+    color: #1e1b4b;
 }
 
 
 /* =========================================================
-   PAGE
+   MAIN
 ========================================================= */
 
 .lobby-page {
     width: 100%;
-    max-width: 1150px;
+
+    max-width: 1100px;
+
+    min-height: calc(100vh - 150px);
 
     margin: 0 auto;
 
@@ -45,25 +52,28 @@ body {
 
 
 /* =========================================================
-   TOP GAME HEADER
+   HEADER
 ========================================================= */
 
 .lobby-header {
     display: flex;
+
     align-items: center;
 
     gap: 22px;
 
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
+
 .game-icon {
-    width: 82px;
-    height: 82px;
+    width: 78px;
+    height: 78px;
 
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -71,46 +81,48 @@ body {
 
     background:
         linear-gradient(
-            145deg,
-            #818cf8,
-            #4f46e5
+            135deg,
+            #4f46e5,
+            #7c3aed
         );
 
-    border:
-        2px solid
-        rgba(255,255,255,.25);
-
     box-shadow:
-        0 12px 35px
-        rgba(0,0,0,.3);
+        0 12px 30px
+        rgba(79, 70, 229, .28);
 
-    font-size: 42px;
+    font-size: 40px;
 }
+
 
 .lobby-small-label {
-    margin: 0 0 5px;
+    margin: 0 0 4px;
 
-    color: #a5b4fc;
+    color: #6366f1;
 
     font-size: 12px;
-    font-weight: 900;
+    font-weight: 950;
 
-    letter-spacing: .14em;
+    letter-spacing: .15em;
 }
+
 
 .lobby-header h1 {
     margin: 0;
 
-    font-size: 42px;
-    font-weight: 950;
+    color: #1e1b4b;
 
-    letter-spacing: -.03em;
+    font-size: clamp(30px, 5vw, 44px);
+
+    font-weight: 1000;
+
+    letter-spacing: -.04em;
 }
+
 
 #lobby-status {
     margin: 7px 0 0;
 
-    color: #c7d2fe;
+    color: #64748b;
 
     font-size: 15px;
     font-weight: 700;
@@ -125,40 +137,39 @@ body {
     position: relative;
 
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     gap: 20px;
 
-    padding: 25px 30px;
-
     margin-bottom: 28px;
 
-    border-radius: 25px;
+    padding: 25px 30px;
+
+    border-radius: 24px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.13),
-            rgba(255,255,255,.06)
+            #ffffff,
+            #f5f3ff
         );
 
     border:
-        1px solid
-        rgba(255,255,255,.16);
+        2px solid
+        #ddd6fe;
 
     box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.2);
-
-    backdrop-filter:
-        blur(12px);
+        0 12px 35px
+        rgba(79, 70, 229, .10);
 }
 
-.code-label {
-    margin: 0 0 3px;
 
-    color: #a5b4fc;
+.code-label {
+    margin: 0 0 5px;
+
+    color: #64748b;
 
     font-size: 11px;
     font-weight: 950;
@@ -166,56 +177,59 @@ body {
     letter-spacing: .15em;
 }
 
+
 .lobby-code {
-    margin: 0;
+    color: #4338ca;
 
-    color: white;
+    font-size: clamp(30px, 6vw, 44px);
 
-    font-size: 38px;
     font-weight: 1000;
 
-    letter-spacing: .22em;
-    line-height: 1.1;
+    letter-spacing: .18em;
+
+    line-height: 1;
 }
+
 
 .code-help {
-    margin: 6px 0 0;
+    margin: 8px 0 0;
 
-    color: #a5b4fc;
+    color: #94a3b8;
 
     font-size: 13px;
+    font-weight: 600;
 }
+
 
 .copy-button {
     flex-shrink: 0;
 
     padding: 13px 18px;
 
-    border: 1px solid
-        rgba(255,255,255,.2);
+    border: none;
 
     border-radius: 13px;
 
-    background:
-        rgba(255,255,255,.1);
+    background: #eef2ff;
 
-    color: white;
+    color: #4338ca;
 
     font-size: 13px;
-    font-weight: 900;
+    font-weight: 950;
 
     cursor: pointer;
 
     transition:
-        .15s ease;
+        transform .15s ease,
+        background .15s ease;
 }
 
-.copy-button:hover {
-    background:
-        rgba(255,255,255,.18);
 
+.copy-button:hover {
     transform:
         translateY(-2px);
+
+    background: #e0e7ff;
 }
 
 
@@ -224,63 +238,61 @@ body {
 ========================================================= */
 
 .players-section {
-    padding: 27px;
+    padding: 26px;
 
-    border-radius: 25px;
+    border-radius: 26px;
 
-    background:
-        rgba(255,255,255,.08);
+    background: rgba(255,255,255,.88);
 
     border:
         1px solid
-        rgba(255,255,255,.13);
-
-    backdrop-filter:
-        blur(12px);
+        #e2e8f0;
 
     box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.18);
+        0 12px 35px
+        rgba(15, 23, 42, .07);
 }
+
 
 .section-heading {
     display: flex;
-    align-items: center;
 
-    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
 
     margin-bottom: 20px;
 }
 
+
 .section-heading h2 {
     margin: 0;
 
-    font-size: 21px;
-    font-weight: 950;
+    color: #312e81;
+
+    font-size: 22px;
+    font-weight: 1000;
 }
 
+
 .player-count {
-    min-width: 30px;
+    min-width: 34px;
     height: 30px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    padding: 0 9px;
+    padding: 0 10px;
 
     border-radius: 999px;
 
-    background: #6366f1;
+    background: #eef2ff;
 
-    color: white;
+    color: #4f46e5;
 
     font-size: 13px;
     font-weight: 950;
-
-    box-shadow:
-        0 5px 15px
-        rgba(99,102,241,.35);
 }
 
 
@@ -294,55 +306,92 @@ body {
     grid-template-columns:
         repeat(
             auto-fill,
-            minmax(245px, 1fr)
+            minmax(260px, 1fr)
         );
 
-    gap: 13px;
+    gap: 14px;
 }
 
 
 /* =========================================================
-   PLAYER
+   PLAYER CARD
 ========================================================= */
 
-.player-item {
+.lobby-player {
     position: relative;
 
-    min-height: 88px;
+    min-height: 82px;
 
     display: flex;
+
     align-items: center;
 
-    gap: 14px;
+    gap: 15px;
 
-    padding: 13px 15px;
+    padding: 12px 15px;
 
     overflow: hidden;
 
-    border-radius: 18px;
+    border-radius: 19px;
 
     background:
-        rgba(15,23,42,.65);
+        linear-gradient(
+            135deg,
+            #f8fafc,
+            #f1f5f9
+        );
 
     border:
-        1px solid
-        rgba(255,255,255,.09);
+        2px solid
+        #e2e8f0;
 
     transition:
         transform .15s ease,
         border-color .15s ease,
-        background .15s ease;
+        box-shadow .15s ease;
 }
 
-.player-item:hover {
+
+.lobby-player:hover {
     transform:
         translateY(-2px);
 
-    background:
-        rgba(30,27,75,.8);
-
     border-color:
-        rgba(129,140,248,.5);
+        #c7d2fe;
+
+    box-shadow:
+        0 8px 20px
+        rgba(79, 70, 229, .10);
+}
+
+
+.lobby-player.current-player {
+    border-color:
+        #a5b4fc;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f5f3ff
+        );
+}
+
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.player-banner {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: .12;
+
+    z-index: 0;
 }
 
 
@@ -351,135 +400,174 @@ body {
 ========================================================= */
 
 .player-character {
+    position: relative;
+
     width: 58px;
     height: 58px;
 
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
+
+    z-index: 1;
 
     border-radius: 17px;
 
     background:
         linear-gradient(
-            145deg,
-            #4f46e5,
-            #312e81
+            135deg,
+            #ddd6fe,
+            #c7d2fe
         );
-
-    border:
-        1px solid
-        rgba(255,255,255,.15);
-
-    color: white;
-
-    font-size: 35px;
 
     overflow: hidden;
 }
 
 
-/* =========================================================
-   PLAYER INFORMATION
-========================================================= */
+.lobby-character-body {
+    width: 38px;
+    height: 38px;
 
-.player-information {
-    min-width: 0;
+    display: flex;
 
-    flex: 1;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #a7f3d0,
+            #34d399
+        );
+
+    color: #065f46;
+
+    font-size: 27px;
+
+    box-shadow:
+        inset 0 -5px 0
+        rgba(0,0,0,.08),
+
+        0 5px 12px
+        rgba(0,0,0,.12);
 }
 
-.player-name {
-    margin: 0;
 
-    color: white;
+/* =========================================================
+   PLAYER DETAILS
+========================================================= */
+
+.player-details {
+    min-width: 0;
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 5px 7px;
+
+    z-index: 1;
+}
+
+
+.player-name {
+    width: 100%;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color: #1e1b4b;
 
     font-size: 16px;
     font-weight: 950;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
-.player-title {
-    margin-top: 4px;
 
-    color: #a5b4fc;
+.player-title {
+    color: #64748b;
 
     font-size: 12px;
     font-weight: 750;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
-.player-effect {
-    margin-top: 2px;
 
-    color: #c4b5fd;
+.player-effect {
+    color: #6366f1;
 
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 
 /* =========================================================
-   HOST
+   BADGES
 ========================================================= */
 
+.you-badge,
 .host-badge {
     display: inline-flex;
 
     align-items: center;
 
-    margin-top: 7px;
-
-    padding: 4px 8px;
+    padding: 4px 7px;
 
     border-radius: 7px;
 
-    background:
-        rgba(250,204,21,.14);
-
-    border:
-        1px solid
-        rgba(250,204,21,.25);
-
-    color: #fde68a;
-
     font-size: 9px;
-    font-weight: 950;
+    font-weight: 1000;
 
-    letter-spacing: .08em;
+    letter-spacing: .04em;
+}
+
+
+.you-badge {
+    background: #dbeafe;
+
+    color: #1d4ed8;
+}
+
+
+.host-badge {
+    background: #fef3c7;
+
+    color: #92400e;
 }
 
 
 /* =========================================================
-   EMPTY / LOADING
+   EMPTY STATE
 ========================================================= */
 
-.loading-player,
-.empty-players {
+.empty-player-list {
     grid-column: 1 / -1;
 
-    padding: 40px;
+    min-height: 130px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border:
-        1px dashed
-        rgba(255,255,255,.18);
+        2px dashed
+        #cbd5e1;
 
-    border-radius: 17px;
+    border-radius: 18px;
 
     color: #94a3b8;
 
-    text-align: center;
-
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
 
@@ -488,69 +576,77 @@ body {
 ========================================================= */
 
 .host-controls {
-    margin-top: 20px;
+    margin-top: 22px;
 }
 
-.host-panel {
+
+.host-controls > * {
     display: flex;
+
     align-items: center;
     justify-content: space-between;
 
     gap: 25px;
 
-    padding: 24px 27px;
+    padding: 24px 26px;
 
-    border-radius: 22px;
+    border-radius: 23px;
 
     background:
         linear-gradient(
             135deg,
-            #4f46e5,
-            #7c3aed
+            #312e81,
+            #4f46e5
         );
 
-    border:
-        1px solid
-        rgba(255,255,255,.2);
+    color: white;
 
     box-shadow:
-        0 15px 40px
-        rgba(79,70,229,.3);
+        0 15px 35px
+        rgba(49, 46, 129, .25);
 }
 
+
 .host-label {
-    color: #ddd6fe;
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #c7d2fe;
 
     font-size: 11px;
-    font-weight: 950;
+    font-weight: 1000;
 
     letter-spacing: .1em;
 }
 
-.host-panel h2 {
-    margin: 5px 0 2px;
 
-    font-size: 22px;
-    font-weight: 950;
-}
-
-.host-panel p {
+.host-controls h2 {
     margin: 0;
 
-    color: #ddd6fe;
+    font-size: 22px;
+    font-weight: 1000;
+}
+
+
+.host-controls p {
+    margin: 5px 0 0;
+
+    color: #c7d2fe;
 
     font-size: 13px;
+    font-weight: 600;
 }
 
 
 /* =========================================================
-   START GAME
+   START BUTTON
 ========================================================= */
 
 .start-game-button {
-    min-width: 190px;
+    flex-shrink: 0;
 
-    padding: 17px 24px;
+    padding: 16px 24px;
 
     border: none;
 
@@ -566,32 +662,31 @@ body {
     cursor: pointer;
 
     box-shadow:
-        0 8px 20px
+        0 7px 18px
         rgba(0,0,0,.18);
 
     transition:
-        .15s ease;
+        transform .15s ease,
+        box-shadow .15s ease;
 }
+
 
 .start-game-button:hover {
     transform:
-        translateY(-3px)
-        scale(1.02);
+        translateY(-2px);
 
     box-shadow:
-        0 12px 25px
-        rgba(0,0,0,.25);
+        0 10px 25px
+        rgba(0,0,0,.22);
 }
 
-.start-game-button:active {
-    transform:
-        translateY(1px);
-}
 
 .start-game-button:disabled {
-    cursor: wait;
+    cursor: not-allowed;
 
-    opacity: .7;
+    opacity: .6;
+
+    transform: none;
 }
 
 
@@ -601,45 +696,56 @@ body {
 
 .waiting-message {
     display: flex;
+
     align-items: center;
 
     gap: 15px;
 
-    margin-top: 20px;
+    margin-top: 22px;
 
-    padding: 18px 22px;
+    padding: 20px 23px;
 
-    border-radius: 18px;
+    border-radius: 20px;
 
-    background:
-        rgba(255,255,255,.06);
+    background: white;
 
     border:
         1px solid
-        rgba(255,255,255,.1);
+        #e2e8f0;
+
+    color: #475569;
+
+    box-shadow:
+        0 8px 25px
+        rgba(15, 23, 42, .05);
 }
 
+
 .waiting-spinner {
-    width: 42px;
-    height: 42px;
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     border-radius: 13px;
 
-    background:
-        rgba(99,102,241,.2);
+    background: #eef2ff;
 
-    font-size: 20px;
+    font-size: 21px;
 }
+
 
 .waiting-message strong {
-    display: block;
+    color: #312e81;
 
-    font-size: 14px;
+    font-size: 15px;
 }
+
 
 .waiting-message p {
     margin: 3px 0 0;
@@ -647,6 +753,50 @@ body {
     color: #94a3b8;
 
     font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   LEAVE
+========================================================= */
+
+.lobby-actions {
+    display: flex;
+
+    justify-content: center;
+
+    margin-top: 25px;
+}
+
+
+.leave-button {
+    padding: 11px 18px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #e2e8f0;
+
+    color: #64748b;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+        background .15s ease,
+        transform .15s ease;
+}
+
+
+.leave-button:hover {
+    background: #cbd5e1;
+
+    transform:
+        translateY(-1px);
 }
 
 
@@ -666,152 +816,193 @@ body {
     align-items: center;
     justify-content: center;
 
+    padding: 20px;
+
     background:
-        radial-gradient(
-            circle,
-            rgba(79,70,229,.9),
-            rgba(15,16,40,.98)
-        );
+        rgba(15, 23, 42, .82);
 
     backdrop-filter:
-        blur(12px);
+        blur(14px);
 
     animation:
         countdownFadeIn
         .25s ease;
 }
 
+
+/* =========================================================
+   COUNTDOWN CARD
+========================================================= */
+
 .countdown-content {
+    position: relative;
+
+    width: min(90vw, 540px);
+
+    padding:
+        55px 40px
+        48px;
+
+    overflow: hidden;
+
+    border-radius: 34px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #eef2ff
+        );
+
+    border:
+        3px solid
+        rgba(255,255,255,.9);
+
     text-align: center;
+
+    box-shadow:
+        0 35px 90px
+        rgba(0,0,0,.38);
 }
+
+
+/* =========================================================
+   COUNTDOWN GLOW
+========================================================= */
+
+.countdown-content::before {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -52%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99,102,241,.22),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GET READY
+========================================================= */
 
 .countdown-content > p {
-    margin: 0 0 15px;
+    position: relative;
 
-    color: #c4b5fd;
+    margin: 0;
 
-    font-size: 16px;
+    color: #6366f1;
+
+    font-size: 14px;
     font-weight: 1000;
 
-    letter-spacing: .3em;
+    letter-spacing: .25em;
 }
 
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
 .countdown-number {
-    font-size: clamp(
-        130px,
-        25vw,
-        260px
-    );
+    position: relative;
+
+    min-height: 175px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #312e81;
+
+    font-size:
+        clamp(
+            115px,
+            20vw,
+            175px
+        );
 
     line-height: .85;
 
     font-weight: 1000;
 
-    color: white;
+    letter-spacing: -.08em;
 
     text-shadow:
-        0 0 40px
-        rgba(129,140,248,.8);
+        0 8px 0 #c7d2fe,
+        0 18px 35px
+        rgba(79,70,229,.22);
 
     animation:
-        countdownPop
-        .8s ease;
+        countdownNumber
+        .8s
+        cubic-bezier(.2,.8,.2,1);
 }
 
+
+/* =========================================================
+   GAME NAME
+========================================================= */
+
 .countdown-content h2 {
-    margin: 25px 0 0;
+    position: relative;
 
-    color: #c4b5fd;
+    margin: 10px 0 0;
 
-    font-size: 28px;
+    color: #475569;
+
+    font-size: 23px;
     font-weight: 950;
 }
 
 
 /* =========================================================
-   LEAVE
+   GO
 ========================================================= */
 
-.lobby-actions {
-    display: flex;
+.countdown-number.go {
+    color: #16a34a;
 
-    justify-content: center;
+    font-size:
+        clamp(
+            75px,
+            14vw,
+            125px
+        );
 
-    margin-top: 25px;
-}
+    letter-spacing: -.04em;
 
-.leave-button {
-    padding: 11px 17px;
+    text-shadow:
+        0 8px 0 #bbf7d0,
+        0 18px 35px
+        rgba(22,163,74,.25);
 
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
-    border-radius: 11px;
-
-    background:
-        rgba(255,255,255,.05);
-
-    color: #94a3b8;
-
-    font-size: 12px;
-    font-weight: 850;
-
-    cursor: pointer;
-
-    transition:
-        .15s ease;
-}
-
-.leave-button:hover {
-    background:
-        rgba(239,68,68,.12);
-
-    border-color:
-        rgba(239,68,68,.25);
-
-    color: #fca5a5;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    margin-top: auto;
-
-    padding: 20px;
-
-    color: #64748b;
-
-    text-align: center;
-
-    font-size: 12px;
+    animation:
+        countdownGo
+        .7s
+        cubic-bezier(.2,.9,.2,1);
 }
 
 
 /* =========================================================
    COUNTDOWN ANIMATIONS
 ========================================================= */
-
-@keyframes countdownPop {
-
-    0% {
-        opacity: 0;
-        transform: scale(.45);
-    }
-
-    55% {
-        opacity: 1;
-        transform: scale(1.08);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
 
 @keyframes countdownFadeIn {
 
@@ -822,94 +1013,177 @@ footer {
     to {
         opacity: 1;
     }
+
+}
+
+
+@keyframes countdownNumber {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(1.7)
+            rotate(-4deg);
+    }
+
+    45% {
+        opacity: 1;
+
+        transform:
+            scale(.92)
+            rotate(1deg);
+    }
+
+    70% {
+        transform:
+            scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0);
+    }
+
+}
+
+
+@keyframes countdownGo {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            scale(.3);
+    }
+
+    45% {
+        opacity: 1;
+
+        transform:
+            scale(1.2);
+    }
+
+    70% {
+        transform:
+            scale(.95);
+    }
+
+    100% {
+        transform:
+            scale(1);
+    }
+
 }
 
 
 /* =========================================================
-   MOBILE
+   ERROR
+========================================================= */
+
+#lobby-status.error {
+    color: #dc2626;
+}
+
+
+/* =========================================================
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 700px) {
 
     .lobby-page {
         padding:
-            25px 15px 50px;
+            30px 15px 50px;
     }
+
 
     .lobby-header {
         gap: 15px;
     }
 
+
     .game-icon {
-        width: 65px;
-        height: 65px;
+        width: 62px;
+        height: 62px;
 
-        border-radius: 18px;
+        border-radius: 19px;
 
-        font-size: 32px;
+        font-size: 31px;
     }
 
-    .lobby-header h1 {
-        font-size: 30px;
-    }
 
     .code-card {
         align-items: flex-start;
 
         flex-direction: column;
-
-        padding: 22px;
     }
 
-    .lobby-code {
-        font-size: 31px;
-    }
 
     .copy-button {
         width: 100%;
     }
 
-    .host-panel {
+
+    .host-controls > * {
         flex-direction: column;
 
         align-items: stretch;
+
+        text-align: center;
     }
+
 
     .start-game-button {
         width: 100%;
     }
 
+}
+
+
+@media (max-width: 480px) {
+
+    .lobby-header h1 {
+        font-size: 29px;
+    }
+
+
+    .lobby-small-label {
+        font-size: 10px;
+    }
+
+
+    .lobby-code {
+        font-size: 30px;
+
+        letter-spacing: .12em;
+    }
+
+
     .players-grid {
         grid-template-columns: 1fr;
     }
 
-}
-
-@media (max-width: 420px) {
-
-    .lobby-header {
-        align-items: flex-start;
-    }
-
-    .game-icon {
-        width: 55px;
-        height: 55px;
-
-        font-size: 27px;
-    }
-
-    .lobby-header h1 {
-        font-size: 25px;
-    }
-
-    .lobby-code {
-        font-size: 26px;
-
-        letter-spacing: .16em;
-    }
 
     .players-section {
-        padding: 19px;
+        padding: 18px;
+    }
+
+
+    .countdown-content {
+        padding:
+            45px 20px
+            40px;
+
+        border-radius: 27px;
+    }
+
+
+    .countdown-number {
+        min-height: 140px;
     }
 
 }
