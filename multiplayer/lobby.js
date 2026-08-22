@@ -3,13 +3,11 @@
 
    Handles:
    - Joining a lobby
-   - Host detection
    - Player syncing
-   - Player cosmetics
-   - Disconnect handling
-   - Starting the game
-   - Leaving the lobby
-   - Copying the lobby code
+   - Cosmetics
+   - Host detection
+   - Starting
+   - Leaving
 ========================================================= */
 
 import { db } from "../firebase.js";
@@ -61,29 +59,14 @@ const leaveLobbyButton =
 
 
 /* =========================================================
-   PLAYER IDENTITY
+   PLAYER ID
 ========================================================= */
-
-/*
-   IMPORTANT:
-
-   games.js already creates this ID when necessary.
-
-   We MUST use the same ID here.
-
-   Otherwise the host gets added to the lobby twice.
-*/
 
 let playerId =
     localStorage.getItem(
         "studySprintPlayerId"
     );
 
-
-/*
-   Fallback in case someone opens lobby.html
-   directly without going through games.js.
-*/
 
 if (!playerId) {
 
@@ -98,13 +81,17 @@ if (!playerId) {
 }
 
 
+/* =========================================================
+   PLAYER NAME
+========================================================= */
+
 const playerName =
     localStorage.getItem("username") ||
     "Player";
 
 
 /* =========================================================
-   LOBBY INFORMATION
+   LOBBY CODE
 ========================================================= */
 
 const params =
@@ -120,11 +107,6 @@ const lobbyCode =
     )
         .trim()
         .toUpperCase();
-
-
-const selectedGame =
-    params.get("game") ||
-    "unknown";
 
 
 /* =========================================================
@@ -167,16 +149,17 @@ const GAME_NAMES = {
 
 
 /* =========================================================
-   LOBBY STATE
+   STATE
 ========================================================= */
 
-let lobbyData = null;
+let lobbyData =
+    null;
 
-let playerIsHost = false;
+let playerIsHost =
+    false;
 
-let playerWasAdded = false;
-
-let gameStartHandled = false;
+let playerAdded =
+    false;
 
 
 /* =========================================================
@@ -198,7 +181,7 @@ else {
 
 
 /* =========================================================
-   GET EQUIPPED COSMETICS
+   COSMETICS
 ========================================================= */
 
 function getEquippedCosmetics() {
@@ -231,7 +214,7 @@ function getEquippedCosmetics() {
 
 
 /* =========================================================
-   INITIALISE LOBBY
+   INITIALISE
 ========================================================= */
 
 async function initialiseLobby() {
@@ -249,15 +232,13 @@ async function initialiseLobby() {
             );
 
 
-        /*
-           First check that the lobby exists.
-        */
-
         const snapshot =
             await get(lobbyRef);
 
 
-        if (!snapshot.exists()) {
+        if (
+            !snapshot.exists()
+        ) {
 
             showError(
                 "This lobby doesn't exist."
@@ -272,13 +253,8 @@ async function initialiseLobby() {
             snapshot.val();
 
 
-        /* =================================================
-           GAME
-        ================================================= */
-
         const game =
             lobbyData.game ||
-            selectedGame ||
             "unknown";
 
 
@@ -287,16 +263,20 @@ async function initialiseLobby() {
             game;
 
 
-        /* =================================================
+        lobbyCodeElement.textContent =
+            lobbyCode;
+
+
+        /* =============================================
            ALREADY STARTED
-        ================================================= */
+        ============================================== */
 
         if (
             lobbyData.started === true
         ) {
 
-            listenToLobby(
-                lobbyRef
+            handleGameStarted(
+                lobbyData
             );
 
             return;
@@ -304,43 +284,34 @@ async function initialiseLobby() {
         }
 
 
-        /* =================================================
-           DETERMINE WHETHER PLAYER IS ALREADY IN LOBBY
-        ================================================= */
+        /* =============================================
+           ADD PLAYER IF NECESSARY
+        ============================================== */
 
-        const existingPlayer =
-            lobbyData.players &&
-            lobbyData.players[playerId];
+        await ensurePlayerExists(
+            lobbyRef
+        );
 
 
-        /*
-           If games.js created the lobby,
-           the host is ALREADY in Firebase.
+        /* =============================================
+           DISCONNECT HANDLER
+        ============================================== */
 
-           DO NOT add them again.
-        */
-
-        if (existingPlayer) {
-
-            playerWasAdded = true;
-
-        }
-        else {
-
-            /*
-               Normal joining player.
-            */
-
-            await addPlayer(
-                lobbyRef
+        const playerRef =
+            ref(
+                db,
+                `lobbies/${lobbyCode}/players/${playerId}`
             );
 
-        }
+
+        await onDisconnect(
+            playerRef
+        ).remove();
 
 
-        /* =================================================
-           LISTEN FOR REAL-TIME CHANGES
-        ================================================= */
+        /* =============================================
+           REALTIME LISTENER
+        ============================================== */
 
         listenToLobby(
             lobbyRef
@@ -349,7 +320,6 @@ async function initialiseLobby() {
 
         lobbyStatusElement.textContent =
             "Waiting for players...";
-
 
     }
     catch (error) {
@@ -370,10 +340,10 @@ async function initialiseLobby() {
 
 
 /* =========================================================
-   ADD PLAYER
+   ENSURE PLAYER EXISTS
 ========================================================= */
 
-async function addPlayer(
+async function ensurePlayerExists(
     lobbyRef
 ) {
 
@@ -384,6 +354,22 @@ async function addPlayer(
         );
 
 
+    const snapshot =
+        await get(playerRef);
+
+
+    if (
+        snapshot.exists()
+    ) {
+
+        playerAdded =
+            true;
+
+        return;
+
+    }
+
+
     const cosmetics =
         getEquippedCosmetics();
 
@@ -391,9 +377,6 @@ async function addPlayer(
     await set(
         playerRef,
         {
-
-            id:
-                playerId,
 
             name:
                 playerName,
@@ -420,17 +403,8 @@ async function addPlayer(
     );
 
 
-    /*
-       Automatically remove this player
-       if their connection disappears.
-    */
-
-    await onDisconnect(
-        playerRef
-    ).remove();
-
-
-    playerWasAdded = true;
+    playerAdded =
+        true;
 
 }
 
@@ -469,10 +443,6 @@ function listenToLobby(
             );
 
 
-            /* =============================================
-               GAME STARTED
-            ============================================== */
-
             if (
                 lobbyData.started === true
             ) {
@@ -490,7 +460,7 @@ function listenToLobby(
 
 
 /* =========================================================
-   UPDATE LOBBY UI
+   UPDATE UI
 ========================================================= */
 
 function updateLobbyUI(
@@ -503,7 +473,6 @@ function updateLobbyUI(
 
     const game =
         data.game ||
-        selectedGame ||
         "unknown";
 
 
@@ -511,10 +480,6 @@ function updateLobbyUI(
         GAME_NAMES[game] ||
         game;
 
-
-    /* =====================================================
-       CODE
-    ====================================================== */
 
     lobbyCodeElement.textContent =
         lobbyCode;
@@ -543,37 +508,6 @@ function updateLobbyUI(
         "";
 
 
-    /* =====================================================
-       EMPTY
-    ====================================================== */
-
-    if (
-        playerEntries.length === 0
-    ) {
-
-        const empty =
-            document.createElement("p");
-
-
-        empty.className =
-            "empty-players";
-
-
-        empty.textContent =
-            "Waiting for players...";
-
-
-        playersListElement.appendChild(
-            empty
-        );
-
-    }
-
-
-    /* =====================================================
-       PLAYER CARDS
-    ====================================================== */
-
     playerEntries.forEach(
         function([
             id,
@@ -581,26 +515,13 @@ function updateLobbyUI(
         ]) {
 
             const playerElement =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             playerElement.className =
                 "player-item";
-
-
-            /*
-               Highlight yourself.
-            */
-
-            if (
-                id === playerId
-            ) {
-
-                playerElement.classList.add(
-                    "current-player"
-                );
-
-            }
 
 
             /* =============================================
@@ -608,7 +529,9 @@ function updateLobbyUI(
             ============================================== */
 
             const characterElement =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             characterElement.className =
@@ -625,33 +548,23 @@ function updateLobbyUI(
                 "purple-grid";
 
 
-            characterElement.dataset.title =
-                player.title ||
-                "none";
-
-
             characterElement.dataset.effect =
                 player.effect ||
                 "none";
 
-
-            /*
-               Temporary character display.
-
-               We'll replace this with the actual
-               Goober renderer later.
-            */
 
             characterElement.textContent =
                 "●";
 
 
             /* =============================================
-               PLAYER INFORMATION
+               INFO
             ============================================== */
 
             const information =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             information.className =
@@ -659,7 +572,9 @@ function updateLobbyUI(
 
 
             const name =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             name.className =
@@ -677,33 +592,6 @@ function updateLobbyUI(
 
 
             /* =============================================
-               YOU BADGE
-            ============================================== */
-
-            if (
-                id === playerId
-            ) {
-
-                const youBadge =
-                    document.createElement("span");
-
-
-                youBadge.className =
-                    "you-badge";
-
-
-                youBadge.textContent =
-                    "YOU";
-
-
-                information.appendChild(
-                    youBadge
-                );
-
-            }
-
-
-            /* =============================================
                TITLE
             ============================================== */
 
@@ -713,7 +601,9 @@ function updateLobbyUI(
             ) {
 
                 const title =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 title.className =
@@ -734,37 +624,7 @@ function updateLobbyUI(
 
 
             /* =============================================
-               EFFECT
-            ============================================== */
-
-            if (
-                player.effect &&
-                player.effect !== "none"
-            ) {
-
-                const effect =
-                    document.createElement("div");
-
-
-                effect.className =
-                    "player-effect";
-
-
-                effect.textContent =
-                    getEffectName(
-                        player.effect
-                    );
-
-
-                information.appendChild(
-                    effect
-                );
-
-            }
-
-
-            /* =============================================
-               HOST BADGE
+               HOST
             ============================================== */
 
             if (
@@ -772,7 +632,9 @@ function updateLobbyUI(
             ) {
 
                 const hostBadge =
-                    document.createElement("span");
+                    document.createElement(
+                        "span"
+                    );
 
 
                 hostBadge.className =
@@ -789,10 +651,6 @@ function updateLobbyUI(
 
             }
 
-
-            /* =============================================
-               BUILD CARD
-            ============================================== */
 
             playerElement.appendChild(
                 characterElement
@@ -851,34 +709,6 @@ function updateLobbyUI(
 
     }
 
-
-    /* =====================================================
-       STARTED STATE
-    ====================================================== */
-
-    if (
-        data.started === true
-    ) {
-
-        lobbyStatusElement.textContent =
-            "Game starting...";
-
-
-        if (
-            startGameButton
-        ) {
-
-            startGameButton.disabled =
-                true;
-
-
-            startGameButton.textContent =
-                "GAME STARTING...";
-
-        }
-
-    }
-
 }
 
 
@@ -891,9 +721,6 @@ function getTitleName(
 ) {
 
     const titles = {
-
-        none:
-            "No Title",
 
         "study-sprinter":
             "Study Sprinter",
@@ -922,163 +749,79 @@ function getTitleName(
 
 
 /* =========================================================
-   EFFECT NAMES
-========================================================= */
-
-function getEffectName(
-    id
-) {
-
-    const effects = {
-
-        none:
-            "No Effect",
-
-        sparkle:
-            "Sparkle Effect",
-
-        "speed-trail":
-            "Speed Trail",
-
-        lightning:
-            "Lightning Effect",
-
-        rainbow:
-            "Rainbow Aura",
-
-        fire:
-            "Fire Aura",
-
-        glitch:
-            "Glitch Effect",
-
-        shadow:
-            "Shadow Aura",
-
-        crystal:
-            "Crystal Glow",
-
-        "cosmic-aura":
-            "Cosmic Aura",
-
-        crown:
-            "Crown + Glow"
-
-    };
-
-
-    return (
-        effects[id] ||
-        id
-    );
-
-}
-
-
-/* =========================================================
    START GAME
 ========================================================= */
 
-if (
-    startGameButton
-) {
+startGameButton.addEventListener(
+    "click",
+    async function() {
 
-    startGameButton.addEventListener(
-        "click",
-        async function() {
+        if (
+            !playerIsHost ||
+            !lobbyData
+        ) {
 
-            /*
-               Safety check.
+            return;
 
-               Even if someone somehow makes the button
-               visible, Firebase still determines the
-               actual host.
-            */
+        }
 
-            if (
-                !playerIsHost
-            ) {
 
-                console.warn(
-                    "Only the host can start the game."
+        startGameButton.disabled =
+            true;
+
+
+        startGameButton.textContent =
+            "STARTING...";
+
+
+        try {
+
+            const lobbyRef =
+                ref(
+                    db,
+                    `lobbies/${lobbyCode}`
                 );
 
-                return;
 
-            }
+            await update(
+                lobbyRef,
+                {
 
+                    started:
+                        true,
 
-            if (!lobbyData) {
+                    status:
+                        "playing",
 
-                return;
+                    state:
+                        "playing",
 
-            }
+                    startedAt:
+                        Date.now()
 
+                }
+            );
 
-            if (
-                lobbyData.started === true
-            ) {
+        }
+        catch (error) {
 
-                return;
-
-            }
+            console.error(
+                "Could not start game:",
+                error
+            );
 
 
             startGameButton.disabled =
-                true;
+                false;
 
 
             startGameButton.textContent =
-                "STARTING...";
-
-
-            try {
-
-                const lobbyRef =
-                    ref(
-                        db,
-                        `lobbies/${lobbyCode}`
-                    );
-
-
-                await update(
-                    lobbyRef,
-                    {
-
-                        started:
-                            true,
-
-                        state:
-                            "playing",
-
-                        startedAt:
-                            Date.now()
-
-                    }
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Could not start game:",
-                    error
-                );
-
-
-                startGameButton.disabled =
-                    false;
-
-
-                startGameButton.textContent =
-                    "START GAME";
-
-            }
+                "START GAME";
 
         }
-    );
 
-}
+    }
+);
 
 
 /* =========================================================
@@ -1089,54 +832,41 @@ function handleGameStarted(
     data
 ) {
 
-    /*
-       Prevent the alert from firing repeatedly
-       every time Firebase updates.
-    */
-
-    if (
-        gameStartHandled
-    ) {
-
-        return;
-
-    }
-
-
-    gameStartHandled = true;
-
-
     lobbyStatusElement.textContent =
         "Game starting!";
 
 
     const game =
         data.game ||
-        selectedGame ||
         "unknown";
 
 
     /*
-       TEMPORARY:
-
-       Later we will redirect everyone to
-       the actual game page.
-
-       Because "started" is stored in Firebase,
-       EVERY player receives this at essentially
-       the same time.
+       TEMPORARY TEST BEHAVIOUR.
+       Later this will redirect everyone
+       to the actual Bossy game.
     */
 
-    setTimeout(
-        function() {
+    if (
+        !window.gameStartAlertShown
+    ) {
 
-            alert(
-                `${GAME_NAMES[game] || game} is starting!`
-            );
+        window.gameStartAlertShown =
+            true;
 
-        },
-        100
-    );
+
+        setTimeout(
+            function() {
+
+                alert(
+                    `${GAME_NAMES[game] || game} is starting!`
+                );
+
+            },
+            100
+        );
+
+    }
 
 }
 
@@ -1145,124 +875,86 @@ function handleGameStarted(
    COPY CODE
 ========================================================= */
 
-if (
-    copyCodeButton
-) {
+copyCodeButton.addEventListener(
+    "click",
+    async function() {
 
-    copyCodeButton.addEventListener(
-        "click",
-        async function() {
+        try {
 
-            try {
-
-                await navigator.clipboard.writeText(
-                    lobbyCode
-                );
+            await navigator.clipboard.writeText(
+                lobbyCode
+            );
 
 
-                const originalText =
-                    copyCodeButton.textContent;
+            const oldText =
+                copyCodeButton.textContent;
 
 
-                copyCodeButton.textContent =
-                    "Copied!";
+            copyCodeButton.textContent =
+                "COPIED!";
 
 
-                setTimeout(
-                    function() {
+            setTimeout(
+                function() {
 
-                        copyCodeButton.textContent =
-                            originalText;
+                    copyCodeButton.textContent =
+                        oldText;
 
-                    },
-                    1500
-                );
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Could not copy lobby code:",
-                    error
-                );
-
-            }
+                },
+                1500
+            );
 
         }
-    );
+        catch (error) {
 
-}
+            console.error(
+                "Could not copy code:",
+                error
+            );
+
+        }
+
+    }
+);
 
 
 /* =========================================================
    LEAVE LOBBY
 ========================================================= */
 
-if (
-    leaveLobbyButton
-) {
+leaveLobbyButton.addEventListener(
+    "click",
+    async function() {
 
-    leaveLobbyButton.addEventListener(
-        "click",
-        async function() {
+        try {
 
-            try {
-
-                const playerRef =
-                    ref(
-                        db,
-                        `lobbies/${lobbyCode}/players/${playerId}`
-                    );
-
-
-                await remove(
-                    playerRef
+            const playerRef =
+                ref(
+                    db,
+                    `lobbies/${lobbyCode}/players/${playerId}`
                 );
 
 
-                /*
-                   If the host leaves, remove the
-                   entire lobby for now.
-
-                   Later we can transfer host
-                   to another player instead.
-                */
-
-                if (
-                    playerIsHost
-                ) {
-
-                    const lobbyRef =
-                        ref(
-                            db,
-                            `lobbies/${lobbyCode}`
-                        );
+            await remove(
+                playerRef
+            );
 
 
-                    await remove(
-                        lobbyRef
-                    );
-
-                }
-
-
-                window.location.href =
-                    "../games/index.html";
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Could not leave lobby:",
-                    error
-                );
-
-            }
+            window.location.href =
+                "../games/index.html";
 
         }
-    );
+        catch (error) {
 
-}
+            console.error(
+                "Could not leave lobby:",
+                error
+            );
+
+        }
+
+    }
+);
 
 
 /* =========================================================
@@ -1273,19 +965,13 @@ function showError(
     message
 ) {
 
-    if (
-        lobbyStatusElement
-    ) {
-
-        lobbyStatusElement.textContent =
-            message;
+    lobbyStatusElement.textContent =
+        message;
 
 
-        lobbyStatusElement.classList.add(
-            "error"
-        );
-
-    }
+    lobbyStatusElement.classList.add(
+        "error"
+    );
 
 
     if (
@@ -1308,27 +994,3 @@ function showError(
     }
 
 }
-
-
-/* =========================================================
-   DEBUG
-========================================================= */
-
-console.log(
-    "StudySprint Lobby loaded."
-);
-
-console.log(
-    "Lobby code:",
-    lobbyCode
-);
-
-console.log(
-    "Player ID:",
-    playerId
-);
-
-console.log(
-    "Player name:",
-    playerName
-);
