@@ -1,1547 +1,1415 @@
-```css
+```javascript
 /* =========================================================
    STUDYSPRINT — BOSSY
-   VOLCANIC SIDE-VIEW MULTIPLAYER GAME
+   Multiplayer side-view game
+
+   - Firebase multiplayer
+   - Equipped StudySprint Goobers
+   - Volcano environment
+   - A / D movement
+   - SPACE jumping
+   - Walking / idle / jump animations
 ========================================================= */
 
-* {
-    box-sizing: border-box;
-}
+import { db } from "../../firebase.js";
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-body {
-    background: #120707;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-}
-
-#bossy-game {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-}
+import {
+    ref,
+    get,
+    onValue,
+    update,
+    onDisconnect
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
 /* =========================================================
-   LOADING
+   ELEMENTS
 ========================================================= */
 
-.bossy-loading {
-    position: absolute;
-    inset: 0;
-    z-index: 100;
+const loadingScreen = document.getElementById("bossy-loading");
+const loadingStatus = document.getElementById("loading-status");
+const gameWorld = document.getElementById("bossy-world");
+const errorScreen = document.getElementById("bossy-error");
+const errorMessage = document.getElementById("bossy-error-message");
+const lobbyCodeElement = document.getElementById("bossy-code");
+const playersContainer = document.getElementById("players-container");
+const playerCountElement = document.getElementById("bossy-player-count");
+const connectionElement = document.getElementById("bossy-connection");
+const localNameElement = document.getElementById("bossy-local-name");
+const gameMap = document.getElementById("game-map");
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    background:
-        radial-gradient(
-            circle at 50% 65%,
-            #7f1d1d,
-            #2b0b0b 45%,
-            #090303 100%
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const PLAYER_WIDTH = 140;
+const PLAYER_HEIGHT = 150;
+
+const MOVE_SPEED = 6;
+const GRAVITY = 0.75;
+const JUMP_FORCE = 15;
+
+const UPDATE_RATE = 30;
+const START_X = 150;
+const GROUND_Y = 0;
+
+const FIREBASE_TIMEOUT = 8000;
+
+
+/* =========================================================
+   PLAYER ID
+========================================================= */
+
+function getPlayerId() {
+
+    let id = localStorage.getItem("studySprintPlayerId");
+
+    if (!id) {
+
+        if (
+            window.crypto &&
+            typeof crypto.randomUUID === "function"
+        ) {
+
+            id = crypto.randomUUID();
+
+        } else {
+
+            id =
+                "player-" +
+                Date.now() +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .slice(2);
+
+        }
+
+        localStorage.setItem(
+            "studySprintPlayerId",
+            id
         );
 
-    text-align: center;
+    }
+
+    return id;
 }
 
-.bossy-loading h1 {
-    margin: 22px 0 8px;
-    font-size: 30px;
-    font-weight: 1000;
-}
 
-.bossy-loading p {
-    margin: 0;
-    color: #fecaca;
-    font-size: 14px;
-    font-weight: 700;
-}
+const playerId = getPlayerId();
 
-.loading-spinner {
-    width: 48px;
-    height: 48px;
-    border: 5px solid rgba(255,255,255,.12);
-    border-top-color: #fb923c;
-    border-radius: 50%;
-    animation: bossySpin .8s linear infinite;
+
+/* =========================================================
+   LOBBY
+========================================================= */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+const lobbyCode =
+    (
+        params.get("code") || ""
+    )
+        .trim()
+        .toUpperCase();
+
+
+/* =========================================================
+   LOCAL PLAYER
+========================================================= */
+
+const username =
+    localStorage.getItem("username") ||
+    "Player";
+
+const equippedCharacterId =
+    localStorage.getItem("character_character") ||
+    "leafy";
+
+const equippedTitleId =
+    localStorage.getItem("character_title") ||
+    "none";
+
+const equippedBannerId =
+    localStorage.getItem("character_banner") ||
+    "purple-grid";
+
+const equippedEffectId =
+    localStorage.getItem("character_effect") ||
+    "none";
+
+
+/* =========================================================
+   PHYSICS
+========================================================= */
+
+let localX = START_X;
+let localY = GROUND_Y;
+
+let velocityY = 0;
+
+let onGround = true;
+
+let leftPressed = false;
+let rightPressed = false;
+let jumpQueued = false;
+
+
+/* =========================================================
+   PLAYER STORAGE
+========================================================= */
+
+const playerElements = new Map();
+const knownPlayers = new Map();
+
+
+/* =========================================================
+   CHARACTERS
+========================================================= */
+
+const SHOP_CHARACTERS = [
+
+    {
+        id: "leafy",
+        name: "Leafy",
+        rarity: "Common",
+        design: "leafy"
+    },
+
+    {
+        id: "squish",
+        name: "Squish",
+        rarity: "Common",
+        design: "squish"
+    },
+
+    {
+        id: "pebble",
+        name: "Pebble",
+        rarity: "Common",
+        design: "pebble"
+    },
+
+    {
+        id: "button",
+        name: "Button",
+        rarity: "Common",
+        design: "button"
+    },
+
+    {
+        id: "horns",
+        name: "Horns",
+        rarity: "Rare",
+        design: "horns"
+    },
+
+    {
+        id: "shelby",
+        name: "Shelby",
+        rarity: "Rare",
+        design: "shelby"
+    },
+
+    {
+        id: "tallboi",
+        name: "Tallboi",
+        rarity: "Rare",
+        design: "tallboi"
+    },
+
+    {
+        id: "four-eyes",
+        name: "Four Eyes",
+        rarity: "Rare",
+        design: "fourEyes"
+    },
+
+    {
+        id: "mothball",
+        name: "Mothball",
+        rarity: "Epic",
+        design: "mothball"
+    },
+
+    {
+        id: "spike",
+        name: "Spike",
+        rarity: "Epic",
+        design: "spike"
+    },
+
+    {
+        id: "orbit",
+        name: "Orbit",
+        rarity: "Epic",
+        design: "orbit"
+    },
+
+    {
+        id: "bubble",
+        name: "Bubble",
+        rarity: "Epic",
+        design: "bubble"
+    },
+
+    {
+        id: "captain-goob",
+        name: "Captain Goob",
+        rarity: "Mythic",
+        design: "captainGoob"
+    },
+
+    {
+        id: "tailspin",
+        name: "Tailspin",
+        rarity: "Mythic",
+        design: "tailspin"
+    },
+
+    {
+        id: "holy-moly",
+        name: "Holy Moly",
+        rarity: "Mythic",
+        design: "holyMoly"
+    },
+
+    {
+        id: "wingnut",
+        name: "Wingnut",
+        rarity: "Mythic",
+        design: "wingnut"
+    },
+
+    {
+        id: "cosmo",
+        name: "Cosmo",
+        rarity: "Legendary",
+        design: "cosmo"
+    },
+
+    {
+        id: "the-goober",
+        name: "The Goober",
+        rarity: "Legendary",
+        design: "theGoober"
+    },
+
+    {
+        id: "golden-goober",
+        name: "Golden Goober",
+        rarity: "Legendary",
+        design: "golden"
+    },
+
+    {
+        id: "galaxy-goober",
+        name: "Galaxy Goober",
+        rarity: "Legendary",
+        design: "galaxy"
+    },
+
+    {
+        id: "study-sprout",
+        name: "Study Sprout",
+        rarity: "Epic",
+        design: "studySprout"
+    },
+
+    {
+        id: "study-orbit",
+        name: "Study Orbit",
+        rarity: "Legendary",
+        design: "studyOrbit"
+    }
+
+];
+
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+const CHARACTER_TITLES = {
+
+    none: "",
+
+    "study-sprinter": "Study Sprinter",
+
+    brainiac: "Brainiac",
+
+    "speed-learner": "Speed Learner",
+
+    "knowledge-seeker": "Knowledge Seeker",
+
+    "study-legend": "Study Legend"
+
+};
+
+
+/* =========================================================
+   CHARACTER LOOKUP
+========================================================= */
+
+function getCharacterData(id) {
+
+    return (
+        SHOP_CHARACTERS.find(
+            character =>
+                character.id === id
+        ) ||
+        SHOP_CHARACTERS[0]
+    );
+
 }
 
 
 /* =========================================================
-   WORLD
+   GOOBER PART HELPER
 ========================================================= */
 
-.bossy-world {
-    position: absolute;
-    inset: 0;
+function makePart(
+    parent,
+    className
+) {
 
-    display: flex;
-    flex-direction: column;
+    const part =
+        document.createElement("div");
 
-    background: #180606;
+    part.className =
+        `goober-part ${className}`;
+
+    parent.appendChild(part);
+
+    return part;
 }
 
 
 /* =========================================================
-   HUD
+   CREATE GOOBER
 ========================================================= */
 
-.bossy-hud {
-    position: relative;
-    z-index: 50;
+function createGooberPreview(data) {
 
-    height: 64px;
-    flex-shrink: 0;
+    const goober =
+        document.createElement("div");
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 24px;
-
-    background: rgba(24, 8, 8, .96);
-
-    border-bottom:
-        1px solid rgba(251,146,60,.25);
-
-    box-shadow:
-        0 5px 25px rgba(0,0,0,.45);
-}
-
-.bossy-brand {
-    color: #fb923c;
-    font-size: 17px;
-    font-weight: 950;
-}
-
-.bossy-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-
-    color: #fff7ed;
-
-    font-size: 23px;
-    font-weight: 1000;
-
-    letter-spacing: .08em;
-
-    text-shadow:
-        0 0 12px #f97316,
-        0 0 30px rgba(249,115,22,.7);
-}
-
-.bossy-hud-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-#bossy-player-count {
-    padding: 7px 12px;
-
-    border-radius: 999px;
-
-    background: rgba(249,115,22,.12);
-
-    border:
-        1px solid rgba(249,115,22,.3);
-
-    color: #fed7aa;
-
-    font-size: 12px;
-    font-weight: 900;
-}
-
-.connection-status {
-    color: #fbbf24;
-    font-size: 11px;
-    font-weight: 900;
-}
-
-.connection-status.connected {
-    color: #4ade80;
-}
-
-.connection-status.error {
-    color: #f87171;
-}
+    goober.className =
+        `goober design-${data.design}`;
 
 
-/* =========================================================
-   VOLCANIC MAP
-========================================================= */
+    /* =====================================================
+       LEGS
+    ====================================================== */
 
-.game-map {
-    position: relative;
+    const legs =
+        document.createElement("div");
 
-    flex: 1;
-    min-height: 0;
+    legs.className =
+        "goober-legs";
 
-    width: 100%;
+    goober.appendChild(legs);
 
-    overflow: hidden;
 
-    background:
-        linear-gradient(
-            to bottom,
-            #180404 0%,
-            #3f0b08 35%,
-            #7f1d1d 68%,
-            #43110b 100%
+    const leftLeg =
+        document.createElement("div");
+
+    leftLeg.className =
+        "goober-leg leg-left";
+
+    legs.appendChild(leftLeg);
+
+
+    const rightLeg =
+        document.createElement("div");
+
+    rightLeg.className =
+        "goober-leg leg-right";
+
+    legs.appendChild(rightLeg);
+
+
+    /* =====================================================
+       BODY
+    ====================================================== */
+
+    const body =
+        document.createElement("div");
+
+    body.className =
+        "goober-body";
+
+    goober.appendChild(body);
+
+
+    /* =====================================================
+       SPECIAL BODY PARTS
+    ====================================================== */
+
+    switch (data.design) {
+
+        case "leafy":
+
+            makePart(body, "leafy-leaf");
+            makePart(body, "leafy-stem");
+
+            break;
+
+
+        case "squish":
+
+            makePart(body, "squish-cheek-left");
+            makePart(body, "squish-cheek-right");
+
+            break;
+
+
+        case "pebble":
+
+            makePart(body, "pebble-mark-one");
+            makePart(body, "pebble-mark-two");
+            makePart(body, "pebble-mark-three");
+
+            break;
+
+
+        case "button":
+
+            makePart(body, "button-top");
+            makePart(body, "button-dot-left");
+            makePart(body, "button-dot-right");
+
+            break;
+
+
+        case "horns":
+
+            makePart(body, "horn-left");
+            makePart(body, "horn-right");
+
+            break;
+
+
+        case "shelby":
+
+            makePart(body, "shelby-shell");
+            makePart(body, "shell-highlight");
+
+            break;
+
+
+        case "tallboi":
+
+            makePart(body, "tallboi-hat");
+
+            break;
+
+
+        case "fourEyes":
+
+            break;
+
+
+        case "mothball":
+
+            makePart(body, "moth-wing-left");
+            makePart(body, "moth-wing-right");
+            makePart(body, "moth-antenna-left");
+            makePart(body, "moth-antenna-right");
+
+            break;
+
+
+        case "spike":
+
+            makePart(body, "spike-one");
+            makePart(body, "spike-two");
+            makePart(body, "spike-three");
+            makePart(body, "spike-four");
+
+            break;
+
+
+        case "orbit":
+
+            makePart(body, "orbit-ring");
+            makePart(body, "orbit-dot");
+
+            break;
+
+
+        case "bubble":
+
+            makePart(body, "bubble-small-one");
+            makePart(body, "bubble-small-two");
+            makePart(body, "bubble-shine");
+
+            break;
+
+
+        case "captainGoob":
+
+            makePart(body, "captain-cape");
+            makePart(body, "captain-hat");
+            makePart(body, "captain-badge");
+
+            break;
+
+
+        case "tailspin":
+
+            makePart(body, "tailspin-tail");
+            makePart(body, "tailspin-tip");
+
+            break;
+
+
+        case "holyMoly":
+
+            makePart(body, "holy-halo");
+            makePart(body, "holy-rays");
+
+            break;
+
+
+        case "wingnut":
+
+            makePart(body, "wingnut-left");
+            makePart(body, "wingnut-right");
+            makePart(body, "wingnut-nut");
+
+            break;
+
+
+        case "cosmo":
+
+            makePart(body, "cosmo-stars");
+            makePart(body, "cosmo-moon");
+
+            break;
+
+
+        case "theGoober":
+
+            makePart(body, "goober-big-smile");
+            makePart(body, "goober-tuft");
+            makePart(body, "goober-star");
+
+            break;
+
+
+        case "golden":
+
+            makePart(body, "golden-shine");
+            makePart(body, "golden-crown");
+
+            break;
+
+
+        case "galaxy":
+
+            makePart(body, "galaxy-stars");
+            makePart(body, "galaxy-ring");
+            makePart(body, "galaxy-glow");
+
+            break;
+
+
+        case "studySprout":
+
+            makePart(body, "study-book");
+            makePart(body, "study-leaf-left");
+            makePart(body, "study-leaf-right");
+
+            break;
+
+
+        case "studyOrbit":
+
+            makePart(body, "study-orbit-ring");
+            makePart(body, "study-star");
+
+            break;
+
+    }
+
+
+    /* =====================================================
+       FACE
+    ====================================================== */
+
+    const face =
+        document.createElement("div");
+
+    face.className =
+        "goober-face";
+
+    goober.appendChild(face);
+
+
+    const leftEye =
+        document.createElement("div");
+
+    leftEye.className =
+        "goober-eye eye-left";
+
+    face.appendChild(leftEye);
+
+
+    const rightEye =
+        document.createElement("div");
+
+    rightEye.className =
+        "goober-eye eye-right";
+
+    face.appendChild(rightEye);
+
+
+    const mouth =
+        document.createElement("div");
+
+    mouth.className =
+        "goober-mouth";
+
+    face.appendChild(mouth);
+
+
+    /* =====================================================
+       FOUR EYES
+    ====================================================== */
+
+    if (data.design === "fourEyes") {
+
+        makePart(
+            face,
+            "extra-eye extra-one"
         );
+
+        makePart(
+            face,
+            "extra-eye extra-two"
+        );
+
+    }
+
+
+    return goober;
 }
 
 
 /* =========================================================
-   SKY
+   EFFECTS
 ========================================================= */
 
-.sky-background {
-    position: absolute;
-    inset: 0;
+function applyEffect(
+    wrapper,
+    effectId
+) {
 
-    background:
-        radial-gradient(
-            ellipse at 50% 100%,
-            rgba(249,115,22,.5),
-            transparent 48%
+    if (
+        !effectId ||
+        effectId === "none"
+    ) {
+
+        return;
+
+    }
+
+    wrapper.classList.add(
+        `effect-${effectId}`
+    );
+
+
+    const countMap = {
+
+        sparkle: 6,
+        "speed-trail": 5,
+        lightning: 4,
+        fire: 7,
+        glitch: 3,
+        crystal: 6,
+        "cosmic-aura": 8
+
+    };
+
+
+    const count =
+        countMap[effectId] || 0;
+
+
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
+
+        const part =
+            document.createElement("div");
+
+        part.className =
+            `character-effect-element effect-${effectId}-piece`;
+
+        part.style.setProperty(
+            "--effect-index",
+            i
+        );
+
+        wrapper.appendChild(part);
+
+    }
+
+
+    if (
+        effectId === "rainbow"
+    ) {
+
+        const ring =
+            document.createElement("div");
+
+        ring.className =
+            "effect-rainbow-ring";
+
+        wrapper.appendChild(ring);
+
+    }
+
+
+    if (
+        effectId === "shadow"
+    ) {
+
+        const shadow =
+            document.createElement("div");
+
+        shadow.className =
+            "effect-shadow-ground";
+
+        wrapper.appendChild(shadow);
+
+    }
+
+
+    if (
+        effectId === "crown"
+    ) {
+
+        const crown =
+            document.createElement("div");
+
+        crown.className =
+            "character-crown";
+
+        crown.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
+
+        wrapper
+            .querySelector(".goober")
+            ?.appendChild(crown);
+
+    }
+
+}
+
+
+/* =========================================================
+   CREATE PLAYER
+========================================================= */
+
+function createPlayerElement(
+    id,
+    player
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "bossy-player";
+
+    wrapper.dataset.playerId =
+        id;
+
+
+    if (id === playerId) {
+
+        wrapper.classList.add(
+            "local-player"
+        );
+
+    }
+
+
+    const characterId =
+        player.characterId ||
+        player.character ||
+        "leafy";
+
+
+    const effectId =
+        player.effectId ||
+        "none";
+
+
+    wrapper.dataset.characterId =
+        characterId;
+
+    wrapper.dataset.effectId =
+        effectId;
+
+
+    /* =====================================================
+       CHARACTER
+    ====================================================== */
+
+    const characterHolder =
+        document.createElement("div");
+
+    characterHolder.className =
+        "bossy-character";
+
+
+    const character =
+        getCharacterData(
+            characterId
+        );
+
+
+    characterHolder.appendChild(
+        createGooberPreview(
+            character
+        )
+    );
+
+
+    applyEffect(
+        characterHolder,
+        effectId
+    );
+
+
+    wrapper.appendChild(
+        characterHolder
+    );
+
+
+    /* =====================================================
+       NAME
+    ====================================================== */
+
+    const name =
+        document.createElement("div");
+
+    name.className =
+        "bossy-player-name";
+
+    name.textContent =
+        player.name ||
+        "Player";
+
+    wrapper.appendChild(name);
+
+
+    /* =====================================================
+       TITLE
+    ====================================================== */
+
+    const titleId =
+        player.titleId ||
+        "none";
+
+    const titleText =
+        CHARACTER_TITLES[titleId] ||
+        "";
+
+
+    if (titleText) {
+
+        const title =
+            document.createElement("div");
+
+        title.className =
+            "bossy-player-title";
+
+        title.textContent =
+            titleText;
+
+        wrapper.appendChild(title);
+
+    }
+
+
+    playersContainer.appendChild(
+        wrapper
+    );
+
+
+    playerElements.set(
+        id,
+        wrapper
+    );
+
+
+    updatePlayerElement(
+        wrapper,
+        player
+    );
+
+
+    return wrapper;
+}
+
+
+/* =========================================================
+   REBUILD PLAYER
+========================================================= */
+
+function rebuildPlayerElement(
+    id,
+    player
+) {
+
+    const old =
+        playerElements.get(id);
+
+    if (old) {
+
+        old.remove();
+
+        playerElements.delete(id);
+
+    }
+
+    return createPlayerElement(
+        id,
+        player
+    );
+}
+
+
+/* =========================================================
+   UPDATE PLAYER VISUAL
+========================================================= */
+
+function updatePlayerElement(
+    element,
+    player
+) {
+
+    if (!element)
+        return;
+
+
+    const x =
+        Number.isFinite(Number(player.x))
+            ? Number(player.x)
+            : START_X;
+
+
+    const y =
+        Number.isFinite(Number(player.y))
+            ? Math.max(
+                GROUND_Y,
+                Number(player.y)
+            )
+            : GROUND_Y;
+
+
+    element.style.left =
+        `${x}px`;
+
+    element.style.bottom =
+        `${y}px`;
+
+
+    const direction =
+        player.direction === "left"
+            ? "left"
+            : "right";
+
+
+    element.classList.toggle(
+        "facing-left",
+        direction === "left"
+    );
+
+
+    element.classList.toggle(
+        "jumping",
+        player.grounded === false
+    );
+
+
+    const moving =
+        player.moving === true;
+
+
+    element.classList.toggle(
+        "walking",
+        moving &&
+        player.grounded !== false
+    );
+
+}
+
+
+/* =========================================================
+   RENDER PLAYERS
+========================================================= */
+
+function renderPlayers(players) {
+
+    const ids =
+        new Set(
+            Object.keys(players)
+        );
+
+
+    playerElements.forEach(
+        (element, id) => {
+
+            if (!ids.has(id)) {
+
+                element.remove();
+
+                playerElements.delete(id);
+
+                knownPlayers.delete(id);
+
+            }
+
+        }
+    );
+
+
+    Object.entries(players)
+        .forEach(
+            ([id, player]) => {
+
+                if (!player)
+                    return;
+
+
+                const characterId =
+                    player.characterId ||
+                    player.character ||
+                    "leafy";
+
+
+                const effectId =
+                    player.effectId ||
+                    "none";
+
+
+                const titleId =
+                    player.titleId ||
+                    "none";
+
+
+                let element =
+                    playerElements.get(id);
+
+
+                const previous =
+                    knownPlayers.get(id);
+
+
+                const appearanceChanged =
+                    !previous ||
+                    previous.characterId !== characterId ||
+                    previous.effectId !== effectId ||
+                    previous.titleId !== titleId;
+
+
+                if (!element) {
+
+                    element =
+                        createPlayerElement(
+                            id,
+                            player
+                        );
+
+                }
+                else if (appearanceChanged) {
+
+                    element =
+                        rebuildPlayerElement(
+                            id,
+                            player
+                        );
+
+                }
+
+
+                updatePlayerElement(
+                    element,
+                    player
+                );
+
+
+                knownPlayers.set(
+                    id,
+                    {
+                        characterId,
+                        effectId,
+                        titleId
+                    }
+                );
+
+            }
+        );
+
+
+    const count =
+        Object.keys(players).length;
+
+
+    playerCountElement.textContent =
+        count === 1
+            ? "1 Player"
+            : `${count} Players`;
+
+}
+
+
+/* =========================================================
+   SPAWN
+========================================================= */
+
+function getSpawnPosition(players) {
+
+    const used =
+        Object.values(players || {})
+            .map(
+                player =>
+                    Number(player?.x)
+            )
+            .filter(
+                Number.isFinite
+            );
+
+
+    let spawn =
+        START_X;
+
+
+    for (
+        let i = 0;
+        i < 20;
+        i++
+    ) {
+
+        const occupied =
+            used.some(
+                x =>
+                    Math.abs(x - spawn) <
+                    PLAYER_WIDTH + 25
+            );
+
+
+        if (!occupied)
+            break;
+
+
+        spawn +=
+            PLAYER_WIDTH + 35;
+
+    }
+
+
+    const mapWidth =
+        gameMap?.clientWidth ||
+        1200;
+
+
+    return Math.min(
+        spawn,
+        Math.max(
+            20,
+            mapWidth -
+            PLAYER_WIDTH -
+            20
+        )
+    );
+
+}
+
+
+/* =========================================================
+   TIMEOUT
+========================================================= */
+
+function withTimeout(
+    promise,
+    milliseconds,
+    message
+) {
+
+    return Promise.race([
+
+        promise,
+
+        new Promise(
+            (_, reject) => {
+
+                setTimeout(
+                    () =>
+                        reject(
+                            new Error(message)
+                        ),
+                    milliseconds
+                );
+
+            }
+        )
+
+    ]);
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function registerLocalPlayer(
+    existingPlayers
+) {
+
+    const playerRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players/${playerId}`
+        );
+
+
+    let existing = {};
+
+
+    try {
+
+        const snapshot =
+            await withTimeout(
+                get(playerRef),
+                FIREBASE_TIMEOUT,
+                "Firebase took too long to read your player data."
+            );
+
+
+        if (snapshot.exists()) {
+
+            existing =
+                snapshot.val() || {};
+
+        }
+
+    }
+    catch (error) {
+
+        console.warn(
+            "Using fresh Bossy spawn.",
+            error
+        );
+
+    }
+
+
+    localX =
+        Number.isFinite(Number(existing.x))
+            ? Number(existing.x)
+            : getSpawnPosition(
+                existingPlayers
+            );
+
+
+    localY = GROUND_Y;
+    velocityY = 0;
+    onGround = true;
+
+
+    await withTimeout(
+
+        update(
+            playerRef,
+            {
+
+                name: username,
+
+                characterId:
+                    equippedCharacterId,
+
+                titleId:
+                    equippedTitleId,
+
+                bannerId:
+                    equippedBannerId,
+
+                effectId:
+                    equippedEffectId,
+
+                x: localX,
+
+                y: GROUND_Y,
+
+                grounded: true,
+
+                moving: false,
+
+                direction:
+                    existing.direction === "left"
+                        ? "left"
+                        : "right",
+
+                connected: true,
+
+                game: "bossy"
+
+            }
         ),
-        linear-gradient(
-            to bottom,
-            #170303 0%,
-            #3b0808 35%,
-            #7f1d1d 72%,
-            #b45309 100%
-        );
-}
+
+        FIREBASE_TIMEOUT,
+
+        "Firebase took too long to register your player."
+
+    );
 
 
-/* =========================================================
-   VOLCANIC GLOW
-========================================================= */
+    try {
 
-.sky-background::before {
-    content: "";
+        await withTimeout(
 
-    position: absolute;
+            onDisconnect(
+                ref(
+                    db,
+                    `lobbies/${lobbyCode}/players/${playerId}/connected`
+                )
+            ).set(false),
 
-    left: 50%;
-    bottom: -20px;
+            FIREBASE_TIMEOUT,
 
-    width: 650px;
-    height: 300px;
+            "Firebase disconnect setup timed out."
 
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            ellipse,
-            rgba(251,146,60,.5),
-            rgba(239,68,68,.15) 45%,
-            transparent 70%
         );
 
-    filter: blur(20px);
-}
+    }
+    catch (error) {
 
-
-/* =========================================================
-   VOLCANOES
-========================================================= */
-
-.sky-background::after {
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    bottom: 55px;
-
-    width: 650px;
-    height: 320px;
-
-    transform: translateX(-50%);
-
-    background:
-        linear-gradient(
-            135deg,
-            transparent 42%,
-            #260707 43%,
-            #260707 57%,
-            transparent 58%
+        console.warn(
+            "onDisconnect failed:",
+            error
         );
 
-    clip-path:
-        polygon(
-            0 100%,
-            20% 67%,
-            31% 73%,
-            50% 5%,
-            69% 73%,
-            80% 67%,
-            100% 100%
-        );
+    }
 
-    opacity: .9;
-}
 
+    localNameElement.textContent =
+        username;
 
-/* =========================================================
-   SUN / LAVA MOON
-========================================================= */
-
-.sun {
-    position: absolute;
-
-    width: 120px;
-    height: 120px;
-
-    right: 12%;
-    top: 55px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fff7ed 0%,
-            #fed7aa 30%,
-            #fb923c 60%,
-            #ea580c 100%
-        );
-
-    box-shadow:
-        0 0 40px #f97316,
-        0 0 100px rgba(249,115,22,.7);
-}
-
-
-/* =========================================================
-   SMOKE CLOUDS
-========================================================= */
-
-.cloud {
-    position: absolute;
-
-    width: 180px;
-    height: 55px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(28, 12, 12, .72);
-
-    filter: blur(2px);
-
-    opacity: .75;
-}
-
-.cloud::before,
-.cloud::after {
-    content: "";
-
-    position: absolute;
-
-    border-radius: 50%;
-
-    background: #1c0c0c;
-}
-
-.cloud::before {
-    width: 75px;
-    height: 75px;
-
-    left: 25px;
-    bottom: 5px;
-}
-
-.cloud::after {
-    width: 58px;
-    height: 58px;
-
-    right: 25px;
-    bottom: 3px;
-}
-
-.cloud-one {
-    top: 70px;
-    left: 10%;
-
-    transform: scale(.8);
-}
-
-.cloud-two {
-    top: 130px;
-    left: 55%;
-
-    transform: scale(1.1);
-}
-
-.cloud-three {
-    top: 60px;
-    right: 30%;
-
-    transform: scale(.55);
-}
-
-
-/* =========================================================
-   BACKGROUND ROCKS
-========================================================= */
-
-.background-hill {
-    position: absolute;
-
-    bottom: 0;
-
-    width: 70%;
-    height: 210px;
-
-    border-radius: 50% 50% 0 0;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #351010,
-            #180707
-        );
-
-    opacity: .9;
-}
-
-.hill-one {
-    left: -20%;
-}
-
-.hill-two {
-    right: -25%;
-
-    height: 175px;
-}
-
-
-/* =========================================================
-   GROUND
-========================================================= */
-
-.ground {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 90px;
-
-    z-index: 5;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #29201d 0%,
-            #17100f 100%
-        );
-
-    border-top:
-        8px solid #3f2720;
-
-    box-shadow:
-        inset 0 8px 0 rgba(251,146,60,.12);
-}
-
-.ground-top {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    top: -8px;
-
-    height: 8px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #7c2d12,
-            #ea580c,
-            #7c2d12
-        );
-
-    box-shadow:
-        0 0 12px rgba(249,115,22,.65);
-}
-
-.ground-pattern {
-    position: absolute;
-    inset: 8px 0 0;
-
-    opacity: .28;
-
-    background-image:
-        radial-gradient(
-            circle,
-            #7c2d12 2px,
-            transparent 2px
-        );
-
-    background-size: 32px 24px;
-}
-
-
-/* =========================================================
-   LAVA CRACKS
-========================================================= */
-
-.ground::before,
-.ground::after {
-    content: "";
-
-    position: absolute;
-
-    height: 3px;
-
-    background: #f97316;
-
-    box-shadow:
-        0 0 8px #ef4444,
-        0 0 15px rgba(249,115,22,.7);
-
-    opacity: .8;
-}
-
-.ground::before {
-    width: 180px;
-    left: 12%;
-    top: 35px;
-
-    transform: rotate(5deg);
-}
-
-.ground::after {
-    width: 240px;
-    right: 15%;
-    top: 58px;
-
-    transform: rotate(-4deg);
-}
-
-
-/* =========================================================
-   PLAYERS CONTAINER
-========================================================= */
-
-.players-container {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-
-    bottom: 90px;
-
-    height: calc(100% - 90px);
-
-    z-index: 10;
-
-    overflow: visible;
-}
-
-
-/* =========================================================
-   PLAYER
-========================================================= */
-
-.bossy-player {
-    position: absolute;
-
-    left: 150px;
-    bottom: 0;
-
-    width: 140px;
-    height: 150px;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    transition:
-        filter .12s ease;
-}
-
-.bossy-player.local-player {
-    z-index: 20;
-}
-
-.bossy-player.jumping {
-    filter:
-        drop-shadow(
-            0 12px 8px rgba(0,0,0,.35)
-        );
-}
-
-
-/* =========================================================
-   CHARACTER HOLDER
-========================================================= */
-
-.bossy-character {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 140px;
-    height: 150px;
-
-    overflow: visible;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   GOOBER BASE
-========================================================= */
-
-.bossy-character > .goober {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 140px;
-    height: 150px;
-
-    overflow: visible;
-
-    transform-origin:
-        50% 100%;
-}
-
-
-/* =========================================================
-   ANIMATION STATES
-========================================================= */
-
-.bossy-player:not(.jumping)
-.bossy-character > .goober {
-    animation:
-        gooberIdle 1.35s ease-in-out infinite;
-}
-
-.bossy-player.moving
-.bossy-character > .goober {
-    animation:
-        gooberWalk .32s ease-in-out infinite;
-}
-
-.bossy-player.jumping
-.bossy-character > .goober {
-    animation:
-        gooberJump .35s ease-out;
-}
-
-
-/* =========================================================
-   BODY
-========================================================= */
-
-.bossy-character .goober-body {
-    position: absolute;
-
-    left: 16px;
-    top: 27px;
-
-    width: 108px;
-    height: 105px;
-
-    border-radius:
-        45% 45% 42% 42%;
-
-    z-index: 3;
-
-    border:
-        3px solid rgba(0,0,0,.18);
-
-    box-shadow:
-        inset 8px 7px 0 rgba(255,255,255,.14),
-        inset -8px -10px 0 rgba(0,0,0,.12),
-        0 7px 8px rgba(0,0,0,.2);
-}
-
-
-/* =========================================================
-   BASE BODY COLOURS
-========================================================= */
-
-.goober-body.green {
-    background: #4ade80;
-}
-
-.goober-body.blue {
-    background: #60a5fa;
-}
-
-.goober-body.squishy {
-    background: #38bdf8;
-}
-
-.goober-body.stone {
-    background: #94a3b8;
-}
-
-.goober-body.pink {
-    background: #f472b6;
-}
-
-.goober-body.purple {
-    background: #a78bfa;
-}
-
-.goober-body.yellow {
-    background: #facc15;
-}
-
-.goober-body.tall {
-    background: #fde047;
-}
-
-.goober-body.coral {
-    background: #fb7185;
-}
-
-.goober-body.lavender {
-    background: #c4b5fd;
-}
-
-.goober-body.red {
-    background: #ef4444;
-}
-
-.goober-body.cyan {
-    background: #22d3ee;
-}
-
-.goober-body.aqua {
-    background: #2dd4bf;
-}
-
-.goober-body.violet {
-    background: #8b5cf6;
-}
-
-.goober-body.hotpink {
-    background: #ec4899;
-}
-
-.goober-body.gold {
-    background: #fbbf24;
-}
-
-.goober-body.peach {
-    background: #fdba74;
-}
-
-.goober-body.deep-purple {
-    background: #6d28d9;
-}
-
-.goober-body.orange {
-    background: #fb923c;
-}
-
-.goober-body.golden {
-    background:
-        linear-gradient(
-            135deg,
-            #fef08a,
-            #f59e0b,
-            #ca8a04
-        );
-}
-
-.goober-body.galaxy-body {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #f0abfc 0 3px,
-            transparent 4px
-        ),
-        radial-gradient(
-            circle at 70% 60%,
-            #67e8f9 0 3px,
-            transparent 4px
-        ),
-        linear-gradient(
-            135deg,
-            #312e81,
-            #581c87,
-            #1e1b4b
-        );
-}
-
-.goober-body.study-green {
-    background: #22c55e;
-}
-
-.goober-body.study-purple {
-    background: #8b5cf6;
-}
-
-.goober-body.mint {
-    background: #6ee7b7;
-
-
-/* =========================================================
-   FACE
-========================================================= */
-
-.bossy-character .goober-face {
-    position: absolute;
-    inset: 0;
-
-    z-index: 8;
-}
-
-.bossy-character .goober-eye {
-    position: absolute;
-
-    width: 14px;
-    height: 18px;
-
-    top: 66px;
-
-    border-radius: 50%;
-
-    background: #111827;
-
-    z-index: 10;
-
-    box-shadow:
-        inset 3px 2px 0 rgba(255,255,255,.7);
-}
-
-.bossy-character .eye-left {
-    left: 47px;
-}
-
-.bossy-character .eye-right {
-    left: 79px;
-}
-
-.bossy-character .goober-mouth {
-    position: absolute;
-
-    left: 60px;
-    top: 90px;
-
-    width: 21px;
-    height: 12px;
-
-    border-bottom:
-        4px solid #111827;
-
-    border-radius:
-        0 0 50% 50%;
-
-    z-index: 10;
-}
-
-
-/* =========================================================
-   FEET
-========================================================= */
-
-.bossy-character .goober-feet {
-    position: absolute;
-    inset: 0;
-
-    z-index: 2;
-}
-
-.bossy-character .goober-foot {
-    position: absolute;
-
-    bottom: 5px;
-
-    width: 32px;
-    height: 15px;
-
-    border-radius: 50%;
-
-    background: #171717;
-
-    z-index: 1;
-
-    box-shadow:
-        0 3px 3px rgba(0,0,0,.25);
-}
-
-.bossy-character .foot-left {
-    left: 29px;
-}
-
-.bossy-character .foot-right {
-    right: 29px;
-}
-
-
-/* =========================================================
-   GOOBER PARTS
-========================================================= */
-
-.bossy-character .goober-part {
-    position: absolute;
-    pointer-events: none;
-    z-index: 12;
-}
-
-
-/* =========================================================
-   LEAFY
-========================================================= */
-
-.design-leafy .leafy-leaf {
-    left: 67px;
-    top: 8px;
-
-    width: 25px;
-    height: 35px;
-
-    background: #16a34a;
-
-    border-radius:
-        100% 0 100% 0;
-
-    transform: rotate(20deg);
-}
-
-.design-leafy .leafy-stem {
-    left: 77px;
-    top: 28px;
-
-    width: 4px;
-    height: 20px;
-
-    background: #166534;
-
-    transform: rotate(15deg);
-}
-
-
-/* =========================================================
-   HORNS
-========================================================= */
-
-.design-horns .horn-left,
-.design-horns .horn-right {
-    top: 8px;
-
-    width: 25px;
-    height: 35px;
-
-    background: #6d28d9;
-
-    clip-path:
-        polygon(
-            0 100%,
-            50% 0,
-            100% 100%
-        );
-}
-
-.design-horns .horn-left {
-    left: 31px;
-    transform: rotate(-18deg);
-}
-
-.design-horns .horn-right {
-    right: 31px;
-    transform: rotate(18deg);
-}
-
-
-/* =========================================================
-   SPIKES
-========================================================= */
-
-.design-spike .spike-one,
-.design-spike .spike-two,
-.design-spike .spike-three,
-.design-spike .spike-four {
-    background: #fca5a5;
-
-    clip-path:
-        polygon(
-            50% 0,
-            100% 100%,
-            0 100%
-        );
-}
-
-.design-spike .spike-one {
-    left: 18px;
-    top: 32px;
-    width: 20px;
-    height: 25px;
-    transform: rotate(-55deg);
-}
-
-.design-spike .spike-two {
-    left: 23px;
-    top: 66px;
-    width: 17px;
-    height: 22px;
-    transform: rotate(-75deg);
-}
-
-.design-spike .spike-three {
-    right: 18px;
-    top: 32px;
-    width: 20px;
-    height: 25px;
-    transform: rotate(55deg);
-}
-
-.design-spike .spike-four {
-    right: 23px;
-    top: 66px;
-    width: 17px;
-    height: 22px;
-    transform: rotate(75deg);
-}
-
-
-/* =========================================================
-   TALLBOI
-========================================================= */
-
-.design-tallboi .tall {
-    top: 8px;
-    height: 124px;
-    border-radius: 45%;
-}
-
-.design-tallboi .tallboi-hat {
-    left: 45px;
-    top: 5px;
-
-    width: 50px;
-    height: 15px;
-
-    background: #ca8a04;
-    border-radius: 50%;
-}
-
-
-/* =========================================================
-   MOTHBALL
-========================================================= */
-
-.design-mothball .moth-wing-left,
-.design-mothball .moth-wing-right {
-    top: 45px;
-
-    width: 45px;
-    height: 65px;
-
-    background: rgba(167,139,250,.65);
-
-    border-radius: 70% 20% 70% 20%;
-}
-
-.design-mothball .moth-wing-left {
-    left: 0;
-    transform: rotate(-20deg);
-}
-
-.design-mothball .moth-wing-right {
-    right: 0;
-    transform: rotate(20deg);
-}
-
-
-/* =========================================================
-   ORBIT
-========================================================= */
-
-.design-orbit .orbit-ring {
-    left: 50px;
-    top: 37px;
-
-    width: 80px;
-    height: 80px;
-
-    border:
-        4px solid rgba(255,255,255,.65);
-
-    border-radius: 50%;
-
-    transform: rotate(-20deg);
-}
-
-.design-orbit .orbit-dot {
-    left: 111px;
-    top: 56px;
-
-    width: 12px;
-    height: 12px;
-
-    border-radius: 50%;
-
-    background: white;
-}
-
-
-/* =========================================================
-   BUBBLE
-========================================================= */
-
-.design-bubble .bubble-small-one,
-.design-bubble .bubble-small-two,
-.design-bubble .bubble-shine {
-    border-radius: 50%;
-}
-
-.design-bubble .bubble-small-one {
-    left: 10px;
-    top: 25px;
-    width: 22px;
-    height: 22px;
-    background: rgba(255,255,255,.45);
-}
-
-.design-bubble .bubble-small-two {
-    right: 5px;
-    top: 48px;
-    width: 16px;
-    height: 16px;
-    background: rgba(255,255,255,.4);
-}
-
-.design-bubble .bubble-shine {
-    left: 40px;
-    top: 35px;
-    width: 25px;
-    height: 10px;
-    background: rgba(255,255,255,.35);
-    transform: rotate(-25deg);
-}
-
-
-/* =========================================================
-   CAPTAIN GOOB
-========================================================= */
-
-.captain-cape {
-    position: absolute;
-
-    left: 12px;
-    top: 45px;
-
-    width: 116px;
-    height: 80px;
-
-    background: #7f1d1d;
-
-    clip-path:
-        polygon(
-            5% 0,
-            95% 0,
-            100% 100%,
-            50% 82%,
-            0 100%
-        );
-
-    z-index: 1;
-}
-
-.design-captainGoob .captain-hat {
-    left: 38px;
-    top: 4px;
-
-    width: 64px;
-    height: 30px;
-
-    background: #312e81;
-
-    border-radius:
-        50% 50% 15% 15%;
-}
-
-
-/* =========================================================
-   HOLY MOLY
-========================================================= */
-
-.design-holyMoly .holy-halo {
-    left: 43px;
-    top: 5px;
-
-    width: 55px;
-    height: 25px;
-
-    border:
-        5px solid #fde68a;
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 15px #facc15;
-}
-
-
-/* =========================================================
-   WINGS
-========================================================= */
-
-.design-wingnut .wingnut-left,
-.design-wingnut .wingnut-right {
-    top: 45px;
-
-    width: 42px;
-    height: 55px;
-
-    background: #fed7aa;
-
-    border-radius:
-        70% 30% 70% 30%;
-}
-
-.design-wingnut .wingnut-left {
-    left: -4px;
-    transform: rotate(-20deg);
-}
-
-.design-wingnut .wingnut-right {
-    right: -4px;
-    transform: rotate(20deg);
-}
-
-
-/* =========================================================
-   GOLDEN CROWN
-========================================================= */
-
-.design-golden .golden-crown {
-    left: 46px;
-    top: 5px;
-
-    width: 48px;
-    height: 25px;
-
-    background: #facc15;
-
-    clip-path:
-        polygon(
-            0 100%,
-            10% 20%,
-            35% 65%,
-            50% 0,
-            65% 65%,
-            90% 20%,
-            100% 100%
-        );
-}
-
-
-/* =========================================================
-   STUDY BOOK
-========================================================= */
-
-.design-studySprout .study-book {
-    left: 44px;
-    top: 17px;
-
-    width: 52px;
-    height: 25px;
-
-    background: white;
-
-    border:
-        3px solid #166534;
-
-    border-radius: 4px;
-
-    transform: rotate(-5deg);
-}
-
-
-/* =========================================================
-   EXTRA EYES
-========================================================= */
-
-.extra-eye {
-    top: 55px !important;
-}
-
-.extra-one {
-    left: 31px !important;
-}
-
-.extra-two {
-    left: 96px !important;
-}
-
-
-/* =========================================================
-   SHELBY
-========================================================= */
-
-.shelby-shell {
-    position: absolute;
-
-    left: 20px;
-    top: 35px;
-
-    width: 100px;
-    height: 95px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #34d399 0 15%,
-            #059669 16% 28%,
-            #6ee7b7 29% 42%,
-            #047857 43% 100%
-        );
-
-    z-index: 2;
-}
-
-
-/* =========================================================
-   CROWN EFFECT
-========================================================= */
-
-.character-crown {
-    position: absolute;
-
-    left: 48px;
-    top: -5px;
-
-    width: 45px;
-    height: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fef08a,
-            #facc15,
-            #eab308
-        );
-
-    clip-path:
-        polygon(
-            0 100%,
-            8% 18%,
-            30% 58%,
-            50% 0%,
-            70% 58%,
-            92% 18%,
-            100% 100%
-        );
-
-    z-index: 100;
-
-    filter:
-        drop-shadow(
-            0 2px 4px rgba(0,0,0,.4)
-        );
-}
-
-
-/* =========================================================
-   EFFECT SHADOW
-========================================================= */
-
-.effect-shadow-ground {
-    position: absolute;
-
-    left: 50%;
-    bottom: 2px;
-
-    width: 105px;
-    height: 18px;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    background: rgba(0,0,0,.5);
-
-    filter: blur(5px);
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   FIRE EFFECT
-========================================================= */
-
-.bossy-character.effect-fire::before,
-.bossy-character.effect-fire::after {
-    content: "";
-
-    position: absolute;
-
-    bottom: 18px;
-
-    width: 22px;
-    height: 38px;
-
-    border-radius:
-        60% 40% 55% 45%;
-
-    background:
-        linear-gradient(
-            to top,
-            #ef4444,
-            #f97316,
-            #facc15
-        );
-
-    z-index: 25;
-
-    animation:
-        flameFlicker .4s ease-in-out infinite alternate;
-}
-
-.bossy-character.effect-fire::before {
-    left: 8px;
-}
-
-.bossy-character.effect-fire::after {
-    right: 8px;
-}
-
-
-/* =========================================================
-   COSMIC AURA
-========================================================= */
-
-.effect-cosmic-ring {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 150px;
-    height: 150px;
-
-    transform:
-        translate(-50%, -50%);
-
-    border:
-        2px solid rgba(168,85,247,.4);
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 25px rgba(168,85,247,.6);
-
-    z-index: 1;
-
-    animation:
-        cosmicPulse 2s ease-in-out infinite alternate;
-}
-
-
-/* =========================================================
-   PLAYER LABELS
-========================================================= */
-
-.bossy-player-name {
-    position: absolute;
-
-    left: 50%;
-    bottom: 152px;
-
-    transform: translateX(-50%);
-
-    max-width: 150px;
-
-    padding: 5px 9px;
-
-    border-radius: 8px;
-
-    background: rgba(20,8,8,.9);
-
-    border:
-        1px solid rgba(251,146,60,.25);
-
-    color: white;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    text-align: center;
-
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.3);
-
-    z-index: 100;
-}
-
-.local-player .bossy-player-name {
-    background: #c2410c;
-}
-
-.bossy-player-title {
-    position: absolute;
-
-    left: 50%;
-    bottom: 180px;
-
-    transform: translateX(-50%);
-
-    color: #fed7aa;
-
-    font-size: 10px;
-    font-weight: 800;
-
-    white-space: nowrap;
-
-    z-index: 100;
-}
-
-
-/* =========================================================
-   FACING
-========================================================= */
-
-.bossy-player.facing-left
-.bossy-character > .goober {
-    transform: scaleX(-1);
-}
-
-.bossy-player.facing-left
-.bossy-player-name,
-.bossy-player.facing-left
-.bossy-player-title {
-    transform: translateX(-50%) scaleX(1);
 }
 
 
@@ -1549,106 +1417,400 @@ body {
    CONTROLS
 ========================================================= */
 
-.controls-hint {
-    position: absolute;
+function setupControls() {
 
-    left: 50%;
-    bottom: 70px;
+    document.addEventListener(
+        "keydown",
+        event => {
 
-    transform: translateX(-50%);
+            if (
+                event.code === "KeyA"
+            ) {
 
-    z-index: 40;
+                leftPressed = true;
 
-    display: flex;
-    align-items: center;
-    gap: 7px;
+                event.preventDefault();
 
-    padding: 9px 13px;
+            }
 
-    border-radius: 999px;
 
-    background: rgba(20,8,8,.82);
+            if (
+                event.code === "KeyD"
+            ) {
 
-    border:
-        1px solid rgba(251,146,60,.25);
+                rightPressed = true;
 
-    backdrop-filter: blur(8px);
+                event.preventDefault();
 
-    color: #fed7aa;
+            }
 
-    font-size: 11px;
-    font-weight: 800;
 
-    white-space: nowrap;
+            if (
+                event.code === "Space"
+            ) {
 
-    pointer-events: none;
-}
+                if (!event.repeat) {
 
-.controls-hint span {
-    padding: 4px 7px;
+                    jumpQueued = true;
 
-    border-radius: 6px;
+                }
 
-    background: rgba(255,255,255,.12);
+                event.preventDefault();
 
-    color: white;
+            }
 
-    font-size: 10px;
-    font-weight: 950;
+        }
+    );
+
+
+    document.addEventListener(
+        "keyup",
+        event => {
+
+            if (
+                event.code === "KeyA"
+            ) {
+
+                leftPressed = false;
+
+            }
+
+
+            if (
+                event.code === "KeyD"
+            ) {
+
+                rightPressed = false;
+
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "blur",
+        () => {
+
+            leftPressed = false;
+            rightPressed = false;
+
+        }
+    );
+
 }
 
 
 /* =========================================================
-   BOTTOM BAR
+   PHYSICS
 ========================================================= */
 
-.bossy-bottom-bar {
-    position: relative;
+function updatePhysics(delta) {
 
-    z-index: 50;
+    let direction = 0;
 
-    height: 48px;
-    flex-shrink: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    if (leftPressed)
+        direction--;
 
-    padding: 0 22px;
+    if (rightPressed)
+        direction++;
 
-    background: rgba(20,7,7,.98);
 
-    border-top:
-        1px solid rgba(251,146,60,.2);
+    const moving =
+        direction !== 0;
+
+
+    localX +=
+        direction *
+        MOVE_SPEED *
+        delta;
+
+
+    if (
+        jumpQueued &&
+        onGround
+    ) {
+
+        velocityY =
+            JUMP_FORCE;
+
+        onGround =
+            false;
+
+    }
+
+
+    jumpQueued = false;
+
+
+    if (!onGround) {
+
+        velocityY -=
+            GRAVITY *
+            delta;
+
+        localY +=
+            velocityY *
+            delta;
+
+
+        if (
+            localY <= GROUND_Y
+        ) {
+
+            localY =
+                GROUND_Y;
+
+            velocityY =
+                0;
+
+            onGround =
+                true;
+
+        }
+
+    }
+    else {
+
+        localY =
+            GROUND_Y;
+
+        velocityY =
+            0;
+
+    }
+
+
+    const mapWidth =
+        gameMap?.clientWidth ||
+        1200;
+
+
+    const maxX =
+        Math.max(
+            20,
+            mapWidth -
+            PLAYER_WIDTH -
+            20
+        );
+
+
+    localX =
+        Math.max(
+            20,
+            Math.min(
+                maxX,
+                localX
+            )
+        );
+
+
+    const local =
+        playerElements.get(
+            playerId
+        );
+
+
+    if (local) {
+
+        updatePlayerElement(
+            local,
+            {
+
+                x: localX,
+                y: localY,
+
+                grounded:
+                    onGround,
+
+                moving,
+
+                direction:
+                    direction < 0
+                        ? "left"
+                        : direction > 0
+                            ? "right"
+                            : local.classList.contains(
+                                "facing-left"
+                            )
+                                ? "left"
+                                : "right"
+
+            }
+        );
+
+    }
+
 }
 
-.bossy-bottom-bar > div {
-    display: flex;
-    align-items: center;
-    gap: 9px;
+
+/* =========================================================
+   PHYSICS LOOP
+========================================================= */
+
+function startPhysics() {
+
+    const playerRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players/${playerId}`
+        );
+
+
+    let lastTime =
+        performance.now();
+
+
+    function loop(currentTime) {
+
+        const delta =
+            Math.min(
+                (
+                    currentTime -
+                    lastTime
+                ) / 16.6667,
+                2
+            );
+
+
+        lastTime =
+            currentTime;
+
+
+        updatePhysics(delta);
+
+
+        requestAnimationFrame(loop);
+
+    }
+
+
+    requestAnimationFrame(loop);
+
+
+    setInterval(
+        () => {
+
+            const local =
+                playerElements.get(
+                    playerId
+                );
+
+
+            const direction =
+                local?.classList.contains(
+                    "facing-left"
+                )
+                    ? "left"
+                    : "right";
+
+
+            update(
+                playerRef,
+                {
+
+                    x:
+                        Math.round(localX),
+
+                    y:
+                        Math.round(
+                            Math.max(
+                                GROUND_Y,
+                                localY
+                            )
+                        ),
+
+                    grounded:
+                        onGround,
+
+                    moving:
+                        leftPressed ||
+                        rightPressed,
+
+                    direction
+
+                }
+            )
+            .catch(
+                error =>
+                    console.warn(
+                        "Bossy movement sync failed:",
+                        error
+                    )
+            );
+
+        },
+        1000 / UPDATE_RATE
+    );
+
 }
 
-.bossy-bottom-bar strong {
-    color: #a8a29e;
 
-    font-size: 11px;
-    font-weight: 950;
+/* =========================================================
+   FIREBASE PLAYERS
+========================================================= */
 
-    letter-spacing: .08em;
+function listenForPlayers() {
+
+    const playersRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players`
+        );
+
+
+    onValue(
+        playersRef,
+        snapshot => {
+
+            renderPlayers(
+                snapshot.val() || {}
+            );
+
+
+            connectionElement.textContent =
+                "Connected";
+
+            connectionElement.className =
+                "connection-status connected";
+
+        },
+        error => {
+
+            console.error(
+                "Bossy listener failed:",
+                error
+            );
+
+
+            connectionElement.textContent =
+                "Connection error";
+
+            connectionElement.className =
+                "connection-status error";
+
+        }
+    );
+
 }
 
-.bossy-bottom-bar span {
-    color: #fed7aa;
 
-    font-size: 13px;
-    font-weight: 900;
+/* =========================================================
+   SHOW GAME
+========================================================= */
 
-    letter-spacing: .12em;
-}
+function showGame() {
 
-.local-player-name {
-    color: #fb923c !important;
-    letter-spacing: normal !important;
+    loadingScreen.style.display =
+        "none";
+
+    errorScreen.style.display =
+        "none";
+
+    gameWorld.style.display =
+        "flex";
+
 }
 
 
@@ -1656,233 +1818,209 @@ body {
    ERROR
 ========================================================= */
 
-.bossy-error {
-    position: absolute;
-    inset: 0;
+function showError(message) {
 
-    z-index: 100;
+    loadingScreen.style.display =
+        "none";
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gameWorld.style.display =
+        "none";
 
-    padding: 30px;
+    errorScreen.style.display =
+        "flex";
 
-    background:
-        radial-gradient(
-            circle at center,
-            #7f1d1d,
-            #180606 70%
+    errorMessage.textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+async function startBossy() {
+
+    try {
+
+        if (
+            !loadingScreen ||
+            !gameWorld ||
+            !errorScreen ||
+            !playersContainer
+        ) {
+
+            throw new Error(
+                "Bossy could not find the required game elements."
+            );
+
+        }
+
+
+        if (!lobbyCode) {
+
+            showError(
+                "No lobby code was provided. Return to the games page and try again."
+            );
+
+            return;
+
+        }
+
+
+        lobbyCodeElement.textContent =
+            lobbyCode;
+
+
+        loadingStatus.textContent =
+            "Finding your lobby...";
+
+
+        const lobbyRef =
+            ref(
+                db,
+                `lobbies/${lobbyCode}`
+            );
+
+
+        const snapshot =
+            await withTimeout(
+                get(lobbyRef),
+                FIREBASE_TIMEOUT,
+                "Firebase did not respond while finding the lobby."
+            );
+
+
+        if (!snapshot.exists()) {
+
+            showError(
+                "That lobby no longer exists."
+            );
+
+            return;
+
+        }
+
+
+        const lobby =
+            snapshot.val() || {};
+
+
+        if (
+            String(
+                lobby.game || ""
+            ).toLowerCase() !== "bossy"
+        ) {
+
+            showError(
+                "This lobby isn't a Bossy game."
+            );
+
+            return;
+
+        }
+
+
+        loadingStatus.textContent =
+            "Loading players...";
+
+
+        const existingPlayers =
+            lobby.players || {};
+
+
+        showGame();
+
+        connectionElement.textContent =
+            "Connecting...";
+
+        connectionElement.className =
+            "connection-status";
+
+
+        setupControls();
+
+
+        try {
+
+            await registerLocalPlayer(
+                existingPlayers
+            );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Bossy registration failed:",
+                error
+            );
+
+            connectionElement.textContent =
+                "Connection problem";
+
+            connectionElement.className =
+                "connection-status error";
+
+        }
+
+
+        listenForPlayers();
+
+        startPhysics();
+
+
+        if (
+            !playerElements.has(playerId)
+        ) {
+
+            createPlayerElement(
+                playerId,
+                {
+
+                    name: username,
+
+                    characterId:
+                        equippedCharacterId,
+
+                    titleId:
+                        equippedTitleId,
+
+                    effectId:
+                        equippedEffectId,
+
+                    x: localX,
+
+                    y: localY,
+
+                    grounded: true,
+
+                    moving: false,
+
+                    direction: "right"
+
+                }
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Bossy failed to load:",
+            error
         );
 
-    text-align: center;
-}
 
-.error-icon {
-    font-size: 60px;
-    margin-bottom: 15px;
-}
+        showError(
+            error?.message ||
+            "Couldn't connect to the multiplayer game."
+        );
 
-.bossy-error h1 {
-    margin: 0 0 10px;
+    }
 
-    font-size: 28px;
-    font-weight: 1000;
-}
-
-.bossy-error p {
-    max-width: 500px;
-
-    margin: 0 0 25px;
-
-    color: #fed7aa;
-
-    line-height: 1.5;
-}
-
-.back-button {
-    display: inline-block;
-
-    padding: 12px 18px;
-
-    border-radius: 12px;
-
-    background: #c2410c;
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 900;
 }
 
 
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes bossySpin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes gooberIdle {
-    0%, 100% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1);
-    }
-
-    50% {
-        transform:
-            translateY(-3px)
-            scaleX(1.015)
-            scaleY(.985);
-    }
-}
-
-@keyframes gooberWalk {
-    0%, 100% {
-        transform:
-            translateY(0)
-            rotate(-3deg)
-            scaleX(1)
-            scaleY(.96);
-    }
-
-    50% {
-        transform:
-            translateY(-8px)
-            rotate(3deg)
-            scaleX(1.04)
-            scaleY(.92);
-    }
-}
-
-@keyframes gooberJump {
-    0% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(.88);
-    }
-
-    40% {
-        transform:
-            translateY(-4px)
-            scaleX(.96)
-            scaleY(1.04);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1);
-    }
-}
-
-@keyframes flameFlicker {
-    from {
-        transform:
-            scaleY(.85)
-            rotate(-5deg);
-    }
-
-    to {
-        transform:
-            scaleY(1.12)
-            rotate(5deg);
-    }
-}
-
-@keyframes cosmicPulse {
-    from {
-        opacity: .3;
-
-        transform:
-            translate(-50%, -50%)
-            scale(.94);
-    }
-
-    to {
-        opacity: .85;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1.06);
-    }
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .bossy-hud {
-        height: 56px;
-        padding: 0 14px;
-    }
-
-    .bossy-brand {
-        font-size: 13px;
-    }
-
-    .bossy-title {
-        font-size: 18px;
-    }
-
-    .bossy-hud-right {
-        gap: 7px;
-    }
-
-    #bossy-player-count {
-        padding: 5px 8px;
-        font-size: 10px;
-    }
-
-    .connection-status {
-        display: none;
-    }
-
-    .controls-hint {
-        bottom: 60px;
-        font-size: 9px;
-    }
-
-    .bossy-bottom-bar {
-        height: 44px;
-        padding: 0 14px;
-    }
-}
-
-@media (max-width: 450px) {
-
-    .bossy-brand {
-        display: none;
-    }
-
-    .bossy-title {
-        left: 14px;
-        transform: none;
-    }
-
-    .bossy-bottom-bar {
-        display: none;
-    }
-
-    .controls-hint {
-        bottom: 15px;
-    }
-}
+startBossy();
 ```
