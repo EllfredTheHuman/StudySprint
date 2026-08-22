@@ -1,6 +1,7 @@
+```css
 /* =========================================================
    STUDYSPRINT — BOSSY
-   Side-view multiplayer game
+   Multiplayer side-view game
 ========================================================= */
 
 
@@ -12,37 +13,34 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
-    margin: 0;
-    padding: 0;
-
     width: 100%;
     height: 100%;
+
+    margin: 0;
+    padding: 0;
 
     overflow: hidden;
 }
 
 
-/* =========================================================
-   BODY
-========================================================= */
-
 body {
-    background:
-        #0f172a;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+
+    background:
+        #090d20;
 
     color: white;
 }
 
 
 /* =========================================================
-   GAME ROOT
+   GAME
 ========================================================= */
 
 #bossy-game {
@@ -52,12 +50,102 @@ body {
 
     width: 100vw;
     height: 100vh;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.bossy-loading {
+    position: fixed;
+
+    inset: 0;
 
     display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #27358a 0%,
+            #111735 45%,
+            #080b19 100%
+        );
+
+    text-align: center;
+}
+
+
+.bossy-loading h1 {
+    margin:
+        22px 0 8px;
+
+    font-size:
+        clamp(28px, 5vw, 48px);
+
+    font-weight:
+        1000;
+}
+
+
+.bossy-loading p {
+    margin: 0;
+
+    color:
+        #aab4df;
+
+    font-size:
+        15px;
+
+    font-weight:
+        700;
+}
+
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+
+    border:
+        5px solid
+        rgba(255,255,255,.12);
+
+    border-top-color:
+        #8b8cff;
+
+    border-radius:
+        50%;
+
+    animation:
+        bossySpin
+        .75s linear infinite;
+}
+
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+.bossy-world {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+
     flex-direction: column;
 
     background:
-        #0f172a;
+        #10162f;
 }
 
 
@@ -68,48 +156,45 @@ body {
 .bossy-hud {
     position: relative;
 
-    z-index: 20;
+    z-index: 100;
 
-    height: 64px;
+    height: 68px;
 
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 0 24px;
+    padding:
+        0 24px;
 
     background:
-        rgba(15, 23, 42, .94);
+        rgba(8, 11, 30, .94);
 
     border-bottom:
         1px solid
-        rgba(255, 255, 255, .08);
+        rgba(255,255,255,.08);
 
     box-shadow:
-        0 5px 20px
-        rgba(0, 0, 0, .25);
+        0 8px 25px
+        rgba(0,0,0,.25);
 }
 
-
-/* =========================================================
-   BRAND
-========================================================= */
 
 .bossy-brand {
-    font-size: 17px;
-
-    font-weight: 900;
-
     color:
         #a5b4fc;
+
+    font-size:
+        17px;
+
+    font-weight:
+        1000;
 }
 
-
-/* =========================================================
-   GAME TITLE
-========================================================= */
 
 .bossy-title {
     position: absolute;
@@ -119,52 +204,75 @@ body {
     transform:
         translateX(-50%);
 
-    font-size: 23px;
+    font-size:
+        24px;
 
-    font-weight: 1000;
+    font-weight:
+        1000;
 
-    letter-spacing: .08em;
-
-    color: white;
+    letter-spacing:
+        .12em;
 
     text-shadow:
-        0 0 15px
-        rgba(129, 140, 248, .5);
+        0 0 20px
+        rgba(129,140,248,.65);
 }
 
 
-/* =========================================================
-   PLAYER COUNT
-========================================================= */
+.bossy-lobby {
+    display: flex;
 
-.bossy-player-count {
+    align-items: center;
+
+    gap: 9px;
+
     padding:
-        7px 12px;
+        8px 12px;
 
     border-radius:
-        999px;
+        12px;
 
     background:
-        rgba(129, 140, 248, .12);
+        rgba(129,140,248,.1);
 
     border:
         1px solid
-        rgba(129, 140, 248, .25);
+        rgba(129,140,248,.2);
+}
 
+
+.bossy-lobby span {
+    color:
+        #7f8bb5;
+
+    font-size:
+        10px;
+
+    font-weight:
+        1000;
+
+    letter-spacing:
+        .12em;
+}
+
+
+.bossy-lobby strong {
     color:
         #c7d2fe;
 
-    font-size: 13px;
+    font-size:
+        14px;
 
-    font-weight: 900;
+    letter-spacing:
+        .12em;
 }
 
 
 /* =========================================================
-   GAME CONTAINER
+   MAP
 ========================================================= */
 
-.game-container {
+.game-map {
     position: relative;
 
     flex: 1;
@@ -174,153 +282,604 @@ body {
     overflow: hidden;
 
     background:
-        #172554;
+        #26378a;
 }
 
 
 /* =========================================================
-   CANVAS
+   SKY
 ========================================================= */
 
-#game-canvas {
+.sky {
     position: absolute;
 
     inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    /*
-       Prevent blurry scaling and accidental
-       browser interactions.
-    */
-
-    image-rendering:
-        auto;
-
-    user-select: none;
-
-    touch-action: none;
-}
-
-
-/* =========================================================
-   LOADING SCREEN
-========================================================= */
-
-.game-loading {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 15;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
 
     background:
-        radial-gradient(
-            circle at center,
-            rgba(30, 41, 59, .88),
-            rgba(15, 23, 42, .98)
+        linear-gradient(
+            180deg,
+            #141b48 0%,
+            #263b91 45%,
+            #536ac1 100%
         );
-
-    text-align: center;
-}
-
-
-.game-loading h2 {
-    margin:
-        18px 0 6px;
-
-    font-size: 26px;
-
-    font-weight: 1000;
-}
-
-
-.game-loading p {
-    margin: 0;
-
-    color:
-        #94a3b8;
-
-    font-size: 14px;
-
-    font-weight: 700;
 }
 
 
 /* =========================================================
-   LOADING SPINNER
+   GLOW
 ========================================================= */
 
-.loading-spinner {
-    width: 42px;
-    height: 42px;
+.game-map::after {
+    content: "";
 
-    border:
-        4px solid
-        rgba(255, 255, 255, .12);
+    position: absolute;
 
-    border-top-color:
-        #818cf8;
+    left: 50%;
+    top: 10%;
+
+    width: 450px;
+    height: 450px;
+
+    transform:
+        translateX(-50%);
 
     border-radius:
         50%;
 
-    animation:
-        bossySpin
-        .8s linear infinite;
+    background:
+        radial-gradient(
+            circle,
+            rgba(160,180,255,.18),
+            transparent 70%
+        );
+
+    pointer-events:
+        none;
 }
 
 
 /* =========================================================
-   GAME MESSAGE
+   MOUNTAINS
 ========================================================= */
 
-.game-message {
+.mountain {
+    position: absolute;
+
+    bottom: 110px;
+
+    width: 0;
+    height: 0;
+
+    border-left:
+        190px solid transparent;
+
+    border-right:
+        190px solid transparent;
+
+    border-bottom:
+        250px solid
+        rgba(19,31,78,.55);
+}
+
+
+.mountain-one {
+    left: 8%;
+}
+
+
+.mountain-two {
+    right: 12%;
+
+    transform:
+        scale(1.25);
+}
+
+
+/* =========================================================
+   CLOUDS
+========================================================= */
+
+.cloud {
+    position: absolute;
+
+    width: 130px;
+    height: 35px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(255,255,255,.1);
+
+    filter:
+        blur(1px);
+}
+
+
+.cloud::before,
+.cloud::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius:
+        50%;
+
+    background:
+        inherit;
+}
+
+
+.cloud::before {
+    width: 55px;
+    height: 55px;
+
+    left: 25px;
+    bottom: 5px;
+}
+
+
+.cloud::after {
+    width: 75px;
+    height: 75px;
+
+    left: 58px;
+    bottom: 0;
+}
+
+
+.cloud-one {
+    top: 18%;
+
+    left: 12%;
+
+    opacity: .6;
+}
+
+
+.cloud-two {
+    top: 28%;
+
+    right: 15%;
+
+    transform:
+        scale(.8);
+
+    opacity: .45;
+}
+
+
+.cloud-three {
+    top: 10%;
+
+    right: 40%;
+
+    transform:
+        scale(.6);
+
+    opacity: .3;
+}
+
+
+/* =========================================================
+   GROUND
+========================================================= */
+
+.ground {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 105px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #18234c,
+            #0c122d
+        );
+
+    border-top:
+        5px solid
+        #6877d8;
+
+    box-shadow:
+        0 -8px 25px
+        rgba(91,104,210,.25);
+}
+
+
+.ground-top {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: -5px;
+
+    height: 5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #a5b4fc,
+            #818cf8,
+            #a5b4fc
+        );
+
+    box-shadow:
+        0 0 15px
+        rgba(129,140,248,.8);
+}
+
+
+/* =========================================================
+   PLAYERS CONTAINER
+========================================================= */
+
+.players-container {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.bossy-player {
+    position: absolute;
+
+    width: 70px;
+    height: 105px;
+
+    transform:
+        translateY(0);
+
+    transition:
+        left .03s linear,
+        bottom .03s linear;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   PLAYER NAME
+========================================================= */
+
+.bossy-player-name {
     position: absolute;
 
     left: 50%;
-    top: 50%;
+    top: 0;
 
     transform:
-        translate(-50%, -50%);
+        translateX(-50%);
 
-    z-index: 30;
+    max-width: 140px;
 
     padding:
-        18px 28px;
+        5px 9px;
 
     border-radius:
-        16px;
+        8px;
 
     background:
-        rgba(15, 23, 42, .92);
+        rgba(7,10,28,.8);
 
     border:
         1px solid
-        rgba(255, 255, 255, .12);
+        rgba(255,255,255,.1);
+
+    color:
+        white;
+
+    font-size:
+        11px;
+
+    font-weight:
+        900;
+
+    white-space:
+        nowrap;
+
+    text-overflow:
+        ellipsis;
+
+    overflow:
+        hidden;
 
     box-shadow:
-        0 15px 50px
-        rgba(0, 0, 0, .35);
+        0 4px 12px
+        rgba(0,0,0,.25);
+}
 
-    color: white;
 
-    font-size: 18px;
+.local-player .bossy-player-name {
+    border-color:
+        #818cf8;
 
-    font-weight: 900;
+    box-shadow:
+        0 0 12px
+        rgba(129,140,248,.35);
+}
 
-    text-align: center;
+
+/* =========================================================
+   HOST BADGE
+========================================================= */
+
+.bossy-host-badge {
+    margin-left:
+        5px;
+
+    color:
+        #fcd34d;
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        .04em;
+}
+
+
+/* =========================================================
+   CHARACTER
+========================================================= */
+
+.bossy-character {
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    width: 58px;
+    height: 68px;
+
+    transform:
+        translateX(-50%);
+
+    filter:
+        drop-shadow(
+            0 7px 5px
+            rgba(0,0,0,.35)
+        );
+}
+
+
+/* =========================================================
+   CHARACTER BODY
+========================================================= */
+
+.character-body {
+    position: absolute;
+
+    left: 50%;
+    bottom: 5px;
+
+    width: 54px;
+    height: 54px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        42% 42% 38% 38%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #8cffc1,
+            #38c982
+        );
+
+    border:
+        3px solid
+        rgba(5,60,43,.8);
+
+    box-shadow:
+        inset 0 -8px 0
+        rgba(0,0,0,.1),
+
+        0 0 0 3px
+        rgba(255,255,255,.08);
+}
+
+
+/* =========================================================
+   CHARACTER EYES
+========================================================= */
+
+.character-eye {
+    position: absolute;
+
+    top: 22px;
+
+    width: 9px;
+    height: 13px;
+
+    border-radius:
+        50%;
+
+    background:
+        #111827;
+
+    z-index: 3;
+}
+
+
+.eye-left {
+    left: 18px;
+}
+
+
+.eye-right {
+    right: 18px;
+}
+
+
+.character-eye::after {
+    content: "";
+
+    position: absolute;
+
+    left: 2px;
+    top: 2px;
+
+    width: 3px;
+    height: 3px;
+
+    border-radius:
+        50%;
+
+    background:
+        white;
+}
+
+
+/* =========================================================
+   FEET
+========================================================= */
+
+.character-foot {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 18px;
+    height: 9px;
+
+    border-radius:
+        50%;
+
+    background:
+        #26324c;
+}
+
+
+.foot-left {
+    left: 9px;
+}
+
+
+.foot-right {
+    right: 9px;
+}
+
+
+/* =========================================================
+   CHARACTER VARIANTS
+========================================================= */
+
+.character-leafy .character-body {
+    background:
+        linear-gradient(
+            145deg,
+            #a7f3d0,
+            #22c55e
+        );
+}
+
+
+.character-spark .character-body {
+    background:
+        linear-gradient(
+            145deg,
+            #fde68a,
+            #f59e0b
+        );
+}
+
+
+.character-blue .character-body {
+    background:
+        linear-gradient(
+            145deg,
+            #93c5fd,
+            #3b82f6
+        );
+}
+
+
+.character-pink .character-body {
+    background:
+        linear-gradient(
+            145deg,
+            #f9a8d4,
+            #ec4899
+        );
+}
+
+
+.character-purple .character-body {
+    background:
+        linear-gradient(
+            145deg,
+            #c4b5fd,
+            #8b5cf6
+        );
+}
+
+
+/* =========================================================
+   LOCAL PLAYER GLOW
+========================================================= */
+
+.local-player .bossy-character {
+    filter:
+        drop-shadow(
+            0 0 9px
+            rgba(129,140,248,.8)
+        );
+}
+
+
+/* =========================================================
+   PLAYER COUNT
+========================================================= */
+
+.player-count {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    z-index: 50;
+
+    padding:
+        9px 13px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(8,11,30,.65);
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    backdrop-filter:
+        blur(10px);
+
+    color:
+        #cbd5e1;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
 }
 
 
@@ -332,18 +891,18 @@ body {
     position: absolute;
 
     left: 50%;
-    bottom: 18px;
+    bottom: 20px;
 
     transform:
         translateX(-50%);
 
-    z-index: 10;
+    z-index: 50;
 
     display: flex;
 
     align-items: center;
 
-    gap: 8px;
+    gap: 7px;
 
     padding:
         9px 14px;
@@ -352,140 +911,165 @@ body {
         999px;
 
     background:
-        rgba(15, 23, 42, .72);
+        rgba(8,11,30,.72);
 
     border:
         1px solid
-        rgba(255, 255, 255, .1);
+        rgba(255,255,255,.1);
 
     backdrop-filter:
-        blur(8px);
+        blur(10px);
 
     color:
         #cbd5e1;
 
-    font-size: 12px;
+    font-size:
+        11px;
 
-    font-weight: 700;
+    font-weight:
+        800;
 
-    white-space: nowrap;
-
-    pointer-events: none;
+    white-space:
+        nowrap;
 }
 
 
-.controls-hint span {
+.key {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 25px;
+    height: 25px;
+
     padding:
-        4px 7px;
+        0 6px;
 
     border-radius:
         6px;
 
     background:
-        rgba(255, 255, 255, .12);
+        rgba(255,255,255,.12);
 
     border:
         1px solid
-        rgba(255, 255, 255, .1);
+        rgba(255,255,255,.15);
 
-    color: white;
+    color:
+        white;
 
-    font-size: 11px;
+    font-size:
+        10px;
 
-    font-weight: 900;
+    font-weight:
+        1000;
+}
 
-    letter-spacing: .03em;
+
+.key.space {
+    min-width:
+        55px;
 }
 
 
 /* =========================================================
-   BOTTOM BAR
+   ERROR
 ========================================================= */
 
-.bossy-bottom-bar {
-    position: relative;
+.bossy-error {
+    position: fixed;
 
-    z-index: 20;
-
-    height: 50px;
-
-    flex-shrink: 0;
+    inset: 0;
 
     display: flex;
 
-    align-items: center;
+    flex-direction: column;
 
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
 
     padding:
-        0 22px;
+        30px;
 
     background:
-        rgba(15, 23, 42, .96);
+        radial-gradient(
+            circle at center,
+            #252c5e,
+            #090d20
+        );
 
-    border-top:
-        1px solid
-        rgba(255, 255, 255, .08);
+    text-align:
+        center;
+}
+
+
+.error-icon {
+    font-size:
+        60px;
+
+    margin-bottom:
+        15px;
+}
+
+
+.bossy-error h1 {
+    margin:
+        0 0 10px;
+
+    font-size:
+        32px;
+
+    font-weight:
+        1000;
+}
+
+
+.bossy-error p {
+    max-width:
+        500px;
+
+    margin:
+        0 0 25px;
 
     color:
-        #e2e8f0;
+        #aab4df;
+
+    line-height:
+        1.5;
 }
 
 
-.bossy-bottom-bar > div:first-child {
-    display: flex;
+.back-button {
+    display:
+        inline-block;
 
-    align-items: center;
+    padding:
+        13px 20px;
 
-    gap: 8px;
-}
+    border-radius:
+        12px;
 
+    background:
+        #6366f1;
 
-.bossy-bottom-bar strong {
-    font-size: 13px;
-
-    font-weight: 900;
-}
-
-
-.bossy-bottom-bar span {
     color:
-        #64748b;
+        white;
 
-    font-size: 11px;
+    text-decoration:
+        none;
 
-    font-weight: 800;
+    font-weight:
+        900;
+
+    box-shadow:
+        0 8px 20px
+        rgba(99,102,241,.3);
 }
 
 
 /* =========================================================
-   CONNECTION STATUS
-========================================================= */
-
-.connection-status {
-    color:
-        #fbbf24 !important;
-
-    font-size: 11px !important;
-
-    font-weight: 900 !important;
-}
-
-
-.connection-status.connected {
-    color:
-        #4ade80 !important;
-}
-
-
-.connection-status.error {
-    color:
-        #f87171 !important;
-}
-
-
-/* =========================================================
-   ANIMATIONS
+   ANIMATION
 ========================================================= */
 
 @keyframes bossySpin {
@@ -507,71 +1091,85 @@ body {
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 700px) {
-
-    .bossy-hud {
-        height: 56px;
-
-        padding:
-            0 14px;
-    }
-
+@media (max-width: 650px) {
 
     .bossy-brand {
-        font-size: 14px;
+        display:
+            none;
     }
 
 
     .bossy-title {
-        font-size: 18px;
+        left:
+            16px;
+
+        transform:
+            none;
+
+        font-size:
+            20px;
     }
 
 
-    .bossy-player-count {
-        padding:
-            6px 9px;
-
-        font-size: 11px;
-    }
-
-
-    .bossy-bottom-bar {
-        height: 44px;
+    .bossy-hud {
+        height:
+            58px;
 
         padding:
             0 14px;
+    }
+
+
+    .bossy-lobby {
+        padding:
+            6px 9px;
     }
 
 
     .controls-hint {
-        bottom: 12px;
+        bottom:
+            12px;
 
-        font-size: 10px;
+        gap:
+            4px;
+
+        padding:
+            7px 9px;
+
+        font-size:
+            9px;
+    }
+
+
+    .player-count {
+        top:
+            12px;
+
+        right:
+            12px;
     }
 
 }
 
-
-/* =========================================================
-   VERY SMALL SCREENS
-========================================================= */
 
 @media (max-width: 450px) {
 
-    .bossy-brand {
-        display: none;
+    .bossy-lobby span {
+        display:
+            none;
     }
 
 
-    .bossy-title {
-        left: 14px;
-
-        transform: none;
+    .bossy-lobby strong {
+        font-size:
+            11px;
     }
 
 
-    .bossy-bottom-bar {
-        display: none;
+    .controls-hint span:not(.key) {
+        display:
+            none;
     }
 
 }
+```
