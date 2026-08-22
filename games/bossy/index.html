@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bossy | StudySprint</title>
+
+    <link
+        rel="stylesheet"
+        href="../../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="bossy.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     GAME
+========================================================= -->
+
+<main id="bossy-game">
+
+
+    <!-- =====================================================
+         TOP HUD
+    ====================================================== -->
+
+    <div class="bossy-hud">
+
+        <div class="bossy-brand">
+            🚀 StudySprint
+        </div>
+
+        <div class="bossy-title">
+            BOSSY
+        </div>
+
+        <div
+            id="player-count"
+            class="bossy-player-count"
+        >
+            0 Players
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         GAME WORLD
+    ====================================================== -->
+
+    <div
+        id="game-container"
+        class="game-container"
+    >
+
+        <canvas
+            id="game-canvas"
+            width="1280"
+            height="720"
+        ></canvas>
+
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
+        <div
+            id="game-loading"
+            class="game-loading"
+        >
+
+            <div class="loading-spinner"></div>
+
+            <h2>
+                Loading Bossy...
+            </h2>
+
+            <p>
+                Loading players
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             GAME MESSAGE
+        ================================================== -->
+
+        <div
+            id="game-message"
+            class="game-message"
+            style="display: none;"
+        ></div>
+
+
+        <!-- =================================================
+             CONTROLS
+        ================================================== -->
+
+        <div class="controls-hint">
+
+            <span>
+                A / D
+            </span>
+
+            Move
+
+            <span>
+                SPACE
+            </span>
+
+            Jump
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         PLAYER INFORMATION
+    ====================================================== -->
+
+    <div class="bossy-bottom-bar">
+
+        <div>
+
+            <strong id="local-player-name">
+                Player
+            </strong>
+
+            <span>
+                You
+            </span>
+
+        </div>
+
+
+        <div
+            id="connection-status"
+            class="connection-status"
+        >
+
+            ● Connecting...
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script
+    type="module"
+    src="bossy.js"
+></script>
+
+
+</body>
+
+</html>
