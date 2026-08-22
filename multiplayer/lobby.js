@@ -1,5 +1,14 @@
 /* =========================================================
    STUDYSPRINT MULTIPLAYER LOBBY
+
+   Handles:
+   - Joining a lobby
+   - Player information
+   - Cosmetics
+   - Host detection
+   - Real-time syncing
+   - Countdown
+   - Leaving
 ========================================================= */
 
 import { db } from "../firebase.js";
@@ -20,104 +29,50 @@ import {
 ========================================================= */
 
 const gameNameElement =
-    document.getElementById(
-        "game-name"
-    );
+    document.getElementById("game-name");
+
+const gameIconElement =
+    document.getElementById("game-icon");
 
 const lobbyStatusElement =
-    document.getElementById(
-        "lobby-status"
-    );
+    document.getElementById("lobby-status");
 
 const lobbyCodeElement =
-    document.getElementById(
-        "lobby-code"
-    );
+    document.getElementById("lobby-code");
 
 const copyCodeButton =
-    document.getElementById(
-        "copy-code"
-    );
+    document.getElementById("copy-code");
 
 const playersListElement =
-    document.getElementById(
-        "players-list"
-    );
+    document.getElementById("players-list");
 
 const playerCountElement =
-    document.getElementById(
-        "player-count"
-    );
+    document.getElementById("player-count");
 
 const hostControls =
-    document.getElementById(
-        "host-controls"
-    );
+    document.getElementById("host-controls");
 
 const startGameButton =
-    document.getElementById(
-        "start-game"
-    );
+    document.getElementById("start-game");
 
 const waitingMessage =
-    document.getElementById(
-        "waiting-message"
-    );
+    document.getElementById("waiting-message");
 
 const leaveLobbyButton =
-    document.getElementById(
-        "leave-lobby"
-    );
+    document.getElementById("leave-lobby");
+
+const countdownOverlay =
+    document.getElementById("countdown-overlay");
+
+const countdownNumber =
+    document.getElementById("countdown-number");
+
+const countdownGame =
+    document.getElementById("countdown-game");
 
 
 /* =========================================================
-   PLAYER ID
-========================================================= */
-
-function getPlayerId() {
-
-    let id =
-        localStorage.getItem(
-            "studySprintPlayerId"
-        );
-
-
-    if (!id) {
-
-        id =
-            crypto.randomUUID();
-
-
-        localStorage.setItem(
-            "studySprintPlayerId",
-            id
-        );
-
-    }
-
-
-    return id;
-
-}
-
-
-const playerId =
-    getPlayerId();
-
-
-/* =========================================================
-   PLAYER NAME
-========================================================= */
-
-const playerName =
-    localStorage.getItem(
-        "username"
-    ) ||
-    "Player";
-
-
-/* =========================================================
-   LOBBY CODE
+   LOBBY INFORMATION
 ========================================================= */
 
 const params =
@@ -135,8 +90,34 @@ const lobbyCode =
         .toUpperCase();
 
 
+/*
+   IMPORTANT:
+
+   The games page stores the player ID when
+   the player creates/joins a lobby.
+
+   We MUST reuse that ID.
+
+   Otherwise the host gets one ID when creating
+   the lobby and another ID when entering it.
+*/
+
+const playerId =
+    sessionStorage.getItem(
+        "studySprintPlayerId"
+    ) ||
+    localStorage.getItem(
+        "studySprintPlayerId"
+    );
+
+
+const playerName =
+    localStorage.getItem("username") ||
+    "Player";
+
+
 /* =========================================================
-   GAME NAMES
+   GAME INFORMATION
 ========================================================= */
 
 const GAME_NAMES = {
@@ -174,6 +155,41 @@ const GAME_NAMES = {
 };
 
 
+const GAME_ICONS = {
+
+    islands:
+        "🏝️",
+
+    modifiers:
+        "⚡",
+
+    "tower-defense":
+        "🏰",
+
+    protection:
+        "🛡️",
+
+    bossy:
+        "👹",
+
+    "bot-builder":
+        "🤖",
+
+    influenced:
+        "🎭",
+
+    "platform-battles":
+        "⚔️",
+
+    battle:
+        "💥",
+
+    gardeners:
+        "🌱"
+
+};
+
+
 /* =========================================================
    STATE
 ========================================================= */
@@ -181,6 +197,8 @@ const GAME_NAMES = {
 let lobbyData = null;
 
 let playerIsHost = false;
+
+let countdownRunning = false;
 
 
 /* =========================================================
@@ -191,6 +209,13 @@ if (!lobbyCode) {
 
     showError(
         "No lobby code was provided."
+    );
+
+}
+else if (!playerId) {
+
+    showError(
+        "Player information could not be found."
     );
 
 }
@@ -246,10 +271,6 @@ async function initialiseLobby() {
             "Connecting...";
 
 
-        lobbyCodeElement.textContent =
-            lobbyCode;
-
-
         const lobbyRef =
             ref(
                 db,
@@ -258,14 +279,10 @@ async function initialiseLobby() {
 
 
         const snapshot =
-            await get(
-                lobbyRef
-            );
+            await get(lobbyRef);
 
 
-        if (
-            !snapshot.exists()
-        ) {
+        if (!snapshot.exists()) {
 
             showError(
                 "This lobby doesn't exist."
@@ -280,10 +297,6 @@ async function initialiseLobby() {
             snapshot.val();
 
 
-        /* =============================================
-           GAME
-        ============================================== */
-
         const game =
             lobbyData.game ||
             "unknown";
@@ -294,52 +307,41 @@ async function initialiseLobby() {
             game;
 
 
-        /* =============================================
-           ALREADY STARTED
-        ============================================== */
+        gameIconElement.textContent =
+            GAME_ICONS[game] ||
+            "🎮";
 
-        if (
-            lobbyData.started === true
-        ) {
 
-            handleGameStarted(
-                lobbyData
+        lobbyCodeElement.textContent =
+            lobbyCode;
+
+
+        /*
+           If this player is already in the lobby,
+           don't create a duplicate entry.
+        */
+
+        const existingPlayer =
+            lobbyData.players &&
+            lobbyData.players[playerId];
+
+
+        if (!existingPlayer) {
+
+            await addPlayer(
+                lobbyRef
             );
-
-            return;
 
         }
 
 
-        /* =============================================
-           MAKE SURE PLAYER EXISTS
-        ============================================== */
+        /*
+           Make sure the host is correctly identified.
+        */
 
-        await ensurePlayerExists(
-            lobbyRef,
-            lobbyData
-        );
+        playerIsHost =
+            lobbyData.hostId === playerId;
 
-
-        /* =============================================
-           DISCONNECT HANDLER
-        ============================================== */
-
-        const playerRef =
-            ref(
-                db,
-                `lobbies/${lobbyCode}/players/${playerId}`
-            );
-
-
-        await onDisconnect(
-            playerRef
-        ).remove();
-
-
-        /* =============================================
-           LISTEN
-        ============================================== */
 
         listenToLobby(
             lobbyRef
@@ -354,7 +356,6 @@ async function initialiseLobby() {
             error
         );
 
-
         showError(
             "Could not connect to the lobby."
         );
@@ -365,47 +366,18 @@ async function initialiseLobby() {
 
 
 /* =========================================================
-   ENSURE PLAYER EXISTS
+   ADD PLAYER
 ========================================================= */
 
-async function ensurePlayerExists(
-    lobbyRef,
-    data
+async function addPlayer(
+    lobbyRef
 ) {
 
-    const players =
-        data.players ||
-        {};
-
-
-    /*
-       The host is already created by games.js.
-
-       If this browser is already the host,
-       DO NOT create another player.
-    */
-
-    if (
-        data.hostId === playerId
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-       If this player is already in the lobby,
-       don't overwrite them.
-    */
-
-    if (
-        players[playerId]
-    ) {
-
-        return;
-
-    }
+    const playerRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players/${playerId}`
+        );
 
 
     const cosmetics =
@@ -413,10 +385,7 @@ async function ensurePlayerExists(
 
 
     await set(
-        ref(
-            db,
-            `lobbies/${lobbyCode}/players/${playerId}`
-        ),
+        playerRef,
         {
 
             id:
@@ -437,14 +406,16 @@ async function ensurePlayerExists(
             effect:
                 cosmetics.effect,
 
-            isHost:
-                false,
-
             joinedAt:
                 Date.now()
 
         }
     );
+
+
+    await onDisconnect(
+        playerRef
+    ).remove();
 
 }
 
@@ -461,9 +432,7 @@ function listenToLobby(
         lobbyRef,
         function(snapshot) {
 
-            if (
-                !snapshot.exists()
-            ) {
+            if (!snapshot.exists()) {
 
                 showError(
                     "The lobby no longer exists."
@@ -484,11 +453,13 @@ function listenToLobby(
 
 
             if (
-                lobbyData.started === true
+                lobbyData.startAt &&
+                !countdownRunning
             ) {
 
-                handleGameStarted(
-                    lobbyData
+                startCountdown(
+                    lobbyData.startAt,
+                    lobbyData.game
                 );
 
             }
@@ -507,10 +478,6 @@ function updateLobbyUI(
     data
 ) {
 
-    /* =============================================
-       GAME
-    ============================================== */
-
     const game =
         data.game ||
         "unknown";
@@ -521,17 +488,14 @@ function updateLobbyUI(
         game;
 
 
-    /* =============================================
-       CODE
-    ============================================== */
+    gameIconElement.textContent =
+        GAME_ICONS[game] ||
+        "🎮";
+
 
     lobbyCodeElement.textContent =
         lobbyCode;
 
-
-    /* =============================================
-       PLAYERS
-    ============================================== */
 
     const players =
         data.players ||
@@ -557,9 +521,7 @@ function updateLobbyUI(
     ) {
 
         const empty =
-            document.createElement(
-                "p"
-            );
+            document.createElement("div");
 
 
         empty.className =
@@ -583,62 +545,47 @@ function updateLobbyUI(
             player
         ]) {
 
-            const playerElement =
-                document.createElement(
-                    "div"
-                );
+            const card =
+                document.createElement("div");
 
 
-            playerElement.className =
+            card.className =
                 "player-item";
 
 
-            /* =====================================
-               CHARACTER
-            ====================================== */
+            /* CHARACTER */
 
-            const characterElement =
-                document.createElement(
-                    "div"
-                );
+            const character =
+                document.createElement("div");
 
 
-            characterElement.className =
+            character.className =
                 "player-character";
 
 
-            characterElement.dataset.character =
+            character.dataset.character =
                 player.character ||
                 "leafy";
 
 
-            characterElement.dataset.banner =
+            character.dataset.banner =
                 player.banner ||
                 "purple-grid";
 
 
-            characterElement.dataset.title =
-                player.title ||
-                "none";
-
-
-            characterElement.dataset.effect =
+            character.dataset.effect =
                 player.effect ||
                 "none";
 
 
-            characterElement.textContent =
+            character.textContent =
                 "●";
 
 
-            /* =====================================
-               INFO
-            ====================================== */
+            /* INFORMATION */
 
             const information =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
 
             information.className =
@@ -646,9 +593,7 @@ function updateLobbyUI(
 
 
             const name =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
 
             name.className =
@@ -665,9 +610,7 @@ function updateLobbyUI(
             );
 
 
-            /* =====================================
-               TITLE
-            ====================================== */
+            /* TITLE */
 
             if (
                 player.title &&
@@ -675,9 +618,7 @@ function updateLobbyUI(
             ) {
 
                 const title =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 title.className =
@@ -697,18 +638,42 @@ function updateLobbyUI(
             }
 
 
-            /* =====================================
-               HOST
-            ====================================== */
+            /* EFFECT */
+
+            if (
+                player.effect &&
+                player.effect !== "none"
+            ) {
+
+                const effect =
+                    document.createElement("div");
+
+
+                effect.className =
+                    "player-effect";
+
+
+                effect.textContent =
+                    getEffectName(
+                        player.effect
+                    );
+
+
+                information.appendChild(
+                    effect
+                );
+
+            }
+
+
+            /* HOST */
 
             if (
                 id === data.hostId
             ) {
 
                 const hostBadge =
-                    document.createElement(
-                        "span"
-                    );
+                    document.createElement("span");
 
 
                 hostBadge.className =
@@ -716,7 +681,7 @@ function updateLobbyUI(
 
 
                 hostBadge.textContent =
-                    "HOST";
+                    "👑 HOST";
 
 
                 information.appendChild(
@@ -726,43 +691,39 @@ function updateLobbyUI(
             }
 
 
-            playerElement.appendChild(
-                characterElement
+            card.appendChild(
+                character
             );
 
 
-            playerElement.appendChild(
+            card.appendChild(
                 information
             );
 
 
             playersListElement.appendChild(
-                playerElement
+                card
             );
 
         }
     );
 
 
-    /* =============================================
+    /* =====================================================
        HOST DETECTION
-    ============================================== */
+    ====================================================== */
 
     playerIsHost =
         data.hostId === playerId;
 
 
-    if (
-        playerIsHost
-    ) {
+    if (playerIsHost) {
 
         hostControls.style.display =
             "block";
 
-
         waitingMessage.style.display =
             "none";
-
 
         lobbyStatusElement.textContent =
             "You are the host.";
@@ -773,54 +734,32 @@ function updateLobbyUI(
         hostControls.style.display =
             "none";
 
-
         waitingMessage.style.display =
-            "block";
-
+            "flex";
 
         lobbyStatusElement.textContent =
             "Waiting for the host...";
 
     }
 
-}
 
+    /*
+       If countdown has already started,
+       don't show the normal controls.
+    */
 
-/* =========================================================
-   TITLES
-========================================================= */
+    if (data.startAt) {
 
-function getTitleName(
-    id
-) {
+        hostControls.style.display =
+            "none";
 
-    const titles = {
+        waitingMessage.style.display =
+            "none";
 
-        none:
-            "No Title",
+        lobbyStatusElement.textContent =
+            "Game starting...";
 
-        "study-sprinter":
-            "Study Sprinter",
-
-        brainiac:
-            "Brainiac",
-
-        "speed-learner":
-            "Speed Learner",
-
-        "knowledge-seeker":
-            "Knowledge Seeker",
-
-        "study-legend":
-            "Study Legend"
-
-    };
-
-
-    return (
-        titles[id] ||
-        id
-    );
+    }
 
 }
 
@@ -833,21 +772,13 @@ startGameButton.addEventListener(
     "click",
     async function() {
 
-        if (
-            !playerIsHost
-        ) {
-
+        if (!playerIsHost) {
             return;
-
         }
 
 
-        if (
-            !lobbyData
-        ) {
-
+        if (!lobbyData) {
             return;
-
         }
 
 
@@ -861,24 +792,33 @@ startGameButton.addEventListener(
 
         try {
 
-            await update(
+            /*
+               Everyone uses the same timestamp.
+
+               This makes the countdown synchronized
+               between different devices.
+            */
+
+            const startAt =
+                Date.now() + 5000;
+
+
+            const lobbyRef =
                 ref(
                     db,
                     `lobbies/${lobbyCode}`
-                ),
+                );
+
+
+            await update(
+                lobbyRef,
                 {
 
-                    started:
-                        true,
+                    startAt:
+                        startAt,
 
                     status:
-                        "playing",
-
-                    state:
-                        "playing",
-
-                    startedAt:
-                        Date.now()
+                        "starting"
 
                 }
             );
@@ -897,7 +837,7 @@ startGameButton.addEventListener(
 
 
             startGameButton.textContent =
-                "START GAME";
+                "🚀 START GAME";
 
         }
 
@@ -906,49 +846,100 @@ startGameButton.addEventListener(
 
 
 /* =========================================================
-   GAME STARTED
+   COUNTDOWN
 ========================================================= */
 
-function handleGameStarted(
-    data
+function startCountdown(
+    startAt,
+    game
 ) {
 
-    lobbyStatusElement.textContent =
-        "Game starting!";
+    if (countdownRunning) {
+        return;
+    }
 
 
-    const game =
-        data.game ||
-        "unknown";
+    countdownRunning =
+        true;
 
 
-    /*
-       TEMPORARY TEST.
-
-       Later this will redirect everyone
-       to the actual Bossy game.
-    */
-
-    if (
-        !window.studySprintGameAlertShown
-    ) {
-
-        window.studySprintGameAlertShown =
-            true;
+    countdownOverlay.style.display =
+        "flex";
 
 
-        setTimeout(
+    countdownGame.textContent =
+        GAME_NAMES[game] ||
+        game ||
+        "Game";
+
+
+    hostControls.style.display =
+        "none";
+
+
+    waitingMessage.style.display =
+        "none";
+
+
+    const interval =
+        setInterval(
             function() {
 
-                alert(
-                    `${GAME_NAMES[game] || game} is starting!`
-                );
+                const remaining =
+                    startAt -
+                    Date.now();
+
+
+                const seconds =
+                    Math.ceil(
+                        remaining / 1000
+                    );
+
+
+                if (
+                    seconds <= 0
+                ) {
+
+                    clearInterval(
+                        interval
+                    );
+
+
+                    countdownNumber.textContent =
+                        "GO!";
+
+
+                    /*
+                       TEMPORARY:
+                       Later this is where we redirect
+                       to the actual game.
+                    */
+
+                    setTimeout(
+                        function() {
+
+                            countdownOverlay.style.display =
+                                "none";
+
+                            lobbyStatusElement.textContent =
+                                "Game ready!";
+
+                        },
+                        700
+                    );
+
+
+                    return;
+
+                }
+
+
+                countdownNumber.textContent =
+                    seconds;
 
             },
             100
         );
-
-    }
 
 }
 
@@ -968,19 +959,15 @@ copyCodeButton.addEventListener(
             );
 
 
-            const original =
-                copyCodeButton.textContent;
-
-
             copyCodeButton.textContent =
-                "COPIED!";
+                "✓ COPIED";
 
 
             setTimeout(
                 function() {
 
                     copyCodeButton.textContent =
-                        original;
+                        "📋 COPY";
 
                 },
                 1500
@@ -990,7 +977,7 @@ copyCodeButton.addEventListener(
         catch (error) {
 
             console.error(
-                "Could not copy code:",
+                "Copy failed:",
                 error
             );
 
@@ -1018,24 +1005,6 @@ leaveLobbyButton.addEventListener(
             );
 
 
-            /*
-               If the host leaves, delete the lobby.
-            */
-
-            if (
-                playerIsHost
-            ) {
-
-                await remove(
-                    ref(
-                        db,
-                        `lobbies/${lobbyCode}`
-                    )
-                );
-
-            }
-
-
             window.location.href =
                 "../games/index.html";
 
@@ -1051,6 +1020,83 @@ leaveLobbyButton.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   TITLE NAMES
+========================================================= */
+
+function getTitleName(id) {
+
+    const titles = {
+
+        "study-sprinter":
+            "Study Sprinter",
+
+        brainiac:
+            "Brainiac",
+
+        "speed-learner":
+            "Speed Learner",
+
+        "knowledge-seeker":
+            "Knowledge Seeker",
+
+        "study-legend":
+            "Study Legend"
+
+    };
+
+
+    return titles[id] || id;
+
+}
+
+
+/* =========================================================
+   EFFECT NAMES
+========================================================= */
+
+function getEffectName(id) {
+
+    const effects = {
+
+        sparkle:
+            "✨ Sparkle",
+
+        "speed-trail":
+            "💨 Speed Trail",
+
+        lightning:
+            "⚡ Lightning",
+
+        rainbow:
+            "🌈 Rainbow Aura",
+
+        fire:
+            "🔥 Fire Aura",
+
+        glitch:
+            "👾 Glitch",
+
+        shadow:
+            "🌑 Shadow Aura",
+
+        crystal:
+            "💎 Crystal",
+
+        "cosmic-aura":
+            "🌌 Cosmic Aura",
+
+        crown:
+            "👑 Crown"
+
+    };
+
+
+    return effects[id] || id;
+
+}
 
 
 /* =========================================================
@@ -1070,38 +1116,11 @@ function showError(
     );
 
 
-    if (
-        hostControls
-    ) {
-
-        hostControls.style.display =
-            "none";
-
-    }
+    hostControls.style.display =
+        "none";
 
 
-    if (
-        waitingMessage
-    ) {
-
-        waitingMessage.style.display =
-            "none";
-
-    }
+    waitingMessage.style.display =
+        "none";
 
 }
-
-
-console.log(
-    "StudySprint multiplayer lobby loaded."
-);
-
-console.log(
-    "Lobby:",
-    lobbyCode
-);
-
-console.log(
-    "Player ID:",
-    playerId
-);
