@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,193 +29,114 @@
 
 <main id="bossy-game">
 
-
     <!-- =====================================================
-         LOADING
+         HUD
     ====================================================== -->
 
-    <section
-        id="bossy-loading"
-        class="bossy-loading"
-    >
+    <header class="bossy-hud">
 
-        <div class="loading-spinner"></div>
+        <div class="bossy-brand">
+            🚀 StudySprint
+        </div>
 
-        <h1>
-            Loading Bossy...
-        </h1>
+        <div class="bossy-title">
+            👹 BOSSY
+        </div>
 
-        <p>
-            Connecting to your game.
-        </p>
+        <div
+            id="bossy-player-count"
+            class="bossy-player-count"
+        >
+            👥 0 Players
+        </div>
 
-    </section>
+    </header>
 
 
     <!-- =====================================================
          GAME
     ====================================================== -->
 
-    <section
-        id="bossy-world"
-        class="bossy-world"
-        style="display:none;"
-    >
+    <div class="game-container">
+
+        <canvas id="game-canvas"></canvas>
 
 
-        <!-- =================================================
-             HUD
-        ================================================== -->
-
-        <header class="bossy-hud">
-
-            <div class="bossy-brand">
-                🚀 StudySprint
-            </div>
-
-            <div class="bossy-title">
-                👹 BOSSY
-            </div>
-
-            <div class="bossy-lobby">
-
-                <span>
-                    LOBBY
-                </span>
-
-                <strong id="bossy-code">
-                    ------
-                </strong>
-
-            </div>
-
-        </header>
-
-
-        <!-- =================================================
-             GAME MAP
-        ================================================== -->
+        <!-- Loading -->
 
         <div
-            id="game-map"
-            class="game-map"
+            id="game-loading"
+            class="game-loading"
         >
 
+            <div class="loading-spinner"></div>
 
-            <!-- SKY -->
+            <h2>
+                Loading Bossy...
+            </h2>
 
-            <div class="sky"></div>
-
-
-            <!-- BACKGROUND -->
-
-            <div class="mountain mountain-one"></div>
-            <div class="mountain mountain-two"></div>
-
-            <div class="cloud cloud-one"></div>
-            <div class="cloud cloud-two"></div>
-            <div class="cloud cloud-three"></div>
-
-
-            <!-- PLATFORM -->
-
-            <div class="ground">
-
-                <div class="ground-top"></div>
-
-            </div>
-
-
-            <!-- PLAYERS -->
-
-            <div
-                id="players-container"
-                class="players-container"
-            ></div>
-
-
-            <!-- CONTROLS -->
-
-            <div class="controls-hint">
-
-                <span class="key">
-                    A
-                </span>
-
-                <span>
-                    Move
-                </span>
-
-                <span class="key">
-                    D
-                </span>
-
-                <span>
-                    Move
-                </span>
-
-                <span class="key space">
-                    SPACE
-                </span>
-
-                <span>
-                    Jump
-                </span>
-
-            </div>
-
-
-            <!-- PLAYER COUNT -->
-
-            <div class="player-count">
-
-                👥
-
-                <strong id="player-count">
-                    0
-                </strong>
-
-                players
-
-            </div>
+            <p>
+                Connecting to the game
+            </p>
 
         </div>
 
 
-    </section>
+        <!-- Error -->
+
+        <div
+            id="game-error"
+            class="game-message"
+            style="display:none;"
+        >
+        </div>
+
+
+        <!-- Controls -->
+
+        <div class="controls-hint">
+
+            <span>A</span>
+            Move
+
+            <span>D</span>
+            Move
+
+            <span>SPACE</span>
+            Jump
+
+        </div>
+
+    </div>
 
 
     <!-- =====================================================
-         ERROR
+         BOTTOM BAR
     ====================================================== -->
 
-    <section
-        id="bossy-error"
-        class="bossy-error"
-        style="display:none;"
-    >
+    <div class="bossy-bottom-bar">
 
-        <div class="error-icon">
-            ⚠️
+        <div>
+
+            <strong>
+                LOBBY
+            </strong>
+
+            <span id="bossy-code">
+                ------
+            </span>
+
         </div>
 
-        <h1>
-            Unable to join Bossy
-        </h1>
 
-        <p id="bossy-error-message">
-            Something went wrong.
-        </p>
-
-        <a
-            href="../../games/index.html"
-            class="back-button"
+        <div
+            id="connection-status"
+            class="connection-status"
         >
-            ← BACK TO GAMES
-        </a>
+            CONNECTING
+        </div>
 
-    </section>
-
+    </div>
 
 </main>
 
@@ -229,4 +149,3 @@
 </body>
 
 </html>
-```
