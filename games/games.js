@@ -3,9 +3,12 @@
    Lobby creation + joining
 ========================================================= */
 
-import { db } from "../firebase.js";
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
+    getDatabase,
     ref,
     get,
     set
@@ -13,32 +16,46 @@ import {
 
 
 /* =========================================================
-   ELEMENTS
+   FIREBASE
 ========================================================= */
 
-const gamesPage =
-    document.querySelector(
-        ".games-page"
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyBiGe5_pDiEV-scRC-kptDJoHnHmbdw6s",
+
+    authDomain:
+        "studysprint-67f63.firebaseapp.com",
+
+    projectId:
+        "studysprint-67f63",
+
+    storageBucket:
+        "studysprint-67f63.firebasestorage.app",
+
+    messagingSenderId:
+        "1076120438088",
+
+    appId:
+        "1:1076120438088:web:c3afbd7ff39ebeaeac1f7d"
+
+};
+
+
+const app =
+    initializeApp(
+        firebaseConfig
     );
 
-const createButton =
-    document.getElementById(
-        "create-lobby-button"
-    );
 
-const joinForm =
-    document.getElementById(
-        "join-lobby-form"
-    );
+/* =========================================================
+   REALTIME DATABASE
+========================================================= */
 
-const codeInput =
-    document.getElementById(
-        "lobby-code"
-    );
-
-const joinError =
-    document.getElementById(
-        "join-error"
+const database =
+    getDatabase(
+        app,
+        "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app"
     );
 
 
@@ -58,7 +75,6 @@ function getPlayerId() {
 
         id =
             crypto.randomUUID();
-
 
         localStorage.setItem(
             "studySprintPlayerId",
@@ -90,40 +106,41 @@ function getPlayerName() {
 
 
 /* =========================================================
-   COSMETICS
+   ELEMENTS
 ========================================================= */
 
-function getCosmetics() {
+const gamesPage =
+    document.querySelector(
+        ".games-page"
+    );
 
-    return {
 
-        character:
-            localStorage.getItem(
-                "character_character"
-            ) || "leafy",
+const createButton =
+    document.getElementById(
+        "create-lobby-button"
+    );
 
-        banner:
-            localStorage.getItem(
-                "character_banner"
-            ) || "purple-grid",
 
-        title:
-            localStorage.getItem(
-                "character_title"
-            ) || "none",
+const joinForm =
+    document.getElementById(
+        "join-lobby-form"
+    );
 
-        effect:
-            localStorage.getItem(
-                "character_effect"
-            ) || "none"
 
-    };
+const codeInput =
+    document.getElementById(
+        "lobby-code"
+    );
 
-}
+
+const joinError =
+    document.getElementById(
+        "join-error"
+    );
 
 
 /* =========================================================
-   CREATE BUTTON
+   CREATE LOBBY
 ========================================================= */
 
 createButton.addEventListener(
@@ -155,7 +172,6 @@ function showGameSelection() {
 
         <section class="game-selection">
 
-
             <button
                 class="game-selection-card"
                 id="bossy-card"
@@ -171,7 +187,7 @@ function showGameSelection() {
                 </h2>
 
                 <p>
-                    A multiplayer StudySprint game.
+                    TEST
                 </p>
 
                 <span class="game-test-label">
@@ -179,7 +195,6 @@ function showGameSelection() {
                 </span>
 
             </button>
-
 
         </section>
 
@@ -196,9 +211,7 @@ function showGameSelection() {
 
 
     document
-        .getElementById(
-            "bossy-card"
-        )
+        .getElementById("bossy-card")
         .addEventListener(
             "click",
             function() {
@@ -212,9 +225,7 @@ function showGameSelection() {
 
 
     document
-        .getElementById(
-            "back-to-games"
-        )
+        .getElementById("back-to-games")
         .addEventListener(
             "click",
             function() {
@@ -228,7 +239,7 @@ function showGameSelection() {
 
 
 /* =========================================================
-   GENERATE CODE
+   GENERATE LOBBY CODE
 ========================================================= */
 
 function generateLobbyCode() {
@@ -263,7 +274,7 @@ function generateLobbyCode() {
 
 
 /* =========================================================
-   UNIQUE CODE
+   FIND UNIQUE CODE
 ========================================================= */
 
 async function generateUniqueCode() {
@@ -277,19 +288,58 @@ async function generateUniqueCode() {
         const snapshot =
             await get(
                 ref(
-                    db,
-                    `lobbies/${code}`
+                    database,
+                    "lobbies/" + code
                 )
             );
 
 
-        if (!snapshot.exists()) {
+        if (
+            !snapshot.exists()
+        ) {
 
             return code;
 
         }
 
     }
+
+}
+
+
+/* =========================================================
+   GET PLAYER COSMETICS
+========================================================= */
+
+function getPlayerCosmetics() {
+
+    return {
+
+        character:
+            localStorage.getItem(
+                "character_character"
+            ) ||
+            "leafy",
+
+        banner:
+            localStorage.getItem(
+                "character_banner"
+            ) ||
+            "purple-grid",
+
+        title:
+            localStorage.getItem(
+                "character_title"
+            ) ||
+            "none",
+
+        effect:
+            localStorage.getItem(
+                "character_effect"
+            ) ||
+            "none"
+
+    };
 
 }
 
@@ -334,6 +384,13 @@ async function createLobby(
             await generateUniqueCode();
 
 
+        /*
+           IMPORTANT:
+
+           This is the ONE player ID that will be used
+           everywhere for this browser.
+        */
+
         const playerId =
             getPlayerId();
 
@@ -343,17 +400,17 @@ async function createLobby(
 
 
         const cosmetics =
-            getCosmetics();
+            getPlayerCosmetics();
 
 
-        /* =============================================
+        /* =================================================
            CREATE LOBBY
-        ============================================== */
+        ================================================= */
 
         await set(
             ref(
-                db,
-                `lobbies/${code}`
+                database,
+                "lobbies/" + code
             ),
             {
 
@@ -368,6 +425,9 @@ async function createLobby(
 
                 started:
                     false,
+
+                state:
+                    "waiting",
 
                 hostId:
                     playerId,
@@ -397,11 +457,11 @@ async function createLobby(
                         effect:
                             cosmetics.effect,
 
-                        isHost:
-                            true,
-
                         joinedAt:
-                            Date.now()
+                            Date.now(),
+
+                        isHost:
+                            true
 
                     }
 
@@ -411,9 +471,9 @@ async function createLobby(
         );
 
 
-        /* =============================================
+        /* =================================================
            SAVE SESSION
-        ============================================== */
+        ================================================= */
 
         sessionStorage.setItem(
             "studySprintLobbyCode",
@@ -433,12 +493,13 @@ async function createLobby(
         );
 
 
-        /* =============================================
+        /* =================================================
            GO TO MULTIPLAYER LOBBY
-        ============================================== */
+        ================================================= */
 
         window.location.href =
-            `../multiplayer/lobby.html?code=${code}`;
+            "../multiplayer/lobby.html?code=" +
+            encodeURIComponent(code);
 
     }
     catch (error) {
@@ -511,8 +572,8 @@ joinForm.addEventListener(
 
             const lobbyRef =
                 ref(
-                    db,
-                    `lobbies/${code}`
+                    database,
+                    "lobbies/" + code
                 );
 
 
@@ -551,6 +612,10 @@ joinForm.addEventListener(
             }
 
 
+            /* =================================================
+               PLAYER INFORMATION
+            ================================================= */
+
             const playerId =
                 getPlayerId();
 
@@ -560,51 +625,70 @@ joinForm.addEventListener(
 
 
             const cosmetics =
-                getCosmetics();
+                getPlayerCosmetics();
 
 
-            /* =========================================
-               ADD PLAYER
-            ========================================== */
-
-            await set(
+            const playerRef =
                 ref(
-                    db,
+                    database,
                     `lobbies/${code}/players/${playerId}`
-                ),
-                {
-
-                    id:
-                        playerId,
-
-                    name:
-                        playerName,
-
-                    character:
-                        cosmetics.character,
-
-                    banner:
-                        cosmetics.banner,
-
-                    title:
-                        cosmetics.title,
-
-                    effect:
-                        cosmetics.effect,
-
-                    isHost:
-                        false,
-
-                    joinedAt:
-                        Date.now()
-
-                }
-            );
+                );
 
 
-            /* =========================================
-               SESSION
-            ========================================== */
+            /*
+               IMPORTANT:
+
+               If this browser is already in the lobby,
+               don't create another player.
+            */
+
+            const existingPlayer =
+                await get(
+                    playerRef
+                );
+
+
+            if (
+                !existingPlayer.exists()
+            ) {
+
+                await set(
+                    playerRef,
+                    {
+
+                        id:
+                            playerId,
+
+                        name:
+                            playerName,
+
+                        character:
+                            cosmetics.character,
+
+                        banner:
+                            cosmetics.banner,
+
+                        title:
+                            cosmetics.title,
+
+                        effect:
+                            cosmetics.effect,
+
+                        joinedAt:
+                            Date.now(),
+
+                        isHost:
+                            false
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               SAVE SESSION
+            ================================================= */
 
             sessionStorage.setItem(
                 "studySprintLobbyCode",
@@ -624,12 +708,13 @@ joinForm.addEventListener(
             );
 
 
-            /* =========================================
+            /* =================================================
                GO TO MULTIPLAYER LOBBY
-            ========================================== */
+            ================================================= */
 
             window.location.href =
-                `../multiplayer/lobby.html?code=${code}`;
+                "../multiplayer/lobby.html?code=" +
+                encodeURIComponent(code);
 
         }
         catch (error) {
@@ -680,8 +765,7 @@ codeInput.addEventListener(
                 );
 
 
-        joinError.textContent =
-            "";
+        joinError.textContent = "";
 
     }
 );
@@ -694,6 +778,7 @@ codeInput.addEventListener(
 console.log(
     "StudySprint Games loaded."
 );
+
 
 console.log(
     "Player ID:",
