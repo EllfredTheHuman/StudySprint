@@ -11,6 +11,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
 
+/* =========================================================
+   FIREBASE CONFIG
+========================================================= */
+
 const firebaseConfig = {
 
     apiKey:
@@ -18,9 +22,6 @@ const firebaseConfig = {
 
     authDomain:
         "studysprint-67f63.firebaseapp.com",
-
-    databaseURL:
-        "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
 
     projectId:
         "studysprint-67f63",
@@ -32,14 +33,36 @@ const firebaseConfig = {
         "1076120438088",
 
     appId:
-        "1:1076120438088:web:c3afbd7ff39ebeaeac1f7"
+        "1:1076120438088:web:c3afbd7ff39ebeaeac1f7d"
 
 };
 
 
+/* =========================================================
+   INITIALISE FIREBASE
+========================================================= */
+
 const app =
-    initializeApp(firebaseConfig);
+    initializeApp(
+        firebaseConfig
+    );
 
 
-export const db =
-    getDatabase(app);
+/* =========================================================
+   REALTIME DATABASE
+========================================================= */
+
+const db =
+    getDatabase(
+        app,
+        "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app"
+    );
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+export {
+    db
+};
