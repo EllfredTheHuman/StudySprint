@@ -1,16 +1,16 @@
-```javascript
 /* =========================================================
    STUDYSPRINT — BOSSY
 
-   Multiplayer side-view game
+   Multiplayer side-view game.
 
    Handles:
-   - Joining the correct lobby
-   - Loading every player
-   - Displaying characters
-   - Real-time movement
-   - Left/right movement
+   - Lobby detection
+   - Loading players
+   - Character data
+   - Real-time positions
+   - Movement
    - Jumping
+   - Canvas rendering
 ========================================================= */
 
 import { db } from "../../firebase.js";
@@ -27,38 +27,46 @@ import {
    ELEMENTS
 ========================================================= */
 
-const loadingScreen =
-    document.getElementById("bossy-loading");
+const canvas =
+    document.getElementById(
+        "game-canvas"
+    );
 
-const gameWorld =
-    document.getElementById("bossy-world");
+const ctx =
+    canvas.getContext("2d");
 
-const errorScreen =
-    document.getElementById("bossy-error");
+const loading =
+    document.getElementById(
+        "game-loading"
+    );
 
-const errorMessage =
-    document.getElementById("bossy-error-message");
+const errorBox =
+    document.getElementById(
+        "game-error"
+    );
 
 const lobbyCodeElement =
-    document.getElementById("bossy-code");
-
-const playersContainer =
-    document.getElementById("players-container");
+    document.getElementById(
+        "bossy-code"
+    );
 
 const playerCountElement =
-    document.getElementById("player-count");
+    document.getElementById(
+        "bossy-player-count"
+    );
+
+const connectionStatus =
+    document.getElementById(
+        "connection-status"
+    );
 
 
 /* =========================================================
    PLAYER ID
+
+   IMPORTANT:
+   Use the SAME ID as the lobby system.
 ========================================================= */
-
-/*
-   This MUST be the same ID used by the lobby.
-
-   That means the player who joined the lobby
-   becomes the exact same player inside Bossy.
-*/
 
 function getPlayerId() {
 
@@ -109,31 +117,10 @@ const lobbyCode =
         .toUpperCase();
 
 
-/* =========================================================
-   GAME STATE
-========================================================= */
-
-let localX = 100;
-
-let localY = 0;
-
-let velocityY = 0;
-
-let grounded = true;
-
-let keys = {};
-
-let movementLoop = null;
-
-
-/* =========================================================
-   START
-========================================================= */
-
 if (!lobbyCode) {
 
     showError(
-        "No lobby code was provided. Return to the games page and try again."
+        "No lobby code was provided."
     );
 
 }
@@ -145,7 +132,81 @@ else {
 
 
 /* =========================================================
-   START BOSSY
+   GAME STATE
+========================================================= */
+
+let players = {};
+
+let localPlayer = null;
+
+let playerRef = null;
+
+let keys = {};
+
+let lastTime = 0;
+
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+const WORLD_WIDTH = 1400;
+
+const GROUND_HEIGHT = 110;
+
+const PLAYER_WIDTH = 42;
+
+const PLAYER_HEIGHT = 64;
+
+const MOVE_SPEED = 280;
+
+const JUMP_POWER = 620;
+
+const GRAVITY = 1500;
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+function resizeCanvas() {
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    canvas.width =
+        rect.width *
+        window.devicePixelRatio;
+
+    canvas.height =
+        rect.height *
+        window.devicePixelRatio;
+
+
+    ctx.setTransform(
+        window.devicePixelRatio,
+        0,
+        0,
+        window.devicePixelRatio,
+        0,
+        0
+    );
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+resizeCanvas();
+
+
+/* =========================================================
+   START GAME
 ========================================================= */
 
 async function startBossy() {
@@ -156,6 +217,11 @@ async function startBossy() {
             lobbyCode;
 
 
+        setConnectionStatus(
+            "CONNECTING"
+        );
+
+
         const lobbyRef =
             ref(
                 db,
@@ -164,13 +230,17 @@ async function startBossy() {
 
 
         const snapshot =
-            await get(lobbyRef);
+            await get(
+                lobbyRef
+            );
 
 
-        if (!snapshot.exists()) {
+        if (
+            !snapshot.exists()
+        ) {
 
             showError(
-                "That lobby no longer exists."
+                "That lobby doesn't exist anymore."
             );
 
             return;
@@ -182,16 +252,12 @@ async function startBossy() {
             snapshot.val();
 
 
-        /* =================================================
-           CHECK GAME
-        ================================================== */
-
         if (
             lobby.game !== "bossy"
         ) {
 
             showError(
-                "This lobby isn't a Bossy game."
+                "This isn't a Bossy lobby."
             );
 
             return;
@@ -199,21 +265,84 @@ async function startBossy() {
         }
 
 
-        /* =================================================
-           CHECK PLAYER
-        ================================================== */
+        /*
+           Find our player inside the lobby.
 
-        const players =
+           This is important because the lobby
+           already created the player entry.
+        */
+
+        const lobbyPlayers =
             lobby.players ||
             {};
 
 
         if (
-            !players[playerId]
+            !lobbyPlayers[playerId]
+        ) {
+
+            /*
+               If the player ID wasn't found,
+               try the username as a fallback.
+            */
+
+            const username =
+                localStorage.getItem(
+                    "username"
+                ) ||
+                "Player";
+
+
+            const matchingPlayer =
+                Object.entries(
+                    lobbyPlayers
+                ).find(
+                    ([id, player]) =>
+                        player &&
+                        player.name === username
+                );
+
+
+            if (
+                matchingPlayer
+            ) {
+
+                localPlayer =
+                    {
+                        id:
+                            matchingPlayer[0],
+
+                        ...matchingPlayer[1]
+
+                    };
+
+            }
+
+        }
+        else {
+
+            localPlayer =
+                {
+                    id:
+                        playerId,
+
+                    ...lobbyPlayers[playerId]
+
+                };
+
+        }
+
+
+        /*
+           If the lobby player exists, use it.
+        */
+
+        if (
+            !localPlayer
         ) {
 
             showError(
-                "You aren't a player in this lobby. Please return to the lobby and join again."
+                "Your player could not be found in this lobby."
             );
 
             return;
@@ -221,59 +350,101 @@ async function startBossy() {
         }
 
 
-        /* =================================================
-           GET CURRENT POSITION
-        ================================================== */
+        /*
+           Always use the actual database ID
+           we found.
+        */
 
-        localX =
-            Number(
-                players[playerId].x
-            ) || 100;
-
-
-        localY =
-            Number(
-                players[playerId].y
-            ) || 0;
+        const actualPlayerId =
+            localPlayer.id;
 
 
-        /* =================================================
-           SHOW GAME
-        ================================================= */
-
-        loadingScreen.style.display =
-            "none";
-
-        gameWorld.style.display =
-            "flex";
+        playerRef =
+            ref(
+                db,
+                `lobbies/${lobbyCode}/players/${actualPlayerId}`
+            );
 
 
-        /* =================================================
-           LISTEN FOR PLAYERS
-        ================================================== */
+        /*
+           Give the player an initial position
+           if one doesn't exist.
+        */
+
+        if (
+            typeof localPlayer.x !== "number" ||
+            typeof localPlayer.y !== "number"
+        ) {
+
+            const spawnX =
+                150 +
+                (
+                    Object.keys(
+                        lobbyPlayers
+                    ).indexOf(
+                        actualPlayerId
+                    ) * 100
+                );
+
+
+            await update(
+                playerRef,
+                {
+
+                    x:
+                        spawnX,
+
+                    y:
+                        0,
+
+                    vx:
+                        0,
+
+                    vy:
+                        0
+
+                }
+            );
+
+        }
+
+
+        /*
+           Listen for everyone.
+        */
 
         listenForPlayers();
 
 
-        /* =================================================
-           CONTROLS
-        ================================================== */
+        /*
+           Controls.
+        */
 
         setupControls();
 
 
-        /* =================================================
-           START MOVEMENT LOOP
-        ================================================= */
+        /*
+           Start rendering.
+        */
 
-        startMovementLoop();
+        loading.style.display =
+            "none";
 
+
+        setConnectionStatus(
+            "CONNECTED"
+        );
+
+
+        requestAnimationFrame(
+            gameLoop
+        );
 
     }
     catch (error) {
 
         console.error(
-            "Bossy failed to load:",
+            "Bossy startup error:",
             error
         );
 
@@ -304,277 +475,60 @@ function listenForPlayers() {
         playersRef,
         function(snapshot) {
 
-            const players =
+            players =
                 snapshot.val() ||
                 {};
 
 
-            renderPlayers(
-                players
+            playerCountElement.textContent =
+                `👥 ${Object.keys(players).length} ${
+                    Object.keys(players).length === 1
+                        ? "Player"
+                        : "Players"
+                }`;
+
+
+            /*
+               Keep local player data updated.
+            */
+
+            const current =
+                players[playerId];
+
+
+            if (
+                current
+            ) {
+
+                localPlayer =
+                    {
+                        id:
+                            playerId,
+
+                        ...current
+                    };
+
+            }
+
+
+            setConnectionStatus(
+                "CONNECTED"
+            );
+
+        },
+        function(error) {
+
+            console.error(
+                "Player listener error:",
+                error
+            );
+
+
+            setConnectionStatus(
+                "ERROR"
             );
 
         }
-    );
-
-}
-
-
-/* =========================================================
-   RENDER PLAYERS
-========================================================= */
-
-function renderPlayers(
-    players
-) {
-
-    playersContainer.innerHTML =
-        "";
-
-
-    const entries =
-        Object.entries(
-            players
-        );
-
-
-    playerCountElement.textContent =
-        entries.length;
-
-
-    entries.forEach(
-        function([
-            id,
-            player
-        ]) {
-
-            createPlayer(
-                id,
-                player
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   CREATE PLAYER
-========================================================= */
-
-function createPlayer(
-    id,
-    player
-) {
-
-    const playerElement =
-        document.createElement("div");
-
-
-    playerElement.className =
-        "bossy-player";
-
-
-    playerElement.dataset.playerId =
-        id;
-
-
-    /*
-       Local player gets a special class.
-    */
-
-    if (
-        id === playerId
-    ) {
-
-        playerElement.classList.add(
-            "local-player"
-        );
-
-    }
-
-
-    /* =====================================================
-       CHARACTER
-    ====================================================== */
-
-    const character =
-        document.createElement("div");
-
-
-    character.className =
-        "bossy-character";
-
-
-    character.dataset.character =
-        player.character ||
-        "leafy";
-
-
-    /*
-       Different characters can have different
-       colours/styles using the character ID.
-    */
-
-    character.classList.add(
-        `character-${player.character || "leafy"}`
-    );
-
-
-    /* =====================================================
-       CHARACTER BODY
-    ====================================================== */
-
-    const body =
-        document.createElement("div");
-
-
-    body.className =
-        "character-body";
-
-
-    /* =====================================================
-       EYES
-    ====================================================== */
-
-    const leftEye =
-        document.createElement("div");
-
-
-    leftEye.className =
-        "character-eye eye-left";
-
-
-    const rightEye =
-        document.createElement("div");
-
-
-    rightEye.className =
-        "character-eye eye-right";
-
-
-    /* =====================================================
-       FEET
-    ====================================================== */
-
-    const leftFoot =
-        document.createElement("div");
-
-
-    leftFoot.className =
-        "character-foot foot-left";
-
-
-    const rightFoot =
-        document.createElement("div");
-
-
-    rightFoot.className =
-        "character-foot foot-right";
-
-
-    character.appendChild(
-        body
-    );
-
-    character.appendChild(
-        leftEye
-    );
-
-    character.appendChild(
-        rightEye
-    );
-
-    character.appendChild(
-        leftFoot
-    );
-
-    character.appendChild(
-        rightFoot
-    );
-
-
-    /* =====================================================
-       NAME
-    ====================================================== */
-
-    const name =
-        document.createElement("div");
-
-
-    name.className =
-        "bossy-player-name";
-
-
-    name.textContent =
-        player.name ||
-        "Player";
-
-
-    /* =====================================================
-       HOST BADGE
-    ====================================================== */
-
-    if (
-        id === player.lobbyHostId ||
-        player.role === "host"
-    ) {
-
-        const badge =
-            document.createElement("span");
-
-
-        badge.className =
-            "bossy-host-badge";
-
-
-        badge.textContent =
-            "HOST";
-
-
-        name.appendChild(
-            badge
-        );
-
-    }
-
-
-    /* =====================================================
-       BUILD
-    ====================================================== */
-
-    playerElement.appendChild(
-        name
-    );
-
-
-    playerElement.appendChild(
-        character
-    );
-
-
-    /* =====================================================
-       POSITION
-    ====================================================== */
-
-    const x =
-        Number(player.x);
-
-
-    const y =
-        Number(player.y);
-
-
-    playerElement.style.left =
-        `${Number.isFinite(x) ? x : 100}px`;
-
-
-    playerElement.style.bottom =
-        `${Number.isFinite(y) ? y : 0}px`;
-
-
-    playersContainer.appendChild(
-        playerElement
     );
 
 }
@@ -586,7 +540,7 @@ function createPlayer(
 
 function setupControls() {
 
-    document.addEventListener(
+    window.addEventListener(
         "keydown",
         function(event) {
 
@@ -604,7 +558,16 @@ function setupControls() {
 
                 event.preventDefault();
 
-                jump();
+
+                if (
+                    localPlayer &&
+                    localPlayer.y <= 1
+                ) {
+
+                    localPlayer.vy =
+                        JUMP_POWER;
+
+                }
 
             }
 
@@ -612,7 +575,7 @@ function setupControls() {
     );
 
 
-    document.addEventListener(
+    window.addEventListener(
         "keyup",
         function(event) {
 
@@ -628,74 +591,100 @@ function setupControls() {
 
 
 /* =========================================================
-   MOVEMENT LOOP
+   GAME LOOP
 ========================================================= */
 
-function startMovementLoop() {
+function gameLoop(
+    timestamp
+) {
 
-    if (
-        movementLoop
-    ) {
-
-        clearInterval(
-            movementLoop
+    const delta =
+        Math.min(
+            (timestamp - lastTime) / 1000,
+            0.05
         );
 
-    }
+
+    lastTime =
+        timestamp;
 
 
-    movementLoop =
-        setInterval(
-            function() {
+    updateLocalPlayer(
+        delta
+    );
 
-                updateMovement();
 
-            },
-            30
-        );
+    render();
+
+
+    requestAnimationFrame(
+        gameLoop
+    );
 
 }
 
 
 /* =========================================================
-   MOVEMENT
+   UPDATE LOCAL PLAYER
 ========================================================= */
 
-async function updateMovement() {
+let lastDatabaseUpdate = 0;
 
-    let moving =
+function updateLocalPlayer(
+    delta
+) {
+
+    if (
+        !localPlayer ||
+        !playerRef
+    ) {
+
+        return;
+
+    }
+
+
+    let changed =
         false;
 
 
     /* =====================================================
-       LEFT
+       MOVEMENT
     ====================================================== */
+
+    let direction = 0;
+
 
     if (
         keys["a"] ||
         keys["arrowleft"]
     ) {
 
-        localX -= 5;
-
-        moving =
-            true;
+        direction -= 1;
 
     }
 
-
-    /* =====================================================
-       RIGHT
-    ====================================================== */
 
     if (
         keys["d"] ||
         keys["arrowright"]
     ) {
 
-        localX += 5;
+        direction += 1;
 
-        moving =
+    }
+
+
+    if (
+        direction !== 0
+    ) {
+
+        localPlayer.x +=
+            direction *
+            MOVE_SPEED *
+            delta;
+
+        changed =
             true;
 
     }
@@ -705,96 +694,105 @@ async function updateMovement() {
        GRAVITY
     ====================================================== */
 
+    localPlayer.vy =
+        localPlayer.vy ||
+        0;
+
+
+    localPlayer.y +=
+        localPlayer.vy *
+        delta;
+
+
+    localPlayer.vy -=
+        GRAVITY *
+        delta;
+
+
     if (
-        !grounded
+        localPlayer.y <= 0
     ) {
 
-        velocityY -= 0.8;
+        localPlayer.y =
+            0;
 
-        localY += velocityY;
+        localPlayer.vy =
+            0;
 
+    }
+    else {
 
-        if (
-            localY <= 0
-        ) {
-
-            localY =
-                0;
-
-            velocityY =
-                0;
-
-            grounded =
-                true;
-
-        }
+        changed =
+            true;
 
     }
 
 
     /* =====================================================
-       MAP BOUNDS
+       BOUNDS
     ====================================================== */
 
-    const mapWidth =
-        playersContainer.parentElement
-            .clientWidth;
-
-
-    const playerWidth =
-        60;
-
-
-    localX =
+    localPlayer.x =
         Math.max(
-            10,
+            20,
             Math.min(
-                mapWidth - playerWidth,
-                localX
+                WORLD_WIDTH -
+                PLAYER_WIDTH -
+                20,
+                localPlayer.x
             )
         );
 
 
-    /* =====================================================
-       SAVE POSITION
-    ====================================================== */
+    /*
+       Don't hammer Firebase every frame.
+
+       ~20 updates per second is enough for
+       this first version.
+    */
+
+    const now =
+        performance.now();
+
 
     if (
-        moving ||
-        !grounded
+        changed &&
+        now - lastDatabaseUpdate > 50
     ) {
 
-        const playerRef =
-            ref(
-                db,
-                `lobbies/${lobbyCode}/players/${playerId}`
-            );
+        lastDatabaseUpdate =
+            now;
 
 
-        try {
+        update(
+            playerRef,
+            {
 
-            await update(
-                playerRef,
-                {
+                x:
+                    localPlayer.x,
 
-                    x:
-                        localX,
+                y:
+                    localPlayer.y,
 
-                    y:
-                        localY
+                vx:
+                    direction *
+                    MOVE_SPEED,
 
-                }
-            );
+                vy:
+                    localPlayer.vy
 
-        }
-        catch (error) {
+            }
+        )
+        .catch(
+            error => {
 
-            console.error(
-                "Movement update failed:",
-                error
-            );
+                console.error(
+                    "Position update failed:",
+                    error
+                );
 
-        }
+            }
+        );
 
     }
 
@@ -802,13 +800,280 @@ async function updateMovement() {
 
 
 /* =========================================================
-   JUMP
+   RENDER
 ========================================================= */
 
-function jump() {
+function render() {
+
+    const width =
+        canvas.clientWidth;
+
+    const height =
+        canvas.clientHeight;
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /* =====================================================
+       SKY
+    ====================================================== */
+
+    const sky =
+        ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            height
+        );
+
+
+    sky.addColorStop(
+        0,
+        "#312e81"
+    );
+
+    sky.addColorStop(
+        .55,
+        "#4f46e5"
+    );
+
+    sky.addColorStop(
+        1,
+        "#818cf8"
+    );
+
+
+    ctx.fillStyle =
+        sky;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /* =====================================================
+       SUN
+    ====================================================== */
+
+    ctx.beginPath();
+
+    ctx.arc(
+        width - 130,
+        100,
+        48,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "#fef3c7";
+
+    ctx.fill();
+
+
+    /* =====================================================
+       BACKGROUND HILLS
+    ====================================================== */
+
+    drawHills(
+        width,
+        height
+    );
+
+
+    /* =====================================================
+       GROUND
+    ====================================================== */
+
+    const groundY =
+        height -
+        GROUND_HEIGHT;
+
+
+    ctx.fillStyle =
+        "#1e293b";
+
+
+    ctx.fillRect(
+        0,
+        groundY,
+        width,
+        GROUND_HEIGHT
+    );
+
+
+    ctx.fillStyle =
+        "#334155";
+
+
+    ctx.fillRect(
+        0,
+        groundY,
+        width,
+        10
+    );
+
+
+    /*
+       Little ground markings.
+    */
+
+    for (
+        let x = 0;
+        x < width;
+        x += 80
+    ) {
+
+        ctx.fillStyle =
+            "rgba(255,255,255,.035)";
+
+
+        ctx.fillRect(
+            x,
+            groundY + 30,
+            40,
+            5
+        );
+
+    }
+
+
+    /* =====================================================
+       CAMERA
+    ====================================================== */
+
+    let cameraX =
+        0;
+
 
     if (
-        !grounded
+        localPlayer
+    ) {
+
+        cameraX =
+            localPlayer.x -
+            width / 2 +
+            PLAYER_WIDTH / 2;
+
+    }
+
+
+    cameraX =
+        Math.max(
+            0,
+            Math.min(
+                WORLD_WIDTH -
+                width,
+                cameraX
+            )
+        );
+
+
+    /* =====================================================
+       PLAYERS
+    ====================================================== */
+
+    Object.entries(
+        players
+    ).forEach(
+        function([
+            id,
+            player
+        ]) {
+
+            drawPlayer(
+                id,
+                player,
+                cameraX,
+                groundY
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DRAW HILLS
+========================================================= */
+
+function drawHills(
+    width,
+    height
+) {
+
+    const groundY =
+        height -
+        GROUND_HEIGHT;
+
+
+    ctx.fillStyle =
+        "rgba(30,41,59,.25)";
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        0,
+        groundY
+    );
+
+
+    for (
+        let x = 0;
+        x <= width;
+        x += 180
+    ) {
+
+        ctx.quadraticCurveTo(
+            x + 90,
+            groundY - 130,
+            x + 180,
+            groundY
+        );
+
+    }
+
+
+    ctx.lineTo(
+        width,
+        groundY
+    );
+
+    ctx.lineTo(
+        0,
+        groundY
+    );
+
+    ctx.fill();
+
+}
+
+
+/* =========================================================
+   DRAW PLAYER
+========================================================= */
+
+function drawPlayer(
+    id,
+    player,
+    cameraX,
+    groundY
+) {
+
+    if (
+        !player
     ) {
 
         return;
@@ -816,12 +1081,364 @@ function jump() {
     }
 
 
-    grounded =
-        false;
+    const x =
+        (player.x || 0) -
+        cameraX;
 
 
-    velocityY =
-        14;
+    const y =
+        groundY -
+        PLAYER_HEIGHT -
+        (player.y || 0);
+
+
+    /*
+       Don't render players outside screen.
+    */
+
+    if (
+        x < -100 ||
+        x > canvas.clientWidth + 100
+    ) {
+
+        return;
+
+    }
+
+
+    const character =
+        player.character ||
+        "leafy";
+
+
+    /* =====================================================
+       SHADOW
+    ====================================================== */
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        x + PLAYER_WIDTH / 2,
+        groundY - 4,
+        25,
+        7,
+        0,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fillStyle =
+        "rgba(0,0,0,.3)";
+
+    ctx.fill();
+
+
+    /* =====================================================
+       CHARACTER BODY
+    ====================================================== */
+
+    let bodyColor =
+        "#84cc16";
+
+
+    /*
+       Basic colours for the current
+       StudySprint characters.
+
+       We can connect the actual Goober
+       renderer later.
+    */
+
+    const characterColors = {
+
+        leafy:
+            "#84cc16",
+
+        blue:
+            "#38bdf8",
+
+        purple:
+            "#a78bfa",
+
+        pink:
+            "#f472b6",
+
+        red:
+            "#f87171",
+
+        orange:
+            "#fb923c",
+
+        yellow:
+            "#facc15"
+
+    };
+
+
+    bodyColor =
+        characterColors[
+            character
+        ] ||
+        bodyColor;
+
+
+    /*
+       Body
+    */
+
+    roundRect(
+        ctx,
+        x,
+        y + 15,
+        PLAYER_WIDTH,
+        49,
+        13
+    );
+
+
+    ctx.fillStyle =
+        bodyColor;
+
+    ctx.fill();
+
+
+    /*
+       Little outline.
+    */
+
+    ctx.strokeStyle =
+        "rgba(15,23,42,.5)";
+
+    ctx.lineWidth =
+        3;
+
+    ctx.stroke();
+
+
+    /* =====================================================
+       EYES
+    ====================================================== */
+
+    ctx.fillStyle =
+        "white";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x + 13,
+        y + 31,
+        7,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.arc(
+        x + 29,
+        y + 31,
+        7,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        "#111827";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x + 14,
+        y + 32,
+        3,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.arc(
+        x + 30,
+        y + 32,
+        3,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+
+
+    /* =====================================================
+       NAME
+    ====================================================== */
+
+    ctx.font =
+        "900 13px Arial";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    const name =
+        player.name ||
+        "Player";
+
+
+    const nameWidth =
+        ctx.measureText(
+            name
+        ).width;
+
+
+    ctx.fillStyle =
+        "rgba(15,23,42,.8)";
+
+
+    roundRect(
+        ctx,
+        x +
+            PLAYER_WIDTH / 2 -
+            nameWidth / 2 -
+            8,
+        y - 27,
+        nameWidth + 16,
+        21,
+        8
+    );
+
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        "white";
+
+
+    ctx.fillText(
+        name,
+        x +
+            PLAYER_WIDTH / 2,
+        y - 12
+    );
+
+
+    /*
+       Host indicator.
+    */
+
+    if (
+        id === getHostId()
+    ) {
+
+        ctx.font =
+            "12px Arial";
+
+
+        ctx.fillText(
+            "👑",
+            x +
+                PLAYER_WIDTH / 2,
+            y - 35
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   HOST ID
+========================================================= */
+
+let cachedHostId = null;
+
+
+function getHostId() {
+
+    if (
+        cachedHostId
+    ) {
+
+        return cachedHostId;
+
+    }
+
+
+    /*
+       The current lobby structure uses hostId.
+    */
+
+    return null;
+
+}
+
+
+/* =========================================================
+   ROUND RECTANGLE
+========================================================= */
+
+function roundRect(
+    context,
+    x,
+    y,
+    width,
+    height,
+    radius
+) {
+
+    context.beginPath();
+
+    context.roundRect(
+        x,
+        y,
+        width,
+        height,
+        radius
+    );
+
+}
+
+
+/* =========================================================
+   CONNECTION STATUS
+========================================================= */
+
+function setConnectionStatus(
+    status
+) {
+
+    connectionStatus.textContent =
+        status;
+
+
+    connectionStatus.classList.remove(
+        "connected",
+        "error"
+    );
+
+
+    if (
+        status === "CONNECTED"
+    ) {
+
+        connectionStatus.classList.add(
+            "connected"
+        );
+
+    }
+
+
+    if (
+        status === "ERROR"
+    ) {
+
+        connectionStatus.classList.add(
+            "error"
+        );
+
+    }
 
 }
 
@@ -834,20 +1451,20 @@ function showError(
     message
 ) {
 
-    loadingScreen.style.display =
+    loading.style.display =
         "none";
 
 
-    gameWorld.style.display =
-        "none";
+    errorBox.style.display =
+        "block";
 
 
-    errorScreen.style.display =
-        "flex";
-
-
-    errorMessage.textContent =
+    errorBox.textContent =
         message;
 
+
+    setConnectionStatus(
+        "ERROR"
+    );
+
 }
-```
