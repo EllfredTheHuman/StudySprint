@@ -1,0 +1,577 @@
+/* =========================================================
+   STUDYSPRINT — BOSSY
+   Side-view multiplayer game
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body {
+    background:
+        #0f172a;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: white;
+}
+
+
+/* =========================================================
+   GAME ROOT
+========================================================= */
+
+#bossy-game {
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        #0f172a;
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+.bossy-hud {
+    position: relative;
+
+    z-index: 20;
+
+    height: 64px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background:
+        rgba(15, 23, 42, .94);
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, .08);
+
+    box-shadow:
+        0 5px 20px
+        rgba(0, 0, 0, .25);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.bossy-brand {
+    font-size: 17px;
+
+    font-weight: 900;
+
+    color:
+        #a5b4fc;
+}
+
+
+/* =========================================================
+   GAME TITLE
+========================================================= */
+
+.bossy-title {
+    position: absolute;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    font-size: 23px;
+
+    font-weight: 1000;
+
+    letter-spacing: .08em;
+
+    color: white;
+
+    text-shadow:
+        0 0 15px
+        rgba(129, 140, 248, .5);
+}
+
+
+/* =========================================================
+   PLAYER COUNT
+========================================================= */
+
+.bossy-player-count {
+    padding:
+        7px 12px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(129, 140, 248, .12);
+
+    border:
+        1px solid
+        rgba(129, 140, 248, .25);
+
+    color:
+        #c7d2fe;
+
+    font-size: 13px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   GAME CONTAINER
+========================================================= */
+
+.game-container {
+    position: relative;
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow: hidden;
+
+    background:
+        #172554;
+}
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+#game-canvas {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    /*
+       Prevent blurry scaling and accidental
+       browser interactions.
+    */
+
+    image-rendering:
+        auto;
+
+    user-select: none;
+
+    touch-action: none;
+}
+
+
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
+
+.game-loading {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 15;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(30, 41, 59, .88),
+            rgba(15, 23, 42, .98)
+        );
+
+    text-align: center;
+}
+
+
+.game-loading h2 {
+    margin:
+        18px 0 6px;
+
+    font-size: 26px;
+
+    font-weight: 1000;
+}
+
+
+.game-loading p {
+    margin: 0;
+
+    color:
+        #94a3b8;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LOADING SPINNER
+========================================================= */
+
+.loading-spinner {
+    width: 42px;
+    height: 42px;
+
+    border:
+        4px solid
+        rgba(255, 255, 255, .12);
+
+    border-top-color:
+        #818cf8;
+
+    border-radius:
+        50%;
+
+    animation:
+        bossySpin
+        .8s linear infinite;
+}
+
+
+/* =========================================================
+   GAME MESSAGE
+========================================================= */
+
+.game-message {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    z-index: 30;
+
+    padding:
+        18px 28px;
+
+    border-radius:
+        16px;
+
+    background:
+        rgba(15, 23, 42, .92);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .12);
+
+    box-shadow:
+        0 15px 50px
+        rgba(0, 0, 0, .35);
+
+    color: white;
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls-hint {
+    position: absolute;
+
+    left: 50%;
+    bottom: 18px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        9px 14px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(15, 23, 42, .72);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .1);
+
+    backdrop-filter:
+        blur(8px);
+
+    color:
+        #cbd5e1;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+.controls-hint span {
+    padding:
+        4px 7px;
+
+    border-radius:
+        6px;
+
+    background:
+        rgba(255, 255, 255, .12);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .1);
+
+    color: white;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: .03em;
+}
+
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.bossy-bottom-bar {
+    position: relative;
+
+    z-index: 20;
+
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 22px;
+
+    background:
+        rgba(15, 23, 42, .96);
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, .08);
+
+    color:
+        #e2e8f0;
+}
+
+
+.bossy-bottom-bar > div:first-child {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.bossy-bottom-bar strong {
+    font-size: 13px;
+
+    font-weight: 900;
+}
+
+
+.bossy-bottom-bar span {
+    color:
+        #64748b;
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   CONNECTION STATUS
+========================================================= */
+
+.connection-status {
+    color:
+        #fbbf24 !important;
+
+    font-size: 11px !important;
+
+    font-weight: 900 !important;
+}
+
+
+.connection-status.connected {
+    color:
+        #4ade80 !important;
+}
+
+
+.connection-status.error {
+    color:
+        #f87171 !important;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes bossySpin {
+
+    from {
+        transform:
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            rotate(360deg);
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .bossy-hud {
+        height: 56px;
+
+        padding:
+            0 14px;
+    }
+
+
+    .bossy-brand {
+        font-size: 14px;
+    }
+
+
+    .bossy-title {
+        font-size: 18px;
+    }
+
+
+    .bossy-player-count {
+        padding:
+            6px 9px;
+
+        font-size: 11px;
+    }
+
+
+    .bossy-bottom-bar {
+        height: 44px;
+
+        padding:
+            0 14px;
+    }
+
+
+    .controls-hint {
+        bottom: 12px;
+
+        font-size: 10px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 450px) {
+
+    .bossy-brand {
+        display: none;
+    }
+
+
+    .bossy-title {
+        left: 14px;
+
+        transform: none;
+    }
+
+
+    .bossy-bottom-bar {
+        display: none;
+    }
+
+}
