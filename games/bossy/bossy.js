@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    STUDYSPRINT — BOSSY
    Multiplayer side-view game
@@ -11,8 +10,9 @@
    - A / D movement
    - SPACE jumping
    - Gravity
-   - Ground collision
-   - Player spawning
+   - Reliable ground collision
+   - Remote character syncing
+   - Loading timeout protection
 ========================================================= */
 
 import { db } from "../../firebase.js";
@@ -68,13 +68,8 @@ const gameMap =
    CONSTANTS
 ========================================================= */
 
-const GAME_WIDTH = 1200;
-
 const PLAYER_WIDTH = 140;
-
 const PLAYER_HEIGHT = 150;
-
-const GROUND_Y = 0;
 
 const MOVE_SPEED = 6;
 
@@ -83,6 +78,57 @@ const GRAVITY = 0.75;
 const JUMP_FORCE = 15;
 
 const UPDATE_RATE = 30;
+
+const START_X = 150;
+
+const GROUND_Y = 0;
+
+
+/* =========================================================
+   FIREBASE TIMEOUT
+========================================================= */
+
+const FIREBASE_TIMEOUT = 8000;
+
+
+/*
+   Firebase can occasionally leave a get()/write()
+   waiting forever when the connection is unavailable.
+
+   This prevents Bossy from being stuck on
+   "Loading Bossy..." indefinitely.
+*/
+
+function withTimeout(
+    promise,
+    milliseconds,
+    message
+) {
+
+    return Promise.race([
+
+        promise,
+
+        new Promise(
+            function(_, reject) {
+
+                setTimeout(
+                    function() {
+
+                        reject(
+                            new Error(message)
+                        );
+
+                    },
+                    milliseconds
+                );
+
+            }
+        )
+
+    ]);
+
+}
 
 
 /* =========================================================
@@ -99,8 +145,28 @@ function getPlayerId() {
 
     if (!id) {
 
-        id =
-            crypto.randomUUID();
+        if (
+            window.crypto &&
+            typeof crypto.randomUUID === "function"
+        ) {
+
+            id =
+                crypto.randomUUID();
+
+        }
+
+        else {
+
+            id =
+                "player-" +
+                Date.now() +
+                "-" +
+                Math.random()
+                    .toString(36)
+                    .slice(2);
+
+        }
+
 
         localStorage.setItem(
             "studySprintPlayerId",
@@ -139,11 +205,13 @@ const lobbyCode =
 
 
 /* =========================================================
-   PLAYER DATA
+   LOCAL PLAYER DATA
 ========================================================= */
 
 const username =
-    localStorage.getItem("username") ||
+    localStorage.getItem(
+        "username"
+    ) ||
     "Player";
 
 
@@ -179,19 +247,26 @@ const equippedEffectId =
    LOCAL PHYSICS
 ========================================================= */
 
-let localX = 150;
+let localX =
+    START_X;
 
-let localY = 0;
+let localY =
+    GROUND_Y;
 
-let velocityY = 0;
+let velocityY =
+    0;
 
-let onGround = true;
+let onGround =
+    true;
 
-let leftPressed = false;
+let leftPressed =
+    false;
 
-let rightPressed = false;
+let rightPressed =
+    false;
 
-let jumpQueued = false;
+let jumpQueued =
+    false;
 
 
 /* =========================================================
@@ -203,7 +278,15 @@ const playerElements =
 
 
 /* =========================================================
-   CHARACTER DATA
+   LAST KNOWN PLAYER DATA
+========================================================= */
+
+const knownPlayers =
+    new Map();
+
+
+/* =========================================================
+   SHOP CHARACTERS
 ========================================================= */
 
 const SHOP_CHARACTERS = [
@@ -366,6 +449,33 @@ const SHOP_CHARACTERS = [
 
 
 /* =========================================================
+   TITLES
+========================================================= */
+
+const CHARACTER_TITLES = {
+
+    "none":
+        "",
+
+    "study-sprinter":
+        "Study Sprinter",
+
+    "brainiac":
+        "Brainiac",
+
+    "speed-learner":
+        "Speed Learner",
+
+    "knowledge-seeker":
+        "Knowledge Seeker",
+
+    "study-legend":
+        "Study Legend"
+
+};
+
+
+/* =========================================================
    GET CHARACTER
 ========================================================= */
 
@@ -452,26 +562,44 @@ function createGooberPreview(data) {
         "goober-foot foot-right";
 
 
-    face.appendChild(leftEye);
+    face.appendChild(
+        leftEye
+    );
 
-    face.appendChild(rightEye);
+    face.appendChild(
+        rightEye
+    );
 
-    face.appendChild(mouth);
-
-
-    feet.appendChild(leftFoot);
-
-    feet.appendChild(rightFoot);
-
-
-    goober.appendChild(feet);
-
-    goober.appendChild(body);
-
-    goober.appendChild(face);
+    face.appendChild(
+        mouth
+    );
 
 
-    function addPart(className) {
+    feet.appendChild(
+        leftFoot
+    );
+
+    feet.appendChild(
+        rightFoot
+    );
+
+
+    goober.appendChild(
+        feet
+    );
+
+    goober.appendChild(
+        body
+    );
+
+    goober.appendChild(
+        face
+    );
+
+
+    function addPart(
+        className
+    ) {
 
         const part =
             document.createElement("div");
@@ -480,7 +608,9 @@ function createGooberPreview(data) {
             "goober-part " +
             className;
 
-        goober.appendChild(part);
+        goober.appendChild(
+            part
+        );
 
         return part;
 
@@ -664,7 +794,8 @@ function createGooberPreview(data) {
 
 
     const parts =
-        designs[data.design] || [];
+        designs[data.design] ||
+        designs.leafy;
 
 
     parts.forEach(
@@ -674,19 +805,27 @@ function createGooberPreview(data) {
                 bodyColours.includes(part)
             ) {
 
-                body.classList.add(part);
+                body.classList.add(
+                    part
+                );
 
             }
 
             else {
 
-                addPart(part);
+                addPart(
+                    part
+                );
 
             }
 
         }
     );
 
+
+    /* =====================================================
+       FOUR EYES
+    ====================================================== */
 
     if (
         data.design === "fourEyes"
@@ -706,12 +845,20 @@ function createGooberPreview(data) {
             "goober-eye extra-eye extra-two";
 
 
-        face.appendChild(extraOne);
+        face.appendChild(
+            extraOne
+        );
 
-        face.appendChild(extraTwo);
+        face.appendChild(
+            extraTwo
+        );
 
     }
 
+
+    /* =====================================================
+       SHELBY
+    ====================================================== */
 
     if (
         data.design === "shelby"
@@ -736,6 +883,10 @@ function createGooberPreview(data) {
 
     }
 
+
+    /* =====================================================
+       CAPTAIN GOOB
+    ====================================================== */
 
     if (
         data.design === "captainGoob"
@@ -782,10 +933,7 @@ function applyEffect(
 
     wrapper.classList.add(
         "effect-" +
-        effectId.replace(
-            "speed-trail",
-            "speed-trail"
-        )
+        effectId
     );
 
 
@@ -805,14 +953,104 @@ function applyEffect(
             sparkle.className =
                 "character-effect-element effect-sparkle-dot";
 
-            sparkle.dataset.index =
-                i;
+            sparkle.style.setProperty(
+                "--sparkle-index",
+                i
+            );
 
             wrapper.appendChild(
                 sparkle
             );
 
         }
+
+    }
+
+
+    if (
+        effectId === "speed-trail"
+    ) {
+
+        for (
+            let i = 0;
+            i < 5;
+            i++
+        ) {
+
+            const streak =
+                document.createElement("div");
+
+            streak.className =
+                "character-effect-element effect-speed-streak";
+
+            streak.style.setProperty(
+                "--trail-index",
+                i
+            );
+
+            wrapper.appendChild(
+                streak
+            );
+
+        }
+
+    }
+
+
+    if (
+        effectId === "lightning"
+    ) {
+
+        for (
+            let i = 0;
+            i < 4;
+            i++
+        ) {
+
+            const bolt =
+                document.createElement("div");
+
+            bolt.className =
+                "character-effect-element effect-lightning-bolt";
+
+            bolt.style.setProperty(
+                "--lightning-index",
+                i
+            );
+
+            wrapper.appendChild(
+                bolt
+            );
+
+        }
+
+    }
+
+
+    if (
+        effectId === "rainbow"
+    ) {
+
+        const ring =
+            document.createElement("div");
+
+        ring.className =
+            "character-effect-element effect-rainbow-ring";
+
+        wrapper.appendChild(
+            ring
+        );
+
+
+        const inner =
+            document.createElement("div");
+
+        inner.className =
+            "character-effect-element effect-rainbow-ring-inner";
+
+        wrapper.appendChild(
+            inner
+        );
 
     }
 
@@ -833,11 +1071,90 @@ function applyEffect(
             flame.className =
                 "character-effect-element effect-flame";
 
-            flame.dataset.index =
-                i;
+            flame.style.setProperty(
+                "--flame-index",
+                i
+            );
 
             wrapper.appendChild(
                 flame
+            );
+
+        }
+
+    }
+
+
+    if (
+        effectId === "glitch"
+    ) {
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
+
+            const glitch =
+                document.createElement("div");
+
+            glitch.className =
+                "character-effect-element effect-glitch-piece";
+
+            glitch.style.setProperty(
+                "--glitch-index",
+                i
+            );
+
+            wrapper.appendChild(
+                glitch
+            );
+
+        }
+
+    }
+
+
+    if (
+        effectId === "shadow"
+    ) {
+
+        const shadow =
+            document.createElement("div");
+
+        shadow.className =
+            "character-effect-element effect-shadow-ground";
+
+        wrapper.appendChild(
+            shadow
+        );
+
+    }
+
+
+    if (
+        effectId === "crystal"
+    ) {
+
+        for (
+            let i = 0;
+            i < 6;
+            i++
+        ) {
+
+            const crystal =
+                document.createElement("div");
+
+            crystal.className =
+                "character-effect-element effect-crystal-shard";
+
+            crystal.style.setProperty(
+                "--crystal-index",
+                i
+            );
+
+            wrapper.appendChild(
+                crystal
             );
 
         }
@@ -859,22 +1176,29 @@ function applyEffect(
             ring
         );
 
-    }
 
+        for (
+            let i = 0;
+            i < 8;
+            i++
+        ) {
 
-    if (
-        effectId === "shadow"
-    ) {
+            const star =
+                document.createElement("div");
 
-        const shadow =
-            document.createElement("div");
+            star.className =
+                "character-effect-element effect-cosmic-star";
 
-        shadow.className =
-            "character-effect-element effect-shadow-ground";
+            star.style.setProperty(
+                "--star-index",
+                i
+            );
 
-        wrapper.appendChild(
-            shadow
-        );
+            wrapper.appendChild(
+                star
+            );
+
+        }
 
     }
 
@@ -909,6 +1233,17 @@ function applyEffect(
                 crown
             );
 
+
+            const glow =
+                document.createElement("div");
+
+            glow.className =
+                "character-effect-element crown-glow";
+
+            wrapper.appendChild(
+                glow
+            );
+
         }
 
     }
@@ -936,6 +1271,17 @@ function createPlayerElement(
         id;
 
 
+    wrapper.dataset.characterId =
+        player.characterId ||
+        player.character ||
+        "leafy";
+
+
+    wrapper.dataset.effectId =
+        player.effectId ||
+        "none";
+
+
     if (
         id === playerId
     ) {
@@ -960,9 +1306,7 @@ function createPlayerElement(
 
     const character =
         getCharacterData(
-            player.characterId ||
-            player.character ||
-            "leafy"
+            wrapper.dataset.characterId
         );
 
 
@@ -979,8 +1323,7 @@ function createPlayerElement(
 
     applyEffect(
         characterHolder,
-        player.effectId ||
-        "none"
+        wrapper.dataset.effectId
     );
 
 
@@ -1014,9 +1357,13 @@ function createPlayerElement(
        TITLE
     ====================================================== */
 
+    const titleId =
+        player.titleId ||
+        "none";
+
+
     if (
-        player.titleId &&
-        player.titleId !== "none"
+        titleId !== "none"
     ) {
 
         const title =
@@ -1025,14 +1372,23 @@ function createPlayerElement(
         title.className =
             "bossy-player-title";
 
+
         title.textContent =
-            getTitleName(
-                player.titleId
+            CHARACTER_TITLES[
+                titleId
+            ] ||
+            "";
+
+
+        if (
+            title.textContent
+        ) {
+
+            wrapper.appendChild(
+                title
             );
 
-        wrapper.appendChild(
-            title
-        );
+        }
 
     }
 
@@ -1060,34 +1416,34 @@ function createPlayerElement(
 
 
 /* =========================================================
-   TITLE
+   REBUILD PLAYER CHARACTER
 ========================================================= */
 
-function getTitleName(id) {
+function rebuildPlayerElement(
+    id,
+    player
+) {
 
-    const titles = {
-
-        "study-sprinter":
-            "Study Sprinter",
-
-        "brainiac":
-            "Brainiac",
-
-        "speed-learner":
-            "Speed Learner",
-
-        "knowledge-seeker":
-            "Knowledge Seeker",
-
-        "study-legend":
-            "Study Legend"
-
-    };
+    const oldElement =
+        playerElements.get(id);
 
 
-    return (
-        titles[id] ||
-        ""
+    if (
+        oldElement
+    ) {
+
+        oldElement.remove();
+
+        playerElements.delete(
+            id
+        );
+
+    }
+
+
+    return createPlayerElement(
+        id,
+        player
     );
 
 }
@@ -1111,15 +1467,18 @@ function updatePlayerElement(
             Number(player.x)
         )
             ? Number(player.x)
-            : 150;
+            : START_X;
 
 
     const y =
         Number.isFinite(
             Number(player.y)
         )
-            ? Number(player.y)
-            : 0;
+            ? Math.max(
+                GROUND_Y,
+                Number(player.y)
+            )
+            : GROUND_Y;
 
 
     element.style.left =
@@ -1180,9 +1539,15 @@ function renderPlayers(
 
     const ids =
         new Set(
-            Object.keys(players)
+            Object.keys(
+                players
+            )
         );
 
+
+    /* =====================================================
+       REMOVE PLAYERS WHO LEFT
+    ====================================================== */
 
     playerElements.forEach(
         function(element, id) {
@@ -1197,11 +1562,19 @@ function renderPlayers(
                     id
                 );
 
+                knownPlayers.delete(
+                    id
+                );
+
             }
 
         }
     );
 
+
+    /* =====================================================
+       CREATE / UPDATE PLAYERS
+    ====================================================== */
 
     Object.entries(
         players
@@ -1215,11 +1588,47 @@ function renderPlayers(
                 return;
 
 
+            const characterId =
+                player.characterId ||
+                player.character ||
+                "leafy";
+
+
+            const effectId =
+                player.effectId ||
+                "none";
+
+
+            const titleId =
+                player.titleId ||
+                "none";
+
+
             let element =
-                playerElements.get(id);
+                playerElements.get(
+                    id
+                );
 
 
-            if (!element) {
+            const previous =
+                knownPlayers.get(
+                    id
+                );
+
+
+            const appearanceChanged =
+                !previous ||
+                previous.characterId !==
+                    characterId ||
+                previous.effectId !==
+                    effectId ||
+                previous.titleId !==
+                    titleId;
+
+
+            if (
+                !element
+            ) {
 
                 element =
                     createPlayerElement(
@@ -1229,30 +1638,12 @@ function renderPlayers(
 
             }
 
-
-            const oldCharacter =
-                element.dataset.characterId;
-
-
-            const newCharacter =
-                player.characterId ||
-                player.character ||
-                "leafy";
-
-
-            if (
-                oldCharacter !== newCharacter
+            else if (
+                appearanceChanged
             ) {
 
-                element.remove();
-
-                playerElements.delete(
-                    id
-                );
-
-
                 element =
-                    createPlayerElement(
+                    rebuildPlayerElement(
                         id,
                         player
                     );
@@ -1261,7 +1652,11 @@ function renderPlayers(
 
 
             element.dataset.characterId =
-                newCharacter;
+                characterId;
+
+
+            element.dataset.effectId =
+                effectId;
 
 
             updatePlayerElement(
@@ -1269,9 +1664,30 @@ function renderPlayers(
                 player
             );
 
+
+            knownPlayers.set(
+                id,
+                {
+
+                    characterId:
+                        characterId,
+
+                    effectId:
+                        effectId,
+
+                    titleId:
+                        titleId
+
+                }
+            );
+
         }
     );
 
+
+    /* =====================================================
+       PLAYER COUNT
+    ====================================================== */
 
     const count =
         Object.keys(
@@ -1288,26 +1704,128 @@ function renderPlayers(
 
 
 /* =========================================================
+   FIND SPAWN
+========================================================= */
+
+function getSpawnPosition(
+    players
+) {
+
+    const usedPositions =
+        Object.values(
+            players || {}
+        )
+        .map(
+            player =>
+                Number(player?.x)
+        )
+        .filter(
+            Number.isFinite
+        );
+
+
+    let spawn =
+        START_X;
+
+
+    for (
+        let i = 0;
+        i < 20;
+        i++
+    ) {
+
+        const collision =
+            usedPositions.some(
+                x =>
+                    Math.abs(
+                        x - spawn
+                    ) <
+                    PLAYER_WIDTH + 20
+            );
+
+
+        if (!collision)
+            break;
+
+
+        spawn +=
+            PLAYER_WIDTH + 30;
+
+    }
+
+
+    const mapWidth =
+        gameMap?.clientWidth ||
+        1200;
+
+
+    const maxX =
+        Math.max(
+            20,
+            mapWidth -
+            PLAYER_WIDTH -
+            20
+        );
+
+
+    return Math.min(
+        spawn,
+        maxX
+    );
+
+}
+
+
+/* =========================================================
    REGISTER LOCAL PLAYER
 ========================================================= */
 
 async function registerLocalPlayer(
-    playersRef
+    existingPlayers
 ) {
 
-    const existingSnapshot =
-        await get(
-            ref(
-                db,
-                `lobbies/${lobbyCode}/players/${playerId}`
-            )
+    const playerRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players/${playerId}`
         );
 
 
-    let existing =
-        existingSnapshot.exists()
-            ? existingSnapshot.val()
-            : {};
+    let existing = {};
+
+
+    try {
+
+        const existingSnapshot =
+            await withTimeout(
+                get(
+                    playerRef
+                ),
+                FIREBASE_TIMEOUT,
+                "Firebase took too long to read your player data."
+            );
+
+
+        if (
+            existingSnapshot.exists()
+        ) {
+
+            existing =
+                existingSnapshot.val() ||
+                {};
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not read existing player data. Using a fresh spawn.",
+            error
+        );
+
+    }
 
 
     const existingX =
@@ -1315,7 +1833,22 @@ async function registerLocalPlayer(
             Number(existing.x)
         )
             ? Number(existing.x)
-            : getSpawnPosition();
+            : getSpawnPosition(
+                existingPlayers
+            );
+
+
+    localX =
+        existingX;
+
+    localY =
+        GROUND_Y;
+
+    velocityY =
+        0;
+
+    onGround =
+        true;
 
 
     const playerData = {
@@ -1336,17 +1869,18 @@ async function registerLocalPlayer(
             equippedEffectId,
 
         x:
-            existingX,
+            localX,
 
         y:
-            0,
+            GROUND_Y,
 
         grounded:
             true,
 
         direction:
-            existing.direction ||
-            "right",
+            existing.direction === "left"
+                ? "left"
+                : "right",
 
         connected:
             true,
@@ -1357,66 +1891,65 @@ async function registerLocalPlayer(
     };
 
 
-    await update(
-        ref(
-            db,
-            `lobbies/${lobbyCode}/players/${playerId}`
+    /*
+       Register the player.
+
+       This write has a timeout so a broken Firebase
+       connection can NEVER leave the loading screen
+       spinning forever.
+    */
+
+    await withTimeout(
+
+        update(
+            playerRef,
+            playerData
         ),
-        playerData
+
+        FIREBASE_TIMEOUT,
+
+        "Firebase took too long to register your player."
+
     );
 
 
-    onDisconnect(
-        ref(
-            db,
-            `lobbies/${lobbyCode}/players/${playerId}/connected`
-        )
-    ).set(false);
+    /*
+       Tell Firebase to mark the player disconnected
+       if this browser suddenly disappears.
+    */
 
+    try {
 
-    localX =
-        playerData.x;
+        await withTimeout(
 
-    localY =
-        0;
+            onDisconnect(
+                ref(
+                    db,
+                    `lobbies/${lobbyCode}/players/${playerId}/connected`
+                )
+            )
+            .set(false),
 
-    velocityY =
-        0;
+            FIREBASE_TIMEOUT,
 
-    onGround =
-        true;
+            "Firebase took too long to configure disconnect handling."
+
+        );
+
+    }
+
+    catch (error) {
+
+        console.warn(
+            "Could not configure onDisconnect:",
+            error
+        );
+
+    }
 
 
     localNameElement.textContent =
         username;
-
-}
-
-
-/* =========================================================
-   SPAWN POSITION
-========================================================= */
-
-function getSpawnPosition() {
-
-    const existing =
-        Array.from(
-            playerElements.values()
-        );
-
-
-    const spawn =
-        150 +
-        (
-            existing.length *
-            160
-        );
-
-
-    return Math.min(
-        spawn,
-        GAME_WIDTH - PLAYER_WIDTH - 50
-    );
 
 }
 
@@ -1433,7 +1966,7 @@ function setupControls() {
 
             if (
                 event.code === "KeyA" ||
-                event.key.toLowerCase() === "a"
+                event.key?.toLowerCase() === "a"
             ) {
 
                 leftPressed =
@@ -1446,7 +1979,7 @@ function setupControls() {
 
             if (
                 event.code === "KeyD" ||
-                event.key.toLowerCase() === "d"
+                event.key?.toLowerCase() === "d"
             ) {
 
                 rightPressed =
@@ -1484,7 +2017,7 @@ function setupControls() {
 
             if (
                 event.code === "KeyA" ||
-                event.key.toLowerCase() === "a"
+                event.key?.toLowerCase() === "a"
             ) {
 
                 leftPressed =
@@ -1495,7 +2028,7 @@ function setupControls() {
 
             if (
                 event.code === "KeyD" ||
-                event.key.toLowerCase() === "d"
+                event.key?.toLowerCase() === "d"
             ) {
 
                 rightPressed =
@@ -1506,113 +2039,34 @@ function setupControls() {
         }
     );
 
-}
 
-
-/* =========================================================
-   PHYSICS LOOP
-========================================================= */
-
-function startPhysics() {
-
-    const playersRef =
-        ref(
-            db,
-            `lobbies/${lobbyCode}/players/${playerId}`
-        );
-
-
-    let lastTime =
-        performance.now();
-
-
-    function loop(
-        currentTime
-    ) {
-
-        const delta =
-            Math.min(
-                (currentTime - lastTime) /
-                16.6667,
-                2
-            );
-
-
-        lastTime =
-            currentTime;
-
-
-        updatePhysics(
-            delta
-        );
-
-
-        requestAnimationFrame(
-            loop
-        );
-
-    }
-
-
-    requestAnimationFrame(
-        loop
-    );
-
-
-    setInterval(
+    window.addEventListener(
+        "blur",
         function() {
 
-            update(
-                playersRef,
-                {
+            leftPressed =
+                false;
 
-                    x:
-                        Math.round(
-                            localX
-                        ),
+            rightPressed =
+                false;
 
-                    y:
-                        Math.round(
-                            localY
-                        ),
-
-                    grounded:
-                        onGround,
-
-                    direction:
-                        leftPressed
-                            ? "left"
-                            : rightPressed
-                                ? "right"
-                                : undefined
-
-                }
-            )
-            .catch(
-                function(error) {
-
-                    console.error(
-                        "Bossy movement sync failed:",
-                        error
-                    );
-
-                }
-            );
-
-        },
-        1000 / UPDATE_RATE
+        }
     );
 
 }
 
 
 /* =========================================================
-   UPDATE PHYSICS
+   PHYSICS
 ========================================================= */
 
 function updatePhysics(
     delta
 ) {
+
+    /* =====================================================
+       HORIZONTAL MOVEMENT
+    ====================================================== */
 
     let direction =
         0;
@@ -1647,15 +2101,20 @@ function updatePhysics(
     ====================================================== */
 
     if (
-        jumpQueued &&
-        onGround
+        jumpQueued
     ) {
 
-        velocityY =
-            JUMP_FORCE;
+        if (
+            onGround
+        ) {
 
-        onGround =
-            false;
+            velocityY =
+                JUMP_FORCE;
+
+            onGround =
+                false;
+
+        }
 
     }
 
@@ -1676,10 +2135,23 @@ function updatePhysics(
             GRAVITY *
             delta;
 
+
         localY +=
             velocityY *
             delta;
 
+
+        /*
+           HARD LANDING RULE
+
+           The player can NEVER finish a physics
+           frame below the ground.
+
+           Once they touch it:
+           y = 0
+           velocity = 0
+           grounded = true
+        */
 
         if (
             localY <= GROUND_Y
@@ -1698,15 +2170,37 @@ function updatePhysics(
 
     }
 
+    else {
+
+        /*
+           Extra safety.
+
+           If some weird state ever gives us a
+           non-zero Y while grounded, force it back.
+        */
+
+        localY =
+            GROUND_Y;
+
+        velocityY =
+            0;
+
+    }
+
 
     /* =====================================================
        MAP BOUNDS
     ====================================================== */
 
+    const mapWidth =
+        gameMap?.clientWidth ||
+        1200;
+
+
     const maxX =
         Math.max(
-            100,
-            gameMap.clientWidth -
+            20,
+            mapWidth -
             PLAYER_WIDTH -
             20
         );
@@ -1723,7 +2217,7 @@ function updatePhysics(
 
 
     /* =====================================================
-       UPDATE OUR OWN DOM IMMEDIATELY
+       LOCAL DOM
     ====================================================== */
 
     const localElement =
@@ -1732,7 +2226,9 @@ function updatePhysics(
         );
 
 
-    if (localElement) {
+    if (
+        localElement
+    ) {
 
         updatePlayerElement(
             localElement,
@@ -1752,12 +2248,151 @@ function updatePhysics(
                         ? "left"
                         : rightPressed
                             ? "right"
-                            : "right"
+                            : localElement.classList.contains(
+                                "facing-left"
+                            )
+                                ? "left"
+                                : "right"
 
             }
         );
 
     }
+
+}
+
+
+/* =========================================================
+   START PHYSICS
+========================================================= */
+
+function startPhysics() {
+
+    const playerRef =
+        ref(
+            db,
+            `lobbies/${lobbyCode}/players/${playerId}`
+        );
+
+
+    let lastTime =
+        performance.now();
+
+
+    function loop(
+        currentTime
+    ) {
+
+        const delta =
+            Math.min(
+                (
+                    currentTime -
+                    lastTime
+                ) /
+                16.6667,
+                2
+            );
+
+
+        lastTime =
+            currentTime;
+
+
+        updatePhysics(
+            delta
+        );
+
+
+        requestAnimationFrame(
+            loop
+        );
+
+    }
+
+
+    requestAnimationFrame(
+        loop
+    );
+
+
+    setInterval(
+        function() {
+
+            const direction =
+                leftPressed
+                    ? "left"
+                    : rightPressed
+                        ? "right"
+                        : localElementDirection();
+
+
+            update(
+                playerRef,
+                {
+
+                    x:
+                        Math.round(
+                            localX
+                        ),
+
+                    y:
+                        Math.round(
+                            Math.max(
+                                GROUND_Y,
+                                localY
+                            )
+                        ),
+
+                    grounded:
+                        onGround,
+
+                    direction:
+                        direction
+
+                }
+            )
+            .catch(
+                function(error) {
+
+                    console.warn(
+                        "Bossy movement sync failed:",
+                        error
+                    );
+
+                }
+            );
+
+        },
+        1000 / UPDATE_RATE
+    );
+
+}
+
+
+/* =========================================================
+   CURRENT DIRECTION
+========================================================= */
+
+function localElementDirection() {
+
+    const localElement =
+        playerElements.get(
+            playerId
+        );
+
+
+    if (
+        localElement?.classList.contains(
+            "facing-left"
+        )
+    ) {
+
+        return "left";
+
+    }
+
+
+    return "right";
 
 }
 
@@ -1788,6 +2423,13 @@ function listenForPlayers() {
                 players
             );
 
+
+            connectionElement.textContent =
+                "Connected";
+
+            connectionElement.className =
+                "connection-status connected";
+
         },
         function(error) {
 
@@ -1810,146 +2452,21 @@ function listenForPlayers() {
 
 
 /* =========================================================
-   START BOSSY
+   SHOW GAME
 ========================================================= */
 
-async function startBossy() {
+function showGame() {
 
-    try {
-
-        if (!lobbyCode) {
-
-            showError(
-                "No lobby code was provided. Return to the games page and try again."
-            );
-
-            return;
-
-        }
+    loadingScreen.style.display =
+        "none";
 
 
-        lobbyCodeElement.textContent =
-            lobbyCode;
+    errorScreen.style.display =
+        "none";
 
 
-        loadingStatus.textContent =
-            "Finding your lobby...";
-
-
-        const lobbyRef =
-            ref(
-                db,
-                `lobbies/${lobbyCode}`
-            );
-
-
-        const snapshot =
-            await get(
-                lobbyRef
-            );
-
-
-        if (
-            !snapshot.exists()
-        ) {
-
-            showError(
-                "That lobby no longer exists."
-            );
-
-            return;
-
-        }
-
-
-        const lobby =
-            snapshot.val();
-
-
-        if (
-            String(
-                lobby.game ||
-                ""
-            ).toLowerCase() !==
-            "bossy"
-        ) {
-
-            showError(
-                "This lobby isn't a Bossy game."
-            );
-
-            return;
-
-        }
-
-
-        loadingStatus.textContent =
-            "Loading players...";
-
-
-        /*
-           IMPORTANT:
-
-           Show the actual game BEFORE waiting for
-           Firebase listeners.
-
-           This prevents the host from getting
-           permanently stuck on the loading screen.
-        */
-
-        loadingScreen.style.display =
-            "none";
-
-
-        gameWorld.style.display =
-            "flex";
-
-
-        connectionElement.textContent =
-            "Connected";
-
-        connectionElement.className =
-            "connection-status connected";
-
-
-        setupControls();
-
-
-        /*
-           Register this browser as the current
-           player before starting the listener.
-        */
-
-        await registerLocalPlayer();
-
-
-        /*
-           Now listen for everyone.
-        */
-
-        listenForPlayers();
-
-
-        /*
-           Start local physics.
-        */
-
-        startPhysics();
-
-    }
-    catch (error) {
-
-        console.error(
-            "Bossy failed to load:",
-            error
-        );
-
-
-        showError(
-            "Couldn't connect to the multiplayer game. Check your connection and try again."
-        );
-
-    }
+    gameWorld.style.display =
+        "flex";
 
 }
 
@@ -1981,8 +2498,294 @@ function showError(
 
 
 /* =========================================================
+   START BOSSY
+========================================================= */
+
+async function startBossy() {
+
+    try {
+
+        /* =================================================
+           BASIC DOM CHECK
+        ================================================== */
+
+        if (
+            !loadingScreen ||
+            !gameWorld ||
+            !errorScreen ||
+            !playersContainer
+        ) {
+
+            throw new Error(
+                "Bossy could not find the required game elements."
+            );
+
+        }
+
+
+        /* =================================================
+           LOBBY CODE
+        ================================================== */
+
+        if (
+            !lobbyCode
+        ) {
+
+            showError(
+                "No lobby code was provided. Return to the games page and try again."
+            );
+
+            return;
+
+        }
+
+
+        lobbyCodeElement.textContent =
+            lobbyCode;
+
+
+        loadingStatus.textContent =
+            "Finding your lobby...";
+
+
+        /* =================================================
+           FIND LOBBY
+        ================================================== */
+
+        const lobbyRef =
+            ref(
+                db,
+                `lobbies/${lobbyCode}`
+            );
+
+
+        const snapshot =
+            await withTimeout(
+
+                get(
+                    lobbyRef
+                ),
+
+                FIREBASE_TIMEOUT,
+
+                "Firebase did not respond while finding the lobby."
+
+            );
+
+
+        if (
+            !snapshot.exists()
+        ) {
+
+            showError(
+                "That lobby no longer exists."
+            );
+
+            return;
+
+        }
+
+
+        const lobby =
+            snapshot.val() ||
+            {};
+
+
+        /* =================================================
+           VERIFY GAME
+        ================================================== */
+
+        if (
+            String(
+                lobby.game ||
+                ""
+            ).toLowerCase() !==
+            "bossy"
+        ) {
+
+            showError(
+                "This lobby isn't a Bossy game."
+            );
+
+            return;
+
+        }
+
+
+        /* =================================================
+           GET EXISTING PLAYERS
+        ================================================== */
+
+        loadingStatus.textContent =
+            "Loading players...";
+
+
+        const existingPlayers =
+            lobby.players ||
+            {};
+
+
+        /* =================================================
+           SHOW GAME IMMEDIATELY
+        ================================================== */
+
+        /*
+           This happens BEFORE registration/listening.
+
+           The browser will therefore never remain stuck
+           on the loading screen just because a Firebase
+           write is slow.
+        */
+
+        showGame();
+
+
+        connectionElement.textContent =
+            "Connecting...";
+
+        connectionElement.className =
+            "connection-status";
+
+
+        setupControls();
+
+
+        /* =================================================
+           REGISTER PLAYER
+        ================================================== */
+
+        try {
+
+            await registerLocalPlayer(
+                existingPlayers
+            );
+
+        }
+
+        catch (error) {
+
+            /*
+               Do NOT return to the loading screen.
+
+               The game is already visible.
+
+               If Firebase registration fails, show the
+               error in the connection indicator instead.
+            */
+
+            console.error(
+                "Bossy player registration failed:",
+                error
+            );
+
+
+            connectionElement.textContent =
+                "Connection problem";
+
+            connectionElement.className =
+                "connection-status error";
+
+        }
+
+
+        /* =================================================
+           LISTEN FOR PLAYERS
+        ================================================== */
+
+        listenForPlayers();
+
+
+        /* =================================================
+           START PHYSICS
+        ================================================== */
+
+        startPhysics();
+
+
+        /* =================================================
+           INITIAL LOCAL CHARACTER
+        ================================================== */
+
+        /*
+           If Firebase has not sent the first player
+           snapshot yet, create our own character locally
+           so the screen is not empty.
+        */
+
+        if (
+            !playerElements.has(
+                playerId
+            )
+        ) {
+
+            createPlayerElement(
+                playerId,
+                {
+
+                    name:
+                        username,
+
+                    characterId:
+                        equippedCharacterId,
+
+                    titleId:
+                        equippedTitleId,
+
+                    effectId:
+                        equippedEffectId,
+
+                    x:
+                        localX,
+
+                    y:
+                        localY,
+
+                    grounded:
+                        true,
+
+                    direction:
+                        "right"
+
+                }
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Bossy failed to load:",
+            error
+        );
+
+
+        let message =
+            "Couldn't connect to the multiplayer game.";
+
+
+        if (
+            error?.message
+        ) {
+
+            message =
+                error.message;
+
+        }
+
+
+        showError(
+            message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    START
 ========================================================= */
 
 startBossy();
-```
