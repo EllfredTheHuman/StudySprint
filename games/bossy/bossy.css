@@ -1,34 +1,439 @@
 /* =========================================================
+   STUDYSPRINT — BOSSY
+   Multiplayer side-view game
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background: #0f172a;
+}
+
+
+/* =========================================================
+   GAME ROOT
+========================================================= */
+
+#bossy-game {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.bossy-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(circle at 50% 30%, #312e81, #111827 65%, #020617);
+
+    text-align: center;
+}
+
+.bossy-loading h1 {
+    margin: 22px 0 8px;
+    font-size: 30px;
+    font-weight: 1000;
+}
+
+.bossy-loading p {
+    margin: 0;
+    color: #a5b4fc;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+
+    border: 5px solid rgba(255,255,255,.12);
+    border-top-color: #818cf8;
+    border-radius: 50%;
+
+    animation: bossySpin .8s linear infinite;
+}
+
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+.bossy-world {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #38bdf8;
+}
+
+
+/* =========================================================
+   HUD
+========================================================= */
+
+.bossy-hud {
+    position: relative;
+    z-index: 50;
+
+    height: 64px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background: rgba(15,23,42,.96);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.25);
+}
+
+.bossy-brand {
+    color: #a5b4fc;
+    font-size: 17px;
+    font-weight: 950;
+}
+
+.bossy-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    color: white;
+    font-size: 23px;
+    font-weight: 1000;
+
+    letter-spacing: .08em;
+}
+
+.bossy-hud-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#bossy-player-count {
+    padding: 7px 12px;
+
+    border-radius: 999px;
+
+    background: rgba(129,140,248,.12);
+    border: 1px solid rgba(129,140,248,.25);
+
+    color: #c7d2fe;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   CONNECTION
+========================================================= */
+
+.connection-status {
+    color: #fbbf24;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.connection-status.connected {
+    color: #4ade80;
+}
+
+.connection-status.error {
+    color: #f87171;
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+.game-map {
+    position: relative;
+
+    flex: 1;
+    min-height: 0;
+
+    width: 100%;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #38bdf8 0%,
+            #7dd3fc 48%,
+            #bae6fd 100%
+        );
+}
+
+
+/* =========================================================
+   SKY
+========================================================= */
+
+.sky-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #38bdf8 0%,
+            #7dd3fc 55%,
+            #bae6fd 100%
+        );
+}
+
+.sun {
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    right: 10%;
+    top: 55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff7c2,
+            #fde68a
+        );
+
+    box-shadow:
+        0 0 55px rgba(254,243,199,.8);
+}
+
+
+/* =========================================================
+   CLOUDS
+========================================================= */
+
+.cloud {
+    position: absolute;
+
+    width: 150px;
+    height: 42px;
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.75);
+
+    z-index: 1;
+}
+
+.cloud::before,
+.cloud::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+    background: rgba(255,255,255,.75);
+}
+
+.cloud::before {
+    width: 65px;
+    height: 65px;
+
+    left: 28px;
+    bottom: 5px;
+}
+
+.cloud::after {
+    width: 48px;
+    height: 48px;
+
+    right: 25px;
+    bottom: 3px;
+}
+
+.cloud-one {
+    top: 75px;
+    left: 12%;
+    transform: scale(.8);
+}
+
+.cloud-two {
+    top: 145px;
+    left: 52%;
+    transform: scale(1.1);
+}
+
+.cloud-three {
+    top: 65px;
+    right: 30%;
+    transform: scale(.55);
+}
+
+
+/* =========================================================
+   HILLS
+========================================================= */
+
+.background-hill {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 70%;
+    height: 230px;
+
+    border-radius: 50% 50% 0 0;
+
+    background: #86efac;
+
+    opacity: .7;
+
+    z-index: 2;
+}
+
+.hill-one {
+    left: -20%;
+}
+
+.hill-two {
+    right: -25%;
+
+    height: 180px;
+
+    background: #4ade80;
+}
+
+
+/* =========================================================
+   GROUND
+========================================================= */
+
+.ground {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 90px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #22c55e,
+            #15803d
+        );
+
+    z-index: 5;
+}
+
+.ground-top {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    height: 13px;
+
+    background: #4ade80;
+
+    box-shadow:
+        0 4px 0 rgba(20,83,45,.25);
+}
+
+.ground-pattern {
+    position: absolute;
+
+    inset: 13px 0 0;
+
+    opacity: .18;
+
+    background-image:
+        radial-gradient(
+            circle,
+            #14532d 2px,
+            transparent 2px
+        );
+
+    background-size: 28px 20px;
+}
+
+
+/* =========================================================
+   PLAYER CONTAINER
+========================================================= */
+
+.players-container {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 90px;
+
+    height: calc(100% - 90px);
+
+    z-index: 10;
+
+    overflow: visible;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
    PLAYER
 ========================================================= */
 
 .bossy-player {
     position: absolute;
 
-    left: 150px;
-    bottom: 0;
-
     width: 140px;
     height: 150px;
 
+    left: 150px;
+    bottom: 0;
+
     z-index: 10;
 
-    transition:
-        filter .15s ease;
+    pointer-events: none;
 }
-
 
 .bossy-player.local-player {
     z-index: 20;
-}
-
-
-.bossy-player.jumping {
-    filter:
-        drop-shadow(
-            0 10px 8px
-            rgba(15,23,42,.22)
-        );
 }
 
 
@@ -46,85 +451,332 @@
     height: 150px;
 
     overflow: visible;
-
-    pointer-events: none;
 }
 
 
 /* =========================================================
-   GOOBER
+   GOOBER BASE
 ========================================================= */
 
-.bossy-character > .goober {
-    position: relative;
+.goober {
+    position: absolute;
+
+    left: 0;
+    top: 0;
 
     width: 140px;
     height: 150px;
 
-    margin: 0;
-    padding: 0;
+    transform-origin: center bottom;
 
     overflow: visible;
 
-    transform-origin:
-        50% 100%;
-
     animation:
-        gooberIdle
-        1.6s
-        ease-in-out
-        infinite;
+        gooberIdle 1.8s ease-in-out infinite;
 }
 
 
 /* =========================================================
-   WALKING
+   GOOBER BODY
 ========================================================= */
 
-.bossy-player.walking
-.bossy-character > .goober {
-    animation:
-        gooberWalk
-        .28s
-        ease-in-out
-        infinite;
-}
-
-
-/* =========================================================
-   JUMPING
-========================================================= */
-
-.bossy-player.jumping
-.bossy-character > .goober {
-    animation:
-        gooberJump
-        .22s
-        ease-out
-        infinite alternate;
-}
-
-
-/* =========================================================
-   BODY
-========================================================= */
-
-.bossy-character .goober-body {
+.goober-body {
     position: absolute;
 
-    width: 108px;
-    height: 105px;
+    left: 18px;
+    top: 30px;
 
-    left: 16px;
-    top: 27px;
+    width: 104px;
+    height: 100px;
 
     border-radius:
-        45% 45% 42% 42%;
+        48% 48% 43% 43%;
 
     z-index: 3;
 
-    transform-origin:
-        50% 100%;
+    box-shadow:
+        inset -7px -8px 0 rgba(0,0,0,.12),
+        inset 7px 7px 0 rgba(255,255,255,.16),
+        0 5px 0 rgba(0,0,0,.12);
+}
+
+
+/* =========================================================
+   BODY COLOURS
+========================================================= */
+
+.goober-body.green {
+    background:
+        linear-gradient(
+            135deg,
+            #86efac,
+            #22c55e
+        );
+}
+
+.goober-body.blue {
+    background:
+        linear-gradient(
+            135deg,
+            #93c5fd,
+            #3b82f6
+        );
+}
+
+.goober-body.squishy {
+    background:
+        linear-gradient(
+            135deg,
+            #bfdbfe,
+            #60a5fa
+        );
+}
+
+.goober-body.stone {
+    background:
+        linear-gradient(
+            135deg,
+            #d1d5db,
+            #6b7280
+        );
+}
+
+.goober-body.pink {
+    background:
+        linear-gradient(
+            135deg,
+            #f9a8d4,
+            #ec4899
+        );
+}
+
+.goober-body.purple {
+    background:
+        linear-gradient(
+            135deg,
+            #c4b5fd,
+            #8b5cf6
+        );
+}
+
+.goober-body.yellow {
+    background:
+        linear-gradient(
+            135deg,
+            #fde68a,
+            #eab308
+        );
+}
+
+.goober-body.tall {
+    height: 118px;
+    top: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fef08a,
+            #eab308
+        );
+}
+
+.goober-body.coral {
+    background:
+        linear-gradient(
+            135deg,
+            #fda4af,
+            #fb7185
+        );
+}
+
+.goober-body.lavender {
+    background:
+        linear-gradient(
+            135deg,
+            #ddd6fe,
+            #a78bfa
+        );
+}
+
+.goober-body.red {
+    background:
+        linear-gradient(
+            135deg,
+            #fca5a5,
+            #ef4444
+        );
+}
+
+.goober-body.cyan {
+    background:
+        linear-gradient(
+            135deg,
+            #a5f3fc,
+            #06b6d4
+        );
+}
+
+.goober-body.aqua {
+    background:
+        linear-gradient(
+            135deg,
+            #99f6e4,
+            #14b8a6
+        );
+}
+
+.goober-body.violet {
+    background:
+        linear-gradient(
+            135deg,
+            #ddd6fe,
+            #7c3aed
+        );
+}
+
+.goober-body.hotpink {
+    background:
+        linear-gradient(
+            135deg,
+            #f9a8d4,
+            #ec4899
+        );
+}
+
+.goober-body.gold,
+.goober-body.golden {
+    background:
+        linear-gradient(
+            135deg,
+            #fef08a,
+            #f59e0b
+        );
+
+    box-shadow:
+        inset -7px -8px 0 rgba(146,64,14,.15),
+        inset 7px 7px 0 rgba(255,255,255,.3),
+        0 0 15px rgba(250,204,21,.45);
+}
+
+.goober-body.peach {
+    background:
+        linear-gradient(
+            135deg,
+            #fed7aa,
+            #fb923c
+        );
+}
+
+.goober-body.deep-purple {
+    background:
+        linear-gradient(
+            135deg,
+            #a78bfa,
+            #4c1d95
+        );
+}
+
+.goober-body.orange {
+    background:
+        linear-gradient(
+            135deg,
+            #fdba74,
+            #f97316
+        );
+}
+
+.goober-body.galaxy-body {
+    background:
+        radial-gradient(circle at 30% 25%, #c4b5fd, transparent 12%),
+        radial-gradient(circle at 70% 60%, #818cf8, transparent 15%),
+        linear-gradient(
+            135deg,
+            #312e81,
+            #581c87,
+            #1e1b4b
+        );
+}
+
+.goober-body.study-green {
+    background:
+        linear-gradient(
+            135deg,
+            #bbf7d0,
+            #16a34a
+        );
+}
+
+.goober-body.study-purple {
+    background:
+        linear-gradient(
+            135deg,
+            #ddd6fe,
+            #9333ea
+        );
+}
+
+.goober-body.mint {
+    background:
+        linear-gradient(
+            135deg,
+            #ccfbf1,
+            #2dd4bf
+        );
+}
+
+
+/* =========================================================
+   FACE
+========================================================= */
+
+.goober-face {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    pointer-events: none;
+}
+
+.goober-eye {
+    position: absolute;
+
+    width: 13px;
+    height: 18px;
+
+    top: 66px;
+
+    border-radius: 50%;
+
+    background: #111827;
+
+    box-shadow:
+        inset 2px 2px 0 rgba(255,255,255,.25);
+}
+
+.eye-left {
+    left: 47px;
+}
+
+.eye-right {
+    left: 80px;
+}
+
+.goober-mouth {
+    position: absolute;
+
+    left: 60px;
+    top: 90px;
+
+    width: 20px;
+    height: 11px;
+
+    border-bottom:
+        4px solid #111827;
+
+    border-radius:
+        0 0 50% 50%;
 }
 
 
@@ -132,116 +784,1246 @@
    FEET
 ========================================================= */
 
-.bossy-character .goober-feet {
+.goober-feet {
     position: absolute;
 
     inset: 0;
 
     z-index: 2;
+}
+
+.goober-foot {
+    position: absolute;
+
+    bottom: 9px;
+
+    width: 31px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #111827;
+
+    animation:
+        footIdle 1.8s ease-in-out infinite;
+}
+
+.foot-left {
+    left: 28px;
+}
+
+.foot-right {
+    right: 28px;
+}
+
+
+/* =========================================================
+   BASIC GOOBER PARTS
+========================================================= */
+
+.goober-part {
+    position: absolute;
+
+    z-index: 12;
 
     pointer-events: none;
 }
 
 
-.bossy-character .goober-foot {
-    position: absolute;
+/* =========================================================
+   LEAFY
+========================================================= */
 
-    bottom: 8px;
+.leafy-leaf {
+    left: 66px;
+    top: 8px;
 
-    width: 29px;
-    height: 14px;
+    width: 26px;
+    height: 35px;
+
+    background: #16a34a;
+
+    border-radius:
+        4px 20px 4px 20px;
+
+    transform:
+        rotate(25deg);
+}
+
+.leafy-stem {
+    left: 65px;
+    top: 30px;
+
+    width: 5px;
+    height: 23px;
+
+    background: #15803d;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   SQUISH
+========================================================= */
+
+.squishy {
+    border-radius:
+        40% 60% 55% 45%;
+}
+
+.squish-cheek-left,
+.squish-cheek-right {
+    width: 19px;
+    height: 12px;
 
     border-radius: 50%;
 
+    background: rgba(255,255,255,.25);
+
+    top: 91px;
+}
+
+.squish-cheek-left {
+    left: 28px;
+}
+
+.squish-cheek-right {
+    right: 28px;
+}
+
+
+/* =========================================================
+   PEBBLE
+========================================================= */
+
+.pebble-mark-one,
+.pebble-mark-two,
+.pebble-mark-three {
+    width: 9px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: rgba(31,41,55,.25);
+}
+
+.pebble-mark-one {
+    left: 28px;
+    top: 51px;
+}
+
+.pebble-mark-two {
+    right: 24px;
+    top: 48px;
+}
+
+.pebble-mark-three {
+    left: 48px;
+    top: 116px;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.button-top {
+    left: 57px;
+    top: 13px;
+
+    width: 30px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: #be185d;
+}
+
+.button-dot-left,
+.button-dot-right {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #be185d;
+
+    top: 48px;
+}
+
+.button-dot-left {
+    left: 35px;
+}
+
+.button-dot-right {
+    right: 35px;
+}
+
+
+/* =========================================================
+   HORNS
+========================================================= */
+
+.horn-left,
+.horn-right {
+    width: 24px;
+    height: 35px;
+
+    background: #7c3aed;
+
+    border-radius:
+        70% 30% 30% 70%;
+}
+
+.horn-left {
+    left: 17px;
+    top: 10px;
+
+    transform: rotate(-35deg);
+}
+
+.horn-right {
+    right: 17px;
+    top: 10px;
+
+    transform: rotate(35deg);
+}
+
+
+/* =========================================================
+   TALLBOI HAT
+========================================================= */
+
+.tallboi-hat {
+    left: 42px;
+    top: -5px;
+
+    width: 56px;
+    height: 23px;
+
+    background: #f97316;
+
+    border-radius: 7px 7px 2px 2px;
+}
+
+
+/* =========================================================
+   FOUR EYES
+========================================================= */
+
+.extra-eye {
+    top: 82px;
+}
+
+.extra-one {
+    left: 55px;
+}
+
+.extra-two {
+    left: 72px;
+}
+
+.four-eyes-brow {
+    left: 43px;
+    top: 55px;
+
+    width: 48px;
+    height: 5px;
+
+    background: #7f1d1d;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   MOTHBALL
+========================================================= */
+
+.moth-wing-left,
+.moth-wing-right {
+    width: 43px;
+    height: 60px;
+
+    background: #c4b5fd;
+
+    opacity: .9;
+
+    border-radius:
+        60% 40% 60% 40%;
+}
+
+.moth-wing-left {
+    left: -10px;
+    top: 55px;
+
+    transform: rotate(20deg);
+}
+
+.moth-wing-right {
+    right: -10px;
+    top: 55px;
+
+    transform: scaleX(-1) rotate(20deg);
+}
+
+.moth-antenna-left,
+.moth-antenna-right {
+    width: 4px;
+    height: 35px;
+
+    background: #7c3aed;
+
+    top: 10px;
+
+    border-radius: 4px;
+}
+
+.moth-antenna-left {
+    left: 52px;
+
+    transform: rotate(-25deg);
+}
+
+.moth-antenna-right {
+    left: 83px;
+
+    transform: rotate(25deg);
+}
+
+
+/* =========================================================
+   SPIKE
+========================================================= */
+
+.spike-one,
+.spike-two,
+.spike-three,
+.spike-four {
+    width: 0;
+    height: 0;
+
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 25px solid #b91c1c;
+}
+
+.spike-one {
+    left: 20px;
+    top: 35px;
+    transform: rotate(-45deg);
+}
+
+.spike-two {
+    right: 20px;
+    top: 35px;
+    transform: rotate(45deg);
+}
+
+.spike-three {
+    left: 42px;
+    top: 18px;
+}
+
+.spike-four {
+    right: 42px;
+    top: 18px;
+}
+
+
+/* =========================================================
+   ORBIT
+========================================================= */
+
+.orbit-ring {
+    left: -7px;
+    top: 42px;
+
+    width: 154px;
+    height: 65px;
+
+    border:
+        4px solid #06b6d4;
+
+    border-radius: 50%;
+
+    transform:
+        rotate(-18deg);
+
+    z-index: 8;
+}
+
+.orbit-dot {
+    left: 120px;
+    top: 51px;
+
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #22d3ee;
+
+    box-shadow:
+        0 0 10px #22d3ee;
+}
+
+
+/* =========================================================
+   BUBBLE
+========================================================= */
+
+.bubble-small-one,
+.bubble-small-two {
+    border-radius: 50%;
+
     background:
-        #111827;
+        rgba(255,255,255,.45);
 
-    z-index: 1;
-
-    transform-origin:
-        50% 50%;
+    border:
+        2px solid rgba(255,255,255,.7);
 }
 
-
-/* =========================================================
-   WALKING FEET
-========================================================= */
-
-.bossy-player.walking
-.goober-foot.foot-left {
-    animation:
-        leftFootWalk
-        .28s
-        ease-in-out
-        infinite;
-}
-
-
-.bossy-player.walking
-.goober-foot.foot-right {
-    animation:
-        rightFootWalk
-        .28s
-        ease-in-out
-        infinite;
-}
-
-
-/* =========================================================
-   EYES
-========================================================= */
-
-.bossy-character .goober-eye {
-    position: absolute;
-
-    width: 13px;
+.bubble-small-one {
+    width: 17px;
     height: 17px;
 
-    top: 66px;
+    left: 12px;
+    top: 30px;
+}
+
+.bubble-small-two {
+    width: 11px;
+    height: 11px;
+
+    right: 15px;
+    top: 22px;
+}
+
+.bubble-shine {
+    left: 67px;
+    top: 38px;
+
+    width: 8px;
+    height: 8px;
 
     border-radius: 50%;
 
-    background:
-        #111827;
+    background: white;
 
-    z-index: 10;
-
-    transform-origin:
-        center;
-}
-
-
-.bossy-character .eye-left {
-    left: 47px;
-}
-
-
-.bossy-character .eye-right {
-    left: 79px;
+    opacity: .8;
 }
 
 
 /* =========================================================
-   MOUTH
+   CAPTAIN GOOB
 ========================================================= */
 
-.bossy-character .goober-mouth {
+.captain-cape {
     position: absolute;
 
-    left: 61px;
-    top: 89px;
+    left: 9px;
+    top: 66px;
 
-    width: 19px;
-    height: 10px;
+    width: 122px;
+    height: 70px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #7c3aed,
+            #4c1d95
+        );
+
+    clip-path:
+        polygon(
+            8% 0,
+            92% 0,
+            100% 100%,
+            50% 75%,
+            0 100%
+        );
+
+    z-index: 1;
+}
+
+.captain-badge {
+    left: 58px;
+    top: 51px;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    background: #facc15;
+
+    border: 4px solid #92400e;
+}
+
+.captain-hat {
+    left: 42px;
+    top: 8px;
+
+    width: 56px;
+    height: 25px;
+
+    background: #7c3aed;
+
+    border-radius: 20px 20px 4px 4px;
+}
+
+
+/* =========================================================
+   TAILSPIN
+========================================================= */
+
+.tailspin-tail {
+    left: 95px;
+    top: 82px;
+
+    width: 55px;
+    height: 20px;
+
+    background: #ec4899;
+
+    border-radius: 50%;
+
+    transform:
+        rotate(25deg);
+}
+
+.tailspin-tip {
+    left: 127px;
+    top: 72px;
+
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+
+    background: #be185d;
+}
+
+
+/* =========================================================
+   HOLY MOLY
+========================================================= */
+
+.holy-halo {
+    left: 35px;
+    top: 4px;
+
+    width: 70px;
+    height: 22px;
+
+    border:
+        5px solid #facc15;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 15px #fde68a;
+}
+
+.holy-rays {
+    left: 48px;
+    top: -4px;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 -12px 0 -8px #facc15,
+        12px 0 0 -8px #facc15,
+        -12px 0 0 -8px #facc15,
+        0 12px 0 -8px #facc15;
+}
+
+
+/* =========================================================
+   WINGNUT
+========================================================= */
+
+.wingnut-left,
+.wingnut-right {
+    width: 50px;
+    height: 34px;
+
+    background: #fed7aa;
+
+    border-radius: 70% 30% 70% 30%;
+}
+
+.wingnut-left {
+    left: -17px;
+    top: 67px;
+
+    transform: rotate(-25deg);
+}
+
+.wingnut-right {
+    right: -17px;
+    top: 67px;
+
+    transform: scaleX(-1) rotate(-25deg);
+}
+
+.wingnut-nut {
+    left: 59px;
+    top: 64px;
+
+    width: 22px;
+    height: 22px;
+
+    background: #c2410c;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   COSMO
+========================================================= */
+
+.cosmo-stars {
+    left: 30px;
+    top: 43px;
+
+    width: 80px;
+    height: 60px;
+
+    background:
+        radial-gradient(circle at 15% 20%, white 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 30%, #f0abfc 0 2px, transparent 3px),
+        radial-gradient(circle at 45% 75%, white 0 2px, transparent 3px),
+        radial-gradient(circle at 90% 70%, #c4b5fd 0 2px, transparent 3px);
+}
+
+.cosmo-moon {
+    left: 88px;
+    top: 35px;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: #fef3c7;
+
+    box-shadow:
+        5px -2px 0 #4c1d95;
+}
+
+
+/* =========================================================
+   THE GOOBER
+========================================================= */
+
+.goober-big-smile {
+    left: 49px;
+    top: 85px;
+
+    width: 42px;
+    height: 20px;
 
     border-bottom:
-        3px solid
-        #111827;
+        6px solid #111827;
 
     border-radius:
         0 0 50% 50%;
+}
 
-    z-index: 10;
+.goober-tuft {
+    left: 55px;
+    top: 6px;
+
+    width: 30px;
+    height: 28px;
+
+    background: #f97316;
+
+    clip-path:
+        polygon(
+            0 100%,
+            25% 20%,
+            50% 55%,
+            70% 0,
+            100% 100%
+        );
+}
+
+.goober-star {
+    left: 100px;
+    top: 37px;
+
+    width: 18px;
+    height: 18px;
+
+    background: #fde047;
+
+    clip-path:
+        polygon(
+            50% 0,
+            61% 38%,
+            100% 50%,
+            61% 62%,
+            50% 100%,
+            39% 62%,
+            0 50%,
+            39% 38%
+        );
+}
+
+
+/* =========================================================
+   GOLDEN
+========================================================= */
+
+.golden-shine {
+    left: 28px;
+    top: 42px;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.45);
+
+    filter: blur(2px);
+}
+
+.golden-crown {
+    left: 43px;
+    top: -5px;
+
+    width: 55px;
+    height: 28px;
+
+    background: #facc15;
+
+    clip-path:
+        polygon(
+            0 100%,
+            10% 10%,
+            35% 55%,
+            50% 0,
+            65% 55%,
+            90% 10%,
+            100% 100%
+        );
+}
+
+
+/* =========================================================
+   GALAXY
+========================================================= */
+
+.galaxy-stars {
+    left: 22px;
+    top: 28px;
+
+    width: 96px;
+    height: 90px;
+
+    background:
+        radial-gradient(circle at 20% 20%, white 0 2px, transparent 3px),
+        radial-gradient(circle at 80% 30%, #f0abfc 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 55%, white 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 75%, #c4b5fd 0 2px, transparent 3px);
+}
+
+.galaxy-ring {
+    left: -7px;
+    top: 58px;
+
+    width: 154px;
+    height: 44px;
+
+    border:
+        4px solid rgba(216,180,254,.8);
+
+    border-radius: 50%;
+
+    transform: rotate(-15deg);
+}
+
+.galaxy-glow {
+    left: 25px;
+    top: 30px;
+
+    width: 90px;
+    height: 90px;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 30px rgba(168,85,247,.55);
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   STUDY SPROUT
+========================================================= */
+
+.study-book {
+    left: 45px;
+    top: 108px;
+
+    width: 50px;
+    height: 25px;
+
+    background: #f8fafc;
+
+    border-radius: 4px;
+
+    border:
+        3px solid #475569;
+}
+
+.study-leaf-left,
+.study-leaf-right {
+    width: 28px;
+    height: 45px;
+
+    background: #22c55e;
+
+    border-radius:
+        5px 25px 5px 25px;
+}
+
+.study-leaf-left {
+    left: 17px;
+    top: 5px;
+
+    transform: rotate(-30deg);
+}
+
+.study-leaf-right {
+    right: 17px;
+    top: 5px;
+
+    transform: scaleX(-1) rotate(-30deg);
+}
+
+
+/* =========================================================
+   STUDY ORBIT
+========================================================= */
+
+.study-orbit-ring {
+    left: -8px;
+    top: 38px;
+
+    width: 156px;
+    height: 70px;
+
+    border:
+        4px solid #c084fc;
+
+    border-radius: 50%;
+
+    transform: rotate(20deg);
+}
+
+.study-star {
+    left: 107px;
+    top: 35px;
+
+    width: 19px;
+    height: 19px;
+
+    background: #fef08a;
+
+    clip-path:
+        polygon(
+            50% 0,
+            61% 38%,
+            100% 50%,
+            61% 62%,
+            50% 100%,
+            39% 62%,
+            0 50%,
+            39% 38%
+        );
+}
+
+
+/* =========================================================
+   SHELBY
+========================================================= */
+
+.shelby-shell {
+    position: absolute;
+
+    left: 12px;
+    top: 40px;
+
+    width: 116px;
+    height: 96px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #99f6e4,
+            #0f766e
+        );
+
+    z-index: 1;
+
+    box-shadow:
+        inset -8px -8px 0 rgba(0,0,0,.15);
+}
+
+.shell-highlight {
+    left: 38px;
+    top: 53px;
+
+    width: 60px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.3);
+
+    transform: rotate(-25deg);
+}
+
+
+/* =========================================================
+   SPECIAL EFFECTS
+========================================================= */
+
+.character-effect-element {
+    pointer-events: none;
+}
+
+
+/* Sparkles */
+
+.effect-sparkle-dot {
+    position: absolute;
+
+    width: 9px;
+    height: 9px;
+
+    background: white;
+
+    clip-path:
+        polygon(
+            50% 0,
+            62% 38%,
+            100% 50%,
+            62% 62%,
+            50% 100%,
+            38% 62%,
+            0 50%,
+            38% 38%
+        );
+
+    z-index: 60;
+
+    animation:
+        sparklePulse 1.3s ease-in-out infinite alternate;
+}
+
+
+/* Speed trail */
+
+.effect-speed-streak {
+    position: absolute;
+
+    width: 45px;
+    height: 5px;
+
+    right: 100px;
+
+    top: calc(50px + var(--trail-index) * 15px);
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.65);
+
+    animation:
+        speedTrail .45s linear infinite;
+}
+
+
+/* Lightning */
+
+.effect-lightning-bolt {
+    position: absolute;
+
+    width: 8px;
+    height: 25px;
+
+    background: #fef08a;
+
+    clip-path:
+        polygon(
+            55% 0,
+            100% 0,
+            60% 40%,
+            90% 40%,
+            20% 100%,
+            42% 52%,
+            10% 52%
+        );
+
+    left:
+        calc(10px + var(--lightning-index) * 35px);
+
+    top: 5px;
+
+    animation:
+        lightningFlash .7s infinite alternate;
+}
+
+
+/* Rainbow */
+
+.effect-rainbow-ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 155px;
+    height: 155px;
+
+    transform: translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    border:
+        5px solid transparent;
+
+    background:
+        linear-gradient(#0000,#0000) padding-box,
+        conic-gradient(
+            #ef4444,
+            #facc15,
+            #22c55e,
+            #06b6d4,
+            #8b5cf6,
+            #ef4444
+        ) border-box;
+
+    opacity: .65;
+
+    animation:
+        rainbowRotate 3s linear infinite;
+}
+
+
+/* Fire */
+
+.effect-flame {
+    position: absolute;
+
+    width: 17px;
+    height: 30px;
+
+    left:
+        calc(15px + var(--flame-index) * 17px);
+
+    bottom: 25px;
+
+    border-radius:
+        60% 40% 55% 45%;
+
+    background:
+        linear-gradient(
+            to top,
+            #ef4444,
+            #f97316,
+            #fde047
+        );
+
+    z-index: 25;
+
+    animation:
+        flameFlicker .5s ease-in-out infinite alternate;
+}
+
+
+/* Glitch */
+
+.effect-glitch-piece {
+    position: absolute;
+
+    width: 35px;
+    height: 7px;
+
+    left:
+        calc(20px + var(--glitch-index) * 30px);
+
+    top:
+        calc(45px + var(--glitch-index) * 18px);
+
+    background: #22d3ee;
+
+    opacity: .65;
+
+    animation:
+        glitchMove .35s infinite alternate;
+}
+
+
+/* Crystal */
+
+.effect-crystal-shard {
+    position: absolute;
+
+    width: 13px;
+    height: 27px;
+
+    left:
+        calc(8px + var(--crystal-index) * 22px);
+
+    top: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e0f2fe,
+            #38bdf8,
+            #7c3aed
+        );
+
+    clip-path:
+        polygon(
+            50% 0,
+            100% 35%,
+            70% 100%,
+            30% 100%,
+            0 35%
+        );
+
+    animation:
+        crystalFloat 1.5s ease-in-out infinite alternate;
+}
+
+
+/* Cosmic */
+
+.effect-cosmic-ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 155px;
+    height: 155px;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    border:
+        2px solid rgba(196,181,253,.5);
+
+    box-shadow:
+        0 0 25px rgba(139,92,246,.55);
+
+    z-index: 1;
+
+    animation:
+        cosmicPulse 2s ease-in-out infinite alternate;
+}
+
+.effect-cosmic-star {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    left:
+        calc(10px + var(--star-index) * 17px);
+
+    top:
+        calc(8px + (var(--star-index) % 4) * 35px);
+
+    background: white;
+
+    clip-path:
+        polygon(
+            50% 0,
+            62% 38%,
+            100% 50%,
+            62% 62%,
+            50% 100%,
+            38% 62%,
+            0 50%,
+            38% 38%
+        );
+
+    animation:
+        sparklePulse 1s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   CROWN EFFECT
+========================================================= */
+
+.character-crown {
+    position: absolute;
+
+    left: 47px;
+    top: -8px;
+
+    width: 47px;
+    height: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fde68a,
+            #facc15,
+            #eab308
+        );
+
+    clip-path:
+        polygon(
+            0 100%,
+            8% 18%,
+            30% 58%,
+            50% 0,
+            70% 58%,
+            92% 18%,
+            100% 100%
+        );
+
+    z-index: 100;
+}
+
+.crown-glow {
+    position: absolute;
+
+    left: 35px;
+    top: -15px;
+
+    width: 70px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(250,204,21,.18);
+
+    filter: blur(8px);
+
+    z-index: 90;
 }
 
 
@@ -255,248 +2037,12 @@
         scaleX(-1);
 }
 
-
-/*
-   Animation transforms would normally overwrite
-   scaleX(-1), so walking/jumping get their own
-   mirrored animation versions.
-*/
-
-.bossy-player.facing-left.walking
-.bossy-character > .goober {
-    animation:
-        gooberWalkLeft
-        .28s
-        ease-in-out
-        infinite;
-}
-
-
-.bossy-player.facing-left.jumping
-.bossy-character > .goober {
-    animation:
-        gooberJumpLeft
-        .22s
-        ease-out
-        infinite alternate;
-}
-
-
-/* =========================================================
-   NAME / TITLE
-========================================================= */
-
-.bossy-player-name {
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 152px;
-
-    transform:
-        translateX(-50%);
-
-    max-width: 150px;
-
-    padding:
-        5px 9px;
-
-    border-radius: 8px;
-
-    background:
-        rgba(15,23,42,.85);
-
-    color: white;
-
-    font-size: 12px;
-
-    font-weight: 900;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    text-align: center;
-
-    box-shadow:
-        0 4px 10px
-        rgba(0,0,0,.18);
-}
-
-
-.local-player .bossy-player-name {
-    background:
-        #4f46e5;
-}
-
-
+.bossy-player.facing-left
+.bossy-player-name,
+.bossy-player.facing-left
 .bossy-player-title {
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 180px;
-
     transform:
         translateX(-50%);
-
-    color:
-        #e0e7ff;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   ANIMATION — IDLE
-========================================================= */
-
-@keyframes gooberIdle {
-
-    0% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1)
-            rotate(0deg);
-    }
-
-    25% {
-        transform:
-            translateY(-3px)
-            scaleX(1.015)
-            scaleY(.99)
-            rotate(-1deg);
-    }
-
-    50% {
-        transform:
-            translateY(-6px)
-            scaleX(.985)
-            scaleY(1.025)
-            rotate(0deg);
-    }
-
-    75% {
-        transform:
-            translateY(-3px)
-            scaleX(1.015)
-            scaleY(.99)
-            rotate(1deg);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1)
-            rotate(0deg);
-    }
-
-}
-
-
-/* =========================================================
-   ANIMATION — WALKING
-========================================================= */
-
-@keyframes gooberWalk {
-
-    0% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1)
-            rotate(-2deg);
-    }
-
-    25% {
-        transform:
-            translateY(-6px)
-            scaleX(.97)
-            scaleY(1.04)
-            rotate(2deg);
-    }
-
-    50% {
-        transform:
-            translateY(0)
-            scaleX(1.04)
-            scaleY(.96)
-            rotate(-2deg);
-    }
-
-    75% {
-        transform:
-            translateY(-6px)
-            scaleX(.97)
-            scaleY(1.04)
-            rotate(2deg);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(1)
-            scaleY(1)
-            rotate(-2deg);
-    }
-
-}
-
-
-/* =========================================================
-   WALKING — FACING LEFT
-========================================================= */
-
-@keyframes gooberWalkLeft {
-
-    0% {
-        transform:
-            translateY(0)
-            scaleX(-1)
-            scaleY(1)
-            rotate(2deg);
-    }
-
-    25% {
-        transform:
-            translateY(-6px)
-            scaleX(-.97)
-            scaleY(1.04)
-            rotate(-2deg);
-    }
-
-    50% {
-        transform:
-            translateY(0)
-            scaleX(-1.04)
-            scaleY(.96)
-            rotate(2deg);
-    }
-
-    75% {
-        transform:
-            translateY(-6px)
-            scaleX(-.97)
-            scaleY(1.04)
-            rotate(-2deg);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            scaleX(-1)
-            scaleY(1)
-            rotate(2deg);
-    }
-
 }
 
 
@@ -504,357 +2050,432 @@
    JUMPING
 ========================================================= */
 
-@keyframes gooberJump {
-
-    from {
-        transform:
-            translateY(0)
-            scaleX(1.08)
-            scaleY(.92)
-            rotate(-2deg);
-    }
-
-    to {
-        transform:
-            translateY(-3px)
-            scaleX(.94)
-            scaleY(1.08)
-            rotate(2deg);
-    }
-
+.bossy-player.jumping
+.goober {
+    animation:
+        gooberJump .22s ease-out;
 }
-
-
-@keyframes gooberJumpLeft {
-
-    from {
-        transform:
-            translateY(0)
-            scaleX(-1.08)
-            scaleY(.92)
-            rotate(2deg);
-    }
-
-    to {
-        transform:
-            translateY(-3px)
-            scaleX(-.94)
-            scaleY(1.08)
-            rotate(-2deg);
-    }
-
-}
-
-
-/* =========================================================
-   WALKING FEET
-========================================================= */
-
-@keyframes leftFootWalk {
-
-    0% {
-        transform:
-            translateY(0)
-            rotate(-8deg);
-    }
-
-    50% {
-        transform:
-            translateY(-5px)
-            rotate(10deg);
-    }
-
-    100% {
-        transform:
-            translateY(0)
-            rotate(-8deg);
-    }
-
-}
-
-
-@keyframes rightFootWalk {
-
-    0% {
-        transform:
-            translateY(-5px)
-            rotate(10deg);
-    }
-
-    50% {
-        transform:
-            translateY(0)
-            rotate(-8deg);
-    }
-
-    100% {
-        transform:
-            translateY(-5px)
-            rotate(10deg);
-    }
-
-}
-
-
-/* =========================================================
-   JUMPING FEET
-========================================================= */
 
 .bossy-player.jumping
 .goober-foot {
-    animation:
-        jumpFeet
-        .22s
-        ease-in-out
-        infinite alternate;
+    animation: none;
 }
 
 
-@keyframes jumpFeet {
+/* =========================================================
+   NAME
+========================================================= */
 
+.bossy-player-name {
+    position: absolute;
+
+    left: 50%;
+    bottom: 152px;
+
+    transform: translateX(-50%);
+
+    max-width: 150px;
+
+    padding: 5px 9px;
+
+    border-radius: 8px;
+
+    background: rgba(15,23,42,.85);
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    text-align: center;
+}
+
+.local-player .bossy-player-name {
+    background: #4f46e5;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.bossy-player-title {
+    position: absolute;
+
+    left: 50%;
+    bottom: 180px;
+
+    transform: translateX(-50%);
+
+    color: #e0e7ff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls-hint {
+    position: absolute;
+
+    left: 50%;
+    bottom: 70px;
+
+    transform: translateX(-50%);
+
+    z-index: 40;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 9px 13px;
+
+    border-radius: 999px;
+
+    background: rgba(15,23,42,.78);
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    backdrop-filter: blur(8px);
+
+    color: #cbd5e1;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+.controls-hint span {
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: rgba(255,255,255,.12);
+
+    color: white;
+
+    font-size: 10px;
+    font-weight: 950;
+}
+
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.bossy-bottom-bar {
+    position: relative;
+    z-index: 50;
+
+    height: 48px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 22px;
+
+    background: rgba(15,23,42,.97);
+
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.bossy-bottom-bar > div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.bossy-bottom-bar strong {
+    color: #94a3b8;
+
+    font-size: 11px;
+    font-weight: 950;
+
+    letter-spacing: .08em;
+}
+
+.bossy-bottom-bar span {
+    color: #c7d2fe;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    letter-spacing: .12em;
+}
+
+.local-player-name {
+    color: #a5b4fc !important;
+    letter-spacing: normal !important;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.bossy-error {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #312e81,
+            #0f172a 70%
+        );
+
+    text-align: center;
+}
+
+.error-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+.bossy-error h1 {
+    margin: 0 0 10px;
+
+    font-size: 28px;
+    font-weight: 1000;
+}
+
+.bossy-error p {
+    max-width: 500px;
+
+    margin: 0 0 25px;
+
+    color: #cbd5e1;
+
+    line-height: 1.5;
+}
+
+.back-button {
+    display: inline-block;
+
+    padding: 12px 18px;
+
+    border-radius: 12px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes bossySpin {
     from {
-        transform:
-            scaleX(1)
-            translateY(0);
+        transform: rotate(0deg);
     }
 
     to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Normal Goober idle */
+
+@keyframes gooberIdle {
+    0%,
+    100% {
         transform:
-            scaleX(.8)
-            translateY(3px);
+            translateY(0)
+            rotate(0deg);
     }
 
+    50% {
+        transform:
+            translateY(-4px)
+            rotate(-1deg);
+    }
 }
 
 
-/* =========================================================
-   SPARKLES
-========================================================= */
+/* Feet subtly move during idle */
 
-.effect-sparkle-dot {
-    position: absolute;
+@keyframes footIdle {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
 
-    width: 9px;
-    height: 9px;
-
-    background: white;
-
-    clip-path:
-        polygon(
-            50% 0%,
-            62% 38%,
-            100% 50%,
-            62% 62%,
-            50% 100%,
-            38% 62%,
-            0% 50%,
-            38% 38%
-        );
-
-    z-index: 60;
-
-    animation:
-        sparklePulse
-        1.3s
-        ease-in-out
-        infinite
-        alternate;
+    50% {
+        transform: translateY(-2px);
+    }
 }
 
 
-.effect-sparkle-dot[data-index="0"] {
-    left: 18px;
-    top: 55px;
+/* Jump */
+
+@keyframes gooberJump {
+    0% {
+        transform:
+            translateY(0)
+            scaleY(1);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            scaleY(1.04);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleY(1);
+    }
 }
 
 
-.effect-sparkle-dot[data-index="1"] {
-    right: 17px;
-    top: 68px;
-}
-
-
-.effect-sparkle-dot[data-index="2"] {
-    left: 27px;
-    top: 115px;
-}
-
-
-.effect-sparkle-dot[data-index="3"] {
-    right: 28px;
-    top: 125px;
-}
-
-
-.effect-sparkle-dot[data-index="4"] {
-    left: 43px;
-    top: 30px;
-}
-
-
-.effect-sparkle-dot[data-index="5"] {
-    right: 43px;
-    top: 40px;
-}
-
-
-/* =========================================================
-   FIRE
-========================================================= */
-
-.bossy-character.effect-fire::before,
-.bossy-character.effect-fire::after {
-    content: "";
-
-    position: absolute;
-
-    width: 18px;
-    height: 32px;
-
-    bottom: 30px;
-
-    border-radius:
-        60% 40% 55% 45%;
-
-    background:
-        linear-gradient(
-            to top,
-            #ef4444,
-            #f97316,
-            #facc15
-        );
-
-    z-index: 25;
-
-    animation:
-        flameFlicker
-        .55s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-.bossy-character.effect-fire::before {
-    left: 15px;
-}
-
-
-.bossy-character.effect-fire::after {
-    right: 15px;
-    height: 27px;
-}
-
-
-/* =========================================================
-   SHADOW
-========================================================= */
-
-.effect-shadow-ground {
-    position: absolute;
-
-    left: 50%;
-    bottom: 5px;
-
-    width: 105px;
-    height: 18px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 50%;
-
-    background:
-        rgba(15,23,42,.42);
-
-    filter:
-        blur(5px);
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   COSMIC AURA
-========================================================= */
-
-.effect-cosmic-ring {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 150px;
-    height: 150px;
-
-    transform:
-        translate(-50%,-50%);
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 20px
-        rgba(139,92,246,.55);
-
-    border:
-        2px solid
-        rgba(139,92,246,.3);
-
-    z-index: 1;
-
-    animation:
-        cosmicPulse
-        2s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/* =========================================================
-   GENERAL ANIMATIONS
-========================================================= */
+/* Sparkles */
 
 @keyframes sparklePulse {
-
     from {
-        opacity: .3;
-
-        transform:
-            scale(.55)
-            rotate(0deg);
+        opacity: .25;
+        transform: scale(.55) rotate(0deg);
     }
 
     to {
         opacity: 1;
-
-        transform:
-            scale(1.15)
-            rotate(25deg);
+        transform: scale(1.15) rotate(45deg);
     }
-
 }
 
 
-@keyframes flameFlicker {
+/* Fire */
 
+@keyframes flameFlicker {
     from {
         transform:
-            scaleY(.9)
-            rotate(-4deg);
+            scaleY(.85)
+            rotate(-5deg);
     }
 
     to {
         transform:
-            scaleY(1.08)
-            rotate(4deg);
+            scaleY(1.1)
+            rotate(5deg);
     }
-
 }
 
 
-@keyframes cosmicPulse {
+/* Speed */
 
+@keyframes speedTrail {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    40% {
+        opacity: .8;
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+}
+
+
+/* Lightning */
+
+@keyframes lightningFlash {
+    from {
+        opacity: .25;
+        transform: scale(.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+
+/* Rainbow */
+
+@keyframes rainbowRotate {
+    from {
+        transform:
+            translate(-50%,-50%)
+            rotate(0deg);
+    }
+
+    to {
+        transform:
+            translate(-50%,-50%)
+            rotate(360deg);
+    }
+}
+
+
+/* Glitch */
+
+@keyframes glitchMove {
+    from {
+        transform: translateX(-5px);
+        opacity: .25;
+    }
+
+    to {
+        transform: translateX(7px);
+        opacity: .8;
+    }
+}
+
+
+/* Crystal */
+
+@keyframes crystalFloat {
+    from {
+        transform: translateY(3px) rotate(-4deg);
+    }
+
+    to {
+        transform: translateY(-5px) rotate(4deg);
+    }
+}
+
+
+/* Cosmic */
+
+@keyframes cosmicPulse {
     from {
         opacity: .3;
 
@@ -870,29 +2491,69 @@
             translate(-50%,-50%)
             scale(1.04);
     }
-
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   MOBILE
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: 700px) {
 
-    .bossy-character > .goober,
-    .bossy-player.walking
-    .bossy-character > .goober,
-    .bossy-player.jumping
-    .bossy-character > .goober,
-    .bossy-player.walking
-    .goober-foot,
-    .bossy-player.jumping
-    .goober-foot {
-
-        animation:
-            none !important;
-
+    .bossy-hud {
+        height: 56px;
+        padding: 0 14px;
     }
 
+    .bossy-brand {
+        font-size: 13px;
+    }
+
+    .bossy-title {
+        font-size: 18px;
+    }
+
+    .bossy-hud-right {
+        gap: 7px;
+    }
+
+    #bossy-player-count {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+
+    .connection-status {
+        display: none;
+    }
+
+    .controls-hint {
+        bottom: 60px;
+        font-size: 9px;
+    }
+
+    .bossy-bottom-bar {
+        height: 44px;
+        padding: 0 14px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .bossy-brand {
+        display: none;
+    }
+
+    .bossy-title {
+        left: 14px;
+        transform: none;
+    }
+
+    .bossy-bottom-bar {
+        display: none;
+    }
+
+    .controls-hint {
+        bottom: 15px;
+    }
 }
