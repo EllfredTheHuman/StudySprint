@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,40 +28,8 @@
 
 <body>
 
-<header>
-
-    <div class="logo">
-        🚀 StudySprint
-    </div>
-
-    <nav>
-
-        <a href="../../index.html">
-            Home
-        </a>
-
-        <a href="../../study/index.html">
-            📚 Study
-        </a>
-
-        <a href="../../sprint/index.html">
-            🏃 Sprint
-        </a>
-
-        <a href="../../games/index.html">
-            🎮 Games
-        </a>
-
-        <a href="../../profile/index.html">
-            👤 Profile
-        </a>
-
-    </nav>
-
-</header>
-
-
 <main id="bossy-game">
+
 
     <!-- =====================================================
          LOADING
@@ -94,22 +63,22 @@
         style="display:none;"
     >
 
-        <div class="bossy-topbar">
 
-            <div>
+        <!-- =================================================
+             HUD
+        ================================================== -->
 
-                <span class="bossy-label">
-                    STUDYSPRINT GAME
-                </span>
+        <header class="bossy-hud">
 
-                <h1>
-                    👹 Bossy
-                </h1>
-
+            <div class="bossy-brand">
+                🚀 StudySprint
             </div>
 
+            <div class="bossy-title">
+                👹 BOSSY
+            </div>
 
-            <div class="bossy-lobby-code">
+            <div class="bossy-lobby">
 
                 <span>
                     LOBBY
@@ -121,7 +90,7 @@
 
             </div>
 
-        </div>
+        </header>
 
 
         <!-- =================================================
@@ -133,58 +102,62 @@
             class="game-map"
         >
 
+
+            <!-- SKY -->
+
             <div class="sky"></div>
+
+
+            <!-- BACKGROUND -->
+
+            <div class="mountain mountain-one"></div>
+            <div class="mountain mountain-two"></div>
 
             <div class="cloud cloud-one"></div>
             <div class="cloud cloud-two"></div>
+            <div class="cloud cloud-three"></div>
 
-            <div class="ground"></div>
+
+            <!-- PLATFORM -->
+
+            <div class="ground">
+
+                <div class="ground-top"></div>
+
+            </div>
+
+
+            <!-- PLAYERS -->
 
             <div
                 id="players-container"
                 class="players-container"
             ></div>
 
-        </div>
 
+            <!-- CONTROLS -->
 
-        <!-- =================================================
-             CONTROLS
-        ================================================== -->
+            <div class="controls-hint">
 
-        <div class="bossy-controls">
-
-            <div class="control">
-
-                <kbd>
+                <span class="key">
                     A
-                </kbd>
-
-                <span>
-                    Move Left
                 </span>
 
-            </div>
+                <span>
+                    Move
+                </span>
 
-
-            <div class="control">
-
-                <kbd>
+                <span class="key">
                     D
-                </kbd>
-
-                <span>
-                    Move Right
                 </span>
 
-            </div>
+                <span>
+                    Move
+                </span>
 
-
-            <div class="control">
-
-                <kbd>
+                <span class="key space">
                     SPACE
-                </kbd>
+                </span>
 
                 <span>
                     Jump
@@ -192,7 +165,23 @@
 
             </div>
 
+
+            <!-- PLAYER COUNT -->
+
+            <div class="player-count">
+
+                👥
+
+                <strong id="player-count">
+                    0
+                </strong>
+
+                players
+
+            </div>
+
         </div>
+
 
     </section>
 
@@ -228,6 +217,7 @@
 
     </section>
 
+
 </main>
 
 
@@ -239,3 +229,4 @@
 </body>
 
 </html>
+```
