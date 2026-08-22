@@ -27,156 +27,214 @@
 
 <body>
 
+<header>
 
-<!-- =========================================================
-     GAME
-========================================================= -->
+    <div class="logo">
+        🚀 StudySprint
+    </div>
+
+    <nav>
+
+        <a href="../../index.html">
+            Home
+        </a>
+
+        <a href="../../study/index.html">
+            📚 Study
+        </a>
+
+        <a href="../../sprint/index.html">
+            🏃 Sprint
+        </a>
+
+        <a href="../../games/index.html">
+            🎮 Games
+        </a>
+
+        <a href="../../profile/index.html">
+            👤 Profile
+        </a>
+
+    </nav>
+
+</header>
+
 
 <main id="bossy-game">
 
-
     <!-- =====================================================
-         TOP HUD
+         LOADING
     ====================================================== -->
 
-    <div class="bossy-hud">
-
-        <div class="bossy-brand">
-            🚀 StudySprint
-        </div>
-
-        <div class="bossy-title">
-            BOSSY
-        </div>
-
-        <div
-            id="player-count"
-            class="bossy-player-count"
-        >
-            0 Players
-        </div>
-
-    </div>
-
-
-
-    <!-- =====================================================
-         GAME WORLD
-    ====================================================== -->
-
-    <div
-        id="game-container"
-        class="game-container"
+    <section
+        id="bossy-loading"
+        class="bossy-loading"
     >
 
-        <canvas
-            id="game-canvas"
-            width="1280"
-            height="720"
-        ></canvas>
+        <div class="loading-spinner"></div>
+
+        <h1>
+            Loading Bossy...
+        </h1>
+
+        <p>
+            Connecting to your game.
+        </p>
+
+    </section>
 
 
-        <!-- =================================================
-             LOADING
-        ================================================== -->
+    <!-- =====================================================
+         GAME
+    ====================================================== -->
 
-        <div
-            id="game-loading"
-            class="game-loading"
-        >
+    <section
+        id="bossy-world"
+        class="bossy-world"
+        style="display:none;"
+    >
 
-            <div class="loading-spinner"></div>
+        <div class="bossy-topbar">
 
-            <h2>
-                Loading Bossy...
-            </h2>
+            <div>
 
-            <p>
-                Loading players
-            </p>
+                <span class="bossy-label">
+                    STUDYSPRINT GAME
+                </span>
+
+                <h1>
+                    👹 Bossy
+                </h1>
+
+            </div>
+
+
+            <div class="bossy-lobby-code">
+
+                <span>
+                    LOBBY
+                </span>
+
+                <strong id="bossy-code">
+                    ------
+                </strong>
+
+            </div>
 
         </div>
 
 
         <!-- =================================================
-             GAME MESSAGE
+             GAME MAP
         ================================================== -->
 
         <div
-            id="game-message"
-            class="game-message"
-            style="display: none;"
-        ></div>
+            id="game-map"
+            class="game-map"
+        >
+
+            <div class="sky"></div>
+
+            <div class="cloud cloud-one"></div>
+            <div class="cloud cloud-two"></div>
+
+            <div class="ground"></div>
+
+            <div
+                id="players-container"
+                class="players-container"
+            ></div>
+
+        </div>
 
 
         <!-- =================================================
              CONTROLS
         ================================================== -->
 
-        <div class="controls-hint">
+        <div class="bossy-controls">
 
-            <span>
-                A / D
-            </span>
+            <div class="control">
 
-            Move
+                <kbd>
+                    A
+                </kbd>
 
-            <span>
-                SPACE
-            </span>
+                <span>
+                    Move Left
+                </span>
 
-            Jump
+            </div>
+
+
+            <div class="control">
+
+                <kbd>
+                    D
+                </kbd>
+
+                <span>
+                    Move Right
+                </span>
+
+            </div>
+
+
+            <div class="control">
+
+                <kbd>
+                    SPACE
+                </kbd>
+
+                <span>
+                    Jump
+                </span>
+
+            </div>
 
         </div>
 
-    </div>
-
+    </section>
 
 
     <!-- =====================================================
-         PLAYER INFORMATION
+         ERROR
     ====================================================== -->
 
-    <div class="bossy-bottom-bar">
+    <section
+        id="bossy-error"
+        class="bossy-error"
+        style="display:none;"
+    >
 
-        <div>
-
-            <strong id="local-player-name">
-                Player
-            </strong>
-
-            <span>
-                You
-            </span>
-
+        <div class="error-icon">
+            ⚠️
         </div>
 
+        <h1>
+            Unable to join Bossy
+        </h1>
 
-        <div
-            id="connection-status"
-            class="connection-status"
+        <p id="bossy-error-message">
+            Something went wrong.
+        </p>
+
+        <a
+            href="../../games/index.html"
+            class="back-button"
         >
+            ← BACK TO GAMES
+        </a>
 
-            ● Connecting...
-
-        </div>
-
-    </div>
-
+    </section>
 
 </main>
 
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
 
 <script
     type="module"
     src="bossy.js"
 ></script>
-
 
 </body>
 
