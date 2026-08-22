@@ -3,17 +3,13 @@
    Lobby creation + joining
 ========================================================= */
 
-import {
-    initializeApp
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { db } from "../firebase.js";
 
 import {
-    getDatabase,
     ref,
     get,
     set
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
-
 
 /* =========================================================
    FIREBASE
