@@ -1,10 +1,13 @@
+```css
 /* =========================================================
    STUDYSPRINT — BOSSY
+   Side-view multiplayer game
 ========================================================= */
 
 * {
     box-sizing: border-box;
 }
+
 
 html,
 body {
@@ -16,6 +19,7 @@ body {
 
     overflow: hidden;
 }
+
 
 body {
     background: #0f172a;
@@ -30,7 +34,7 @@ body {
 
 
 /* =========================================================
-   GAME
+   GAME ROOT
 ========================================================= */
 
 #bossy-game {
@@ -41,22 +45,106 @@ body {
     width: 100vw;
     height: 100vh;
 
-    display: flex;
-
-    flex-direction: column;
+    overflow: hidden;
 
     background: #0f172a;
 }
 
 
 /* =========================================================
-   TOP HUD
+   LOADING
+========================================================= */
+
+.bossy-loading {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            #312e81,
+            #111827 65%,
+            #020617
+        );
+
+    text-align: center;
+}
+
+
+.bossy-loading h1 {
+    margin:
+        22px 0 8px;
+
+    font-size: 30px;
+
+    font-weight: 1000;
+}
+
+
+.bossy-loading p {
+    margin: 0;
+
+    color: #a5b4fc;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+
+    border:
+        5px solid
+        rgba(255,255,255,.12);
+
+    border-top-color:
+        #818cf8;
+
+    border-radius: 50%;
+
+    animation:
+        bossySpin .8s linear infinite;
+}
+
+
+/* =========================================================
+   GAME WORLD
+========================================================= */
+
+.bossy-world {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #172554;
+}
+
+
+/* =========================================================
+   HUD
 ========================================================= */
 
 .bossy-hud {
     position: relative;
 
-    z-index: 20;
+    z-index: 50;
 
     height: 64px;
 
@@ -68,10 +156,11 @@ body {
 
     justify-content: space-between;
 
-    padding: 0 24px;
+    padding:
+        0 24px;
 
     background:
-        rgba(15, 23, 42, .96);
+        rgba(15,23,42,.96);
 
     border-bottom:
         1px solid
@@ -79,16 +168,18 @@ body {
 
     box-shadow:
         0 5px 20px
-        rgba(0,0,0,.3);
+        rgba(0,0,0,.25);
 }
+
 
 .bossy-brand {
     color: #a5b4fc;
 
     font-size: 17px;
 
-    font-weight: 900;
+    font-weight: 950;
 }
+
 
 .bossy-title {
     position: absolute;
@@ -98,19 +189,32 @@ body {
     transform:
         translateX(-50%);
 
-    font-size: 24px;
+    color: white;
+
+    font-size: 23px;
 
     font-weight: 1000;
 
     letter-spacing: .08em;
 
     text-shadow:
-        0 0 20px
+        0 0 18px
         rgba(129,140,248,.6);
 }
 
-.bossy-player-count {
-    padding: 7px 13px;
+
+.bossy-hud-right {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+#bossy-player-count {
+    padding:
+        7px 12px;
 
     border-radius: 999px;
 
@@ -119,284 +223,13 @@ body {
 
     border:
         1px solid
-        rgba(129,140,248,.3);
+        rgba(129,140,248,.25);
 
     color: #c7d2fe;
 
-    font-size: 13px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   GAME AREA
-========================================================= */
-
-.game-container {
-    position: relative;
-
-    flex: 1;
-
-    min-height: 0;
-
-    overflow: hidden;
-
-    background: #312e81;
-}
-
-#game-canvas {
-    position: absolute;
-
-    inset: 0;
-
-    display: block;
-
-    width: 100%;
-    height: 100%;
-
-    user-select: none;
-
-    touch-action: none;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.game-loading {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 50;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(49,46,129,.92),
-            rgba(15,23,42,.99)
-        );
-
-    text-align: center;
-}
-
-.game-loading h2 {
-    margin:
-        18px 0 6px;
-
-    font-size: 26px;
-
-    font-weight: 1000;
-}
-
-.game-loading p {
-    margin: 0;
-
-    color: #94a3b8;
-
-    font-size: 14px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   SPINNER
-========================================================= */
-
-.loading-spinner {
-    width: 44px;
-    height: 44px;
-
-    border:
-        4px solid
-        rgba(255,255,255,.12);
-
-    border-top-color:
-        #818cf8;
-
-    border-radius: 50%;
-
-    animation:
-        bossySpin
-        .8s linear infinite;
-}
-
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-.game-message {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    z-index: 60;
-
-    width: min(
-        90%,
-        480px
-    );
-
-    padding: 25px;
-
-    border-radius: 20px;
-
-    background:
-        rgba(15,23,42,.95);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    box-shadow:
-        0 20px 60px
-        rgba(0,0,0,.4);
-
-    color: white;
-
-    font-size: 17px;
-
-    font-weight: 800;
-
-    line-height: 1.5;
-
-    text-align: center;
-}
-
-
-/* =========================================================
-   CONTROLS
-========================================================= */
-
-.controls-hint {
-    position: absolute;
-
-    left: 50%;
-    bottom: 18px;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 10;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding:
-        9px 14px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(15,23,42,.72);
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
-    backdrop-filter:
-        blur(10px);
-
-    color: #cbd5e1;
-
     font-size: 12px;
 
-    font-weight: 700;
-
-    white-space: nowrap;
-
-    pointer-events: none;
-}
-
-.controls-hint span {
-    padding:
-        4px 7px;
-
-    border-radius: 6px;
-
-    background:
-        rgba(255,255,255,.12);
-
-    color: white;
-
-    font-size: 11px;
-
-    font-weight: 1000;
-}
-
-
-/* =========================================================
-   BOTTOM BAR
-========================================================= */
-
-.bossy-bottom-bar {
-    position: relative;
-
-    z-index: 20;
-
-    height: 50px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 0 22px;
-
-    background:
-        rgba(15,23,42,.97);
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.08);
-}
-
-.bossy-bottom-bar > div:first-child {
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-}
-
-.bossy-bottom-bar strong {
-    color: #94a3b8;
-
-    font-size: 11px;
-
-    letter-spacing: .08em;
-}
-
-.bossy-bottom-bar span {
-    color: white;
-
-    font-size: 13px;
-
     font-weight: 900;
-
-    letter-spacing: .12em;
 }
 
 
@@ -409,14 +242,14 @@ body {
 
     font-size: 11px;
 
-    font-weight: 1000;
-
-    letter-spacing: .08em;
+    font-weight: 900;
 }
+
 
 .connection-status.connected {
     color: #4ade80;
 }
+
 
 .connection-status.error {
     color: #f87171;
@@ -424,7 +257,1072 @@ body {
 
 
 /* =========================================================
-   ANIMATION
+   MAP
+========================================================= */
+
+.game-map {
+    position: relative;
+
+    flex: 1;
+
+    min-height: 0;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #60a5fa 0%,
+            #93c5fd 48%,
+            #bfdbfe 100%
+        );
+}
+
+
+/* =========================================================
+   SKY
+========================================================= */
+
+.sky-background {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #38bdf8,
+            #7dd3fc 55%,
+            #bae6fd
+        );
+}
+
+
+.sun {
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    right: 10%;
+
+    top: 55px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fef3c7,
+            #fde68a
+        );
+
+    box-shadow:
+        0 0 50px
+        rgba(254,243,199,.8);
+}
+
+
+/* =========================================================
+   CLOUDS
+========================================================= */
+
+.cloud {
+    position: absolute;
+
+    width: 150px;
+    height: 42px;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,.72);
+
+    filter:
+        blur(.3px);
+}
+
+
+.cloud::before,
+.cloud::after {
+    content: "";
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.72);
+}
+
+
+.cloud::before {
+    width: 65px;
+    height: 65px;
+
+    left: 28px;
+    bottom: 5px;
+}
+
+
+.cloud::after {
+    width: 48px;
+    height: 48px;
+
+    right: 25px;
+    bottom: 3px;
+}
+
+
+.cloud-one {
+    top: 75px;
+    left: 12%;
+
+    transform:
+        scale(.8);
+}
+
+
+.cloud-two {
+    top: 145px;
+    left: 52%;
+
+    transform:
+        scale(1.1);
+}
+
+
+.cloud-three {
+    top: 65px;
+    right: 30%;
+
+    transform:
+        scale(.55);
+}
+
+
+/* =========================================================
+   BACKGROUND HILLS
+========================================================= */
+
+.background-hill {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 70%;
+
+    height: 230px;
+
+    border-radius:
+        50% 50% 0 0;
+
+    background:
+        #86efac;
+
+    opacity: .65;
+}
+
+
+.hill-one {
+    left: -20%;
+}
+
+
+.hill-two {
+    right: -25%;
+
+    height: 180px;
+
+    background:
+        #4ade80;
+}
+
+
+/* =========================================================
+   GROUND
+========================================================= */
+
+.ground {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 90px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #22c55e,
+            #15803d
+        );
+
+    z-index: 5;
+}
+
+
+.ground-top {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+
+    height: 13px;
+
+    background:
+        #4ade80;
+
+    box-shadow:
+        0 4px 0
+        rgba(20,83,45,.25);
+}
+
+
+.ground-pattern {
+    position: absolute;
+
+    inset: 13px 0 0;
+
+    opacity: .18;
+
+    background-image:
+        radial-gradient(
+            circle,
+            #14532d 2px,
+            transparent 2px
+        );
+
+    background-size:
+        28px 20px;
+}
+
+
+/* =========================================================
+   PLAYERS
+========================================================= */
+
+.players-container {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 90px;
+
+    height: calc(100% - 90px);
+
+    z-index: 10;
+
+    overflow: visible;
+}
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+.bossy-player {
+    position: absolute;
+
+    left: 150px;
+    bottom: 0;
+
+    width: 140px;
+    height: 150px;
+
+    z-index: 10;
+
+    transition:
+        filter .15s ease;
+}
+
+
+.bossy-player.local-player {
+    z-index: 20;
+}
+
+
+.bossy-player.jumping {
+    filter:
+        drop-shadow(
+            0 8px 7px
+            rgba(15,23,42,.2)
+        );
+}
+
+
+/* =========================================================
+   CHARACTER HOLDER
+========================================================= */
+
+.bossy-character {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 140px;
+    height: 150px;
+
+    overflow: visible;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ACTUAL GOOBER
+
+   This deliberately mirrors the character editor's
+   140 × 150 Goober dimensions.
+========================================================= */
+
+.bossy-character > .goober {
+    position: relative;
+
+    width: 140px;
+    height: 150px;
+
+    margin: 0;
+    padding: 0;
+
+    transform:
+        none;
+
+    overflow: visible;
+}
+
+
+/* =========================================================
+   GOOBER BODY
+========================================================= */
+
+.bossy-character .goober-body {
+    position: absolute;
+
+    width: 108px;
+    height: 105px;
+
+    left: 16px;
+    top: 27px;
+
+    border-radius:
+        45% 45% 42% 42%;
+
+    z-index: 3;
+}
+
+
+/* =========================================================
+   GOOBER FACE
+========================================================= */
+
+.bossy-character .goober-face {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 8;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   GOOBER FEET
+========================================================= */
+
+.bossy-character .goober-feet {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+}
+
+
+.bossy-character .goober-part {
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   EYES
+========================================================= */
+
+.bossy-character .goober-eye {
+    position: absolute;
+
+    width: 13px;
+    height: 17px;
+
+    top: 66px;
+
+    border-radius: 50%;
+
+    background:
+        #111827;
+
+    z-index: 10;
+}
+
+
+.bossy-character .eye-left {
+    left: 47px;
+}
+
+
+.bossy-character .eye-right {
+    left: 79px;
+}
+
+
+.bossy-character .goober-mouth {
+    position: absolute;
+
+    left: 61px;
+    top: 89px;
+
+    width: 19px;
+    height: 10px;
+
+    border-bottom:
+        3px solid
+        #111827;
+
+    border-radius:
+        0 0 50% 50%;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
+   FEET
+========================================================= */
+
+.bossy-character .goober-foot {
+    position: absolute;
+
+    bottom: 8px;
+
+    width: 29px;
+    height: 14px;
+
+    border-radius:
+        50%;
+
+    background:
+        #111827;
+
+    z-index: 1;
+}
+
+
+.bossy-character .foot-left {
+    left: 31px;
+}
+
+
+.bossy-character .foot-right {
+    right: 31px;
+}
+
+
+/* =========================================================
+   CROWN
+========================================================= */
+
+.bossy-character .character-crown {
+    position: absolute;
+
+    left: 49px;
+    top: -5px;
+
+    width: 42px;
+    height: 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fde68a,
+            #facc15,
+            #eab308
+        );
+
+    clip-path:
+        polygon(
+            0 100%,
+            8% 18%,
+            30% 58%,
+            50% 0%,
+            70% 58%,
+            92% 18%,
+            100% 100%
+        );
+
+    z-index: 100;
+
+    filter:
+        drop-shadow(
+            0 2px 2px
+            rgba(0,0,0,.25)
+        );
+}
+
+
+.bossy-character .character-crown::after {
+    content: "";
+
+    position: absolute;
+
+    left: 3px;
+    right: 3px;
+
+    bottom: 0;
+
+    height: 7px;
+
+    background:
+        #d97706;
+}
+
+
+.bossy-character .character-crown::before {
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    left: 18px;
+    top: 14px;
+
+    border-radius: 50%;
+
+    background:
+        #3b82f6;
+
+    box-shadow:
+        -10px 3px 0 #ef4444,
+        10px 3px 0 #8b5cf6;
+}
+
+
+.bossy-character .crown-point {
+    display: none;
+}
+
+
+/* =========================================================
+   EFFECTS
+========================================================= */
+
+.effect-sparkle-dot {
+    position: absolute;
+
+    width: 9px;
+    height: 9px;
+
+    background: white;
+
+    clip-path:
+        polygon(
+            50% 0%,
+            62% 38%,
+            100% 50%,
+            62% 62%,
+            50% 100%,
+            38% 62%,
+            0% 50%,
+            38% 38%
+        );
+
+    z-index: 60;
+
+    animation:
+        sparklePulse 1.3s ease-in-out infinite alternate;
+}
+
+
+.effect-sparkle-dot[data-index="0"] {
+    left: 18px;
+    top: 55px;
+}
+
+
+.effect-sparkle-dot[data-index="1"] {
+    right: 17px;
+    top: 68px;
+}
+
+
+.effect-sparkle-dot[data-index="2"] {
+    left: 27px;
+    top: 115px;
+}
+
+
+.effect-sparkle-dot[data-index="3"] {
+    right: 28px;
+    top: 125px;
+}
+
+
+.effect-sparkle-dot[data-index="4"] {
+    left: 43px;
+    top: 30px;
+}
+
+
+.effect-sparkle-dot[data-index="5"] {
+    right: 43px;
+    top: 40px;
+}
+
+
+/* =========================================================
+   FIRE
+========================================================= */
+
+.bossy-character.effect-fire::before,
+.bossy-character.effect-fire::after {
+    content: "";
+
+    position: absolute;
+
+    width: 18px;
+    height: 32px;
+
+    bottom: 30px;
+
+    border-radius:
+        60% 40% 55% 45%;
+
+    background:
+        linear-gradient(
+            to top,
+            #ef4444,
+            #f97316,
+            #facc15
+        );
+
+    z-index: 25;
+
+    animation:
+        flameFlicker .55s ease-in-out infinite alternate;
+}
+
+
+.bossy-character.effect-fire::before {
+    left: 15px;
+}
+
+
+.bossy-character.effect-fire::after {
+    right: 15px;
+
+    height: 27px;
+}
+
+
+/* =========================================================
+   SHADOW
+========================================================= */
+
+.effect-shadow-ground {
+    position: absolute;
+
+    left: 50%;
+    bottom: 5px;
+
+    width: 105px;
+    height: 18px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background:
+        rgba(15,23,42,.42);
+
+    filter:
+        blur(5px);
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   COSMIC AURA
+========================================================= */
+
+.effect-cosmic-ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 150px;
+    height: 150px;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 20px
+        rgba(139,92,246,.55);
+
+    border:
+        2px solid
+        rgba(139,92,246,.3);
+
+    z-index: 1;
+
+    animation:
+        cosmicPulse 2s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   PLAYER NAME
+========================================================= */
+
+.bossy-player-name {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 152px;
+
+    transform:
+        translateX(-50%);
+
+    max-width: 150px;
+
+    padding:
+        5px 9px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(15,23,42,.85);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 900;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    text-align: center;
+
+    box-shadow:
+        0 4px 10px
+        rgba(0,0,0,.18);
+}
+
+
+.local-player .bossy-player-name {
+    background:
+        #4f46e5;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.bossy-player-title {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 180px;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        #e0e7ff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   FACING
+========================================================= */
+
+.bossy-player.facing-left
+.bossy-character > .goober {
+    transform:
+        scaleX(-1);
+}
+
+
+/* Keep name/title readable */
+
+.bossy-player.facing-left
+.bossy-player-name,
+.bossy-player.facing-left
+.bossy-player-title {
+    transform:
+        translateX(-50%)
+        scaleX(1);
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.controls-hint {
+    position: absolute;
+
+    left: 50%;
+    bottom: 70px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 40;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        9px 13px;
+
+    border-radius:
+        999px;
+
+    background:
+        rgba(15,23,42,.78);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    backdrop-filter:
+        blur(8px);
+
+    color:
+        #cbd5e1;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+.controls-hint span {
+    padding:
+        4px 7px;
+
+    border-radius: 6px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 950;
+}
+
+
+.controls-hint label {
+    margin-left: 3px;
+}
+
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.bossy-bottom-bar {
+    position: relative;
+
+    z-index: 50;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 22px;
+
+    background:
+        rgba(15,23,42,.97);
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+}
+
+
+.bossy-bottom-bar > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.bossy-bottom-bar strong {
+    color:
+        #94a3b8;
+
+    font-size: 11px;
+
+    font-weight: 950;
+
+    letter-spacing: .08em;
+}
+
+
+.bossy-bottom-bar span {
+    color:
+        #c7d2fe;
+
+    font-size: 13px;
+
+    font-weight: 900;
+
+    letter-spacing: .12em;
+}
+
+
+.local-player-name {
+    color:
+        #a5b4fc !important;
+
+    letter-spacing:
+        normal !important;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.bossy-error {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #312e81,
+            #0f172a 70%
+        );
+
+    text-align: center;
+}
+
+
+.error-icon {
+    font-size: 60px;
+
+    margin-bottom: 15px;
+}
+
+
+.bossy-error h1 {
+    margin:
+        0 0 10px;
+
+    font-size: 28px;
+
+    font-weight: 1000;
+}
+
+
+.bossy-error p {
+    max-width: 500px;
+
+    margin:
+        0 0 25px;
+
+    color:
+        #cbd5e1;
+
+    line-height: 1.5;
+}
+
+
+.back-button {
+    display: inline-block;
+
+    padding:
+        12px 18px;
+
+    border-radius:
+        12px;
+
+    background:
+        #4f46e5;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   ANIMATIONS
 ========================================================= */
 
 @keyframes bossySpin {
@@ -442,8 +1340,65 @@ body {
 }
 
 
+@keyframes sparklePulse {
+
+    from {
+        opacity: .3;
+
+        transform:
+            scale(.55);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1.15);
+    }
+
+}
+
+
+@keyframes flameFlicker {
+
+    from {
+        transform:
+            scaleY(.9)
+            rotate(-4deg);
+    }
+
+    to {
+        transform:
+            scaleY(1.08)
+            rotate(4deg);
+    }
+
+}
+
+
+@keyframes cosmicPulse {
+
+    from {
+        opacity: .3;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.94);
+    }
+
+    to {
+        opacity: .8;
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.04);
+    }
+
+}
+
+
 /* =========================================================
-   MOBILE
+   RESPONSIVE
 ========================================================= */
 
 @media (max-width: 700px) {
@@ -455,20 +1410,41 @@ body {
             0 14px;
     }
 
+
     .bossy-brand {
-        font-size: 14px;
+        font-size: 13px;
     }
+
 
     .bossy-title {
         font-size: 18px;
     }
 
-    .bossy-player-count {
-        padding:
-            6px 9px;
 
-        font-size: 11px;
+    .bossy-hud-right {
+        gap: 7px;
     }
+
+
+    #bossy-player-count {
+        padding:
+            5px 8px;
+
+        font-size: 10px;
+    }
+
+
+    .connection-status {
+        display: none;
+    }
+
+
+    .controls-hint {
+        bottom: 60px;
+
+        font-size: 9px;
+    }
+
 
     .bossy-bottom-bar {
         height: 44px;
@@ -477,13 +1453,8 @@ body {
             0 14px;
     }
 
-    .controls-hint {
-        bottom: 12px;
-
-        font-size: 10px;
-    }
-
 }
+
 
 @media (max-width: 450px) {
 
@@ -491,10 +1462,22 @@ body {
         display: none;
     }
 
+
     .bossy-title {
         left: 14px;
 
         transform: none;
     }
 
+
+    .bossy-bottom-bar {
+        display: none;
+    }
+
+
+    .controls-hint {
+        bottom: 15px;
+    }
+
 }
+```
