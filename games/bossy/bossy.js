@@ -10,9 +10,9 @@
    - A / D movement
    - SPACE jumping
    - Gravity
-   - Reliable ground collision
+   - Ground collision
    - Remote character syncing
-   - Loading timeout protection
+   - Goober idle / walking / jumping animations
 ========================================================= */
 
 import { db } from "../../firebase.js";
@@ -30,38 +30,17 @@ import {
    ELEMENTS
 ========================================================= */
 
-const loadingScreen =
-    document.getElementById("bossy-loading");
-
-const loadingStatus =
-    document.getElementById("loading-status");
-
-const gameWorld =
-    document.getElementById("bossy-world");
-
-const errorScreen =
-    document.getElementById("bossy-error");
-
-const errorMessage =
-    document.getElementById("bossy-error-message");
-
-const lobbyCodeElement =
-    document.getElementById("bossy-code");
-
-const playersContainer =
-    document.getElementById("players-container");
-
-const playerCountElement =
-    document.getElementById("bossy-player-count");
-
-const connectionElement =
-    document.getElementById("bossy-connection");
-
-const localNameElement =
-    document.getElementById("bossy-local-name");
-
-const gameMap =
-    document.getElementById("game-map");
+const loadingScreen = document.getElementById("bossy-loading");
+const loadingStatus = document.getElementById("loading-status");
+const gameWorld = document.getElementById("bossy-world");
+const errorScreen = document.getElementById("bossy-error");
+const errorMessage = document.getElementById("bossy-error-message");
+const lobbyCodeElement = document.getElementById("bossy-code");
+const playersContainer = document.getElementById("players-container");
+const playerCountElement = document.getElementById("bossy-player-count");
+const connectionElement = document.getElementById("bossy-connection");
+const localNameElement = document.getElementById("bossy-local-name");
+const gameMap = document.getElementById("game-map");
 
 
 /* =========================================================
@@ -83,48 +62,30 @@ const START_X = 150;
 
 const GROUND_Y = 0;
 
+const FIREBASE_TIMEOUT = 8000;
+
 
 /* =========================================================
    FIREBASE TIMEOUT
 ========================================================= */
 
-const FIREBASE_TIMEOUT = 8000;
-
-
-/*
-   Firebase can occasionally leave a get()/write()
-   waiting forever when the connection is unavailable.
-
-   This prevents Bossy from being stuck on
-   "Loading Bossy..." indefinitely.
-*/
-
-function withTimeout(
-    promise,
-    milliseconds,
-    message
-) {
+function withTimeout(promise, milliseconds, message) {
 
     return Promise.race([
 
         promise,
 
-        new Promise(
-            function(_, reject) {
+        new Promise(function(_, reject) {
 
-                setTimeout(
-                    function() {
+            setTimeout(function() {
 
-                        reject(
-                            new Error(message)
-                        );
-
-                    },
-                    milliseconds
+                reject(
+                    new Error(message)
                 );
 
-            }
-        )
+            }, milliseconds);
+
+        })
 
     ]);
 
@@ -142,7 +103,6 @@ function getPlayerId() {
             "studySprintPlayerId"
         );
 
-
     if (!id) {
 
         if (
@@ -150,12 +110,9 @@ function getPlayerId() {
             typeof crypto.randomUUID === "function"
         ) {
 
-            id =
-                crypto.randomUUID();
+            id = crypto.randomUUID();
 
-        }
-
-        else {
+        } else {
 
             id =
                 "player-" +
@@ -167,7 +124,6 @@ function getPlayerId() {
 
         }
 
-
         localStorage.setItem(
             "studySprintPlayerId",
             id
@@ -175,14 +131,12 @@ function getPlayerId() {
 
     }
 
-
     return id;
 
 }
 
 
-const playerId =
-    getPlayerId();
+const playerId = getPlayerId();
 
 
 /* =========================================================
@@ -193,7 +147,6 @@ const params =
     new URLSearchParams(
         window.location.search
     );
-
 
 const lobbyCode =
     (
@@ -209,37 +162,23 @@ const lobbyCode =
 ========================================================= */
 
 const username =
-    localStorage.getItem(
-        "username"
-    ) ||
+    localStorage.getItem("username") ||
     "Player";
 
-
 const equippedCharacterId =
-    localStorage.getItem(
-        "character_character"
-    ) ||
+    localStorage.getItem("character_character") ||
     "leafy";
 
-
 const equippedTitleId =
-    localStorage.getItem(
-        "character_title"
-    ) ||
+    localStorage.getItem("character_title") ||
     "none";
 
-
 const equippedBannerId =
-    localStorage.getItem(
-        "character_banner"
-    ) ||
+    localStorage.getItem("character_banner") ||
     "purple-grid";
 
-
 const equippedEffectId =
-    localStorage.getItem(
-        "character_effect"
-    ) ||
+    localStorage.getItem("character_effect") ||
     "none";
 
 
@@ -247,46 +186,35 @@ const equippedEffectId =
    LOCAL PHYSICS
 ========================================================= */
 
-let localX =
-    START_X;
+let localX = START_X;
+let localY = GROUND_Y;
 
-let localY =
-    GROUND_Y;
+let velocityY = 0;
 
-let velocityY =
-    0;
+let onGround = true;
 
-let onGround =
-    true;
+let leftPressed = false;
+let rightPressed = false;
 
-let leftPressed =
-    false;
-
-let rightPressed =
-    false;
-
-let jumpQueued =
-    false;
+let jumpQueued = false;
 
 
 /* =========================================================
    PLAYER DOM CACHE
 ========================================================= */
 
-const playerElements =
-    new Map();
+const playerElements = new Map();
 
 
 /* =========================================================
    LAST KNOWN PLAYER DATA
 ========================================================= */
 
-const knownPlayers =
-    new Map();
+const knownPlayers = new Map();
 
 
 /* =========================================================
-   SHOP CHARACTERS
+   CHARACTER DATA
 ========================================================= */
 
 const SHOP_CHARACTERS = [
@@ -454,13 +382,12 @@ const SHOP_CHARACTERS = [
 
 const CHARACTER_TITLES = {
 
-    "none":
-        "",
+    none: "",
 
     "study-sprinter":
         "Study Sprinter",
 
-    "brainiac":
+    brainiac:
         "Brainiac",
 
     "speed-learner":
@@ -493,7 +420,7 @@ function getCharacterData(id) {
 
 
 /* =========================================================
-   CREATE REAL STUDYSPRINT GOOBER
+   CREATE GOOBER
 ========================================================= */
 
 function createGooberPreview(data) {
@@ -562,44 +489,20 @@ function createGooberPreview(data) {
         "goober-foot foot-right";
 
 
-    face.appendChild(
-        leftEye
-    );
+    face.appendChild(leftEye);
+    face.appendChild(rightEye);
+    face.appendChild(mouth);
 
-    face.appendChild(
-        rightEye
-    );
-
-    face.appendChild(
-        mouth
-    );
+    feet.appendChild(leftFoot);
+    feet.appendChild(rightFoot);
 
 
-    feet.appendChild(
-        leftFoot
-    );
-
-    feet.appendChild(
-        rightFoot
-    );
+    goober.appendChild(feet);
+    goober.appendChild(body);
+    goober.appendChild(face);
 
 
-    goober.appendChild(
-        feet
-    );
-
-    goober.appendChild(
-        body
-    );
-
-    goober.appendChild(
-        face
-    );
-
-
-    function addPart(
-        className
-    ) {
+    function addPart(className) {
 
         const part =
             document.createElement("div");
@@ -608,9 +511,7 @@ function createGooberPreview(data) {
             "goober-part " +
             className;
 
-        goober.appendChild(
-            part
-        );
+        goober.appendChild(part);
 
         return part;
 
@@ -798,38 +699,28 @@ function createGooberPreview(data) {
         designs.leafy;
 
 
-    parts.forEach(
-        function(part) {
+    parts.forEach(function(part) {
 
-            if (
-                bodyColours.includes(part)
-            ) {
+        if (
+            bodyColours.includes(part)
+        ) {
 
-                body.classList.add(
-                    part
-                );
+            body.classList.add(part);
 
-            }
+        } else {
 
-            else {
-
-                addPart(
-                    part
-                );
-
-            }
+            addPart(part);
 
         }
-    );
+
+    });
 
 
     /* =====================================================
        FOUR EYES
     ====================================================== */
 
-    if (
-        data.design === "fourEyes"
-    ) {
+    if (data.design === "fourEyes") {
 
         const extraOne =
             document.createElement("div");
@@ -845,13 +736,8 @@ function createGooberPreview(data) {
             "goober-eye extra-eye extra-two";
 
 
-        face.appendChild(
-            extraOne
-        );
-
-        face.appendChild(
-            extraTwo
-        );
+        face.appendChild(extraOne);
+        face.appendChild(extraTwo);
 
     }
 
@@ -860,9 +746,7 @@ function createGooberPreview(data) {
        SHELBY
     ====================================================== */
 
-    if (
-        data.design === "shelby"
-    ) {
+    if (data.design === "shelby") {
 
         const shell =
             document.createElement("div");
@@ -877,9 +761,7 @@ function createGooberPreview(data) {
         );
 
 
-        addPart(
-            "shell-highlight"
-        );
+        addPart("shell-highlight");
 
     }
 
@@ -888,9 +770,7 @@ function createGooberPreview(data) {
        CAPTAIN GOOB
     ====================================================== */
 
-    if (
-        data.design === "captainGoob"
-    ) {
+    if (data.design === "captainGoob") {
 
         const cape =
             document.createElement("div");
@@ -916,10 +796,7 @@ function createGooberPreview(data) {
    EFFECTS
 ========================================================= */
 
-function applyEffect(
-    wrapper,
-    effectId
-) {
+function applyEffect(wrapper, effectId) {
 
     if (
         !effectId ||
@@ -932,20 +809,13 @@ function applyEffect(
 
 
     wrapper.classList.add(
-        "effect-" +
-        effectId
+        "effect-" + effectId
     );
 
 
-    if (
-        effectId === "sparkle"
-    ) {
+    if (effectId === "sparkle") {
 
-        for (
-            let i = 0;
-            i < 6;
-            i++
-        ) {
+        for (let i = 0; i < 6; i++) {
 
             const sparkle =
                 document.createElement("div");
@@ -953,29 +823,18 @@ function applyEffect(
             sparkle.className =
                 "character-effect-element effect-sparkle-dot";
 
-            sparkle.style.setProperty(
-                "--sparkle-index",
-                i
-            );
+            sparkle.dataset.index = i;
 
-            wrapper.appendChild(
-                sparkle
-            );
+            wrapper.appendChild(sparkle);
 
         }
 
     }
 
 
-    if (
-        effectId === "speed-trail"
-    ) {
+    if (effectId === "speed-trail") {
 
-        for (
-            let i = 0;
-            i < 5;
-            i++
-        ) {
+        for (let i = 0; i < 5; i++) {
 
             const streak =
                 document.createElement("div");
@@ -983,29 +842,18 @@ function applyEffect(
             streak.className =
                 "character-effect-element effect-speed-streak";
 
-            streak.style.setProperty(
-                "--trail-index",
-                i
-            );
+            streak.dataset.index = i;
 
-            wrapper.appendChild(
-                streak
-            );
+            wrapper.appendChild(streak);
 
         }
 
     }
 
 
-    if (
-        effectId === "lightning"
-    ) {
+    if (effectId === "lightning") {
 
-        for (
-            let i = 0;
-            i < 4;
-            i++
-        ) {
+        for (let i = 0; i < 4; i++) {
 
             const bolt =
                 document.createElement("div");
@@ -1013,23 +861,16 @@ function applyEffect(
             bolt.className =
                 "character-effect-element effect-lightning-bolt";
 
-            bolt.style.setProperty(
-                "--lightning-index",
-                i
-            );
+            bolt.dataset.index = i;
 
-            wrapper.appendChild(
-                bolt
-            );
+            wrapper.appendChild(bolt);
 
         }
 
     }
 
 
-    if (
-        effectId === "rainbow"
-    ) {
+    if (effectId === "rainbow") {
 
         const ring =
             document.createElement("div");
@@ -1037,9 +878,7 @@ function applyEffect(
         ring.className =
             "character-effect-element effect-rainbow-ring";
 
-        wrapper.appendChild(
-            ring
-        );
+        wrapper.appendChild(ring);
 
 
         const inner =
@@ -1048,22 +887,14 @@ function applyEffect(
         inner.className =
             "character-effect-element effect-rainbow-ring-inner";
 
-        wrapper.appendChild(
-            inner
-        );
+        wrapper.appendChild(inner);
 
     }
 
 
-    if (
-        effectId === "fire"
-    ) {
+    if (effectId === "fire") {
 
-        for (
-            let i = 0;
-            i < 7;
-            i++
-        ) {
+        for (let i = 0; i < 7; i++) {
 
             const flame =
                 document.createElement("div");
@@ -1071,29 +902,18 @@ function applyEffect(
             flame.className =
                 "character-effect-element effect-flame";
 
-            flame.style.setProperty(
-                "--flame-index",
-                i
-            );
+            flame.dataset.index = i;
 
-            wrapper.appendChild(
-                flame
-            );
+            wrapper.appendChild(flame);
 
         }
 
     }
 
 
-    if (
-        effectId === "glitch"
-    ) {
+    if (effectId === "glitch") {
 
-        for (
-            let i = 0;
-            i < 3;
-            i++
-        ) {
+        for (let i = 0; i < 3; i++) {
 
             const glitch =
                 document.createElement("div");
@@ -1101,23 +921,16 @@ function applyEffect(
             glitch.className =
                 "character-effect-element effect-glitch-piece";
 
-            glitch.style.setProperty(
-                "--glitch-index",
-                i
-            );
+            glitch.dataset.index = i;
 
-            wrapper.appendChild(
-                glitch
-            );
+            wrapper.appendChild(glitch);
 
         }
 
     }
 
 
-    if (
-        effectId === "shadow"
-    ) {
+    if (effectId === "shadow") {
 
         const shadow =
             document.createElement("div");
@@ -1125,22 +938,14 @@ function applyEffect(
         shadow.className =
             "character-effect-element effect-shadow-ground";
 
-        wrapper.appendChild(
-            shadow
-        );
+        wrapper.appendChild(shadow);
 
     }
 
 
-    if (
-        effectId === "crystal"
-    ) {
+    if (effectId === "crystal") {
 
-        for (
-            let i = 0;
-            i < 6;
-            i++
-        ) {
+        for (let i = 0; i < 6; i++) {
 
             const crystal =
                 document.createElement("div");
@@ -1148,23 +953,16 @@ function applyEffect(
             crystal.className =
                 "character-effect-element effect-crystal-shard";
 
-            crystal.style.setProperty(
-                "--crystal-index",
-                i
-            );
+            crystal.dataset.index = i;
 
-            wrapper.appendChild(
-                crystal
-            );
+            wrapper.appendChild(crystal);
 
         }
 
     }
 
 
-    if (
-        effectId === "cosmic-aura"
-    ) {
+    if (effectId === "cosmic-aura") {
 
         const ring =
             document.createElement("div");
@@ -1172,16 +970,10 @@ function applyEffect(
         ring.className =
             "character-effect-element effect-cosmic-ring";
 
-        wrapper.appendChild(
-            ring
-        );
+        wrapper.appendChild(ring);
 
 
-        for (
-            let i = 0;
-            i < 8;
-            i++
-        ) {
+        for (let i = 0; i < 8; i++) {
 
             const star =
                 document.createElement("div");
@@ -1189,28 +981,19 @@ function applyEffect(
             star.className =
                 "character-effect-element effect-cosmic-star";
 
-            star.style.setProperty(
-                "--star-index",
-                i
-            );
+            star.dataset.index = i;
 
-            wrapper.appendChild(
-                star
-            );
+            wrapper.appendChild(star);
 
         }
 
     }
 
 
-    if (
-        effectId === "crown"
-    ) {
+    if (effectId === "crown") {
 
         const goober =
-            wrapper.querySelector(
-                ".goober"
-            );
+            wrapper.querySelector(".goober");
 
 
         if (goober) {
@@ -1229,9 +1012,7 @@ function applyEffect(
             `;
 
 
-            goober.appendChild(
-                crown
-            );
+            goober.appendChild(crown);
 
 
             const glow =
@@ -1240,9 +1021,7 @@ function applyEffect(
             glow.className =
                 "character-effect-element crown-glow";
 
-            wrapper.appendChild(
-                glow
-            );
+            wrapper.appendChild(glow);
 
         }
 
@@ -1255,10 +1034,7 @@ function applyEffect(
    CREATE PLAYER ELEMENT
 ========================================================= */
 
-function createPlayerElement(
-    id,
-    player
-) {
+function createPlayerElement(id, player) {
 
     const wrapper =
         document.createElement("div");
@@ -1282,9 +1058,7 @@ function createPlayerElement(
         "none";
 
 
-    if (
-        id === playerId
-    ) {
+    if (id === playerId) {
 
         wrapper.classList.add(
             "local-player"
@@ -1316,9 +1090,7 @@ function createPlayerElement(
         );
 
 
-    characterHolder.appendChild(
-        goober
-    );
+    characterHolder.appendChild(goober);
 
 
     applyEffect(
@@ -1327,9 +1099,7 @@ function createPlayerElement(
     );
 
 
-    wrapper.appendChild(
-        characterHolder
-    );
+    wrapper.appendChild(characterHolder);
 
 
     /* =====================================================
@@ -1342,15 +1112,11 @@ function createPlayerElement(
     name.className =
         "bossy-player-name";
 
-
     name.textContent =
         player.name ||
         "Player";
 
-
-    wrapper.appendChild(
-        name
-    );
+    wrapper.appendChild(name);
 
 
     /* =====================================================
@@ -1362,9 +1128,7 @@ function createPlayerElement(
         "none";
 
 
-    if (
-        titleId !== "none"
-    ) {
+    if (titleId !== "none") {
 
         const title =
             document.createElement("div");
@@ -1372,30 +1136,21 @@ function createPlayerElement(
         title.className =
             "bossy-player-title";
 
-
         title.textContent =
-            CHARACTER_TITLES[
-                titleId
-            ] ||
+            CHARACTER_TITLES[titleId] ||
             "";
 
 
-        if (
-            title.textContent
-        ) {
+        if (title.textContent) {
 
-            wrapper.appendChild(
-                title
-            );
+            wrapper.appendChild(title);
 
         }
 
     }
 
 
-    playersContainer.appendChild(
-        wrapper
-    );
+    playersContainer.appendChild(wrapper);
 
 
     playerElements.set(
@@ -1416,27 +1171,20 @@ function createPlayerElement(
 
 
 /* =========================================================
-   REBUILD PLAYER CHARACTER
+   REBUILD PLAYER
 ========================================================= */
 
-function rebuildPlayerElement(
-    id,
-    player
-) {
+function rebuildPlayerElement(id, player) {
 
     const oldElement =
         playerElements.get(id);
 
 
-    if (
-        oldElement
-    ) {
+    if (oldElement) {
 
         oldElement.remove();
 
-        playerElements.delete(
-            id
-        );
+        playerElements.delete(id);
 
     }
 
@@ -1453,27 +1201,19 @@ function rebuildPlayerElement(
    UPDATE PLAYER ELEMENT
 ========================================================= */
 
-function updatePlayerElement(
-    element,
-    player
-) {
+function updatePlayerElement(element, player) {
 
-    if (!element)
-        return;
+    if (!element) return;
 
 
     const x =
-        Number.isFinite(
-            Number(player.x)
-        )
+        Number.isFinite(Number(player.x))
             ? Number(player.x)
             : START_X;
 
 
     const y =
-        Number.isFinite(
-            Number(player.y)
-        )
+        Number.isFinite(Number(player.y))
             ? Math.max(
                 GROUND_Y,
                 Number(player.y)
@@ -1489,17 +1229,17 @@ function updatePlayerElement(
         `${y}px`;
 
 
-    if (
-        player.direction === "left"
-    ) {
+    /* =====================================================
+       FACING
+    ====================================================== */
+
+    if (player.direction === "left") {
 
         element.classList.add(
             "facing-left"
         );
 
-    }
-
-    else {
+    } else {
 
         element.classList.remove(
             "facing-left"
@@ -1508,20 +1248,43 @@ function updatePlayerElement(
     }
 
 
-    if (
-        player.grounded === false
-    ) {
+    /* =====================================================
+       JUMP STATE
+    ====================================================== */
+
+    if (player.grounded === false) {
 
         element.classList.add(
             "jumping"
         );
 
-    }
+        element.classList.remove(
+            "walking"
+        );
 
-    else {
+    } else {
 
         element.classList.remove(
             "jumping"
+        );
+
+    }
+
+
+    /* =====================================================
+       WALKING STATE
+    ====================================================== */
+
+    if (player.moving === true) {
+
+        element.classList.add(
+            "walking"
+        );
+
+    } else {
+
+        element.classList.remove(
+            "walking"
         );
 
     }
@@ -1533,38 +1296,28 @@ function updatePlayerElement(
    RENDER PLAYERS
 ========================================================= */
 
-function renderPlayers(
-    players
-) {
+function renderPlayers(players) {
 
     const ids =
         new Set(
-            Object.keys(
-                players
-            )
+            Object.keys(players)
         );
 
 
     /* =====================================================
-       REMOVE PLAYERS WHO LEFT
+       REMOVE PLAYERS
     ====================================================== */
 
     playerElements.forEach(
         function(element, id) {
 
-            if (
-                !ids.has(id)
-            ) {
+            if (!ids.has(id)) {
 
                 element.remove();
 
-                playerElements.delete(
-                    id
-                );
+                playerElements.delete(id);
 
-                knownPlayers.delete(
-                    id
-                );
+                knownPlayers.delete(id);
 
             }
 
@@ -1573,19 +1326,13 @@ function renderPlayers(
 
 
     /* =====================================================
-       CREATE / UPDATE PLAYERS
+       CREATE / UPDATE
     ====================================================== */
 
-    Object.entries(
-        players
-    ).forEach(
-        function([
-            id,
-            player
-        ]) {
+    Object.entries(players).forEach(
+        function([id, player]) {
 
-            if (!player)
-                return;
+            if (!player) return;
 
 
             const characterId =
@@ -1605,30 +1352,21 @@ function renderPlayers(
 
 
             let element =
-                playerElements.get(
-                    id
-                );
+                playerElements.get(id);
 
 
             const previous =
-                knownPlayers.get(
-                    id
-                );
+                knownPlayers.get(id);
 
 
             const appearanceChanged =
                 !previous ||
-                previous.characterId !==
-                    characterId ||
-                previous.effectId !==
-                    effectId ||
-                previous.titleId !==
-                    titleId;
+                previous.characterId !== characterId ||
+                previous.effectId !== effectId ||
+                previous.titleId !== titleId;
 
 
-            if (
-                !element
-            ) {
+            if (!element) {
 
                 element =
                     createPlayerElement(
@@ -1638,9 +1376,7 @@ function renderPlayers(
 
             }
 
-            else if (
-                appearanceChanged
-            ) {
+            else if (appearanceChanged) {
 
                 element =
                     rebuildPlayerElement(
@@ -1653,7 +1389,6 @@ function renderPlayers(
 
             element.dataset.characterId =
                 characterId;
-
 
             element.dataset.effectId =
                 effectId;
@@ -1668,16 +1403,9 @@ function renderPlayers(
             knownPlayers.set(
                 id,
                 {
-
-                    characterId:
-                        characterId,
-
-                    effectId:
-                        effectId,
-
-                    titleId:
-                        titleId
-
+                    characterId,
+                    effectId,
+                    titleId
                 }
             );
 
@@ -1690,9 +1418,7 @@ function renderPlayers(
     ====================================================== */
 
     const count =
-        Object.keys(
-            players
-        ).length;
+        Object.keys(players).length;
 
 
     playerCountElement.textContent =
@@ -1707,45 +1433,34 @@ function renderPlayers(
    FIND SPAWN
 ========================================================= */
 
-function getSpawnPosition(
-    players
-) {
+function getSpawnPosition(players) {
 
     const usedPositions =
-        Object.values(
-            players || {}
-        )
-        .map(
-            player =>
-                Number(player?.x)
-        )
-        .filter(
-            Number.isFinite
-        );
+        Object.values(players || {})
+            .map(
+                player =>
+                    Number(player?.x)
+            )
+            .filter(
+                Number.isFinite
+            );
 
 
     let spawn =
         START_X;
 
 
-    for (
-        let i = 0;
-        i < 20;
-        i++
-    ) {
+    for (let i = 0; i < 20; i++) {
 
         const collision =
             usedPositions.some(
                 x =>
-                    Math.abs(
-                        x - spawn
-                    ) <
+                    Math.abs(x - spawn) <
                     PLAYER_WIDTH + 20
             );
 
 
-        if (!collision)
-            break;
+        if (!collision) break;
 
 
         spawn +=
@@ -1780,9 +1495,7 @@ function getSpawnPosition(
    REGISTER LOCAL PLAYER
 ========================================================= */
 
-async function registerLocalPlayer(
-    existingPlayers
-) {
+async function registerLocalPlayer(existingPlayers) {
 
     const playerRef =
         ref(
@@ -1796,23 +1509,18 @@ async function registerLocalPlayer(
 
     try {
 
-        const existingSnapshot =
+        const snapshot =
             await withTimeout(
-                get(
-                    playerRef
-                ),
+                get(playerRef),
                 FIREBASE_TIMEOUT,
                 "Firebase took too long to read your player data."
             );
 
 
-        if (
-            existingSnapshot.exists()
-        ) {
+        if (snapshot.exists()) {
 
             existing =
-                existingSnapshot.val() ||
-                {};
+                snapshot.val() || {};
 
         }
 
@@ -1821,34 +1529,24 @@ async function registerLocalPlayer(
     catch (error) {
 
         console.warn(
-            "Could not read existing player data. Using a fresh spawn.",
+            "Could not read existing player data.",
             error
         );
 
     }
 
 
-    const existingX =
-        Number.isFinite(
-            Number(existing.x)
-        )
+    localX =
+        Number.isFinite(Number(existing.x))
             ? Number(existing.x)
             : getSpawnPosition(
                 existingPlayers
             );
 
 
-    localX =
-        existingX;
-
-    localY =
-        GROUND_Y;
-
-    velocityY =
-        0;
-
-    onGround =
-        true;
+    localY = GROUND_Y;
+    velocityY = 0;
+    onGround = true;
 
 
     const playerData = {
@@ -1877,6 +1575,9 @@ async function registerLocalPlayer(
         grounded:
             true,
 
+        moving:
+            false,
+
         direction:
             existing.direction === "left"
                 ? "left"
@@ -1891,32 +1592,15 @@ async function registerLocalPlayer(
     };
 
 
-    /*
-       Register the player.
-
-       This write has a timeout so a broken Firebase
-       connection can NEVER leave the loading screen
-       spinning forever.
-    */
-
     await withTimeout(
-
         update(
             playerRef,
             playerData
         ),
-
         FIREBASE_TIMEOUT,
-
         "Firebase took too long to register your player."
-
     );
 
-
-    /*
-       Tell Firebase to mark the player disconnected
-       if this browser suddenly disappears.
-    */
 
     try {
 
@@ -1927,8 +1611,7 @@ async function registerLocalPlayer(
                     db,
                     `lobbies/${lobbyCode}/players/${playerId}/connected`
                 )
-            )
-            .set(false),
+            ).set(false),
 
             FIREBASE_TIMEOUT,
 
@@ -1969,8 +1652,7 @@ function setupControls() {
                 event.key?.toLowerCase() === "a"
             ) {
 
-                leftPressed =
-                    true;
+                leftPressed = true;
 
                 event.preventDefault();
 
@@ -1982,8 +1664,7 @@ function setupControls() {
                 event.key?.toLowerCase() === "d"
             ) {
 
-                rightPressed =
-                    true;
+                rightPressed = true;
 
                 event.preventDefault();
 
@@ -1994,12 +1675,9 @@ function setupControls() {
                 event.code === "Space"
             ) {
 
-                if (
-                    !event.repeat
-                ) {
+                if (!event.repeat) {
 
-                    jumpQueued =
-                        true;
+                    jumpQueued = true;
 
                 }
 
@@ -2020,8 +1698,7 @@ function setupControls() {
                 event.key?.toLowerCase() === "a"
             ) {
 
-                leftPressed =
-                    false;
+                leftPressed = false;
 
             }
 
@@ -2031,8 +1708,7 @@ function setupControls() {
                 event.key?.toLowerCase() === "d"
             ) {
 
-                rightPressed =
-                    false;
+                rightPressed = false;
 
             }
 
@@ -2044,11 +1720,8 @@ function setupControls() {
         "blur",
         function() {
 
-            leftPressed =
-                false;
-
-            rightPressed =
-                false;
+            leftPressed = false;
+            rightPressed = false;
 
         }
     );
@@ -2060,35 +1733,28 @@ function setupControls() {
    PHYSICS
 ========================================================= */
 
-function updatePhysics(
-    delta
-) {
+function updatePhysics(delta) {
+
+    let direction = 0;
+
+
+    if (leftPressed) {
+        direction -= 1;
+    }
+
+
+    if (rightPressed) {
+        direction += 1;
+    }
+
+
+    const moving =
+        direction !== 0;
+
 
     /* =====================================================
-       HORIZONTAL MOVEMENT
+       MOVEMENT
     ====================================================== */
-
-    let direction =
-        0;
-
-
-    if (
-        leftPressed
-    ) {
-
-        direction -= 1;
-
-    }
-
-
-    if (
-        rightPressed
-    ) {
-
-        direction += 1;
-
-    }
-
 
     localX +=
         direction *
@@ -2100,36 +1766,28 @@ function updatePhysics(
        JUMP
     ====================================================== */
 
-    if (
-        jumpQueued
-    ) {
+    if (jumpQueued) {
 
-        if (
-            onGround
-        ) {
+        if (onGround) {
 
             velocityY =
                 JUMP_FORCE;
 
-            onGround =
-                false;
+            onGround = false;
 
         }
 
     }
 
 
-    jumpQueued =
-        false;
+    jumpQueued = false;
 
 
     /* =====================================================
        GRAVITY
     ====================================================== */
 
-    if (
-        !onGround
-    ) {
+    if (!onGround) {
 
         velocityY -=
             GRAVITY *
@@ -2141,21 +1799,7 @@ function updatePhysics(
             delta;
 
 
-        /*
-           HARD LANDING RULE
-
-           The player can NEVER finish a physics
-           frame below the ground.
-
-           Once they touch it:
-           y = 0
-           velocity = 0
-           grounded = true
-        */
-
-        if (
-            localY <= GROUND_Y
-        ) {
+        if (localY <= GROUND_Y) {
 
             localY =
                 GROUND_Y;
@@ -2168,16 +1812,7 @@ function updatePhysics(
 
         }
 
-    }
-
-    else {
-
-        /*
-           Extra safety.
-
-           If some weird state ever gives us a
-           non-zero Y while grounded, force it back.
-        */
+    } else {
 
         localY =
             GROUND_Y;
@@ -2221,39 +1856,36 @@ function updatePhysics(
     ====================================================== */
 
     const localElement =
-        playerElements.get(
-            playerId
-        );
+        playerElements.get(playerId);
 
 
-    if (
-        localElement
-    ) {
+    if (localElement) {
+
+        let currentDirection =
+            localElement.classList.contains(
+                "facing-left"
+            )
+                ? "left"
+                : "right";
+
+
+        if (leftPressed) {
+            currentDirection = "left";
+        }
+
+        if (rightPressed) {
+            currentDirection = "right";
+        }
+
 
         updatePlayerElement(
             localElement,
             {
-
-                x:
-                    localX,
-
-                y:
-                    localY,
-
-                grounded:
-                    onGround,
-
-                direction:
-                    leftPressed
-                        ? "left"
-                        : rightPressed
-                            ? "right"
-                            : localElement.classList.contains(
-                                "facing-left"
-                            )
-                                ? "left"
-                                : "right"
-
+                x: localX,
+                y: localY,
+                grounded: onGround,
+                moving,
+                direction: currentDirection
             }
         );
 
@@ -2279,17 +1911,14 @@ function startPhysics() {
         performance.now();
 
 
-    function loop(
-        currentTime
-    ) {
+    function loop(currentTime) {
 
         const delta =
             Math.min(
                 (
                     currentTime -
                     lastTime
-                ) /
-                16.6667,
+                ) / 16.6667,
                 2
             );
 
@@ -2298,21 +1927,15 @@ function startPhysics() {
             currentTime;
 
 
-        updatePhysics(
-            delta
-        );
+        updatePhysics(delta);
 
 
-        requestAnimationFrame(
-            loop
-        );
+        requestAnimationFrame(loop);
 
     }
 
 
-    requestAnimationFrame(
-        loop
-    );
+    requestAnimationFrame(loop);
 
 
     setInterval(
@@ -2331,9 +1954,7 @@ function startPhysics() {
                 {
 
                     x:
-                        Math.round(
-                            localX
-                        ),
+                        Math.round(localX),
 
                     y:
                         Math.round(
@@ -2346,21 +1967,22 @@ function startPhysics() {
                     grounded:
                         onGround,
 
-                    direction:
-                        direction
+                    moving:
+                        leftPressed ||
+                        rightPressed,
+
+                    direction
 
                 }
             )
-            .catch(
-                function(error) {
+            .catch(function(error) {
 
-                    console.warn(
-                        "Bossy movement sync failed:",
-                        error
-                    );
+                console.warn(
+                    "Bossy movement sync failed:",
+                    error
+                );
 
-                }
-            );
+            });
 
         },
         1000 / UPDATE_RATE
@@ -2376,9 +1998,7 @@ function startPhysics() {
 function localElementDirection() {
 
     const localElement =
-        playerElements.get(
-            playerId
-        );
+        playerElements.get(playerId);
 
 
     if (
@@ -2415,17 +2035,15 @@ function listenForPlayers() {
         function(snapshot) {
 
             const players =
-                snapshot.val() ||
-                {};
+                snapshot.val() || {};
 
 
-            renderPlayers(
-                players
-            );
+            renderPlayers(players);
 
 
             connectionElement.textContent =
                 "Connected";
+
 
             connectionElement.className =
                 "connection-status connected";
@@ -2441,6 +2059,7 @@ function listenForPlayers() {
 
             connectionElement.textContent =
                 "Connection error";
+
 
             connectionElement.className =
                 "connection-status error";
@@ -2460,10 +2079,8 @@ function showGame() {
     loadingScreen.style.display =
         "none";
 
-
     errorScreen.style.display =
         "none";
-
 
     gameWorld.style.display =
         "flex";
@@ -2475,21 +2092,16 @@ function showGame() {
    ERROR
 ========================================================= */
 
-function showError(
-    message
-) {
+function showError(message) {
 
     loadingScreen.style.display =
         "none";
 
-
     gameWorld.style.display =
         "none";
 
-
     errorScreen.style.display =
         "flex";
-
 
     errorMessage.textContent =
         message;
@@ -2505,10 +2117,6 @@ async function startBossy() {
 
     try {
 
-        /* =================================================
-           BASIC DOM CHECK
-        ================================================== */
-
         if (
             !loadingScreen ||
             !gameWorld ||
@@ -2523,13 +2131,7 @@ async function startBossy() {
         }
 
 
-        /* =================================================
-           LOBBY CODE
-        ================================================== */
-
-        if (
-            !lobbyCode
-        ) {
+        if (!lobbyCode) {
 
             showError(
                 "No lobby code was provided. Return to the games page and try again."
@@ -2548,10 +2150,6 @@ async function startBossy() {
             "Finding your lobby...";
 
 
-        /* =================================================
-           FIND LOBBY
-        ================================================== */
-
         const lobbyRef =
             ref(
                 db,
@@ -2561,21 +2159,13 @@ async function startBossy() {
 
         const snapshot =
             await withTimeout(
-
-                get(
-                    lobbyRef
-                ),
-
+                get(lobbyRef),
                 FIREBASE_TIMEOUT,
-
                 "Firebase did not respond while finding the lobby."
-
             );
 
 
-        if (
-            !snapshot.exists()
-        ) {
+        if (!snapshot.exists()) {
 
             showError(
                 "That lobby no longer exists."
@@ -2587,20 +2177,13 @@ async function startBossy() {
 
 
         const lobby =
-            snapshot.val() ||
-            {};
+            snapshot.val() || {};
 
-
-        /* =================================================
-           VERIFY GAME
-        ================================================== */
 
         if (
             String(
-                lobby.game ||
-                ""
-            ).toLowerCase() !==
-            "bossy"
+                lobby.game || ""
+            ).toLowerCase() !== "bossy"
         ) {
 
             showError(
@@ -2612,30 +2195,13 @@ async function startBossy() {
         }
 
 
-        /* =================================================
-           GET EXISTING PLAYERS
-        ================================================== */
-
         loadingStatus.textContent =
             "Loading players...";
 
 
         const existingPlayers =
-            lobby.players ||
-            {};
+            lobby.players || {};
 
-
-        /* =================================================
-           SHOW GAME IMMEDIATELY
-        ================================================== */
-
-        /*
-           This happens BEFORE registration/listening.
-
-           The browser will therefore never remain stuck
-           on the loading screen just because a Firebase
-           write is slow.
-        */
 
         showGame();
 
@@ -2643,16 +2209,13 @@ async function startBossy() {
         connectionElement.textContent =
             "Connecting...";
 
+
         connectionElement.className =
             "connection-status";
 
 
         setupControls();
 
-
-        /* =================================================
-           REGISTER PLAYER
-        ================================================== */
 
         try {
 
@@ -2664,15 +2227,6 @@ async function startBossy() {
 
         catch (error) {
 
-            /*
-               Do NOT return to the loading screen.
-
-               The game is already visible.
-
-               If Firebase registration fails, show the
-               error in the connection indicator instead.
-            */
-
             console.error(
                 "Bossy player registration failed:",
                 error
@@ -2682,40 +2236,20 @@ async function startBossy() {
             connectionElement.textContent =
                 "Connection problem";
 
+
             connectionElement.className =
                 "connection-status error";
 
         }
 
 
-        /* =================================================
-           LISTEN FOR PLAYERS
-        ================================================== */
-
         listenForPlayers();
-
-
-        /* =================================================
-           START PHYSICS
-        ================================================== */
 
         startPhysics();
 
 
-        /* =================================================
-           INITIAL LOCAL CHARACTER
-        ================================================== */
-
-        /*
-           If Firebase has not sent the first player
-           snapshot yet, create our own character locally
-           so the screen is not empty.
-        */
-
         if (
-            !playerElements.has(
-                playerId
-            )
+            !playerElements.has(playerId)
         ) {
 
             createPlayerElement(
@@ -2743,6 +2277,9 @@ async function startBossy() {
                     grounded:
                         true,
 
+                    moving:
+                        false,
+
                     direction:
                         "right"
 
@@ -2761,22 +2298,9 @@ async function startBossy() {
         );
 
 
-        let message =
-            "Couldn't connect to the multiplayer game.";
-
-
-        if (
-            error?.message
-        ) {
-
-            message =
-                error.message;
-
-        }
-
-
         showError(
-            message
+            error?.message ||
+            "Couldn't connect to the multiplayer game."
         );
 
     }
