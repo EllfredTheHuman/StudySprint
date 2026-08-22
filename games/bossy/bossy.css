@@ -1,526 +1,3 @@
-```css
-/* =========================================================
-   STUDYSPRINT — BOSSY
-   Side-view multiplayer game
-========================================================= */
-
-* {
-    box-sizing: border-box;
-}
-
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-}
-
-
-body {
-    background: #0f172a;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: white;
-}
-
-
-/* =========================================================
-   GAME ROOT
-========================================================= */
-
-#bossy-game {
-    position: fixed;
-
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-
-    background: #0f172a;
-}
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.bossy-loading {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 100;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    background:
-        radial-gradient(
-            circle at 50% 35%,
-            #312e81,
-            #111827 65%,
-            #020617
-        );
-
-    text-align: center;
-}
-
-
-.bossy-loading h1 {
-    margin:
-        22px 0 8px;
-
-    font-size: 30px;
-
-    font-weight: 1000;
-}
-
-
-.bossy-loading p {
-    margin: 0;
-
-    color: #a5b4fc;
-
-    font-size: 14px;
-
-    font-weight: 700;
-}
-
-
-.loading-spinner {
-    width: 48px;
-    height: 48px;
-
-    border:
-        5px solid
-        rgba(255,255,255,.12);
-
-    border-top-color:
-        #818cf8;
-
-    border-radius: 50%;
-
-    animation:
-        bossySpin .8s linear infinite;
-}
-
-
-/* =========================================================
-   GAME WORLD
-========================================================= */
-
-.bossy-world {
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    background: #172554;
-}
-
-
-/* =========================================================
-   HUD
-========================================================= */
-
-.bossy-hud {
-    position: relative;
-
-    z-index: 50;
-
-    height: 64px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        0 24px;
-
-    background:
-        rgba(15,23,42,.96);
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.08);
-
-    box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.25);
-}
-
-
-.bossy-brand {
-    color: #a5b4fc;
-
-    font-size: 17px;
-
-    font-weight: 950;
-}
-
-
-.bossy-title {
-    position: absolute;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-    color: white;
-
-    font-size: 23px;
-
-    font-weight: 1000;
-
-    letter-spacing: .08em;
-
-    text-shadow:
-        0 0 18px
-        rgba(129,140,248,.6);
-}
-
-
-.bossy-hud-right {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-
-#bossy-player-count {
-    padding:
-        7px 12px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(129,140,248,.12);
-
-    border:
-        1px solid
-        rgba(129,140,248,.25);
-
-    color: #c7d2fe;
-
-    font-size: 12px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   CONNECTION
-========================================================= */
-
-.connection-status {
-    color: #fbbf24;
-
-    font-size: 11px;
-
-    font-weight: 900;
-}
-
-
-.connection-status.connected {
-    color: #4ade80;
-}
-
-
-.connection-status.error {
-    color: #f87171;
-}
-
-
-/* =========================================================
-   MAP
-========================================================= */
-
-.game-map {
-    position: relative;
-
-    flex: 1;
-
-    min-height: 0;
-
-    width: 100%;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #60a5fa 0%,
-            #93c5fd 48%,
-            #bfdbfe 100%
-        );
-}
-
-
-/* =========================================================
-   SKY
-========================================================= */
-
-.sky-background {
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #38bdf8,
-            #7dd3fc 55%,
-            #bae6fd
-        );
-}
-
-
-.sun {
-    position: absolute;
-
-    width: 110px;
-    height: 110px;
-
-    right: 10%;
-
-    top: 55px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            #fef3c7,
-            #fde68a
-        );
-
-    box-shadow:
-        0 0 50px
-        rgba(254,243,199,.8);
-}
-
-
-/* =========================================================
-   CLOUDS
-========================================================= */
-
-.cloud {
-    position: absolute;
-
-    width: 150px;
-    height: 42px;
-
-    border-radius: 999px;
-
-    background:
-        rgba(255,255,255,.72);
-
-    filter:
-        blur(.3px);
-}
-
-
-.cloud::before,
-.cloud::after {
-    content: "";
-
-    position: absolute;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,.72);
-}
-
-
-.cloud::before {
-    width: 65px;
-    height: 65px;
-
-    left: 28px;
-    bottom: 5px;
-}
-
-
-.cloud::after {
-    width: 48px;
-    height: 48px;
-
-    right: 25px;
-    bottom: 3px;
-}
-
-
-.cloud-one {
-    top: 75px;
-    left: 12%;
-
-    transform:
-        scale(.8);
-}
-
-
-.cloud-two {
-    top: 145px;
-    left: 52%;
-
-    transform:
-        scale(1.1);
-}
-
-
-.cloud-three {
-    top: 65px;
-    right: 30%;
-
-    transform:
-        scale(.55);
-}
-
-
-/* =========================================================
-   BACKGROUND HILLS
-========================================================= */
-
-.background-hill {
-    position: absolute;
-
-    bottom: 0;
-
-    width: 70%;
-
-    height: 230px;
-
-    border-radius:
-        50% 50% 0 0;
-
-    background:
-        #86efac;
-
-    opacity: .65;
-}
-
-
-.hill-one {
-    left: -20%;
-}
-
-
-.hill-two {
-    right: -25%;
-
-    height: 180px;
-
-    background:
-        #4ade80;
-}
-
-
-/* =========================================================
-   GROUND
-========================================================= */
-
-.ground {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    height: 90px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #22c55e,
-            #15803d
-        );
-
-    z-index: 5;
-}
-
-
-.ground-top {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    top: 0;
-
-    height: 13px;
-
-    background:
-        #4ade80;
-
-    box-shadow:
-        0 4px 0
-        rgba(20,83,45,.25);
-}
-
-
-.ground-pattern {
-    position: absolute;
-
-    inset: 13px 0 0;
-
-    opacity: .18;
-
-    background-image:
-        radial-gradient(
-            circle,
-            #14532d 2px,
-            transparent 2px
-        );
-
-    background-size:
-        28px 20px;
-}
-
-
-/* =========================================================
-   PLAYERS
-========================================================= */
-
-.players-container {
-    position: absolute;
-
-    left: 0;
-    right: 0;
-    bottom: 90px;
-
-    height: calc(100% - 90px);
-
-    z-index: 10;
-
-    overflow: visible;
-}
-
-
 /* =========================================================
    PLAYER
 ========================================================= */
@@ -549,8 +26,8 @@ body {
 .bossy-player.jumping {
     filter:
         drop-shadow(
-            0 8px 7px
-            rgba(15,23,42,.2)
+            0 10px 8px
+            rgba(15,23,42,.22)
         );
 }
 
@@ -575,10 +52,7 @@ body {
 
 
 /* =========================================================
-   ACTUAL GOOBER
-
-   This deliberately mirrors the character editor's
-   140 × 150 Goober dimensions.
+   GOOBER
 ========================================================= */
 
 .bossy-character > .goober {
@@ -590,15 +64,49 @@ body {
     margin: 0;
     padding: 0;
 
-    transform:
-        none;
-
     overflow: visible;
+
+    transform-origin:
+        50% 100%;
+
+    animation:
+        gooberIdle
+        1.6s
+        ease-in-out
+        infinite;
 }
 
 
 /* =========================================================
-   GOOBER BODY
+   WALKING
+========================================================= */
+
+.bossy-player.walking
+.bossy-character > .goober {
+    animation:
+        gooberWalk
+        .28s
+        ease-in-out
+        infinite;
+}
+
+
+/* =========================================================
+   JUMPING
+========================================================= */
+
+.bossy-player.jumping
+.bossy-character > .goober {
+    animation:
+        gooberJump
+        .22s
+        ease-out
+        infinite alternate;
+}
+
+
+/* =========================================================
+   BODY
 ========================================================= */
 
 .bossy-character .goober-body {
@@ -614,26 +122,14 @@ body {
         45% 45% 42% 42%;
 
     z-index: 3;
+
+    transform-origin:
+        50% 100%;
 }
 
 
 /* =========================================================
-   GOOBER FACE
-========================================================= */
-
-.bossy-character .goober-face {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 8;
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   GOOBER FEET
+   FEET
 ========================================================= */
 
 .bossy-character .goober-feet {
@@ -647,8 +143,47 @@ body {
 }
 
 
-.bossy-character .goober-part {
-    pointer-events: none;
+.bossy-character .goober-foot {
+    position: absolute;
+
+    bottom: 8px;
+
+    width: 29px;
+    height: 14px;
+
+    border-radius: 50%;
+
+    background:
+        #111827;
+
+    z-index: 1;
+
+    transform-origin:
+        50% 50%;
+}
+
+
+/* =========================================================
+   WALKING FEET
+========================================================= */
+
+.bossy-player.walking
+.goober-foot.foot-left {
+    animation:
+        leftFootWalk
+        .28s
+        ease-in-out
+        infinite;
+}
+
+
+.bossy-player.walking
+.goober-foot.foot-right {
+    animation:
+        rightFootWalk
+        .28s
+        ease-in-out
+        infinite;
 }
 
 
@@ -670,6 +205,9 @@ body {
         #111827;
 
     z-index: 10;
+
+    transform-origin:
+        center;
 }
 
 
@@ -682,6 +220,10 @@ body {
     left: 79px;
 }
 
+
+/* =========================================================
+   MOUTH
+========================================================= */
 
 .bossy-character .goober-mouth {
     position: absolute;
@@ -704,125 +246,389 @@ body {
 
 
 /* =========================================================
-   FEET
+   FACING
 ========================================================= */
 
-.bossy-character .goober-foot {
-    position: absolute;
-
-    bottom: 8px;
-
-    width: 29px;
-    height: 14px;
-
-    border-radius:
-        50%;
-
-    background:
-        #111827;
-
-    z-index: 1;
+.bossy-player.facing-left
+.bossy-character > .goober {
+    transform:
+        scaleX(-1);
 }
 
 
-.bossy-character .foot-left {
-    left: 31px;
+/*
+   Animation transforms would normally overwrite
+   scaleX(-1), so walking/jumping get their own
+   mirrored animation versions.
+*/
+
+.bossy-player.facing-left.walking
+.bossy-character > .goober {
+    animation:
+        gooberWalkLeft
+        .28s
+        ease-in-out
+        infinite;
 }
 
 
-.bossy-character .foot-right {
-    right: 31px;
+.bossy-player.facing-left.jumping
+.bossy-character > .goober {
+    animation:
+        gooberJumpLeft
+        .22s
+        ease-out
+        infinite alternate;
 }
 
 
 /* =========================================================
-   CROWN
+   NAME / TITLE
 ========================================================= */
 
-.bossy-character .character-crown {
+.bossy-player-name {
     position: absolute;
 
-    left: 49px;
-    top: -5px;
+    left: 50%;
 
-    width: 42px;
-    height: 30px;
+    bottom: 152px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #fde68a,
-            #facc15,
-            #eab308
-        );
+    transform:
+        translateX(-50%);
 
-    clip-path:
-        polygon(
-            0 100%,
-            8% 18%,
-            30% 58%,
-            50% 0%,
-            70% 58%,
-            92% 18%,
-            100% 100%
-        );
+    max-width: 150px;
 
-    z-index: 100;
+    padding:
+        5px 9px;
 
-    filter:
-        drop-shadow(
-            0 2px 2px
-            rgba(0,0,0,.25)
-        );
-}
-
-
-.bossy-character .character-crown::after {
-    content: "";
-
-    position: absolute;
-
-    left: 3px;
-    right: 3px;
-
-    bottom: 0;
-
-    height: 7px;
+    border-radius: 8px;
 
     background:
-        #d97706;
-}
+        rgba(15,23,42,.85);
 
+    color: white;
 
-.bossy-character .character-crown::before {
-    content: "";
+    font-size: 12px;
 
-    position: absolute;
+    font-weight: 900;
 
-    width: 5px;
-    height: 5px;
+    white-space: nowrap;
 
-    left: 18px;
-    top: 14px;
+    overflow: hidden;
 
-    border-radius: 50%;
+    text-overflow: ellipsis;
 
-    background:
-        #3b82f6;
+    text-align: center;
 
     box-shadow:
-        -10px 3px 0 #ef4444,
-        10px 3px 0 #8b5cf6;
+        0 4px 10px
+        rgba(0,0,0,.18);
 }
 
 
-.bossy-character .crown-point {
-    display: none;
+.local-player .bossy-player-name {
+    background:
+        #4f46e5;
+}
+
+
+.bossy-player-title {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 180px;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        #e0e7ff;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
 }
 
 
 /* =========================================================
-   EFFECTS
+   ANIMATION — IDLE
+========================================================= */
+
+@keyframes gooberIdle {
+
+    0% {
+        transform:
+            translateY(0)
+            scaleX(1)
+            scaleY(1)
+            rotate(0deg);
+    }
+
+    25% {
+        transform:
+            translateY(-3px)
+            scaleX(1.015)
+            scaleY(.99)
+            rotate(-1deg);
+    }
+
+    50% {
+        transform:
+            translateY(-6px)
+            scaleX(.985)
+            scaleY(1.025)
+            rotate(0deg);
+    }
+
+    75% {
+        transform:
+            translateY(-3px)
+            scaleX(1.015)
+            scaleY(.99)
+            rotate(1deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleX(1)
+            scaleY(1)
+            rotate(0deg);
+    }
+
+}
+
+
+/* =========================================================
+   ANIMATION — WALKING
+========================================================= */
+
+@keyframes gooberWalk {
+
+    0% {
+        transform:
+            translateY(0)
+            scaleX(1)
+            scaleY(1)
+            rotate(-2deg);
+    }
+
+    25% {
+        transform:
+            translateY(-6px)
+            scaleX(.97)
+            scaleY(1.04)
+            rotate(2deg);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            scaleX(1.04)
+            scaleY(.96)
+            rotate(-2deg);
+    }
+
+    75% {
+        transform:
+            translateY(-6px)
+            scaleX(.97)
+            scaleY(1.04)
+            rotate(2deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleX(1)
+            scaleY(1)
+            rotate(-2deg);
+    }
+
+}
+
+
+/* =========================================================
+   WALKING — FACING LEFT
+========================================================= */
+
+@keyframes gooberWalkLeft {
+
+    0% {
+        transform:
+            translateY(0)
+            scaleX(-1)
+            scaleY(1)
+            rotate(2deg);
+    }
+
+    25% {
+        transform:
+            translateY(-6px)
+            scaleX(-.97)
+            scaleY(1.04)
+            rotate(-2deg);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            scaleX(-1.04)
+            scaleY(.96)
+            rotate(2deg);
+    }
+
+    75% {
+        transform:
+            translateY(-6px)
+            scaleX(-.97)
+            scaleY(1.04)
+            rotate(-2deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            scaleX(-1)
+            scaleY(1)
+            rotate(2deg);
+    }
+
+}
+
+
+/* =========================================================
+   JUMPING
+========================================================= */
+
+@keyframes gooberJump {
+
+    from {
+        transform:
+            translateY(0)
+            scaleX(1.08)
+            scaleY(.92)
+            rotate(-2deg);
+    }
+
+    to {
+        transform:
+            translateY(-3px)
+            scaleX(.94)
+            scaleY(1.08)
+            rotate(2deg);
+    }
+
+}
+
+
+@keyframes gooberJumpLeft {
+
+    from {
+        transform:
+            translateY(0)
+            scaleX(-1.08)
+            scaleY(.92)
+            rotate(2deg);
+    }
+
+    to {
+        transform:
+            translateY(-3px)
+            scaleX(-.94)
+            scaleY(1.08)
+            rotate(-2deg);
+    }
+
+}
+
+
+/* =========================================================
+   WALKING FEET
+========================================================= */
+
+@keyframes leftFootWalk {
+
+    0% {
+        transform:
+            translateY(0)
+            rotate(-8deg);
+    }
+
+    50% {
+        transform:
+            translateY(-5px)
+            rotate(10deg);
+    }
+
+    100% {
+        transform:
+            translateY(0)
+            rotate(-8deg);
+    }
+
+}
+
+
+@keyframes rightFootWalk {
+
+    0% {
+        transform:
+            translateY(-5px)
+            rotate(10deg);
+    }
+
+    50% {
+        transform:
+            translateY(0)
+            rotate(-8deg);
+    }
+
+    100% {
+        transform:
+            translateY(-5px)
+            rotate(10deg);
+    }
+
+}
+
+
+/* =========================================================
+   JUMPING FEET
+========================================================= */
+
+.bossy-player.jumping
+.goober-foot {
+    animation:
+        jumpFeet
+        .22s
+        ease-in-out
+        infinite alternate;
+}
+
+
+@keyframes jumpFeet {
+
+    from {
+        transform:
+            scaleX(1)
+            translateY(0);
+    }
+
+    to {
+        transform:
+            scaleX(.8)
+            translateY(3px);
+    }
+
+}
+
+
+/* =========================================================
+   SPARKLES
 ========================================================= */
 
 .effect-sparkle-dot {
@@ -848,7 +654,11 @@ body {
     z-index: 60;
 
     animation:
-        sparklePulse 1.3s ease-in-out infinite alternate;
+        sparklePulse
+        1.3s
+        ease-in-out
+        infinite
+        alternate;
 }
 
 
@@ -917,7 +727,11 @@ body {
     z-index: 25;
 
     animation:
-        flameFlicker .55s ease-in-out infinite alternate;
+        flameFlicker
+        .55s
+        ease-in-out
+        infinite
+        alternate;
 }
 
 
@@ -928,7 +742,6 @@ body {
 
 .bossy-character.effect-fire::after {
     right: 15px;
-
     height: 27px;
 }
 
@@ -990,355 +803,17 @@ body {
     z-index: 1;
 
     animation:
-        cosmicPulse 2s ease-in-out infinite alternate;
+        cosmicPulse
+        2s
+        ease-in-out
+        infinite
+        alternate;
 }
 
 
 /* =========================================================
-   PLAYER NAME
+   GENERAL ANIMATIONS
 ========================================================= */
-
-.bossy-player-name {
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 152px;
-
-    transform:
-        translateX(-50%);
-
-    max-width: 150px;
-
-    padding:
-        5px 9px;
-
-    border-radius: 8px;
-
-    background:
-        rgba(15,23,42,.85);
-
-    color: white;
-
-    font-size: 12px;
-
-    font-weight: 900;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    text-align: center;
-
-    box-shadow:
-        0 4px 10px
-        rgba(0,0,0,.18);
-}
-
-
-.local-player .bossy-player-name {
-    background:
-        #4f46e5;
-}
-
-
-/* =========================================================
-   TITLE
-========================================================= */
-
-.bossy-player-title {
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 180px;
-
-    transform:
-        translateX(-50%);
-
-    color:
-        #e0e7ff;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================================
-   FACING
-========================================================= */
-
-.bossy-player.facing-left
-.bossy-character > .goober {
-    transform:
-        scaleX(-1);
-}
-
-
-/* Keep name/title readable */
-
-.bossy-player.facing-left
-.bossy-player-name,
-.bossy-player.facing-left
-.bossy-player-title {
-    transform:
-        translateX(-50%)
-        scaleX(1);
-}
-
-
-/* =========================================================
-   CONTROLS
-========================================================= */
-
-.controls-hint {
-    position: absolute;
-
-    left: 50%;
-    bottom: 70px;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 40;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding:
-        9px 13px;
-
-    border-radius:
-        999px;
-
-    background:
-        rgba(15,23,42,.78);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    backdrop-filter:
-        blur(8px);
-
-    color:
-        #cbd5e1;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    white-space: nowrap;
-
-    pointer-events: none;
-}
-
-
-.controls-hint span {
-    padding:
-        4px 7px;
-
-    border-radius: 6px;
-
-    background:
-        rgba(255,255,255,.12);
-
-    color: white;
-
-    font-size: 10px;
-
-    font-weight: 950;
-}
-
-
-.controls-hint label {
-    margin-left: 3px;
-}
-
-
-/* =========================================================
-   BOTTOM BAR
-========================================================= */
-
-.bossy-bottom-bar {
-    position: relative;
-
-    z-index: 50;
-
-    height: 48px;
-
-    flex-shrink: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding:
-        0 22px;
-
-    background:
-        rgba(15,23,42,.97);
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.08);
-}
-
-
-.bossy-bottom-bar > div {
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-}
-
-
-.bossy-bottom-bar strong {
-    color:
-        #94a3b8;
-
-    font-size: 11px;
-
-    font-weight: 950;
-
-    letter-spacing: .08em;
-}
-
-
-.bossy-bottom-bar span {
-    color:
-        #c7d2fe;
-
-    font-size: 13px;
-
-    font-weight: 900;
-
-    letter-spacing: .12em;
-}
-
-
-.local-player-name {
-    color:
-        #a5b4fc !important;
-
-    letter-spacing:
-        normal !important;
-}
-
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-.bossy-error {
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 100;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 30px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #312e81,
-            #0f172a 70%
-        );
-
-    text-align: center;
-}
-
-
-.error-icon {
-    font-size: 60px;
-
-    margin-bottom: 15px;
-}
-
-
-.bossy-error h1 {
-    margin:
-        0 0 10px;
-
-    font-size: 28px;
-
-    font-weight: 1000;
-}
-
-
-.bossy-error p {
-    max-width: 500px;
-
-    margin:
-        0 0 25px;
-
-    color:
-        #cbd5e1;
-
-    line-height: 1.5;
-}
-
-
-.back-button {
-    display: inline-block;
-
-    padding:
-        12px 18px;
-
-    border-radius:
-        12px;
-
-    background:
-        #4f46e5;
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes bossySpin {
-
-    from {
-        transform:
-            rotate(0deg);
-    }
-
-    to {
-        transform:
-            rotate(360deg);
-    }
-
-}
-
 
 @keyframes sparklePulse {
 
@@ -1346,14 +821,16 @@ body {
         opacity: .3;
 
         transform:
-            scale(.55);
+            scale(.55)
+            rotate(0deg);
     }
 
     to {
         opacity: 1;
 
         transform:
-            scale(1.15);
+            scale(1.15)
+            rotate(25deg);
     }
 
 }
@@ -1398,86 +875,24 @@ body {
 
 
 /* =========================================================
-   RESPONSIVE
+   REDUCED MOTION
 ========================================================= */
 
-@media (max-width: 700px) {
+@media (prefers-reduced-motion: reduce) {
 
-    .bossy-hud {
-        height: 56px;
+    .bossy-character > .goober,
+    .bossy-player.walking
+    .bossy-character > .goober,
+    .bossy-player.jumping
+    .bossy-character > .goober,
+    .bossy-player.walking
+    .goober-foot,
+    .bossy-player.jumping
+    .goober-foot {
 
-        padding:
-            0 14px;
-    }
+        animation:
+            none !important;
 
-
-    .bossy-brand {
-        font-size: 13px;
-    }
-
-
-    .bossy-title {
-        font-size: 18px;
-    }
-
-
-    .bossy-hud-right {
-        gap: 7px;
-    }
-
-
-    #bossy-player-count {
-        padding:
-            5px 8px;
-
-        font-size: 10px;
-    }
-
-
-    .connection-status {
-        display: none;
-    }
-
-
-    .controls-hint {
-        bottom: 60px;
-
-        font-size: 9px;
-    }
-
-
-    .bossy-bottom-bar {
-        height: 44px;
-
-        padding:
-            0 14px;
     }
 
 }
-
-
-@media (max-width: 450px) {
-
-    .bossy-brand {
-        display: none;
-    }
-
-
-    .bossy-title {
-        left: 14px;
-
-        transform: none;
-    }
-
-
-    .bossy-bottom-bar {
-        display: none;
-    }
-
-
-    .controls-hint {
-        bottom: 15px;
-    }
-
-}
-```
