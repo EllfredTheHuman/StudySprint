@@ -172,6 +172,11 @@ function showGameSelection() {
 
         <section class="game-selection">
 
+
+            <!-- =================================================
+                 BOSSY
+            ================================================== -->
+
             <button
                 class="game-selection-card"
                 id="bossy-card"
@@ -187,7 +192,7 @@ function showGameSelection() {
                 </h2>
 
                 <p>
-                    TEST
+                    Survive the boss and prove your knowledge!
                 </p>
 
                 <span class="game-test-label">
@@ -195,6 +200,38 @@ function showGameSelection() {
                 </span>
 
             </button>
+
+
+
+            <!-- =================================================
+                 INFLUENCED
+            ================================================== -->
+
+            <button
+                class="game-selection-card"
+                id="influenced-card"
+                type="button"
+            >
+
+                <div class="game-selection-icon">
+                    📱
+                </div>
+
+                <h2>
+                    Influenced
+                </h2>
+
+                <p>
+                    Post videos, answer questions, and become
+                    the biggest influencer!
+                </p>
+
+                <span class="game-test-label">
+                    TEST GAME
+                </span>
+
+            </button>
+
 
         </section>
 
@@ -210,8 +247,14 @@ function showGameSelection() {
     `;
 
 
+    /* =========================================================
+       BOSSY
+    ========================================================= */
+
     document
-        .getElementById("bossy-card")
+        .getElementById(
+            "bossy-card"
+        )
         .addEventListener(
             "click",
             function() {
@@ -224,8 +267,34 @@ function showGameSelection() {
         );
 
 
+    /* =========================================================
+       INFLUENCED
+    ========================================================= */
+
     document
-        .getElementById("back-to-games")
+        .getElementById(
+            "influenced-card"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                createLobby(
+                    "influenced"
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       BACK
+    ========================================================= */
+
+    document
+        .getElementById(
+            "back-to-games"
+        )
         .addEventListener(
             "click",
             function() {
@@ -354,8 +423,20 @@ async function createLobby(
 
     const card =
         document.getElementById(
-            "bossy-card"
+            game + "-card"
         );
+
+
+    if (!card) {
+
+        console.error(
+            "Could not find game card:",
+            game
+        );
+
+        return;
+
+    }
 
 
     card.disabled = true;
@@ -384,23 +465,18 @@ async function createLobby(
             await generateUniqueCode();
 
 
-        /*
-           IMPORTANT:
-
-           This is the ONE player ID that will be used
-           everywhere for this browser.
-        */
-
         const playerId =
             getPlayerId();
 
 
-        const playerName =
-            getPlayerName();
+        /*
+           IMPORTANT:
 
+           The host does NOT get placed inside
+           the players list.
 
-        const cosmetics =
-            getPlayerCosmetics();
+           The host only controls the lobby.
+        */
 
 
         /* =================================================
@@ -435,37 +511,8 @@ async function createLobby(
                 createdAt:
                     Date.now(),
 
-                players: {
-
-                    [playerId]: {
-
-                        id:
-                            playerId,
-
-                        name:
-                            playerName,
-
-                        character:
-                            cosmetics.character,
-
-                        banner:
-                            cosmetics.banner,
-
-                        title:
-                            cosmetics.title,
-
-                        effect:
-                            cosmetics.effect,
-
-                        joinedAt:
-                            Date.now(),
-
-                        isHost:
-                            true
-
-                    }
-
-                }
+                players:
+                    {}
 
             }
         );
@@ -636,8 +683,6 @@ joinForm.addEventListener(
 
 
             /*
-               IMPORTANT:
-
                If this browser is already in the lobby,
                don't create another player.
             */
