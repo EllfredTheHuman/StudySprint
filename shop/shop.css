@@ -1,19 +1,22 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Dark / Modern Shop UI
-   ========================================================= */
-
-
-/* =========================================================
-   PAGE
    ========================================================= */
 
 .shop-page {
     min-height: 100vh;
+
     background:
-        radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.12), transparent 35%),
-        radial-gradient(circle at 80% 30%, rgba(139, 92, 246, 0.08), transparent 35%),
-        #0b0f19;
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(99, 102, 241, 0.14),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 25%,
+            rgba(124, 58, 237, 0.10),
+            transparent 30%
+        ),
+        #090d16;
 
     color: #f8fafc;
 }
@@ -24,38 +27,40 @@
    ========================================================= */
 
 .shop-header {
-    height: 80px;
+    height: 76px;
+
+    padding: 0 6%;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 6%;
+    background: rgba(12, 17, 29, 0.94);
 
-    background: rgba(15, 23, 42, 0.95);
-
-    border-bottom: 1px solid #252b3a;
+    border-bottom: 1px solid #222a3a;
 
     position: sticky;
     top: 0;
-    z-index: 20;
 
-    backdrop-filter: blur(14px);
+    z-index: 100;
+
+    backdrop-filter: blur(16px);
 }
 
 
-.shop-header h1 {
-    margin: 0;
-
-    font-size: 26px;
-    font-weight: 950;
-    letter-spacing: -1px;
-
+.shop-logo {
     color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 25px;
+    font-weight: 950;
+
+    letter-spacing: -1px;
 }
 
 
-.shop-header h1 span {
+.shop-logo span {
     color: #6366f1;
 }
 
@@ -69,24 +74,22 @@
     align-items: center;
     gap: 9px;
 
-    padding: 10px 18px;
+    padding: 10px 17px;
 
-    background: #171d2b;
+    background: #171d2a;
 
-    border: 1px solid #2b3345;
+    border: 1px solid #2a3345;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
-    font-size: 14px;
-    font-weight: 800;
-
-    color: #cbd5e1;
+    font-size: 15px;
+    font-weight: 900;
 }
 
 
-.coin-icon {
-    width: 20px;
-    height: 20px;
+.currency-coin {
+    width: 21px;
+    height: 21px;
 
     display: flex;
     align-items: center;
@@ -98,29 +101,32 @@
 
     color: #713f12;
 
-    font-size: 12px;
+    font-size: 11px;
 
     box-shadow:
-        0 0 12px rgba(250, 204, 21, 0.35);
+        0 0 14px rgba(250, 204, 21, 0.35);
 }
 
 
-#coin-count {
-    color: #ffffff;
-    font-size: 16px;
+.currency-label {
+    color: #64748b;
+
+    font-size: 11px;
+
+    letter-spacing: 0.8px;
 }
 
 
 /* =========================================================
-   MAIN CONTAINER
+   CONTAINER
    ========================================================= */
 
 .shop-container {
-    width: min(1250px, 92%);
+    width: min(1200px, 92%);
 
-    margin: 0 auto;
+    margin: auto;
 
-    padding: 55px 0 80px;
+    padding: 55px 0 90px;
 }
 
 
@@ -131,66 +137,84 @@
 .shop-intro {
     text-align: center;
 
-    margin-bottom: 50px;
+    margin-bottom: 45px;
 }
 
 
-.shop-intro h2 {
+.shop-tag {
+    display: inline-block;
+
+    padding: 6px 11px;
+
+    margin-bottom: 12px;
+
+    border-radius: 8px;
+
+    background: rgba(99, 102, 241, 0.12);
+
+    border: 1px solid rgba(99, 102, 241, 0.25);
+
+    color: #818cf8;
+
+    font-size: 10px;
+    font-weight: 950;
+
+    letter-spacing: 1px;
+}
+
+
+.shop-intro h1 {
     margin: 0 0 12px;
 
-    font-size: 42px;
+    font-size: 43px;
     font-weight: 950;
 
     letter-spacing: -1.5px;
-
-    color: #ffffff;
 }
 
 
 .shop-intro p {
-    margin: 0 auto 22px;
-
     max-width: 600px;
 
-    color: #8b95a7;
+    margin: auto auto 22px;
+
+    color: #7c879b;
 
     font-size: 16px;
+
     line-height: 1.6;
 }
 
 
 .shop-refresh {
     display: inline-flex;
-    align-items: center;
-    gap: 8px;
 
-    padding: 9px 16px;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 15px;
+
+    background: #121827;
+
+    border: 1px solid #252e41;
 
     border-radius: 10px;
 
-    background: #141a28;
+    font-size: 11px;
+    font-weight: 900;
 
-    border: 1px solid #292f40;
-
-    color: #7f8aa0;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    letter-spacing: 0.5px;
+    color: #657188;
 }
 
 
-#shop-countdown,
-#countdown {
+.shop-refresh strong {
     color: #818cf8;
-
-    font-weight: 900;
 }
 
 
 /* =========================================================
-   SHOP GRID
+   GRID
    ========================================================= */
 
 .shop-grid {
@@ -204,68 +228,49 @@
 
 
 /* =========================================================
-   SHOP CARD
+   CARD
    ========================================================= */
 
 .shop-card {
-    position: relative;
+    min-width: 0;
 
-    min-height: 480px;
+    min-height: 500px;
+
+    padding: 15px;
 
     display: flex;
+
     flex-direction: column;
-    align-items: center;
-
-    padding: 18px;
-
-    overflow: hidden;
 
     background:
         linear-gradient(
             145deg,
             #171d2b,
-            #101521
+            #0f141f
         );
 
-    border: 1px solid #293144;
+    border: 1px solid #293246;
 
     border-radius: 22px;
 
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.25);
+    position: relative;
+
+    overflow: hidden;
 
     transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-
-.shop-card::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,0.035),
-            transparent 45%
-        );
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
 }
 
 
 .shop-card:hover {
     transform: translateY(-7px);
 
-    border-color: #4b556f;
+    border-color: #414c64;
 
     box-shadow:
-        0 22px 45px rgba(0, 0, 0, 0.35);
+        0 25px 50px rgba(0, 0, 0, .35);
 }
 
 
@@ -276,107 +281,80 @@
 .rarity {
     align-self: flex-start;
 
-    position: relative;
-    z-index: 2;
-
-    padding: 5px 10px;
+    padding: 5px 9px;
 
     border-radius: 7px;
 
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 950;
+
+    letter-spacing: .8px;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.8px;
-
-    background: #252b3a;
+    background: #252d3d;
 
     color: #cbd5e1;
+
+    z-index: 5;
 }
 
-
-/* COMMON */
-
-.rarity-common {
-    border-color: #334155;
-}
-
-
-.rarity-common .rarity {
-    background: #293241;
-    color: #cbd5e1;
-}
-
-
-/* RARE */
 
 .rarity-rare {
-    border-color: rgba(59, 130, 246, 0.35);
+    border-color: rgba(59,130,246,.35);
 }
 
 
 .rarity-rare .rarity {
-    background: rgba(59, 130, 246, 0.15);
+    background: rgba(59,130,246,.14);
     color: #60a5fa;
 }
 
 
-/* EPIC */
-
 .rarity-epic {
-    border-color: rgba(168, 85, 247, 0.4);
+    border-color: rgba(168,85,247,.4);
 }
 
 
 .rarity-epic .rarity {
-    background: rgba(168, 85, 247, 0.15);
+    background: rgba(168,85,247,.14);
     color: #c084fc;
 }
 
 
-/* MYTHIC */
-
 .rarity-mythic {
-    border-color: rgba(236, 72, 153, 0.4);
+    border-color: rgba(236,72,153,.4);
 }
 
 
 .rarity-mythic .rarity {
-    background: rgba(236, 72, 153, 0.15);
+    background: rgba(236,72,153,.14);
     color: #f472b6;
 }
 
 
-/* LEGENDARY */
-
 .rarity-legendary {
-    border-color: rgba(250, 204, 21, 0.45);
-
-    box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.25),
-        0 0 30px rgba(250, 204, 21, 0.06);
+    border-color: rgba(250,204,21,.4);
 }
 
 
 .rarity-legendary .rarity {
-    background: rgba(250, 204, 21, 0.13);
+    background: rgba(250,204,21,.13);
     color: #facc15;
 }
 
 
 /* =========================================================
-   ITEM PREVIEW
+   PREVIEW
    ========================================================= */
 
 .item-preview {
-    width: 100%;
     height: 255px;
 
-    margin-top: 12px;
-    margin-bottom: 18px;
+    margin: 12px 0 17px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -384,218 +362,326 @@
 
     overflow: hidden;
 
-    border-radius: 16px;
+    border-radius: 17px;
 
     background:
         radial-gradient(
-            circle,
-            #222a3d 0%,
-            #141a28 65%,
-            #101521 100%
+            circle at center,
+            #252e43,
+            #131a28 70%
         );
 
-    border: 1px solid #292f40;
+    border: 1px solid #2a3347;
 }
 
 
-/* subtle grid */
+/* =========================================================
+   GOOBER
+   ========================================================= */
 
-.item-preview::after {
+.goober-preview {
+    width: 150px;
+    height: 150px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* body */
+
+.goober-body {
+    width: 105px;
+    height: 105px;
+
+    position: relative;
+
+    border-radius: 42% 48% 45% 47%;
+
+    background: #6366f1;
+
+    border: 4px solid rgba(0,0,0,.28);
+
+    box-shadow:
+        0 14px 25px rgba(0,0,0,.35);
+}
+
+
+/* eyes */
+
+.goober-eye {
+    width: 18px;
+    height: 22px;
+
+    position: absolute;
+
+    top: 32px;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 3px solid #111827;
+}
+
+
+.goober-eye::after {
+    content: "";
+
+    width: 7px;
+    height: 9px;
+
+    position: absolute;
+
+    top: 5px;
+    left: 3px;
+
+    border-radius: 50%;
+
+    background: #111827;
+}
+
+
+.goober-eye.left {
+    left: 25px;
+}
+
+
+.goober-eye.right {
+    right: 25px;
+}
+
+
+/* mouth */
+
+.goober-mouth {
+    width: 34px;
+    height: 16px;
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 24px;
+
+    transform: translateX(-50%);
+
+    border-bottom: 4px solid #111827;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================================
+   GOOBER DESIGNS
+   ========================================================= */
+
+.goober-squish .goober-body {
+    background: #fb7185;
+
+    transform: scaleX(1.18);
+}
+
+
+.goober-pebble .goober-body {
+    width: 110px;
+    height: 92px;
+
+    background: #94a3b8;
+
+    border-radius: 50%;
+}
+
+
+.goober-button .goober-body {
+    background: #fbbf24;
+
+    border-radius: 50%;
+}
+
+
+.goober-horns .goober-body {
+    background: #a78bfa;
+}
+
+
+.goober-horns::before,
+.goober-horns::after {
     content: "";
 
     position: absolute;
 
-    inset: 0;
+    top: 4px;
 
-    opacity: 0.08;
+    width: 25px;
+    height: 35px;
 
-    background-image:
-        linear-gradient(#ffffff 1px, transparent 1px),
-        linear-gradient(90deg, #ffffff 1px, transparent 1px);
+    background: #e9d5ff;
 
-    background-size: 24px 24px;
+    border: 3px solid #111827;
 
-    pointer-events: none;
+    border-radius: 70% 30% 60% 40%;
 }
 
 
-/* =========================================================
-   GOOBER PREVIEW
-   ========================================================= */
+.goober-horns::before {
+    left: 25px;
 
-.item-preview .goober,
-.item-preview .shop-goober,
-.item-preview .goober-preview {
-    position: relative;
-    z-index: 2;
-
-    transform: scale(1.35);
-
-    transform-origin: center;
+    transform: rotate(-28deg);
 }
 
 
-/*
-   If the existing Goober renderer uses a different
-   class, these styles still keep the preview centered.
-*/
+.goober-horns::after {
+    right: 25px;
 
-.shop-goober-fallback {
-    position: relative;
-    z-index: 2;
+    transform: rotate(28deg);
+}
 
-    width: 90px;
-    height: 90px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.goober-shelby .goober-body {
+    background: #f97316;
+
+    border-radius: 38% 38% 48% 48%;
+}
+
+
+.goober-tallboi .goober-body {
+    width: 80px;
+    height: 125px;
+
+    background: #38bdf8;
+}
+
+
+.goober-fourEyes .goober-body {
+    background: #4ade80;
+}
+
+
+.goober-fourEyes .goober-eye {
+    box-shadow:
+        24px 0 0 #ffffff,
+        24px 0 0 3px #111827;
+}
+
+
+.goober-mothball .goober-body {
+    background: #c4b5fd;
+
+    border-radius: 50%;
+}
+
+
+.goober-spike .goober-body {
+    background: #fb7185;
+}
+
+
+.goober-orbit .goober-body {
+    background: #60a5fa;
+
+    box-shadow:
+        0 14px 25px rgba(0,0,0,.35),
+        0 0 25px rgba(96,165,250,.45);
+}
+
+
+.goober-bubble .goober-body {
+    background: #67e8f9;
 
     border-radius: 50%;
 
-    background: #6366f1;
-
-    color: white;
-
-    font-size: 45px;
-
     box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.35);
+        inset -12px -10px 0 rgba(255,255,255,.18),
+        0 14px 25px rgba(0,0,0,.35);
 }
 
 
-/* =========================================================
-   BANNER PREVIEWS
-   ========================================================= */
-
-.banner-preview {
-    width: 80%;
-    height: 150px;
-
-    position: relative;
-    z-index: 2;
-
-    border-radius: 14px;
-
-    border: 2px solid rgba(255,255,255,0.12);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.35);
+.goober-captainGoob .goober-body {
+    background: #2563eb;
 }
 
 
-/* Sprint Grid */
+.goober-tailspin .goober-body {
+    background: #f472b6;
 
-.banner-sprintGrid {
-    background-color: #151b2b;
-
-    background-image:
-        linear-gradient(
-            rgba(99,102,241,0.25) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(99,102,241,0.25) 1px,
-            transparent 1px
-        );
-
-    background-size: 22px 22px;
+    transform: rotate(-7deg);
 }
 
 
-/* Purple Grid */
+.goober-holyMoly .goober-body {
+    background: #f8fafc;
 
-.banner-purpleGrid {
-    background-color: #281b43;
-
-    background-image:
-        linear-gradient(
-            rgba(192,132,252,0.25) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(192,132,252,0.25) 1px,
-            transparent 1px
-        );
-
-    background-size: 22px 22px;
+    border-color: #facc15;
 }
 
 
-/* Neon Blue */
-
-.banner-neonBlue {
-    background:
-        radial-gradient(
-            circle at 50% 50%,
-            #2563eb,
-            #111827 70%
-        );
-
-    box-shadow:
-        0 0 25px rgba(59,130,246,0.35);
+.goober-wingnut .goober-body {
+    background: #fb923c;
 }
 
 
-/* Galaxy */
-
-.banner-galaxy {
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            #8b5cf6,
-            transparent 25%
-        ),
-        radial-gradient(
-            circle at 80% 70%,
-            #2563eb,
-            transparent 25%
-        ),
-        #080b18;
-}
-
-
-/* Gold */
-
-.banner-gold {
+.goober-cosmo .goober-body {
     background:
         linear-gradient(
             135deg,
-            #78350f,
-            #f59e0b,
-            #78350f
+            #312e81,
+            #7c3aed,
+            #ec4899
         );
 
     box-shadow:
-        0 0 25px rgba(245,158,11,0.25);
+        0 0 35px rgba(139,92,246,.4);
 }
 
 
-/* =========================================================
-   TITLE PREVIEW
-   ========================================================= */
+.goober-theGoober .goober-body {
+    background: #facc15;
 
-.title-preview {
-    position: relative;
-    z-index: 2;
+    border-color: #92400e;
+}
 
-    padding: 18px 28px;
 
-    border-radius: 12px;
+.goober-golden .goober-body {
+    background:
+        linear-gradient(
+            135deg,
+            #fef08a,
+            #f59e0b,
+            #b45309
+        );
 
-    background: #1e2535;
-
-    border: 1px solid #3a4358;
-
-    color: #ffffff;
-
-    font-size: 20px;
-    font-weight: 950;
+    border-color: #78350f;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,0.3);
+        0 0 35px rgba(250,204,21,.4);
+}
+
+
+.goober-galaxy .goober-body {
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            #ffffff,
+            transparent 4%
+        ),
+        radial-gradient(
+            circle at 70% 65%,
+            #c4b5fd,
+            transparent 5%
+        ),
+        linear-gradient(
+            135deg,
+            #111827,
+            #312e81,
+            #7c3aed
+        );
+
+    box-shadow:
+        0 0 35px rgba(124,58,237,.5);
 }
 
 
@@ -604,48 +690,39 @@
    ========================================================= */
 
 .shop-card h3 {
-    position: relative;
-    z-index: 2;
-
     margin: 0 0 5px;
 
     text-align: center;
 
-    font-size: 22px;
+    font-size: 21px;
     font-weight: 950;
-
-    color: #ffffff;
 }
 
 
 .item-type {
-    position: relative;
-    z-index: 2;
-
-    margin: 0 0 10px;
+    margin: 0 0 8px;
 
     text-align: center;
 
-    color: #7f8aa0;
+    color: #68758a;
 
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 900;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.7px;
+    letter-spacing: .8px;
 }
 
 
 .shop-price {
-    position: relative;
-    z-index: 2;
+    margin-bottom: 13px;
 
-    margin-bottom: 15px;
+    text-align: center;
 
     color: #facc15;
 
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 950;
 }
 
@@ -655,18 +732,15 @@
    ========================================================= */
 
 .buy-button {
-    position: relative;
-    z-index: 3;
-
     width: 100%;
 
     margin-top: auto;
 
-    padding: 14px 18px;
+    padding: 13px;
 
-    border: 0;
+    border: none;
 
-    border-radius: 12px;
+    border-radius: 11px;
 
     background:
         linear-gradient(
@@ -675,68 +749,50 @@
             #4f46e5
         );
 
-    color: #ffffff;
+    color: white;
 
     font-family: inherit;
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 950;
-
-    letter-spacing: 0.5px;
 
     cursor: pointer;
 
     box-shadow:
-        0 7px 0 #3730a3,
-        0 10px 20px rgba(79,70,229,0.18);
+        0 5px 0 #3730a3;
 
     transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        filter 0.15s ease;
+        transform .12s ease,
+        filter .12s ease;
 }
 
 
 .buy-button:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
     filter: brightness(1.1);
-
-    box-shadow:
-        0 10px 0 #3730a3,
-        0 15px 25px rgba(79,70,229,0.25);
 }
 
 
 .buy-button:active {
-    transform: translateY(4px);
+    transform: translateY(3px);
 
     box-shadow:
-        0 3px 0 #3730a3,
-        0 6px 12px rgba(79,70,229,0.15);
+        0 2px 0 #3730a3;
 }
 
 
-/* =========================================================
-   OWNED BUTTON
-   ========================================================= */
-
 .buy-button.owned,
 .buy-button:disabled {
-    background: #252c3b;
+    background: #202838;
 
-    color: #778196;
+    border: 1px solid #344056;
+
+    color: #64748b;
+
+    box-shadow: none;
 
     cursor: default;
-
-    box-shadow:
-        none;
-
-    border: 1px solid #343d50;
-
-    transform: none;
-
-    filter: none;
 }
 
 
@@ -748,22 +804,122 @@
 
 
 /* =========================================================
-   EMPTY SHOP
+   BANNERS
    ========================================================= */
 
-.shop-grid:empty::after {
-    content: "Loading shop...";
+.banner-preview {
+    width: 82%;
+    height: 145px;
 
-    grid-column: 1 / -1;
+    border-radius: 14px;
 
-    text-align: center;
+    border: 2px solid rgba(255,255,255,.12);
 
-    padding: 80px 20px;
+    position: relative;
 
-    color: #64748b;
+    z-index: 2;
+}
 
-    font-size: 18px;
-    font-weight: 800;
+
+.banner-sprintGrid {
+    background-color: #111827;
+
+    background-image:
+        linear-gradient(
+            rgba(99,102,241,.3) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99,102,241,.3) 1px,
+            transparent 1px
+        );
+
+    background-size: 22px 22px;
+}
+
+
+.banner-purpleGrid {
+    background-color: #24143d;
+
+    background-image:
+        linear-gradient(
+            rgba(192,132,252,.3) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(192,132,252,.3) 1px,
+            transparent 1px
+        );
+
+    background-size: 22px 22px;
+}
+
+
+.banner-neonBlue {
+    background:
+        radial-gradient(
+            circle,
+            #2563eb,
+            #111827 70%
+        );
+
+    box-shadow:
+        0 0 25px rgba(59,130,246,.35);
+}
+
+
+.banner-galaxy {
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #a78bfa,
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            #2563eb,
+            transparent 25%
+        ),
+        #080b18;
+}
+
+
+.banner-gold {
+    background:
+        linear-gradient(
+            135deg,
+            #78350f,
+            #f59e0b,
+            #78350f
+        );
+}
+
+
+/* =========================================================
+   TITLES
+   ========================================================= */
+
+.title-preview {
+    position: relative;
+    z-index: 2;
+
+    padding: 17px 25px;
+
+    border-radius: 11px;
+
+    background: #1e2636;
+
+    border: 1px solid #3a455c;
+
+    color: white;
+
+    font-size: 19px;
+    font-weight: 950;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.3);
 }
 
 
@@ -771,53 +927,40 @@
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 950px) {
 
     .shop-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
 
 
-@media (max-width: 650px) {
+@media (max-width: 620px) {
 
     .shop-header {
         height: auto;
 
-        gap: 15px;
+        padding: 17px 5%;
 
-        padding: 18px 5%;
+        gap: 14px;
 
         flex-direction: column;
     }
 
 
     .shop-container {
-        width: 92%;
-
         padding-top: 35px;
     }
 
 
-    .shop-intro h2 {
-        font-size: 32px;
+    .shop-intro h1 {
+        font-size: 34px;
     }
 
 
     .shop-grid {
         grid-template-columns: 1fr;
-    }
-
-
-    .shop-card {
-        min-height: 460px;
-    }
-
-
-    .item-preview {
-        height: 230px;
     }
 
 }
