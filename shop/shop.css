@@ -1,966 +1,1159 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   ========================================================= */
+   Complete shop styling
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 .shop-page {
-    min-height: 100vh;
+
+    min-height:100vh;
 
     background:
         radial-gradient(
-            circle at 15% 10%,
-            rgba(99, 102, 241, 0.14),
-            transparent 30%
+            circle at 20% 0%,
+            rgba(99,102,241,.16),
+            transparent 35%
         ),
         radial-gradient(
-            circle at 85% 25%,
-            rgba(124, 58, 237, 0.10),
+            circle at 80% 20%,
+            rgba(59,130,246,.10),
             transparent 30%
         ),
-        #090d16;
+        #090d18;
 
-    color: #f8fafc;
+    color:#f8fafc;
+
 }
 
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
 .shop-header {
-    height: 76px;
 
-    padding: 0 6%;
+    height:76px;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    padding:0 6%;
 
-    background: rgba(12, 17, 29, 0.94);
+    display:flex;
 
-    border-bottom: 1px solid #222a3a;
+    align-items:center;
 
-    position: sticky;
-    top: 0;
+    justify-content:space-between;
 
-    z-index: 100;
+    background:rgba(9,13,24,.92);
 
-    backdrop-filter: blur(16px);
+    border-bottom:1px solid rgba(148,163,184,.16);
+
+    backdrop-filter:blur(16px);
+
 }
 
 
 .shop-logo {
-    color: #ffffff;
 
-    text-decoration: none;
+    text-decoration:none;
 
-    font-size: 25px;
-    font-weight: 950;
+    color:#f8fafc;
 
-    letter-spacing: -1px;
+    font-size:25px;
+
+    font-weight:950;
+
+    letter-spacing:-1px;
+
 }
 
 
 .shop-logo span {
-    color: #6366f1;
+
+    color:#6366f1;
+
 }
 
 
-/* =========================================================
-   CURRENCY
-   ========================================================= */
+.shop-header-right {
 
-.shop-currency {
-    display: flex;
-    align-items: center;
-    gap: 9px;
+    display:flex;
 
-    padding: 10px 17px;
+    align-items:center;
 
-    background: #171d2a;
+    gap:18px;
 
-    border: 1px solid #2a3345;
-
-    border-radius: 13px;
-
-    font-size: 15px;
-    font-weight: 900;
 }
 
 
-.currency-coin {
-    width: 21px;
-    height: 21px;
+.coin-display {
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
 
-    border-radius: 50%;
+    align-items:center;
 
-    background: #facc15;
+    gap:8px;
 
-    color: #713f12;
+    padding:10px 17px;
 
-    font-size: 11px;
+    background:#111827;
 
-    box-shadow:
-        0 0 14px rgba(250, 204, 21, 0.35);
+    border:1px solid #263249;
+
+    border-radius:12px;
+
+    font-weight:800;
+
 }
 
 
-.currency-label {
-    color: #64748b;
+.coin-symbol {
 
-    font-size: 11px;
+    color:#facc15;
 
-    letter-spacing: 0.8px;
+    font-size:16px;
+
+}
+
+
+.coin-label {
+
+    color:#64748b;
+
+    font-size:11px;
+
+    letter-spacing:1px;
+
+}
+
+
+.mod-button {
+
+    border:1px solid #7c3aed;
+
+    background:#24113f;
+
+    color:#c4b5fd;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.mod-button:hover {
+
+    background:#34185d;
+
+    transform:translateY(-2px);
+
 }
 
 
 /* =========================================================
    CONTAINER
-   ========================================================= */
+========================================================= */
 
 .shop-container {
-    width: min(1200px, 92%);
 
-    margin: auto;
+    width:min(1200px,92%);
 
-    padding: 55px 0 90px;
+    margin:auto;
+
+    padding:55px 0 90px;
+
 }
 
 
 /* =========================================================
-   INTRO
-   ========================================================= */
+   HERO
+========================================================= */
 
-.shop-intro {
-    text-align: center;
+.shop-hero {
 
-    margin-bottom: 45px;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:end;
+
+    gap:30px;
+
+    margin-bottom:55px;
+
 }
 
 
-.shop-tag {
-    display: inline-block;
+.shop-kicker,
+.section-label {
 
-    padding: 6px 11px;
+    color:#818cf8;
 
-    margin-bottom: 12px;
+    font-size:11px;
 
-    border-radius: 8px;
+    font-weight:900;
 
-    background: rgba(99, 102, 241, 0.12);
+    letter-spacing:2px;
 
-    border: 1px solid rgba(99, 102, 241, 0.25);
-
-    color: #818cf8;
-
-    font-size: 10px;
-    font-weight: 950;
-
-    letter-spacing: 1px;
 }
 
 
-.shop-intro h1 {
-    margin: 0 0 12px;
+.shop-hero h1 {
 
-    font-size: 43px;
-    font-weight: 950;
+    margin-top:10px;
 
-    letter-spacing: -1.5px;
+    font-size:clamp(34px,5vw,58px);
+
+    line-height:1;
+
+    letter-spacing:-2px;
+
 }
 
 
-.shop-intro p {
-    max-width: 600px;
+.shop-description {
 
-    margin: auto auto 22px;
+    max-width:650px;
 
-    color: #7c879b;
+    margin-top:18px;
 
-    font-size: 16px;
+    color:#94a3b8;
 
-    line-height: 1.6;
+    font-size:17px;
+
+    line-height:1.6;
+
 }
 
 
-.shop-refresh {
-    display: inline-flex;
+.rotation-box {
 
-    align-items: center;
+    min-width:190px;
 
-    gap: 9px;
+    padding:18px;
 
-    padding: 9px 15px;
+    background:#101827;
 
-    background: #121827;
+    border:1px solid #263249;
 
-    border: 1px solid #252e41;
+    border-radius:16px;
 
-    border-radius: 10px;
-
-    font-size: 11px;
-    font-weight: 900;
-
-    color: #657188;
 }
 
 
-.shop-refresh strong {
-    color: #818cf8;
+.rotation-box span {
+
+    display:block;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    letter-spacing:1.5px;
+
+    margin-bottom:8px;
+
+}
+
+
+.rotation-box strong {
+
+    font-size:17px;
+
+    color:#e2e8f0;
+
+}
+
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.shop-section {
+
+    margin-top:30px;
+
+}
+
+
+.section-heading {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+
+.section-heading h2 {
+
+    margin-top:5px;
+
+    font-size:28px;
+
 }
 
 
 /* =========================================================
    GRID
-   ========================================================= */
+========================================================= */
 
 .shop-grid {
-    display: grid;
+
+    display:grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(3, minmax(0,1fr));
 
-    gap: 24px;
+    gap:20px;
+
 }
 
 
 /* =========================================================
    CARD
-   ========================================================= */
+========================================================= */
 
 .shop-card {
-    min-width: 0;
 
-    min-height: 500px;
+    position:relative;
 
-    padding: 15px;
+    overflow:hidden;
 
-    display: flex;
+    min-height:400px;
 
-    flex-direction: column;
+    padding:22px;
 
     background:
         linear-gradient(
             145deg,
-            #171d2b,
-            #0f141f
+            #131c2e,
+            #0d1422
         );
 
-    border: 1px solid #293246;
+    border:1px solid #263249;
 
-    border-radius: 22px;
+    border-radius:20px;
 
-    position: relative;
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.28);
 
-    overflow: hidden;
+    transition:.25s;
 
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease;
 }
 
 
 .shop-card:hover {
-    transform: translateY(-7px);
 
-    border-color: #414c64;
+    transform:translateY(-5px);
+
+    border-color:#475569;
 
     box-shadow:
-        0 25px 50px rgba(0, 0, 0, .35);
+        0 20px 45px rgba(0,0,0,.4);
+
+}
+
+
+.shop-card::before {
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.04),
+            transparent 40%
+        );
+
+}
+
+
+.rarity {
+
+    position:absolute;
+
+    top:18px;
+
+    right:18px;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    font-size:9px;
+
+    font-weight:950;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+    background:#1e293b;
+
+    color:#94a3b8;
+
 }
 
 
 /* =========================================================
-   RARITY
-   ========================================================= */
+   RARITIES
+========================================================= */
 
-.rarity {
-    align-self: flex-start;
+.rarity-common .rarity {
 
-    padding: 5px 9px;
+    color:#cbd5e1;
 
-    border-radius: 7px;
-
-    font-size: 9px;
-    font-weight: 950;
-
-    letter-spacing: .8px;
-
-    text-transform: uppercase;
-
-    background: #252d3d;
-
-    color: #cbd5e1;
-
-    z-index: 5;
-}
-
-
-.rarity-rare {
-    border-color: rgba(59,130,246,.35);
 }
 
 
 .rarity-rare .rarity {
-    background: rgba(59,130,246,.14);
-    color: #60a5fa;
-}
 
+    color:#60a5fa;
 
-.rarity-epic {
-    border-color: rgba(168,85,247,.4);
+    background:#172554;
+
 }
 
 
 .rarity-epic .rarity {
-    background: rgba(168,85,247,.14);
-    color: #c084fc;
-}
 
+    color:#c084fc;
 
-.rarity-mythic {
-    border-color: rgba(236,72,153,.4);
+    background:#2e1065;
+
 }
 
 
 .rarity-mythic .rarity {
-    background: rgba(236,72,153,.14);
-    color: #f472b6;
-}
 
+    color:#fb7185;
 
-.rarity-legendary {
-    border-color: rgba(250,204,21,.4);
+    background:#4c0519;
+
 }
 
 
 .rarity-legendary .rarity {
-    background: rgba(250,204,21,.13);
-    color: #facc15;
+
+    color:#facc15;
+
+    background:#422006;
+
 }
 
 
 /* =========================================================
    PREVIEW
-   ========================================================= */
+========================================================= */
 
 .item-preview {
-    height: 255px;
 
-    margin: 12px 0 17px;
+    height:210px;
 
-    display: flex;
+    margin-bottom:20px;
 
-    align-items: center;
-    justify-content: center;
+    display:flex;
 
-    position: relative;
+    justify-content:center;
 
-    overflow: hidden;
+    align-items:center;
 
-    border-radius: 17px;
+    overflow:hidden;
 
-    background:
-        radial-gradient(
-            circle at center,
-            #252e43,
-            #131a28 70%
-        );
+    border-radius:14px;
 
-    border: 1px solid #2a3347;
+    background:#0a101d;
+
+    border:1px solid #202c40;
+
 }
 
 
 /* =========================================================
-   GOOBER
-   ========================================================= */
+   BANNER PREVIEWS
+========================================================= */
 
-.goober-preview {
-    width: 150px;
-    height: 150px;
+.shop-banner-preview {
 
-    position: relative;
+    width:86%;
 
-    display: flex;
+    height:130px;
 
-    align-items: center;
-    justify-content: center;
-}
+    border-radius:12px;
 
-
-/* body */
-
-.goober-body {
-    width: 105px;
-    height: 105px;
-
-    position: relative;
-
-    border-radius: 42% 48% 45% 47%;
-
-    background: #6366f1;
-
-    border: 4px solid rgba(0,0,0,.28);
+    border:2px solid rgba(255,255,255,.12);
 
     box-shadow:
-        0 14px 25px rgba(0,0,0,.35);
+        0 10px 30px rgba(0,0,0,.4);
+
 }
 
 
-/* eyes */
-
-.goober-eye {
-    width: 18px;
-    height: 22px;
-
-    position: absolute;
-
-    top: 32px;
-
-    border-radius: 50%;
-
-    background: #ffffff;
-
-    border: 3px solid #111827;
-}
-
-
-.goober-eye::after {
-    content: "";
-
-    width: 7px;
-    height: 9px;
-
-    position: absolute;
-
-    top: 5px;
-    left: 3px;
-
-    border-radius: 50%;
-
-    background: #111827;
-}
-
-
-.goober-eye.left {
-    left: 25px;
-}
-
-
-.goober-eye.right {
-    right: 25px;
-}
-
-
-/* mouth */
-
-.goober-mouth {
-    width: 34px;
-    height: 16px;
-
-    position: absolute;
-
-    left: 50%;
-    bottom: 24px;
-
-    transform: translateX(-50%);
-
-    border-bottom: 4px solid #111827;
-
-    border-radius: 50%;
-}
-
-
-/* =========================================================
-   GOOBER DESIGNS
-   ========================================================= */
-
-.goober-squish .goober-body {
-    background: #fb7185;
-
-    transform: scaleX(1.18);
-}
-
-
-.goober-pebble .goober-body {
-    width: 110px;
-    height: 92px;
-
-    background: #94a3b8;
-
-    border-radius: 50%;
-}
-
-
-.goober-button .goober-body {
-    background: #fbbf24;
-
-    border-radius: 50%;
-}
-
-
-.goober-horns .goober-body {
-    background: #a78bfa;
-}
-
-
-.goober-horns::before,
-.goober-horns::after {
-    content: "";
-
-    position: absolute;
-
-    top: 4px;
-
-    width: 25px;
-    height: 35px;
-
-    background: #e9d5ff;
-
-    border: 3px solid #111827;
-
-    border-radius: 70% 30% 60% 40%;
-}
-
-
-.goober-horns::before {
-    left: 25px;
-
-    transform: rotate(-28deg);
-}
-
-
-.goober-horns::after {
-    right: 25px;
-
-    transform: rotate(28deg);
-}
-
-
-.goober-shelby .goober-body {
-    background: #f97316;
-
-    border-radius: 38% 38% 48% 48%;
-}
-
-
-.goober-tallboi .goober-body {
-    width: 80px;
-    height: 125px;
-
-    background: #38bdf8;
-}
-
-
-.goober-fourEyes .goober-body {
-    background: #4ade80;
-}
-
-
-.goober-fourEyes .goober-eye {
-    box-shadow:
-        24px 0 0 #ffffff,
-        24px 0 0 3px #111827;
-}
-
-
-.goober-mothball .goober-body {
-    background: #c4b5fd;
-
-    border-radius: 50%;
-}
-
-
-.goober-spike .goober-body {
-    background: #fb7185;
-}
-
-
-.goober-orbit .goober-body {
-    background: #60a5fa;
-
-    box-shadow:
-        0 14px 25px rgba(0,0,0,.35),
-        0 0 25px rgba(96,165,250,.45);
-}
-
-
-.goober-bubble .goober-body {
-    background: #67e8f9;
-
-    border-radius: 50%;
-
-    box-shadow:
-        inset -12px -10px 0 rgba(255,255,255,.18),
-        0 14px 25px rgba(0,0,0,.35);
-}
-
-
-.goober-captainGoob .goober-body {
-    background: #2563eb;
-}
-
-
-.goober-tailspin .goober-body {
-    background: #f472b6;
-
-    transform: rotate(-7deg);
-}
-
-
-.goober-holyMoly .goober-body {
-    background: #f8fafc;
-
-    border-color: #facc15;
-}
-
-
-.goober-wingnut .goober-body {
-    background: #fb923c;
-}
-
-
-.goober-cosmo .goober-body {
-    background:
-        linear-gradient(
-            135deg,
-            #312e81,
-            #7c3aed,
-            #ec4899
-        );
-
-    box-shadow:
-        0 0 35px rgba(139,92,246,.4);
-}
-
-
-.goober-theGoober .goober-body {
-    background: #facc15;
-
-    border-color: #92400e;
-}
-
-
-.goober-golden .goober-body {
-    background:
-        linear-gradient(
-            135deg,
-            #fef08a,
-            #f59e0b,
-            #b45309
-        );
-
-    border-color: #78350f;
-
-    box-shadow:
-        0 0 35px rgba(250,204,21,.4);
-}
-
-
-.goober-galaxy .goober-body {
-    background:
-        radial-gradient(
-            circle at 30% 25%,
-            #ffffff,
-            transparent 4%
-        ),
-        radial-gradient(
-            circle at 70% 65%,
-            #c4b5fd,
-            transparent 5%
-        ),
-        linear-gradient(
-            135deg,
-            #111827,
-            #312e81,
-            #7c3aed
-        );
-
-    box-shadow:
-        0 0 35px rgba(124,58,237,.5);
-}
-
-
-/* =========================================================
-   ITEM INFO
-   ========================================================= */
-
-.shop-card h3 {
-    margin: 0 0 5px;
-
-    text-align: center;
-
-    font-size: 21px;
-    font-weight: 950;
-}
-
-
-.item-type {
-    margin: 0 0 8px;
-
-    text-align: center;
-
-    color: #68758a;
-
-    font-size: 10px;
-    font-weight: 900;
-
-    text-transform: uppercase;
-
-    letter-spacing: .8px;
-}
-
-
-.shop-price {
-    margin-bottom: 13px;
-
-    text-align: center;
-
-    color: #facc15;
-
-    font-size: 15px;
-    font-weight: 950;
-}
-
-
-/* =========================================================
-   BUY BUTTON
-   ========================================================= */
-
-.buy-button {
-    width: 100%;
-
-    margin-top: auto;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 11px;
+.shop-banner-blue {
 
     background:
         linear-gradient(
             135deg,
-            #6366f1,
+            #1d4ed8,
             #4f46e5
         );
 
-    color: white;
-
-    font-family: inherit;
-
-    font-size: 13px;
-    font-weight: 950;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 5px 0 #3730a3;
-
-    transition:
-        transform .12s ease,
-        filter .12s ease;
 }
 
 
-.buy-button:hover {
-    transform: translateY(-2px);
+.shop-banner-purple {
 
-    filter: brightness(1.1);
-}
-
-
-.buy-button:active {
-    transform: translateY(3px);
-
-    box-shadow:
-        0 2px 0 #3730a3;
-}
-
-
-.buy-button.owned,
-.buy-button:disabled {
-    background: #202838;
-
-    border: 1px solid #344056;
-
-    color: #64748b;
-
-    box-shadow: none;
-
-    cursor: default;
-}
-
-
-.buy-button.owned::before {
-    content: "✓ ";
-
-    color: #4ade80;
-}
-
-
-/* =========================================================
-   BANNERS
-   ========================================================= */
-
-.banner-preview {
-    width: 82%;
-    height: 145px;
-
-    border-radius: 14px;
-
-    border: 2px solid rgba(255,255,255,.12);
-
-    position: relative;
-
-    z-index: 2;
-}
-
-
-.banner-sprintGrid {
-    background-color: #111827;
-
-    background-image:
-        linear-gradient(
-            rgba(99,102,241,.3) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(99,102,241,.3) 1px,
-            transparent 1px
-        );
-
-    background-size: 22px 22px;
-}
-
-
-.banner-purpleGrid {
-    background-color: #24143d;
-
-    background-image:
-        linear-gradient(
-            rgba(192,132,252,.3) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(192,132,252,.3) 1px,
-            transparent 1px
-        );
-
-    background-size: 22px 22px;
-}
-
-
-.banner-neonBlue {
     background:
-        radial-gradient(
-            circle,
-            #2563eb,
-            #111827 70%
+        linear-gradient(
+            135deg,
+            #6d28d9,
+            #312e81
         );
 
-    box-shadow:
-        0 0 25px rgba(59,130,246,.35);
 }
 
 
-.banner-galaxy {
+.shop-banner-grid {
+
+    background-color:#111827;
+
+    background-image:
+        linear-gradient(
+            rgba(99,102,241,.22) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99,102,241,.22) 1px,
+            transparent 1px
+        );
+
+    background-size:24px 24px;
+
+}
+
+
+.shop-banner-neon {
+
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #2563eb,
+            #7c3aed
+        );
+
+}
+
+
+.shop-banner-galaxy {
+
     background:
         radial-gradient(
             circle at 20% 30%,
-            #a78bfa,
-            transparent 25%
+            #c084fc 0 2px,
+            transparent 3px
         ),
         radial-gradient(
-            circle at 80% 70%,
-            #2563eb,
-            transparent 25%
+            circle at 70% 65%,
+            #60a5fa 0 2px,
+            transparent 3px
         ),
-        #080b18;
+        linear-gradient(
+            135deg,
+            #09001a,
+            #24104f,
+            #080b25
+        );
+
+    background-size:auto, auto, auto;
+
 }
 
 
-.banner-gold {
+.shop-banner-gold {
+
     background:
         linear-gradient(
             135deg,
             #78350f,
             #f59e0b,
+            #facc15,
             #78350f
         );
+
 }
 
 
 /* =========================================================
-   TITLES
-   ========================================================= */
+   FRAME PREVIEWS
+========================================================= */
 
-.title-preview {
-    position: relative;
-    z-index: 2;
+.shop-frame-preview {
 
-    padding: 17px 25px;
+    width:145px;
 
-    border-radius: 11px;
+    height:145px;
 
-    background: #1e2636;
+    border-radius:24px;
 
-    border: 1px solid #3a455c;
+    display:flex;
 
-    color: white;
+    align-items:center;
 
-    font-size: 19px;
-    font-weight: 950;
+    justify-content:center;
+
+    background:#111827;
+
+    border:10px solid #334155;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,.3);
+        0 0 0 2px #0b1120,
+        0 15px 30px rgba(0,0,0,.4);
+
+}
+
+
+.shop-frame-preview span {
+
+    font-size:13px;
+
+    font-weight:900;
+
+    color:#64748b;
+
+}
+
+
+.frame-blue {
+
+    border-color:#3b82f6;
+
+}
+
+
+.frame-purple {
+
+    border-color:#8b5cf6;
+
+}
+
+
+.frame-pink {
+
+    border-color:#ec4899;
+
+}
+
+
+.frame-gold {
+
+    border-color:#facc15;
+
+}
+
+
+.frame-cyan {
+
+    border-color:#22d3ee;
+
+}
+
+
+.frame-fire {
+
+    border-color:#f97316;
+
 }
 
 
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
+   TITLE PREVIEW
+========================================================= */
 
-@media (max-width: 950px) {
+.shop-title-preview {
+
+    padding:18px 25px;
+
+    border-radius:12px;
+
+    background:#111827;
+
+    border:1px solid #334155;
+
+    color:#e2e8f0;
+
+    font-size:20px;
+
+    font-weight:950;
+
+}
+
+
+.shop-title-epic {
+
+    color:#c084fc;
+
+}
+
+
+.shop-title-mythic {
+
+    color:#fb7185;
+
+}
+
+
+.shop-title-legendary {
+
+    color:#facc15;
+
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+.shop-card h3 {
+
+    font-size:21px;
+
+    margin-bottom:5px;
+
+}
+
+
+.item-type {
+
+    color:#64748b;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:1px;
+
+}
+
+
+.shop-bottom {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    margin-top:22px;
+
+}
+
+
+.shop-price {
+
+    color:#facc15;
+
+    font-weight:950;
+
+    font-size:15px;
+
+}
+
+
+/* =========================================================
+   BUY BUTTON
+========================================================= */
+
+.buy-button {
+
+    width:100%;
+
+    margin-top:18px;
+
+    padding:13px;
+
+    border:1px solid #6366f1;
+
+    border-radius:11px;
+
+    background:#4f46e5;
+
+    color:white;
+
+    font-size:12px;
+
+    font-weight:950;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+
+.buy-button:hover {
+
+    background:#6366f1;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(99,102,241,.25);
+
+}
+
+
+.buy-button.owned {
+
+    background:#172033;
+
+    border-color:#334155;
+
+    color:#64748b;
+
+    cursor:default;
+
+    box-shadow:none;
+
+}
+
+
+/* =========================================================
+   MOD OVERLAY
+========================================================= */
+
+.mod-overlay {
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(2,6,23,.78);
+
+    backdrop-filter:blur(10px);
+
+}
+
+
+.mod-overlay.open {
+
+    display:flex;
+
+}
+
+
+.mod-panel {
+
+    width:min(600px,100%);
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    padding:30px;
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.6);
+
+}
+
+
+.mod-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:start;
+
+    margin-bottom:30px;
+
+}
+
+
+.mod-header h2 {
+
+    margin-top:5px;
+
+    font-size:30px;
+
+}
+
+
+.close-mod {
+
+    width:38px;
+
+    height:38px;
+
+    border:1px solid #334155;
+
+    border-radius:10px;
+
+    background:#111827;
+
+    color:#94a3b8;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+}
+
+
+.close-mod:hover {
+
+    color:white;
+
+    background:#1e293b;
+
+}
+
+
+.mod-section {
+
+    padding:20px 0;
+
+    border-top:1px solid #1e293b;
+
+}
+
+
+.mod-section h3 {
+
+    margin-bottom:12px;
+
+    font-size:15px;
+
+}
+
+
+.mod-row {
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+
+.mod-row input,
+.mod-select {
+
+    min-width:0;
+
+    flex:1;
+
+    padding:12px;
+
+    border:1px solid #334155;
+
+    border-radius:10px;
+
+    background:#080e1a;
+
+    color:#e2e8f0;
+
+    outline:none;
+
+}
+
+
+.mod-row input:focus,
+.mod-select:focus {
+
+    border-color:#6366f1;
+
+}
+
+
+.mod-action {
+
+    padding:12px 16px;
+
+    border:1px solid #4f46e5;
+
+    border-radius:10px;
+
+    background:#312e81;
+
+    color:white;
+
+    font-size:11px;
+
+    font-weight:950;
+
+    cursor:pointer;
+
+}
+
+
+.mod-action:hover {
+
+    background:#4338ca;
+
+}
+
+
+.mod-action.danger {
+
+    border-color:#7f1d1d;
+
+    background:#450a0a;
+
+}
+
+
+.mod-action.danger:hover {
+
+    background:#7f1d1d;
+
+}
+
+
+.mod-controls {
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+
+.mod-status {
+
+    min-height:20px;
+
+    margin-top:20px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:#111827;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:850px) {
 
     .shop-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
+    }
+
+
+    .shop-hero {
+
+        flex-direction:column;
+
+        align-items:stretch;
+
     }
 
 }
 
 
-@media (max-width: 620px) {
+@media(max-width:600px) {
 
     .shop-header {
-        height: auto;
 
-        padding: 17px 5%;
+        padding:0 4%;
 
-        gap: 14px;
+    }
 
-        flex-direction: column;
+
+    .shop-logo {
+
+        font-size:20px;
+
+    }
+
+
+    .coin-label {
+
+        display:none;
+
     }
 
 
     .shop-container {
-        padding-top: 35px;
-    }
 
+        width:94%;
 
-    .shop-intro h1 {
-        font-size: 34px;
+        padding-top:35px;
+
     }
 
 
     .shop-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .mod-row {
+
+        flex-direction:column;
+
     }
 
 }
