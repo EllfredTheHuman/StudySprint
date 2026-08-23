@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,6 +49,10 @@ Home
 🏃 Sprint
 </a>
 
+<a href="../games/index.html">
+🎮 Games
+</a>
+
 <a href="../profile/index.html">
 👤 Profile
 </a>
@@ -60,39 +65,81 @@ Home
 <main class="shop-page">
 
 
+<!-- =====================================================
+     SHOP HERO
+     ===================================================== -->
+
 <section class="shop-header">
 
+<div class="shop-header-icon">
+🛍️
+</div>
+
 <h1>
-🛍️ StudySprint Shop
+StudySprint Shop
 </h1>
 
 <p>
-Collect goobers, banners, effects and titles.
+Collect new Goobers, customise your profile,
+and show off your style.
 </p>
 
 </section>
 
 
-<!-- CURRENCY -->
+<!-- =====================================================
+     CURRENCY
+     ===================================================== -->
 
 <div class="currency-bar">
 
-<div class="currency">
+<div class="currency coin-currency">
+
+<span class="currency-icon">
 🪙
-<span id="coin-count">0</span>
+</span>
+
+<div>
+
+<strong id="coin-count">
+0
+</strong>
+
+<span>
 Coins
+</span>
+
 </div>
 
-<div class="currency">
+</div>
+
+
+<div class="currency ticket-currency">
+
+<span class="currency-icon">
 🎟️
-<span id="ticket-count">0</span>
+</span>
+
+<div>
+
+<strong id="ticket-count">
+0
+</strong>
+
+<span>
 Shop Tickets
+</span>
+
+</div>
+
 </div>
 
 </div>
 
 
-<!-- SHOP NAV -->
+<!-- =====================================================
+     SHOP NAVIGATION
+     ===================================================== -->
 
 <div class="shop-navigation">
 
@@ -101,24 +148,41 @@ Shop Tickets
     class="active"
     type="button"
 >
-🪙 Coin Shop
+
+<span>
+🪙
+</span>
+
+Coin Shop
+
 </button>
+
 
 <button
     id="ticket-shop-button"
     type="button"
 >
-🎟️ Ticket Shop
+
+<span>
+🎟️
+</span>
+
+Hat Shop
+
 </button>
 
 </div>
 
 
-<!-- COUNTDOWN -->
+<!-- =====================================================
+     COUNTDOWN
+     ===================================================== -->
 
 <div class="shop-countdown">
 
-Next shop refreshes in:
+<div class="countdown-label">
+Next Coin Shop refresh
+</div>
 
 <strong id="countdown">
 Loading...
@@ -127,20 +191,35 @@ Loading...
 </div>
 
 
-<!-- MAIN SHOP -->
+<!-- =====================================================
+     COIN SHOP
+     ===================================================== -->
 
 <section
     id="fortnightly-shop"
     class="shop-section"
 >
 
+<div class="section-heading">
+
+<div>
+
+<span class="section-kicker">
+ROTATING SHOP
+</span>
+
 <h2>
-🪙 Fortnightly Shop
+🪙 Coin Shop
 </h2>
 
 <p class="shop-subtitle">
-6 items rotate every second Sunday at 12:00 AM AEST.
+6 items rotate every second Sunday.
 </p>
+
+</div>
+
+</div>
+
 
 <div
     id="fortnightly-items"
@@ -150,20 +229,35 @@ Loading...
 </section>
 
 
-<!-- TICKET SHOP -->
+<!-- =====================================================
+     HAT SHOP
+     ===================================================== -->
 
 <section
     id="ticket-shop"
     class="shop-section"
 >
 
+<div class="section-heading">
+
+<div>
+
+<span class="section-kicker">
+CUSTOMISATION
+</span>
+
 <h2>
-🎟️ Ticket Shop
+🎩 Hat Shop
 </h2>
 
 <p class="shop-subtitle">
-Permanent effects and the legendary crown.
+Permanent hats you can equip on your Goober.
 </p>
+
+</div>
+
+</div>
+
 
 <div
     id="ticket-items"
@@ -173,21 +267,28 @@ Permanent effects and the legendary crown.
 </section>
 
 
-<!-- STUDYPASS -->
+<!-- =====================================================
+     STUDYPASS
+     ===================================================== -->
 
 <section class="studypass-section">
 
 <div class="studypass-header">
+
+<span class="section-kicker">
+STUDYPASS EXCLUSIVE
+</span>
 
 <h2>
 ⭐ StudyPass Characters
 </h2>
 
 <p>
-Exclusive goobers available through StudyPass.
+Exclusive Goobers available through StudyPass.
 </p>
 
 </div>
+
 
 <div
     id="studypass-items"
@@ -197,7 +298,9 @@ Exclusive goobers available through StudyPass.
 </section>
 
 
-<!-- DEBUG -->
+<!-- =====================================================
+     DEBUG
+     ===================================================== -->
 
 <section class="debug-section">
 
@@ -206,7 +309,9 @@ Exclusive goobers available through StudyPass.
     class="debug-button"
     type="button"
 >
+
 🛠️ Debug Tools
+
 </button>
 
 </section>
@@ -227,3 +332,4 @@ Exclusive goobers available through StudyPass.
 </body>
 
 </html>
+```
