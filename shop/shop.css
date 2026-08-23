@@ -1,622 +1,647 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Dark / Modern / Tech
-   ========================================================= */
-
-:root {
-    --shop-bg: #070b14;
-    --shop-panel: #0d1322;
-    --shop-panel-2: #111a2d;
-    --shop-border: #1e2a42;
-
-    --shop-text: #f4f7ff;
-    --shop-muted: #7f8ba3;
-
-    --shop-accent: #6366f1;
-    --shop-accent-bright: #818cf8;
-
-    --common: #94a3b8;
-    --rare: #38bdf8;
-    --epic: #a78bfa;
-    --mythic: #f472b6;
-    --legendary: #fbbf24;
-}
-
-
-/* =========================================================
-   PAGE
-   ========================================================= */
+   Dark Tech UI
+========================================================= */
 
 .shop-page {
-
-    min-height: 100vh;
-
     background:
-        radial-gradient(
-            circle at 50% -10%,
-            rgba(99, 102, 241, .18),
-            transparent 40%
-        ),
-        var(--shop-bg);
-
-    color: var(--shop-text);
-
-    font-family:
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
+        radial-gradient(circle at top, rgba(99, 102, 241, 0.16), transparent 35%),
+        #080b14;
+    color: #f8fafc;
+    min-height: 100vh;
 }
 
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
 .shop-header {
-
     display: flex;
-
     justify-content: space-between;
     align-items: center;
 
-    padding: 24px 7%;
+    padding: 20px 7%;
 
-    border-bottom: 1px solid var(--shop-border);
+    background: rgba(10, 14, 25, 0.92);
 
-    background:
-        rgba(7, 11, 20, .88);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
 
-    backdrop-filter: blur(14px);
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.35);
 
+    position: sticky;
+    top: 0;
+    z-index: 20;
+
+    backdrop-filter: blur(15px);
 }
-
 
 .shop-header h1 {
+    margin: 0;
 
     font-size: 28px;
+    font-weight: 950;
+    letter-spacing: 2px;
 
-    font-weight: 900;
-
-    letter-spacing: -1px;
-
+    color: #ffffff;
 }
-
 
 .shop-header h1 span {
-
-    color: var(--shop-accent-bright);
-
-}
-
-
-.shop-currency {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    padding: 10px 16px;
-
-    border: 1px solid var(--shop-border);
-
-    border-radius: 12px;
-
-    background: var(--shop-panel);
-
-    font-weight: 800;
-
-}
-
-
-.coin-icon {
-
-    color: #fbbf24;
-
+    color: #6366f1;
 }
 
 
 /* =========================================================
-   SHOP CONTENT
-   ========================================================= */
+   CURRENCY
+========================================================= */
+
+.shop-currency {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 10px 18px;
+
+    background: #111827;
+
+    border: 1px solid #29334d;
+
+    border-radius: 14px;
+
+    font-weight: 800;
+}
+
+.coin-icon {
+    color: #facc15;
+    font-size: 20px;
+
+    text-shadow:
+        0 0 10px rgba(250, 204, 21, 0.6);
+}
+
+#coin-count {
+    color: #facc15;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
 
 .shop-container {
+    width: 1100px;
+    max-width: 92%;
 
-    width: min(1250px, 90%);
+    margin: 0 auto;
 
-    margin: auto;
-
-    padding: 55px 0 80px;
-
+    padding: 60px 0 100px;
 }
 
+
+/* =========================================================
+   INTRO
+========================================================= */
 
 .shop-intro {
+    text-align: center;
 
-    margin-bottom: 40px;
-
+    margin-bottom: 50px;
 }
 
-
 .shop-intro h2 {
-
     font-size: 42px;
+    font-weight: 950;
+
+    margin-bottom: 12px;
+
+    letter-spacing: -1px;
+}
+
+.shop-intro p {
+    color: #94a3b8;
+
+    font-size: 17px;
+
+    margin-bottom: 25px;
+}
+
+.shop-refresh {
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    background: #111827;
+
+    border: 1px solid #29334d;
+
+    border-radius: 12px;
+
+    color: #64748b;
+
+    font-size: 12px;
 
     font-weight: 900;
 
-    margin-bottom: 10px;
-
+    letter-spacing: 1px;
 }
 
-
-.shop-intro p {
-
-    color: var(--shop-muted);
-
-    font-size: 16px;
-
-}
-
-
-.shop-refresh {
-
-    display: inline-flex;
-
-    margin-top: 18px;
-
-    padding: 8px 13px;
-
-    border-radius: 8px;
-
-    background: #0b1120;
-
-    border: 1px solid var(--shop-border);
-
-    color: var(--shop-muted);
-
-    font-family: monospace;
-
-    font-size: 13px;
-
+#shop-countdown {
+    color: #818cf8;
+    margin-left: 5px;
 }
 
 
 /* =========================================================
    SHOP GRID
-   ========================================================= */
+========================================================= */
 
 .shop-grid {
-
     display: grid;
 
     grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+        repeat(3, 1fr);
 
-    gap: 20px;
-
+    gap: 24px;
 }
 
 
 /* =========================================================
    SHOP CARD
-   ========================================================= */
+========================================================= */
 
 .shop-card {
-
     position: relative;
 
-    min-height: 390px;
+    min-height: 430px;
 
     display: flex;
-
     flex-direction: column;
+    align-items: center;
 
-    padding: 20px;
-
-    overflow: hidden;
-
-    border: 1px solid var(--shop-border);
-
-    border-radius: 18px;
+    padding: 22px;
 
     background:
         linear-gradient(
             145deg,
-            var(--shop-panel-2),
-            var(--shop-panel)
+            #151b2d,
+            #0d1220
         );
 
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease;
+    border: 1px solid #29334d;
 
-}
-
-
-.shop-card:hover {
-
-    transform: translateY(-5px);
-
-    border-color:
-        rgba(129, 140, 248, .5);
-
-    box-shadow:
-        0 20px 50px rgba(0, 0, 0, .35);
-
-}
-
-
-/* =========================================================
-   CARD RARITY
-   ========================================================= */
-
-.shop-rarity {
-
-    align-self: flex-start;
-
-    padding: 5px 9px;
-
-    border-radius: 6px;
-
-    background: rgba(255,255,255,.06);
-
-    font-family: monospace;
-
-    font-size: 11px;
-
-    font-weight: 900;
-
-    text-transform: uppercase;
-
-    letter-spacing: 1px;
-
-}
-
-
-.rarity-common .shop-rarity {
-    color: var(--common);
-}
-
-.rarity-rare .shop-rarity {
-    color: var(--rare);
-}
-
-.rarity-epic .shop-rarity {
-    color: var(--epic);
-}
-
-.rarity-mythic .shop-rarity {
-    color: var(--mythic);
-}
-
-.rarity-legendary .shop-rarity {
-    color: var(--legendary);
-}
-
-
-/* =========================================================
-   COSMETIC PREVIEW
-   ========================================================= */
-
-.cosmetic-preview {
-
-    position: relative;
-
-    height: 205px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    margin: 10px 0;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(99,102,241,.08),
-            rgba(56,189,248,.04)
-        );
-
-    border: 1px solid
-        rgba(255,255,255,.04);
+    border-radius: 20px;
 
     overflow: hidden;
 
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-
-/*
-   The cosmetic is deliberately floating on its own.
-*/
-
-.cosmetic-icon {
-
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    width: 105px;
-
-    height: 105px;
-
-    border-radius: 22px;
-
-    background:
-        rgba(255,255,255,.06);
-
-    border: 1px solid
-        rgba(255,255,255,.1);
-
-    font-size: 58px;
-
-    box-shadow:
-        0 15px 45px rgba(0,0,0,.3);
-
-    animation:
-        cosmeticFloat 3s ease-in-out infinite;
-
-}
-
-
-.cosmetic-glow {
+.shop-card::before {
+    content: "";
 
     position: absolute;
 
-    width: 130px;
+    top: 0;
+    left: 0;
+    right: 0;
 
-    height: 130px;
+    height: 3px;
 
-    border-radius: 50%;
+    background: #6366f1;
 
-    background:
-        rgba(99,102,241,.18);
-
-    filter: blur(35px);
-
+    opacity: 0.8;
 }
 
+.shop-card:hover {
+    transform: translateY(-7px);
 
-@keyframes cosmeticFloat {
+    border-color: #6366f1;
 
-    0%,
-    100% {
-
-        transform: translateY(0);
-
-    }
-
-    50% {
-
-        transform: translateY(-8px);
-
-    }
-
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.45),
+        0 0 25px rgba(99, 102, 241, 0.12);
 }
 
 
 /* =========================================================
-   RARITY PREVIEW EFFECTS
-   ========================================================= */
+   RARITY
+========================================================= */
 
-.rarity-common .cosmetic-glow {
-    background: rgba(148,163,184,.14);
+.rarity {
+    align-self: flex-start;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    background: #1e293b;
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: 950;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
 }
 
-.rarity-rare .cosmetic-glow {
-    background: rgba(56,189,248,.18);
+
+/* COMMON */
+
+.rarity-common::before {
+    background: #94a3b8;
 }
 
-.rarity-epic .cosmetic-glow {
-    background: rgba(167,139,250,.20);
+.rarity-common .rarity {
+    color: #cbd5e1;
 }
 
-.rarity-mythic .cosmetic-glow {
-    background: rgba(244,114,182,.20);
+
+/* RARE */
+
+.rarity-rare::before {
+    background: #3b82f6;
 }
 
-.rarity-legendary .cosmetic-glow {
-    background: rgba(251,191,36,.22);
+.rarity-rare .rarity {
+    color: #60a5fa;
+
+    background: rgba(59, 130, 246, 0.12);
+}
+
+
+/* EPIC */
+
+.rarity-epic::before {
+    background: #a855f7;
+}
+
+.rarity-epic .rarity {
+    color: #c084fc;
+
+    background: rgba(168, 85, 247, 0.12);
+}
+
+
+/* MYTHIC */
+
+.rarity-mythic::before {
+    background: #ec4899;
+}
+
+.rarity-mythic .rarity {
+    color: #f472b6;
+
+    background: rgba(236, 72, 153, 0.12);
+}
+
+
+/* LEGENDARY */
+
+.rarity-legendary::before {
+    background: #f59e0b;
+
+    box-shadow:
+        0 0 15px rgba(245, 158, 11, 0.7);
+}
+
+.rarity-legendary .rarity {
+    color: #fbbf24;
+
+    background: rgba(245, 158, 11, 0.12);
+}
+
+
+/* =========================================================
+   ITEM PREVIEW
+========================================================= */
+
+.item-preview {
+    width: 100%;
+    height: 220px;
+
+    margin: 15px 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(99, 102, 241, 0.12),
+            transparent 65%
+        );
+
+    border-radius: 16px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   GOOBER FALLBACK
+========================================================= */
+
+.shop-goober-fallback {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 115px;
+    height: 115px;
+
+    border-radius: 35%;
+
+    background: #6366f1;
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 950;
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(99, 102, 241, 0.25);
 }
 
 
 /* =========================================================
    ITEM TEXT
-   ========================================================= */
+========================================================= */
 
 .shop-card h3 {
+    margin: 3px 0 5px;
 
     font-size: 21px;
 
-    font-weight: 900;
+    font-weight: 950;
 
-    margin-top: 5px;
-
+    color: #f8fafc;
 }
 
+.item-type {
+    margin: 0;
 
-.shop-type {
+    color: #64748b;
 
-    color: var(--shop-muted);
+    font-size: 12px;
 
-    font-size: 13px;
+    font-weight: 800;
 
-    margin-top: 4px;
+    text-transform: uppercase;
 
+    letter-spacing: 1px;
 }
 
 
 /* =========================================================
-   PRICE / BUTTON
-   ========================================================= */
-
-.shop-card-bottom {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 12px;
-
-    margin-top: auto;
-
-    padding-top: 18px;
-
-}
-
+   PRICE
+========================================================= */
 
 .shop-price {
+    margin-top: 14px;
 
-    font-weight: 900;
+    color: #facc15;
 
-    font-size: 15px;
+    font-size: 17px;
 
-    color: #fbbf24;
-
+    font-weight: 950;
 }
 
 
-.shop-buy-button {
+/* =========================================================
+   BUY BUTTON
+========================================================= */
 
-    border: none;
+.buy-button {
+    width: 100%;
 
-    padding: 10px 20px;
+    margin-top: 16px;
 
-    border-radius: 9px;
+    padding: 13px 20px;
 
-    background: var(--shop-accent);
+    border: 1px solid #6366f1;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #4f46e5
+        );
 
     color: white;
 
-    font-weight: 900;
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 950;
+
+    letter-spacing: 1px;
 
     cursor: pointer;
 
-    transition:
-        transform .15s ease,
-        background .15s ease;
+    box-shadow:
+        0 5px 18px rgba(79, 70, 229, 0.25);
 
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
 }
 
-
-.shop-buy-button:hover {
-
+.buy-button:hover {
     transform: translateY(-2px);
 
-    background:
-        var(--shop-accent-bright);
+    filter: brightness(1.12);
 
+    box-shadow:
+        0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.buy-button:active {
+    transform: translateY(1px);
+
+    box-shadow:
+        0 3px 10px rgba(99, 102, 241, 0.25);
 }
 
 
-.shop-buy-button:disabled {
+/* =========================================================
+   OWNED BUTTON
+========================================================= */
+
+.buy-button.owned {
+    background: #172033;
+
+    border-color: #334155;
+
+    color: #64748b;
+
+    box-shadow: none;
 
     cursor: default;
+}
 
+.buy-button.owned:hover {
+    transform: none;
+
+    filter: none;
+
+    box-shadow: none;
 }
 
 
-.shop-buy-button.owned {
+/* =========================================================
+   BANNERS
+========================================================= */
 
+.banner-preview {
+    width: 80%;
+    height: 100px;
+
+    border-radius: 12px;
+
+    border: 1px solid #334155;
+
+    background: #1e293b;
+}
+
+.banner-sprintGrid {
     background:
-        #172033;
+        linear-gradient(
+            90deg,
+            transparent 49%,
+            rgba(255,255,255,.1) 50%,
+            transparent 51%
+        ),
+        linear-gradient(
+            transparent 49%,
+            rgba(255,255,255,.1) 50%,
+            transparent 51%
+        ),
+        #1e293b;
 
-    color:
-        #65728a;
+    background-size: 25px 25px;
+}
 
-    border:
-        1px solid var(--shop-border);
+.banner-purpleGrid {
+    background:
+        linear-gradient(
+            90deg,
+            transparent 49%,
+            rgba(168,85,247,.25) 50%,
+            transparent 51%
+        ),
+        linear-gradient(
+            transparent 49%,
+            rgba(168,85,247,.25) 50%,
+            transparent 51%
+        ),
+        #17132b;
 
+    background-size: 25px 25px;
+}
+
+.banner-neonBlue {
+    background:
+        linear-gradient(
+            135deg,
+            #172554,
+            #2563eb,
+            #06b6d4
+        );
+}
+
+.banner-galaxy {
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #c084fc,
+            transparent 15%
+        ),
+        radial-gradient(
+            circle at 70% 70%,
+            #6366f1,
+            transparent 20%
+        ),
+        #090b1c;
+}
+
+.banner-gold {
+    background:
+        linear-gradient(
+            135deg,
+            #78350f,
+            #f59e0b,
+            #fde68a,
+            #92400e
+        );
 }
 
 
 /* =========================================================
-   EMPTY STATE
-   ========================================================= */
+   TITLES
+========================================================= */
 
-.shop-empty {
+.title-preview {
+    padding: 15px 25px;
 
-    grid-column: 1 / -1;
+    border-radius: 12px;
 
-    padding: 80px 20px;
+    background: #111827;
 
-    text-align: center;
+    border: 1px solid #334155;
 
-    border: 1px dashed var(--shop-border);
+    color: #a5b4fc;
 
-    border-radius: 18px;
+    font-size: 18px;
 
-    color: var(--shop-muted);
-
+    font-weight: 950;
 }
 
 
 /* =========================================================
-   RESPONSIVE
-   ========================================================= */
+   MOBILE
+========================================================= */
 
-@media (max-width: 950px) {
+@media (max-width: 850px) {
 
     .shop-grid {
-
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
+            repeat(2, 1fr);
     }
 
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 550px) {
 
     .shop-header {
+        flex-direction: column;
 
-        padding: 18px 5%;
-
+        gap: 15px;
     }
-
-
-    .shop-container {
-
-        width: 92%;
-
-        padding-top: 35px;
-
-    }
-
 
     .shop-intro h2 {
-
         font-size: 32px;
-
     }
-
 
     .shop-grid {
-
         grid-template-columns: 1fr;
-
-    }
-
-
-    .shop-card {
-
-        min-height: 370px;
-
     }
 
 }
