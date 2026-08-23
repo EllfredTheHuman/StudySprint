@@ -1,7 +1,102 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Dark Tech / Modern UI
+   Completely rebuilt shop stylesheet
+   Dark / Tech / Modern
    ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(99, 102, 241, 0.18),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at top right,
+            rgba(56, 189, 248, 0.12),
+            transparent 30%
+        ),
+        #080b14;
+
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 6%;
+
+    background: rgba(8, 11, 20, 0.92);
+
+    border-bottom:
+        1px solid rgba(148, 163, 184, 0.15);
+
+    backdrop-filter: blur(18px);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+
+    color: #818cf8;
+
+    text-shadow:
+        0 0 20px rgba(129, 140, 248, 0.4);
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+nav a {
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 700;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+nav a:hover {
+    color: #a5b4fc;
+    transform: translateY(-2px);
+}
 
 
 /* =========================================================
@@ -9,40 +104,44 @@
    ========================================================= */
 
 .shop-page {
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.12), transparent 35%),
-        radial-gradient(circle at 80% 30%, rgba(59, 130, 246, 0.08), transparent 35%),
-        #080b12;
-    color: #f8fafc;
+    width: min(1400px, 92%);
+    margin: 0 auto;
+    padding: 50px 0 90px;
 }
 
 
 /* =========================================================
-   SHOP HEADER
+   SHOP HERO
    ========================================================= */
 
-.shop-header {
-    width: min(1400px, 92%);
-    margin: 0 auto;
-    padding: 50px 0 30px;
+.shop-hero {
     text-align: center;
+    padding: 35px 20px 45px;
 }
 
-.shop-header h1 {
-    margin: 0;
-    font-size: clamp(38px, 5vw, 64px);
-    font-weight: 900;
-    letter-spacing: -2px;
-    color: #ffffff;
+.shop-hero h1 {
+    font-size: clamp(42px, 7vw, 72px);
+    font-weight: 950;
+    letter-spacing: -3px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #a5b4fc,
+            #67e8f9
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    margin-bottom: 12px;
 }
 
-.shop-header p {
-    margin: 12px auto 0;
-    max-width: 650px;
+.shop-hero p {
     color: #94a3b8;
-    font-size: 17px;
-    line-height: 1.6;
+    font-size: 18px;
 }
 
 
@@ -50,43 +149,44 @@
    CURRENCY BAR
    ========================================================= */
 
-.shop-currency {
-    width: min(1100px, 92%);
-    margin: 20px auto 35px;
-
+.currency-bar {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    align-items: center;
+    gap: 14px;
+
+    margin: 0 auto 35px;
+
     flex-wrap: wrap;
 }
 
-.currency-display {
-    min-width: 170px;
-
+.currency,
+.coin-display,
+.ticket-display {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    gap: 9px;
 
-    padding: 14px 22px;
+    padding: 11px 18px;
 
-    background: #101621;
-    border: 1px solid #1e293b;
     border-radius: 14px;
 
+    background:
+        rgba(15, 23, 42, 0.85);
+
+    border:
+        1px solid rgba(148, 163, 184, 0.18);
+
     box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.25),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03);
-}
+        0 8px 30px rgba(0, 0, 0, 0.25);
 
-.currency-icon {
-    font-size: 22px;
-}
-
-.currency-display span:last-child {
-    font-size: 18px;
     font-weight: 800;
-    color: #ffffff;
+}
+
+#coin-count,
+#ticket-count {
+    color: #f8fafc;
+    font-size: 18px;
 }
 
 
@@ -95,48 +195,69 @@
    ========================================================= */
 
 .shop-tabs {
-    width: min(1100px, 92%);
-    margin: 0 auto 35px;
-
     display: flex;
     justify-content: center;
     gap: 10px;
+
+    margin-bottom: 35px;
+
     flex-wrap: wrap;
 }
 
-.shop-tab {
-    padding: 12px 24px;
+.shop-tab,
+.shop-tabs button,
+#main-shop-button,
+#hat-shop-button {
+    border: 1px solid rgba(148, 163, 184, 0.2);
 
-    background: #0d131d;
+    background: #111827;
     color: #94a3b8;
 
-    border: 1px solid #1e293b;
-    border-radius: 10px;
+    padding: 13px 24px;
 
-    font-size: 14px;
+    border-radius: 13px;
+
+    font-size: 15px;
     font-weight: 800;
 
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+        .2s ease;
 }
 
-.shop-tab:hover {
+.shop-tab:hover,
+.shop-tabs button:hover,
+#main-shop-button:hover,
+#hat-shop-button:hover {
+    color: white;
+
+    border-color:
+        rgba(129, 140, 248, 0.6);
+
+    background:
+        #172033;
+
     transform: translateY(-2px);
-    color: #ffffff;
-    border-color: #334155;
 }
 
-.shop-tab.active {
-    background: #151d2b;
-    color: #ffffff;
-    border-color: #6366f1;
+.shop-tab.active,
+.shop-tabs button.active,
+#main-shop-button.active,
+#hat-shop-button.active {
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #4f46e5
+        );
+
+    border-color: #818cf8;
+
     box-shadow:
-        0 0 18px rgba(99, 102, 241, 0.2);
+        0 0 25px rgba(99, 102, 241, 0.3);
 }
 
 
@@ -145,60 +266,27 @@
    ========================================================= */
 
 #fortnightly-shop,
-#hat-shop {
-    width: min(1400px, 92%);
-    margin: 0 auto 60px;
+#hat-shop,
+#studypass {
+    width: 100%;
 }
 
-#hat-shop {
-    display: none;
-}
+#fortnightly-shop h2,
+#hat-shop h2,
+#studypass h2 {
+    text-align: center;
 
-
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
-
-.shop-section-title {
-    margin-bottom: 25px;
-}
-
-.shop-section-title h2 {
-    margin: 0;
     font-size: 30px;
     font-weight: 900;
-    color: #ffffff;
+
+    margin-bottom: 10px;
 }
 
-.shop-section-title p {
-    margin-top: 7px;
+.shop-subtitle {
+    text-align: center;
     color: #64748b;
-}
 
-
-/* =========================================================
-   COUNTDOWN
-   ========================================================= */
-
-.shop-countdown {
-    width: fit-content;
-    margin: 0 auto 35px;
-
-    padding: 10px 18px;
-
-    background: #0d131d;
-    border: 1px solid #1e293b;
-    border-radius: 10px;
-
-    color: #94a3b8;
-
-    font-size: 13px;
-    font-weight: 700;
-}
-
-#countdown {
-    color: #818cf8;
-    font-variant-numeric: tabular-nums;
+    margin-bottom: 30px;
 }
 
 
@@ -212,9 +300,14 @@
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fit, minmax(220px, 1fr));
+        repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+        );
 
     gap: 20px;
+
+    width: 100%;
 }
 
 
@@ -233,27 +326,29 @@
     flex-direction: column;
     align-items: center;
 
-    padding: 22px;
+    padding: 20px;
+
+    overflow: hidden;
+
+    border-radius: 22px;
 
     background:
         linear-gradient(
             145deg,
-            #111827,
-            #0b1018
+            rgba(24, 32, 52, 0.96),
+            rgba(12, 17, 30, 0.98)
         );
 
-    border: 1px solid #1e293b;
-    border-radius: 16px;
-
-    overflow: hidden;
+    border:
+        1px solid rgba(148, 163, 184, 0.16);
 
     box-shadow:
         0 15px 40px rgba(0, 0, 0, 0.3);
 
     transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
 }
 
 .shop-card::before,
@@ -262,27 +357,35 @@
     content: "";
 
     position: absolute;
-    inset: 0;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(255,255,255,0.035),
-            transparent 45%
+            90deg,
+            transparent,
+            currentColor,
+            transparent
         );
 
-    pointer-events: none;
+    opacity: .8;
 }
 
 .shop-card:hover,
 .hat-card:hover,
 .studypass-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-7px);
 
-    border-color: #334155;
+    border-color:
+        rgba(129, 140, 248, 0.45);
 
     box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.4);
+        0 25px 55px rgba(0, 0, 0, 0.45),
+        0 0 25px rgba(99, 102, 241, 0.08);
 }
 
 
@@ -291,32 +394,30 @@
    ========================================================= */
 
 .rarity {
-    position: relative;
-    z-index: 2;
-
     align-self: flex-start;
 
-    padding: 5px 9px;
+    padding: 5px 10px;
 
-    border-radius: 6px;
+    border-radius: 8px;
 
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
 
-    background: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    background: rgba(255,255,255,.06);
+
     color: #cbd5e1;
+
+    border:
+        1px solid rgba(255,255,255,.1);
 }
 
 
 /* COMMON */
 
 .rarity-common {
-    border-top: 2px solid #94a3b8;
-}
-
-.rarity-common .rarity {
     color: #cbd5e1;
 }
 
@@ -324,48 +425,48 @@
 /* RARE */
 
 .rarity-rare {
-    border-top: 2px solid #3b82f6;
+    color: #60a5fa;
 }
 
-.rarity-rare .rarity {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
+.shop-card.rarity-rare {
+    border-color:
+        rgba(96,165,250,.25);
 }
 
 
 /* EPIC */
 
 .rarity-epic {
-    border-top: 2px solid #a855f7;
+    color: #c084fc;
 }
 
-.rarity-epic .rarity {
-    background: rgba(168, 85, 247, 0.15);
-    color: #c084fc;
+.shop-card.rarity-epic {
+    border-color:
+        rgba(192,132,252,.28);
 }
 
 
 /* MYTHIC */
 
 .rarity-mythic {
-    border-top: 2px solid #ec4899;
+    color: #f472b6;
 }
 
-.rarity-mythic .rarity {
-    background: rgba(236, 72, 153, 0.15);
-    color: #f472b6;
+.shop-card.rarity-mythic {
+    border-color:
+        rgba(244,114,182,.28);
 }
 
 
 /* LEGENDARY */
 
 .rarity-legendary {
-    border-top: 2px solid #f59e0b;
+    color: #fbbf24;
 }
 
-.rarity-legendary .rarity {
-    background: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
+.shop-card.rarity-legendary {
+    border-color:
+        rgba(251,191,36,.3);
 }
 
 
@@ -375,78 +476,363 @@
 
 .item-preview {
     width: 100%;
-    height: 190px;
+    height: 205px;
 
-    margin: 12px 0;
+    margin: 10px 0 15px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
+    border-radius: 16px;
+
     background:
         radial-gradient(
             circle,
-            rgba(99, 102, 241, 0.08),
+            rgba(99,102,241,.12),
             transparent 65%
         );
 
-    border: 1px solid #172033;
-    border-radius: 12px;
+    border:
+        1px solid rgba(148,163,184,.08);
 
     overflow: hidden;
 }
 
 
 /* =========================================================
+   GOOBER BASE
+   ========================================================= */
+
+/*
    IMPORTANT:
-   GOOBER STYLING
-   =========================================================
+   These rules only provide the BASE positioning.
+   The individual Goober designs still come from
+   the classes created by shop.js.
+*/
 
-   We deliberately DO NOT style:
+.goober {
+    position: relative;
 
-   .goober
-   .goober-body
-   .goober-face
-   .goober-eye
-   .goober-mouth
-   .goober-foot
-   .goober-part
+    width: 130px;
+    height: 150px;
 
-   Those belong to the character renderer.
+    flex-shrink: 0;
 
-   This prevents shop.css from changing
-   how the Goobers themselves look.
-   */
+    transform-origin: center bottom;
+
+    transition:
+        transform .25s ease;
+}
+
+.shop-card:hover .goober {
+    transform:
+        translateY(-5px)
+        scale(1.04);
+}
+
+.goober-body {
+    position: absolute;
+
+    left: 50%;
+    top: 30px;
+
+    transform: translateX(-50%);
+
+    width: 105px;
+    height: 105px;
+
+    border-radius: 42% 42% 45% 45%;
+
+    background: #6366f1;
+
+    border:
+        3px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.35);
+}
+
+.goober-face {
+    position: absolute;
+
+    left: 50%;
+    top: 55px;
+
+    transform: translateX(-50%);
+
+    width: 80px;
+    height: 65px;
+
+    z-index: 5;
+}
+
+.goober-eye {
+    position: absolute;
+
+    width: 13px;
+    height: 17px;
+
+    border-radius: 50%;
+
+    background: #0f172a;
+
+    border:
+        2px solid rgba(255,255,255,.3);
+}
+
+.eye-left {
+    left: 18px;
+    top: 12px;
+}
+
+.eye-right {
+    right: 18px;
+    top: 12px;
+}
+
+.goober-mouth {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8px;
+
+    transform: translateX(-50%);
+
+    width: 27px;
+    height: 12px;
+
+    border-bottom:
+        4px solid #0f172a;
+
+    border-radius: 0 0 20px 20px;
+}
+
+.goober-feet {
+    position: absolute;
+
+    bottom: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 100px;
+
+    display: flex;
+    justify-content: space-between;
+
+    z-index: 1;
+}
+
+.goober-foot {
+    width: 32px;
+    height: 17px;
+
+    border-radius: 50%;
+
+    background: #f59e0b;
+}
 
 
 /* =========================================================
-   ITEM INFORMATION
+   SIMPLE GOOBER COLOURS
+   ========================================================= */
+
+.goober-body.green {
+    background: #4ade80;
+}
+
+.goober-body.blue {
+    background: #60a5fa;
+}
+
+.goober-body.stone {
+    background: #94a3b8;
+}
+
+.goober-body.pink {
+    background: #f472b6;
+}
+
+.goober-body.purple {
+    background: #a78bfa;
+}
+
+.goober-body.mint {
+    background: #5eead4;
+}
+
+.goober-body.yellow {
+    background: #facc15;
+}
+
+.goober-body.coral {
+    background: #fb7185;
+}
+
+.goober-body.lavender {
+    background: #c4b5fd;
+}
+
+.goober-body.red {
+    background: #f87171;
+}
+
+.goober-body.cyan {
+    background: #22d3ee;
+}
+
+.goober-body.aqua {
+    background: #67e8f9;
+}
+
+.goober-body.violet {
+    background: #8b5cf6;
+}
+
+.goober-body.hotpink {
+    background: #ec4899;
+}
+
+.goober-body.gold {
+    background: #fbbf24;
+}
+
+.goober-body.peach {
+    background: #fdba74;
+}
+
+.goober-body.orange {
+    background: #fb923c;
+}
+
+.goober-body.deep-purple {
+    background: #6d28d9;
+}
+
+.goober-body.golden {
+    background:
+        linear-gradient(
+            135deg,
+            #fde68a,
+            #f59e0b
+        );
+}
+
+.goober-body.galaxy-body {
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            #818cf8,
+            #312e81 45%,
+            #111827
+        );
+}
+
+.goober-body.study-green {
+    background: #22c55e;
+}
+
+.goober-body.study-purple {
+    background: #8b5cf6;
+}
+
+
+/* =========================================================
+   GOOBER PARTS
+   ========================================================= */
+
+.goober-part {
+    position: absolute;
+    z-index: 6;
+}
+
+
+/* Keep decorative parts visible without destroying
+   the existing Goober designs. */
+
+.leafy-leaf,
+.leafy-stem,
+.squish-cheek-left,
+.squish-cheek-right,
+.pebble-mark-one,
+.pebble-mark-two,
+.pebble-mark-three,
+.button-top,
+.button-dot-left,
+.button-dot-right,
+.horn-left,
+.horn-right,
+.shell-highlight,
+.tallboi-hat,
+.four-eyes-brow,
+.moth-wing-left,
+.moth-wing-right,
+.moth-antenna-left,
+.moth-antenna-right,
+.spike-one,
+.spike-two,
+.spike-three,
+.spike-four,
+.orbit-ring,
+.orbit-dot,
+.bubble-small-one,
+.bubble-small-two,
+.bubble-shine,
+.captain-cape,
+.captain-badge,
+.captain-hat,
+.tailspin-tail,
+.tailspin-tip,
+.holy-halo,
+.holy-rays,
+.wingnut-left,
+.wingnut-right,
+.wingnut-nut,
+.cosmo-stars,
+.cosmo-moon,
+.goober-big-smile,
+.goober-tuft,
+.goober-star,
+.golden-shine,
+.golden-crown,
+.galaxy-stars,
+.galaxy-ring,
+.galaxy-glow,
+.study-book,
+.study-leaf-left,
+.study-leaf-right,
+.study-orbit-ring,
+.study-star {
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ITEM TEXT
    ========================================================= */
 
 .shop-card h3,
 .hat-card h3,
 .studypass-card h3 {
-    position: relative;
-    z-index: 2;
+    color: #f8fafc;
 
-    margin: 5px 0;
-
-    color: #ffffff;
-
-    font-size: 19px;
+    font-size: 21px;
     font-weight: 900;
+
     text-align: center;
+
+    margin-bottom: 6px;
 }
 
 .item-type {
-    margin: 2px 0 10px;
-
     color: #64748b;
 
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
+
     text-transform: uppercase;
-    letter-spacing: 0.7px;
+    letter-spacing: .8px;
 }
 
 
@@ -456,16 +842,13 @@
 
 .shop-price,
 .hat-price {
-    margin: auto 0 14px;
+    margin-top: auto;
+    margin-bottom: 12px;
 
-    color: #f8fafc;
-
-    font-size: 16px;
-    font-weight: 900;
-}
-
-.shop-price::first-letter {
     color: #fbbf24;
+
+    font-size: 17px;
+    font-weight: 900;
 }
 
 
@@ -476,43 +859,88 @@
 .buy-button {
     width: 100%;
 
-    padding: 12px 18px;
+    border: none;
 
-    border: 1px solid #334155;
-    border-radius: 9px;
+    padding: 13px 18px;
 
-    background: #161f2d;
-    color: #ffffff;
+    border-radius: 12px;
 
-    font-size: 13px;
+    background:
+        linear-gradient(
+            135deg,
+            #6366f1,
+            #4f46e5
+        );
+
+    color: white;
+
+    font-size: 14px;
     font-weight: 900;
-    letter-spacing: 0.5px;
 
     cursor: pointer;
 
+    box-shadow:
+        0 8px 20px rgba(79,70,229,.25);
+
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.2s ease;
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
 }
 
-.buy-button:hover:not(:disabled) {
+.buy-button:hover {
     transform: translateY(-2px);
 
-    background: #1d2939;
-    border-color: #6366f1;
+    box-shadow:
+        0 12px 25px rgba(79,70,229,.4);
 }
 
-.buy-button:active:not(:disabled) {
+.buy-button:active {
     transform: translateY(1px);
 }
 
-.buy-button.owned,
-.buy-button:disabled {
-    background: #0f1720;
-    color: #475569;
-    border-color: #1e293b;
+.buy-button.owned {
+    background: #1e293b;
+
+    color: #64748b;
+
+    border:
+        1px solid rgba(148,163,184,.15);
+
+    box-shadow: none;
+
     cursor: default;
+}
+
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+
+.countdown-container {
+    text-align: center;
+
+    margin: 20px auto 35px;
+}
+
+.countdown-container p {
+    color: #64748b;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+
+    margin-bottom: 7px;
+}
+
+#countdown {
+    color: #a5b4fc;
+
+    font-size: 22px;
+    font-weight: 900;
+
+    font-variant-numeric: tabular-nums;
 }
 
 
@@ -522,68 +950,45 @@
 
 .hat-item-preview {
     width: 100%;
-    height: 230px;
+    height: 220px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    margin: 12px 0;
+    margin: 10px 0 15px;
+
+    border-radius: 16px;
 
     background:
         radial-gradient(
             circle,
-            rgba(168, 85, 247, 0.08),
+            rgba(251,191,36,.1),
             transparent 65%
         );
-
-    border: 1px solid #172033;
-    border-radius: 12px;
 
     overflow: hidden;
 }
 
-.hat-card {
-    min-height: 430px;
-}
-
-.hat-card p {
-    color: #64748b;
-    font-size: 13px;
-    line-height: 1.5;
-    text-align: center;
-    margin: 5px 0 15px;
-}
-
-
-/* =========================================================
-   HAT PREVIEW CONTAINER
-
-   Do NOT style the Goober itself here.
-   ========================================================= */
-
 .hat-preview {
     position: relative;
 
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 170px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
-/* =========================================================
-   HAT ITEM
-
-   The actual hat-specific appearance can be
-   added here without touching the Goober.
-   ========================================================= */
+.hat-preview .goober {
+    transform: scale(.9);
+}
 
 .hat-item {
     position: absolute;
-    z-index: 10;
+
+    z-index: 20;
 
     pointer-events: none;
 }
@@ -591,32 +996,50 @@
 
 /* Crown */
 
-.hat-crown {
-    width: 75px;
-    height: 55px;
+.hat-crown,
+.hat-item.hat-crown {
+    width: 70px;
+    height: 45px;
 
-    top: 18px;
+    top: 8px;
+    left: 50%;
 
-    background: linear-gradient(
-        135deg,
-        #fbbf24,
-        #f59e0b
-    );
+    transform: translateX(-50%);
 
-    clip-path: polygon(
-        0 100%,
-        8% 20%,
-        30% 55%,
-        50% 0,
-        70% 55%,
-        92% 20%,
-        100% 100%
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #fde68a,
+            #f59e0b
+        );
+
+    clip-path:
+        polygon(
+            0 100%,
+            8% 20%,
+            30% 55%,
+            50% 5%,
+            70% 55%,
+            92% 20%,
+            100% 100%
+        );
 
     filter:
         drop-shadow(
-            0 0 10px rgba(245, 158, 11, 0.5)
+            0 0 10px
+            rgba(251,191,36,.6)
         );
+}
+
+.hat-card p {
+    color: #64748b;
+
+    font-size: 13px;
+    line-height: 1.5;
+
+    text-align: center;
+
+    margin-bottom: 12px;
 }
 
 
@@ -625,60 +1048,58 @@
    ========================================================= */
 
 .banner-preview {
-    width: 150px;
-    height: 100px;
+    width: 180px;
+    height: 110px;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
-    border: 1px solid #334155;
+    border:
+        1px solid rgba(255,255,255,.15);
 
-    background: #111827;
+    background: #1e293b;
 
     box-shadow:
-        inset 0 0 30px rgba(255,255,255,0.03);
+        inset 0 0 25px rgba(0,0,0,.25);
 }
-
-
-/* Banner designs */
 
 .banner-sprintGrid {
     background:
         linear-gradient(
-            rgba(99,102,241,.15) 1px,
+            90deg,
+            rgba(129,140,248,.2) 1px,
             transparent 1px
         ),
         linear-gradient(
-            90deg,
-            rgba(99,102,241,.15) 1px,
+            rgba(129,140,248,.2) 1px,
             transparent 1px
         ),
-        #0b1018;
+        #111827;
 
-    background-size: 20px 20px;
+    background-size: 22px 22px;
 }
 
 .banner-purpleGrid {
     background:
         linear-gradient(
-            rgba(168,85,247,.2) 1px,
+            90deg,
+            rgba(168,85,247,.35) 1px,
             transparent 1px
         ),
         linear-gradient(
-            90deg,
-            rgba(168,85,247,.2) 1px,
+            rgba(168,85,247,.35) 1px,
             transparent 1px
         ),
-        #0b1018;
+        #1e1b4b;
 
     background-size: 20px 20px;
 }
 
 .banner-neonBlue {
     background:
-        radial-gradient(
-            circle at center,
-            rgba(59,130,246,.35),
-            #0b1018 70%
+        linear-gradient(
+            135deg,
+            #0c4a6e,
+            #2563eb
         );
 }
 
@@ -686,46 +1107,42 @@
     background:
         radial-gradient(
             circle at 30% 30%,
-            #6366f1,
-            transparent 20%
-        ),
-        radial-gradient(
-            circle at 70% 70%,
-            #a855f7,
-            transparent 20%
-        ),
-        #080b18;
+            #818cf8,
+            #312e81,
+            #020617
+        );
 }
 
 .banner-gold {
     background:
         linear-gradient(
             135deg,
+            #713f12,
             #f59e0b,
-            #78350f
+            #fde68a
         );
 }
 
 
 /* =========================================================
-   PLAYER TITLES
+   TITLE PREVIEW
    ========================================================= */
 
 .title-preview {
-    padding: 18px 24px;
+    padding: 15px 20px;
 
-    border: 1px solid #334155;
-    border-radius: 10px;
+    border-radius: 12px;
 
-    background: #0b1018;
+    background: #111827;
 
-    color: #c7d2fe;
+    border:
+        1px solid rgba(129,140,248,.25);
+
+    color: #a5b4fc;
 
     font-weight: 900;
-    font-size: 18px;
 
-    box-shadow:
-        0 0 25px rgba(99,102,241,.08);
+    text-align: center;
 }
 
 
@@ -733,61 +1150,38 @@
    STUDYPASS
    ========================================================= */
 
-#studypass-items {
-    width: min(900px, 92%);
-    margin: 0 auto 60px;
-}
-
 .studypass-card {
-    min-height: 400px;
+    border-color:
+        rgba(168,85,247,.35);
 
-    border-color: #7c3aed;
-
-    box-shadow:
-        0 0 30px rgba(124, 58, 237, 0.12);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(49, 25, 78, .95),
+            rgba(15, 12, 30, .98)
+        );
 }
 
 .pass-badge {
     align-self: flex-start;
 
-    padding: 5px 9px;
+    padding: 6px 10px;
 
-    border-radius: 6px;
+    border-radius: 8px;
 
-    background: rgba(124,58,237,.15);
-    color: #c084fc;
+    background:
+        linear-gradient(
+            135deg,
+            #9333ea,
+            #6366f1
+        );
+
+    color: white;
 
     font-size: 10px;
     font-weight: 900;
+
     letter-spacing: 1px;
-}
-
-.studypass-preview {
-    width: 100%;
-    height: 200px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 15px 0;
-
-    border: 1px solid #312e81;
-    border-radius: 12px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(124,58,237,.15),
-            transparent 65%
-        );
-
-    overflow: hidden;
-}
-
-.studypass-card p {
-    color: #64748b;
-    font-size: 13px;
 }
 
 
@@ -801,25 +1195,34 @@
     right: 20px;
     bottom: 20px;
 
-    z-index: 100;
+    z-index: 200;
 
-    width: 45px;
-    height: 45px;
+    width: 48px;
+    height: 48px;
 
-    border: 1px solid #334155;
-    border-radius: 10px;
+    border-radius: 14px;
 
-    background: #0f1720;
+    border:
+        1px solid rgba(148,163,184,.2);
+
+    background: #111827;
+
     color: #94a3b8;
 
     cursor: pointer;
 
-    transition: .2s;
+    font-size: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4);
 }
 
 #debug-open:hover {
-    color: #ffffff;
-    border-color: #6366f1;
+    color: white;
+
+    border-color:
+        #6366f1;
+
     transform: translateY(-2px);
 }
 
@@ -831,9 +1234,10 @@
 .debug-overlay,
 .debug-item-overlay {
     position: fixed;
+
     inset: 0;
 
-    z-index: 1000;
+    z-index: 500;
 
     display: flex;
     justify-content: center;
@@ -841,72 +1245,71 @@
 
     padding: 20px;
 
-    background: rgba(2, 6, 12, 0.82);
+    background:
+        rgba(2,6,23,.82);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(10px);
 }
-
-
-/* =========================================================
-   DEBUG BOX
-   ========================================================= */
 
 .debug-box,
 .debug-item-box {
-    width: min(650px, 100%);
+    width: min(600px, 95vw);
     max-height: 90vh;
 
     overflow-y: auto;
 
     padding: 30px;
 
-    background: #0d131d;
+    border-radius: 22px;
 
-    border: 1px solid #263244;
-    border-radius: 16px;
+    background:
+        #0f172a;
+
+    border:
+        1px solid rgba(129,140,248,.35);
 
     box-shadow:
         0 30px 80px rgba(0,0,0,.6);
-
-    color: #ffffff;
 }
 
 .debug-box h2,
 .debug-item-box h2 {
     margin-bottom: 10px;
-    font-size: 25px;
+
+    color: #a5b4fc;
+
+    font-size: 26px;
 }
 
 .debug-box p,
 .debug-item-box p {
     color: #64748b;
+
     margin-bottom: 20px;
 }
 
-
-/* =========================================================
-   DEBUG CONTROLS
-   ========================================================= */
-
-#debug-type,
-#debug-value {
+.debug-box select,
+.debug-box input {
     width: 100%;
 
-    padding: 12px;
+    padding: 13px;
 
     margin-bottom: 12px;
 
-    border: 1px solid #263244;
-    border-radius: 8px;
+    border-radius: 10px;
 
-    background: #080d14;
-    color: #ffffff;
+    border:
+        1px solid rgba(148,163,184,.2);
+
+    background: #020617;
+
+    color: white;
 
     outline: none;
 }
 
-#debug-type:focus,
-#debug-value:focus {
+.debug-box select:focus,
+.debug-box input:focus {
     border-color: #6366f1;
 }
 
@@ -914,26 +1317,24 @@
 .debug-close {
     padding: 11px 18px;
 
-    border-radius: 8px;
+    border-radius: 10px;
+
+    border: none;
 
     font-weight: 900;
 
     cursor: pointer;
+
+    margin-right: 8px;
 }
 
 .debug-apply {
-    border: 1px solid #6366f1;
-
-    background: #4f46e5;
-    color: #ffffff;
+    background: #6366f1;
+    color: white;
 }
 
 .debug-close {
-    margin-left: 8px;
-
-    border: 1px solid #334155;
-
-    background: #111827;
+    background: #1e293b;
     color: #94a3b8;
 }
 
@@ -946,7 +1347,10 @@
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(150px, 1fr));
+        repeat(
+            auto-fill,
+            minmax(130px, 1fr)
+        );
 
     gap: 12px;
 
@@ -954,45 +1358,72 @@
 }
 
 .debug-item-card {
-    padding: 14px;
+    padding: 12px;
 
-    background: #080d14;
+    border-radius: 13px;
 
-    border: 1px solid #1e293b;
-    border-radius: 10px;
+    background: #111827;
+
+    border:
+        1px solid rgba(148,163,184,.12);
 
     text-align: center;
 }
 
 .debug-item-preview {
-    height: 130px;
+    height: 110px;
 
     display: flex;
+
     justify-content: center;
     align-items: center;
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 
     overflow: hidden;
+}
+
+.debug-item-preview .goober {
+    transform: scale(.7);
 }
 
 .debug-item-card strong {
     display: block;
 
-    color: #ffffff;
+    color: white;
 
     font-size: 13px;
+
+    margin-bottom: 4px;
 }
 
 .debug-item-card span {
-    display: block;
-
-    margin-top: 4px;
-
     color: #64748b;
 
     font-size: 11px;
-    font-weight: 800;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #080b14;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
 }
 
 
@@ -1000,54 +1431,70 @@
    MOBILE
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    .shop-header {
-        padding-top: 35px;
+    header {
+        flex-direction: column;
+        gap: 15px;
     }
 
-    .shop-header h1 {
-        letter-spacing: -1px;
+    nav {
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .shop-page {
+        width: 94%;
+        padding-top: 25px;
+    }
+
+    .shop-hero h1 {
+        letter-spacing: -2px;
     }
 
     #fortnightly-items,
-    #hat-items {
-        grid-template-columns: 1fr;
+    #hat-items,
+    #studypass-items {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
     }
 
     .shop-card,
-    .hat-card {
-        width: 100%;
-    }
-
-    .currency-display {
-        min-width: 140px;
-    }
-
-    .shop-tabs {
-        width: 95%;
-    }
-
-    .shop-tab {
-        flex: 1;
-        min-width: 120px;
+    .hat-card,
+    .studypass-card {
+        min-height: 360px;
     }
 
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+@media (max-width: 500px) {
 
-@media (prefers-reduced-motion: reduce) {
+    #fortnightly-items,
+    #hat-items,
+    #studypass-items {
+        grid-template-columns: 1fr;
+    }
 
     .shop-card,
     .hat-card,
-    .studypass-card,
-    .shop-tab,
-    .buy-button {
-        transition: none;
+    .studypass-card {
+        min-height: 390px;
+    }
+
+    .currency-bar {
+        flex-direction: column;
+    }
+
+    .currency,
+    .coin-display,
+    .ticket-display {
+        width: 100%;
+        justify-content: center;
     }
 
 }
