@@ -1,417 +1,324 @@
+```javascript
 /* =========================================================
    STUDYSPRINT SHOP
-   COMPLETE REBUILD
-
-   System:
-   - Base avatar
-   - Hair
-   - Eyes
-   - Face
-   - Outfit
-   - Hat
-   - Accessories
-   - Banners
-   - Titles
-   - Coins
-   - Ownership
-   - Equipped cosmetics
-   - Rotating featured shop
-   - Debug tools
-
-   No Goobers.
-   No StudyPass.
-   No Shop Tickets.
-========================================================= */
+   Custom Avatar Cosmetic Shop
+   ========================================================= */
 
 
 /* =========================================================
    SHOP SETTINGS
-========================================================= */
+   ========================================================= */
 
 const SHOP_SLOTS = 6;
 
 const SHOP_INTERVAL =
-    7 * 24 * 60 * 60 * 1000;
+    14 * 24 * 60 * 60 * 1000;
 
 
-/*
-   Rotation anchor:
-   Sunday 10 August 2025
-   12:00 AM AEST
-*/
-
+/* Sunday 10 August 2025, 12:00 AM AEST */
 const SHOP_ANCHOR =
-    Date.UTC(
-        2025,
-        7,
-        9,
-        14,
-        0,
-        0
-    );
+    Date.UTC(2025, 7, 9, 14, 0, 0);
 
 
 /* =========================================================
    RARITIES
-========================================================= */
+   ========================================================= */
 
-const RARITIES = {
-
-    Common: {
-        weight: 45
+const RARITIES = [
+    {
+        name: "Common",
+        weight: 40
     },
-
-    Rare: {
+    {
+        name: "Rare",
         weight: 30
     },
-
-    Epic: {
-        weight: 17
+    {
+        name: "Epic",
+        weight: 18
     },
-
-    Mythic: {
-        weight: 6
+    {
+        name: "Mythic",
+        weight: 9
     },
-
-    Legendary: {
-        weight: 2
+    {
+        name: "Legendary",
+        weight: 3
     }
-
-};
+];
 
 
 /* =========================================================
-   COSMETICS
-========================================================= */
+   SHOP ITEMS
+   =========================================================
+   
+   IMPORTANT:
+   Hair, eyes and mouths are NOT shop items.
+   
+   These are always available as avatar customisation.
+   ========================================================= */
 
-const COSMETICS = [
+const SHOP_ITEMS = [
 
-    /* =====================================================
-       HAIR
-    ===================================================== */
+    /* -------------------------
+       HATS
+       ------------------------- */
 
     {
-        id: "messy-hair",
-        name: "Messy Hair",
-        category: "Hair",
+        id: "cap",
+        name: "Tech Cap",
+        type: "Hat",
         rarity: "Common",
         price: 150,
-        design: "messy"
+        icon: "🧢"
     },
 
     {
-        id: "spiky-hair",
-        name: "Spiky Hair",
-        category: "Hair",
+        id: "beanie",
+        name: "Pixel Beanie",
+        type: "Hat",
+        rarity: "Common",
+        price: 175,
+        icon: "🧶"
+    },
+
+    {
+        id: "visor",
+        name: "Neon Visor",
+        type: "Hat",
         rarity: "Rare",
         price: 300,
-        design: "spiky"
+        icon: "▱"
     },
 
     {
-        id: "fluffy-hair",
-        name: "Fluffy Hair",
-        category: "Hair",
+        id: "wizard",
+        name: "Study Wizard",
+        type: "Hat",
         rarity: "Epic",
         price: 500,
-        design: "fluffy"
+        icon: "♢"
     },
 
     {
-        id: "galaxy-hair",
-        name: "Galaxy Hair",
-        category: "Hair",
+        id: "crown",
+        name: "Champion Crown",
+        type: "Hat",
         rarity: "Legendary",
-        price: 1000,
-        design: "galaxy"
+        price: 900,
+        icon: "♛"
     },
 
 
-    /* =====================================================
-       EYES
-    ===================================================== */
+    /* -------------------------
+       ACCESSORIES
+       ------------------------- */
 
     {
-        id: "round-eyes",
-        name: "Round Eyes",
-        category: "Eyes",
-        rarity: "Common",
-        price: 100,
-        design: "round"
-    },
-
-    {
-        id: "sleepy-eyes",
-        name: "Sleepy Eyes",
-        category: "Eyes",
-        rarity: "Rare",
-        price: 250,
-        design: "sleepy"
-    },
-
-    {
-        id: "cool-eyes",
-        name: "Cool Eyes",
-        category: "Eyes",
-        rarity: "Epic",
-        price: 450,
-        design: "cool"
-    },
-
-
-    /* =====================================================
-       FACE
-    ===================================================== */
-
-    {
-        id: "happy-face",
-        name: "Happy",
-        category: "Face",
-        rarity: "Common",
-        price: 100,
-        design: "happy"
-    },
-
-    {
-        id: "silly-face",
-        name: "Silly",
-        category: "Face",
-        rarity: "Rare",
-        price: 250,
-        design: "silly"
-    },
-
-    {
-        id: "deadpan-face",
-        name: "Deadpan",
-        category: "Face",
-        rarity: "Epic",
-        price: 450,
-        design: "deadpan"
-    },
-
-
-    /* =====================================================
-       OUTFITS
-    ===================================================== */
-
-    {
-        id: "blue-shirt",
-        name: "Blue Shirt",
-        category: "Outfit",
+        id: "headphones",
+        name: "Headphones",
+        type: "Accessory",
         rarity: "Common",
         price: 200,
-        design: "blue"
+        icon: "◉"
     },
-
-    {
-        id: "red-shirt",
-        name: "Red Shirt",
-        category: "Outfit",
-        rarity: "Rare",
-        price: 300,
-        design: "red"
-    },
-
-    {
-        id: "tech-jacket",
-        name: "Tech Jacket",
-        category: "Outfit",
-        rarity: "Epic",
-        price: 600,
-        design: "tech"
-    },
-
-    {
-        id: "space-suit",
-        name: "Space Suit",
-        category: "Outfit",
-        rarity: "Legendary",
-        price: 1000,
-        design: "space"
-    },
-
-
-    /* =====================================================
-       HATS
-    ===================================================== */
-
-    {
-        id: "party-hat",
-        name: "Party Hat",
-        category: "Hat",
-        rarity: "Rare",
-        price: 350,
-        design: "party"
-    },
-
-    {
-        id: "wizard-hat",
-        name: "Wizard Hat",
-        category: "Hat",
-        rarity: "Epic",
-        price: 600,
-        design: "wizard"
-    },
-
-    {
-        id: "space-helmet",
-        name: "Space Helmet",
-        category: "Hat",
-        rarity: "Mythic",
-        price: 800,
-        design: "space"
-    },
-
-
-    /* =====================================================
-       ACCESSORIES
-    ===================================================== */
 
     {
         id: "glasses",
-        name: "Glasses",
-        category: "Accessory",
-        rarity: "Common",
-        price: 175,
-        design: "glasses"
-    },
-
-    {
-        id: "cool-glasses",
-        name: "Cool Glasses",
-        category: "Accessory",
+        name: "Tech Glasses",
+        type: "Accessory",
         rarity: "Rare",
-        price: 300,
-        design: "cool-glasses"
+        price: 275,
+        icon: "▣"
     },
 
     {
-        id: "golden-crown",
-        name: "Golden Crown",
-        category: "Accessory",
-        rarity: "Legendary",
-        price: 1200,
-        design: "crown"
-    },
-
-
-    /* =====================================================
-       BANNERS
-    ===================================================== */
-
-    {
-        id: "blue-grid",
-        name: "Blue Grid",
-        category: "Banner",
-        rarity: "Common",
-        price: 150,
-        design: "blue-grid"
-    },
-
-    {
-        id: "neon-grid",
-        name: "Neon Grid",
-        category: "Banner",
+        id: "backpack",
+        name: "Study Backpack",
+        type: "Accessory",
         rarity: "Rare",
-        price: 300,
-        design: "neon-grid"
+        price: 350,
+        icon: "▰"
     },
 
     {
-        id: "galaxy-banner",
-        name: "Galaxy",
-        category: "Banner",
+        id: "floating-orb",
+        name: "Floating Orb",
+        type: "Accessory",
         rarity: "Epic",
-        price: 500,
-        design: "galaxy"
+        price: 550,
+        icon: "◈"
+    },
+
+
+    /* -------------------------
+       OUTFITS
+       ------------------------- */
+
+    {
+        id: "hoodie",
+        name: "Sprint Hoodie",
+        type: "Outfit",
+        rarity: "Common",
+        price: 250,
+        icon: "▱"
     },
 
     {
-        id: "void-banner",
-        name: "The Void",
-        category: "Banner",
+        id: "lab-coat",
+        name: "Science Coat",
+        type: "Outfit",
+        rarity: "Rare",
+        price: 375,
+        icon: "✚"
+    },
+
+    {
+        id: "tech-suit",
+        name: "Tech Suit",
+        type: "Outfit",
+        rarity: "Epic",
+        price: 600,
+        icon: "◇"
+    },
+
+    {
+        id: "legend-suit",
+        name: "Legend Suit",
+        type: "Outfit",
         rarity: "Legendary",
         price: 1000,
-        design: "void"
+        icon: "★"
     },
 
 
-    /* =====================================================
-       TITLES
-    ===================================================== */
+    /* -------------------------
+       BANNERS
+       ------------------------- */
 
     {
-        id: "study-sprinter",
-        name: "Study Sprinter",
-        category: "Title",
+        id: "grid",
+        name: "Digital Grid",
+        type: "Banner",
         rarity: "Common",
-        price: 150
+        price: 100,
+        icon: "▦"
+    },
+
+    {
+        id: "blueprint",
+        name: "Blueprint",
+        type: "Banner",
+        rarity: "Rare",
+        price: 225,
+        icon: "⌗"
+    },
+
+    {
+        id: "neon",
+        name: "Neon Circuit",
+        type: "Banner",
+        rarity: "Epic",
+        price: 400,
+        icon: "⌁"
+    },
+
+    {
+        id: "galaxy",
+        name: "Deep Space",
+        type: "Banner",
+        rarity: "Legendary",
+        price: 750,
+        icon: "✦"
+    },
+
+
+    /* -------------------------
+       TITLES
+       ------------------------- */
+
+    {
+        id: "sprinter",
+        name: "Study Sprinter",
+        type: "Title",
+        rarity: "Common",
+        price: 150,
+        icon: ">"
     },
 
     {
         id: "brainiac",
         name: "Brainiac",
-        category: "Title",
+        type: "Title",
         rarity: "Rare",
-        price: 300
-    },
-
-    {
-        id: "speed-learner",
-        name: "Speed Learner",
-        category: "Title",
-        rarity: "Epic",
-        price: 500
+        price: 300,
+        icon: "?"
     },
 
     {
         id: "knowledge-seeker",
         name: "Knowledge Seeker",
-        category: "Title",
-        rarity: "Mythic",
-        price: 700
+        type: "Title",
+        rarity: "Epic",
+        price: 500,
+        icon: "+"
     },
 
     {
         id: "study-legend",
         name: "Study Legend",
-        category: "Title",
+        type: "Title",
         rarity: "Legendary",
-        price: 1000
+        price: 900,
+        icon: "★"
     }
 
 ];
 
 
 /* =========================================================
-   DEFAULT AVATAR
-========================================================= */
+   OWNERSHIP
+   ========================================================= */
 
-const DEFAULT_AVATAR = {
+function getOwnedItems() {
 
-    hair: null,
+    try {
 
-    eyes: null,
+        return JSON.parse(
+            localStorage.getItem(
+                "shopOwnedItems"
+            )
+        ) || [];
 
-    face: null,
+    } catch {
 
-    outfit: null,
+        return [];
 
-    hat: null,
+    }
 
-    accessory: null,
+}
 
-    banner: null,
 
-    title: null
+function saveOwnedItems(items) {
 
-};
+    localStorage.setItem(
+        "shopOwnedItems",
+        JSON.stringify(items)
+    );
+
+}
+
+
+function ownsItem(id) {
+
+    return getOwnedItems().includes(id);
+
+}
 
 
 /* =========================================================
-   STORAGE
-========================================================= */
+   COINS
+   ========================================================= */
 
 function getCoins() {
 
@@ -422,108 +329,119 @@ function getCoins() {
 }
 
 
-function setCoins(value) {
+function setCoins(amount) {
 
     localStorage.setItem(
         "coins",
-        String(Math.max(0, value))
+        String(amount)
     );
 
 }
 
 
-function getOwnedCosmetics() {
+/* =========================================================
+   UNLOCK COSMETIC
+   ========================================================= */
 
-    try {
+function unlockItem(item) {
 
-        const data =
-            JSON.parse(
-                localStorage.getItem(
-                    "ownedCosmetics"
-                )
-            );
+    const owned =
+        getOwnedItems();
 
-        if (Array.isArray(data)) {
+    if (!owned.includes(item.id)) {
 
-            return data;
+        owned.push(item.id);
 
-        }
+    }
 
-    } catch {
+    saveOwnedItems(owned);
 
-        // Ignore broken data.
+
+    /*
+       Keep separate cosmetic collections so the
+       avatar editor can use them later.
+    */
+
+    let key = null;
+
+
+    if (item.type === "Hat") {
+
+        key = "unlocked_hats";
+
+    }
+
+    if (item.type === "Accessory") {
+
+        key = "unlocked_accessories";
+
+    }
+
+    if (item.type === "Outfit") {
+
+        key = "unlocked_outfits";
+
+    }
+
+    if (item.type === "Banner") {
+
+        key = "unlocked_banners";
+
+    }
+
+    if (item.type === "Title") {
+
+        key = "unlockedTitles";
 
     }
 
 
-    return [];
+    if (!key) {
 
-}
-
-
-function saveOwnedCosmetics(items) {
-
-    localStorage.setItem(
-        "ownedCosmetics",
-        JSON.stringify(items)
-    );
-
-}
-
-
-function getAvatar() {
-
-    try {
-
-        const data =
-            JSON.parse(
-                localStorage.getItem(
-                    "avatar"
-                )
-            );
-
-        return {
-            ...DEFAULT_AVATAR,
-            ...(data || {})
-        };
-
-    } catch {
-
-        return {
-            ...DEFAULT_AVATAR
-        };
+        return;
 
     }
 
-}
+
+    let unlocked = [];
+
+    try {
+
+        unlocked =
+            JSON.parse(
+                localStorage.getItem(key)
+            ) || [];
+
+    } catch {
+
+        unlocked = [];
+
+    }
 
 
-function saveAvatar(avatar) {
+    if (!unlocked.includes(item.id)) {
+
+        unlocked.push(item.id);
+
+    }
+
 
     localStorage.setItem(
-        "avatar",
-        JSON.stringify(avatar)
+        key,
+        JSON.stringify(unlocked)
     );
-
-}
-
-
-function ownsCosmetic(id) {
-
-    return getOwnedCosmetics()
-        .includes(id);
 
 }
 
 
 /* =========================================================
    SEEDED RANDOM
-========================================================= */
+   ========================================================= */
 
 function seededRandom(seed) {
 
     let value =
-        Math.abs(seed) % 2147483647;
+        seed % 2147483647;
 
 
     if (value <= 0) {
@@ -547,19 +465,21 @@ function seededRandom(seed) {
 
 /* =========================================================
    SHOP ROTATION
-========================================================= */
+   ========================================================= */
 
 function getShopStart() {
 
-    const debug =
+    const debugReset =
         localStorage.getItem(
             "shopDebugReset"
         );
 
 
-    if (debug) {
+    if (debugReset) {
 
-        return Number(debug);
+        return Number(
+            debugReset
+        );
 
     }
 
@@ -589,19 +509,16 @@ function getShopStart() {
 
 /* =========================================================
    RARITY ROLL
-========================================================= */
+   ========================================================= */
 
 function rollRarity(random) {
 
     let total = 0;
 
 
-    for (
-        const rarity of Object.keys(RARITIES)
-    ) {
+    for (const rarity of RARITIES) {
 
-        total +=
-            RARITIES[rarity].weight;
+        total += rarity.weight;
 
 
         if (
@@ -609,7 +526,7 @@ function rollRarity(random) {
             total
         ) {
 
-            return rarity;
+            return rarity.name;
 
         }
 
@@ -622,8 +539,8 @@ function rollRarity(random) {
 
 
 /* =========================================================
-   CURRENT SHOP
-========================================================= */
+   GET CURRENT SHOP
+   ========================================================= */
 
 function getCurrentShop() {
 
@@ -640,13 +557,11 @@ function getCurrentShop() {
 
 
     const seed =
-        Math.floor(
-            start / 1000
-        ) +
+        Math.floor(start / 1000) +
         reroll;
 
 
-    const selected = [];
+    const result = [];
 
     const used =
         new Set();
@@ -670,19 +585,17 @@ function getCurrentShop() {
 
 
         let candidates =
-            COSMETICS.filter(
+            SHOP_ITEMS.filter(
                 item =>
                     item.rarity === rarity &&
                     !used.has(item.id)
             );
 
 
-        if (
-            candidates.length === 0
-        ) {
+        if (!candidates.length) {
 
             candidates =
-                COSMETICS.filter(
+                SHOP_ITEMS.filter(
                     item =>
                         !used.has(item.id)
                 );
@@ -690,9 +603,7 @@ function getCurrentShop() {
         }
 
 
-        if (
-            candidates.length === 0
-        ) {
+        if (!candidates.length) {
 
             break;
 
@@ -717,414 +628,56 @@ function getCurrentShop() {
 
         used.add(item.id);
 
-        selected.push(item);
+        result.push(item);
 
     }
 
 
-    return selected;
+    return result;
 
 }
 
 
 /* =========================================================
-   PREVIEW AVATAR
-========================================================= */
-
-function createAvatarElement(avatarData = getAvatar()) {
-
-    const avatar =
-        document.createElement("div");
-
-    avatar.className =
-        "avatar";
-
-
-    /* BODY */
-
-    const body =
-        document.createElement("div");
-
-    body.className =
-        "avatar-body";
-
-
-    /* HEAD */
-
-    const head =
-        document.createElement("div");
-
-    head.className =
-        "avatar-head";
-
-
-    /* EYES */
-
-    const leftEye =
-        document.createElement("div");
-
-    leftEye.className =
-        "avatar-eye left";
-
-
-    const rightEye =
-        document.createElement("div");
-
-    rightEye.className =
-        "avatar-eye right";
-
-
-    head.appendChild(leftEye);
-
-    head.appendChild(rightEye);
-
-
-    /* MOUTH */
-
-    const mouth =
-        document.createElement("div");
-
-    mouth.className =
-        "avatar-mouth";
-
-
-    head.appendChild(mouth);
-
-
-    avatar.appendChild(body);
-
-    avatar.appendChild(head);
-
-    avatar.appendChild(mouth);
-
-
-    /* COSMETICS */
-
-    const cosmeticIds = [
-
-        avatarData.hair,
-
-        avatarData.hat,
-
-        avatarData.accessory
-
-    ];
-
-
-    cosmeticIds.forEach(
-        id => {
-
-            if (!id) {
-                return;
-            }
-
-
-            const item =
-                COSMETICS.find(
-                    cosmetic =>
-                        cosmetic.id === id
-                );
-
-
-            if (!item) {
-                return;
-            }
-
-
-            applyCosmetic(
-                avatar,
-                item
-            );
-
-        }
-    );
-
-
-    /* OUTFIT */
-
-    if (avatarData.outfit) {
-
-        const outfit =
-            COSMETICS.find(
-                item =>
-                    item.id === avatarData.outfit
-            );
-
-
-        if (outfit) {
-
-            body.classList.add(
-                "outfit-" +
-                outfit.design
-            );
-
-        }
-
-    }
-
-
-    /* EYES */
-
-    if (avatarData.eyes) {
-
-        const eyes =
-            COSMETICS.find(
-                item =>
-                    item.id === avatarData.eyes
-            );
-
-
-        if (eyes) {
-
-            head.classList.add(
-                "eyes-" +
-                eyes.design
-            );
-
-        }
-
-    }
-
-
-    /* FACE */
-
-    if (avatarData.face) {
-
-        const face =
-            COSMETICS.find(
-                item =>
-                    item.id === avatarData.face
-            );
-
-
-        if (face) {
-
-            mouth.classList.add(
-                "face-" +
-                face.design
-            );
-
-        }
-
-    }
-
-
-    return avatar;
-
-}
-
-
-/* =========================================================
-   APPLY COSMETIC
-========================================================= */
-
-function applyCosmetic(avatar, item) {
-
-    const element =
-        document.createElement("div");
-
-
-    element.className =
-        "avatar-cosmetic";
-
-
-    if (
-        item.category === "Hair"
-    ) {
-
-        element.classList.add(
-            "avatar-hair",
-            "hair-" +
-            item.design
-        );
-
-    }
-
-
-    if (
-        item.category === "Hat"
-    ) {
-
-        element.classList.add(
-            "avatar-hat",
-            "hat-" +
-            item.design
-        );
-
-    }
-
-
-    if (
-        item.category === "Accessory"
-    ) {
-
-        if (
-            item.design === "crown"
-        ) {
-
-            element.classList.add(
-                "avatar-crown"
-            );
-
-        } else {
-
-            element.classList.add(
-                "avatar-glasses",
-                "glasses-" +
-                item.design
-            );
-
-        }
-
-    }
-
-
-    avatar.appendChild(element);
-
-}
-
-
-/* =========================================================
-   GENERIC ITEM PREVIEW
-========================================================= */
-
-function createItemPreview(item) {
-
-    if (
-        item.category === "Title"
-    ) {
-
-        const title =
-            document.createElement("div");
-
-        title.className =
-            "title-preview";
-
-        title.textContent =
-            item.name;
-
-        return title;
-
-    }
-
-
-    if (
-        item.category === "Banner"
-    ) {
-
-        const banner =
-            document.createElement("div");
-
-        banner.className =
-            "banner-preview banner-" +
-            item.design;
-
-        return banner;
-
-    }
-
+   COSMETIC PREVIEW
+   =========================================================
+   
+   IMPORTANT:
+   Cosmetics are displayed by themselves.
+   They are NOT placed on an avatar.
+   ========================================================= */
+
+function createCosmeticPreview(item) {
 
     const preview =
-        createAvatarElement();
+        document.createElement("div");
+
+    preview.className =
+        "cosmetic-preview " +
+        "preview-" +
+        item.type.toLowerCase();
 
 
-    const avatar =
-        getAvatar();
+    const icon =
+        document.createElement("div");
+
+    icon.className =
+        "cosmetic-icon";
 
 
-    /*
-       Put the selected cosmetic onto the
-       preview without permanently equipping it.
-    */
-
-    if (
-        item.category === "Hair"
-    ) {
-
-        applyCosmetic(
-            preview,
-            item
-        );
-
-    }
+    icon.textContent =
+        item.icon || "◆";
 
 
-    if (
-        item.category === "Hat"
-    ) {
+    const glow =
+        document.createElement("div");
 
-        applyCosmetic(
-            preview,
-            item
-        );
-
-    }
+    glow.className =
+        "cosmetic-glow";
 
 
-    if (
-        item.category === "Accessory"
-    ) {
-
-        applyCosmetic(
-            preview,
-            item
-        );
-
-    }
-
-
-    if (
-        item.category === "Outfit"
-    ) {
-
-        const body =
-            preview.querySelector(
-                ".avatar-body"
-            );
-
-
-        body.classList.add(
-            "outfit-" +
-            item.design
-        );
-
-    }
-
-
-    if (
-        item.category === "Eyes"
-    ) {
-
-        const head =
-            preview.querySelector(
-                ".avatar-head"
-            );
-
-
-        head.classList.add(
-            "eyes-" +
-            item.design
-        );
-
-    }
-
-
-    if (
-        item.category === "Face"
-    ) {
-
-        const mouth =
-            preview.querySelector(
-                ".avatar-mouth"
-            );
-
-
-        mouth.classList.add(
-            "face-" +
-            item.design
-        );
-
-    }
+    preview.appendChild(glow);
+    preview.appendChild(icon);
 
 
     return preview;
@@ -1133,117 +686,77 @@ function createItemPreview(item) {
 
 
 /* =========================================================
-   RARITY CLASS
-========================================================= */
-
-function getRarityClass(rarity) {
-
-    return (
-        "rarity-" +
-        rarity.toLowerCase()
-    );
-
-}
-
-
-/* =========================================================
    SHOP CARD
-========================================================= */
+   ========================================================= */
 
 function createShopCard(item) {
 
     const card =
         document.createElement("article");
 
-
     card.className =
         "shop-card " +
-        getRarityClass(
-            item.rarity
-        );
-
-
-    card.dataset.category =
-        item.category;
+        "rarity-" +
+        item.rarity.toLowerCase();
 
 
     const rarity =
-        document.createElement("div");
+        document.createElement("span");
 
     rarity.className =
-        "rarity";
+        "shop-rarity";
 
     rarity.textContent =
         item.rarity;
 
 
     const preview =
-        document.createElement("div");
-
-    preview.className =
-        "item-preview";
-
-
-    preview.appendChild(
-        createItemPreview(item)
-    );
-
-
-    const info =
-        document.createElement("div");
-
-    info.className =
-        "item-info";
+        createCosmeticPreview(item);
 
 
     const name =
         document.createElement("h3");
 
-    name.className =
-        "item-name";
-
     name.textContent =
         item.name;
 
 
-    const category =
+    const type =
         document.createElement("p");
 
-    category.className =
-        "item-category";
+    type.className =
+        "shop-type";
 
-    category.textContent =
-        item.category;
+    type.textContent =
+        item.type;
 
 
     const bottom =
         document.createElement("div");
 
     bottom.className =
-        "item-bottom";
+        "shop-card-bottom";
 
 
     const price =
         document.createElement("span");
 
     price.className =
-        "item-price";
+        "shop-price";
 
     price.textContent =
         item.price +
-        " Coins";
+        " 🪙";
 
 
     const button =
         document.createElement("button");
 
     button.className =
-        "buy-button";
+        "shop-buy-button";
 
 
-    if (
-        ownsCosmetic(item.id)
-    ) {
+    if (ownsItem(item.id)) {
 
         button.textContent =
             "OWNED";
@@ -1261,31 +774,27 @@ function createShopCard(item) {
             "BUY";
 
         button.onclick =
-            () => buyCosmetic(
-                item,
-                button
-            );
+            function() {
+
+                buyItem(
+                    item,
+                    button
+                );
+
+            };
 
     }
 
 
     bottom.appendChild(price);
-
     bottom.appendChild(button);
 
 
-    info.appendChild(name);
-
-    info.appendChild(category);
-
-    info.appendChild(bottom);
-
-
     card.appendChild(rarity);
-
     card.appendChild(preview);
-
-    card.appendChild(info);
+    card.appendChild(name);
+    card.appendChild(type);
+    card.appendChild(bottom);
 
 
     return card;
@@ -1294,23 +803,25 @@ function createShopCard(item) {
 
 
 /* =========================================================
-   DISPLAY FEATURED SHOP
-========================================================= */
+   DISPLAY SHOP
+   ========================================================= */
 
-function displayFeaturedShop() {
+function displayShop() {
 
-    const grid =
+    const container =
         document.getElementById(
-            "shop-grid"
+            "shop-items"
         );
 
 
-    if (!grid) {
+    if (!container) {
+
         return;
+
     }
 
 
-    grid.innerHTML = "";
+    container.innerHTML = "";
 
 
     const items =
@@ -1320,7 +831,7 @@ function displayFeaturedShop() {
     items.forEach(
         item => {
 
-            grid.appendChild(
+            container.appendChild(
                 createShopCard(item)
             );
 
@@ -1331,61 +842,12 @@ function displayFeaturedShop() {
 
 
 /* =========================================================
-   DISPLAY COLLECTION
-========================================================= */
+   BUY ITEM
+   ========================================================= */
 
-function displayCollection(
-    category = "All"
-) {
+function buyItem(item, button) {
 
-    const grid =
-        document.getElementById(
-            "collection-grid"
-        );
-
-
-    if (!grid) {
-        return;
-    }
-
-
-    grid.innerHTML = "";
-
-
-    const items =
-        category === "All"
-            ? COSMETICS
-            : COSMETICS.filter(
-                item =>
-                    item.category === category
-            );
-
-
-    items.forEach(
-        item => {
-
-            grid.appendChild(
-                createShopCard(item)
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   BUY COSMETIC
-========================================================= */
-
-function buyCosmetic(
-    item,
-    button
-) {
-
-    if (
-        ownsCosmetic(item.id)
-    ) {
+    if (ownsItem(item.id)) {
 
         return;
 
@@ -1396,12 +858,10 @@ function buyCosmetic(
         getCoins();
 
 
-    if (
-        coins < item.price
-    ) {
+    if (coins < item.price) {
 
         alert(
-            "You don't have enough Coins!"
+            "You don't have enough coins!"
         );
 
         return;
@@ -1415,18 +875,7 @@ function buyCosmetic(
     );
 
 
-    const owned =
-        getOwnedCosmetics();
-
-
-    owned.push(
-        item.id
-    );
-
-
-    saveOwnedCosmetics(
-        owned
-    );
+    unlockItem(item);
 
 
     button.textContent =
@@ -1442,467 +891,12 @@ function buyCosmetic(
 
     updateCurrency();
 
-    displayOwned();
-
 }
 
 
 /* =========================================================
-   EQUIP COSMETIC
-========================================================= */
-
-function equipCosmetic(item) {
-
-    if (
-        !ownsCosmetic(item.id)
-    ) {
-
-        return;
-
-    }
-
-
-    const avatar =
-        getAvatar();
-
-
-    const categoryMap = {
-
-        Hair: "hair",
-
-        Eyes: "eyes",
-
-        Face: "face",
-
-        Outfit: "outfit",
-
-        Hat: "hat",
-
-        Accessory: "accessory",
-
-        Banner: "banner",
-
-        Title: "title"
-
-    };
-
-
-    const key =
-        categoryMap[
-            item.category
-        ];
-
-
-    if (!key) {
-        return;
-    }
-
-
-    avatar[key] =
-        item.id;
-
-
-    saveAvatar(
-        avatar
-    );
-
-
-    displayAvatar();
-
-    displayOwned();
-
-}
-
-
-/* =========================================================
-   UNEQUIP
-========================================================= */
-
-function unequipCategory(
-    category
-) {
-
-    const avatar =
-        getAvatar();
-
-
-    const categoryMap = {
-
-        Hair: "hair",
-
-        Eyes: "eyes",
-
-        Face: "face",
-
-        Outfit: "outfit",
-
-        Hat: "hat",
-
-        Accessory: "accessory",
-
-        Banner: "banner",
-
-        Title: "title"
-
-    };
-
-
-    const key =
-        categoryMap[category];
-
-
-    if (!key) {
-        return;
-    }
-
-
-    avatar[key] =
-        null;
-
-
-    saveAvatar(
-        avatar
-    );
-
-
-    displayAvatar();
-
-    displayOwned();
-
-}
-
-
-/* =========================================================
-   DISPLAY AVATAR
-========================================================= */
-
-function displayAvatar() {
-
-    const preview =
-        document.getElementById(
-            "avatar-preview"
-        );
-
-
-    if (!preview) {
-        return;
-    }
-
-
-    preview.innerHTML = "";
-
-
-    preview.appendChild(
-        createAvatarElement()
-    );
-
-
-    displayEquipped();
-
-}
-
-
-/* =========================================================
-   DISPLAY EQUIPPED
-========================================================= */
-
-function displayEquipped() {
-
-    const container =
-        document.getElementById(
-            "equipped-list"
-        );
-
-
-    if (!container) {
-        return;
-    }
-
-
-    container.innerHTML = "";
-
-
-    const avatar =
-        getAvatar();
-
-
-    const slots = [
-
-        ["Hair", avatar.hair],
-
-        ["Eyes", avatar.eyes],
-
-        ["Face", avatar.face],
-
-        ["Outfit", avatar.outfit],
-
-        ["Hat", avatar.hat],
-
-        ["Accessory", avatar.accessory],
-
-        ["Banner", avatar.banner],
-
-        ["Title", avatar.title]
-
-    ];
-
-
-    slots.forEach(
-        ([category, id]) => {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-
-            row.className =
-                "equipped-item";
-
-
-            const categoryElement =
-                document.createElement(
-                    "span"
-                );
-
-
-            categoryElement.textContent =
-                category;
-
-
-            const name =
-                document.createElement(
-                    "span"
-                );
-
-
-            const item =
-                id
-                    ? COSMETICS.find(
-                        cosmetic =>
-                            cosmetic.id === id
-                    )
-                    : null;
-
-
-            name.textContent =
-                item
-                    ? item.name
-                    : "None";
-
-
-            row.appendChild(
-                categoryElement
-            );
-
-
-            row.appendChild(
-                name
-            );
-
-
-            if (item) {
-
-                row.title =
-                    "Click to unequip";
-
-
-                row.style.cursor =
-                    "pointer";
-
-
-                row.onclick =
-                    () =>
-                        unequipCategory(
-                            category
-                        );
-
-            }
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   DISPLAY OWNED
-========================================================= */
-
-function displayOwned() {
-
-    const grid =
-        document.getElementById(
-            "owned-grid"
-        );
-
-
-    const count =
-        document.getElementById(
-            "owned-count"
-        );
-
-
-    if (!grid) {
-        return;
-    }
-
-
-    grid.innerHTML = "";
-
-
-    const owned =
-        getOwnedCosmetics();
-
-
-    if (count) {
-
-        count.textContent =
-            owned.length +
-            " ITEMS";
-
-    }
-
-
-    if (
-        owned.length === 0
-    ) {
-
-        const empty =
-            document.createElement(
-                "div"
-            );
-
-
-        empty.className =
-            "empty-message";
-
-
-        empty.textContent =
-            "You don't own any cosmetics yet. Visit the Shop to start your collection!";
-
-
-        grid.appendChild(
-            empty
-        );
-
-
-        return;
-
-    }
-
-
-    owned.forEach(
-        id => {
-
-            const item =
-                COSMETICS.find(
-                    cosmetic =>
-                        cosmetic.id === id
-                );
-
-
-            if (!item) {
-                return;
-            }
-
-
-            const card =
-                createShopCard(item);
-
-
-            const button =
-                card.querySelector(
-                    ".buy-button"
-                );
-
-
-            const avatar =
-                getAvatar();
-
-
-            const categoryMap = {
-
-                Hair: "hair",
-
-                Eyes: "eyes",
-
-                Face: "face",
-
-                Outfit: "outfit",
-
-                Hat: "hat",
-
-                Accessory: "accessory",
-
-                Banner: "banner",
-
-                Title: "title"
-
-            };
-
-
-            const key =
-                categoryMap[
-                    item.category
-                ];
-
-
-            if (
-                key &&
-                avatar[key] === item.id
-            ) {
-
-                button.textContent =
-                    "EQUIPPED";
-
-                button.classList.add(
-                    "owned"
-                );
-
-                button.disabled =
-                    true;
-
-            } else {
-
-                button.textContent =
-                    "EQUIP";
-
-                button.disabled =
-                    false;
-
-                button.classList.remove(
-                    "owned"
-                );
-
-
-                button.onclick =
-                    () =>
-                        equipCosmetic(
-                            item
-                        );
-
-            }
-
-
-            grid.appendChild(
-                card
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   CURRENCY
-========================================================= */
+   CURRENCY DISPLAY
+   ========================================================= */
 
 function updateCurrency() {
 
@@ -1924,18 +918,20 @@ function updateCurrency() {
 
 /* =========================================================
    COUNTDOWN
-========================================================= */
+   ========================================================= */
 
 function updateCountdown() {
 
     const element =
         document.getElementById(
-            "countdown"
+            "shop-countdown"
         );
 
 
     if (!element) {
+
         return;
+
     }
 
 
@@ -1947,8 +943,7 @@ function updateCountdown() {
     let remaining =
         Math.max(
             0,
-            next -
-            Date.now()
+            next - Date.now()
         );
 
 
@@ -1990,145 +985,21 @@ function updateCountdown() {
 
 
     element.textContent =
-        days + "d " +
-        String(hours).padStart(2, "0") + "h " +
-        String(minutes).padStart(2, "0") + "m " +
-        String(seconds).padStart(2, "0") + "s";
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
 }
 
 
 /* =========================================================
-   VIEW SWITCHING
-========================================================= */
-
-function openShop() {
-
-    document
-        .getElementById("shop-view")
-        ?.classList.remove(
-            "hidden"
-        );
-
-
-    document
-        .getElementById("avatar-view")
-        ?.classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById("shop-tab")
-        ?.classList.add(
-            "active"
-        );
-
-
-    document
-        .getElementById("avatar-tab")
-        ?.classList.remove(
-            "active"
-        );
-
-}
-
-
-function openAvatar() {
-
-    document
-        .getElementById("shop-view")
-        ?.classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById("avatar-view")
-        ?.classList.remove(
-            "hidden"
-        );
-
-
-    document
-        .getElementById("shop-tab")
-        ?.classList.remove(
-            "active"
-        );
-
-
-    document
-        .getElementById("avatar-tab")
-        ?.classList.add(
-            "active"
-        );
-
-
-    displayAvatar();
-
-    displayOwned();
-
-}
-
-
-/* =========================================================
-   CATEGORY FILTER
-========================================================= */
-
-function setupCategoryFilters() {
-
-    const buttons =
-        document.querySelectorAll(
-            ".category-button"
-        );
-
-
-    buttons.forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    buttons.forEach(
-                        other =>
-                            other.classList.remove(
-                                "active"
-                            )
-                    );
-
-
-                    button.classList.add(
-                        "active"
-                    );
-
-
-                    displayCollection(
-                        button.dataset.category
-                    );
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   DEBUG
-========================================================= */
+   DEBUG REROLL
+   ========================================================= */
 
 function rerollShop() {
 
     localStorage.setItem(
         "shopRerollSeed",
-        String(
-            Date.now()
-        )
+        String(Date.now())
     );
-
 
     location.reload();
 
@@ -2141,369 +1012,24 @@ function resetShopReroll() {
         "shopRerollSeed"
     );
 
-
     location.reload();
-
-}
-
-
-function openDebugMenu() {
-
-    if (
-        document.querySelector(
-            ".debug-overlay"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    const overlay =
-        document.createElement(
-            "div"
-        );
-
-
-    overlay.className =
-        "debug-overlay";
-
-
-    const box =
-        document.createElement(
-            "div"
-        );
-
-
-    box.className =
-        "debug-box";
-
-
-    box.innerHTML = `
-
-        <h2>StudySprint Debug</h2>
-
-        <select id="debug-action">
-
-            <option value="coins">
-                Set Coins
-            </option>
-
-            <option value="reroll">
-                Reroll Shop
-            </option>
-
-            <option value="reset-reroll">
-                Reset Shop Rotation
-            </option>
-
-            <option value="give-all">
-                Give All Cosmetics
-            </option>
-
-            <option value="reset-avatar">
-                Reset Avatar
-            </option>
-
-            <option value="reset-account">
-                Reset Shop Data
-            </option>
-
-        </select>
-
-        <input
-            id="debug-value"
-            type="number"
-            placeholder="Amount"
-        >
-
-        <button
-            id="debug-apply"
-            class="debug-apply"
-        >
-            Apply
-        </button>
-
-        <button
-            id="debug-close"
-            class="debug-close"
-        >
-            Cancel
-        </button>
-
-    `;
-
-
-    overlay.appendChild(box);
-
-    document.body.appendChild(
-        overlay
-    );
-
-
-    const action =
-        box.querySelector(
-            "#debug-action"
-        );
-
-
-    const value =
-        box.querySelector(
-            "#debug-value"
-        );
-
-
-    function updateInput() {
-
-        value.style.display =
-            action.value === "coins"
-                ? "block"
-                : "none";
-
-    }
-
-
-    action.addEventListener(
-        "change",
-        updateInput
-    );
-
-
-    updateInput();
-
-
-    box.querySelector(
-        "#debug-close"
-    ).onclick =
-        () =>
-            overlay.remove();
-
-
-    box.querySelector(
-        "#debug-apply"
-    ).onclick =
-        () => {
-
-            const selected =
-                action.value;
-
-
-            if (
-                selected === "coins"
-            ) {
-
-                const amount =
-                    Number(
-                        value.value
-                    );
-
-
-                if (
-                    !Number.isFinite(
-                        amount
-                    )
-                ) {
-
-                    alert(
-                        "Enter a valid number."
-                    );
-
-                    return;
-
-                }
-
-
-                setCoins(
-                    amount
-                );
-
-                overlay.remove();
-
-                updateCurrency();
-
-                return;
-
-            }
-
-
-            if (
-                selected === "reroll"
-            ) {
-
-                rerollShop();
-
-                return;
-
-            }
-
-
-            if (
-                selected === "reset-reroll"
-            ) {
-
-                resetShopReroll();
-
-                return;
-
-            }
-
-
-            if (
-                selected === "give-all"
-            ) {
-
-                saveOwnedCosmetics(
-                    COSMETICS.map(
-                        item =>
-                            item.id
-                    )
-                );
-
-
-                alert(
-                    "All cosmetics unlocked!"
-                );
-
-
-                overlay.remove();
-
-                displayOwned();
-
-                return;
-
-            }
-
-
-            if (
-                selected === "reset-avatar"
-            ) {
-
-                saveAvatar({
-                    ...DEFAULT_AVATAR
-                });
-
-
-                alert(
-                    "Avatar reset."
-                );
-
-
-                overlay.remove();
-
-                displayAvatar();
-
-                displayOwned();
-
-                return;
-
-            }
-
-
-            if (
-                selected === "reset-account"
-            ) {
-
-                const confirmed =
-                    confirm(
-                        "Reset all StudySprint Shop data?"
-                    );
-
-
-                if (!confirmed) {
-                    return;
-                }
-
-
-                localStorage.removeItem(
-                    "coins"
-                );
-
-                localStorage.removeItem(
-                    "ownedCosmetics"
-                );
-
-                localStorage.removeItem(
-                    "avatar"
-                );
-
-                localStorage.removeItem(
-                    "shopRerollSeed"
-                );
-
-                location.reload();
-
-            }
-
-        };
 
 }
 
 
 /* =========================================================
    START
-========================================================= */
+   ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        const shopTab =
-            document.getElementById(
-                "shop-tab"
-            );
-
-
-        const avatarTab =
-            document.getElementById(
-                "avatar-tab"
-            );
-
-
-        const debug =
-            document.getElementById(
-                "debug-open"
-            );
-
-
-        if (shopTab) {
-
-            shopTab.onclick =
-                openShop;
-
-        }
-
-
-        if (avatarTab) {
-
-            avatarTab.onclick =
-                openAvatar;
-
-        }
-
-
-        if (debug) {
-
-            debug.onclick =
-                openDebugMenu;
-
-        }
-
-
-        displayFeaturedShop();
-
-        displayCollection();
-
-        displayAvatar();
-
-        displayOwned();
+        displayShop();
 
         updateCurrency();
 
         updateCountdown();
-
-
-        setupCategoryFilters();
 
 
         setInterval(
@@ -2516,8 +1042,8 @@ document.addEventListener(
 
 
 /* =========================================================
-   PUBLIC API
-========================================================= */
+   PUBLIC FUNCTIONS
+   ========================================================= */
 
 window.getCoins =
     getCoins;
@@ -2525,23 +1051,14 @@ window.getCoins =
 window.setCoins =
     setCoins;
 
-window.getOwnedCosmetics =
-    getOwnedCosmetics;
+window.getOwnedItems =
+    getOwnedItems;
 
-window.getAvatar =
-    getAvatar;
-
-window.saveAvatar =
-    saveAvatar;
+window.ownsItem =
+    ownsItem;
 
 window.getCurrentShop =
     getCurrentShop;
-
-window.equipCosmetic =
-    equipCosmetic;
-
-window.unequipCategory =
-    unequipCategory;
 
 window.rerollShop =
     rerollShop;
@@ -2549,5 +1066,6 @@ window.rerollShop =
 window.resetShopReroll =
     resetShopReroll;
 
-window.COSMETICS =
-    COSMETICS;
+window.SHOP_ITEMS =
+    SHOP_ITEMS;
+```
