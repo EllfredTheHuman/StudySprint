@@ -1,51 +1,59 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Dark Tech UI
-========================================================= */
+   Dark / Modern Shop UI
+   ========================================================= */
+
+
+/* =========================================================
+   PAGE
+   ========================================================= */
 
 .shop-page {
-    background:
-        radial-gradient(circle at top, rgba(99, 102, 241, 0.16), transparent 35%),
-        #080b14;
-    color: #f8fafc;
     min-height: 100vh;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(99, 102, 241, 0.12), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(139, 92, 246, 0.08), transparent 35%),
+        #0b0f19;
+
+    color: #f8fafc;
 }
 
 
 /* =========================================================
    HEADER
-========================================================= */
+   ========================================================= */
 
 .shop-header {
+    height: 80px;
+
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
-    padding: 20px 7%;
+    padding: 0 6%;
 
-    background: rgba(10, 14, 25, 0.92);
+    background: rgba(15, 23, 42, 0.95);
 
-    border-bottom: 1px solid rgba(99, 102, 241, 0.3);
-
-    box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid #252b3a;
 
     position: sticky;
     top: 0;
     z-index: 20;
 
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(14px);
 }
+
 
 .shop-header h1 {
     margin: 0;
 
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 950;
-    letter-spacing: 2px;
+    letter-spacing: -1px;
 
     color: #ffffff;
 }
+
 
 .shop-header h1 span {
     color: #6366f1;
@@ -54,7 +62,7 @@
 
 /* =========================================================
    CURRENCY
-========================================================= */
+   ========================================================= */
 
 .shop-currency {
     display: flex;
@@ -63,46 +71,62 @@
 
     padding: 10px 18px;
 
-    background: #111827;
+    background: #171d2b;
 
-    border: 1px solid #29334d;
+    border: 1px solid #2b3345;
 
     border-radius: 14px;
 
+    font-size: 14px;
     font-weight: 800;
+
+    color: #cbd5e1;
 }
+
 
 .coin-icon {
-    color: #facc15;
-    font-size: 20px;
+    width: 20px;
+    height: 20px;
 
-    text-shadow:
-        0 0 10px rgba(250, 204, 21, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #facc15;
+
+    color: #713f12;
+
+    font-size: 12px;
+
+    box-shadow:
+        0 0 12px rgba(250, 204, 21, 0.35);
 }
 
+
 #coin-count {
-    color: #facc15;
-    font-size: 18px;
+    color: #ffffff;
+    font-size: 16px;
 }
 
 
 /* =========================================================
-   MAIN
-========================================================= */
+   MAIN CONTAINER
+   ========================================================= */
 
 .shop-container {
-    width: 1100px;
-    max-width: 92%;
+    width: min(1250px, 92%);
 
     margin: 0 auto;
 
-    padding: 60px 0 100px;
+    padding: 55px 0 80px;
 }
 
 
 /* =========================================================
    INTRO
-========================================================= */
+   ========================================================= */
 
 .shop-intro {
     text-align: center;
@@ -110,58 +134,70 @@
     margin-bottom: 50px;
 }
 
+
 .shop-intro h2 {
+    margin: 0 0 12px;
+
     font-size: 42px;
     font-weight: 950;
 
-    margin-bottom: 12px;
+    letter-spacing: -1.5px;
 
-    letter-spacing: -1px;
+    color: #ffffff;
 }
+
 
 .shop-intro p {
-    color: #94a3b8;
+    margin: 0 auto 22px;
 
-    font-size: 17px;
+    max-width: 600px;
 
-    margin-bottom: 25px;
+    color: #8b95a7;
+
+    font-size: 16px;
+    line-height: 1.6;
 }
+
 
 .shop-refresh {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 
-    padding: 10px 18px;
+    padding: 9px 16px;
 
-    background: #111827;
+    border-radius: 10px;
 
-    border: 1px solid #29334d;
+    background: #141a28;
 
-    border-radius: 12px;
+    border: 1px solid #292f40;
 
-    color: #64748b;
+    color: #7f8aa0;
 
     font-size: 12px;
+    font-weight: 800;
 
-    font-weight: 900;
-
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
-#shop-countdown {
+
+#shop-countdown,
+#countdown {
     color: #818cf8;
-    margin-left: 5px;
+
+    font-weight: 900;
 }
 
 
 /* =========================================================
    SHOP GRID
-========================================================= */
+   ========================================================= */
 
 .shop-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3, minmax(0, 1fr));
 
     gap: 24px;
 }
@@ -169,31 +205,34 @@
 
 /* =========================================================
    SHOP CARD
-========================================================= */
+   ========================================================= */
 
 .shop-card {
     position: relative;
 
-    min-height: 430px;
+    min-height: 480px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    padding: 22px;
+    padding: 18px;
+
+    overflow: hidden;
 
     background:
         linear-gradient(
             145deg,
-            #151b2d,
-            #0d1220
+            #171d2b,
+            #101521
         );
 
-    border: 1px solid #29334d;
+    border: 1px solid #293144;
 
-    border-radius: 20px;
+    border-radius: 22px;
 
-    overflow: hidden;
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
 
     transition:
         transform 0.2s ease,
@@ -201,237 +240,431 @@
         box-shadow 0.2s ease;
 }
 
+
 .shop-card::before {
     content: "";
 
     position: absolute;
 
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
 
-    height: 3px;
+    pointer-events: none;
 
-    background: #6366f1;
-
-    opacity: 0.8;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.035),
+            transparent 45%
+        );
 }
+
 
 .shop-card:hover {
     transform: translateY(-7px);
 
-    border-color: #6366f1;
+    border-color: #4b556f;
 
     box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.45),
-        0 0 25px rgba(99, 102, 241, 0.12);
+        0 22px 45px rgba(0, 0, 0, 0.35);
 }
 
 
 /* =========================================================
    RARITY
-========================================================= */
+   ========================================================= */
 
 .rarity {
     align-self: flex-start;
 
+    position: relative;
+    z-index: 2;
+
     padding: 5px 10px;
 
-    border-radius: 8px;
-
-    background: #1e293b;
-
-    color: #94a3b8;
+    border-radius: 7px;
 
     font-size: 10px;
-
     font-weight: 950;
 
-    letter-spacing: 1.2px;
-
     text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+
+    background: #252b3a;
+
+    color: #cbd5e1;
 }
 
 
 /* COMMON */
 
-.rarity-common::before {
-    background: #94a3b8;
+.rarity-common {
+    border-color: #334155;
 }
 
+
 .rarity-common .rarity {
+    background: #293241;
     color: #cbd5e1;
 }
 
 
 /* RARE */
 
-.rarity-rare::before {
-    background: #3b82f6;
+.rarity-rare {
+    border-color: rgba(59, 130, 246, 0.35);
 }
 
-.rarity-rare .rarity {
-    color: #60a5fa;
 
-    background: rgba(59, 130, 246, 0.12);
+.rarity-rare .rarity {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
 }
 
 
 /* EPIC */
 
-.rarity-epic::before {
-    background: #a855f7;
+.rarity-epic {
+    border-color: rgba(168, 85, 247, 0.4);
 }
 
-.rarity-epic .rarity {
-    color: #c084fc;
 
-    background: rgba(168, 85, 247, 0.12);
+.rarity-epic .rarity {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
 }
 
 
 /* MYTHIC */
 
-.rarity-mythic::before {
-    background: #ec4899;
+.rarity-mythic {
+    border-color: rgba(236, 72, 153, 0.4);
 }
 
-.rarity-mythic .rarity {
-    color: #f472b6;
 
-    background: rgba(236, 72, 153, 0.12);
+.rarity-mythic .rarity {
+    background: rgba(236, 72, 153, 0.15);
+    color: #f472b6;
 }
 
 
 /* LEGENDARY */
 
-.rarity-legendary::before {
-    background: #f59e0b;
+.rarity-legendary {
+    border-color: rgba(250, 204, 21, 0.45);
 
     box-shadow:
-        0 0 15px rgba(245, 158, 11, 0.7);
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 0 30px rgba(250, 204, 21, 0.06);
 }
 
-.rarity-legendary .rarity {
-    color: #fbbf24;
 
-    background: rgba(245, 158, 11, 0.12);
+.rarity-legendary .rarity {
+    background: rgba(250, 204, 21, 0.13);
+    color: #facc15;
 }
 
 
 /* =========================================================
    ITEM PREVIEW
-========================================================= */
+   ========================================================= */
 
 .item-preview {
     width: 100%;
-    height: 220px;
+    height: 255px;
 
-    margin: 15px 0;
+    margin-top: 12px;
+    margin-bottom: 18px;
 
     display: flex;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 16px;
 
     background:
         radial-gradient(
             circle,
-            rgba(99, 102, 241, 0.12),
-            transparent 65%
+            #222a3d 0%,
+            #141a28 65%,
+            #101521 100%
         );
 
-    border-radius: 16px;
+    border: 1px solid #292f40;
+}
 
-    overflow: hidden;
+
+/* subtle grid */
+
+.item-preview::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.08;
+
+    background-image:
+        linear-gradient(#ffffff 1px, transparent 1px),
+        linear-gradient(90deg, #ffffff 1px, transparent 1px);
+
+    background-size: 24px 24px;
+
+    pointer-events: none;
 }
 
 
 /* =========================================================
-   GOOBER FALLBACK
-========================================================= */
+   GOOBER PREVIEW
+   ========================================================= */
+
+.item-preview .goober,
+.item-preview .shop-goober,
+.item-preview .goober-preview {
+    position: relative;
+    z-index: 2;
+
+    transform: scale(1.35);
+
+    transform-origin: center;
+}
+
+
+/*
+   If the existing Goober renderer uses a different
+   class, these styles still keep the preview centered.
+*/
 
 .shop-goober-fallback {
+    position: relative;
+    z-index: 2;
+
+    width: 90px;
+    height: 90px;
+
     display: flex;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    width: 115px;
-    height: 115px;
-
-    border-radius: 35%;
+    border-radius: 50%;
 
     background: #6366f1;
 
     color: white;
 
-    font-size: 13px;
+    font-size: 45px;
 
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================================================
+   BANNER PREVIEWS
+   ========================================================= */
+
+.banner-preview {
+    width: 80%;
+    height: 150px;
+
+    position: relative;
+    z-index: 2;
+
+    border-radius: 14px;
+
+    border: 2px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.35);
+}
+
+
+/* Sprint Grid */
+
+.banner-sprintGrid {
+    background-color: #151b2b;
+
+    background-image:
+        linear-gradient(
+            rgba(99,102,241,0.25) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99,102,241,0.25) 1px,
+            transparent 1px
+        );
+
+    background-size: 22px 22px;
+}
+
+
+/* Purple Grid */
+
+.banner-purpleGrid {
+    background-color: #281b43;
+
+    background-image:
+        linear-gradient(
+            rgba(192,132,252,0.25) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(192,132,252,0.25) 1px,
+            transparent 1px
+        );
+
+    background-size: 22px 22px;
+}
+
+
+/* Neon Blue */
+
+.banner-neonBlue {
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            #2563eb,
+            #111827 70%
+        );
+
+    box-shadow:
+        0 0 25px rgba(59,130,246,0.35);
+}
+
+
+/* Galaxy */
+
+.banner-galaxy {
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #8b5cf6,
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            #2563eb,
+            transparent 25%
+        ),
+        #080b18;
+}
+
+
+/* Gold */
+
+.banner-gold {
+    background:
+        linear-gradient(
+            135deg,
+            #78350f,
+            #f59e0b,
+            #78350f
+        );
+
+    box-shadow:
+        0 0 25px rgba(245,158,11,0.25);
+}
+
+
+/* =========================================================
+   TITLE PREVIEW
+   ========================================================= */
+
+.title-preview {
+    position: relative;
+    z-index: 2;
+
+    padding: 18px 28px;
+
+    border-radius: 12px;
+
+    background: #1e2535;
+
+    border: 1px solid #3a4358;
+
+    color: #ffffff;
+
+    font-size: 20px;
     font-weight: 950;
 
     box-shadow:
-        0 15px 35px rgba(0, 0, 0, 0.4),
-        0 0 30px rgba(99, 102, 241, 0.25);
+        0 10px 25px rgba(0,0,0,0.3);
 }
 
 
 /* =========================================================
-   ITEM TEXT
-========================================================= */
+   ITEM INFO
+   ========================================================= */
 
 .shop-card h3 {
-    margin: 3px 0 5px;
+    position: relative;
+    z-index: 2;
 
-    font-size: 21px;
+    margin: 0 0 5px;
 
+    text-align: center;
+
+    font-size: 22px;
     font-weight: 950;
 
-    color: #f8fafc;
+    color: #ffffff;
 }
 
-.item-type {
-    margin: 0;
 
-    color: #64748b;
+.item-type {
+    position: relative;
+    z-index: 2;
+
+    margin: 0 0 10px;
+
+    text-align: center;
+
+    color: #7f8aa0;
 
     font-size: 12px;
-
-    font-weight: 800;
+    font-weight: 700;
 
     text-transform: uppercase;
 
-    letter-spacing: 1px;
+    letter-spacing: 0.7px;
 }
 
 
-/* =========================================================
-   PRICE
-========================================================= */
-
 .shop-price {
-    margin-top: 14px;
+    position: relative;
+    z-index: 2;
+
+    margin-bottom: 15px;
 
     color: #facc15;
 
-    font-size: 17px;
-
+    font-size: 16px;
     font-weight: 950;
 }
 
 
 /* =========================================================
    BUY BUTTON
-========================================================= */
+   ========================================================= */
 
 .buy-button {
+    position: relative;
+    z-index: 3;
+
     width: 100%;
 
-    margin-top: 16px;
+    margin-top: auto;
 
-    padding: 13px 20px;
+    padding: 14px 18px;
 
-    border: 1px solid #6366f1;
+    border: 0;
 
     border-radius: 12px;
 
@@ -442,20 +675,20 @@
             #4f46e5
         );
 
-    color: white;
+    color: #ffffff;
 
     font-family: inherit;
 
-    font-size: 13px;
-
+    font-size: 14px;
     font-weight: 950;
 
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 
     cursor: pointer;
 
     box-shadow:
-        0 5px 18px rgba(79, 70, 229, 0.25);
+        0 7px 0 #3730a3,
+        0 10px 20px rgba(79,70,229,0.18);
 
     transition:
         transform 0.15s ease,
@@ -463,185 +696,128 @@
         filter 0.15s ease;
 }
 
-.buy-button:hover {
-    transform: translateY(-2px);
 
-    filter: brightness(1.12);
+.buy-button:hover {
+    transform: translateY(-3px);
+
+    filter: brightness(1.1);
 
     box-shadow:
-        0 8px 25px rgba(99, 102, 241, 0.4);
+        0 10px 0 #3730a3,
+        0 15px 25px rgba(79,70,229,0.25);
 }
 
+
 .buy-button:active {
-    transform: translateY(1px);
+    transform: translateY(4px);
 
     box-shadow:
-        0 3px 10px rgba(99, 102, 241, 0.25);
+        0 3px 0 #3730a3,
+        0 6px 12px rgba(79,70,229,0.15);
 }
 
 
 /* =========================================================
    OWNED BUTTON
-========================================================= */
+   ========================================================= */
 
-.buy-button.owned {
-    background: #172033;
+.buy-button.owned,
+.buy-button:disabled {
+    background: #252c3b;
 
-    border-color: #334155;
-
-    color: #64748b;
-
-    box-shadow: none;
+    color: #778196;
 
     cursor: default;
-}
 
-.buy-button.owned:hover {
+    box-shadow:
+        none;
+
+    border: 1px solid #343d50;
+
     transform: none;
 
     filter: none;
+}
 
-    box-shadow: none;
+
+.buy-button.owned::before {
+    content: "✓ ";
+
+    color: #4ade80;
 }
 
 
 /* =========================================================
-   BANNERS
-========================================================= */
+   EMPTY SHOP
+   ========================================================= */
 
-.banner-preview {
-    width: 80%;
-    height: 100px;
+.shop-grid:empty::after {
+    content: "Loading shop...";
 
-    border-radius: 12px;
+    grid-column: 1 / -1;
 
-    border: 1px solid #334155;
+    text-align: center;
 
-    background: #1e293b;
-}
+    padding: 80px 20px;
 
-.banner-sprintGrid {
-    background:
-        linear-gradient(
-            90deg,
-            transparent 49%,
-            rgba(255,255,255,.1) 50%,
-            transparent 51%
-        ),
-        linear-gradient(
-            transparent 49%,
-            rgba(255,255,255,.1) 50%,
-            transparent 51%
-        ),
-        #1e293b;
-
-    background-size: 25px 25px;
-}
-
-.banner-purpleGrid {
-    background:
-        linear-gradient(
-            90deg,
-            transparent 49%,
-            rgba(168,85,247,.25) 50%,
-            transparent 51%
-        ),
-        linear-gradient(
-            transparent 49%,
-            rgba(168,85,247,.25) 50%,
-            transparent 51%
-        ),
-        #17132b;
-
-    background-size: 25px 25px;
-}
-
-.banner-neonBlue {
-    background:
-        linear-gradient(
-            135deg,
-            #172554,
-            #2563eb,
-            #06b6d4
-        );
-}
-
-.banner-galaxy {
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            #c084fc,
-            transparent 15%
-        ),
-        radial-gradient(
-            circle at 70% 70%,
-            #6366f1,
-            transparent 20%
-        ),
-        #090b1c;
-}
-
-.banner-gold {
-    background:
-        linear-gradient(
-            135deg,
-            #78350f,
-            #f59e0b,
-            #fde68a,
-            #92400e
-        );
-}
-
-
-/* =========================================================
-   TITLES
-========================================================= */
-
-.title-preview {
-    padding: 15px 25px;
-
-    border-radius: 12px;
-
-    background: #111827;
-
-    border: 1px solid #334155;
-
-    color: #a5b4fc;
+    color: #64748b;
 
     font-size: 18px;
-
-    font-weight: 950;
+    font-weight: 800;
 }
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
+   RESPONSIVE
+   ========================================================= */
 
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
 
     .shop-grid {
         grid-template-columns:
-            repeat(2, 1fr);
+            repeat(2, minmax(0, 1fr));
     }
 
 }
 
 
-@media (max-width: 550px) {
+@media (max-width: 650px) {
 
     .shop-header {
-        flex-direction: column;
+        height: auto;
 
         gap: 15px;
+
+        padding: 18px 5%;
+
+        flex-direction: column;
     }
+
+
+    .shop-container {
+        width: 92%;
+
+        padding-top: 35px;
+    }
+
 
     .shop-intro h2 {
         font-size: 32px;
     }
 
+
     .shop-grid {
         grid-template-columns: 1fr;
+    }
+
+
+    .shop-card {
+        min-height: 460px;
+    }
+
+
+    .item-preview {
+        height: 230px;
     }
 
 }
