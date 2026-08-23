@@ -1,6 +1,7 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Clean Goober System
+   New StudySprint Theme
+   Characters + Hats + Banners + Titles
    ========================================================= */
 
 * {
@@ -10,68 +11,49 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f7ff;
+    background:
+        linear-gradient(
+            180deg,
+            #eef2ff 0%,
+            #f8faff 45%,
+            #eef6ff 100%
+        );
     color: #17172b;
 }
 
 
 /* =========================================================
-   SHOP LAYOUT
+   SHOP PAGE
    ========================================================= */
 
-.shop-container {
+.shop-page {
     width: min(1200px, 94%);
     margin: 0 auto;
-    padding: 30px 0 60px;
-}
-
-.shop-header {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-.shop-header h1 {
-    margin: 0;
-    font-size: 42px;
-    font-weight: 900;
-}
-
-.shop-header p {
-    margin: 8px 0 0;
-    color: #6b7280;
+    padding: 35px 0 70px;
 }
 
 
 /* =========================================================
-   SHOP NAVIGATION
+   HEADER
    ========================================================= */
 
-.shop-navigation {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 25px;
+.shop-header {
+    text-align: center;
+    margin-bottom: 28px;
 }
 
-.shop-navigation button {
-    border: none;
-    border-radius: 12px;
-    padding: 12px 22px;
-    font-weight: 800;
-    cursor: pointer;
-    background: #e5e7eb;
-    transition:
-        background .15s ease,
-        transform .15s ease;
+.shop-header h1 {
+    margin: 0;
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -1px;
 }
 
-.shop-navigation button:hover {
-    transform: translateY(-1px);
-}
-
-.shop-navigation button.active {
-    background: #4f46e5;
-    color: white;
+.shop-header p {
+    margin: 10px 0 0;
+    color: #64748b;
+    font-size: 17px;
+    font-weight: 600;
 }
 
 
@@ -83,16 +65,68 @@ body {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 25px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
 }
 
 .currency {
+    display: flex;
+    align-items: center;
+    gap: 7px;
     background: white;
+    border: 2px solid #e0e7ff;
+    border-radius: 16px;
+    padding: 11px 20px;
+    box-shadow: 0 5px 18px rgba(79, 70, 229, .08);
+    font-weight: 900;
+}
+
+.currency:first-child {
+    border-color: #fde68a;
+}
+
+.currency:last-child {
+    border-color: #ddd6fe;
+}
+
+
+/* =========================================================
+   SHOP NAVIGATION
+   ========================================================= */
+
+.shop-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.shop-navigation button {
+    border: 2px solid #e2e8f0;
     border-radius: 14px;
-    padding: 10px 18px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
-    font-weight: 800;
+    padding: 13px 24px;
+    font-weight: 900;
+    font-size: 15px;
+    cursor: pointer;
+    background: white;
+    color: #475569;
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease,
+        background .15s ease,
+        color .15s ease;
+}
+
+.shop-navigation button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(79, 70, 229, .12);
+}
+
+.shop-navigation button.active {
+    background: #4f46e5;
+    border-color: #4f46e5;
+    color: white;
+    box-shadow: 0 6px 18px rgba(79, 70, 229, .25);
 }
 
 
@@ -101,70 +135,134 @@ body {
    ========================================================= */
 
 .shop-countdown {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #6b7280;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 30px;
+    padding: 10px 18px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 999px;
+    color: #64748b;
     font-weight: 700;
+    text-align: center;
 }
 
 #countdown {
     color: #4f46e5;
+    font-weight: 900;
 }
 
 
 /* =========================================================
-   ITEM GRID
+   SHOP SECTIONS
    ========================================================= */
 
-.shop-grid {
+.shop-section,
+.studypass-section {
+    background: rgba(255, 255, 255, .78);
+    border: 2px solid #e5e7eb;
+    border-radius: 26px;
+    padding: 26px;
+    margin-bottom: 28px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, .06);
+}
+
+.shop-section h2,
+.studypass-header h2 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 900;
+}
+
+.shop-subtitle,
+.studypass-header p {
+    margin: 7px 0 22px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.studypass-section {
+    border-color: #c4b5fd;
+    background:
+        linear-gradient(
+            135deg,
+            #faf9ff,
+            #f5f3ff
+        );
+}
+
+
+/* =========================================================
+   ITEM GRIDS
+   ========================================================= */
+
+.shop-grid,
+.ticket-grid,
+.studypass-grid {
     display: grid;
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
-@media (max-width: 800px) {
-    .shop-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+@media (max-width: 850px) {
+    .shop-grid,
+    .ticket-grid,
+    .studypass-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media (max-width: 520px) {
-    .shop-grid {
+@media (max-width: 560px) {
+    .shop-grid,
+    .ticket-grid,
+    .studypass-grid {
         grid-template-columns: 1fr;
     }
 }
 
 
 /* =========================================================
-   SHOP CARDS
+   CARDS
    ========================================================= */
 
 .shop-card,
 .ticket-card,
 .studypass-card {
+    position: relative;
+    overflow: hidden;
     background: white;
+    border: 2px solid #e5e7eb;
     border-radius: 22px;
     padding: 18px;
     text-align: center;
-    box-shadow:
-        0 8px 30px rgba(0, 0, 0, .08);
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, .07);
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+}
+
+.shop-card:hover,
+.ticket-card:hover,
+.studypass-card:hover {
+    transform: translateY(-4px);
+    border-color: #c7d2fe;
+    box-shadow: 0 12px 28px rgba(79, 70, 229, .13);
 }
 
 .shop-card h3,
 .ticket-card h3,
 .studypass-card h3 {
-    margin: 10px 0 4px;
+    margin: 9px 0 4px;
     font-size: 21px;
+    font-weight: 900;
 }
 
 .item-type {
     margin: 0;
-    color: #777;
+    color: #64748b;
     font-size: 14px;
+    font-weight: 700;
 }
 
 
@@ -174,16 +272,18 @@ body {
 
 .rarity {
     display: inline-block;
-    padding: 5px 10px;
+    padding: 5px 11px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .4px;
     margin-bottom: 8px;
 }
 
 .rarity-common .rarity {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f1f5f9;
+    color: #475569;
 }
 
 .rarity-rare .rarity {
@@ -197,8 +297,8 @@ body {
 }
 
 .rarity-mythic .rarity {
-    background: #ffe4e6;
-    color: #e11d48;
+    background: #fce7f3;
+    color: #db2777;
 }
 
 .rarity-legendary .rarity {
@@ -211,33 +311,20 @@ body {
    PREVIEWS
    ========================================================= */
 
-.item-preview {
-    height: 190px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
+.item-preview,
+.ticket-item-preview,
 .studypass-preview {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.ticket-item-preview {
     height: 190px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    margin-bottom: 4px;
 }
 
 
 /* =========================================================
-   GOOBER BASE
+   CHARACTER DISPLAY
    ========================================================= */
 
 .goober {
@@ -246,6 +333,14 @@ body {
     position: relative;
     flex-shrink: 0;
     overflow: visible;
+    transform-origin: bottom center;
+    transition: transform .18s ease;
+}
+
+.shop-card:hover .goober,
+.ticket-card:hover .goober,
+.studypass-card:hover .goober {
+    transform: translateY(-3px) scale(1.03);
 }
 
 .goober-body {
@@ -321,7 +416,7 @@ body {
 
 
 /* =========================================================
-   BASIC BODY COLOURS
+   CHARACTER COLOURS
    ========================================================= */
 
 .green {
@@ -402,21 +497,9 @@ body {
 
 .galaxy-body {
     background:
-        radial-gradient(
-            circle at 30% 25%,
-            white 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 70% 65%,
-            #c4b5fd 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 60% 30%,
-            #f0abfc 2px,
-            transparent 3px
-        ),
+        radial-gradient(circle at 30% 25%, white 2px, transparent 3px),
+        radial-gradient(circle at 70% 65%, #c4b5fd 2px, transparent 3px),
+        radial-gradient(circle at 60% 30%, #f0abfc 2px, transparent 3px),
         #312e81;
 }
 
@@ -430,7 +513,7 @@ body {
 
 
 /* =========================================================
-   LEAFY
+   EXISTING CHARACTER DETAILS
    ========================================================= */
 
 .leafy-leaf {
@@ -454,11 +537,6 @@ body {
     top: 18px;
     z-index: 6;
 }
-
-
-/* =========================================================
-   SQUISH
-   ========================================================= */
 
 .squishy {
     height: 82px;
@@ -485,11 +563,6 @@ body {
     right: 25px;
 }
 
-
-/* =========================================================
-   PEBBLE
-   ========================================================= */
-
 .pebble-mark-one,
 .pebble-mark-two,
 .pebble-mark-three {
@@ -515,11 +588,6 @@ body {
     left: 75px;
     top: 112px;
 }
-
-
-/* =========================================================
-   BUTTON
-   ========================================================= */
 
 .button-top {
     position: absolute;
@@ -551,11 +619,6 @@ body {
     left: 86px;
 }
 
-
-/* =========================================================
-   HORNS
-   ========================================================= */
-
 .horn-left,
 .horn-right {
     position: absolute;
@@ -581,43 +644,12 @@ body {
 
 
 /* =========================================================
-   SHELBY
+   HATS
    ========================================================= */
 
-.shelby-shell {
-    position: absolute;
-    width: 112px;
-    height: 105px;
-    left: 14px;
-    top: 28px;
-    background: #065f46;
-    border-radius: 50%;
-    z-index: 2;
-    box-shadow:
-        inset 0 0 0 7px #10b981;
-}
-
-.shell-highlight {
-    position: absolute;
-    width: 50px;
-    height: 35px;
-    background: #6ee7b7;
-    border-radius: 50%;
-    left: 45px;
-    top: 47px;
-    transform: rotate(-20deg);
-    z-index: 4;
-}
-
-
-/* =========================================================
-   TALLBOI
-   ========================================================= */
-
-.tall {
-    height: 125px;
-    top: 10px;
-    border-radius: 45% 45% 35% 35%;
+.tallboi-hat,
+.captain-hat {
+    z-index: 30;
 }
 
 .tallboi-hat {
@@ -628,235 +660,6 @@ body {
     left: 39px;
     top: 3px;
     border-radius: 8px 8px 3px 3px;
-    z-index: 7;
-}
-
-
-/* =========================================================
-   FOUR EYES
-   ========================================================= */
-
-.extra-eye {
-    top: 83px;
-}
-
-.extra-one {
-    left: 43px;
-}
-
-.extra-two {
-    left: 80px;
-}
-
-.four-eyes-brow {
-    position: absolute;
-    width: 72px;
-    height: 10px;
-    border-top: 4px solid #7f1d1d;
-    left: 35px;
-    top: 48px;
-    z-index: 9;
-}
-
-
-/* =========================================================
-   MOTHBALL
-   ========================================================= */
-
-.moth-wing-left,
-.moth-wing-right {
-    position: absolute;
-    width: 50px;
-    height: 75px;
-    background: #a855f7;
-    opacity: .8;
-    z-index: 1;
-}
-
-.moth-wing-left {
-    left: -2px;
-    top: 43px;
-    border-radius: 80% 20% 80% 20%;
-}
-
-.moth-wing-right {
-    right: -2px;
-    top: 43px;
-    border-radius: 20% 80% 20% 80%;
-}
-
-.moth-antenna-left,
-.moth-antenna-right {
-    position: absolute;
-    width: 5px;
-    height: 30px;
-    background: #581c87;
-    top: 7px;
-    z-index: 6;
-}
-
-.moth-antenna-left {
-    left: 52px;
-    transform: rotate(-25deg);
-}
-
-.moth-antenna-right {
-    left: 83px;
-    transform: rotate(25deg);
-}
-
-
-/* =========================================================
-   SPIKE
-   ========================================================= */
-
-.spike-one,
-.spike-two,
-.spike-three,
-.spike-four {
-    position: absolute;
-    width: 20px;
-    height: 30px;
-    background: #be123c;
-    clip-path: polygon(
-        50% 0,
-        100% 100%,
-        0 100%
-    );
-    z-index: 4;
-}
-
-.spike-one {
-    left: 28px;
-    top: 14px;
-    transform: rotate(-25deg);
-}
-
-.spike-two {
-    left: 50px;
-    top: 4px;
-}
-
-.spike-three {
-    left: 72px;
-    top: 4px;
-}
-
-.spike-four {
-    left: 93px;
-    top: 14px;
-    transform: rotate(25deg);
-}
-
-
-/* =========================================================
-   ORBIT
-   ========================================================= */
-
-.orbit-ring,
-.study-orbit-ring {
-    position: absolute;
-    width: 145px;
-    height: 48px;
-    border: 5px solid #0284c7;
-    border-radius: 50%;
-    left: -3px;
-    top: 55px;
-    transform: rotate(-20deg);
-    z-index: 6;
-}
-
-.orbit-dot {
-    position: absolute;
-    width: 13px;
-    height: 13px;
-    background: white;
-    border-radius: 50%;
-    left: 113px;
-    top: 45px;
-    z-index: 7;
-}
-
-
-/* =========================================================
-   BUBBLE
-   ========================================================= */
-
-.bubble-small-one,
-.bubble-small-two {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, .5);
-    z-index: 7;
-}
-
-.bubble-small-one {
-    width: 22px;
-    height: 22px;
-    left: 13px;
-    top: 34px;
-}
-
-.bubble-small-two {
-    width: 13px;
-    height: 13px;
-    right: 15px;
-    top: 20px;
-}
-
-.bubble-shine {
-    position: absolute;
-    width: 20px;
-    height: 8px;
-    background: white;
-    opacity: .6;
-    border-radius: 50%;
-    left: 35px;
-    top: 45px;
-    transform: rotate(-30deg);
-    z-index: 7;
-}
-
-
-/* =========================================================
-   CAPTAIN GOOB
-   ========================================================= */
-
-.captain-cape {
-    position: absolute;
-    width: 100px;
-    height: 110px;
-    left: 20px;
-    top: 34px;
-    background: #dc2626;
-    clip-path: polygon(
-        10% 0,
-        90% 0,
-        100% 100%,
-        50% 82%,
-        0 100%
-    );
-    z-index: 1;
-}
-
-.captain-badge {
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    background: #facc15;
-    border-radius: 50%;
-    left: 56px;
-    top: 75px;
-    z-index: 10;
-}
-
-.captain-badge::after {
-    content: "S";
-    position: absolute;
-    left: 9px;
-    top: 4px;
-    font-weight: 900;
-    color: #7f1d1d;
 }
 
 .captain-hat {
@@ -867,292 +670,29 @@ body {
     left: 38px;
     top: 17px;
     border-radius: 10px 10px 3px 3px;
-    z-index: 7;
 }
 
 
 /* =========================================================
-   TAILSPIN
+   TICKET / STUDYPASS BADGES
    ========================================================= */
 
-.tailspin-tail {
-    position: absolute;
-    width: 65px;
-    height: 65px;
-    border: 12px solid #be185d;
-    border-left-color: transparent;
-    border-radius: 50%;
-    right: -8px;
-    top: 70px;
-    z-index: 1;
-}
-
-.tailspin-tip {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    background: #be185d;
-    border-radius: 50%;
-    right: -2px;
-    top: 48px;
-    z-index: 2;
-}
-
-
-/* =========================================================
-   HOLY MOLY
-   ========================================================= */
-
-.holy-halo {
-    position: absolute;
-    width: 82px;
-    height: 24px;
-    border: 6px solid #f59e0b;
-    border-radius: 50%;
-    left: 29px;
-    top: 3px;
-    z-index: 7;
-}
-
-.holy-rays {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    left: 10px;
-    top: 20px;
-    border: 3px dashed #f59e0b;
-    border-radius: 50%;
-    z-index: 1;
-}
-
-
-/* =========================================================
-   WINGNUT
-   ========================================================= */
-
-.wingnut-left,
-.wingnut-right {
-    position: absolute;
-    width: 52px;
-    height: 70px;
-    background: #d946ef;
-    z-index: 1;
-}
-
-.wingnut-left {
-    left: -5px;
-    top: 52px;
-    border-radius: 100% 0 100% 0;
-    transform: rotate(-20deg);
-}
-
-.wingnut-right {
-    right: -5px;
-    top: 52px;
-    border-radius: 0 100% 0 100%;
-    transform: rotate(20deg);
-}
-
-.wingnut-nut {
-    position: absolute;
-    width: 34px;
-    height: 34px;
-    background: #a21caf;
-    left: 53px;
-    top: 12px;
-    clip-path: polygon(
-        25% 0,
-        75% 0,
-        100% 50%,
-        75% 100%,
-        25% 100%,
-        0 50%
-    );
-    z-index: 7;
-}
-
-
-/* =========================================================
-   COSMO
-   ========================================================= */
-
-.cosmo-stars {
-    position: absolute;
-    inset: 25px;
+.pass-badge {
+    display: inline-block;
+    background: #4f46e5;
     color: white;
-    font-size: 20px;
-    z-index: 7;
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
 }
 
-.cosmo-moon {
-    position: absolute;
-    width: 27px;
-    height: 27px;
-    border-radius: 50%;
-    background: #fde68a;
-    right: 15px;
-    top: 38px;
-    z-index: 7;
+.ticket-card {
+    border-color: #ddd6fe;
 }
 
-
-/* =========================================================
-   THE GOOBER
-   ========================================================= */
-
-.goober-big-smile {
-    position: absolute;
-    width: 48px;
-    height: 25px;
-    border-bottom: 7px solid #7c2d12;
-    border-radius: 50%;
-    left: 46px;
-    top: 88px;
-    z-index: 10;
-}
-
-.goober-tuft {
-    position: absolute;
-    width: 40px;
-    height: 30px;
-    background: #ea580c;
-    left: 50px;
-    top: 7px;
-    clip-path: polygon(
-        0 100%,
-        20% 0,
-        40% 60%,
-        65% 0,
-        80% 60%,
-        100% 10%,
-        100% 100%
-    );
-    z-index: 7;
-}
-
-.goober-star {
-    position: absolute;
-    color: #fef08a;
-    font-size: 26px;
-    left: 58px;
-    top: 42px;
-    z-index: 9;
-}
-
-.golden-shine {
-    position: absolute;
-    width: 30px;
-    height: 60px;
-    background: rgba(255, 255, 255, .4);
-    border-radius: 50%;
-    left: 28px;
-    top: 40px;
-    transform: rotate(25deg);
-    z-index: 7;
-}
-
-.golden-crown {
-    position: absolute;
-    width: 52px;
-    height: 30px;
-    background: #f59e0b;
-    left: 44px;
-    top: 4px;
-    clip-path: polygon(
-        0 100%,
-        10% 15%,
-        35% 60%,
-        50% 0,
-        65% 60%,
-        90% 15%,
-        100% 100%
-    );
-    z-index: 999;
-}
-
-
-/* =========================================================
-   GALAXY
-   ========================================================= */
-
-.galaxy-stars {
-    position: absolute;
-    inset: 20px;
-    color: white;
-    font-size: 24px;
-    z-index: 7;
-}
-
-.galaxy-ring {
-    position: absolute;
-    width: 150px;
-    height: 55px;
-    border: 4px solid #c4b5fd;
-    border-radius: 50%;
-    left: -5px;
-    top: 55px;
-    transform: rotate(25deg);
-    z-index: 6;
-}
-
-.galaxy-glow {
-    position: absolute;
-    inset: 4px;
-    border-radius: 50%;
-    box-shadow: 0 0 30px #8b5cf6;
-    z-index: 1;
-}
-
-
-/* =========================================================
-   STUDY SPROUT
-   ========================================================= */
-
-.study-book {
-    position: absolute;
-    width: 54px;
-    height: 38px;
-    background: #f8fafc;
-    left: 43px;
-    top: 104px;
-    border-radius: 4px;
-    z-index: 10;
-    box-shadow:
-        0 0 0 3px #166534;
-}
-
-.study-leaf-left,
-.study-leaf-right {
-    position: absolute;
-    width: 30px;
-    height: 20px;
-    background: #166534;
-    top: 14px;
-    z-index: 7;
-}
-
-.study-leaf-left {
-    left: 27px;
-    border-radius: 100% 0 100% 0;
-}
-
-.study-leaf-right {
-    right: 27px;
-    border-radius: 0 100% 0 100%;
-}
-
-
-/* =========================================================
-   STUDY ORBIT
-   ========================================================= */
-
-.study-star {
-    position: absolute;
-    color: #fef08a;
-    font-size: 32px;
-    left: 52px;
-    top: 25px;
-    z-index: 8;
+.studypass-card {
+    border-color: #c4b5fd;
 }
 
 
@@ -1164,17 +704,18 @@ body {
     width: 180px;
     height: 110px;
     border-radius: 16px;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
 }
 
 .banner-sprintGrid {
     background:
         linear-gradient(
-            rgba(255, 255, 255, .15) 1px,
+            rgba(255,255,255,.15) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(255, 255, 255, .15) 1px,
+            rgba(255,255,255,.15) 1px,
             transparent 1px
         ),
         linear-gradient(
@@ -1182,42 +723,21 @@ body {
             #312e81,
             #6366f1
         );
-    background-size:
-        18px 18px,
-        18px 18px,
-        auto;
+    background-size: 18px 18px, 18px 18px, auto;
 }
 
 .banner-purpleGrid {
-    background:
-        linear-gradient(
-            135deg,
-            #6d28d9,
-            #a78bfa
-        );
+    background: linear-gradient(135deg, #6d28d9, #a78bfa);
 }
 
 .banner-neonBlue {
-    background:
-        linear-gradient(
-            135deg,
-            #06b6d4,
-            #2563eb
-        );
+    background: linear-gradient(135deg, #06b6d4, #2563eb);
 }
 
 .banner-galaxy {
     background:
-        radial-gradient(
-            circle at 20% 30%,
-            white 2px,
-            transparent 3px
-        ),
-        radial-gradient(
-            circle at 70% 70%,
-            #c4b5fd 2px,
-            transparent 3px
-        ),
+        radial-gradient(circle at 20% 30%, white 2px, transparent 3px),
+        radial-gradient(circle at 70% 70%, #c4b5fd 2px, transparent 3px),
         #1e1b4b;
 }
 
@@ -1245,13 +765,25 @@ body {
 
 
 /* =========================================================
-   BUTTONS
+   PRICES
+   ========================================================= */
+
+.shop-price,
+.ticket-price {
+    margin-top: 12px;
+    font-weight: 900;
+    color: #334155;
+}
+
+
+/* =========================================================
+   BUY BUTTON
    ========================================================= */
 
 .buy-button {
     width: 100%;
     border: none;
-    border-radius: 12px;
+    border-radius: 13px;
     padding: 12px;
     margin-top: 12px;
     background: #4f46e5;
@@ -1266,7 +798,7 @@ body {
 
 .buy-button:hover:not(:disabled) {
     background: #4338ca;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .buy-button:disabled {
@@ -1280,40 +812,33 @@ body {
 
 
 /* =========================================================
-   PRICES
-   ========================================================= */
-
-.shop-price,
-.ticket-price {
-    margin-top: 12px;
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   STUDYPASS
-   ========================================================= */
-
-.pass-badge {
-    display: inline-block;
-    background: #4f46e5;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 900;
-}
-
-
-/* =========================================================
    DEBUG
    ========================================================= */
+
+.debug-section {
+    text-align: center;
+    margin-top: 12px;
+}
+
+.debug-button {
+    border: 2px solid #cbd5e1;
+    background: white;
+    color: #475569;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.debug-button:hover {
+    background: #f8fafc;
+}
 
 .debug-overlay {
     position: fixed;
     inset: 0;
     z-index: 999999;
-    background: rgba(0, 0, 0, .55);
+    background: rgba(15, 23, 42, .55);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1326,8 +851,7 @@ body {
     background: white;
     padding: 25px;
     border-radius: 22px;
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, .3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
 }
 
 .debug-box h2 {
@@ -1341,10 +865,6 @@ body {
     border-radius: 10px;
     border: 1px solid #ddd;
     margin-bottom: 12px;
-}
-
-.debug-box input {
-    box-sizing: border-box;
 }
 
 .debug-apply,
@@ -1369,138 +889,21 @@ body {
 
 
 /* =========================================================
-   EFFECT PREVIEWS
-   ========================================================= */
-
-.preview-effect {
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 5;
-}
-
-.effect-sparkle {
-    box-shadow:
-        0 0 10px #fef08a,
-        35px -25px 0 -5px #fef08a,
-        -35px 20px 0 -5px #fef08a;
-}
-
-.effect-speed-trail {
-    box-shadow:
-        -45px 20px 0 -15px #60a5fa,
-        -65px 30px 0 -20px #60a5fa;
-}
-
-.effect-lightning {
-    border: 4px dashed #facc15;
-}
-
-.effect-rainbow {
-    border: 6px solid transparent;
-    background:
-        linear-gradient(white, white) padding-box,
-        linear-gradient(
-            45deg,
-            red,
-            orange,
-            yellow,
-            green,
-            blue,
-            violet
-        ) border-box;
-}
-
-.effect-fire {
-    box-shadow:
-        0 0 30px #f97316,
-        0 0 55px #ef4444;
-}
-
-.effect-glitch {
-    border: 4px dashed #ec4899;
-    transform: translateX(5px);
-}
-
-.effect-shadow {
-    box-shadow:
-        0 15px 30px rgba(0, 0, 0, .6);
-}
-
-.effect-crystal {
-    border: 4px solid #a5f3fc;
-    box-shadow:
-        0 0 30px #67e8f9;
-}
-
-.effect-cosmic-aura {
-    border: 3px dotted #c4b5fd;
-    box-shadow:
-        0 0 30px #8b5cf6;
-}
-
-
-/* =========================================================
-   CROWN EFFECT
-   ========================================================= */
-
-.effect-crown {
-    position: absolute;
-    width: 58px;
-    height: 42px;
-    left: 50%;
-    top: 12px;
-    transform: translateX(-50%);
-    border-radius: 0;
-    background: #facc15;
-
-    clip-path: polygon(
-        0 100%,
-        8% 20%,
-        32% 55%,
-        50% 0,
-        68% 55%,
-        92% 20%,
-        100% 100%
-    );
-
-    box-shadow:
-        0 0 10px #facc15,
-        0 0 22px #f59e0b;
-
-    z-index: 20;
-}
-
-
-/* =========================================================
-   CROWN JEWELS
-   ========================================================= */
-
-.effect-crown::before {
-    content: "";
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: #ef4444;
-    border-radius: 50%;
-    left: 25px;
-    top: 18px;
-    box-shadow:
-        -17px 5px 0 #3b82f6,
-        17px 5px 0 #8b5cf6;
-}
-
-
-/* =========================================================
    MOBILE
    ========================================================= */
 
 @media (max-width: 600px) {
 
+    .shop-page {
+        padding-top: 22px;
+    }
+
     .shop-header h1 {
         font-size: 32px;
+    }
+
+    .shop-header p {
+        font-size: 15px;
     }
 
     .shop-navigation {
@@ -1511,13 +914,26 @@ body {
         width: 100%;
     }
 
-    .shop-container {
-        padding-top: 20px;
+    .shop-section,
+    .studypass-section {
+        padding: 18px;
+        border-radius: 20px;
+    }
+
+    .shop-section h2,
+    .studypass-header h2 {
+        font-size: 23px;
     }
 
     .shop-card,
     .ticket-card,
     .studypass-card {
         border-radius: 18px;
+    }
+
+    .item-preview,
+    .ticket-item-preview,
+    .studypass-preview {
+        height: 175px;
     }
 }
