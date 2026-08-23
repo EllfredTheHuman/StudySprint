@@ -38,19 +38,30 @@
     </a>
 
 
-    <div class="shop-currency">
+    <div class="shop-header-right">
 
-        <div class="currency-coin">
-            ●
+        <div class="coin-display">
+
+            <span class="coin-symbol">●</span>
+
+            <span id="coin-count">
+                0
+            </span>
+
+            <span class="coin-label">
+                COINS
+            </span>
+
         </div>
 
-        <span id="coin-count">
-            0
-        </span>
 
-        <span class="currency-label">
-            COINS
-        </span>
+        <button
+            id="mod-button"
+            class="mod-button"
+            type="button"
+        >
+            MOD
+        </button>
 
     </div>
 
@@ -61,22 +72,27 @@
 <main class="shop-container">
 
 
-    <section class="shop-intro">
+    <section class="shop-hero">
 
-        <div class="shop-tag">
-            FORTNIGHTLY SHOP
+        <div>
+
+            <p class="shop-kicker">
+                STUDYSPRINT SHOP
+            </p>
+
+            <h1>
+                CUSTOMISE YOUR PROFILE
+            </h1>
+
+            <p class="shop-description">
+                Pick up banners, titles and frames
+                to make your profile your own.
+            </p>
+
         </div>
 
-        <h1>
-            Cosmetic Shop
-        </h1>
 
-        <p>
-            Grab a new Goober, banner or title.
-            The shop changes every two weeks.
-        </p>
-
-        <div class="shop-refresh">
+        <div class="rotation-box">
 
             <span>
                 NEXT ROTATION
@@ -92,13 +108,179 @@
 
 
 
-    <section
-        id="shop-items"
-        class="shop-grid"
-    ></section>
+    <section class="shop-section">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    FORTNIGHTLY
+                </span>
+
+                <h2>
+                    Featured Items
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="shop-items"
+            class="shop-grid"
+        >
+
+        </div>
+
+    </section>
+
 
 
 </main>
+
+
+
+<div
+    id="mod-overlay"
+    class="mod-overlay"
+>
+
+    <div class="mod-panel">
+
+        <div class="mod-header">
+
+            <div>
+
+                <span class="section-label">
+                    ADMIN TOOLS
+                </span>
+
+                <h2>
+                    Mod Panel
+                </h2>
+
+            </div>
+
+            <button
+                id="close-mod"
+                class="close-mod"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <section class="mod-section">
+
+            <h3>
+                Give Coins
+            </h3>
+
+            <div class="mod-row">
+
+                <input
+                    id="mod-coins"
+                    type="number"
+                    min="1"
+                    value="1000"
+                >
+
+                <button
+                    id="give-coins"
+                    type="button"
+                    class="mod-action"
+                >
+                    GIVE COINS
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="mod-section">
+
+            <h3>
+                Give Shop Item
+            </h3>
+
+
+            <select
+                id="mod-item"
+                class="mod-select"
+            >
+
+            </select>
+
+
+            <div class="mod-row">
+
+                <input
+                    id="mod-quantity"
+                    type="number"
+                    min="1"
+                    value="1"
+                >
+
+                <button
+                    id="give-item"
+                    type="button"
+                    class="mod-action"
+                >
+                    GIVE ITEM
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <section class="mod-section">
+
+            <h3>
+                Shop Controls
+            </h3>
+
+            <div class="mod-controls">
+
+                <button
+                    id="mod-reroll"
+                    type="button"
+                    class="mod-action"
+                >
+                    REROLL SHOP
+                </button>
+
+                <button
+                    id="mod-reset"
+                    type="button"
+                    class="mod-action danger"
+                >
+                    RESET ROTATION
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <div
+            id="mod-status"
+            class="mod-status"
+        >
+        </div>
+
+    </div>
+
+</div>
 
 
 
