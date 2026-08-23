@@ -1,17 +1,24 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   GOOBER SHOP
-   ========================================================= */
+   Banners + Titles + Frames
+   Coins only
+========================================================= */
 
 
 /* =========================================================
    SETTINGS
-   ========================================================= */
+========================================================= */
 
 const SHOP_SLOTS = 6;
 
 const SHOP_INTERVAL =
     14 * 24 * 60 * 60 * 1000;
+
+
+/*
+   Rotation anchor.
+   The shop changes every 14 days.
+*/
 
 const SHOP_ANCHOR =
     Date.UTC(2025, 7, 9, 14, 0, 0);
@@ -19,9 +26,10 @@ const SHOP_ANCHOR =
 
 /* =========================================================
    RARITIES
-   ========================================================= */
+========================================================= */
 
 const RARITY_CHANCES = [
+
     {
         name: "Common",
         weight: 40
@@ -46,185 +54,19 @@ const RARITY_CHANCES = [
         name: "Legendary",
         weight: 3
     }
+
 ];
 
 
 /* =========================================================
    SHOP ITEMS
-   ========================================================= */
+========================================================= */
 
 const SHOP_ITEMS = [
 
-    {
-        id: "squish",
-        name: "Squish",
-        type: "Character",
-        rarity: "Common",
-        price: 275,
-        design: "squish"
-    },
-
-    {
-        id: "pebble",
-        name: "Pebble",
-        type: "Character",
-        rarity: "Common",
-        price: 300,
-        design: "pebble"
-    },
-
-    {
-        id: "button",
-        name: "Button",
-        type: "Character",
-        rarity: "Common",
-        price: 325,
-        design: "button"
-    },
-
-    {
-        id: "horns",
-        name: "Horns",
-        type: "Character",
-        rarity: "Rare",
-        price: 400,
-        design: "horns"
-    },
-
-    {
-        id: "shelby",
-        name: "Shelby",
-        type: "Character",
-        rarity: "Rare",
-        price: 425,
-        design: "shelby"
-    },
-
-    {
-        id: "tallboi",
-        name: "Tallboi",
-        type: "Character",
-        rarity: "Rare",
-        price: 450,
-        design: "tallboi"
-    },
-
-    {
-        id: "four-eyes",
-        name: "Four Eyes",
-        type: "Character",
-        rarity: "Rare",
-        price: 475,
-        design: "fourEyes"
-    },
-
-    {
-        id: "mothball",
-        name: "Mothball",
-        type: "Character",
-        rarity: "Epic",
-        price: 550,
-        design: "mothball"
-    },
-
-    {
-        id: "spike",
-        name: "Spike",
-        type: "Character",
-        rarity: "Epic",
-        price: 575,
-        design: "spike"
-    },
-
-    {
-        id: "orbit",
-        name: "Orbit",
-        type: "Character",
-        rarity: "Epic",
-        price: 600,
-        design: "orbit"
-    },
-
-    {
-        id: "bubble",
-        name: "Bubble",
-        type: "Character",
-        rarity: "Epic",
-        price: 625,
-        design: "bubble"
-    },
-
-    {
-        id: "captain-goob",
-        name: "Captain Goob",
-        type: "Character",
-        rarity: "Mythic",
-        price: 700,
-        design: "captainGoob"
-    },
-
-    {
-        id: "tailspin",
-        name: "Tailspin",
-        type: "Character",
-        rarity: "Mythic",
-        price: 725,
-        design: "tailspin"
-    },
-
-    {
-        id: "holy-moly",
-        name: "Holy Moly",
-        type: "Character",
-        rarity: "Mythic",
-        price: 750,
-        design: "holyMoly"
-    },
-
-    {
-        id: "wingnut",
-        name: "Wingnut",
-        type: "Character",
-        rarity: "Mythic",
-        price: 775,
-        design: "wingnut"
-    },
-
-    {
-        id: "cosmo",
-        name: "Cosmo",
-        type: "Character",
-        rarity: "Legendary",
-        price: 950,
-        design: "cosmo"
-    },
-
-    {
-        id: "the-goober",
-        name: "The Goober",
-        type: "Character",
-        rarity: "Legendary",
-        price: 1000,
-        design: "theGoober"
-    },
-
-    {
-        id: "golden-goober",
-        name: "Golden Goober",
-        type: "Character",
-        rarity: "Legendary",
-        price: 1100,
-        design: "golden"
-    },
-
-    {
-        id: "galaxy-goober",
-        name: "Galaxy Goober",
-        type: "Character",
-        rarity: "Legendary",
-        price: 1200,
-        design: "galaxy"
-    },
+    /* =========================
+       BANNERS
+    ========================= */
 
     {
         id: "sprint-grid",
@@ -232,16 +74,25 @@ const SHOP_ITEMS = [
         type: "Banner",
         rarity: "Common",
         price: 100,
-        design: "sprintGrid"
+        design: "grid"
+    },
+
+    {
+        id: "blue-grid",
+        name: "Blue Grid",
+        type: "Banner",
+        rarity: "Common",
+        price: 125,
+        design: "blue-grid"
     },
 
     {
         id: "purple-grid",
         name: "Purple Grid",
         type: "Banner",
-        rarity: "Common",
-        price: 125,
-        design: "purpleGrid"
+        rarity: "Rare",
+        price: 175,
+        design: "purple-grid"
     },
 
     {
@@ -249,8 +100,17 @@ const SHOP_ITEMS = [
         name: "Neon Blue",
         type: "Banner",
         rarity: "Rare",
-        price: 175,
-        design: "neonBlue"
+        price: 225,
+        design: "neon"
+    },
+
+    {
+        id: "aurora",
+        name: "Aurora",
+        type: "Banner",
+        rarity: "Epic",
+        price: 325,
+        design: "aurora"
     },
 
     {
@@ -258,8 +118,17 @@ const SHOP_ITEMS = [
         name: "Galaxy",
         type: "Banner",
         rarity: "Epic",
-        price: 300,
+        price: 400,
         design: "galaxy"
+    },
+
+    {
+        id: "cyber-grid",
+        name: "Cyber Grid",
+        type: "Banner",
+        rarity: "Mythic",
+        price: 550,
+        design: "cyber"
     },
 
     {
@@ -267,14 +136,19 @@ const SHOP_ITEMS = [
         name: "Golden",
         type: "Banner",
         rarity: "Legendary",
-        price: 600,
+        price: 700,
         design: "gold"
     },
+
+
+    /* =========================
+       TITLES
+    ========================= */
 
     {
         id: "study-sprinter",
         name: "Study Sprinter",
-        type: "Player Title",
+        type: "Title",
         rarity: "Common",
         price: 150
     },
@@ -282,23 +156,23 @@ const SHOP_ITEMS = [
     {
         id: "brainiac",
         name: "Brainiac",
-        type: "Player Title",
+        type: "Title",
         rarity: "Rare",
-        price: 300
+        price: 275
     },
 
     {
         id: "speed-learner",
         name: "Speed Learner",
-        type: "Player Title",
+        type: "Title",
         rarity: "Epic",
-        price: 450
+        price: 425
     },
 
     {
         id: "knowledge-seeker",
         name: "Knowledge Seeker",
-        type: "Player Title",
+        type: "Title",
         rarity: "Mythic",
         price: 650
     },
@@ -306,9 +180,86 @@ const SHOP_ITEMS = [
     {
         id: "study-legend",
         name: "Study Legend",
-        type: "Player Title",
+        type: "Title",
         rarity: "Legendary",
         price: 1000
+    },
+
+
+    /* =========================
+       FRAMES
+    ========================= */
+
+    {
+        id: "simple-frame",
+        name: "Simple",
+        type: "Frame",
+        rarity: "Common",
+        price: 125,
+        design: "simple"
+    },
+
+    {
+        id: "blue-frame",
+        name: "Blue",
+        type: "Frame",
+        rarity: "Common",
+        price: 150,
+        design: "blue"
+    },
+
+    {
+        id: "purple-frame",
+        name: "Purple",
+        type: "Frame",
+        rarity: "Rare",
+        price: 225,
+        design: "purple"
+    },
+
+    {
+        id: "cyan-frame",
+        name: "Cyan",
+        type: "Frame",
+        rarity: "Rare",
+        price: 250,
+        design: "cyan"
+    },
+
+    {
+        id: "pink-frame",
+        name: "Pink",
+        type: "Frame",
+        rarity: "Epic",
+        price: 350,
+        design: "pink"
+    },
+
+    {
+        id: "fire-frame",
+        name: "Fire",
+        type: "Frame",
+        rarity: "Epic",
+        price: 450,
+        design: "fire"
+    },
+
+    {
+        id: "cosmic-frame",
+        name: "Cosmic",
+        type: "Frame",
+        rarity: "Mythic",
+        price: 650,
+        design: "cosmic"
+    },
+
+    {
+        id: "gold-frame",
+        name: "Golden Frame",
+        type: "Frame",
+        rarity: "Legendary",
+        price: 1000,
+        design: "gold"
     }
 
 ];
@@ -316,7 +267,7 @@ const SHOP_ITEMS = [
 
 /* =========================================================
    CURRENCY
-   ========================================================= */
+========================================================= */
 
 function getCoins() {
 
@@ -331,7 +282,7 @@ function setCoins(value) {
 
     localStorage.setItem(
         "coins",
-        String(value)
+        String(Math.max(0, Number(value)))
     );
 
 }
@@ -339,19 +290,26 @@ function setCoins(value) {
 
 /* =========================================================
    OWNED ITEMS
-   ========================================================= */
+========================================================= */
 
 function getOwnedItems() {
 
     try {
 
-        return JSON.parse(
-            localStorage.getItem(
-                "shopOwnedItems"
-            )
-        ) || [];
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "shopOwnedItems"
+                )
+            );
 
-    } catch (error) {
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+
+    catch {
 
         return [];
 
@@ -378,73 +336,81 @@ function ownsItem(id) {
 
 
 /* =========================================================
-   UNLOCK
-   ========================================================= */
+   EQUIPPED PROFILE ITEMS
+========================================================= */
 
-function unlockItem(item) {
+function getEquippedItem(type) {
 
-    let key = "";
+    if (type === "Banner") {
 
-    if (item.type === "Character") {
-
-        key = "unlocked_characters";
+        return localStorage.getItem(
+            "profileBanner"
+        ) || "blue-grid";
 
     }
+
+    if (type === "Title") {
+
+        return localStorage.getItem(
+            "profileTitle"
+        ) || "";
+
+    }
+
+    if (type === "Frame") {
+
+        return localStorage.getItem(
+            "profileFrame"
+        ) || "simple-frame";
+
+    }
+
+    return "";
+
+}
+
+
+function equipItem(item) {
 
     if (item.type === "Banner") {
 
-        key = "unlocked_banners";
+        localStorage.setItem(
+            "profileBanner",
+            item.id
+        );
 
     }
 
-    if (item.type === "Player Title") {
+    else if (item.type === "Title") {
 
-        key = "unlockedTitles";
-
-    }
-
-    if (!key) {
-
-        return;
+        localStorage.setItem(
+            "profileTitle",
+            item.id
+        );
 
     }
 
-    let unlocked = [];
+    else if (item.type === "Frame") {
 
-    try {
-
-        unlocked = JSON.parse(
-            localStorage.getItem(key)
-        ) || [];
-
-    } catch (error) {
-
-        unlocked = [];
+        localStorage.setItem(
+            "profileFrame",
+            item.id
+        );
 
     }
-
-    if (!unlocked.includes(item.id)) {
-
-        unlocked.push(item.id);
-
-    }
-
-    localStorage.setItem(
-        key,
-        JSON.stringify(unlocked)
-    );
 
 }
 
 
 /* =========================================================
    SEEDED RANDOM
-   ========================================================= */
+========================================================= */
 
 function seededRandom(seed) {
 
     let value =
-        seed % 2147483647;
+        Number(seed) % 2147483647;
+
 
     if (value <= 0) {
 
@@ -452,9 +418,11 @@ function seededRandom(seed) {
 
     }
 
+
     value =
         value * 16807 %
         2147483647;
+
 
     return (
         value - 1
@@ -465,22 +433,26 @@ function seededRandom(seed) {
 
 /* =========================================================
    SHOP START
-   ========================================================= */
+========================================================= */
 
 function getShopStart() {
 
-    const debug =
+    const debugReset =
         localStorage.getItem(
             "shopDebugReset"
         );
 
-    if (debug) {
 
-        return Number(debug);
+    if (debugReset) {
+
+        return Number(debugReset);
 
     }
 
-    const now = Date.now();
+
+    const now =
+        Date.now();
+
 
     const cycles =
         Math.floor(
@@ -490,6 +462,7 @@ function getShopStart() {
             ) /
             SHOP_INTERVAL
         );
+
 
     return (
         SHOP_ANCHOR +
@@ -501,12 +474,13 @@ function getShopStart() {
 
 
 /* =========================================================
-   RARITY
-   ========================================================= */
+   RARITY ROLL
+========================================================= */
 
 function rollRarity(random) {
 
     let total = 0;
+
 
     for (
         const rarity of RARITY_CHANCES
@@ -514,9 +488,9 @@ function rollRarity(random) {
 
         total += rarity.weight;
 
+
         if (
-            random * 100 <
-            total
+            random * 100 < total
         ) {
 
             return rarity.name;
@@ -525,6 +499,7 @@ function rollRarity(random) {
 
     }
 
+
     return "Common";
 
 }
@@ -532,27 +507,32 @@ function rollRarity(random) {
 
 /* =========================================================
    CURRENT SHOP
-   ========================================================= */
+========================================================= */
 
 function getCurrentShop() {
 
     const start =
         getShopStart();
 
-    const reroll =
+
+    const rerollSeed =
         Number(
             localStorage.getItem(
                 "shopRerollSeed"
             )
         ) || 0;
 
-    const seed =
+
+    const baseSeed =
         Math.floor(start / 1000) +
-        reroll;
+        rerollSeed;
+
 
     const result = [];
 
-    const used = new Set();
+    const used =
+        new Set();
+
 
     for (
         let slot = 0;
@@ -562,12 +542,14 @@ function getCurrentShop() {
 
         let random =
             seededRandom(
-                seed +
+                baseSeed +
                 slot * 7919
             );
 
+
         const rarity =
             rollRarity(random);
+
 
         let candidates =
             SHOP_ITEMS.filter(
@@ -581,7 +563,10 @@ function getCurrentShop() {
                 }
             );
 
-        if (!candidates.length) {
+
+        if (
+            candidates.length === 0
+        ) {
 
             candidates =
                 SHOP_ITEMS.filter(
@@ -596,17 +581,22 @@ function getCurrentShop() {
 
         }
 
-        if (!candidates.length) {
+
+        if (
+            candidates.length === 0
+        ) {
 
             break;
 
         }
 
+
         random =
             seededRandom(
-                seed +
+                baseSeed +
                 slot * 15485863
             );
+
 
         const index =
             Math.floor(
@@ -614,8 +604,10 @@ function getCurrentShop() {
                 candidates.length
             );
 
+
         const item =
             candidates[index];
+
 
         used.add(item.id);
 
@@ -623,156 +615,185 @@ function getCurrentShop() {
 
     }
 
+
     return result;
 
 }
 
 
 /* =========================================================
-   GOOBER CREATOR
-   ========================================================= */
+   PREVIEWS
+========================================================= */
 
-function createGoober(item) {
+function createBannerPreview(item) {
 
-    const wrapper =
+    const element =
         document.createElement("div");
 
-    wrapper.className =
-        "goober-preview goober-" +
+    element.className =
+        "shop-banner-preview shop-banner-" +
         item.design;
 
-
-    const body =
-        document.createElement("div");
-
-    body.className =
-        "goober-body";
-
-
-    const leftEye =
-        document.createElement("div");
-
-    leftEye.className =
-        "goober-eye left";
-
-
-    const rightEye =
-        document.createElement("div");
-
-    rightEye.className =
-        "goober-eye right";
-
-
-    const mouth =
-        document.createElement("div");
-
-    mouth.className =
-        "goober-mouth";
-
-
-    body.appendChild(leftEye);
-
-    body.appendChild(rightEye);
-
-    body.appendChild(mouth);
-
-    wrapper.appendChild(body);
-
-
-    return wrapper;
+    return element;
 
 }
 
 
-/* =========================================================
-   BANNER CREATOR
-   ========================================================= */
+function createTitlePreview(item) {
 
-function createBanner(item) {
-
-    const banner =
+    const element =
         document.createElement("div");
 
-    banner.className =
-        "banner-preview banner-" +
-        item.design;
+    element.className =
+        "shop-title-preview";
 
-    return banner;
-
-}
-
-
-/* =========================================================
-   TITLE CREATOR
-   ========================================================= */
-
-function createTitle(item) {
-
-    const title =
-        document.createElement("div");
-
-    title.className =
-        "title-preview";
-
-    title.textContent =
-        item.name;
-
-    return title;
-
-}
-
-
-/* =========================================================
-   PREVIEW
-   ========================================================= */
-
-function createPreview(item) {
 
     if (
-        item.type === "Character"
+        item.rarity === "Epic"
     ) {
 
-        return createGoober(item);
+        element.classList.add(
+            "shop-title-epic"
+        );
 
     }
+
+    if (
+        item.rarity === "Mythic"
+    ) {
+
+        element.classList.add(
+            "shop-title-mythic"
+        );
+
+    }
+
+    if (
+        item.rarity === "Legendary"
+    ) {
+
+        element.classList.add(
+            "shop-title-legendary"
+        );
+
+    }
+
+
+    element.textContent =
+        item.name;
+
+
+    return element;
+
+}
+
+
+function createFramePreview(item) {
+
+    const frame =
+        document.createElement("div");
+
+    frame.className =
+        "shop-frame-preview frame-" +
+        item.design;
+
+
+    const text =
+        document.createElement("span");
+
+    text.textContent =
+        "PROFILE";
+
+
+    frame.appendChild(
+        text
+    );
+
+
+    return frame;
+
+}
+
+
+function createPreview(item) {
 
     if (
         item.type === "Banner"
     ) {
 
-        return createBanner(item);
+        return createBannerPreview(
+            item
+        );
 
     }
+
 
     if (
-        item.type === "Player Title"
+        item.type === "Title"
     ) {
 
-        return createTitle(item);
+        return createTitlePreview(
+            item
+        );
 
     }
 
-    return document.createElement("div");
+
+    if (
+        item.type === "Frame"
+    ) {
+
+        return createFramePreview(
+            item
+        );
+
+    }
+
+
+    return document.createElement(
+        "div"
+    );
+
+}
+
+
+/* =========================================================
+   RARITY CLASS
+========================================================= */
+
+function getRarityClass(rarity) {
+
+    return (
+        "rarity-" +
+        rarity.toLowerCase()
+    );
 
 }
 
 
 /* =========================================================
    SHOP CARD
-   ========================================================= */
+========================================================= */
 
 function createShopCard(item) {
 
     const card =
-        document.createElement("article");
+        document.createElement(
+            "article"
+        );
+
 
     card.className =
-        "shop-card rarity-" +
-        item.rarity.toLowerCase();
+        "shop-card " +
+        getRarityClass(
+            item.rarity
+        );
 
 
     const rarity =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     rarity.className =
         "rarity";
@@ -782,10 +803,13 @@ function createShopCard(item) {
 
 
     const preview =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     preview.className =
         "item-preview";
+
 
     preview.appendChild(
         createPreview(item)
@@ -793,14 +817,18 @@ function createShopCard(item) {
 
 
     const name =
-        document.createElement("h3");
+        document.createElement(
+            "h3"
+        );
 
     name.textContent =
         item.name;
 
 
     const type =
-        document.createElement("p");
+        document.createElement(
+            "p"
+        );
 
     type.className =
         "item-type";
@@ -810,7 +838,9 @@ function createShopCard(item) {
 
 
     const price =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     price.className =
         "shop-price";
@@ -821,7 +851,12 @@ function createShopCard(item) {
 
 
     const button =
-        document.createElement("button");
+        document.createElement(
+            "button"
+        );
+
+    button.type =
+        "button";
 
     button.className =
         "buy-button";
@@ -841,10 +876,13 @@ function createShopCard(item) {
             "owned"
         );
 
-    } else {
+    }
+
+    else {
 
         button.textContent =
             "BUY";
+
 
         button.addEventListener(
             "click",
@@ -861,17 +899,29 @@ function createShopCard(item) {
     }
 
 
-    card.appendChild(rarity);
+    card.appendChild(
+        rarity
+    );
 
-    card.appendChild(preview);
+    card.appendChild(
+        preview
+    );
 
-    card.appendChild(name);
+    card.appendChild(
+        name
+    );
 
-    card.appendChild(type);
+    card.appendChild(
+        type
+    );
 
-    card.appendChild(price);
+    card.appendChild(
+        price
+    );
 
-    card.appendChild(button);
+    card.appendChild(
+        button
+    );
 
 
     return card;
@@ -880,8 +930,8 @@ function createShopCard(item) {
 
 
 /* =========================================================
-   DISPLAY
-   ========================================================= */
+   DISPLAY SHOP
+========================================================= */
 
 function displayShop() {
 
@@ -890,29 +940,20 @@ function displayShop() {
             "shop-items"
         );
 
-    if (!container) {
 
-        console.error(
-            "StudySprint Shop: #shop-items was not found."
-        );
+    if (!container) {
 
         return;
 
     }
 
+
     container.innerHTML = "";
+
 
     const items =
         getCurrentShop();
 
-    if (!items.length) {
-
-        container.innerHTML =
-            "<p>Shop failed to generate items.</p>";
-
-        return;
-
-    }
 
     items.forEach(
         function(item) {
@@ -929,7 +970,7 @@ function displayShop() {
 
 /* =========================================================
    BUY
-   ========================================================= */
+========================================================= */
 
 function buyItem(item, button) {
 
@@ -941,8 +982,10 @@ function buyItem(item, button) {
 
     }
 
+
     const coins =
         getCoins();
+
 
     if (
         coins < item.price
@@ -956,6 +999,7 @@ function buyItem(item, button) {
 
     }
 
+
     setCoins(
         coins -
         item.price
@@ -965,14 +1009,21 @@ function buyItem(item, button) {
     const owned =
         getOwnedItems();
 
-    owned.push(item.id);
+
+    if (
+        !owned.includes(item.id)
+    ) {
+
+        owned.push(
+            item.id
+        );
+
+    }
+
 
     saveOwnedItems(
         owned
     );
-
-
-    unlockItem(item);
 
 
     button.textContent =
@@ -992,8 +1043,8 @@ function buyItem(item, button) {
 
 
 /* =========================================================
-   CURRENCY
-   ========================================================= */
+   CURRENCY DISPLAY
+========================================================= */
 
 function updateCurrency() {
 
@@ -1002,21 +1053,20 @@ function updateCurrency() {
             "coin-count"
         );
 
-    if (!element) {
 
-        return;
+    if (element) {
+
+        element.textContent =
+            getCoins();
 
     }
-
-    element.textContent =
-        getCoins();
 
 }
 
 
 /* =========================================================
    COUNTDOWN
-   ========================================================= */
+========================================================= */
 
 function updateCountdown() {
 
@@ -1025,15 +1075,18 @@ function updateCountdown() {
             "shop-countdown"
         );
 
+
     if (!element) {
 
         return;
 
     }
 
+
     const next =
         getShopStart() +
         SHOP_INTERVAL;
+
 
     let remaining =
         Math.max(
@@ -1048,6 +1101,7 @@ function updateCountdown() {
             86400000
         );
 
+
     remaining %= 86400000;
 
 
@@ -1057,6 +1111,7 @@ function updateCountdown() {
             3600000
         );
 
+
     remaining %= 3600000;
 
 
@@ -1065,6 +1120,7 @@ function updateCountdown() {
             remaining /
             60000
         );
+
 
     remaining %= 60000;
 
@@ -1090,8 +1146,226 @@ function updateCountdown() {
 
 
 /* =========================================================
-   DEBUG
-   ========================================================= */
+   MOD PANEL
+========================================================= */
+
+function populateModItems() {
+
+    const select =
+        document.getElementById(
+            "mod-item"
+        );
+
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    select.innerHTML = "";
+
+
+    SHOP_ITEMS.forEach(
+        function(item) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                item.id;
+
+
+            option.textContent =
+                item.name +
+                " — " +
+                item.type +
+                " — " +
+                item.rarity;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   MOD STATUS
+========================================================= */
+
+function modStatus(message) {
+
+    const element =
+        document.getElementById(
+            "mod-status"
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            message;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOD: GIVE COINS
+========================================================= */
+
+function giveModCoins() {
+
+    const input =
+        document.getElementById(
+            "mod-coins"
+        );
+
+
+    const amount =
+        Number(
+            input.value
+        );
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ) {
+
+        modStatus(
+            "Enter a valid coin amount."
+        );
+
+        return;
+
+    }
+
+
+    setCoins(
+        getCoins() +
+        Math.floor(amount)
+    );
+
+
+    updateCurrency();
+
+
+    modStatus(
+        "Added " +
+        Math.floor(amount) +
+        " coins."
+    );
+
+}
+
+
+/* =========================================================
+   MOD: GIVE ITEM
+========================================================= */
+
+function giveModItem() {
+
+    const select =
+        document.getElementById(
+            "mod-item"
+        );
+
+
+    const quantityInput =
+        document.getElementById(
+            "mod-quantity"
+        );
+
+
+    const id =
+        select.value;
+
+
+    const quantity =
+        Math.floor(
+            Number(
+                quantityInput.value
+            )
+        );
+
+
+    if (
+        !Number.isFinite(quantity) ||
+        quantity <= 0
+    ) {
+
+        modStatus(
+            "Enter a valid quantity."
+        );
+
+        return;
+
+    }
+
+
+    const owned =
+        getOwnedItems();
+
+
+    /*
+       Cosmetic items only need to be owned
+       once, so the quantity is treated as
+       "give this many copies", with ownership
+       recorded after the first copy.
+    */
+
+    if (
+        !owned.includes(id)
+    ) {
+
+        owned.push(id);
+
+    }
+
+
+    saveOwnedItems(
+        owned
+    );
+
+
+    const item =
+        SHOP_ITEMS.find(
+            function(shopItem) {
+
+                return shopItem.id === id;
+
+            }
+        );
+
+
+    modStatus(
+        "Gave " +
+        quantity +
+        " × " +
+        item.name +
+        "."
+    );
+
+
+    displayShop();
+
+}
+
+
+/* =========================================================
+   MOD: REROLL
+========================================================= */
 
 function rerollShop() {
 
@@ -1100,25 +1374,88 @@ function rerollShop() {
         String(Date.now())
     );
 
-    location.reload();
+
+    displayShop();
+
+
+    modStatus(
+        "Shop rerolled."
+    );
 
 }
 
 
-function resetShopReroll() {
+/* =========================================================
+   MOD: RESET ROTATION
+========================================================= */
+
+function resetShopRotation() {
 
     localStorage.removeItem(
         "shopRerollSeed"
     );
 
-    location.reload();
+
+    localStorage.removeItem(
+        "shopDebugReset"
+    );
+
+
+    displayShop();
+
+
+    modStatus(
+        "Shop rotation reset."
+    );
+
+}
+
+
+/* =========================================================
+   MOD PANEL OPEN/CLOSE
+========================================================= */
+
+function openModPanel() {
+
+    const overlay =
+        document.getElementById(
+            "mod-overlay"
+        );
+
+
+    if (overlay) {
+
+        overlay.classList.add(
+            "open"
+        );
+
+    }
+
+}
+
+
+function closeModPanel() {
+
+    const overlay =
+        document.getElementById(
+            "mod-overlay"
+        );
+
+
+    if (overlay) {
+
+        overlay.classList.remove(
+            "open"
+        );
+
+    }
 
 }
 
 
 /* =========================================================
    START
-   ========================================================= */
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1130,21 +1467,144 @@ document.addEventListener(
 
         updateCountdown();
 
+        populateModItems();
+
+
         setInterval(
             updateCountdown,
             1000
         );
+
+
+        const modButton =
+            document.getElementById(
+                "mod-button"
+            );
+
+
+        if (modButton) {
+
+            modButton.addEventListener(
+                "click",
+                openModPanel
+            );
+
+        }
+
+
+        const closeButton =
+            document.getElementById(
+                "close-mod"
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                closeModPanel
+            );
+
+        }
+
+
+        const overlay =
+            document.getElementById(
+                "mod-overlay"
+            );
+
+
+        if (overlay) {
+
+            overlay.addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        overlay
+                    ) {
+
+                        closeModPanel();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        const giveCoins =
+            document.getElementById(
+                "give-coins"
+            );
+
+
+        if (giveCoins) {
+
+            giveCoins.addEventListener(
+                "click",
+                giveModCoins
+            );
+
+        }
+
+
+        const giveItem =
+            document.getElementById(
+                "give-item"
+            );
+
+
+        if (giveItem) {
+
+            giveItem.addEventListener(
+                "click",
+                giveModItem
+            );
+
+        }
+
+
+        const reroll =
+            document.getElementById(
+                "mod-reroll"
+            );
+
+
+        if (reroll) {
+
+            reroll.addEventListener(
+                "click",
+                rerollShop
+            );
+
+        }
+
+
+        const reset =
+            document.getElementById(
+                "mod-reset"
+            );
+
+
+        if (reset) {
+
+            reset.addEventListener(
+                "click",
+                resetShopRotation
+            );
+
+        }
 
     }
 );
 
 
 /* =========================================================
-   PUBLIC
-   ========================================================= */
-
-window.SHOP_ITEMS =
-    SHOP_ITEMS;
+   PUBLIC API
+========================================================= */
 
 window.getCoins =
     getCoins;
@@ -1167,11 +1627,8 @@ window.getCurrentShop =
 window.displayShop =
     displayShop;
 
-window.rerollShop =
-    rerollShop;
+window.equipItem =
+    equipItem;
 
-window.resetShopReroll =
-    resetShopReroll;
-
-window.createGoober =
-    createGoober;
+window.SHOP_ITEMS =
+    SHOP_ITEMS;
