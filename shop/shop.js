@@ -1,6 +1,13 @@
 /* =========================================================
    STUDYSPRINT SHOP
-   Complete shop system
+   Updated Shop System
+   - Coin Shop
+   - Hat Shop
+   - StudyPass
+   - Fortnightly rotation
+   - Rarities
+   - Ownership
+   - Debug tools
    ========================================================= */
 
 
@@ -12,6 +19,7 @@ const SHOP_SLOTS = 6;
 
 const SHOP_INTERVAL =
     14 * 24 * 60 * 60 * 1000;
+
 
 /*
    Shop rotation anchor.
@@ -31,6 +39,7 @@ const SHOP_ANCHOR =
    ========================================================= */
 
 const RARITY_CHANCES = [
+
     {
         name: "Common",
         weight: 40
@@ -55,19 +64,16 @@ const RARITY_CHANCES = [
         name: "Legendary",
         weight: 3
     }
+
 ];
 
 
 /* =========================================================
-   ALL COIN SHOP ITEMS
+   COIN SHOP ITEMS
    =========================================================
    
-   IMPORTANT:
-   Leafy is NOT included here because Leafy is the
-   starter character and must never appear in the shop.
-   
-   Everything else that can appear in the coin shop
-   goes inside this array.
+   Leafy is NOT included because Leafy is the starter
+   character and must never appear in the shop.
    ========================================================= */
 
 const SHOP_ITEMS = [
@@ -319,7 +325,7 @@ const SHOP_ITEMS = [
 
 
     /* =====================================================
-       TITLES
+       PLAYER TITLES
        ===================================================== */
 
     {
@@ -406,99 +412,29 @@ const STUDYPASS_ITEMS = [
 
 
 /* =========================================================
-   TICKET SHOP
+   HAT SHOP
+   =========================================================
+   
+   Effects have been completely removed.
+
+   Hats use:
+   unlocked_hats
+
+   and are purchased using:
+   Shop Tickets
    ========================================================= */
 
-const TICKET_ITEMS = [
-
-    {
-        id: "sparkle",
-        name: "Sparkle Effect",
-        description:
-            "Tiny sparkles follow your character.",
-        type: "Effect",
-        price: 10
-    },
-
-    {
-        id: "speed-trail",
-        name: "Speed Trail",
-        description:
-            "Leaves a trail behind your character.",
-        type: "Effect",
-        price: 20
-    },
-
-    {
-        id: "lightning",
-        name: "Lightning Effect",
-        description:
-            "Electric sparks surround your character.",
-        type: "Effect",
-        price: 35
-    },
-
-    {
-        id: "rainbow",
-        name: "Rainbow Aura",
-        description:
-            "A colourful aura surrounds your character.",
-        type: "Effect",
-        price: 50
-    },
-
-    {
-        id: "fire",
-        name: "Fire Aura",
-        description:
-            "A fiery glow surrounds your character.",
-        type: "Effect",
-        price: 75
-    },
-
-    {
-        id: "glitch",
-        name: "Glitch Effect",
-        description:
-            "A strange digital effect surrounds your character.",
-        type: "Effect",
-        price: 100
-    },
-
-    {
-        id: "shadow",
-        name: "Shadow Aura",
-        description:
-            "A dark shadow surrounds your character.",
-        type: "Effect",
-        price: 150
-    },
-
-    {
-        id: "crystal",
-        name: "Crystal Glow",
-        description:
-            "A bright crystalline glow surrounds your character.",
-        type: "Effect",
-        price: 250
-    },
-
-    {
-        id: "cosmic-aura",
-        name: "Cosmic Aura",
-        description:
-            "Stars and cosmic particles surround your character.",
-        type: "Effect",
-        price: 500
-    },
+const HAT_ITEMS = [
 
     {
         id: "crown",
-        name: "Crown + Glow",
+        name: "Crown",
         description:
-            "An extremely rare glowing crown.",
+            "A glowing crown fit for a StudySprint champion.",
         type: "Hat",
-        price: 1000
+        rarity: "Legendary",
+        price: 1000,
+        design: "crown"
     }
 
 ];
@@ -581,7 +517,9 @@ function saveOwnedItems(items) {
 
 function ownsItem(id) {
 
-    return getOwnedItems().indexOf(id) !== -1;
+    return (
+        getOwnedItems().indexOf(id) !== -1
+    );
 
 }
 
@@ -594,11 +532,13 @@ function unlockItem(id, type) {
 
     let key = "";
 
+
     if (type === "Character") {
 
         key = "unlocked_characters";
 
     }
+
 
     if (type === "Banner") {
 
@@ -606,17 +546,13 @@ function unlockItem(id, type) {
 
     }
 
+
     if (type === "Player Title") {
 
         key = "unlockedTitles";
 
     }
 
-    if (type === "Effect") {
-
-        key = "unlocked_effects";
-
-    }
 
     if (type === "Hat") {
 
@@ -624,13 +560,16 @@ function unlockItem(id, type) {
 
     }
 
+
     if (!key) {
 
         return;
 
     }
 
+
     let unlocked = [];
+
 
     try {
 
@@ -645,6 +584,7 @@ function unlockItem(id, type) {
 
     }
 
+
     if (
         unlocked.indexOf(id) === -1
     ) {
@@ -652,6 +592,7 @@ function unlockItem(id, type) {
         unlocked.push(id);
 
     }
+
 
     localStorage.setItem(
         key,
@@ -670,15 +611,18 @@ function seededRandom(seed) {
     let value =
         seed % 2147483647;
 
+
     if (value <= 0) {
 
         value += 2147483646;
 
     }
 
+
     value =
         value * 16807 %
         2147483647;
+
 
     return (
         value - 1
@@ -694,7 +638,10 @@ function seededRandom(seed) {
 function getShopStart() {
 
     const debugReset =
-        localStorage.getItem("shopDebugReset");
+        localStorage.getItem(
+            "shopDebugReset"
+        );
+
 
     if (debugReset) {
 
@@ -702,18 +649,25 @@ function getShopStart() {
 
     }
 
+
     const now =
         Date.now();
 
+
     const cycles =
         Math.floor(
-            (now - SHOP_ANCHOR) /
+            (
+                now -
+                SHOP_ANCHOR
+            ) /
             SHOP_INTERVAL
         );
 
+
     return (
         SHOP_ANCHOR +
-        cycles * SHOP_INTERVAL
+        cycles *
+        SHOP_INTERVAL
     );
 
 }
@@ -727,6 +681,7 @@ function rollRarity(random) {
 
     let total = 0;
 
+
     for (
         let i = 0;
         i < RARITY_CHANCES.length;
@@ -735,6 +690,7 @@ function rollRarity(random) {
 
         total +=
             RARITY_CHANCES[i].weight;
+
 
         if (
             random * 100 <
@@ -747,6 +703,7 @@ function rollRarity(random) {
 
     }
 
+
     return "Common";
 
 }
@@ -754,12 +711,6 @@ function rollRarity(random) {
 
 /* =========================================================
    SHOP GENERATION
-   =========================================================
-   
-   The normal timer determines which fortnight we're in.
-   
-   shopRerollSeed is ONLY a debug/testing value.
-   It changes the contents without changing the timer.
    ========================================================= */
 
 function getCurrentShop() {
@@ -818,11 +769,6 @@ function getCurrentShop() {
                 }
             );
 
-
-        /*
-           If there are no unused items of that rarity,
-           use another unused item.
-        */
 
         if (
             candidates.length === 0
@@ -986,17 +932,15 @@ function createGoober(data) {
     face.appendChild(rightEye);
     face.appendChild(mouth);
 
+
     feet.appendChild(leftFoot);
     feet.appendChild(rightFoot);
+
 
     goober.appendChild(feet);
     goober.appendChild(body);
     goober.appendChild(face);
 
-
-    /* =====================================================
-       DESIGN-SPECIFIC PARTS
-       ===================================================== */
 
     function addPart(className) {
 
@@ -1377,6 +1321,54 @@ function createGoober(data) {
 
 
 /* =========================================================
+   HAT PREVIEW
+   ========================================================= */
+
+function createHatPreview(item) {
+
+    const preview =
+        document.createElement("div");
+
+    preview.className =
+        "hat-preview hat-" +
+        item.design;
+
+
+    /*
+       Create a Goober underneath the hat so hats
+       are shown as actual cosmetics.
+    */
+
+    const goober =
+        createGoober({
+            design: "orbit"
+        });
+
+
+    preview.appendChild(
+        goober
+    );
+
+
+    const hat =
+        document.createElement("div");
+
+    hat.className =
+        "hat-item hat-" +
+        item.design;
+
+
+    preview.appendChild(
+        hat
+    );
+
+
+    return preview;
+
+}
+
+
+/* =========================================================
    BANNER PREVIEW
    ========================================================= */
 
@@ -1428,6 +1420,7 @@ function createPreview(item) {
 
     }
 
+
     if (
         item.type === "Banner"
     ) {
@@ -1436,6 +1429,7 @@ function createPreview(item) {
 
     }
 
+
     if (
         item.type === "Player Title"
     ) {
@@ -1443,6 +1437,16 @@ function createPreview(item) {
         return createTitlePreview(item);
 
     }
+
+
+    if (
+        item.type === "Hat"
+    ) {
+
+        return createHatPreview(item);
+
+    }
+
 
     return document.createElement("div");
 
@@ -1574,6 +1578,7 @@ function createShopCard(item) {
     card.appendChild(price);
     card.appendChild(button);
 
+
     return card;
 
 }
@@ -1590,11 +1595,13 @@ function displayMainShop() {
             "fortnightly-items"
         );
 
+
     if (!container) {
 
         return;
 
     }
+
 
     container.innerHTML = "";
 
@@ -1695,15 +1702,16 @@ function buyCoinItem(item, button) {
 
 
 /* =========================================================
-   TICKET SHOP
+   HAT SHOP
    ========================================================= */
 
-function displayTicketShop() {
+function displayHatShop() {
 
     const container =
         document.getElementById(
-            "ticket-items"
+            "hat-items"
         );
+
 
     if (!container) {
 
@@ -1711,10 +1719,11 @@ function displayTicketShop() {
 
     }
 
+
     container.innerHTML = "";
 
 
-    TICKET_ITEMS.forEach(
+    HAT_ITEMS.forEach(
         function(item) {
 
             const card =
@@ -1722,8 +1731,26 @@ function displayTicketShop() {
                     "article"
                 );
 
+
             card.className =
-                "ticket-card";
+                "hat-card " +
+                getRarityClass(
+                    item.rarity
+                );
+
+
+            const rarity =
+                document.createElement(
+                    "div"
+                );
+
+
+            rarity.className =
+                "rarity";
+
+
+            rarity.textContent =
+                item.rarity;
 
 
             const preview =
@@ -1731,32 +1758,13 @@ function displayTicketShop() {
                     "div"
                 );
 
+
             preview.className =
-                "ticket-item-preview";
-
-
-            const effect =
-                document.createElement(
-                    "div"
-                );
-
-            effect.className =
-                "preview-effect effect-" +
-                item.id;
-
-
-            const goober =
-                createGoober({
-                    design: "orbit"
-                });
+                "hat-item-preview";
 
 
             preview.appendChild(
-                effect
-            );
-
-            preview.appendChild(
-                goober
+                createHatPreview(item)
             );
 
 
@@ -1764,6 +1772,7 @@ function displayTicketShop() {
                 document.createElement(
                     "h3"
                 );
+
 
             name.textContent =
                 item.name;
@@ -1774,6 +1783,7 @@ function displayTicketShop() {
                     "p"
                 );
 
+
             description.textContent =
                 item.description;
 
@@ -1783,8 +1793,10 @@ function displayTicketShop() {
                     "div"
                 );
 
+
             price.className =
-                "ticket-price";
+                "hat-price";
+
 
             price.textContent =
                 item.price +
@@ -1795,6 +1807,7 @@ function displayTicketShop() {
                 document.createElement(
                     "button"
                 );
+
 
             button.className =
                 "buy-button";
@@ -1807,8 +1820,10 @@ function displayTicketShop() {
                 button.textContent =
                     "OWNED";
 
+
                 button.disabled =
                     true;
+
 
                 button.classList.add(
                     "owned"
@@ -1819,11 +1834,12 @@ function displayTicketShop() {
                 button.textContent =
                     "BUY";
 
+
                 button.addEventListener(
                     "click",
                     function() {
 
-                        buyTicketItem(
+                        buyHat(
                             item,
                             button
                         );
@@ -1833,6 +1849,10 @@ function displayTicketShop() {
 
             }
 
+
+            card.appendChild(
+                rarity
+            );
 
             card.appendChild(
                 preview
@@ -1866,10 +1886,10 @@ function displayTicketShop() {
 
 
 /* =========================================================
-   BUY TICKET ITEM
+   BUY HAT
    ========================================================= */
 
-function buyTicketItem(item, button) {
+function buyHat(item, button) {
 
     if (
         ownsItem(item.id)
@@ -1905,7 +1925,7 @@ function buyTicketItem(item, button) {
 
     unlockItem(
         item.id,
-        item.type
+        "Hat"
     );
 
 
@@ -1930,8 +1950,10 @@ function buyTicketItem(item, button) {
     button.disabled =
         true;
 
+
     button.textContent =
         "OWNED";
+
 
     button.classList.add(
         "owned"
@@ -1954,11 +1976,13 @@ function displayStudyPass() {
             "studypass-items"
         );
 
+
     if (!container) {
 
         return;
 
     }
+
 
     container.innerHTML = "";
 
@@ -1971,6 +1995,7 @@ function displayStudyPass() {
                     "article"
                 );
 
+
             card.className =
                 "studypass-card";
 
@@ -1980,8 +2005,10 @@ function displayStudyPass() {
                     "div"
                 );
 
+
             badge.className =
                 "pass-badge";
+
 
             badge.textContent =
                 "STUDYPASS";
@@ -1992,8 +2019,10 @@ function displayStudyPass() {
                     "div"
                 );
 
+
             rarity.className =
                 "rarity";
+
 
             rarity.textContent =
                 item.rarity;
@@ -2004,8 +2033,10 @@ function displayStudyPass() {
                     "div"
                 );
 
+
             preview.className =
                 "studypass-preview";
+
 
             preview.appendChild(
                 createGoober(item)
@@ -2017,6 +2048,7 @@ function displayStudyPass() {
                     "h3"
                 );
 
+
             name.textContent =
                 item.name;
 
@@ -2026,6 +2058,7 @@ function displayStudyPass() {
                     "p"
                 );
 
+
             description.textContent =
                 "Exclusive StudyPass character";
 
@@ -2034,17 +2067,21 @@ function displayStudyPass() {
                 badge
             );
 
+
             card.appendChild(
                 rarity
             );
+
 
             card.appendChild(
                 preview
             );
 
+
             card.appendChild(
                 name
             );
+
 
             card.appendChild(
                 description
@@ -2071,6 +2108,7 @@ function updateCurrency() {
         document.getElementById(
             "coin-count"
         );
+
 
     const tickets =
         document.getElementById(
@@ -2106,6 +2144,7 @@ function updateCountdown() {
         document.getElementById(
             "countdown"
         );
+
 
     if (!element) {
 
@@ -2194,19 +2233,22 @@ function openMainShop() {
             "fortnightly-shop"
         );
 
-    const tickets =
+
+    const hats =
         document.getElementById(
-            "ticket-shop"
+            "hat-shop"
         );
+
 
     const mainButton =
         document.getElementById(
             "main-shop-button"
         );
 
-    const ticketButton =
+
+    const hatButton =
         document.getElementById(
-            "ticket-shop-button"
+            "hat-shop-button"
         );
 
 
@@ -2218,9 +2260,9 @@ function openMainShop() {
     }
 
 
-    if (tickets) {
+    if (hats) {
 
-        tickets.style.display =
+        hats.style.display =
             "none";
 
     }
@@ -2235,9 +2277,9 @@ function openMainShop() {
     }
 
 
-    if (ticketButton) {
+    if (hatButton) {
 
-        ticketButton.classList.remove(
+        hatButton.classList.remove(
             "active"
         );
 
@@ -2246,26 +2288,29 @@ function openMainShop() {
 }
 
 
-function openTicketShop() {
+function openHatShop() {
 
     const main =
         document.getElementById(
             "fortnightly-shop"
         );
 
-    const tickets =
+
+    const hats =
         document.getElementById(
-            "ticket-shop"
+            "hat-shop"
         );
+
 
     const mainButton =
         document.getElementById(
             "main-shop-button"
         );
 
-    const ticketButton =
+
+    const hatButton =
         document.getElementById(
-            "ticket-shop-button"
+            "hat-shop-button"
         );
 
 
@@ -2277,9 +2322,9 @@ function openTicketShop() {
     }
 
 
-    if (tickets) {
+    if (hats) {
 
-        tickets.style.display =
+        hats.style.display =
             "block";
 
     }
@@ -2294,9 +2339,9 @@ function openTicketShop() {
     }
 
 
-    if (ticketButton) {
+    if (hatButton) {
 
-        ticketButton.classList.add(
+        hatButton.classList.add(
             "active"
         );
 
@@ -2327,6 +2372,7 @@ function openDebugMenu() {
             "div"
         );
 
+
     overlay.className =
         "debug-overlay";
 
@@ -2335,6 +2381,7 @@ function openDebugMenu() {
         document.createElement(
             "div"
         );
+
 
     box.className =
         "debug-box";
@@ -2363,6 +2410,8 @@ function openDebugMenu() {
 
         "<option value='show-items'>🛍️ Show All Shop Items</option>" +
 
+        "<option value='show-hats'>🎩 Show All Hats</option>" +
+
         "<option value='reset'>🗑️ Reset Account</option>" +
 
         "</select>" +
@@ -2382,13 +2431,9 @@ function openDebugMenu() {
         "</button>";
 
 
-    overlay.appendChild(
-        box
-    );
+    overlay.appendChild(box);
 
-    document.body.appendChild(
-        overlay
-    );
+    document.body.appendChild(overlay);
 
 
     const type =
@@ -2409,6 +2454,7 @@ function openDebugMenu() {
             type.value === "reset" ||
             type.value === "show-goobers" ||
             type.value === "show-items" ||
+            type.value === "show-hats" ||
             type.value === "reroll-shop" ||
             type.value === "reset-reroll";
 
@@ -2516,6 +2562,24 @@ function openDebugMenu() {
 
 
             /* ---------------------------------------------
+               SHOW ALL HATS
+               --------------------------------------------- */
+
+            if (
+                selected === "show-hats"
+            ) {
+
+                showDebugItems(
+                    HAT_ITEMS,
+                    "ALL HATS"
+                );
+
+                return;
+
+            }
+
+
+            /* ---------------------------------------------
                RESET
                --------------------------------------------- */
 
@@ -2603,7 +2667,6 @@ function openDebugMenu() {
 
             overlay.remove();
 
-
             location.reload();
 
         };
@@ -2622,6 +2685,7 @@ function showDebugItems(items, title) {
             ".debug-item-overlay"
         );
 
+
     if (existing) {
 
         existing.remove();
@@ -2634,6 +2698,7 @@ function showDebugItems(items, title) {
             "div"
         );
 
+
     overlay.className =
         "debug-item-overlay";
 
@@ -2642,6 +2707,7 @@ function showDebugItems(items, title) {
         document.createElement(
             "div"
         );
+
 
     box.className =
         "debug-item-box";
@@ -2652,6 +2718,7 @@ function showDebugItems(items, title) {
             "h2"
         );
 
+
     heading.textContent =
         title;
 
@@ -2660,6 +2727,7 @@ function showDebugItems(items, title) {
         document.createElement(
             "p"
         );
+
 
     count.textContent =
         items.length +
@@ -2670,6 +2738,7 @@ function showDebugItems(items, title) {
         document.createElement(
             "div"
         );
+
 
     grid.className =
         "debug-item-grid";
@@ -2683,6 +2752,7 @@ function showDebugItems(items, title) {
                     "div"
                 );
 
+
             card.className =
                 "debug-item-card";
 
@@ -2691,6 +2761,7 @@ function showDebugItems(items, title) {
                 document.createElement(
                     "div"
                 );
+
 
             preview.className =
                 "debug-item-preview";
@@ -2704,7 +2775,10 @@ function showDebugItems(items, title) {
                     createGoober(item)
                 );
 
-            } else if (
+            }
+
+
+            else if (
                 item.type === "Banner"
             ) {
 
@@ -2712,7 +2786,10 @@ function showDebugItems(items, title) {
                     createBanner(item)
                 );
 
-            } else if (
+            }
+
+
+            else if (
                 item.type === "Player Title"
             ) {
 
@@ -2723,10 +2800,22 @@ function showDebugItems(items, title) {
             }
 
 
+            else if (
+                item.type === "Hat"
+            ) {
+
+                preview.appendChild(
+                    createHatPreview(item)
+                );
+
+            }
+
+
             const name =
                 document.createElement(
                     "strong"
                 );
+
 
             name.textContent =
                 item.name;
@@ -2737,26 +2826,17 @@ function showDebugItems(items, title) {
                     "span"
                 );
 
+
             rarity.textContent =
                 item.rarity;
 
 
-            card.appendChild(
-                preview
-            );
-
-            card.appendChild(
-                name
-            );
-
-            card.appendChild(
-                rarity
-            );
+            card.appendChild(preview);
+            card.appendChild(name);
+            card.appendChild(rarity);
 
 
-            grid.appendChild(
-                card
-            );
+            grid.appendChild(card);
 
         }
     );
@@ -2767,8 +2847,10 @@ function showDebugItems(items, title) {
             "button"
         );
 
+
     close.className =
         "debug-close";
+
 
     close.textContent =
         "Close";
@@ -2782,30 +2864,15 @@ function showDebugItems(items, title) {
         };
 
 
-    box.appendChild(
-        heading
-    );
-
-    box.appendChild(
-        count
-    );
-
-    box.appendChild(
-        grid
-    );
-
-    box.appendChild(
-        close
-    );
+    box.appendChild(heading);
+    box.appendChild(count);
+    box.appendChild(grid);
+    box.appendChild(close);
 
 
-    overlay.appendChild(
-        box
-    );
+    overlay.appendChild(box);
 
-    document.body.appendChild(
-        overlay
-    );
+    document.body.appendChild(overlay);
 
 }
 
@@ -2824,9 +2891,9 @@ document.addEventListener(
             );
 
 
-        const ticketButton =
+        const hatButton =
             document.getElementById(
-                "ticket-shop-button"
+                "hat-shop-button"
             );
 
 
@@ -2846,11 +2913,11 @@ document.addEventListener(
         }
 
 
-        if (ticketButton) {
+        if (hatButton) {
 
-            ticketButton.addEventListener(
+            hatButton.addEventListener(
                 "click",
-                openTicketShop
+                openHatShop
             );
 
         }
@@ -2868,7 +2935,7 @@ document.addEventListener(
 
         displayMainShop();
 
-        displayTicketShop();
+        displayHatShop();
 
         displayStudyPass();
 
@@ -2893,8 +2960,8 @@ document.addEventListener(
 window.openMainShop =
     openMainShop;
 
-window.openTicketShop =
-    openTicketShop;
+window.openHatShop =
+    openHatShop;
 
 window.getCoins =
     getCoins;
@@ -2919,3 +2986,6 @@ window.resetShopReroll =
 
 window.showDebugItems =
     showDebugItems;
+
+window.HAT_ITEMS =
+    HAT_ITEMS;
