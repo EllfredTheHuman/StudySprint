@@ -10,7 +10,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>StudySprint Shop</title>
+    <title>Shop | StudySprint</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
 
     <link
         rel="stylesheet"
@@ -20,399 +25,76 @@
 </head>
 
 
-<body>
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
-    <header class="site-header">
-
-        <a
-            href="../index.html"
-            class="logo"
-        >
-            STUDY<span>SPRINT</span>
-        </a>
+<body class="shop-page">
 
 
-        <nav class="main-nav">
+<header class="shop-header">
 
-            <a href="../index.html">Home</a>
-
-            <a href="../study/index.html">Study</a>
-
-            <a href="../sprint/index.html">Sprint</a>
-
-            <a href="../games/index.html">Games</a>
-
-            <a href="../profile/index.html">Profile</a>
-
-            <a
-                href="index.html"
-                class="active"
-            >
-                Shop
-            </a>
-
-        </nav>
+    <h1>
+        STUDY<span>SPRINT</span>
+    </h1>
 
 
-        <div class="currency-display">
+    <div class="shop-currency">
 
-            <span class="coin-icon">◆</span>
+        <span class="coin-icon">●</span>
 
-            <span id="coin-count">0</span>
+        <span id="coin-count">
+            0
+        </span>
 
-        </div>
+        <span>
+            COINS
+        </span>
 
-    </header>
+    </div>
+
+</header>
 
 
 
-    <!-- =====================================================
-         PAGE
-    ====================================================== -->
-
-    <main class="shop-page">
+<main class="shop-container">
 
 
-        <!-- =================================================
-             SHOP HEADER
-        ================================================== -->
+    <section class="shop-intro">
 
-        <section class="shop-header">
+        <h2>
+            Cosmetic Shop
+        </h2>
 
-            <div>
+        <p>
+            Customise your avatar with hats,
+            accessories, outfits and more.
+        </p>
 
-                <p class="eyebrow">
-                    STUDYSPRINT // CUSTOMISATION
-                </p>
+        <div class="shop-refresh">
 
-                <h1>
-                    Cosmetic Shop
-                </h1>
-
-                <p class="shop-subtitle">
-                    Build your own StudySprint avatar.
-                    Buy cosmetics, collect them, and make
-                    your character yours.
-                </p>
-
-            </div>
-
-
-            <div class="shop-status">
-
-                <span class="status-dot"></span>
-
-                SHOP ONLINE
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             TABS
-        ================================================== -->
-
-        <div class="shop-tabs">
-
-            <button
-                class="shop-tab active"
-                id="shop-tab"
-            >
-                SHOP
-            </button>
-
-            <button
-                class="shop-tab"
-                id="avatar-tab"
-            >
-                MY AVATAR
-            </button>
+            NEXT ROTATION:
+            <span id="shop-countdown">
+                Loading...
+            </span>
 
         </div>
 
+    </section>
 
 
-        <!-- =================================================
-             SHOP VIEW
-        ================================================== -->
 
-        <section
-            id="shop-view"
-            class="shop-view"
-        >
-
-
-            <!-- FEATURED -->
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        ROTATION
-                    </p>
-
-                    <h2>
-                        Featured Items
-                    </h2>
-
-                </div>
-
-
-                <div class="rotation">
-
-                    <span>
-                        NEW ITEMS IN
-                    </span>
-
-                    <strong id="countdown">
-                        --
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="shop-grid"
-                class="shop-grid"
-            >
-                <!-- JavaScript -->
-            </div>
-
-
-
-            <!-- ALL CATEGORIES -->
-
-            <div class="section-heading category-heading">
-
-                <div>
-
-                    <p class="section-label">
-                        COLLECTION
-                    </p>
-
-                    <h2>
-                        Browse Cosmetics
-                    </h2>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="category-filters"
-                class="category-filters"
-            >
-
-                <button
-                    class="category-button active"
-                    data-category="All"
-                >
-                    All
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Hair"
-                >
-                    Hair
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Eyes"
-                >
-                    Eyes
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Face"
-                >
-                    Face
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Outfit"
-                >
-                    Outfit
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Hat"
-                >
-                    Hats
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Accessory"
-                >
-                    Accessories
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Banner"
-                >
-                    Banners
-                </button>
-
-                <button
-                    class="category-button"
-                    data-category="Title"
-                >
-                    Titles
-                </button>
-
-            </div>
-
-
-            <div
-                id="collection-grid"
-                class="shop-grid collection-grid"
-            >
-                <!-- JavaScript -->
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================================
-             AVATAR VIEW
-        ================================================== -->
-
-        <section
-            id="avatar-view"
-            class="avatar-view hidden"
-        >
-
-            <div class="avatar-editor">
-
-
-                <!-- PREVIEW -->
-
-                <div class="avatar-preview-panel">
-
-                    <p class="section-label">
-                        CHARACTER PREVIEW
-                    </p>
-
-                    <h2>
-                        Your Avatar
-                    </h2>
-
-                    <div
-                        id="avatar-preview"
-                        class="avatar-preview"
-                    >
-                        <!-- JavaScript -->
-                    </div>
-
-
-                    <p class="avatar-hint">
-                        Equip cosmetics from your collection.
-                    </p>
-
-                </div>
-
-
-
-                <!-- EQUIPPED -->
-
-                <div class="equipped-panel">
-
-                    <p class="section-label">
-                        EQUIPPED
-                    </p>
-
-                    <h2>
-                        Loadout
-                    </h2>
-
-                    <div
-                        id="equipped-list"
-                        class="equipped-list"
-                    >
-                        <!-- JavaScript -->
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- OWNED -->
-
-            <div class="owned-section">
-
-                <div class="section-heading">
-
-                    <div>
-
-                        <p class="section-label">
-                            INVENTORY
-                        </p>
-
-                        <h2>
-                            Your Cosmetics
-                        </h2>
-
-                    </div>
-
-                    <span
-                        id="owned-count"
-                        class="owned-count"
-                    >
-                        0 ITEMS
-                    </span>
-
-                </div>
-
-
-                <div
-                    id="owned-grid"
-                    class="shop-grid"
-                >
-                    <!-- JavaScript -->
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =====================================================
-         DEBUG BUTTON
-    ====================================================== -->
-
-    <button
-        id="debug-open"
-        class="debug-button"
-        title="Debug"
+    <section
+        id="shop-items"
+        class="shop-grid"
     >
-        ⚙
-    </button>
+
+        <!-- Shop items generated by shop.js -->
+
+    </section>
+
+
+</main>
 
 
 
-    <script src="shop.js"></script>
+<script src="shop.js"></script>
 
 </body>
 
