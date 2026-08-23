@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    STUDYSPRINT SHOP
    Goober Shop System
@@ -19,6 +18,7 @@ const SHOP_INTERVAL =
    Sunday 10 August 2025
    12:00 AM AEST
 */
+
 const SHOP_ANCHOR =
     Date.UTC(2025, 7, 9, 14, 0, 0);
 
@@ -64,7 +64,7 @@ const RARITY_CHANCES = [
 const SHOP_ITEMS = [
 
     /* =========================
-       COMMON
+       COMMON GOOBERS
        ========================= */
 
     {
@@ -96,7 +96,7 @@ const SHOP_ITEMS = [
 
 
     /* =========================
-       RARE
+       RARE GOOBERS
        ========================= */
 
     {
@@ -137,7 +137,7 @@ const SHOP_ITEMS = [
 
 
     /* =========================
-       EPIC
+       EPIC GOOBERS
        ========================= */
 
     {
@@ -178,7 +178,7 @@ const SHOP_ITEMS = [
 
 
     /* =========================
-       MYTHIC
+       MYTHIC GOOBERS
        ========================= */
 
     {
@@ -219,7 +219,7 @@ const SHOP_ITEMS = [
 
 
     /* =========================
-       LEGENDARY
+       LEGENDARY GOOBERS
        ========================= */
 
     {
@@ -310,7 +310,7 @@ const SHOP_ITEMS = [
 
 
     /* =========================
-       TITLES
+       PLAYER TITLES
        ========================= */
 
     {
@@ -361,9 +361,12 @@ const SHOP_ITEMS = [
    ========================================================= */
 
 window.DEBUG_GOOBERS =
-    SHOP_ITEMS.filter(
-        item => item.type === "Character"
-    );
+    SHOP_ITEMS.filter(function(item) {
+
+        return item.type === "Character";
+
+    });
+
 
 window.DEBUG_SHOP_ITEMS =
     SHOP_ITEMS;
@@ -425,7 +428,9 @@ function getOwnedItems() {
             )
         ) || [];
 
-    } catch {
+    }
+
+    catch (error) {
 
         return [];
 
@@ -446,7 +451,7 @@ function saveOwnedItems(items) {
 
 function ownsItem(id) {
 
-    return getOwnedItems().includes(id);
+    return getOwnedItems().indexOf(id) !== -1;
 
 }
 
@@ -488,6 +493,7 @@ function unlockItem(id, type) {
 
     let unlocked = [];
 
+
     try {
 
         unlocked =
@@ -495,14 +501,16 @@ function unlockItem(id, type) {
                 localStorage.getItem(key)
             ) || [];
 
-    } catch {
+    }
+
+    catch (error) {
 
         unlocked = [];
 
     }
 
 
-    if (!unlocked.includes(id)) {
+    if (unlocked.indexOf(id) === -1) {
 
         unlocked.push(id);
 
@@ -597,9 +605,14 @@ function rollRarity(random) {
     let total = 0;
 
 
-    for (const rarity of RARITY_CHANCES) {
+    for (
+        let i = 0;
+        i < RARITY_CHANCES.length;
+        i++
+    ) {
 
-        total += rarity.weight;
+        total +=
+            RARITY_CHANCES[i].weight;
 
 
         if (
@@ -607,7 +620,7 @@ function rollRarity(random) {
             total
         ) {
 
-            return rarity.name;
+            return RARITY_CHANCES[i].name;
 
         }
 
@@ -638,7 +651,9 @@ function getCurrentShop() {
 
 
     const baseSeed =
-        Math.floor(start / 1000) +
+        Math.floor(
+            start / 1000
+        ) +
         rerollSeed;
 
 
@@ -667,24 +682,38 @@ function getCurrentShop() {
 
         let candidates =
             SHOP_ITEMS.filter(
-                item =>
-                    item.rarity === rarity &&
-                    !used.has(item.id)
+                function(item) {
+
+                    return (
+                        item.rarity === rarity &&
+                        !used.has(item.id)
+                    );
+
+                }
             );
 
 
-        if (!candidates.length) {
+        if (
+            candidates.length === 0
+        ) {
 
             candidates =
                 SHOP_ITEMS.filter(
-                    item =>
-                        !used.has(item.id)
+                    function(item) {
+
+                        return !used.has(
+                            item.id
+                        );
+
+                    }
                 );
 
         }
 
 
-        if (!candidates.length) {
+        if (
+            candidates.length === 0
+        ) {
 
             break;
 
@@ -722,15 +751,37 @@ function getCurrentShop() {
 
 
 /* =========================================================
+   REROLL SHOP
+   ========================================================= */
+
+function rerollShop() {
+
+    localStorage.setItem(
+        "shopRerollSeed",
+        String(Date.now())
+    );
+
+    location.reload();
+
+}
+
+
+function resetShopReroll() {
+
+    localStorage.removeItem(
+        "shopRerollSeed"
+    );
+
+    location.reload();
+
+}
+
+
+/* =========================================================
    GOOBER PREVIEW
    ========================================================= */
 
 function createGooberPreview(item) {
-
-    /*
-       This intentionally uses the existing Goober
-       renderer instead of creating a second version.
-    */
 
     if (
         typeof window.createGoober ===
@@ -742,29 +793,17 @@ function createGooberPreview(item) {
     }
 
 
-    /*
-       Fallback if createGoober is defined in the
-       same file but not exposed globally.
-    */
-
-    if (
-        typeof createGoober ===
-        "function"
-    ) {
-
-        return createGoober(item);
-
-    }
-
-
     const fallback =
         document.createElement("div");
+
 
     fallback.className =
         "shop-goober-fallback";
 
+
     fallback.textContent =
-        "●";
+        "GOOBER";
+
 
     return fallback;
 
@@ -779,6 +818,7 @@ function createBanner(item) {
 
     const banner =
         document.createElement("div");
+
 
     banner.className =
         "banner-preview banner-" +
@@ -798,6 +838,7 @@ function createTitlePreview(item) {
 
     const title =
         document.createElement("div");
+
 
     title.className =
         "title-preview";
@@ -845,7 +886,11 @@ function createPreview(item) {
     }
 
 
-    return document.createElement("div");
+    const empty =
+        document.createElement("div");
+
+
+    return empty;
 
 }
 
@@ -873,6 +918,7 @@ function createShopCard(item) {
     const card =
         document.createElement("article");
 
+
     card.className =
         "shop-card " +
         getRarityClass(item.rarity);
@@ -881,8 +927,10 @@ function createShopCard(item) {
     const rarity =
         document.createElement("div");
 
+
     rarity.className =
         "rarity";
+
 
     rarity.textContent =
         item.rarity;
@@ -891,21 +939,19 @@ function createShopCard(item) {
     const preview =
         document.createElement("div");
 
+
     preview.className =
         "item-preview";
 
 
-    const previewContent =
-        createPreview(item);
-
-
     preview.appendChild(
-        previewContent
+        createPreview(item)
     );
 
 
     const name =
         document.createElement("h3");
+
 
     name.textContent =
         item.name;
@@ -914,8 +960,10 @@ function createShopCard(item) {
     const type =
         document.createElement("p");
 
+
     type.className =
         "item-type";
+
 
     type.textContent =
         item.type;
@@ -924,8 +972,10 @@ function createShopCard(item) {
     const price =
         document.createElement("div");
 
+
     price.className =
         "shop-price";
+
 
     price.textContent =
         item.price +
@@ -935,17 +985,22 @@ function createShopCard(item) {
     const button =
         document.createElement("button");
 
+
     button.className =
         "buy-button";
 
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(item.id)
+    ) {
 
         button.textContent =
             "OWNED";
 
+
         button.disabled =
             true;
+
 
         button.classList.add(
             "owned"
@@ -957,6 +1012,7 @@ function createShopCard(item) {
 
         button.textContent =
             "BUY";
+
 
         button.addEventListener(
             "click",
@@ -973,12 +1029,34 @@ function createShopCard(item) {
     }
 
 
-    card.appendChild(rarity);
-    card.appendChild(preview);
-    card.appendChild(name);
-    card.appendChild(type);
-    card.appendChild(price);
-    card.appendChild(button);
+    card.appendChild(
+        rarity
+    );
+
+
+    card.appendChild(
+        preview
+    );
+
+
+    card.appendChild(
+        name
+    );
+
+
+    card.appendChild(
+        type
+    );
+
+
+    card.appendChild(
+        price
+    );
+
+
+    card.appendChild(
+        button
+    );
 
 
     return card;
@@ -1005,22 +1083,27 @@ function displayMainShop() {
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     const items =
         getCurrentShop();
 
 
-    items.forEach(
-        item => {
+    for (
+        let i = 0;
+        i < items.length;
+        i++
+    ) {
 
-            container.appendChild(
-                createShopCard(item)
-            );
+        container.appendChild(
+            createShopCard(
+                items[i]
+            )
+        );
 
-        }
-    );
+    }
 
 }
 
@@ -1074,10 +1157,12 @@ function buyCoinItem(item, button) {
 
 
     if (
-        !owned.includes(item.id)
+        owned.indexOf(item.id) === -1
     ) {
 
-        owned.push(item.id);
+        owned.push(
+            item.id
+        );
 
     }
 
@@ -1090,8 +1175,10 @@ function buyCoinItem(item, button) {
     button.textContent =
         "OWNED";
 
+
     button.disabled =
         true;
+
 
     button.classList.add(
         "owned"
@@ -1164,10 +1251,17 @@ function updateCountdown() {
 
 
     let remaining =
-        Math.max(
-            0,
-            next - Date.now()
-        );
+        next -
+        Date.now();
+
+
+    if (
+        remaining < 0
+    ) {
+
+        remaining = 0;
+
+    }
 
 
     const days =
@@ -1177,7 +1271,9 @@ function updateCountdown() {
         );
 
 
-    remaining %= 86400000;
+    remaining =
+        remaining %
+        86400000;
 
 
     const hours =
@@ -1187,7 +1283,9 @@ function updateCountdown() {
         );
 
 
-    remaining %= 3600000;
+    remaining =
+        remaining %
+        3600000;
 
 
     const minutes =
@@ -1197,7 +1295,9 @@ function updateCountdown() {
         );
 
 
-    remaining %= 60000;
+    remaining =
+        remaining %
+        60000;
 
 
     const seconds =
@@ -1208,34 +1308,14 @@ function updateCountdown() {
 
 
     element.textContent =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-}
-
-
-/* =========================================================
-   DEBUG
-   ========================================================= */
-
-function rerollShop() {
-
-    localStorage.setItem(
-        "shopRerollSeed",
-        String(Date.now())
-    );
-
-    location.reload();
-
-}
-
-
-function resetShopReroll() {
-
-    localStorage.removeItem(
-        "shopRerollSeed"
-    );
-
-    location.reload();
+        days +
+        "d " +
+        hours +
+        "h " +
+        minutes +
+        "m " +
+        seconds +
+        "s";
 
 }
 
@@ -1271,36 +1351,46 @@ document.addEventListener(
 window.getCoins =
     getCoins;
 
+
 window.setCoins =
     setCoins;
+
 
 window.getTickets =
     getTickets;
 
+
 window.setTickets =
     setTickets;
+
 
 window.getOwnedItems =
     getOwnedItems;
 
+
 window.saveOwnedItems =
     saveOwnedItems;
+
 
 window.ownsItem =
     ownsItem;
 
+
 window.getCurrentShop =
     getCurrentShop;
+
 
 window.rerollShop =
     rerollShop;
 
+
 window.resetShopReroll =
     resetShopReroll;
+
 
 window.displayMainShop =
     displayMainShop;
 
+
 window.SHOP_ITEMS =
     SHOP_ITEMS;
-```
