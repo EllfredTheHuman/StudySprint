@@ -1070,10 +1070,10 @@ function createShopCard(item) {
 
 function displayMainShop() {
 
-    const container =
-        document.getElementById(
-            "fortnightly-items"
-        );
+  const container =
+    document.getElementById(
+        "shop-items"
+    );
 
 
     if (!container) {
@@ -1233,9 +1233,9 @@ function updateCurrency() {
 function updateCountdown() {
 
     const element =
-        document.getElementById(
-            "countdown"
-        );
+    document.getElementById(
+        "shop-countdown"
+    );
 
 
     if (!element) {
