@@ -1,12 +1,12 @@
 ```javascript
 /* =========================================================
    STUDYSPRINT SHOP
-   Custom Avatar Cosmetic Shop
+   Goober Shop System
    ========================================================= */
 
 
 /* =========================================================
-   SHOP SETTINGS
+   SETTINGS
    ========================================================= */
 
 const SHOP_SLOTS = 6;
@@ -15,269 +15,404 @@ const SHOP_INTERVAL =
     14 * 24 * 60 * 60 * 1000;
 
 
-/* Sunday 10 August 2025, 12:00 AM AEST */
+/*
+   Sunday 10 August 2025
+   12:00 AM AEST
+*/
 const SHOP_ANCHOR =
     Date.UTC(2025, 7, 9, 14, 0, 0);
 
 
 /* =========================================================
-   RARITIES
+   RARITY CHANCES
    ========================================================= */
 
-const RARITIES = [
+const RARITY_CHANCES = [
+
     {
         name: "Common",
         weight: 40
     },
+
     {
         name: "Rare",
         weight: 30
     },
+
     {
         name: "Epic",
         weight: 18
     },
+
     {
         name: "Mythic",
         weight: 9
     },
+
     {
         name: "Legendary",
         weight: 3
     }
+
 ];
 
 
 /* =========================================================
    SHOP ITEMS
-   =========================================================
-   
-   IMPORTANT:
-   Hair, eyes and mouths are NOT shop items.
-   
-   These are always available as avatar customisation.
    ========================================================= */
 
 const SHOP_ITEMS = [
 
-    /* -------------------------
-       HATS
-       ------------------------- */
+    /* =========================
+       COMMON
+       ========================= */
 
     {
-        id: "cap",
-        name: "Tech Cap",
-        type: "Hat",
+        id: "squish",
+        name: "Squish",
+        type: "Character",
         rarity: "Common",
-        price: 150,
-        icon: "🧢"
-    },
-
-    {
-        id: "beanie",
-        name: "Pixel Beanie",
-        type: "Hat",
-        rarity: "Common",
-        price: 175,
-        icon: "🧶"
-    },
-
-    {
-        id: "visor",
-        name: "Neon Visor",
-        type: "Hat",
-        rarity: "Rare",
-        price: 300,
-        icon: "▱"
-    },
-
-    {
-        id: "wizard",
-        name: "Study Wizard",
-        type: "Hat",
-        rarity: "Epic",
-        price: 500,
-        icon: "♢"
-    },
-
-    {
-        id: "crown",
-        name: "Champion Crown",
-        type: "Hat",
-        rarity: "Legendary",
-        price: 900,
-        icon: "♛"
-    },
-
-
-    /* -------------------------
-       ACCESSORIES
-       ------------------------- */
-
-    {
-        id: "headphones",
-        name: "Headphones",
-        type: "Accessory",
-        rarity: "Common",
-        price: 200,
-        icon: "◉"
-    },
-
-    {
-        id: "glasses",
-        name: "Tech Glasses",
-        type: "Accessory",
-        rarity: "Rare",
         price: 275,
-        icon: "▣"
+        design: "squish"
     },
 
     {
-        id: "backpack",
-        name: "Study Backpack",
-        type: "Accessory",
+        id: "pebble",
+        name: "Pebble",
+        type: "Character",
+        rarity: "Common",
+        price: 300,
+        design: "pebble"
+    },
+
+    {
+        id: "button",
+        name: "Button",
+        type: "Character",
+        rarity: "Common",
+        price: 325,
+        design: "button"
+    },
+
+
+    /* =========================
+       RARE
+       ========================= */
+
+    {
+        id: "horns",
+        name: "Horns",
+        type: "Character",
         rarity: "Rare",
-        price: 350,
-        icon: "▰"
+        price: 400,
+        design: "horns"
     },
 
     {
-        id: "floating-orb",
-        name: "Floating Orb",
-        type: "Accessory",
+        id: "shelby",
+        name: "Shelby",
+        type: "Character",
+        rarity: "Rare",
+        price: 425,
+        design: "shelby"
+    },
+
+    {
+        id: "tallboi",
+        name: "Tallboi",
+        type: "Character",
+        rarity: "Rare",
+        price: 450,
+        design: "tallboi"
+    },
+
+    {
+        id: "four-eyes",
+        name: "Four Eyes",
+        type: "Character",
+        rarity: "Rare",
+        price: 475,
+        design: "fourEyes"
+    },
+
+
+    /* =========================
+       EPIC
+       ========================= */
+
+    {
+        id: "mothball",
+        name: "Mothball",
+        type: "Character",
         rarity: "Epic",
         price: 550,
-        icon: "◈"
-    },
-
-
-    /* -------------------------
-       OUTFITS
-       ------------------------- */
-
-    {
-        id: "hoodie",
-        name: "Sprint Hoodie",
-        type: "Outfit",
-        rarity: "Common",
-        price: 250,
-        icon: "▱"
+        design: "mothball"
     },
 
     {
-        id: "lab-coat",
-        name: "Science Coat",
-        type: "Outfit",
-        rarity: "Rare",
-        price: 375,
-        icon: "✚"
+        id: "spike",
+        name: "Spike",
+        type: "Character",
+        rarity: "Epic",
+        price: 575,
+        design: "spike"
     },
 
     {
-        id: "tech-suit",
-        name: "Tech Suit",
-        type: "Outfit",
+        id: "orbit",
+        name: "Orbit",
+        type: "Character",
         rarity: "Epic",
         price: 600,
-        icon: "◇"
+        design: "orbit"
     },
 
     {
-        id: "legend-suit",
-        name: "Legend Suit",
-        type: "Outfit",
+        id: "bubble",
+        name: "Bubble",
+        type: "Character",
+        rarity: "Epic",
+        price: 625,
+        design: "bubble"
+    },
+
+
+    /* =========================
+       MYTHIC
+       ========================= */
+
+    {
+        id: "captain-goob",
+        name: "Captain Goob",
+        type: "Character",
+        rarity: "Mythic",
+        price: 700,
+        design: "captainGoob"
+    },
+
+    {
+        id: "tailspin",
+        name: "Tailspin",
+        type: "Character",
+        rarity: "Mythic",
+        price: 725,
+        design: "tailspin"
+    },
+
+    {
+        id: "holy-moly",
+        name: "Holy Moly",
+        type: "Character",
+        rarity: "Mythic",
+        price: 750,
+        design: "holyMoly"
+    },
+
+    {
+        id: "wingnut",
+        name: "Wingnut",
+        type: "Character",
+        rarity: "Mythic",
+        price: 775,
+        design: "wingnut"
+    },
+
+
+    /* =========================
+       LEGENDARY
+       ========================= */
+
+    {
+        id: "cosmo",
+        name: "Cosmo",
+        type: "Character",
+        rarity: "Legendary",
+        price: 950,
+        design: "cosmo"
+    },
+
+    {
+        id: "the-goober",
+        name: "The Goober",
+        type: "Character",
         rarity: "Legendary",
         price: 1000,
-        icon: "★"
+        design: "theGoober"
+    },
+
+    {
+        id: "golden-goober",
+        name: "Golden Goober",
+        type: "Character",
+        rarity: "Legendary",
+        price: 1100,
+        design: "golden"
+    },
+
+    {
+        id: "galaxy-goober",
+        name: "Galaxy Goober",
+        type: "Character",
+        rarity: "Legendary",
+        price: 1200,
+        design: "galaxy"
     },
 
 
-    /* -------------------------
+    /* =========================
        BANNERS
-       ------------------------- */
+       ========================= */
 
     {
-        id: "grid",
-        name: "Digital Grid",
+        id: "sprint-grid",
+        name: "Sprint Grid",
         type: "Banner",
         rarity: "Common",
         price: 100,
-        icon: "▦"
+        design: "sprintGrid"
     },
 
     {
-        id: "blueprint",
-        name: "Blueprint",
+        id: "purple-grid",
+        name: "Purple Grid",
+        type: "Banner",
+        rarity: "Common",
+        price: 125,
+        design: "purpleGrid"
+    },
+
+    {
+        id: "neon-blue",
+        name: "Neon Blue",
         type: "Banner",
         rarity: "Rare",
-        price: 225,
-        icon: "⌗"
+        price: 175,
+        design: "neonBlue"
     },
 
     {
-        id: "neon",
-        name: "Neon Circuit",
+        id: "galaxy-banner",
+        name: "Galaxy",
         type: "Banner",
         rarity: "Epic",
-        price: 400,
-        icon: "⌁"
+        price: 300,
+        design: "galaxy"
     },
 
     {
-        id: "galaxy",
-        name: "Deep Space",
+        id: "gold-banner",
+        name: "Golden",
         type: "Banner",
         rarity: "Legendary",
-        price: 750,
-        icon: "✦"
+        price: 600,
+        design: "gold"
     },
 
 
-    /* -------------------------
+    /* =========================
        TITLES
-       ------------------------- */
+       ========================= */
 
     {
-        id: "sprinter",
+        id: "study-sprinter",
         name: "Study Sprinter",
-        type: "Title",
+        type: "Player Title",
         rarity: "Common",
-        price: 150,
-        icon: ">"
+        price: 150
     },
 
     {
         id: "brainiac",
         name: "Brainiac",
-        type: "Title",
+        type: "Player Title",
         rarity: "Rare",
-        price: 300,
-        icon: "?"
+        price: 300
+    },
+
+    {
+        id: "speed-learner",
+        name: "Speed Learner",
+        type: "Player Title",
+        rarity: "Epic",
+        price: 450
     },
 
     {
         id: "knowledge-seeker",
         name: "Knowledge Seeker",
-        type: "Title",
-        rarity: "Epic",
-        price: 500,
-        icon: "+"
+        type: "Player Title",
+        rarity: "Mythic",
+        price: 650
     },
 
     {
         id: "study-legend",
         name: "Study Legend",
-        type: "Title",
+        type: "Player Title",
         rarity: "Legendary",
-        price: 900,
-        icon: "★"
+        price: 1000
     }
 
 ];
 
 
 /* =========================================================
-   OWNERSHIP
+   DEBUG DATA
+   ========================================================= */
+
+window.DEBUG_GOOBERS =
+    SHOP_ITEMS.filter(
+        item => item.type === "Character"
+    );
+
+window.DEBUG_SHOP_ITEMS =
+    SHOP_ITEMS;
+
+
+/* =========================================================
+   CURRENCY
+   ========================================================= */
+
+function getCoins() {
+
+    return Number(
+        localStorage.getItem("coins")
+    ) || 0;
+
+}
+
+
+function getTickets() {
+
+    return Number(
+        localStorage.getItem("shopTickets")
+    ) || 0;
+
+}
+
+
+function setCoins(value) {
+
+    localStorage.setItem(
+        "coins",
+        String(value)
+    );
+
+}
+
+
+function setTickets(value) {
+
+    localStorage.setItem(
+        "shopTickets",
+        String(value)
+    );
+
+}
+
+
+/* =========================================================
+   OWNED ITEMS
    ========================================================= */
 
 function getOwnedItems() {
@@ -317,79 +452,27 @@ function ownsItem(id) {
 
 
 /* =========================================================
-   COINS
+   UNLOCK ITEM
    ========================================================= */
 
-function getCoins() {
-
-    return Number(
-        localStorage.getItem("coins")
-    ) || 0;
-
-}
-
-
-function setCoins(amount) {
-
-    localStorage.setItem(
-        "coins",
-        String(amount)
-    );
-
-}
-
-
-/* =========================================================
-   UNLOCK COSMETIC
-   ========================================================= */
-
-function unlockItem(item) {
-
-    const owned =
-        getOwnedItems();
-
-    if (!owned.includes(item.id)) {
-
-        owned.push(item.id);
-
-    }
-
-    saveOwnedItems(owned);
-
-
-    /*
-       Keep separate cosmetic collections so the
-       avatar editor can use them later.
-    */
+function unlockItem(id, type) {
 
     let key = null;
 
 
-    if (item.type === "Hat") {
+    if (type === "Character") {
 
-        key = "unlocked_hats";
-
-    }
-
-    if (item.type === "Accessory") {
-
-        key = "unlocked_accessories";
+        key = "unlocked_characters";
 
     }
 
-    if (item.type === "Outfit") {
-
-        key = "unlocked_outfits";
-
-    }
-
-    if (item.type === "Banner") {
+    else if (type === "Banner") {
 
         key = "unlocked_banners";
 
     }
 
-    if (item.type === "Title") {
+    else if (type === "Player Title") {
 
         key = "unlockedTitles";
 
@@ -419,9 +502,9 @@ function unlockItem(item) {
     }
 
 
-    if (!unlocked.includes(item.id)) {
+    if (!unlocked.includes(id)) {
 
-        unlocked.push(item.id);
+        unlocked.push(id);
 
     }
 
@@ -464,7 +547,7 @@ function seededRandom(seed) {
 
 
 /* =========================================================
-   SHOP ROTATION
+   SHOP START
    ========================================================= */
 
 function getShopStart() {
@@ -477,9 +560,7 @@ function getShopStart() {
 
     if (debugReset) {
 
-        return Number(
-            debugReset
-        );
+        return Number(debugReset);
 
     }
 
@@ -516,7 +597,7 @@ function rollRarity(random) {
     let total = 0;
 
 
-    for (const rarity of RARITIES) {
+    for (const rarity of RARITY_CHANCES) {
 
         total += rarity.weight;
 
@@ -539,7 +620,7 @@ function rollRarity(random) {
 
 
 /* =========================================================
-   GET CURRENT SHOP
+   SHOP GENERATION
    ========================================================= */
 
 function getCurrentShop() {
@@ -548,7 +629,7 @@ function getCurrentShop() {
         getShopStart();
 
 
-    const reroll =
+    const rerollSeed =
         Number(
             localStorage.getItem(
                 "shopRerollSeed"
@@ -556,9 +637,9 @@ function getCurrentShop() {
         ) || 0;
 
 
-    const seed =
+    const baseSeed =
         Math.floor(start / 1000) +
-        reroll;
+        rerollSeed;
 
 
     const result = [];
@@ -575,7 +656,7 @@ function getCurrentShop() {
 
         let random =
             seededRandom(
-                seed +
+                baseSeed +
                 slot * 7919
             );
 
@@ -612,18 +693,20 @@ function getCurrentShop() {
 
         random =
             seededRandom(
-                seed +
+                baseSeed +
                 slot * 15485863
             );
 
 
+        const index =
+            Math.floor(
+                random *
+                candidates.length
+            );
+
+
         const item =
-            candidates[
-                Math.floor(
-                    random *
-                    candidates.length
-                )
-            ];
+            candidates[index];
 
 
         used.add(item.id);
@@ -639,48 +722,144 @@ function getCurrentShop() {
 
 
 /* =========================================================
-   COSMETIC PREVIEW
-   =========================================================
-   
-   IMPORTANT:
-   Cosmetics are displayed by themselves.
-   They are NOT placed on an avatar.
+   GOOBER PREVIEW
    ========================================================= */
 
-function createCosmeticPreview(item) {
+function createGooberPreview(item) {
 
-    const preview =
+    /*
+       This intentionally uses the existing Goober
+       renderer instead of creating a second version.
+    */
+
+    if (
+        typeof window.createGoober ===
+        "function"
+    ) {
+
+        return window.createGoober(item);
+
+    }
+
+
+    /*
+       Fallback if createGoober is defined in the
+       same file but not exposed globally.
+    */
+
+    if (
+        typeof createGoober ===
+        "function"
+    ) {
+
+        return createGoober(item);
+
+    }
+
+
+    const fallback =
         document.createElement("div");
 
-    preview.className =
-        "cosmetic-preview " +
-        "preview-" +
-        item.type.toLowerCase();
+    fallback.className =
+        "shop-goober-fallback";
+
+    fallback.textContent =
+        "●";
+
+    return fallback;
+
+}
 
 
-    const icon =
+/* =========================================================
+   BANNER PREVIEW
+   ========================================================= */
+
+function createBanner(item) {
+
+    const banner =
         document.createElement("div");
 
-    icon.className =
-        "cosmetic-icon";
+    banner.className =
+        "banner-preview banner-" +
+        item.design;
 
 
-    icon.textContent =
-        item.icon || "◆";
+    return banner;
+
+}
 
 
-    const glow =
+/* =========================================================
+   TITLE PREVIEW
+   ========================================================= */
+
+function createTitlePreview(item) {
+
+    const title =
         document.createElement("div");
 
-    glow.className =
-        "cosmetic-glow";
+    title.className =
+        "title-preview";
 
 
-    preview.appendChild(glow);
-    preview.appendChild(icon);
+    title.textContent =
+        item.name;
 
 
-    return preview;
+    return title;
+
+}
+
+
+/* =========================================================
+   GENERIC PREVIEW
+   ========================================================= */
+
+function createPreview(item) {
+
+    if (
+        item.type === "Character"
+    ) {
+
+        return createGooberPreview(item);
+
+    }
+
+
+    if (
+        item.type === "Banner"
+    ) {
+
+        return createBanner(item);
+
+    }
+
+
+    if (
+        item.type === "Player Title"
+    ) {
+
+        return createTitlePreview(item);
+
+    }
+
+
+    return document.createElement("div");
+
+}
+
+
+/* =========================================================
+   RARITY CLASS
+   ========================================================= */
+
+function getRarityClass(rarity) {
+
+    return (
+        "rarity-" +
+        rarity.toLowerCase()
+    );
 
 }
 
@@ -696,22 +875,33 @@ function createShopCard(item) {
 
     card.className =
         "shop-card " +
-        "rarity-" +
-        item.rarity.toLowerCase();
+        getRarityClass(item.rarity);
 
 
     const rarity =
-        document.createElement("span");
+        document.createElement("div");
 
     rarity.className =
-        "shop-rarity";
+        "rarity";
 
     rarity.textContent =
         item.rarity;
 
 
     const preview =
-        createCosmeticPreview(item);
+        document.createElement("div");
+
+    preview.className =
+        "item-preview";
+
+
+    const previewContent =
+        createPreview(item);
+
+
+    preview.appendChild(
+        previewContent
+    );
 
 
     const name =
@@ -725,35 +915,28 @@ function createShopCard(item) {
         document.createElement("p");
 
     type.className =
-        "shop-type";
+        "item-type";
 
     type.textContent =
         item.type;
 
 
-    const bottom =
-        document.createElement("div");
-
-    bottom.className =
-        "shop-card-bottom";
-
-
     const price =
-        document.createElement("span");
+        document.createElement("div");
 
     price.className =
         "shop-price";
 
     price.textContent =
         item.price +
-        " 🪙";
+        " Coins";
 
 
     const button =
         document.createElement("button");
 
     button.className =
-        "shop-buy-button";
+        "buy-button";
 
 
     if (ownsItem(item.id)) {
@@ -768,33 +951,34 @@ function createShopCard(item) {
             "owned"
         );
 
-    } else {
+    }
+
+    else {
 
         button.textContent =
             "BUY";
 
-        button.onclick =
+        button.addEventListener(
+            "click",
             function() {
 
-                buyItem(
+                buyCoinItem(
                     item,
                     button
                 );
 
-            };
+            }
+        );
 
     }
-
-
-    bottom.appendChild(price);
-    bottom.appendChild(button);
 
 
     card.appendChild(rarity);
     card.appendChild(preview);
     card.appendChild(name);
     card.appendChild(type);
-    card.appendChild(bottom);
+    card.appendChild(price);
+    card.appendChild(button);
 
 
     return card;
@@ -806,11 +990,11 @@ function createShopCard(item) {
    DISPLAY SHOP
    ========================================================= */
 
-function displayShop() {
+function displayMainShop() {
 
     const container =
         document.getElementById(
-            "shop-items"
+            "fortnightly-items"
         );
 
 
@@ -845,9 +1029,11 @@ function displayShop() {
    BUY ITEM
    ========================================================= */
 
-function buyItem(item, button) {
+function buyCoinItem(item, button) {
 
-    if (ownsItem(item.id)) {
+    if (
+        ownsItem(item.id)
+    ) {
 
         return;
 
@@ -858,7 +1044,9 @@ function buyItem(item, button) {
         getCoins();
 
 
-    if (coins < item.price) {
+    if (
+        coins < item.price
+    ) {
 
         alert(
             "You don't have enough coins!"
@@ -875,7 +1063,28 @@ function buyItem(item, button) {
     );
 
 
-    unlockItem(item);
+    unlockItem(
+        item.id,
+        item.type
+    );
+
+
+    const owned =
+        getOwnedItems();
+
+
+    if (
+        !owned.includes(item.id)
+    ) {
+
+        owned.push(item.id);
+
+    }
+
+
+    saveOwnedItems(
+        owned
+    );
 
 
     button.textContent =
@@ -900,16 +1109,30 @@ function buyItem(item, button) {
 
 function updateCurrency() {
 
-    const element =
+    const coins =
         document.getElementById(
             "coin-count"
         );
 
 
-    if (element) {
+    const tickets =
+        document.getElementById(
+            "ticket-count"
+        );
 
-        element.textContent =
+
+    if (coins) {
+
+        coins.textContent =
             getCoins();
+
+    }
+
+
+    if (tickets) {
+
+        tickets.textContent =
+            getTickets();
 
     }
 
@@ -924,7 +1147,7 @@ function updateCountdown() {
 
     const element =
         document.getElementById(
-            "shop-countdown"
+            "countdown"
         );
 
 
@@ -991,7 +1214,7 @@ function updateCountdown() {
 
 
 /* =========================================================
-   DEBUG REROLL
+   DEBUG
    ========================================================= */
 
 function rerollShop() {
@@ -1025,7 +1248,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        displayShop();
+        displayMainShop();
 
         updateCurrency();
 
@@ -1051,8 +1274,17 @@ window.getCoins =
 window.setCoins =
     setCoins;
 
+window.getTickets =
+    getTickets;
+
+window.setTickets =
+    setTickets;
+
 window.getOwnedItems =
     getOwnedItems;
+
+window.saveOwnedItems =
+    saveOwnedItems;
 
 window.ownsItem =
     ownsItem;
@@ -1065,6 +1297,9 @@ window.rerollShop =
 
 window.resetShopReroll =
     resetShopReroll;
+
+window.displayMainShop =
+    displayMainShop;
 
 window.SHOP_ITEMS =
     SHOP_ITEMS;
