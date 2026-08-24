@@ -1,29 +1,17 @@
 ```css
 /* =========================================================
    STUDYSPRINT SHOP
-   Complete Shop + Goober Styling
-========================================================= */
-
-
-/* =========================================================
-   PAGE
+   Original dark/modern shop styling
 ========================================================= */
 
 .shop-page {
     min-height: 100vh;
-    margin: 0;
     background:
-        radial-gradient(circle at 15% 0%, rgba(99,102,241,.14), transparent 32%),
-        radial-gradient(circle at 85% 10%, rgba(59,130,246,.10), transparent 30%),
-        #080c16;
+        radial-gradient(circle at 20% 0%, rgba(99,102,241,.16), transparent 35%),
+        radial-gradient(circle at 80% 20%, rgba(59,130,246,.10), transparent 30%),
+        #090d18;
     color: #f8fafc;
-    font-family: inherit;
 }
-
-
-/* =========================================================
-   HEADER
-========================================================= */
 
 .shop-header {
     height: 76px;
@@ -31,14 +19,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(8,12,22,.94);
-    border-bottom: 1px solid rgba(148,163,184,.14);
-    backdrop-filter: blur(18px);
+    background: rgba(9,13,24,.92);
+    border-bottom: 1px solid rgba(148,163,184,.16);
+    backdrop-filter: blur(16px);
 }
 
 .shop-logo {
-    color: #f8fafc;
     text-decoration: none;
+    color: #f8fafc;
     font-size: 25px;
     font-weight: 950;
     letter-spacing: -1px;
@@ -51,171 +39,144 @@
 .shop-header-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 18px;
 }
 
 .coin-display {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 15px;
+    padding: 10px 17px;
     background: #111827;
-    border: 1px solid #273449;
-    border-radius: 11px;
-    font-weight: 850;
+    border: 1px solid #263249;
+    border-radius: 12px;
+    font-weight: 800;
 }
 
 .coin-symbol {
     color: #facc15;
+    font-size: 16px;
 }
 
 .coin-label {
     color: #64748b;
-    font-size: 10px;
-    font-weight: 900;
+    font-size: 11px;
     letter-spacing: 1px;
 }
 
 .mod-button {
     border: 1px solid #7c3aed;
-    background: #21103b;
+    background: #24113f;
     color: #c4b5fd;
-    padding: 10px 15px;
+    padding: 10px 16px;
     border-radius: 10px;
     font-weight: 900;
     cursor: pointer;
-    transition: .2s ease;
+    transition: .2s;
 }
 
 .mod-button:hover {
-    background: #32175a;
+    background: #34185d;
     transform: translateY(-2px);
 }
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
 
 .shop-container {
     width: min(1200px, 92%);
     margin: auto;
-    padding: 52px 0 90px;
+    padding: 55px 0 90px;
 }
-
-
-/* =========================================================
-   HERO
-========================================================= */
 
 .shop-hero {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: end;
     gap: 30px;
-    margin-bottom: 48px;
+    margin-bottom: 55px;
 }
 
 .shop-kicker,
 .section-label {
     color: #818cf8;
-    font-size: 10px;
-    font-weight: 950;
+    font-size: 11px;
+    font-weight: 900;
     letter-spacing: 2px;
-    text-transform: uppercase;
 }
 
 .shop-hero h1 {
-    margin: 9px 0 0;
-    font-size: clamp(36px, 5vw, 58px);
+    margin-top: 10px;
+    font-size: clamp(34px,5vw,58px);
     line-height: 1;
     letter-spacing: -2px;
 }
 
 .shop-description {
     max-width: 650px;
-    margin-top: 16px;
+    margin-top: 18px;
     color: #94a3b8;
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.6;
 }
 
 .rotation-box {
     min-width: 190px;
-    padding: 17px;
+    padding: 18px;
     background: #101827;
     border: 1px solid #263249;
-    border-radius: 15px;
+    border-radius: 16px;
 }
 
 .rotation-box span {
     display: block;
-    margin-bottom: 7px;
     color: #64748b;
-    font-size: 9px;
-    font-weight: 950;
+    font-size: 10px;
+    font-weight: 900;
     letter-spacing: 1.5px;
+    margin-bottom: 8px;
 }
 
 .rotation-box strong {
-    color: #e2e8f0;
     font-size: 17px;
+    color: #e2e8f0;
 }
 
-
-/* =========================================================
-   SECTION
-========================================================= */
-
 .shop-section {
-    margin-top: 32px;
+    margin-top: 30px;
 }
 
 .section-heading {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .section-heading h2 {
-    margin: 4px 0 0;
-    font-size: 27px;
+    margin-top: 5px;
+    font-size: 28px;
 }
-
-
-/* =========================================================
-   SHOP GRID
-========================================================= */
 
 .shop-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0,1fr));
     gap: 20px;
 }
-
-
-/* =========================================================
-   SHOP CARD
-========================================================= */
 
 .shop-card {
     position: relative;
     overflow: hidden;
-    min-height: 405px;
-    padding: 20px;
-    background:
-        linear-gradient(145deg, #141d2e, #0c1320);
+    min-height: 400px;
+    padding: 22px;
+    background: linear-gradient(145deg,#131c2e,#0d1422);
     border: 1px solid #263249;
-    border-radius: 19px;
-    box-shadow: 0 16px 38px rgba(0,0,0,.28);
-    transition: .22s ease;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,.28);
+    transition: .25s;
 }
 
 .shop-card:hover {
     transform: translateY(-5px);
-    border-color: #3b4a63;
-    box-shadow: 0 22px 48px rgba(0,0,0,.42);
+    border-color: #475569;
+    box-shadow: 0 20px 45px rgba(0,0,0,.4);
 }
 
 .shop-card::before {
@@ -223,1194 +184,60 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(
-        135deg,
-        rgba(255,255,255,.045),
-        transparent 38%
-    );
+    background: linear-gradient(135deg,rgba(255,255,255,.04),transparent 40%);
 }
 
 .rarity {
     position: absolute;
-    z-index: 4;
-    top: 16px;
-    right: 16px;
-    padding: 6px 9px;
-    border-radius: 7px;
+    top: 18px;
+    right: 18px;
+    padding: 6px 10px;
+    border-radius: 8px;
     font-size: 9px;
     font-weight: 950;
     letter-spacing: 1px;
     text-transform: uppercase;
     background: #1e293b;
-    color: #cbd5e1;
+    color: #94a3b8;
 }
 
-
-/* =========================================================
-   RARITIES
-========================================================= */
-
 .rarity-common .rarity {
-    background: #1e293b;
     color: #cbd5e1;
 }
 
 .rarity-rare .rarity {
-    background: #172554;
     color: #60a5fa;
+    background: #172554;
 }
 
 .rarity-epic .rarity {
-    background: #2e1065;
     color: #c084fc;
+    background: #2e1065;
 }
 
 .rarity-mythic .rarity {
-    background: #4c0519;
     color: #fb7185;
+    background: #4c0519;
 }
 
 .rarity-legendary .rarity {
-    background: #422006;
     color: #facc15;
+    background: #422006;
 }
 
-
-/* =========================================================
-   ITEM PREVIEW
-========================================================= */
-
 .item-preview {
-    position: relative;
-    height: 215px;
-    margin-bottom: 18px;
+    height: 210px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     border-radius: 14px;
-    background:
-        radial-gradient(circle at 50% 42%, rgba(99,102,241,.09), transparent 45%),
-        #090f1b;
+    background: #0a101d;
     border: 1px solid #202c40;
 }
 
-
-/* =========================================================
-   GOOBER BASE
-========================================================= */
-
-.goober {
-    --goober-scale: 1;
-
-    position: relative;
-
-    width: 145px;
-    height: 165px;
-
-    transform: scale(var(--goober-scale));
-
-    display: block;
-
-    flex-shrink: 0;
-}
-
-
-/* =========================================================
-   GOOBER BODY
-========================================================= */
-
-.goober-body {
-    position: absolute;
-
-    left: 50%;
-    top: 30px;
-
-    width: 105px;
-    height: 105px;
-
-    transform: translateX(-50%);
-
-    border-radius: 46% 46% 43% 43%;
-
-    background: #64748b;
-
-    border: 4px solid rgba(0,0,0,.18);
-
-    box-shadow:
-        inset 0 -8px 0 rgba(0,0,0,.08),
-        inset 0 7px 0 rgba(255,255,255,.10),
-        0 12px 18px rgba(0,0,0,.28);
-
-    z-index: 2;
-}
-
-
-/* =========================================================
-   FACE
-========================================================= */
-
-.goober-face {
-    position: absolute;
-
-    left: 50%;
-    top: 55px;
-
-    width: 82px;
-    height: 58px;
-
-    transform: translateX(-50%);
-
-    z-index: 6;
-
-    pointer-events: none;
-}
-
-.goober-eye {
-    position: absolute;
-
-    width: 13px;
-    height: 17px;
-
-    top: 4px;
-
-    background: #111827;
-
-    border-radius: 50%;
-
-    box-shadow:
-        inset 3px 3px 0 rgba(255,255,255,.8);
-}
-
-.eye-left {
-    left: 15px;
-}
-
-.eye-right {
-    right: 15px;
-}
-
-.goober-mouth {
-    position: absolute;
-
-    left: 50%;
-    top: 29px;
-
-    width: 25px;
-    height: 13px;
-
-    transform: translateX(-50%);
-
-    border-bottom: 4px solid #111827;
-
-    border-radius: 0 0 50% 50%;
-}
-
-
-/* =========================================================
-   FEET
-========================================================= */
-
-.goober-feet {
-    position: absolute;
-
-    left: 50%;
-    bottom: 8px;
-
-    width: 95px;
-    height: 28px;
-
-    transform: translateX(-50%);
-
-    z-index: 1;
-}
-
-.goober-foot {
-    position: absolute;
-
-    bottom: 0;
-
-    width: 37px;
-    height: 15px;
-
-    background: #334155;
-
-    border-radius: 50%;
-
-    box-shadow: inset 0 -3px 0 rgba(0,0,0,.12);
-}
-
-.foot-left {
-    left: 5px;
-    transform: rotate(8deg);
-}
-
-.foot-right {
-    right: 5px;
-    transform: rotate(-8deg);
-}
-
-
-/* =========================================================
-   COMMON BODY COLOURS
-========================================================= */
-
-.goober-body.green {
-    background: #55c878;
-}
-
-.goober-body.blue {
-    background: #4f8cff;
-}
-
-.goober-body.squishy {
-    background: #69a8ff;
-}
-
-.goober-body.stone {
-    background: #7d8796;
-}
-
-.goober-body.pink {
-    background: #f28ca9;
-}
-
-.goober-body.purple {
-    background: #9b7bea;
-}
-
-.goober-body.yellow {
-    background: #f5c84c;
-}
-
-.goober-body.coral {
-    background: #f07870;
-}
-
-.goober-body.lavender {
-    background: #b89be8;
-}
-
-.goober-body.red {
-    background: #ed5b61;
-}
-
-.goober-body.cyan {
-    background: #42c8dd;
-}
-
-.goober-body.aqua {
-    background: #5dd7c7;
-}
-
-.goober-body.violet {
-    background: #9270dc;
-}
-
-.goober-body.hotpink {
-    background: #ef5da8;
-}
-
-.goober-body.gold,
-.goober-body.golden {
-    background: linear-gradient(145deg,#ffe680,#e9a91c);
-}
-
-.goober-body.peach {
-    background: #f3a878;
-}
-
-.goober-body.deep-purple {
-    background: #493a9d;
-}
-
-.goober-body.mint {
-    background: #70d6b0;
-}
-
-.goober-body.galaxy-body {
-    background:
-        radial-gradient(circle at 25% 30%, #b58cff 0 3px, transparent 4px),
-        radial-gradient(circle at 70% 60%, #6ddcff 0 3px, transparent 4px),
-        linear-gradient(145deg,#17104d,#302070,#10152f);
-}
-
-.goober-body.study-green {
-    background: #57bd72;
-}
-
-.goober-body.study-purple {
-    background: #7555c9;
-}
-
-
-/* =========================================================
-   GOOBER PARTS
-========================================================= */
-
-.goober-part {
-    position: absolute;
-    z-index: 5;
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   LEAFY
-========================================================= */
-
-.leafy-leaf {
-    width: 30px;
-    height: 19px;
-
-    left: 59px;
-    top: 19px;
-
-    background: #48b968;
-
-    border-radius: 100% 0 100% 0;
-
-    transform: rotate(-25deg);
-}
-
-.leafy-stem {
-    width: 5px;
-    height: 23px;
-
-    left: 72px;
-    top: 15px;
-
-    background: #348c4d;
-
-    border-radius: 5px;
-
-    transform: rotate(22deg);
-}
-
-
-/* =========================================================
-   SQUISH
-========================================================= */
-
-.squish-cheek-left,
-.squish-cheek-right {
-    width: 20px;
-    height: 12px;
-
-    background: rgba(255,255,255,.15);
-
-    border-radius: 50%;
-
-    top: 84px;
-
-    z-index: 7;
-}
-
-.squish-cheek-left {
-    left: 28px;
-}
-
-.squish-cheek-right {
-    right: 28px;
-}
-
-.squishy {
-    border-radius: 52% 48% 44% 46%;
-}
-
-
-/* =========================================================
-   PEBBLE
-========================================================= */
-
-.pebble-mark-one,
-.pebble-mark-two,
-.pebble-mark-three {
-    width: 9px;
-    height: 6px;
-
-    background: rgba(30,41,59,.28);
-
-    border-radius: 50%;
-}
-
-.pebble-mark-one {
-    left: 43px;
-    top: 91px;
-}
-
-.pebble-mark-two {
-    left: 75px;
-    top: 70px;
-}
-
-.pebble-mark-three {
-    left: 82px;
-    top: 94px;
-}
-
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.button-top {
-    left: 50%;
-    top: 21px;
-
-    width: 37px;
-    height: 13px;
-
-    transform: translateX(-50%);
-
-    background: #d86f91;
-
-    border-radius: 50%;
-}
-
-.button-dot-left,
-.button-dot-right {
-    width: 5px;
-    height: 5px;
-
-    background: #8d405d;
-
-    border-radius: 50%;
-
-    top: 24px;
-}
-
-.button-dot-left {
-    left: 61px;
-}
-
-.button-dot-right {
-    right: 61px;
-}
-
-
-/* =========================================================
-   HORNS
-========================================================= */
-
-.horn-left,
-.horn-right {
-    width: 23px;
-    height: 39px;
-
-    top: 7px;
-
-    background: #c084fc;
-
-    border: 3px solid #6b21a8;
-
-    border-radius: 80% 30% 50% 20%;
-
-    z-index: 1;
-}
-
-.horn-left {
-    left: 27px;
-    transform: rotate(-30deg);
-}
-
-.horn-right {
-    right: 27px;
-    transform: rotate(30deg) scaleX(-1);
-}
-
-
-/* =========================================================
-   TALLBOI
-========================================================= */
-
-.goober.design-tallboi {
-    height: 180px;
-}
-
-.goober.design-tallboi .goober-body {
-    width: 82px;
-    height: 125px;
-    top: 22px;
-    border-radius: 45px;
-}
-
-.tallboi-hat {
-    width: 65px;
-    height: 24px;
-
-    left: 50%;
-    top: 5px;
-
-    transform: translateX(-50%);
-
-    background: #f8fafc;
-
-    border-radius: 50% 50% 20% 20%;
-
-    border-bottom: 5px solid #64748b;
-}
-
-
-/* =========================================================
-   FOUR EYES
-========================================================= */
-
-.extra-eye {
-    width: 10px;
-    height: 13px;
-    top: 27px;
-}
-
-.extra-one {
-    left: 24px;
-}
-
-.extra-two {
-    right: 24px;
-}
-
-
-/* =========================================================
-   MOTHBALL
-========================================================= */
-
-.moth-wing-left,
-.moth-wing-right {
-    width: 42px;
-    height: 63px;
-
-    top: 57px;
-
-    background: #d8b4fe;
-
-    border: 3px solid #8b5cf6;
-
-    z-index: 1;
-}
-
-.moth-wing-left {
-    left: 8px;
-    border-radius: 70% 20% 70% 30%;
-    transform: rotate(15deg);
-}
-
-.moth-wing-right {
-    right: 8px;
-    border-radius: 20% 70% 30% 70%;
-    transform: rotate(-15deg);
-}
-
-.moth-antenna-left,
-.moth-antenna-right {
-    width: 28px;
-    height: 18px;
-
-    top: 12px;
-
-    border-top: 3px solid #7c3aed;
-
-    z-index: 7;
-}
-
-.moth-antenna-left {
-    left: 35px;
-    transform: rotate(-30deg);
-}
-
-.moth-antenna-right {
-    right: 35px;
-    transform: rotate(30deg);
-}
-
-
-/* =========================================================
-   SPIKE
-========================================================= */
-
-.spike-one,
-.spike-two,
-.spike-three,
-.spike-four {
-    width: 22px;
-    height: 30px;
-
-    background: #f87171;
-
-    clip-path: polygon(50% 0,100% 100%,0 100%);
-}
-
-.spike-one {
-    left: 33px;
-    top: 18px;
-    transform: rotate(-30deg);
-}
-
-.spike-two {
-    left: 62px;
-    top: 10px;
-}
-
-.spike-three {
-    right: 33px;
-    top: 18px;
-    transform: rotate(30deg);
-}
-
-.spike-four {
-    left: 50%;
-    top: 3px;
-    transform: translateX(-50%);
-}
-
-
-/* =========================================================
-   ORBIT
-========================================================= */
-
-.orbit-ring {
-    left: 50%;
-    top: 42px;
-
-    width: 132px;
-    height: 55px;
-
-    transform: translateX(-50%) rotate(-18deg);
-
-    border: 4px solid rgba(125,211,252,.9);
-
-    border-radius: 50%;
-
-    z-index: 7;
-}
-
-.orbit-dot {
-    width: 13px;
-    height: 13px;
-
-    left: 112px;
-    top: 59px;
-
-    background: #67e8f9;
-
-    border-radius: 50%;
-
-    box-shadow: 0 0 12px #67e8f9;
-}
-
-
-/* =========================================================
-   BUBBLE
-========================================================= */
-
-.bubble-small-one,
-.bubble-small-two {
-    border: 3px solid rgba(255,255,255,.65);
-    border-radius: 50%;
-}
-
-.bubble-small-one {
-    width: 22px;
-    height: 22px;
-    left: 20px;
-    top: 30px;
-}
-
-.bubble-small-two {
-    width: 13px;
-    height: 13px;
-    right: 19px;
-    top: 48px;
-}
-
-.bubble-shine {
-    width: 9px;
-    height: 9px;
-    left: 29px;
-    top: 37px;
-    background: white;
-    border-radius: 50%;
-    opacity: .8;
-}
-
-
-/* =========================================================
-   CAPTAIN GOOB
-========================================================= */
-
-.captain-cape {
-    position: absolute;
-
-    width: 93px;
-    height: 78px;
-
-    left: 26px;
-    top: 63px;
-
-    background: #7c3aed;
-
-    border-radius: 10px 10px 45px 45px;
-
-    z-index: 1;
-}
-
-.captain-badge {
-    width: 25px;
-    height: 25px;
-
-    left: 60px;
-    top: 83px;
-
-    background: #facc15;
-
-    border-radius: 50%;
-
-    border: 3px solid #92400e;
-}
-
-.captain-hat {
-    width: 72px;
-    height: 25px;
-
-    left: 50%;
-    top: 9px;
-
-    transform: translateX(-50%);
-
-    background: #312e81;
-
-    border-radius: 50% 50% 15% 15%;
-
-    z-index: 8;
-}
-
-
-/* =========================================================
-   TAILSPIN
-========================================================= */
-
-.tailspin-tail {
-    width: 80px;
-    height: 40px;
-
-    left: 85px;
-    top: 88px;
-
-    border: 11px solid #ef5da8;
-    border-left: 0;
-
-    border-radius: 0 60px 60px 0;
-
-    transform: rotate(-18deg);
-
-    z-index: 1;
-}
-
-.tailspin-tip {
-    width: 17px;
-    height: 17px;
-
-    left: 139px;
-    top: 72px;
-
-    background: #f9a8d4;
-
-    border-radius: 50%;
-}
-
-
-/* =========================================================
-   HOLY MOLY
-========================================================= */
-
-.holy-halo {
-    width: 76px;
-    height: 26px;
-
-    left: 50%;
-    top: 5px;
-
-    transform: translateX(-50%);
-
-    border: 6px solid #facc15;
-
-    border-radius: 50%;
-
-    box-shadow: 0 0 16px rgba(250,204,21,.65);
-
-    z-index: 8;
-}
-
-.holy-rays {
-    width: 125px;
-    height: 125px;
-
-    left: 10px;
-    top: 18px;
-
-    border: 2px dashed rgba(250,204,21,.45);
-
-    border-radius: 50%;
-
-    z-index: 1;
-}
-
-
-/* =========================================================
-   WINGNUT
-========================================================= */
-
-.wingnut-left,
-.wingnut-right {
-    width: 52px;
-    height: 35px;
-
-    top: 70px;
-
-    background: #fdba74;
-
-    border: 3px solid #c2410c;
-
-    z-index: 1;
-}
-
-.wingnut-left {
-    left: 0;
-    border-radius: 100% 20% 100% 20%;
-    transform: rotate(22deg);
-}
-
-.wingnut-right {
-    right: 0;
-    border-radius: 20% 100% 20% 100%;
-    transform: rotate(-22deg);
-}
-
-.wingnut-nut {
-    width: 34px;
-    height: 34px;
-
-    left: 50%;
-    top: 77px;
-
-    transform: translateX(-50%);
-
-    background: #f59e0b;
-
-    border: 4px solid #92400e;
-
-    border-radius: 50%;
-
-    z-index: 7;
-}
-
-
-/* =========================================================
-   COSMO
-========================================================= */
-
-.cosmo-stars {
-    width: 92px;
-    height: 92px;
-
-    left: 27px;
-    top: 36px;
-
-    background:
-        radial-gradient(circle at 20% 20%, white 0 2px, transparent 3px),
-        radial-gradient(circle at 75% 35%, #93c5fd 0 2px, transparent 3px),
-        radial-gradient(circle at 45% 75%, #c4b5fd 0 2px, transparent 3px);
-
-    border-radius: 50%;
-}
-
-.cosmo-moon {
-    width: 28px;
-    height: 28px;
-
-    right: 21px;
-    top: 34px;
-
-    border-radius: 50%;
-
-    background: #fde68a;
-
-    box-shadow: -7px -4px 0 #493a9d;
-}
-
-
-/* =========================================================
-   THE GOOBER
-========================================================= */
-
-.goober-big-smile {
-    width: 39px;
-    height: 20px;
-
-    left: 53px;
-    top: 79px;
-
-    border-bottom: 6px solid #111827;
-
-    border-radius: 0 0 50% 50%;
-}
-
-.goober-tuft {
-    width: 38px;
-    height: 20px;
-
-    left: 53px;
-    top: 13px;
-
-    background: #f97316;
-
-    clip-path: polygon(
-        0 100%,
-        18% 25%,
-        35% 70%,
-        50% 0,
-        65% 70%,
-        83% 25%,
-        100% 100%
-    );
-}
-
-.goober-star {
-    width: 17px;
-    height: 17px;
-
-    right: 20px;
-    top: 27px;
-
-    background: #facc15;
-
-    clip-path: polygon(
-        50% 0,
-        61% 37%,
-        100% 50%,
-        61% 63%,
-        50% 100%,
-        39% 63%,
-        0 50%,
-        39% 37%
-    );
-}
-
-
-/* =========================================================
-   GOLDEN GOOBER
-========================================================= */
-
-.golden-shine {
-    width: 18px;
-    height: 18px;
-
-    left: 31px;
-    top: 43px;
-
-    background: rgba(255,255,255,.75);
-
-    border-radius: 50%;
-
-    filter: blur(2px);
-}
-
-.golden-crown {
-    width: 55px;
-    height: 28px;
-
-    left: 45px;
-    top: 5px;
-
-    background: #facc15;
-
-    clip-path: polygon(
-        0 100%,
-        8% 20%,
-        32% 60%,
-        50% 0,
-        68% 60%,
-        92% 20%,
-        100% 100%
-    );
-
-    z-index: 8;
-}
-
-
-/* =========================================================
-   GALAXY
-========================================================= */
-
-.galaxy-stars {
-    width: 100px;
-    height: 100px;
-
-    left: 22px;
-    top: 32px;
-
-    background:
-        radial-gradient(circle at 20% 30%, white 0 2px, transparent 3px),
-        radial-gradient(circle at 70% 20%, #c4b5fd 0 2px, transparent 3px),
-        radial-gradient(circle at 55% 75%, #67e8f9 0 2px, transparent 3px),
-        radial-gradient(circle at 80% 65%, white 0 1px, transparent 2px);
-}
-
-.galaxy-ring {
-    width: 135px;
-    height: 48px;
-
-    left: 5px;
-    top: 59px;
-
-    border: 3px solid rgba(192,132,252,.7);
-
-    border-radius: 50%;
-
-    transform: rotate(18deg);
-
-    z-index: 7;
-}
-
-.galaxy-glow {
-    width: 100px;
-    height: 100px;
-
-    left: 22px;
-    top: 32px;
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 30px rgba(168,85,247,.45);
-}
-
-
-/* =========================================================
-   STUDY SPROUT
-========================================================= */
-
-.study-book {
-    width: 40px;
-    height: 28px;
-
-    left: 52px;
-    top: 13px;
-
-    background: #f8fafc;
-
-    border: 3px solid #334155;
-
-    border-radius: 5px;
-
-    z-index: 8;
-}
-
-.study-leaf-left,
-.study-leaf-right {
-    width: 25px;
-    height: 15px;
-
-    top: 23px;
-
-    background: #34d399;
-
-    border-radius: 100% 0 100% 0;
-}
-
-.study-leaf-left {
-    left: 25px;
-    transform: rotate(-30deg);
-}
-
-.study-leaf-right {
-    right: 25px;
-    transform: rotate(30deg) scaleX(-1);
-}
-
-
-/* =========================================================
-   STUDY ORBIT
-========================================================= */
-
-.study-orbit-ring {
-    width: 132px;
-    height: 55px;
-
-    left: 6px;
-    top: 54px;
-
-    border: 4px solid #a78bfa;
-
-    border-radius: 50%;
-
-    transform: rotate(-20deg);
-
-    z-index: 7;
-}
-
-.study-star {
-    width: 17px;
-    height: 17px;
-
-    right: 19px;
-    top: 32px;
-
-    background: #facc15;
-
-    clip-path: polygon(
-        50% 0,
-        61% 37%,
-        100% 50%,
-        61% 63%,
-        50% 100%,
-        39% 63%,
-        0 50%,
-        39% 37%
-    );
-}
-
-
-/* =========================================================
-   SHELBY
-========================================================= */
-
-.shelby-shell {
-    position: absolute;
-
-    left: 18px;
-    top: 42px;
-
-    width: 109px;
-    height: 105px;
-
-    background: #65d6b0;
-
-    border: 5px solid #16745b;
-
-    border-radius: 48%;
-
-    z-index: 1;
-}
-
-.shell-highlight {
-    left: 45px;
-    top: 51px;
-
-    width: 55px;
-    height: 55px;
-
-    border: 4px solid rgba(255,255,255,.22);
-
-    border-radius: 50%;
-
-    z-index: 3;
-}
-
-
-/* =========================================================
-   BANNERS
-========================================================= */
+/* BANNERS */
 
 .shop-banner-preview {
     width: 86%;
@@ -1424,25 +251,24 @@
     background: linear-gradient(135deg,#1d4ed8,#4f46e5);
 }
 
-.shop-banner-purple,
-.shop-banner-purple-grid {
-    background:
-        linear-gradient(135deg,#6d28d9,#312e81);
+.shop-banner-green {
+    background: linear-gradient(135deg,#15803d,#22c55e);
 }
 
-.shop-banner-grid,
-.shop-banner-sprint-grid {
+.shop-banner-purple {
+    background: linear-gradient(135deg,#6d28d9,#312e81);
+}
+
+.shop-banner-grid {
     background-color: #111827;
     background-image:
-        linear-gradient(rgba(99,102,241,.22) 1px, transparent 1px),
-        linear-gradient(90deg,rgba(99,102,241,.22) 1px, transparent 1px);
+        linear-gradient(rgba(99,102,241,.22) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(99,102,241,.22) 1px,transparent 1px);
     background-size: 24px 24px;
 }
 
-.shop-banner-neon,
-.shop-banner-neon-blue {
-    background:
-        linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);
+.shop-banner-neon {
+    background: linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);
 }
 
 .shop-banner-galaxy {
@@ -1452,208 +278,120 @@
         linear-gradient(135deg,#09001a,#24104f,#080b25);
 }
 
-.shop-banner-gold,
-.shop-banner-gold-banner {
-    background:
-        linear-gradient(135deg,#78350f,#f59e0b,#facc15,#78350f);
+.shop-banner-gold {
+    background: linear-gradient(135deg,#78350f,#f59e0b,#facc15,#78350f);
 }
 
-
-/* =========================================================
-   FRAME PREVIEWS
-========================================================= */
+/* FRAMES */
 
 .shop-frame-preview {
     width: 145px;
     height: 145px;
-
+    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 24px;
-
     background: #111827;
-
     border: 10px solid #334155;
-
-    box-shadow:
-        0 0 0 2px #0b1120,
-        0 15px 30px rgba(0,0,0,.4);
+    box-shadow: 0 0 0 2px #0b1120,0 15px 30px rgba(0,0,0,.4);
 }
 
 .shop-frame-preview span {
-    color: #64748b;
     font-size: 13px;
     font-weight: 900;
+    color: #64748b;
 }
 
-.frame-blue {
-    border-color: #3b82f6;
-}
+.frame-blue { border-color: #3b82f6; }
+.frame-purple { border-color: #8b5cf6; }
+.frame-pink { border-color: #ec4899; }
+.frame-gold { border-color: #facc15; }
+.frame-cyan { border-color: #22d3ee; }
+.frame-fire { border-color: #f97316; }
 
-.frame-purple {
-    border-color: #8b5cf6;
-}
-
-.frame-pink {
-    border-color: #ec4899;
-}
-
-.frame-gold {
-    border-color: #facc15;
-}
-
-.frame-cyan {
-    border-color: #22d3ee;
-}
-
-.frame-fire {
-    border-color: #f97316;
-}
-
-
-/* =========================================================
-   TITLE PREVIEW
-========================================================= */
+/* TITLES */
 
 .shop-title-preview {
-    padding: 17px 24px;
-
+    padding: 18px 25px;
+    border-radius: 12px;
     background: #111827;
-
     border: 1px solid #334155;
-
-    border-radius: 11px;
-
     color: #e2e8f0;
-
-    font-size: 19px;
-
+    font-size: 20px;
     font-weight: 950;
 }
 
-.shop-title-epic {
-    color: #c084fc;
-}
-
-.shop-title-mythic {
-    color: #fb7185;
-}
-
-.shop-title-legendary {
-    color: #facc15;
-}
-
-
-/* =========================================================
-   CARD TEXT
-========================================================= */
+.shop-title-epic { color: #c084fc; }
+.shop-title-mythic { color: #fb7185; }
+.shop-title-legendary { color: #facc15; }
 
 .shop-card h3 {
-    margin: 0 0 5px;
     font-size: 21px;
+    margin-bottom: 5px;
 }
 
 .item-type {
-    margin: 0;
     color: #64748b;
-    font-size: 11px;
-    font-weight: 850;
+    font-size: 12px;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
+.shop-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 22px;
+}
+
 .shop-price {
-    margin-top: 15px;
     color: #facc15;
     font-weight: 950;
     font-size: 15px;
 }
 
-
-/* =========================================================
-   BUY BUTTON
-========================================================= */
-
 .buy-button {
     width: 100%;
-
-    margin-top: 15px;
-
+    margin-top: 18px;
     padding: 13px;
-
     border: 1px solid #6366f1;
-
     border-radius: 11px;
-
-    background: linear-gradient(
-        135deg,
-        #4f46e5,
-        #6366f1
-    );
-
+    background: #4f46e5;
     color: white;
-
-    font-size: 11px;
-
+    font-size: 12px;
     font-weight: 950;
-
     letter-spacing: 1px;
-
     cursor: pointer;
-
-    transition: .2s ease;
+    transition: .2s;
 }
 
 .buy-button:hover {
+    background: #6366f1;
     transform: translateY(-2px);
-
-    background: linear-gradient(
-        135deg,
-        #6366f1,
-        #818cf8
-    );
-
-    box-shadow:
-        0 8px 22px rgba(99,102,241,.28);
-}
-
-.buy-button:active {
-    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(99,102,241,.25);
 }
 
 .buy-button.owned {
-    background: #151d2d;
+    background: #172033;
     border-color: #334155;
     color: #64748b;
     cursor: default;
     box-shadow: none;
 }
 
-.buy-button:disabled {
-    opacity: 1;
-}
-
-
-/* =========================================================
-   MOD OVERLAY
-========================================================= */
+/* MOD */
 
 .mod-overlay {
     position: fixed;
     inset: 0;
     z-index: 100;
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
-
     background: rgba(2,6,23,.78);
-
     backdrop-filter: blur(10px);
 }
 
@@ -1664,47 +402,34 @@
 .mod-panel {
     width: min(600px,100%);
     max-height: 90vh;
-
     overflow: auto;
-
     padding: 30px;
-
     background: #0f172a;
-
     border: 1px solid #334155;
-
     border-radius: 20px;
-
     box-shadow: 0 30px 80px rgba(0,0,0,.6);
 }
 
 .mod-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-
+    align-items: start;
     margin-bottom: 30px;
 }
 
 .mod-header h2 {
-    margin: 5px 0 0;
+    margin-top: 5px;
     font-size: 30px;
 }
 
 .close-mod {
     width: 38px;
     height: 38px;
-
     border: 1px solid #334155;
-
     border-radius: 10px;
-
     background: #111827;
-
     color: #94a3b8;
-
     font-size: 25px;
-
     cursor: pointer;
 }
 
@@ -1715,12 +440,11 @@
 
 .mod-section {
     padding: 20px 0;
-
     border-top: 1px solid #1e293b;
 }
 
 .mod-section h3 {
-    margin: 0 0 12px;
+    margin-bottom: 12px;
     font-size: 15px;
 }
 
@@ -1733,17 +457,11 @@
 .mod-select {
     min-width: 0;
     flex: 1;
-
     padding: 12px;
-
     border: 1px solid #334155;
-
     border-radius: 10px;
-
     background: #080e1a;
-
     color: #e2e8f0;
-
     outline: none;
 }
 
@@ -1754,19 +472,12 @@
 
 .mod-action {
     padding: 12px 16px;
-
     border: 1px solid #4f46e5;
-
     border-radius: 10px;
-
     background: #312e81;
-
     color: white;
-
     font-size: 11px;
-
     font-weight: 950;
-
     cursor: pointer;
 }
 
@@ -1791,51 +502,15 @@
 
 .mod-status {
     min-height: 20px;
-
     margin-top: 20px;
-
     padding: 12px;
-
     border-radius: 10px;
-
     background: #111827;
-
     color: #94a3b8;
-
     font-size: 13px;
 }
 
-
-/* =========================================================
-   FALLBACK
-========================================================= */
-
-.shop-goober-fallback {
-    width: 100px;
-    height: 100px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 45%;
-
-    background: #6366f1;
-
-    color: white;
-
-    font-size: 40px;
-
-    font-weight: 900;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 850px) {
-
+@media(max-width:850px) {
     .shop-grid {
         grid-template-columns: repeat(2,minmax(0,1fr));
     }
@@ -1844,12 +519,9 @@
         flex-direction: column;
         align-items: stretch;
     }
-
 }
 
-
-@media (max-width: 600px) {
-
+@media(max-width:600px) {
     .shop-header {
         padding: 0 4%;
     }
@@ -1874,6 +546,5 @@
     .mod-row {
         flex-direction: column;
     }
-
 }
 ```
