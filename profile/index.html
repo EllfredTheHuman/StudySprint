@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,114 +25,387 @@
 ========================================================= */
 
 .profile-page {
-    max-width:1100px;
+
+    width:min(1150px,92%);
+
     margin:0 auto;
-    padding:30px 20px 80px;
+
+    padding:50px 0 80px;
+
+    color:#f8fafc;
+
 }
 
 
 /* =========================================================
-   PROFILE HEADER
+   PROFILE IDENTITY
 ========================================================= */
 
-.profile-header {
-    text-align:center;
+.profile-identity {
+
+    position:relative;
+
+    overflow:hidden;
+
     margin-bottom:25px;
+
+    padding:32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #131c2e,
+            #0d1422
+        );
+
+    border:1px solid #263249;
+
+    border-radius:22px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.28);
+
 }
 
-.profile-header h1 {
-    font-size:42px;
-    margin-bottom:8px;
+
+.profile-banner {
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:8px;
+
+    background:#3b82f6;
+
 }
 
-.profile-header p {
-    opacity:.7;
-    font-weight:600;
+
+.profile-banner.blue {
+
+    background:
+        linear-gradient(
+            90deg,
+            #1d4ed8,
+            #4f46e5
+        );
+
+}
+
+
+.profile-banner.green {
+
+    background:
+        linear-gradient(
+            90deg,
+            #15803d,
+            #22c55e
+        );
+
+}
+
+
+.profile-banner.sprint-grid {
+
+    background-color:#111827;
+
+    background-image:
+        linear-gradient(
+            rgba(99,102,241,.28) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(99,102,241,.28) 1px,
+            transparent 1px
+        );
+
+    background-size:18px 18px;
+
+}
+
+
+.profile-banner.purple-grid {
+
+    background-color:#111827;
+
+    background-image:
+        linear-gradient(
+            rgba(168,85,247,.3) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(168,85,247,.3) 1px,
+            transparent 1px
+        );
+
+    background-size:18px 18px;
+
+}
+
+
+.profile-banner.neon-blue {
+
+    background:
+        linear-gradient(
+            90deg,
+            #06b6d4,
+            #2563eb,
+            #7c3aed
+        );
+
+}
+
+
+.profile-banner.galaxy {
+
+    background:
+        radial-gradient(
+            circle at 20% 35%,
+            #c084fc 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 75% 65%,
+            #60a5fa 0 2px,
+            transparent 3px
+        ),
+        linear-gradient(
+            90deg,
+            #09001a,
+            #24104f,
+            #080b25
+        );
+
+}
+
+
+.profile-banner.gold {
+
+    background:
+        linear-gradient(
+            90deg,
+            #78350f,
+            #f59e0b,
+            #facc15,
+            #78350f
+        );
+
 }
 
 
 /* =========================================================
-   EDIT CHARACTER BUTTON
+   IDENTITY CONTENT
 ========================================================= */
 
-.edit-character-button {
-    display:inline-flex;
+.profile-identity-content {
+
+    display:flex;
+
     align-items:center;
+
+    gap:22px;
+
+}
+
+
+.profile-frame {
+
+    width:105px;
+
+    height:105px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+
     justify-content:center;
 
-    margin-top:18px;
-
-    padding:13px 22px;
-
-    border-radius:15px;
-
-    background:#4f46e5;
-    color:white;
-
-    text-decoration:none;
-
-    font-weight:900;
-
-    box-shadow:
-        0 6px 16px rgba(79,70,229,.25);
-
-    transition:
-        transform .2s,
-        background .2s,
-        box-shadow .2s;
-}
-
-.edit-character-button:hover {
-    transform:translateY(-3px);
-
-    background:#4338ca;
-
-    box-shadow:
-        0 9px 22px rgba(79,70,229,.3);
-}
-
-
-/* =========================================================
-   STATS GRID
-========================================================= */
-
-.stats-grid {
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-
-    gap:18px;
-
-    margin-bottom:30px;
-}
-
-.stat-card {
-    background:white;
+    border:8px solid #475569;
 
     border-radius:24px;
 
-    padding:25px;
+    background:#080e1a;
+
+    box-shadow:
+        0 0 0 2px #0b1120,
+        0 12px 25px rgba(0,0,0,.35);
+
+}
+
+
+.profile-frame.blue {
+    border-color:#3b82f6;
+}
+
+.profile-frame.purple {
+    border-color:#8b5cf6;
+}
+
+.profile-frame.pink {
+    border-color:#ec4899;
+}
+
+.profile-frame.gold {
+    border-color:#facc15;
+}
+
+.profile-frame.cyan {
+    border-color:#22d3ee;
+}
+
+.profile-frame.fire {
+    border-color:#f97316;
+}
+
+
+.profile-frame span {
+
+    color:#475569;
+
+    font-size:10px;
+
+    font-weight:950;
+
+    letter-spacing:1px;
+
+}
+
+
+.profile-kicker {
+
+    margin-bottom:6px;
+
+    color:#818cf8;
+
+    font-size:10px;
+
+    font-weight:950;
+
+    letter-spacing:2px;
+
+}
+
+
+.profile-name {
+
+    margin:0;
+
+    font-size:clamp(32px,5vw,48px);
+
+    line-height:1;
+
+    letter-spacing:-1.5px;
+
+}
+
+
+.profile-title {
+
+    margin-top:8px;
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+    font-weight:800;
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-grid {
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:18px;
+
+    margin-bottom:25px;
+
+}
+
+
+.stat-card {
+
+    padding:24px;
 
     text-align:center;
 
+    background:
+        linear-gradient(
+            145deg,
+            #131c2e,
+            #0d1422
+        );
+
+    border:1px solid #263249;
+
+    border-radius:18px;
+
     box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
+        0 12px 28px rgba(0,0,0,.2);
+
+    transition:
+        transform .2s,
+        border-color .2s;
+
 }
+
+
+.stat-card:hover {
+
+    transform:translateY(-3px);
+
+    border-color:#475569;
+
+}
+
 
 .stat-icon {
-    font-size:32px;
+
     margin-bottom:8px;
+
+    font-size:25px;
+
 }
+
 
 .stat-value {
-    font-size:32px;
-    font-weight:900;
-    color:#4f46e5;
+
+    color:#818cf8;
+
+    font-size:31px;
+
+    font-weight:950;
+
 }
 
+
 .stat-label {
-    margin-top:5px;
-    opacity:.65;
-    font-weight:700;
+
+    margin-top:4px;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
 }
 
 
@@ -140,80 +414,90 @@
 ========================================================= */
 
 .streak-card {
+
     position:relative;
+
     overflow:hidden;
 
-    background:
-        linear-gradient(
-            145deg,
-            #fff7ed,
-            #ffedd5
-        );
+    min-height:285px;
 
-    border-radius:35px;
-
-    min-height:280px;
+    margin-bottom:25px;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     flex-direction:column;
 
-    margin-bottom:30px;
+    background:
+        radial-gradient(
+            circle at 50% 100%,
+            rgba(249,115,22,.2),
+            transparent 55%
+        ),
+        linear-gradient(
+            145deg,
+            #18140f,
+            #100f0c
+        );
+
+    border:1px solid #3f2a1d;
+
+    border-radius:22px;
 
     box-shadow:
-        0 15px 35px rgba(249,115,22,.15);
+        0 15px 40px rgba(0,0,0,.3);
+
 }
 
 
-/* =========================================================
-   STREAK NUMBER
-========================================================= */
-
 .streak-number {
+
     position:relative;
 
-    font-size:180px;
-    line-height:.85;
+    z-index:1;
 
-    font-weight:1000;
+    font-size:170px;
+
+    line-height:.8;
 
     font-family:
         Arial,
         Helvetica,
         sans-serif;
 
+    font-weight:1000;
+
     color:#f97316;
 
     -webkit-text-stroke:
-        5px #ea580c;
+        4px #c2410c;
 
     text-shadow:
-        0 5px 0 #c2410c,
-        0 10px 20px rgba(234,88,12,.35);
+        0 5px 0 #9a3412,
+        0 10px 25px rgba(249,115,22,.4);
 
     filter:
         drop-shadow(
-            0 0 12px rgba(249,115,22,.45)
+            0 0 15px rgba(249,115,22,.3)
         );
+
 }
 
 
-/* =========================================================
-   FIRE LAYER
-========================================================= */
-
 .streak-number::before {
+
     content:"";
 
     position:absolute;
 
     left:50%;
-    bottom:-12px;
+    bottom:-35px;
 
-    width:130%;
-    height:130%;
+    width:140%;
+    height:120%;
 
     transform:translateX(-50%);
 
@@ -222,16 +506,15 @@
     background:
         radial-gradient(
             ellipse at 50% 85%,
-            #fff7ae 0%,
-            #facc15 20%,
-            #f97316 43%,
-            #ef4444 62%,
+            #facc15 0%,
+            #f97316 35%,
+            #ef4444 55%,
             transparent 72%
         );
 
-    filter:blur(8px);
+    filter:blur(18px);
 
-    opacity:.9;
+    opacity:.45;
 
     animation:
         streakFire
@@ -239,121 +522,122 @@
         ease-in-out
         infinite
         alternate;
+
 }
 
-
-/* =========================================================
-   INNER FIRE
-========================================================= */
-
-.streak-number::after {
-    content:"";
-
-    position:absolute;
-
-    left:50%;
-    bottom:-5px;
-
-    width:75%;
-    height:85%;
-
-    transform:translateX(-50%);
-
-    z-index:-1;
-
-    background:
-        radial-gradient(
-            ellipse at 50% 90%,
-            #fff 0%,
-            #fff7ae 18%,
-            #facc15 40%,
-            transparent 70%
-        );
-
-    filter:blur(5px);
-
-    opacity:.7;
-
-    animation:
-        streakInnerFire
-        .5s
-        ease-in-out
-        infinite
-        alternate;
-}
-
-
-/* =========================================================
-   STREAK LABEL
-========================================================= */
 
 .streak-label {
-    margin-top:20px;
 
-    font-size:25px;
-    font-weight:900;
+    margin-top:25px;
 
-    color:#c2410c;
+    color:#fb923c;
+
+    font-size:22px;
+
+    font-weight:950;
+
+    letter-spacing:1px;
+
 }
 
+
 .streak-subtitle {
+
     margin-top:5px;
+
+    color:#94a3b8;
+
+    font-size:13px;
 
     font-weight:700;
 
-    opacity:.65;
 }
 
 
 /* =========================================================
-   XP SECTION
+   XP
 ========================================================= */
 
 .xp-card {
-    background:white;
 
-    border-radius:30px;
+    padding:27px;
 
-    padding:30px;
+    margin-bottom:25px;
 
-    margin-bottom:30px;
+    background:
+        linear-gradient(
+            145deg,
+            #131c2e,
+            #0d1422
+        );
+
+    border:1px solid #263249;
+
+    border-radius:20px;
 
     box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
+        0 12px 28px rgba(0,0,0,.2);
+
 }
+
 
 .xp-header {
+
     display:flex;
 
-    justify-content:space-between;
     align-items:center;
 
+    justify-content:space-between;
+
+    gap:15px;
+
     margin-bottom:15px;
+
 }
+
 
 .xp-header h2 {
+
     margin:0;
+
+    font-size:21px;
+
 }
+
 
 .xp-text {
-    font-weight:800;
-    color:#4f46e5;
+
+    color:#818cf8;
+
+    font-size:13px;
+
+    font-weight:900;
+
 }
 
-.xp-bar {
-    width:100%;
-    height:22px;
 
-    background:#e5e7eb;
+.xp-bar {
+
+    width:100%;
+
+    height:18px;
+
+    overflow:hidden;
+
+    background:#080e1a;
+
+    border:1px solid #263249;
 
     border-radius:50px;
 
-    overflow:hidden;
 }
 
+
 .xp-progress {
-    height:100%;
+
     width:0%;
+
+    height:100%;
 
     border-radius:50px;
 
@@ -364,94 +648,122 @@
             #a855f7
         );
 
+    box-shadow:
+        0 0 15px rgba(99,102,241,.25);
+
     transition:
         width .5s ease;
+
 }
 
 
 /* =========================================================
-   PROFILE DETAILS
+   DETAILS
 ========================================================= */
 
 .profile-details {
+
     display:grid;
 
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+        repeat(2,minmax(0,1fr));
 
     gap:20px;
+
 }
 
+
 .detail-card {
-    background:white;
 
     padding:25px;
 
-    border-radius:25px;
+    background:
+        linear-gradient(
+            145deg,
+            #131c2e,
+            #0d1422
+        );
 
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.07);
+    border:1px solid #263249;
+
+    border-radius:20px;
+
 }
+
 
 .detail-card h2 {
-    margin-top:0;
+
+    margin:0 0 15px;
+
+    font-size:20px;
+
 }
 
+
 .detail-row {
+
     display:flex;
+
+    align-items:center;
 
     justify-content:space-between;
 
-    padding:12px 0;
+    gap:20px;
+
+    padding:13px 0;
 
     border-bottom:
-        1px solid #eef2f7;
+        1px solid #1e293b;
+
+    color:#94a3b8;
+
+    font-size:14px;
 
     font-weight:700;
+
 }
 
+
 .detail-row:last-child {
+
     border-bottom:none;
+
+}
+
+
+.detail-row strong {
+
+    color:#f8fafc;
+
 }
 
 
 /* =========================================================
-   ANIMATIONS
+   ANIMATION
 ========================================================= */
 
 @keyframes streakFire {
 
     from {
+
         transform:
             translateX(-50%)
-            scale(.94)
-            translateY(4px);
+            scale(.95)
+            translateY(3px);
 
-        opacity:.75;
+        opacity:.35;
+
     }
 
     to {
+
         transform:
             translateX(-50%)
-            scale(1.06)
-            translateY(-5px);
+            scale(1.05)
+            translateY(-4px);
 
-        opacity:1;
-    }
+        opacity:.55;
 
-}
-
-@keyframes streakInnerFire {
-
-    from {
-        transform:
-            translateX(-50%)
-            scale(.9);
-    }
-
-    to {
-        transform:
-            translateX(-50%)
-            scale(1.08);
     }
 
 }
@@ -464,27 +776,79 @@
 @media(max-width:800px) {
 
     .stats-grid {
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+
     }
 
     .profile-details {
+
         grid-template-columns:1fr;
+
     }
 
 }
 
-@media(max-width:500px) {
 
-    .profile-header h1 {
-        font-size:34px;
+@media(max-width:550px) {
+
+    .profile-page {
+
+        width:94%;
+
+        padding-top:35px;
+
+    }
+
+    .profile-identity-content {
+
+        align-items:flex-start;
+
+    }
+
+    .profile-frame {
+
+        width:85px;
+
+        height:85px;
+
+        border-width:7px;
+
+        border-radius:20px;
+
+    }
+
+    .profile-name {
+
+        font-size:32px;
+
+    }
+
+    .stats-grid {
+
+        gap:12px;
+
+    }
+
+    .stat-card {
+
+        padding:18px 10px;
+
     }
 
     .streak-number {
+
         font-size:130px;
+
     }
 
-    .streak-card {
-        min-height:240px;
+    .xp-header {
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
     }
 
 }
@@ -494,7 +858,7 @@
 </head>
 
 
-<body>
+<body class="profile-page-body">
 
 
 <header>
@@ -530,25 +894,55 @@ Home
 
 
 <!-- =====================================================
-     HEADER
+     PROFILE IDENTITY
 ===================================================== -->
 
-<section class="profile-header">
+<section class="profile-identity">
 
-<h1 id="profile-name">
+<div
+    id="profile-banner"
+    class="profile-banner blue"
+></div>
+
+<div class="profile-identity-content">
+
+
+<div
+    id="profile-frame"
+    class="profile-frame"
+>
+
+<span>
+PROFILE
+</span>
+
+</div>
+
+
+<div>
+
+<div class="profile-kicker">
+STUDYSPRINT PROFILE
+</div>
+
+<h1
+    id="profile-name"
+    class="profile-name"
+>
 Player
 </h1>
 
-<p>
-Your StudySprint progress
-</p>
-
-<a
-    href="character.html"
-    class="edit-character-button"
+<div
+    id="profile-title"
+    class="profile-title"
 >
-    🎨 Edit Character
-</a>
+No Title
+</div>
+
+</div>
+
+
+</div>
 
 </section>
 
@@ -728,6 +1122,7 @@ Total XP
 
 </div>
 
+
 <div class="detail-row">
 
 <span>
@@ -739,6 +1134,7 @@ Sprints Completed
 </strong>
 
 </div>
+
 
 <div class="detail-row">
 
@@ -772,6 +1168,7 @@ Current Streak
 </strong>
 
 </div>
+
 
 <div class="detail-row">
 
@@ -809,13 +1206,10 @@ Start today!
 
 
 /* =========================================================
-   STORAGE HELPER
+   HELPERS
 ========================================================= */
 
-function getNumber(
-    key,
-    fallback = 0
-) {
+function getNumber(key, fallback) {
 
     const value =
         Number(
@@ -829,20 +1223,131 @@ function getNumber(
 }
 
 
+function getOwnedItems() {
+
+    try {
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "shopOwnedItems"
+                )
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+
+    catch {
+
+        return [];
+
+    }
+
+}
+
+
 /* =========================================================
    USERNAME
 ========================================================= */
 
 const username =
-    localStorage.getItem(
-        "username"
-    ) ||
+    localStorage.getItem("username") ||
     "Player";
 
 document.getElementById(
     "profile-name"
 ).textContent =
     username;
+
+
+/* =========================================================
+   PROFILE COSMETICS
+========================================================= */
+
+const savedBanner =
+    localStorage.getItem(
+        "character_banner"
+    ) ||
+    "blue";
+
+const savedTitle =
+    localStorage.getItem(
+        "character_title"
+    ) ||
+    "none";
+
+const savedFrame =
+    localStorage.getItem(
+        "character_frame"
+    ) ||
+    "blue";
+
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+const profileBanner =
+    document.getElementById(
+        "profile-banner"
+    );
+
+
+profileBanner.className =
+    "profile-banner " +
+    savedBanner;
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+const titleNames = {
+
+    none:
+        "No Title",
+
+    "study-sprinter":
+        "Study Sprinter",
+
+    brainiac:
+        "Brainiac",
+
+    "speed-learner":
+        "Speed Learner",
+
+    "knowledge-seeker":
+        "Knowledge Seeker",
+
+    "study-legend":
+        "Study Legend"
+
+};
+
+
+document.getElementById(
+    "profile-title"
+).textContent =
+    titleNames[savedTitle] ||
+    "No Title";
+
+
+/* =========================================================
+   FRAME
+========================================================= */
+
+const profileFrame =
+    document.getElementById(
+        "profile-frame"
+    );
+
+
+profileFrame.className =
+    "profile-frame " +
+    savedFrame;
 
 
 /* =========================================================
@@ -865,7 +1370,9 @@ const level =
         "level",
         Math.max(
             1,
-            Math.floor(xp / 100) + 1
+            Math.floor(
+                xp / 100
+            ) + 1
         )
     );
 
@@ -918,15 +1425,18 @@ document.getElementById(
 ).textContent =
     xp;
 
+
 document.getElementById(
     "stat-level"
 ).textContent =
     level;
 
+
 document.getElementById(
     "stat-sprints"
 ).textContent =
     sprints;
+
 
 document.getElementById(
     "stat-best"
@@ -935,7 +1445,7 @@ document.getElementById(
 
 
 /* =========================================================
-   STREAK
+   STREAK DISPLAY
 ========================================================= */
 
 document.getElementById(
@@ -943,13 +1453,16 @@ document.getElementById(
 ).textContent =
     streak;
 
+
 document.getElementById(
     "detail-streak"
 ).textContent =
     streak +
-    (streak === 1
-        ? " day"
-        : " days");
+    (
+        streak === 1
+            ? " day"
+            : " days"
+    );
 
 
 if (streak > 0) {
@@ -958,6 +1471,7 @@ if (streak > 0) {
         "streak-subtitle"
     ).textContent =
         "Keep it going! 🔥";
+
 
     document.getElementById(
         "streak-status"
@@ -972,6 +1486,7 @@ else {
         "streak-subtitle"
     ).textContent =
         "Start a Sprint today!";
+
 
     document.getElementById(
         "streak-status"
@@ -990,10 +1505,12 @@ document.getElementById(
 ).textContent =
     xp;
 
+
 document.getElementById(
     "detail-sprints"
 ).textContent =
     sprints;
+
 
 document.getElementById(
     "detail-best"
@@ -1007,9 +1524,11 @@ document.getElementById(
 
 const xpPerLevel = 100;
 
+
 const currentLevelXP =
     xp %
     xpPerLevel;
+
 
 const progress =
     Math.min(
@@ -1020,6 +1539,7 @@ const progress =
         ) * 100
     );
 
+
 document.getElementById(
     "xp-text"
 ).textContent =
@@ -1028,10 +1548,20 @@ document.getElementById(
     xpPerLevel +
     " XP";
 
+
 document.getElementById(
     "xp-progress"
 ).style.width =
     progress + "%";
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+console.log(
+    "StudySprint profile loaded."
+);
 
 </script>
 
@@ -1039,3 +1569,4 @@ document.getElementById(
 </body>
 
 </html>
+```
