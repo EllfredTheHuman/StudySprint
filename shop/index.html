@@ -2,286 +2,231 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Shop | StudySprint</title>
 
-    <link
-        rel="stylesheet"
-        href="../style.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="shop.css"
-    >
-
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="shop.css">
 </head>
-
 
 <body class="shop-page">
 
+    <header class="shop-header">
 
-<header class="shop-header">
+        <a href="../index.html" class="shop-logo">
+            STUDY<span>SPRINT</span>
+        </a>
 
-    <a
-        href="../index.html"
-        class="shop-logo"
-    >
-        STUDY<span>SPRINT</span>
-    </a>
+        <div class="shop-header-right">
 
-
-    <div class="shop-header-right">
-
-        <div class="coin-display">
-
-            <span class="coin-symbol">●</span>
-
-            <span id="coin-count">
-                0
-            </span>
-
-            <span class="coin-label">
-                COINS
-            </span>
-
-        </div>
-
-
-        <button
-            id="mod-button"
-            class="mod-button"
-            type="button"
-        >
-            MOD
-        </button>
-
-    </div>
-
-</header>
-
-
-
-<main class="shop-container">
-
-
-    <section class="shop-hero">
-
-        <div>
-
-            <div class="shop-kicker">
-                STUDYSPRINT SHOP
+            <div class="coin-display">
+                <span class="coin-symbol">●</span>
+                <span id="coin-count">0</span>
+                <span class="coin-label">COINS</span>
             </div>
 
-            <h1>
-                Make it yours.
-            </h1>
-
-            <p class="shop-description">
-                Grab banners, titles and frames
-                to customise your StudySprint profile.
-            </p>
-
-        </div>
-
-
-        <div class="rotation-box">
-
-            <span>
-                NEXT ROTATION
-            </span>
-
-            <strong id="shop-countdown">
-                Loading...
-            </strong>
-
-        </div>
-
-    </section>
-
-
-
-    <section class="shop-section">
-
-        <div class="section-heading">
-
-            <div>
-
-                <div class="section-label">
-                    FEATURED
-                </div>
-
-                <h2>
-                    Today's Shop
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div
-            id="shop-items"
-            class="shop-grid"
-        >
-        </div>
-
-    </section>
-
-
-</main>
-
-
-
-<div
-    id="mod-overlay"
-    class="mod-overlay"
->
-
-    <div class="mod-panel">
-
-        <div class="mod-header">
-
-            <div>
-
-                <div class="section-label">
-                    DEVELOPER TOOLS
-                </div>
-
-                <h2>
-                    Mod Panel
-                </h2>
-
-            </div>
-
-
-            <button
-                id="close-mod"
-                class="close-mod"
-                type="button"
-            >
-                ×
+            <button id="mod-button" class="mod-button">
+                MOD
             </button>
 
         </div>
 
+    </header>
 
 
-        <section class="mod-section">
+    <main class="shop-container">
 
-            <h3>
-                Give Coins
-            </h3>
+        <section class="shop-hero">
 
-            <div class="mod-row">
+            <div>
+                <div class="shop-kicker">
+                    STUDYSPRINT SHOP
+                </div>
 
-                <input
-                    id="mod-coins"
-                    type="number"
-                    min="0"
-                    placeholder="Amount"
-                >
+                <h1>
+                    Make your profile yours.
+                </h1>
 
-                <button
-                    id="give-coins"
-                    class="mod-action"
-                    type="button"
-                >
-                    GIVE
-                </button>
+                <p class="shop-description">
+                    Pick up banners, titles and frames
+                    to customise your StudySprint profile.
+                </p>
+            </div>
+
+            <div class="rotation-box">
+
+                <span>
+                    NEXT ROTATION
+                </span>
+
+                <strong id="shop-countdown">
+                    Loading...
+                </strong>
 
             </div>
 
         </section>
 
 
+        <section class="shop-section">
 
-        <section class="mod-section">
+            <div class="section-heading">
 
-            <h3>
-                Unlock Shop Item
-            </h3>
+                <div>
+                    <div class="section-label">
+                        FEATURED
+                    </div>
 
-            <div class="mod-row">
+                    <h2>
+                        Shop
+                    </h2>
+                </div>
 
-                <select
-                    id="mod-item"
-                    class="mod-select"
-                >
-                </select>
+            </div>
+
+
+            <div
+                id="shop-items"
+                class="shop-grid"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MOD PANEL -->
+
+    <div
+        id="mod-overlay"
+        class="mod-overlay"
+    >
+
+        <div class="mod-panel">
+
+            <div class="mod-header">
+
+                <div>
+                    <div class="section-label">
+                        ADMIN TOOLS
+                    </div>
+
+                    <h2>
+                        Mod Panel
+                    </h2>
+                </div>
 
                 <button
-                    id="unlock-item"
-                    class="mod-action"
-                    type="button"
+                    id="close-mod"
+                    class="close-mod"
                 >
-                    UNLOCK
+                    ×
                 </button>
 
             </div>
 
-        </section>
+
+            <section class="mod-section">
+
+                <h3>
+                    Give Coins
+                </h3>
+
+                <div class="mod-row">
+
+                    <input
+                        id="mod-coins"
+                        type="number"
+                        min="0"
+                        placeholder="Amount"
+                    >
+
+                    <button
+                        id="give-coins"
+                        class="mod-action"
+                    >
+                        GIVE
+                    </button>
+
+                </div>
+
+            </section>
 
 
+            <section class="mod-section">
 
-        <section class="mod-section">
+                <h3>
+                    Give Shop Item
+                </h3>
 
-            <h3>
-                Shop Controls
-            </h3>
+                <div class="mod-row">
 
-            <div class="mod-controls">
+                    <select
+                        id="mod-item"
+                        class="mod-select"
+                    ></select>
 
-                <button
-                    id="reroll-shop"
-                    class="mod-action"
-                    type="button"
-                >
-                    REROLL SHOP
-                </button>
+                    <button
+                        id="give-item"
+                        class="mod-action"
+                    >
+                        UNLOCK
+                    </button>
 
-                <button
-                    id="reset-shop"
-                    class="mod-action"
-                    type="button"
-                >
-                    RESET ROTATION
-                </button>
+                </div>
 
-                <button
-                    id="clear-owned"
-                    class="mod-action danger"
-                    type="button"
-                >
-                    CLEAR SHOP ITEMS
-                </button>
+            </section>
 
+
+            <section class="mod-section">
+
+                <h3>
+                    Shop Controls
+                </h3>
+
+                <div class="mod-controls">
+
+                    <button
+                        id="reroll-shop"
+                        class="mod-action"
+                    >
+                        REROLL SHOP
+                    </button>
+
+                    <button
+                        id="reset-shop"
+                        class="mod-action danger"
+                    >
+                        RESET SHOP
+                    </button>
+
+                    <button
+                        id="clear-owned"
+                        class="mod-action danger"
+                    >
+                        CLEAR OWNED ITEMS
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <div
+                id="mod-status"
+                class="mod-status"
+            >
+                Ready.
             </div>
 
-        </section>
-
-
-
-        <div
-            id="mod-status"
-            class="mod-status"
-        >
         </div>
 
     </div>
 
-</div>
 
-
-
-<script src="shop.js"></script>
+    <script src="shop.js"></script>
 
 </body>
 
