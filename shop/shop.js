@@ -1,7 +1,7 @@
+```javascript
 /* =========================================================
    STUDYSPRINT SHOP
-   Banners + Titles + Frames
-   Coins only
+   Banner + Title + Frame Shop
 ========================================================= */
 
 
@@ -16,8 +16,7 @@ const SHOP_INTERVAL =
 
 
 /*
-   Rotation anchor.
-   The shop changes every 14 days.
+   Shop rotation anchor.
 */
 
 const SHOP_ANCHOR =
@@ -25,11 +24,10 @@ const SHOP_ANCHOR =
 
 
 /* =========================================================
-   RARITIES
+   RARITY
 ========================================================= */
 
 const RARITY_CHANCES = [
-
     {
         name: "Common",
         weight: 40
@@ -54,7 +52,6 @@ const RARITY_CHANCES = [
         name: "Legendary",
         weight: 3
     }
-
 ];
 
 
@@ -74,24 +71,15 @@ const SHOP_ITEMS = [
         type: "Banner",
         rarity: "Common",
         price: 100,
-        design: "grid"
-    },
-
-    {
-        id: "blue-grid",
-        name: "Blue Grid",
-        type: "Banner",
-        rarity: "Common",
-        price: 125,
-        design: "blue-grid"
+        design: "sprint-grid"
     },
 
     {
         id: "purple-grid",
         name: "Purple Grid",
         type: "Banner",
-        rarity: "Rare",
-        price: 175,
+        rarity: "Common",
+        price: 125,
         design: "purple-grid"
     },
 
@@ -100,17 +88,8 @@ const SHOP_ITEMS = [
         name: "Neon Blue",
         type: "Banner",
         rarity: "Rare",
-        price: 225,
-        design: "neon"
-    },
-
-    {
-        id: "aurora",
-        name: "Aurora",
-        type: "Banner",
-        rarity: "Epic",
-        price: 325,
-        design: "aurora"
+        price: 175,
+        design: "neon-blue"
     },
 
     {
@@ -118,17 +97,8 @@ const SHOP_ITEMS = [
         name: "Galaxy",
         type: "Banner",
         rarity: "Epic",
-        price: 400,
+        price: 300,
         design: "galaxy"
-    },
-
-    {
-        id: "cyber-grid",
-        name: "Cyber Grid",
-        type: "Banner",
-        rarity: "Mythic",
-        price: 550,
-        design: "cyber"
     },
 
     {
@@ -136,7 +106,7 @@ const SHOP_ITEMS = [
         name: "Golden",
         type: "Banner",
         rarity: "Legendary",
-        price: 700,
+        price: 600,
         design: "gold"
     },
 
@@ -148,7 +118,7 @@ const SHOP_ITEMS = [
     {
         id: "study-sprinter",
         name: "Study Sprinter",
-        type: "Title",
+        type: "Player Title",
         rarity: "Common",
         price: 150
     },
@@ -156,23 +126,23 @@ const SHOP_ITEMS = [
     {
         id: "brainiac",
         name: "Brainiac",
-        type: "Title",
+        type: "Player Title",
         rarity: "Rare",
-        price: 275
+        price: 300
     },
 
     {
         id: "speed-learner",
         name: "Speed Learner",
-        type: "Title",
+        type: "Player Title",
         rarity: "Epic",
-        price: 425
+        price: 450
     },
 
     {
         id: "knowledge-seeker",
         name: "Knowledge Seeker",
-        type: "Title",
+        type: "Player Title",
         rarity: "Mythic",
         price: 650
     },
@@ -180,7 +150,7 @@ const SHOP_ITEMS = [
     {
         id: "study-legend",
         name: "Study Legend",
-        type: "Title",
+        type: "Player Title",
         rarity: "Legendary",
         price: 1000
     },
@@ -191,17 +161,8 @@ const SHOP_ITEMS = [
     ========================= */
 
     {
-        id: "simple-frame",
-        name: "Simple",
-        type: "Frame",
-        rarity: "Common",
-        price: 125,
-        design: "simple"
-    },
-
-    {
         id: "blue-frame",
-        name: "Blue",
+        name: "Blue Frame",
         type: "Frame",
         rarity: "Common",
         price: 150,
@@ -210,47 +171,38 @@ const SHOP_ITEMS = [
 
     {
         id: "purple-frame",
-        name: "Purple",
+        name: "Purple Frame",
         type: "Frame",
         rarity: "Rare",
-        price: 225,
+        price: 250,
         design: "purple"
     },
 
     {
-        id: "cyan-frame",
-        name: "Cyan",
+        id: "pink-frame",
+        name: "Pink Frame",
         type: "Frame",
         rarity: "Rare",
-        price: 250,
-        design: "cyan"
-    },
-
-    {
-        id: "pink-frame",
-        name: "Pink",
-        type: "Frame",
-        rarity: "Epic",
-        price: 350,
+        price: 300,
         design: "pink"
     },
 
     {
-        id: "fire-frame",
-        name: "Fire",
+        id: "cyan-frame",
+        name: "Cyan Frame",
         type: "Frame",
         rarity: "Epic",
-        price: 450,
-        design: "fire"
+        price: 400,
+        design: "cyan"
     },
 
     {
-        id: "cosmic-frame",
-        name: "Cosmic",
+        id: "fire-frame",
+        name: "Fire Frame",
         type: "Frame",
         rarity: "Mythic",
-        price: 650,
-        design: "cosmic"
+        price: 550,
+        design: "fire"
     },
 
     {
@@ -258,7 +210,7 @@ const SHOP_ITEMS = [
         name: "Golden Frame",
         type: "Frame",
         rarity: "Legendary",
-        price: 1000,
+        price: 750,
         design: "gold"
     }
 
@@ -282,7 +234,7 @@ function setCoins(value) {
 
     localStorage.setItem(
         "coins",
-        String(Math.max(0, Number(value)))
+        String(Math.max(0, Number(value) || 0))
     );
 
 }
@@ -335,69 +287,24 @@ function ownsItem(id) {
 }
 
 
-/* =========================================================
-   EQUIPPED PROFILE ITEMS
-========================================================= */
+function unlockItem(id) {
 
-function getEquippedItem(type) {
+    const owned =
+        getOwnedItems();
 
-    if (type === "Banner") {
 
-        return localStorage.getItem(
-            "profileBanner"
-        ) || "blue-grid";
+    if (
+        !owned.includes(id)
+    ) {
 
-    }
-
-    if (type === "Title") {
-
-        return localStorage.getItem(
-            "profileTitle"
-        ) || "";
+        owned.push(id);
 
     }
 
-    if (type === "Frame") {
 
-        return localStorage.getItem(
-            "profileFrame"
-        ) || "simple-frame";
-
-    }
-
-    return "";
-
-}
-
-
-function equipItem(item) {
-
-    if (item.type === "Banner") {
-
-        localStorage.setItem(
-            "profileBanner",
-            item.id
-        );
-
-    }
-
-    else if (item.type === "Title") {
-
-        localStorage.setItem(
-            "profileTitle",
-            item.id
-        );
-
-    }
-
-    else if (item.type === "Frame") {
-
-        localStorage.setItem(
-            "profileFrame",
-            item.id
-        );
-
-    }
+    saveOwnedItems(
+        owned
+    );
 
 }
 
@@ -432,7 +339,7 @@ function seededRandom(seed) {
 
 
 /* =========================================================
-   SHOP START
+   SHOP ROTATION
 ========================================================= */
 
 function getShopStart() {
@@ -445,7 +352,9 @@ function getShopStart() {
 
     if (debugReset) {
 
-        return Number(debugReset);
+        return Number(
+            debugReset
+        );
 
     }
 
@@ -483,14 +392,17 @@ function rollRarity(random) {
 
 
     for (
-        const rarity of RARITY_CHANCES
+        const rarity
+        of RARITY_CHANCES
     ) {
 
-        total += rarity.weight;
+        total +=
+            rarity.weight;
 
 
         if (
-            random * 100 < total
+            random * 100 <
+            total
         ) {
 
             return rarity.name;
@@ -524,7 +436,9 @@ function getCurrentShop() {
 
 
     const baseSeed =
-        Math.floor(start / 1000) +
+        Math.floor(
+            start / 1000
+        ) +
         rerollSeed;
 
 
@@ -548,19 +462,16 @@ function getCurrentShop() {
 
 
         const rarity =
-            rollRarity(random);
+            rollRarity(
+                random
+            );
 
 
         let candidates =
             SHOP_ITEMS.filter(
-                function(item) {
-
-                    return (
-                        item.rarity === rarity &&
-                        !used.has(item.id)
-                    );
-
-                }
+                item =>
+                    item.rarity === rarity &&
+                    !used.has(item.id)
             );
 
 
@@ -570,13 +481,8 @@ function getCurrentShop() {
 
             candidates =
                 SHOP_ITEMS.filter(
-                    function(item) {
-
-                        return !used.has(
-                            item.id
-                        );
-
-                    }
+                    item =>
+                        !used.has(item.id)
                 );
 
         }
@@ -609,9 +515,14 @@ function getCurrentShop() {
             candidates[index];
 
 
-        used.add(item.id);
+        used.add(
+            item.id
+        );
 
-        result.push(item);
+
+        result.push(
+            item
+        );
 
     }
 
@@ -622,29 +533,75 @@ function getCurrentShop() {
 
 
 /* =========================================================
-   PREVIEWS
+   BANNER PREVIEW
 ========================================================= */
 
 function createBannerPreview(item) {
 
-    const element =
+    const banner =
         document.createElement("div");
 
-    element.className =
-        "shop-banner-preview shop-banner-" +
-        item.design;
 
-    return element;
+    banner.className =
+        "shop-banner-preview";
+
+
+    /*
+       IMPORTANT:
+       These class names exactly match shop.css.
+    */
+
+    const designClasses = {
+
+        "sprint-grid":
+            "shop-banner-grid",
+
+        "purple-grid":
+            "shop-banner-purple",
+
+        "neon-blue":
+            "shop-banner-neon",
+
+        "galaxy":
+            "shop-banner-galaxy",
+
+        "gold":
+            "shop-banner-gold"
+
+    };
+
+
+    const designClass =
+        designClasses[
+            item.design
+        ];
+
+
+    if (designClass) {
+
+        banner.classList.add(
+            designClass
+        );
+
+    }
+
+
+    return banner;
 
 }
 
 
+/* =========================================================
+   TITLE PREVIEW
+========================================================= */
+
 function createTitlePreview(item) {
 
-    const element =
+    const title =
         document.createElement("div");
 
-    element.className =
+
+    title.className =
         "shop-title-preview";
 
 
@@ -652,54 +609,69 @@ function createTitlePreview(item) {
         item.rarity === "Epic"
     ) {
 
-        element.classList.add(
+        title.classList.add(
             "shop-title-epic"
         );
 
     }
 
-    if (
+    else if (
         item.rarity === "Mythic"
     ) {
 
-        element.classList.add(
+        title.classList.add(
             "shop-title-mythic"
         );
 
     }
 
-    if (
+    else if (
         item.rarity === "Legendary"
     ) {
 
-        element.classList.add(
+        title.classList.add(
             "shop-title-legendary"
         );
 
     }
 
 
-    element.textContent =
+    title.textContent =
         item.name;
 
 
-    return element;
+    return title;
 
 }
 
+
+/* =========================================================
+   FRAME PREVIEW
+========================================================= */
 
 function createFramePreview(item) {
 
     const frame =
         document.createElement("div");
 
+
     frame.className =
-        "shop-frame-preview frame-" +
+        "shop-frame-preview";
+
+
+    const designClass =
+        "frame-" +
         item.design;
+
+
+    frame.classList.add(
+        designClass
+    );
 
 
     const text =
         document.createElement("span");
+
 
     text.textContent =
         "PROFILE";
@@ -715,6 +687,10 @@ function createFramePreview(item) {
 }
 
 
+/* =========================================================
+   PREVIEW
+========================================================= */
+
 function createPreview(item) {
 
     if (
@@ -729,7 +705,7 @@ function createPreview(item) {
 
 
     if (
-        item.type === "Title"
+        item.type === "Player Title"
     ) {
 
         return createTitlePreview(
@@ -795,8 +771,10 @@ function createShopCard(item) {
             "div"
         );
 
+
     rarity.className =
         "rarity";
+
 
     rarity.textContent =
         item.rarity;
@@ -806,6 +784,7 @@ function createShopCard(item) {
         document.createElement(
             "div"
         );
+
 
     preview.className =
         "item-preview";
@@ -821,6 +800,7 @@ function createShopCard(item) {
             "h3"
         );
 
+
     name.textContent =
         item.name;
 
@@ -830,8 +810,10 @@ function createShopCard(item) {
             "p"
         );
 
+
     type.className =
         "item-type";
+
 
     type.textContent =
         item.type;
@@ -842,8 +824,10 @@ function createShopCard(item) {
             "div"
         );
 
+
     price.className =
         "shop-price";
+
 
     price.textContent =
         item.price +
@@ -855,8 +839,10 @@ function createShopCard(item) {
             "button"
         );
 
+
     button.type =
         "button";
+
 
     button.className =
         "buy-button";
@@ -869,8 +855,10 @@ function createShopCard(item) {
         button.textContent =
             "OWNED";
 
+
         button.disabled =
             true;
+
 
         button.classList.add(
             "owned"
@@ -889,8 +877,7 @@ function createShopCard(item) {
             function() {
 
                 buyItem(
-                    item,
-                    button
+                    item
                 );
 
             }
@@ -972,7 +959,7 @@ function displayShop() {
    BUY
 ========================================================= */
 
-function buyItem(item, button) {
+function buyItem(item) {
 
     if (
         ownsItem(item.id)
@@ -1006,38 +993,14 @@ function buyItem(item, button) {
     );
 
 
-    const owned =
-        getOwnedItems();
-
-
-    if (
-        !owned.includes(item.id)
-    ) {
-
-        owned.push(
-            item.id
-        );
-
-    }
-
-
-    saveOwnedItems(
-        owned
-    );
-
-
-    button.textContent =
-        "OWNED";
-
-    button.disabled =
-        true;
-
-    button.classList.add(
-        "owned"
+    unlockItem(
+        item.id
     );
 
 
     updateCurrency();
+
+    displayShop();
 
 }
 
@@ -1221,201 +1184,10 @@ function modStatus(message) {
 
 
 /* =========================================================
-   MOD: GIVE COINS
+   MOD OPEN/CLOSE
 ========================================================= */
 
-function giveModCoins() {
-
-    const input =
-        document.getElementById(
-            "mod-coins"
-        );
-
-
-    const amount =
-        Number(
-            input.value
-        );
-
-
-    if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-    ) {
-
-        modStatus(
-            "Enter a valid coin amount."
-        );
-
-        return;
-
-    }
-
-
-    setCoins(
-        getCoins() +
-        Math.floor(amount)
-    );
-
-
-    updateCurrency();
-
-
-    modStatus(
-        "Added " +
-        Math.floor(amount) +
-        " coins."
-    );
-
-}
-
-
-/* =========================================================
-   MOD: GIVE ITEM
-========================================================= */
-
-function giveModItem() {
-
-    const select =
-        document.getElementById(
-            "mod-item"
-        );
-
-
-    const quantityInput =
-        document.getElementById(
-            "mod-quantity"
-        );
-
-
-    const id =
-        select.value;
-
-
-    const quantity =
-        Math.floor(
-            Number(
-                quantityInput.value
-            )
-        );
-
-
-    if (
-        !Number.isFinite(quantity) ||
-        quantity <= 0
-    ) {
-
-        modStatus(
-            "Enter a valid quantity."
-        );
-
-        return;
-
-    }
-
-
-    const owned =
-        getOwnedItems();
-
-
-    /*
-       Cosmetic items only need to be owned
-       once, so the quantity is treated as
-       "give this many copies", with ownership
-       recorded after the first copy.
-    */
-
-    if (
-        !owned.includes(id)
-    ) {
-
-        owned.push(id);
-
-    }
-
-
-    saveOwnedItems(
-        owned
-    );
-
-
-    const item =
-        SHOP_ITEMS.find(
-            function(shopItem) {
-
-                return shopItem.id === id;
-
-            }
-        );
-
-
-    modStatus(
-        "Gave " +
-        quantity +
-        " × " +
-        item.name +
-        "."
-    );
-
-
-    displayShop();
-
-}
-
-
-/* =========================================================
-   MOD: REROLL
-========================================================= */
-
-function rerollShop() {
-
-    localStorage.setItem(
-        "shopRerollSeed",
-        String(Date.now())
-    );
-
-
-    displayShop();
-
-
-    modStatus(
-        "Shop rerolled."
-    );
-
-}
-
-
-/* =========================================================
-   MOD: RESET ROTATION
-========================================================= */
-
-function resetShopRotation() {
-
-    localStorage.removeItem(
-        "shopRerollSeed"
-    );
-
-
-    localStorage.removeItem(
-        "shopDebugReset"
-    );
-
-
-    displayShop();
-
-
-    modStatus(
-        "Shop rotation reset."
-    );
-
-}
-
-
-/* =========================================================
-   MOD PANEL OPEN/CLOSE
-========================================================= */
-
-function openModPanel() {
+function openMod() {
 
     const overlay =
         document.getElementById(
@@ -1434,7 +1206,7 @@ function openModPanel() {
 }
 
 
-function closeModPanel() {
+function closeMod() {
 
     const overlay =
         document.getElementById(
@@ -1446,6 +1218,327 @@ function closeModPanel() {
 
         overlay.classList.remove(
             "open"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MOD ACTIONS
+========================================================= */
+
+function giveCoins() {
+
+    const input =
+        document.getElementById(
+            "mod-coins"
+        );
+
+
+    const amount =
+        Number(
+            input.value
+        );
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount < 0
+    ) {
+
+        modStatus(
+            "Enter a valid amount."
+        );
+
+        return;
+
+    }
+
+
+    setCoins(
+        getCoins() +
+        amount
+    );
+
+
+    updateCurrency();
+
+
+    input.value =
+        "";
+
+
+    modStatus(
+        "Added " +
+        amount +
+        " coins."
+    );
+
+}
+
+
+function modUnlockItem() {
+
+    const select =
+        document.getElementById(
+            "mod-item"
+        );
+
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    const id =
+        select.value;
+
+
+    const item =
+        SHOP_ITEMS.find(
+            shopItem =>
+                shopItem.id === id
+        );
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    unlockItem(
+        item.id
+    );
+
+
+    displayShop();
+
+
+    modStatus(
+        "Unlocked " +
+        item.name +
+        "."
+    );
+
+}
+
+
+function rerollShop() {
+
+    localStorage.setItem(
+        "shopRerollSeed",
+        String(
+            Date.now()
+        )
+    );
+
+
+    displayShop();
+
+
+    modStatus(
+        "Shop rerolled."
+    );
+
+}
+
+
+function resetShop() {
+
+    localStorage.removeItem(
+        "shopRerollSeed"
+    );
+
+    localStorage.removeItem(
+        "shopDebugReset"
+    );
+
+
+    displayShop();
+
+
+    modStatus(
+        "Shop rotation reset."
+    );
+
+}
+
+
+function clearOwnedItems() {
+
+    const confirmed =
+        confirm(
+            "Clear all shop items from your account?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "shopOwnedItems"
+    );
+
+
+    displayShop();
+
+
+    modStatus(
+        "Shop ownership cleared."
+    );
+
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+function setupModPanel() {
+
+    const modButton =
+        document.getElementById(
+            "mod-button"
+        );
+
+
+    const closeButton =
+        document.getElementById(
+            "close-mod"
+        );
+
+
+    const overlay =
+        document.getElementById(
+            "mod-overlay"
+        );
+
+
+    const giveCoinsButton =
+        document.getElementById(
+            "give-coins"
+        );
+
+
+    const unlockButton =
+        document.getElementById(
+            "unlock-item"
+        );
+
+
+    const rerollButton =
+        document.getElementById(
+            "reroll-shop"
+        );
+
+
+    const resetButton =
+        document.getElementById(
+            "reset-shop"
+        );
+
+
+    const clearButton =
+        document.getElementById(
+            "clear-owned"
+        );
+
+
+    if (modButton) {
+
+        modButton.addEventListener(
+            "click",
+            openMod
+        );
+
+    }
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeMod
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    closeMod();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (giveCoinsButton) {
+
+        giveCoinsButton.addEventListener(
+            "click",
+            giveCoins
+        );
+
+    }
+
+
+    if (unlockButton) {
+
+        unlockButton.addEventListener(
+            "click",
+            modUnlockItem
+        );
+
+    }
+
+
+    if (rerollButton) {
+
+        rerollButton.addEventListener(
+            "click",
+            rerollShop
+        );
+
+    }
+
+
+    if (resetButton) {
+
+        resetButton.addEventListener(
+            "click",
+            resetShop
+        );
+
+    }
+
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+            "click",
+            clearOwnedItems
         );
 
     }
@@ -1469,134 +1562,13 @@ document.addEventListener(
 
         populateModItems();
 
+        setupModPanel();
+
 
         setInterval(
             updateCountdown,
             1000
         );
-
-
-        const modButton =
-            document.getElementById(
-                "mod-button"
-            );
-
-
-        if (modButton) {
-
-            modButton.addEventListener(
-                "click",
-                openModPanel
-            );
-
-        }
-
-
-        const closeButton =
-            document.getElementById(
-                "close-mod"
-            );
-
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                closeModPanel
-            );
-
-        }
-
-
-        const overlay =
-            document.getElementById(
-                "mod-overlay"
-            );
-
-
-        if (overlay) {
-
-            overlay.addEventListener(
-                "click",
-                function(event) {
-
-                    if (
-                        event.target ===
-                        overlay
-                    ) {
-
-                        closeModPanel();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        const giveCoins =
-            document.getElementById(
-                "give-coins"
-            );
-
-
-        if (giveCoins) {
-
-            giveCoins.addEventListener(
-                "click",
-                giveModCoins
-            );
-
-        }
-
-
-        const giveItem =
-            document.getElementById(
-                "give-item"
-            );
-
-
-        if (giveItem) {
-
-            giveItem.addEventListener(
-                "click",
-                giveModItem
-            );
-
-        }
-
-
-        const reroll =
-            document.getElementById(
-                "mod-reroll"
-            );
-
-
-        if (reroll) {
-
-            reroll.addEventListener(
-                "click",
-                rerollShop
-            );
-
-        }
-
-
-        const reset =
-            document.getElementById(
-                "mod-reset"
-            );
-
-
-        if (reset) {
-
-            reset.addEventListener(
-                "click",
-                resetShopRotation
-            );
-
-        }
 
     }
 );
@@ -1605,6 +1577,9 @@ document.addEventListener(
 /* =========================================================
    PUBLIC API
 ========================================================= */
+
+window.SHOP_ITEMS =
+    SHOP_ITEMS;
 
 window.getCoins =
     getCoins;
@@ -1621,14 +1596,15 @@ window.saveOwnedItems =
 window.ownsItem =
     ownsItem;
 
+window.unlockItem =
+    unlockItem;
+
 window.getCurrentShop =
     getCurrentShop;
 
 window.displayShop =
     displayShop;
 
-window.equipItem =
-    equipItem;
-
-window.SHOP_ITEMS =
-    SHOP_ITEMS;
+window.rerollShop =
+    rerollShop;
+```
