@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    STUDYSPRINT SHOP
    Banners + Titles + Frames
@@ -1435,5 +1434,3 @@ window.displayShop =
 
 window.rerollShop =
     rerollShop;
-
-```
