@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,17 +77,17 @@
 
         <div>
 
-            <p class="shop-kicker">
+            <div class="shop-kicker">
                 STUDYSPRINT SHOP
-            </p>
+            </div>
 
             <h1>
-                CUSTOMISE YOUR PROFILE
+                Make it yours.
             </h1>
 
             <p class="shop-description">
-                Pick up banners, titles and frames
-                to make your profile your own.
+                Grab banners, titles and frames
+                to customise your StudySprint profile.
             </p>
 
         </div>
@@ -114,12 +115,12 @@
 
             <div>
 
-                <span class="section-label">
-                    FORTNIGHTLY
-                </span>
+                <div class="section-label">
+                    FEATURED
+                </div>
 
                 <h2>
-                    Featured Items
+                    Today's Shop
                 </h2>
 
             </div>
@@ -131,11 +132,9 @@
             id="shop-items"
             class="shop-grid"
         >
-
         </div>
 
     </section>
-
 
 
 </main>
@@ -153,15 +152,16 @@
 
             <div>
 
-                <span class="section-label">
-                    ADMIN TOOLS
-                </span>
+                <div class="section-label">
+                    DEVELOPER TOOLS
+                </div>
 
                 <h2>
                     Mod Panel
                 </h2>
 
             </div>
+
 
             <button
                 id="close-mod"
@@ -186,16 +186,16 @@
                 <input
                     id="mod-coins"
                     type="number"
-                    min="1"
-                    value="1000"
+                    min="0"
+                    placeholder="Amount"
                 >
 
                 <button
                     id="give-coins"
-                    type="button"
                     class="mod-action"
+                    type="button"
                 >
-                    GIVE COINS
+                    GIVE
                 </button>
 
             </div>
@@ -207,33 +207,23 @@
         <section class="mod-section">
 
             <h3>
-                Give Shop Item
+                Unlock Shop Item
             </h3>
-
-
-            <select
-                id="mod-item"
-                class="mod-select"
-            >
-
-            </select>
-
 
             <div class="mod-row">
 
-                <input
-                    id="mod-quantity"
-                    type="number"
-                    min="1"
-                    value="1"
+                <select
+                    id="mod-item"
+                    class="mod-select"
                 >
+                </select>
 
                 <button
-                    id="give-item"
-                    type="button"
+                    id="unlock-item"
                     class="mod-action"
+                    type="button"
                 >
-                    GIVE ITEM
+                    UNLOCK
                 </button>
 
             </div>
@@ -251,19 +241,27 @@
             <div class="mod-controls">
 
                 <button
-                    id="mod-reroll"
-                    type="button"
+                    id="reroll-shop"
                     class="mod-action"
+                    type="button"
                 >
                     REROLL SHOP
                 </button>
 
                 <button
-                    id="mod-reset"
+                    id="reset-shop"
+                    class="mod-action"
                     type="button"
-                    class="mod-action danger"
                 >
                     RESET ROTATION
+                </button>
+
+                <button
+                    id="clear-owned"
+                    class="mod-action danger"
+                    type="button"
+                >
+                    CLEAR SHOP ITEMS
                 </button>
 
             </div>
@@ -289,3 +287,4 @@
 </body>
 
 </html>
+```
