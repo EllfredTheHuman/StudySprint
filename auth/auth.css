@@ -3,56 +3,71 @@
    STUDYSPRINT AUTH
 ========================================================= */
 
-.auth-page {
+* {
+    box-sizing:border-box;
+}
 
-    min-height:100vh;
+
+html,
+body {
 
     margin:0;
 
-    background:
-        radial-gradient(
-            circle at 20% 10%,
-            rgba(99,102,241,.18),
-            transparent 35%
-        ),
-        radial-gradient(
-            circle at 80% 80%,
-            rgba(139,92,246,.12),
-            transparent 35%
-        ),
-        #080c16;
+    min-height:100%;
 
-    color:#f8fafc;
+}
+
+
+body {
+
+    min-height:100vh;
 
     font-family:
-        Arial,
-        Helvetica,
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
         sans-serif;
+
+    color:#f5f5ff;
+
+    background:
+
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(124,92,255,.20),
+            transparent 30%
+        ),
+
+        radial-gradient(
+            circle at 85% 30%,
+            rgba(0,210,255,.10),
+            transparent 28%
+        ),
+
+        #080a12;
 
 }
 
 
 /* =========================================================
-   CONTAINER
+   PAGE
 ========================================================= */
 
-.auth-container {
-
-    width:min(460px,92%);
+.auth-page {
 
     min-height:100vh;
-
-    margin:0 auto;
 
     display:flex;
 
     flex-direction:column;
 
+    align-items:center;
+
     justify-content:center;
 
-    align-items:stretch;
-
-    padding:40px 0;
+    padding:30px 20px;
 
 }
 
@@ -65,25 +80,18 @@
 
     text-align:center;
 
-    margin-bottom:28px;
+    margin-bottom:25px;
 
 }
 
 
 .auth-logo {
 
-    font-size:34px;
+    font-size:32px;
 
-    font-weight:1000;
+    font-weight:950;
 
     letter-spacing:-1.5px;
-
-}
-
-
-.auth-logo span {
-
-    color:#6366f1;
 
 }
 
@@ -92,11 +100,13 @@
 
     margin:8px 0 0;
 
-    color:#64748b;
+    color:#8f91a5;
 
-    font-size:14px;
+    font-size:11px;
 
-    font-weight:700;
+    font-weight:900;
+
+    letter-spacing:2px;
 
 }
 
@@ -107,52 +117,46 @@
 
 .auth-card {
 
-    padding:32px;
+    width:min(430px,100%);
+
+    padding:34px;
+
+    border-radius:24px;
 
     background:
+
         linear-gradient(
             145deg,
-            #131b2b,
-            #0d1422
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.035)
         );
 
-    border:1px solid #263249;
-
-    border-radius:22px;
+    border:1px solid rgba(255,255,255,.10);
 
     box-shadow:
-        0 25px 60px rgba(0,0,0,.45);
+        0 25px 70px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(20px);
 
 }
 
 
-/* =========================================================
-   FORM
-========================================================= */
-
-.auth-form.hidden {
+.hidden {
 
     display:none;
 
 }
 
 
-.auth-heading {
+/* =========================================================
+   HEADER
+========================================================= */
 
-    margin-bottom:26px;
+.auth-label {
 
-}
+    color:#a78bfa;
 
-
-.auth-kicker {
-
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#818cf8;
-
-    font-size:10px;
+    font-size:11px;
 
     font-weight:950;
 
@@ -161,24 +165,22 @@
 }
 
 
-.auth-heading h1 {
+.auth-card h1 {
 
-    margin:0;
+    margin:8px 0 7px;
 
-    font-size:30px;
+    font-size:36px;
 
-    letter-spacing:-1px;
+    letter-spacing:-1.5px;
 
 }
 
 
-.auth-heading p {
+.auth-card-header p {
 
-    margin:8px 0 0;
+    margin:0 0 28px;
 
-    color:#64748b;
-
-    font-size:14px;
+    color:#9b9daf;
 
     line-height:1.5;
 
@@ -186,74 +188,71 @@
 
 
 /* =========================================================
-   LABELS
+   FORM
 ========================================================= */
 
-.auth-form label {
+form {
 
-    display:block;
+    display:flex;
 
-    margin:
-        17px
-        0
-        7px;
-
-    color:#cbd5e1;
-
-    font-size:12px;
-
-    font-weight:900;
+    flex-direction:column;
 
 }
 
 
-/* =========================================================
-   INPUTS
-========================================================= */
+label {
 
-.auth-form input {
+    margin:0 0 7px;
+
+    color:#d8d8e5;
+
+    font-size:12px;
+
+    font-weight:800;
+
+}
+
+
+input {
 
     width:100%;
 
-    box-sizing:border-box;
+    margin-bottom:18px;
 
     padding:14px 15px;
 
-    border:1px solid #334155;
+    border:1px solid #292d40;
 
     border-radius:11px;
 
     outline:none;
 
-    background:#080e1a;
+    background:#0d101b;
 
-    color:#f8fafc;
+    color:#f5f5ff;
 
     font-size:14px;
 
     transition:
         border-color .2s,
-        box-shadow .2s,
-        background .2s;
+        box-shadow .2s;
 
 }
 
 
-.auth-form input::placeholder {
+input::placeholder {
 
-    color:#475569;
+    color:#5f6274;
 
 }
 
 
-.auth-form input:focus {
+input:focus {
 
-    border-color:#6366f1;
-
-    background:#0b1120;
+    border-color:#7c5cff;
 
     box-shadow:
-        0 0 0 3px rgba(99,102,241,.12);
+        0 0 0 3px rgba(124,92,255,.12);
 
 }
 
@@ -264,31 +263,33 @@
 
 .auth-button {
 
-    width:100%;
-
-    margin-top:25px;
+    margin-top:3px;
 
     padding:14px;
 
-    border:1px solid #6366f1;
+    border:1px solid #8b74ff;
 
     border-radius:11px;
 
-    background:#4f46e5;
+    background:
+        linear-gradient(
+            135deg,
+            #7c5cff,
+            #5d8cff
+        );
 
     color:white;
 
-    font-size:13px;
+    font-size:12px;
 
     font-weight:950;
 
-    letter-spacing:.5px;
+    letter-spacing:1px;
 
     cursor:pointer;
 
     transition:
         transform .2s,
-        background .2s,
         box-shadow .2s;
 
 }
@@ -296,83 +297,38 @@
 
 .auth-button:hover {
 
-    background:#6366f1;
-
     transform:translateY(-2px);
 
     box-shadow:
-        0 10px 25px rgba(99,102,241,.25);
+        0 10px 25px rgba(124,92,255,.28);
 
 }
 
 
-.auth-button:active {
+.auth-button:disabled {
 
-    transform:translateY(0);
+    opacity:.6;
 
-}
+    cursor:not-allowed;
 
-
-/* =========================================================
-   SWITCH
-========================================================= */
-
-.auth-switch {
-
-    margin:23px 0 0;
-
-    text-align:center;
-
-    color:#64748b;
-
-    font-size:13px;
-
-}
-
-
-.auth-switch button {
-
-    border:0;
-
-    padding:0;
-
-    background:none;
-
-    color:#818cf8;
-
-    font:inherit;
-
-    font-weight:900;
-
-    cursor:pointer;
-
-}
-
-
-.auth-switch button:hover {
-
-    color:#a5b4fc;
-
-    text-decoration:underline;
+    transform:none;
 
 }
 
 
 /* =========================================================
-   MESSAGES
+   MESSAGE
 ========================================================= */
 
 .auth-message {
 
-    min-height:18px;
+    min-height:20px;
 
     margin-top:16px;
 
-    color:#94a3b8;
+    color:#a7a8b8;
 
-    font-size:12px;
-
-    font-weight:700;
+    font-size:13px;
 
     line-height:1.5;
 
@@ -388,26 +344,54 @@
 
 .auth-message.success {
 
-    color:#4ade80;
+    color:#86efac;
 
 }
 
 
 /* =========================================================
-   FOOTER
+   SWITCH
 ========================================================= */
 
-.auth-footer {
+.auth-switch {
 
-    margin-top:24px;
+    margin-top:22px;
+
+    padding-top:22px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    color:#777a8d;
 
     text-align:center;
 
-    color:#334155;
+    font-size:13px;
 
-    font-size:11px;
+}
 
-    font-weight:700;
+
+.auth-switch button {
+
+    padding:0;
+
+    border:0;
+
+    background:none;
+
+    color:#a78bfa;
+
+    font:inherit;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+}
+
+
+.auth-switch button:hover {
+
+    color:#c4b5fd;
 
 }
 
@@ -418,34 +402,30 @@
 
 @media(max-width:500px) {
 
-    .auth-container {
+    .auth-page {
 
-        width:92%;
-
-        padding:25px 0;
+        padding:20px 15px;
 
     }
 
 
     .auth-card {
 
-        padding:24px;
-
-        border-radius:18px;
+        padding:27px 22px;
 
     }
 
 
     .auth-logo {
 
-        font-size:28px;
+        font-size:27px;
 
     }
 
 
-    .auth-heading h1 {
+    .auth-card h1 {
 
-        font-size:26px;
+        font-size:31px;
 
     }
 
