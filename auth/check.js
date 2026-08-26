@@ -1,6 +1,15 @@
-/* =========================================================
-   STUDYSPRINT AUTH CHECK
-========================================================= */
+/*
+=========================================================
+STUDYSPRINT PROTECTED PAGE AUTH CHECK
+=========================================================
+
+Use this ONLY on pages that require a login.
+
+Example:
+    ../auth/check.js
+
+Do NOT put this on auth/index.html.
+*/
 
 import {
     createClient
@@ -10,7 +19,6 @@ import {
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
 
@@ -18,90 +26,85 @@ const SUPABASE_KEY =
 const supabase =
     createClient(
         SUPABASE_URL,
-        SUPABASE_KEY
+        SUPABASE_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        }
     );
 
 
-const AUTH_URL =
-    "/StudySprint/auth/";
+const AUTH_PAGE =
+    "/StudySprint/auth/index.html";
 
 
-async function checkAuth() {
+async function runAuthCheck() {
 
     console.log(
-        "StudySprint auth check started"
+        "StudySprint: checking authentication..."
     );
 
 
     try {
 
-        const result =
+        const {
+            data,
+            error
+        } =
             await supabase.auth.getSession();
 
 
-        console.log(
-            "Supabase session result:",
-            result
-        );
+        if (error) {
 
-
-        const session =
-            result.data?.session;
-
-
-        /* =============================================
-           SESSION EXISTS
-        ============================================= */
-
-        if (session) {
-
-            console.log(
-                "User is signed in."
+            console.error(
+                "StudySprint auth error:",
+                error
             );
-
-            console.log(
-                "Email:",
-                session.user.email
-            );
-
-            /*
-             * IMPORTANT:
-             *
-             * DO NOT REDIRECT.
-             *
-             * The user is already on a protected
-             * StudySprint page, so we simply allow
-             * the page to continue loading.
-             */
 
             return;
 
         }
 
 
-        /* =============================================
-           NO SESSION
-        ============================================= */
+        /*
+        =============================================
+        USER IS NOT SIGNED IN
+        =============================================
+        */
 
-        console.log(
-            "No active session."
-        );
+        if (!data.session) {
+
+            console.log(
+                "StudySprint: no session."
+            );
+
+
+            window.location.replace(
+                AUTH_PAGE
+            );
+
+
+            return;
+
+        }
 
 
         /*
-         * Small delay so the browser does not get
-         * trapped in an instant redirect loop while
-         * debugging.
-         */
+        =============================================
+        USER IS SIGNED IN
+        =============================================
+        */
 
-        setTimeout(
-            function() {
+        console.log(
+            "StudySprint: signed in."
+        );
 
-                window.location.href =
-                    AUTH_URL;
-
-            },
-            500
+        console.log(
+            "User:",
+            data.session.user.email
         );
 
     }
@@ -109,45 +112,8 @@ async function checkAuth() {
     catch (error) {
 
         console.error(
-            "AUTH CHECK ERROR:",
+            "StudySprint authentication failed:",
             error
-        );
-
-
-        /*
-         * Do NOT immediately redirect on an error.
-         *
-         * This prevents an error from creating
-         * an infinite redirect loop.
-         */
-
-        document.body.insertAdjacentHTML(
-            "afterbegin",
-            `
-            <div style="
-                position:fixed;
-                inset:0;
-                z-index:999999;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                padding:30px;
-                background:#080a12;
-                color:white;
-                font-family:Arial,sans-serif;
-                text-align:center;
-            ">
-                <div>
-                    <h1>Authentication Error</h1>
-                    <p>
-                        StudySprint couldn't check your login.
-                    </p>
-                    <p style="color:#999">
-                        Open the browser console to see the error.
-                    </p>
-                </div>
-            </div>
-            `
         );
 
     }
@@ -155,4 +121,4 @@ async function checkAuth() {
 }
 
 
-checkAuth();
+runAuthCheck();
