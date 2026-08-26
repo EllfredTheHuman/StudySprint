@@ -28,7 +28,7 @@ const supabase =
 
 
 /* =========================================================
-   CHECK SESSION
+   CHECK
 ========================================================= */
 
 async function checkAuthentication() {
@@ -43,7 +43,7 @@ async function checkAuthentication() {
     if (error) {
 
         console.error(
-            "Authentication error:",
+            "Authentication check failed:",
             error
         );
 
@@ -53,14 +53,13 @@ async function checkAuthentication() {
 
 
     /*
-       If there is no session,
-       send the user to the auth page.
+       No session = not logged in.
     */
 
     if (!data.session) {
 
         window.location.replace(
-            "../auth/index.html"
+            "../index.html"
         );
 
         return;
@@ -69,10 +68,7 @@ async function checkAuthentication() {
 
 
     /*
-       User is logged in.
-
-       Save their username locally
-       for the rest of StudySprint.
+       Get the logged-in user.
     */
 
     const user =
@@ -86,6 +82,11 @@ async function checkAuthentication() {
         "Player";
 
 
+    /*
+       Keep username available to
+       the existing StudySprint UI.
+    */
+
     localStorage.setItem(
         "username",
         username
@@ -93,10 +94,6 @@ async function checkAuthentication() {
 
 }
 
-
-/* =========================================================
-   START
-========================================================= */
 
 checkAuthentication();
 ```
