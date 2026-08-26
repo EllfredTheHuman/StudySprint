@@ -1,16 +1,12 @@
-```javascript
 /* =========================================================
    STUDYSPRINT AUTH CHECK
+   ONLY USE THIS ON PROTECTED PAGES
 ========================================================= */
 
 import {
     createClient
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
-/* =========================================================
-   SUPABASE
-========================================================= */
 
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
@@ -27,73 +23,79 @@ const supabase =
     );
 
 
-/* =========================================================
-   CHECK
-========================================================= */
-
-async function checkAuthentication() {
-
-    const {
-        data,
-        error
-    } =
-        await supabase.auth.getSession();
+const AUTH_URL =
+    "/StudySprint/auth/";
 
 
-    if (error) {
+async function checkAuth() {
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabase.auth.getSession();
+
+
+        if (error) {
+
+            console.error(
+                "Auth check failed:",
+                error
+            );
+
+            window.location.replace(
+                AUTH_URL
+            );
+
+            return;
+
+        }
+
+
+        /* =============================================
+           NO SESSION
+        ============================================= */
+
+        if (!data.session) {
+
+            window.location.replace(
+                AUTH_URL
+            );
+
+            return;
+
+        }
+
+
+        /* =============================================
+           SESSION EXISTS
+           User is authenticated.
+           DO NOTHING.
+        ============================================= */
+
+        console.log(
+            "StudySprint: authenticated"
+        );
+
+    }
+
+    catch (error) {
 
         console.error(
-            "Authentication check failed:",
+            "Authentication error:",
             error
         );
 
-        return;
-
-    }
-
-
-    /*
-       No session = not logged in.
-    */
-
-    if (!data.session) {
 
         window.location.replace(
-            "../index.html"
+            AUTH_URL
         );
 
-        return;
-
     }
-
-
-    /*
-       Get the logged-in user.
-    */
-
-    const user =
-        data.session.user;
-
-
-    const username =
-        user
-            ?.user_metadata
-            ?.username ||
-        "Player";
-
-
-    /*
-       Keep username available to
-       the existing StudySprint UI.
-    */
-
-    localStorage.setItem(
-        "username",
-        username
-    );
 
 }
 
 
-checkAuthentication();
-```
+checkAuth();
