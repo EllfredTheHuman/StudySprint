@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
+
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -19,7 +21,7 @@ body {
     margin:0;
 
     width:100%;
-    height:100%;
+    min-height:100%;
 
     background:#080a12;
 
@@ -35,8 +37,24 @@ body {
 
 <script>
 
+/*
+=========================================================
+STUDYSPRINT ENTRY POINT
+=========================================================
+
+The root page only decides where the user should go.
+
+Authentication is handled by:
+
+    auth/index.html
+    auth/auth.js
+
+Do NOT load check.js here.
+*/
+
+
 window.location.replace(
-    "auth/index.html"
+    "./auth/index.html"
 );
 
 </script>
@@ -45,3 +63,4 @@ window.location.replace(
 </body>
 
 </html>
+```
