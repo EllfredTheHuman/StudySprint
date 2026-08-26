@@ -1,18 +1,16 @@
 ```javascript
 /* =========================================================
-   STUDYSPRINT AUTH
+   STUDYSPRINT AUTHENTICATION
 ========================================================= */
+
+import {
+    createClient
+} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
 /* =========================================================
    SUPABASE
 ========================================================= */
-
-import {
-    createClient
-} from
-    "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-
 
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
@@ -33,6 +31,18 @@ const supabase =
    ELEMENTS
 ========================================================= */
 
+const loginSection =
+    document.getElementById(
+        "login-section"
+    );
+
+
+const signupSection =
+    document.getElementById(
+        "signup-section"
+    );
+
+
 const loginForm =
     document.getElementById(
         "login-form"
@@ -42,30 +52,6 @@ const loginForm =
 const signupForm =
     document.getElementById(
         "signup-form"
-    );
-
-
-const login =
-    document.getElementById(
-        "login"
-    );
-
-
-const signup =
-    document.getElementById(
-        "signup"
-    );
-
-
-const showSignup =
-    document.getElementById(
-        "show-signup"
-    );
-
-
-const showLogin =
-    document.getElementById(
-        "show-login"
     );
 
 
@@ -82,7 +68,7 @@ const signupMessage =
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGE HELPER
 ========================================================= */
 
 function showMessage(
@@ -105,46 +91,175 @@ function showMessage(
    SWITCH TO SIGN UP
 ========================================================= */
 
-showSignup.addEventListener(
-    "click",
-    function() {
+document
+    .getElementById("show-signup")
+    .addEventListener(
+        "click",
+        () => {
 
-        loginForm.classList.add(
-            "hidden"
-        );
+            loginSection.classList.add(
+                "hidden"
+            );
 
-        signupForm.classList.remove(
-            "hidden"
-        );
+            signupSection.classList.remove(
+                "hidden"
+            );
 
-        showMessage(
-            loginMessage,
-            ""
-        );
+            showMessage(
+                loginMessage,
+                ""
+            );
 
-    }
-);
+        }
+    );
 
 
 /* =========================================================
    SWITCH TO LOGIN
 ========================================================= */
 
-showLogin.addEventListener(
-    "click",
-    function() {
+document
+    .getElementById("show-login")
+    .addEventListener(
+        "click",
+        () => {
 
-        signupForm.classList.add(
-            "hidden"
+            signupSection.classList.add(
+                "hidden"
+            );
+
+            loginSection.classList.remove(
+                "hidden"
+            );
+
+            showMessage(
+                signupMessage,
+                ""
+            );
+
+        }
+    );
+
+
+/* =========================================================
+   EXISTING SESSION
+========================================================= */
+
+async function checkExistingSession() {
+
+    const {
+        data,
+        error
+    } =
+        await supabase.auth.getSession();
+
+
+    if (error) {
+
+        console.error(
+            "Session check failed:",
+            error
         );
 
-        loginForm.classList.remove(
-            "hidden"
+        return;
+
+    }
+
+
+    if (data.session) {
+
+        window.location.replace(
+            "../home/index.html"
         );
+
+    }
+
+}
+
+
+checkExistingSession();
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginForm.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+
+        const button =
+            loginForm.querySelector(
+                "button"
+            );
+
+
+        button.disabled =
+            true;
+
 
         showMessage(
-            signupMessage,
-            ""
+            loginMessage,
+            "Signing in..."
+        );
+
+
+        const email =
+            document
+                .getElementById(
+                    "login-email"
+                )
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById(
+                    "login-password"
+                )
+                .value;
+
+
+        const {
+            error
+        } =
+            await supabase.auth.signInWithPassword(
+                {
+                    email,
+                    password
+                }
+            );
+
+
+        if (error) {
+
+            showMessage(
+                loginMessage,
+                error.message,
+                "error"
+            );
+
+            button.disabled =
+                false;
+
+            return;
+
+        }
+
+
+        showMessage(
+            loginMessage,
+            "Signed in! Loading...",
+            "success"
+        );
+
+
+        window.location.replace(
+            "../home/index.html"
         );
 
     }
@@ -155,11 +270,27 @@ showLogin.addEventListener(
    SIGN UP
 ========================================================= */
 
-signup.addEventListener(
+signupForm.addEventListener(
     "submit",
-    async function(event) {
+    async (event) => {
 
         event.preventDefault();
+
+
+        const button =
+            signupForm.querySelector(
+                "button"
+            );
+
+
+        button.disabled =
+            true;
+
+
+        showMessage(
+            signupMessage,
+            "Creating account..."
+        );
 
 
         const username =
@@ -198,71 +329,37 @@ signup.addEventListener(
                 "error"
             );
 
-            return;
-
-        }
-
-
-        if (
-            username.length > 20
-        ) {
-
-            showMessage(
-                signupMessage,
-                "Username must be 20 characters or less.",
-                "error"
-            );
+            button.disabled =
+                false;
 
             return;
 
         }
-
-
-        if (
-            password.length < 6
-        ) {
-
-            showMessage(
-                signupMessage,
-                "Password must be at least 6 characters.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        showMessage(
-            signupMessage,
-            "Creating your account..."
-        );
 
 
         const {
             data,
             error
         } =
-            await supabase.auth.signUp({
+            await supabase.auth.signUp(
+                {
 
-                email:
                     email,
 
-                password:
                     password,
 
-                options: {
+                    options: {
 
-                    data: {
+                        data: {
 
-                        username:
                             username
+
+                        }
 
                     }
 
                 }
-
-            });
+            );
 
 
         if (error) {
@@ -271,6 +368,31 @@ signup.addEventListener(
                 signupMessage,
                 error.message,
                 "error"
+            );
+
+            button.disabled =
+                false;
+
+            return;
+
+        }
+
+
+        /*
+           Email confirmation OFF:
+           Supabase gives us a session.
+        */
+
+        if (data.session) {
+
+            localStorage.setItem(
+                "username",
+                username
+            );
+
+
+            window.location.replace(
+                "../home/index.html"
             );
 
             return;
@@ -279,222 +401,19 @@ signup.addEventListener(
 
 
         /*
-           Supabase may require email
-           confirmation depending on
-           your project settings.
+           Email confirmation ON.
         */
 
-        if (
-            data.session
-        ) {
-
-            localStorage.setItem(
-                "username",
-                username
-            );
-
-
-            showMessage(
-                signupMessage,
-                "Account created! Loading StudySprint...",
-                "success"
-            );
-
-
-            setTimeout(
-                function() {
-
-                    window.location.href =
-                        "../index.html";
-
-                },
-                700
-            );
-
-        }
-
-        else {
-
-            showMessage(
-                signupMessage,
-                "Account created! Check your email to confirm your account.",
-                "success"
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-login.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-
-        const email =
-            document
-                .getElementById(
-                    "login-email"
-                )
-                .value
-                .trim();
-
-
-        const password =
-            document
-                .getElementById(
-                    "login-password"
-                )
-                .value;
-
-
         showMessage(
-            loginMessage,
-            "Logging in..."
-        );
-
-
-        const {
-            data,
-            error
-        } =
-            await supabase.auth.signInWithPassword({
-
-                email:
-                    email,
-
-                password:
-                    password
-
-            });
-
-
-        if (error) {
-
-            showMessage(
-                loginMessage,
-                error.message,
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        const user =
-            data.user;
-
-
-        const username =
-            user
-                ?.user_metadata
-                ?.username ||
-            "Player";
-
-
-        localStorage.setItem(
-            "username",
-            username
-        );
-
-
-        showMessage(
-            loginMessage,
-            "Login successful! Loading StudySprint...",
+            signupMessage,
+            "Account created! Check your email to confirm your account.",
             "success"
         );
 
 
-        setTimeout(
-            function() {
-
-                window.location.href =
-                    "../index.html";
-
-            },
-            500
-        );
+        button.disabled =
+            false;
 
     }
 );
-
-
-/* =========================================================
-   CHECK EXISTING SESSION
-========================================================= */
-
-async function checkSession() {
-
-    const {
-        data
-    } =
-        await supabase.auth.getSession();
-
-
-    if (
-        data.session
-    ) {
-
-        const user =
-            data.session.user;
-
-
-        const username =
-            user
-                ?.user_metadata
-                ?.username ||
-            "Player";
-
-
-        localStorage.setItem(
-            "username",
-            username
-        );
-
-
-        window.location.href =
-            "../index.html";
-
-    }
-
-}
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-supabase.auth.onAuthStateChange(
-    function(
-        event,
-        session
-    ) {
-
-        if (
-            event === "SIGNED_OUT"
-        ) {
-
-            localStorage.removeItem(
-                "username"
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-checkSession();
 ```
