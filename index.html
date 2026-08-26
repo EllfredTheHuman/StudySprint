@@ -1,14 +1,22 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>StudySprint</title>
 
-<link rel="stylesheet" href="style.css">
+<link
+    rel="stylesheet"
+    href="style.css"
+>
 
 <style>
 
@@ -17,31 +25,60 @@
 ========================================================= */
 
 :root {
-    --accent: #7c5cff;
-    --accent-light: #a78bfa;
-    --bg: #080a12;
-    --card: rgba(255,255,255,0.06);
-    --border: rgba(255,255,255,0.10);
-    --text: #f5f5ff;
-    --muted: #a7a8b8;
+
+    --accent:#7c5cff;
+
+    --accent-light:#a78bfa;
+
+    --bg:#080a12;
+
+    --card:rgba(255,255,255,0.06);
+
+    --border:rgba(255,255,255,0.10);
+
+    --text:#f5f5ff;
+
+    --muted:#a7a8b8;
+
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+html,
+body {
+
+    margin:0;
+
+    min-height:100%;
+
 }
 
 
 body {
+
     background:
+
         radial-gradient(
             circle at 15% 10%,
             rgba(124,92,255,0.20),
             transparent 30%
         ),
+
         radial-gradient(
             circle at 85% 30%,
             rgba(0,210,255,0.10),
             transparent 28%
         ),
+
         var(--bg);
 
-    color: var(--text);
+    background-attachment:fixed;
+
+    color:var(--text);
+
 }
 
 
@@ -50,15 +87,28 @@ body {
 ========================================================= */
 
 header {
-    background: rgba(8,10,18,0.75);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
+
+    background:
+        rgba(8,10,18,0.75);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    border-bottom:
+        1px solid var(--border);
+
 }
 
 
 .logo a {
-    color: white;
-    text-decoration: none;
+
+    color:white;
+
+    text-decoration:none;
+
 }
 
 
@@ -68,109 +118,120 @@ header {
 
 .home-hero {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 80px auto 60px;
+    margin:80px auto 60px;
 
-    padding: 70px 30px;
+    padding:70px 30px;
 
-    text-align: center;
+    text-align:center;
 
-    position: relative;
+    position:relative;
 
 }
 
 
 .home-badge {
 
-    display: inline-block;
+    display:inline-block;
 
-    padding: 8px 15px;
+    padding:8px 15px;
 
-    margin-bottom: 22px;
+    margin-bottom:22px;
 
-    border-radius: 999px;
+    border-radius:999px;
 
-    background: rgba(124,92,255,0.15);
+    background:
+        rgba(124,92,255,0.15);
 
-    border: 1px solid rgba(124,92,255,0.35);
+    border:
+        1px solid
+        rgba(124,92,255,0.35);
 
-    color: #c4b5fd;
+    color:#c4b5fd;
 
-    font-size: 13px;
+    font-size:13px;
 
-    font-weight: bold;
+    font-weight:bold;
 
-    letter-spacing: 1px;
+    letter-spacing:1px;
 
 }
 
 
 .home-hero h1 {
 
-    margin: 0;
+    margin:0;
 
-    font-size: clamp(48px, 7vw, 82px);
+    font-size:
+        clamp(
+            48px,
+            7vw,
+            82px
+        );
 
-    line-height: 0.98;
+    line-height:.98;
 
-    letter-spacing: -3px;
+    letter-spacing:-3px;
 
 }
 
 
 .home-hero h1 span {
 
-    background: linear-gradient(
-        90deg,
-        #9b87ff,
-        #5ee7ff
-    );
+    background:
+        linear-gradient(
+            90deg,
+            #9b87ff,
+            #5ee7ff
+        );
 
-    -webkit-background-clip: text;
+    -webkit-background-clip:text;
 
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color:transparent;
 
 }
 
 
 .home-hero p {
 
-    max-width: 620px;
+    max-width:620px;
 
-    margin: 25px auto 35px;
+    margin:25px auto 35px;
 
-    color: var(--muted);
+    color:var(--muted);
 
-    font-size: 18px;
+    font-size:18px;
 
-    line-height: 1.7;
+    line-height:1.7;
 
 }
 
 
 .home-hero .main-button {
 
-    display: inline-block;
+    display:inline-block;
 
-    padding: 15px 28px;
+    padding:15px 28px;
 
-    border-radius: 12px;
+    border-radius:12px;
 
-    background: linear-gradient(
-        135deg,
-        #7c5cff,
-        #5d8cff
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #7c5cff,
+            #5d8cff
+        );
 
-    color: white;
+    color:white;
 
-    text-decoration: none;
+    text-decoration:none;
 
-    font-weight: bold;
+    font-weight:bold;
 
     box-shadow:
-        0 10px 30px rgba(124,92,255,0.30);
+        0 10px 30px
+        rgba(124,92,255,0.30);
 
 }
 
@@ -181,82 +242,85 @@ header {
 
 .quick-grid {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto 80px;
+    margin:0 auto 80px;
 
-    padding: 0 25px;
+    padding:0 25px;
 
-    display: grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
-    gap: 18px;
+    gap:18px;
 
 }
 
 
 .quick-card {
 
-    padding: 28px;
+    padding:28px;
 
-    border-radius: 20px;
+    border-radius:20px;
 
-    background: var(--card);
+    background:var(--card);
 
-    border: 1px solid var(--border);
+    border:
+        1px solid var(--border);
 
-    text-decoration: none;
+    text-decoration:none;
 
-    color: white;
+    color:white;
 
     transition:
-        transform 0.2s,
-        border-color 0.2s,
-        background 0.2s;
+        transform .2s,
+        border-color .2s,
+        background .2s;
 
 }
 
 
 .quick-card:hover {
 
-    transform: translateY(-5px);
+    transform:
+        translateY(-5px);
 
     border-color:
-        rgba(124,92,255,0.5);
+        rgba(124,92,255,.5);
 
     background:
-        rgba(124,92,255,0.09);
+        rgba(124,92,255,.09);
 
 }
 
 
 .quick-icon {
 
-    font-size: 32px;
+    font-size:32px;
 
-    margin-bottom: 15px;
+    margin-bottom:15px;
 
 }
 
 
 .quick-card h2 {
 
-    margin: 0 0 8px;
+    margin:
+        0 0 8px;
 
-    font-size: 21px;
+    font-size:21px;
 
 }
 
 
 .quick-card p {
 
-    margin: 0;
+    margin:0;
 
-    color: var(--muted);
+    color:var(--muted);
 
-    line-height: 1.5;
+    line-height:1.5;
 
 }
 
@@ -267,33 +331,36 @@ header {
 
 .home-section {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto 25px;
+    margin:
+        0 auto 25px;
 
-    padding: 0 25px;
+    padding:
+        0 25px;
 
 }
 
 
 .home-section-label {
 
-    color: #9b87ff;
+    color:#9b87ff;
 
-    font-size: 12px;
+    font-size:12px;
 
-    font-weight: bold;
+    font-weight:bold;
 
-    letter-spacing: 2px;
+    letter-spacing:2px;
 
 }
 
 
 .home-section h2 {
 
-    margin: 5px 0 0;
+    margin:
+        5px 0 0;
 
-    font-size: 32px;
+    font-size:32px;
 
 }
 
@@ -304,49 +371,53 @@ header {
 
 .progress-grid {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto 80px;
+    margin:
+        0 auto 80px;
 
-    padding: 0 25px;
+    padding:
+        0 25px;
 
-    display: grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
-    gap: 18px;
+    gap:18px;
 
 }
 
 
 .progress-card {
 
-    padding: 28px;
+    padding:28px;
 
-    border-radius: 20px;
+    border-radius:20px;
 
-    background: var(--card);
+    background:var(--card);
 
-    border: 1px solid var(--border);
+    border:
+        1px solid var(--border);
 
 }
 
 
 .progress-card h3 {
 
-    margin: 0;
+    margin:0;
 
-    font-size: 36px;
+    font-size:36px;
 
 }
 
 
 .progress-card p {
 
-    margin: 7px 0 0;
+    margin:
+        7px 0 0;
 
-    color: var(--muted);
+    color:var(--muted);
 
 }
 
@@ -357,174 +428,185 @@ header {
 
 .shop-feature {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto 80px;
+    margin:
+        0 auto 80px;
 
-    padding: 42px;
+    padding:42px;
 
-    border-radius: 25px;
+    border-radius:25px;
 
     background:
+
         linear-gradient(
             135deg,
-            rgba(124,92,255,0.25),
-            rgba(50,180,255,0.10)
+            rgba(124,92,255,.25),
+            rgba(50,180,255,.10)
         );
 
-    border: 1px solid
-        rgba(124,92,255,0.35);
+    border:
+        1px solid
+        rgba(124,92,255,.35);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,0.20);
+        0 20px 60px
+        rgba(0,0,0,.20);
 
 }
 
 
 .shop-feature-content {
 
-    display: flex;
+    display:flex;
 
-    align-items: center;
+    align-items:center;
 
-    gap: 30px;
+    gap:30px;
 
 }
 
 
 .shop-feature-icon {
 
-    width: 110px;
-    height: 110px;
+    width:110px;
 
-    flex-shrink: 0;
+    height:110px;
 
-    display: flex;
+    flex-shrink:0;
 
-    align-items: center;
-    justify-content: center;
+    display:flex;
 
-    border-radius: 24px;
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:24px;
 
     background:
-        rgba(124,92,255,0.20);
+        rgba(124,92,255,.20);
 
-    border: 1px solid
-        rgba(255,255,255,0.12);
+    border:
+        1px solid
+        rgba(255,255,255,.12);
 
-    font-size: 55px;
+    font-size:55px;
 
 }
 
 
 .shop-feature-text {
 
-    flex: 1;
+    flex:1;
 
 }
 
 
 .shop-feature-text h2 {
 
-    margin: 5px 0 10px;
+    margin:
+        5px 0 10px;
 
-    font-size: 32px;
+    font-size:32px;
 
 }
 
 
 .shop-feature-text p {
 
-    margin: 0 0 22px;
+    margin:
+        0 0 22px;
 
-    color: var(--muted);
+    color:var(--muted);
 
-    line-height: 1.6;
+    line-height:1.6;
 
 }
 
 
 .shop-label {
 
-    margin: 0;
+    margin:0;
 
-    color: #a78bfa;
+    color:#a78bfa;
 
-    font-size: 12px;
+    font-size:12px;
 
-    font-weight: bold;
+    font-weight:bold;
 
-    letter-spacing: 2px;
+    letter-spacing:2px;
 
 }
 
 
 .shop-feature .main-button {
 
-    display: inline-block;
+    display:inline-block;
 
-    padding: 13px 22px;
+    padding:
+        13px 22px;
 
-    border-radius: 10px;
+    border-radius:10px;
 
-    background: white;
+    background:white;
 
-    color: #161326;
+    color:#161326;
 
-    text-decoration: none;
+    text-decoration:none;
 
-    font-weight: bold;
+    font-weight:bold;
 
 }
 
 
 .shop-items {
 
-    display: grid;
+    display:grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(3,1fr);
 
-    gap: 12px;
+    gap:12px;
 
-    margin-top: 30px;
+    margin-top:30px;
 
 }
 
 
 .shop-item {
 
-    padding: 17px;
+    padding:17px;
 
-    text-align: center;
+    text-align:center;
 
-    border-radius: 15px;
+    border-radius:15px;
 
     background:
-        rgba(255,255,255,0.05);
+        rgba(255,255,255,.05);
 
-    border: 1px solid
-        rgba(255,255,255,0.08);
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
 }
 
 
 .shop-item-icon {
 
-    font-size: 27px;
+    font-size:27px;
 
 }
 
 
 .shop-item span {
 
-    display: block;
+    display:block;
 
-    margin-top: 7px;
+    margin-top:7px;
 
-    color: #c7c7d5;
+    color:#c7c7d5;
 
-    font-size: 12px;
+    font-size:12px;
 
 }
 
@@ -535,51 +617,94 @@ header {
 
 .daily-card {
 
-    max-width: 1100px;
+    max-width:1100px;
 
-    margin: 0 auto 80px;
+    margin:
+        0 auto 80px;
 
-    padding: 35px;
+    padding:35px;
 
-    border-radius: 22px;
+    border-radius:22px;
 
     background:
+
         linear-gradient(
             135deg,
-            rgba(255,255,255,0.07),
-            rgba(255,255,255,0.025)
+            rgba(255,255,255,.07),
+            rgba(255,255,255,.025)
         );
 
-    border: 1px solid var(--border);
+    border:
+        1px solid var(--border);
 
 }
 
 
 .daily-card h2 {
 
-    margin: 0 0 10px;
+    margin:
+        0 0 10px;
 
 }
 
 
 .daily-card p {
 
-    color: var(--muted);
+    color:var(--muted);
 
 }
 
 
 .daily-card .main-button {
 
-    display: inline-block;
+    display:inline-block;
 
-    margin-top: 10px;
+    margin-top:10px;
 
-    padding: 12px 20px;
+    padding:
+        12px 20px;
 
-    border-radius: 10px;
+    border-radius:10px;
 
-    text-decoration: none;
+    text-decoration:none;
+
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#auth-loading {
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#080a12;
+
+    color:#a78bfa;
+
+    font-size:14px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+}
+
+
+#auth-loading.hidden {
+
+    display:none;
 
 }
 
@@ -588,28 +713,28 @@ header {
    RESPONSIVE
 ========================================================= */
 
-@media (max-width: 750px) {
+@media(max-width:750px) {
 
     .quick-grid,
     .progress-grid {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
 
     }
 
 
     .home-hero {
 
-        margin-top: 40px;
+        margin-top:40px;
 
     }
 
 
     .shop-feature-content {
 
-        flex-direction: column;
+        flex-direction:column;
 
-        text-align: center;
+        text-align:center;
 
     }
 
@@ -617,7 +742,7 @@ header {
     .shop-items {
 
         grid-template-columns:
-            repeat(2, 1fr);
+            1fr;
 
     }
 
@@ -631,12 +756,25 @@ header {
 <body>
 
 
+<!-- =====================================================
+     AUTH LOADING
+====================================================== -->
+
+<div id="auth-loading">
+
+    LOADING STUDYSPRINT...
+
+</div>
+
+
 <header>
 
     <div class="logo">
 
         <a href="index.html">
+
             🚀 StudySprint
+
         </a>
 
     </div>
@@ -679,20 +817,31 @@ header {
 <section class="home-hero">
 
     <div class="home-badge">
+
         ⚡ LEARN • SPRINT • MASTER
+
     </div>
 
 
     <h1>
+
         Study smarter.<br>
-        <span>Level up faster.</span>
+
+        <span>
+            Level up faster.
+        </span>
+
     </h1>
 
 
     <p>
+
         Turn studying into a game.
+
         Learn topics, challenge yourself,
+
         earn XP, and track your progress.
+
     </p>
 
 
@@ -700,7 +849,9 @@ header {
         href="study/index.html"
         class="main-button"
     >
+
         🚀 START STUDYING
+
     </a>
 
 </section>
@@ -783,11 +934,15 @@ header {
 <section class="home-section">
 
     <span class="home-section-label">
+
         YOUR PROGRESS
+
     </span>
 
     <h2>
+
         📊 Keep climbing
+
     </h2>
 
 </section>
@@ -845,11 +1000,15 @@ header {
 <section class="home-section">
 
     <span class="home-section-label">
+
         CUSTOMIZE
+
     </span>
 
     <h2>
+
         🛒 StudySprint Shop
+
     </h2>
 
 </section>
@@ -862,30 +1021,41 @@ header {
 
 
         <div class="shop-feature-icon">
+
             🛒
+
         </div>
 
 
         <div class="shop-feature-text">
 
             <p class="shop-label">
+
                 STUDYSPRINT SHOP
+
             </p>
 
             <h2>
+
                 Make your profile yours.
+
             </h2>
 
             <p>
-                Spend your rewards on characters,
-                banners, titles, effects, and more.
+
+                Spend your rewards on banners,
+                titles, frames, and more.
+
             </p>
+
 
             <a
                 href="shop/index.html"
                 class="main-button"
             >
+
                 🛒 VISIT SHOP
+
             </a>
 
         </div>
@@ -895,19 +1065,6 @@ header {
 
 
     <div class="shop-items">
-
-
-        <div class="shop-item">
-
-            <div class="shop-item-icon">
-                🌿
-            </div>
-
-            <span>
-                Characters
-            </span>
-
-        </div>
 
 
         <div class="shop-item">
@@ -926,7 +1083,7 @@ header {
         <div class="shop-item">
 
             <div class="shop-item-icon">
-                🏆
+                🏷️
             </div>
 
             <span>
@@ -939,11 +1096,11 @@ header {
         <div class="shop-item">
 
             <div class="shop-item-icon">
-                ✨
+                🖼️
             </div>
 
             <span>
-                Effects
+                Frames
             </span>
 
         </div>
@@ -962,11 +1119,15 @@ header {
 <section class="home-section">
 
     <span class="home-section-label">
+
         EVERY DAY
+
     </span>
 
     <h2>
+
         🎯 Daily Challenge
+
     </h2>
 
 </section>
@@ -975,18 +1136,26 @@ header {
 <section class="daily-card">
 
     <h2>
+
         Keep your streak alive.
+
     </h2>
 
     <p>
-        Complete 5 questions today and earn bonus XP.
+
+        Complete 5 questions today
+        and earn bonus XP.
+
     </p>
+
 
     <a
         href="study/index.html"
         class="main-button"
     >
+
         ACCEPT CHALLENGE
+
     </a>
 
 </section>
@@ -1002,37 +1171,58 @@ header {
 </footer>
 
 
+<!-- =====================================================
+     LOCAL PROGRESS
+====================================================== -->
+
 <script>
 
-let xp =
+const xp =
     Number(
         localStorage.getItem("XP")
-    ) || 0;
+    ) ||
+
+    Number(
+        localStorage.getItem("xp")
+    ) ||
+
+    0;
 
 
-let quizzes =
+const quizzes =
     Number(
         localStorage.getItem("quizzes")
-    ) || 0;
+    ) ||
+
+    Number(
+        localStorage.getItem("sprintsCompleted")
+    ) ||
+
+    0;
 
 
-let level =
-    Math.floor(xp / 100) + 1;
+const level =
+    Math.floor(
+        xp / 100
+    ) + 1;
 
 
 document.getElementById(
     "home-xp"
-).textContent = xp;
+).textContent =
+    xp;
 
 
 document.getElementById(
     "home-level"
-).textContent = level;
+).textContent =
+    level;
 
 
 document.getElementById(
     "home-quizzes"
-).textContent = quizzes;
+).textContent =
+    quizzes;
 
 </script>
 
@@ -1040,6 +1230,17 @@ document.getElementById(
 <script src="animations.js"></script>
 
 
+<!-- =====================================================
+     SUPABASE AUTH CHECK
+====================================================== -->
+
+<script
+    type="module"
+    src="auth-check.js"
+></script>
+
+
 </body>
 
 </html>
+```
