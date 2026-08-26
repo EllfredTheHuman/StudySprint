@@ -1,15 +1,13 @@
-/* =========================================================
-   STUDYSPRINT AUTH
-========================================================= */
+/*
+=========================================================
+STUDYSPRINT AUTH
+=========================================================
+*/
 
 import {
     createClient
 } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-
-/* =========================================================
-   SUPABASE
-========================================================= */
 
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
@@ -21,226 +19,81 @@ const SUPABASE_KEY =
 const supabase =
     createClient(
         SUPABASE_URL,
-        SUPABASE_KEY
+        SUPABASE_KEY,
+        {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        }
     );
 
 
-/* =========================================================
-   STUDYSPRINT URL
-========================================================= */
-
-const HOME_URL =
-    "https://ellfredthehuman.github.io/StudySprint/";
+const HOME_PAGE =
+    "/StudySprint/";
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const loading =
-    document.getElementById(
-        "auth-loading"
-    );
-
-const authApp =
-    document.getElementById(
-        "auth-app"
-    );
-
+/*
+=========================================================
+ELEMENTS
+=========================================================
+*/
 
 const loginForm =
-    document.getElementById(
-        "login-form"
-    );
+    document.getElementById("login-form");
 
 const signupForm =
-    document.getElementById(
-        "signup-form"
-    );
+    document.getElementById("signup-form");
+
+const loginEmail =
+    document.getElementById("login-email");
+
+const loginPassword =
+    document.getElementById("login-password");
+
+const signupEmail =
+    document.getElementById("signup-email");
+
+const signupPassword =
+    document.getElementById("signup-password");
+
+const message =
+    document.getElementById("auth-message");
 
 
-const loginTab =
-    document.getElementById(
-        "login-tab"
-    );
+/*
+=========================================================
+MESSAGE
+=========================================================
+*/
 
-const signupTab =
-    document.getElementById(
-        "signup-tab"
-    );
+function showMessage(text, type = "") {
 
-
-const loginMessage =
-    document.getElementById(
-        "login-message"
-    );
-
-const signupMessage =
-    document.getElementById(
-        "signup-message"
-    );
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function showAuthPage() {
-
-    if (loading) {
-
-        loading.style.display =
-            "none";
-
-    }
-
-
-    if (authApp) {
-
-        authApp.style.display =
-            "flex";
-
-    }
-
-}
-
-
-function goHome() {
-
-    window.location.replace(
-        HOME_URL
-    );
-
-}
-
-
-function setMessage(
-    element,
-    text,
-    type = ""
-) {
-
-    if (!element) {
+    if (!message) {
         return;
     }
 
+    message.textContent = text;
 
-    element.textContent =
-        text;
-
-    element.className =
-        "auth-message " +
-        type;
+    message.className =
+        "auth-message " + type;
 
 }
 
 
-function saveUser(user) {
+/*
+=========================================================
+CHECK EXISTING SESSION
+=========================================================
+*/
 
-    if (!user) {
-        return;
-    }
+async function checkExistingSession() {
 
-
-    const username =
-        user.user_metadata?.username ||
-        localStorage.getItem(
-            "username"
-        ) ||
-        "Player";
-
-
-    localStorage.setItem(
-        "username",
-        username
+    console.log(
+        "StudySprint: checking existing session..."
     );
 
-}
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-function showLogin() {
-
-    loginTab.classList.add(
-        "active"
-    );
-
-    signupTab.classList.remove(
-        "active"
-    );
-
-
-    loginForm.style.display =
-        "block";
-
-    signupForm.style.display =
-        "none";
-
-
-    setMessage(
-        loginMessage,
-        ""
-    );
-
-    setMessage(
-        signupMessage,
-        ""
-    );
-
-}
-
-
-function showSignup() {
-
-    signupTab.classList.add(
-        "active"
-    );
-
-    loginTab.classList.remove(
-        "active"
-    );
-
-
-    signupForm.style.display =
-        "block";
-
-    loginForm.style.display =
-        "none";
-
-
-    setMessage(
-        loginMessage,
-        ""
-    );
-
-    setMessage(
-        signupMessage,
-        ""
-    );
-
-}
-
-
-loginTab.addEventListener(
-    "click",
-    showLogin
-);
-
-
-signupTab.addEventListener(
-    "click",
-    showSignup
-);
-
-
-/* =========================================================
-   INITIAL SESSION CHECK
-========================================================= */
-
-async function initialiseAuth() {
 
     try {
 
@@ -254,370 +107,331 @@ async function initialiseAuth() {
         if (error) {
 
             console.error(
-                "Supabase session error:",
+                "Session check error:",
                 error
             );
 
-            showAuthPage();
-
             return;
 
         }
 
-
-        /* ---------------------------------------------
-           ALREADY SIGNED IN
-        --------------------------------------------- */
 
         if (data.session) {
 
-            saveUser(
-                data.session.user
+            console.log(
+                "StudySprint: already signed in."
             );
 
-            goHome();
 
-            return;
+            /*
+            Don't redirect until Supabase has
+            actually returned the session.
+            */
+
+            window.location.replace(
+                HOME_PAGE
+            );
 
         }
-
-
-        /* ---------------------------------------------
-           NOT SIGNED IN
-        --------------------------------------------- */
-
-        showAuthPage();
 
     }
 
     catch (error) {
 
         console.error(
-            "Authentication error:",
+            "Could not check session:",
             error
         );
-
-        showAuthPage();
 
     }
 
 }
 
 
-initialiseAuth();
+checkExistingSession();
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/*
+=========================================================
+LOGIN
+=========================================================
+*/
 
-loginForm.addEventListener(
-    "submit",
-    async function(event) {
+if (loginForm) {
 
-        event.preventDefault();
+    loginForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
 
 
-        const button =
-            loginForm.querySelector(
-                "button[type='submit']"
+            const email =
+                loginEmail.value.trim();
+
+            const password =
+                loginPassword.value;
+
+
+            if (!email || !password) {
+
+                showMessage(
+                    "Please enter your email and password.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Signing you in..."
             );
 
 
-        button.disabled =
-            true;
-
-
-        setMessage(
-            loginMessage,
-            "Signing in..."
-        );
-
-
-        const email =
-            document
-                .getElementById(
-                    "login-email"
-                )
-                .value
-                .trim();
-
-
-        const password =
-            document
-                .getElementById(
-                    "login-password"
-                )
-                .value;
-
-
-        const {
-            data,
-            error
-        } =
-            await supabase.auth.signInWithPassword({
-
-                email,
-
-                password
-
-            });
-
-
-        if (error) {
-
-            console.error(
-                "Login error:",
+            const {
+                data,
                 error
+            } =
+                await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            if (!data.session) {
+
+                showMessage(
+                    "Login succeeded, but no session was created.",
+                    "error"
+                );
+
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Signed in! Loading StudySprint..."
             );
 
 
-            setMessage(
-                loginMessage,
-                error.message,
-                "error"
+            /*
+            Give Supabase a moment to persist the
+            session before navigating.
+            */
+
+            setTimeout(
+                function() {
+
+                    window.location.replace(
+                        HOME_PAGE
+                    );
+
+                },
+                150
             );
-
-
-            button.disabled =
-                false;
-
-
-            return;
 
         }
+    );
+
+}
 
 
-        saveUser(
-            data.user
-        );
+/*
+=========================================================
+SIGN UP
+=========================================================
+*/
+
+if (signupForm) {
+
+    signupForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
 
 
-        setMessage(
-            loginMessage,
-            "Signed in! Loading...",
-            "success"
-        );
+            const email =
+                signupEmail.value.trim();
+
+            const password =
+                signupPassword.value;
 
 
-        goHome();
+            if (!email || !password) {
 
-    }
-);
+                showMessage(
+                    "Please enter an email and password.",
+                    "error"
+                );
 
+                return;
 
-/* =========================================================
-   SIGN UP
-========================================================= */
-
-signupForm.addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
+            }
 
 
-        const button =
-            signupForm.querySelector(
-                "button[type='submit']"
+            if (password.length < 6) {
+
+                showMessage(
+                    "Your password must be at least 6 characters.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Creating your account..."
             );
 
 
-        button.disabled =
-            true;
+            const {
+                data,
+                error
+            } =
+                await supabase.auth.signUp({
+
+                    email: email,
+
+                    password: password,
+
+                    options: {
+
+                        emailRedirectTo:
+                            "https://ellfredthehuman.github.io/StudySprint/"
+
+                    }
+
+                });
 
 
-        setMessage(
-            signupMessage,
-            "Creating your account..."
-        );
+            if (error) {
+
+                console.error(
+                    "Signup error:",
+                    error
+                );
 
 
-        const username =
-            document
-                .getElementById(
-                    "signup-username"
-                )
-                .value
-                .trim();
+                showMessage(
+                    error.message,
+                    "error"
+                );
 
 
-        const email =
-            document
-                .getElementById(
-                    "signup-email"
-                )
-                .value
-                .trim();
+                return;
+
+            }
 
 
-        const password =
-            document
-                .getElementById(
-                    "signup-password"
-                )
-                .value;
+            /*
+            Email confirmation is enabled:
+            */
+
+            if (
+                data.user &&
+                !data.session
+            ) {
+
+                showMessage(
+                    "Account created! Check your email to confirm your account.",
+                    "success"
+                );
 
 
-        /* ---------------------------------------------
-           VALIDATION
-        --------------------------------------------- */
+                return;
 
-        if (
-            username.length < 2 ||
-            username.length > 20
-        ) {
-
-            setMessage(
-                signupMessage,
-                "Username must be between 2 and 20 characters.",
-                "error"
-            );
+            }
 
 
-            button.disabled =
-                false;
+            /*
+            Auto-confirm is enabled:
+            */
 
-            return;
+            if (data.session) {
 
-        }
-
-
-        if (password.length < 6) {
-
-            setMessage(
-                signupMessage,
-                "Password must be at least 6 characters.",
-                "error"
-            );
+                showMessage(
+                    "Account created! Loading StudySprint..."
+                );
 
 
-            button.disabled =
-                false;
+                setTimeout(
+                    function() {
 
-            return;
-
-        }
-
-
-        /* ---------------------------------------------
-           CREATE ACCOUNT
-        --------------------------------------------- */
-
-        const {
-            data,
-            error
-        } =
-            await supabase.auth.signUp({
-
-                email,
-
-                password,
-
-                options: {
-
-                    data: {
-
-                        username:
-                            username
+                        window.location.replace(
+                            HOME_PAGE
+                        );
 
                     },
+                    150
+                );
 
-                    emailRedirectTo:
-                        HOME_URL
-
-                }
-
-            });
-
-
-        /* ---------------------------------------------
-           ERROR
-        --------------------------------------------- */
-
-        if (error) {
-
-            console.error(
-                "Signup error:",
-                error
-            );
-
-
-            setMessage(
-                signupMessage,
-                error.message,
-                "error"
-            );
-
-
-            button.disabled =
-                false;
-
-            return;
+            }
 
         }
+    );
+
+}
 
 
-        /* ---------------------------------------------
-           EMAIL CONFIRMATION
-        --------------------------------------------- */
+/*
+=========================================================
+AUTH STATE LISTENER
+=========================================================
 
-        if (!data.session) {
-
-            setMessage(
-                signupMessage,
-                "Account created! Check your email and click the confirmation link.",
-                "success"
-            );
-
-
-            button.disabled =
-                false;
-
-            return;
-
-        }
-
-
-        /* ---------------------------------------------
-           SIGNED IN IMMEDIATELY
-        --------------------------------------------- */
-
-        saveUser(
-            data.user
-        );
-
-
-        setMessage(
-            signupMessage,
-            "Account created! Loading...",
-            "success"
-        );
-
-
-        goHome();
-
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
+This watches for real Supabase authentication changes.
+=========================================================
+*/
 
 supabase.auth.onAuthStateChange(
-    function(
-        event,
-        session
-    ) {
+    function(event, session) {
+
+        console.log(
+            "StudySprint auth event:",
+            event
+        );
+
+
+        /*
+        Only redirect from the auth page when
+        a real signed-in session exists.
+        */
 
         if (
-            event === "SIGNED_IN" &&
-            session
+            session &&
+            (
+                event === "SIGNED_IN" ||
+                event === "INITIAL_SESSION"
+            )
         ) {
 
-            saveUser(
-                session.user
+            window.location.replace(
+                HOME_PAGE
             );
 
         }
