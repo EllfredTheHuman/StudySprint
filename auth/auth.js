@@ -535,7 +535,7 @@ if (signupForm) {
                     () => {
 
                         window.location.replace(
-                            "../home/index.html"
+                            "../index.html"
                         );
 
                     },
