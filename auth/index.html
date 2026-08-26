@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudySprint | Welcome</title>
+
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="auth.css"
+    >
+
+</head>
+
+
+<body class="auth-page">
+
+
+<main class="auth-container">
+
+
+    <!-- =====================================================
+         LOGO
+    ====================================================== -->
+
+    <section class="auth-brand">
+
+        <div class="auth-logo">
+            STUDY<span>SPRINT</span>
+        </div>
+
+        <p>
+            Study smarter. Level up faster.
+        </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AUTH CARD
+    ====================================================== -->
+
+    <section class="auth-card">
+
+
+        <!-- =================================================
+             LOGIN
+        ================================================== -->
+
+        <div
+            id="login-form"
+            class="auth-form"
+        >
+
+            <div class="auth-heading">
+
+                <span class="auth-kicker">
+                    WELCOME BACK
+                </span>
+
+                <h1>
+                    Log in
+                </h1>
+
+                <p>
+                    Continue your StudySprint journey.
+                </p>
+
+            </div>
+
+
+            <form id="login">
+
+
+                <label for="login-email">
+                    Email
+                </label>
+
+                <input
+                    id="login-email"
+                    type="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <label for="login-password">
+                    Password
+                </label>
+
+                <input
+                    id="login-password"
+                    type="password"
+                    placeholder="Your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Log In
+                </button>
+
+
+            </form>
+
+
+            <div
+                id="login-message"
+                class="auth-message"
+            ></div>
+
+
+            <p class="auth-switch">
+
+                Don't have an account?
+
+                <button
+                    type="button"
+                    id="show-signup"
+                >
+                    Create one
+                </button>
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SIGN UP
+        ================================================== -->
+
+        <div
+            id="signup-form"
+            class="auth-form hidden"
+        >
+
+            <div class="auth-heading">
+
+                <span class="auth-kicker">
+                    GET STARTED
+                </span>
+
+                <h1>
+                    Create your account
+                </h1>
+
+                <p>
+                    Start your StudySprint journey.
+                </p>
+
+            </div>
+
+
+            <form id="signup">
+
+
+                <label for="signup-username">
+                    Username
+                </label>
+
+                <input
+                    id="signup-username"
+                    type="text"
+                    placeholder="Choose a username"
+                    autocomplete="username"
+                    maxlength="20"
+                    required
+                >
+
+
+                <label for="signup-email">
+                    Email
+                </label>
+
+                <input
+                    id="signup-email"
+                    type="email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <label for="signup-password">
+                    Password
+                </label>
+
+                <input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    minlength="6"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="auth-button"
+                >
+                    Create Account
+                </button>
+
+
+            </form>
+
+
+            <div
+                id="signup-message"
+                class="auth-message"
+            ></div>
+
+
+            <p class="auth-switch">
+
+                Already have an account?
+
+                <button
+                    type="button"
+                    id="show-login"
+                >
+                    Log in
+                </button>
+
+            </p>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="auth-footer">
+
+        © 2026 StudySprint
+
+    </footer>
+
+
+</main>
+
+
+<script
+    src="auth.js"
+    type="module"
+></script>
+
+
+</body>
+
+</html>
