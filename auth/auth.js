@@ -219,7 +219,7 @@ async function checkExistingSession() {
 
 
         window.location.replace(
-            "../home/index.html"
+            "../index.html"
         );
 
     }
@@ -326,7 +326,7 @@ if (loginForm) {
 
 
             window.location.replace(
-                "../home/index.html"
+                "../index.html"
             );
 
         }
