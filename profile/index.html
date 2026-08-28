@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,10 +18,6 @@
 >
 
 <style>
-
-/* =========================================================
-   STUDYSPRINT PROFILE
-========================================================= */
 
 * {
     box-sizing:border-box;
@@ -49,9 +44,7 @@ body {
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* HEADER */
 
 header {
     height:76px;
@@ -108,20 +101,16 @@ nav a {
 
 nav a:hover {
     color:#f8fafc;
-
     background:#111827;
 }
 
 nav a[href="index.html"] {
     color:#f8fafc;
-
     background:#1a2140;
 }
 
 
-/* =========================================================
-   PAGE
-========================================================= */
+/* PAGE */
 
 .profile-page {
     width:min(1150px,92%);
@@ -132,9 +121,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   PROFILE HERO
-========================================================= */
+/* HERO */
 
 .profile-hero {
     position:relative;
@@ -142,8 +129,6 @@ nav a[href="index.html"] {
     overflow:hidden;
 
     margin-bottom:25px;
-
-    padding:0;
 
     background:
         linear-gradient(
@@ -162,9 +147,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   BANNER
-========================================================= */
+/* BANNER */
 
 .profile-banner {
     height:190px;
@@ -262,9 +245,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   PROFILE IDENTITY
-========================================================= */
+/* IDENTITY */
 
 .profile-identity {
     position:relative;
@@ -279,13 +260,10 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   FRAME
-========================================================= */
+/* FRAME */
 
 .profile-frame {
     width:120px;
-
     height:120px;
 
     flex-shrink:0;
@@ -299,7 +277,6 @@ nav a[href="index.html"] {
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     border-radius:24px;
@@ -339,30 +316,22 @@ nav a[href="index.html"] {
 
 .profile-frame-inner {
     width:100%;
-
     height:100%;
 
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     border-radius:12px;
 
     background:#0b1120;
 
-    color:#64748b;
-
-    font-size:34px;
-
-    font-weight:950;
+    overflow:hidden;
 }
 
 
-/* =========================================================
-   USER INFO
-========================================================= */
+/* USER INFO */
 
 .profile-info {
     min-width:0;
@@ -393,51 +362,49 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   EDIT PROFILE BUTTON
-========================================================= */
+/* EDIT BUTTON */
 
-.edit-profile-button {
+.profile-edit-button {
+    display:inline-flex;
 
-    flex-shrink:0;
+    align-items:center;
+    justify-content:center;
 
-    margin-bottom:4px;
+    margin-top:14px;
 
-    padding:11px 17px;
+    padding:10px 17px;
 
-    border:1px solid #334155;
+    border-radius:10px;
 
-    border-radius:11px;
+    background:#4f46e5;
 
-    background:#172033;
+    border:1px solid #6366f1;
 
-    color:#f8fafc;
+    color:white;
 
-    font-family:inherit;
+    text-decoration:none;
 
     font-size:12px;
 
-    font-weight:900;
-
-    cursor:pointer;
+    font-weight:950;
 
     transition:.2s;
+
+    box-shadow:
+        0 8px 20px rgba(79,70,229,.2);
 }
 
-.edit-profile-button:hover {
-
-    background:#202b43;
-
-    border-color:#6366f1;
-
+.profile-edit-button:hover {
     transform:translateY(-2px);
 
+    background:#6366f1;
+
+    box-shadow:
+        0 12px 25px rgba(79,70,229,.3);
 }
 
 
-/* =========================================================
-   TITLE
-========================================================= */
+/* TITLE */
 
 .profile-title {
     display:inline-block;
@@ -477,197 +444,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   EDITOR
-========================================================= */
-
-.profile-editor {
-
-    display:none;
-
-    margin-top:20px;
-
-    padding:25px;
-
-    border-radius:20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #111a2b,
-            #0c1321
-        );
-
-    border:1px solid #29364d;
-
-}
-
-.profile-editor.open {
-    display:block;
-}
-
-.profile-editor h2 {
-
-    margin:0 0 6px;
-
-    font-size:21px;
-
-}
-
-.profile-editor-subtitle {
-
-    margin:0 0 22px;
-
-    color:#64748b;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-.editor-field {
-
-    margin-bottom:18px;
-
-}
-
-.editor-field label {
-
-    display:block;
-
-    margin-bottom:8px;
-
-    color:#94a3b8;
-
-    font-size:11px;
-
-    font-weight:900;
-
-    letter-spacing:1px;
-
-    text-transform:uppercase;
-
-}
-
-.editor-field input {
-
-    width:100%;
-
-    padding:13px 14px;
-
-    border:1px solid #334155;
-
-    border-radius:11px;
-
-    outline:none;
-
-    background:#080e1a;
-
-    color:#f8fafc;
-
-    font-family:inherit;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    transition:.2s;
-
-}
-
-.editor-field input:focus {
-
-    border-color:#6366f1;
-
-    box-shadow:
-        0 0 0 3px rgba(99,102,241,.12);
-
-}
-
-.editor-buttons {
-
-    display:flex;
-
-    gap:10px;
-
-}
-
-.editor-save,
-.editor-cancel {
-
-    padding:11px 18px;
-
-    border-radius:10px;
-
-    font-family:inherit;
-
-    font-size:12px;
-
-    font-weight:900;
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-.editor-save {
-
-    border:1px solid #6366f1;
-
-    background:#4f46e5;
-
-    color:white;
-
-}
-
-.editor-save:hover {
-
-    background:#6366f1;
-
-    transform:translateY(-2px);
-
-}
-
-.editor-cancel {
-
-    border:1px solid #334155;
-
-    background:#172033;
-
-    color:#cbd5e1;
-
-}
-
-.editor-cancel:hover {
-
-    background:#202b43;
-
-}
-
-.editor-message {
-
-    display:none;
-
-    margin-top:12px;
-
-    color:#86efac;
-
-    font-size:12px;
-
-    font-weight:800;
-
-}
-
-.editor-message.show {
-    display:block;
-}
-
-
-/* =========================================================
-   STATS
-========================================================= */
+/* STATS */
 
 .stats-grid {
     display:grid;
@@ -741,9 +518,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   STREAK
-========================================================= */
+/* STREAK */
 
 .streak-card {
     position:relative;
@@ -782,11 +557,9 @@ nav a[href="index.html"] {
     position:absolute;
 
     width:300px;
-
     height:300px;
 
     right:-100px;
-
     top:-150px;
 
     border-radius:50%;
@@ -803,7 +576,6 @@ nav a[href="index.html"] {
 
 .streak-left {
     position:relative;
-
     z-index:1;
 }
 
@@ -858,9 +630,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   XP
-========================================================= */
+/* XP */
 
 .xp-card {
     margin-bottom:25px;
@@ -884,7 +654,6 @@ nav a[href="index.html"] {
     display:flex;
 
     justify-content:space-between;
-
     align-items:center;
 
     gap:15px;
@@ -943,9 +712,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   LOWER DETAILS
-========================================================= */
+/* DETAILS */
 
 .profile-details {
     display:grid;
@@ -1008,9 +775,7 @@ nav a[href="index.html"] {
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 footer {
     padding:30px 20px;
@@ -1028,20 +793,13 @@ footer {
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* MOBILE */
 
 @media(max-width:850px) {
 
     .stats-grid {
         grid-template-columns:
             repeat(2,minmax(0,1fr));
-    }
-
-    .profile-identity {
-        padding-left:22px;
-        padding-right:22px;
     }
 
 }
@@ -1102,16 +860,10 @@ footer {
 
     .profile-info {
         padding-top:0;
-
-        width:100%;
     }
 
     .profile-info h1 {
         font-size:28px;
-    }
-
-    .edit-profile-button {
-        margin-top:5px;
     }
 
     .streak-card {
@@ -1173,7 +925,7 @@ footer {
 <header>
 
 <div class="logo">
-🚀 StudySprint
+StudySprint
 </div>
 
 <nav>
@@ -1202,10 +954,6 @@ Profile
 <main class="profile-page">
 
 
-<!-- =====================================================
-     PROFILE HERO
-===================================================== -->
-
 <section class="profile-hero">
 
 
@@ -1224,8 +972,10 @@ Profile
     class="profile-frame"
 >
 
-<div class="profile-frame-inner">
-SS
+<div
+    id="profile-character"
+    class="profile-frame-inner"
+>
 </div>
 
 </div>
@@ -1248,83 +998,13 @@ Your StudySprint profile
 >
 </div>
 
-</div>
-
-
-<button
-    id="edit-profile-button"
-    class="edit-profile-button"
-    type="button"
+<a
+    href="character.html"
+    class="profile-edit-button"
 >
-✏️ Edit Profile
-</button>
+    ✏️ Edit Profile
+</a>
 
-
-</div>
-
-
-<!-- =====================================================
-     PROFILE EDITOR
-===================================================== -->
-
-<div
-    id="profile-editor"
-    class="profile-editor"
->
-
-<h2>
-✏️ Edit Profile
-</h2>
-
-<p class="profile-editor-subtitle">
-Change your StudySprint profile information.
-</p>
-
-
-<div class="editor-field">
-
-<label for="username-input">
-Username
-</label>
-
-<input
-    id="username-input"
-    type="text"
-    maxlength="20"
-    placeholder="Enter a username"
-    autocomplete="off"
->
-
-
-</div>
-
-
-<div class="editor-buttons">
-
-<button
-    id="save-profile"
-    class="editor-save"
-    type="button"
->
-💾 Save Changes
-</button>
-
-<button
-    id="cancel-profile"
-    class="editor-cancel"
-    type="button"
->
-Cancel
-</button>
-
-</div>
-
-
-<div
-    id="editor-message"
-    class="editor-message"
->
-Profile saved!
 </div>
 
 
@@ -1333,10 +1013,6 @@ Profile saved!
 
 </section>
 
-
-<!-- =====================================================
-     STATS
-===================================================== -->
 
 <section class="stats-grid">
 
@@ -1440,10 +1116,6 @@ Best Score
 </section>
 
 
-<!-- =====================================================
-     STREAK
-===================================================== -->
-
 <section class="streak-card">
 
 
@@ -1478,10 +1150,6 @@ Start a Sprint today!
 </section>
 
 
-<!-- =====================================================
-     XP PROGRESS
-===================================================== -->
-
 <section class="xp-card">
 
 
@@ -1513,10 +1181,6 @@ Level Progress
 
 </section>
 
-
-<!-- =====================================================
-     DETAILS
-===================================================== -->
 
 <section class="profile-details">
 
@@ -1619,16 +1283,11 @@ Start today!
 </footer>
 
 
+<script src="character.js"></script>
+
 <script>
 
-/* =========================================================
-   STORAGE HELPERS
-========================================================= */
-
-function getNumber(
-    key,
-    fallback = 0
-) {
+function getNumber(key, fallback = 0) {
 
     const value =
         Number(
@@ -1642,10 +1301,7 @@ function getNumber(
 }
 
 
-function getStored(
-    key,
-    fallback
-) {
+function getStored(key, fallback) {
 
     const value =
         localStorage.getItem(key);
@@ -1655,158 +1311,18 @@ function getStored(
 }
 
 
-/* =========================================================
-   USERNAME
-========================================================= */
+/* USER */
 
-function renderUsername() {
-
-    const username =
-        getStored(
-            "username",
-            "Player"
-        );
-
-    document.getElementById(
-        "profile-name"
-    ).textContent =
-        username;
-
-}
-
-
-/* =========================================================
-   EDIT PROFILE
-========================================================= */
-
-const editButton =
-    document.getElementById(
-        "edit-profile-button"
-    );
-
-const editor =
-    document.getElementById(
-        "profile-editor"
-    );
-
-const usernameInput =
-    document.getElementById(
-        "username-input"
-    );
-
-const saveButton =
-    document.getElementById(
-        "save-profile"
-    );
-
-const cancelButton =
-    document.getElementById(
-        "cancel-profile"
-    );
-
-const editorMessage =
-    document.getElementById(
-        "editor-message"
+document.getElementById(
+    "profile-name"
+).textContent =
+    getStored(
+        "username",
+        "Player"
     );
 
 
-editButton.addEventListener(
-    "click",
-    function() {
-
-        usernameInput.value =
-            getStored(
-                "username",
-                "Player"
-            );
-
-        editorMessage.classList.remove(
-            "show"
-        );
-
-        editor.classList.add(
-            "open"
-        );
-
-        usernameInput.focus();
-
-    }
-);
-
-
-cancelButton.addEventListener(
-    "click",
-    function() {
-
-        editor.classList.remove(
-            "open"
-        );
-
-        editorMessage.classList.remove(
-            "show"
-        );
-
-    }
-);
-
-
-saveButton.addEventListener(
-    "click",
-    function() {
-
-        const username =
-            usernameInput.value.trim();
-
-
-        if (!username) {
-
-            usernameInput.focus();
-
-            return;
-
-        }
-
-
-        localStorage.setItem(
-            "username",
-            username
-        );
-
-
-        renderUsername();
-
-
-        editorMessage.textContent =
-            "✓ Profile saved!";
-
-
-        editorMessage.classList.add(
-            "show"
-        );
-
-
-        setTimeout(
-            function() {
-
-                editor.classList.remove(
-                    "open"
-                );
-
-                editorMessage.classList.remove(
-                    "show"
-                );
-
-            },
-            900
-        );
-
-    }
-);
-
-
-/* =========================================================
-   XP
-========================================================= */
+/* XP */
 
 const xp =
     getNumber(
@@ -1818,25 +1334,18 @@ const xp =
     );
 
 
-/* =========================================================
-   LEVEL
-========================================================= */
+/* LEVEL */
 
 const level =
-    getNumber(
-        "level",
-        Math.max(
-            1,
-            Math.floor(
-                xp / 100
-            ) + 1
-        )
+    Math.max(
+        1,
+        Math.floor(
+            xp / 100
+        ) + 1
     );
 
 
-/* =========================================================
-   SPRINTS
-========================================================= */
+/* SPRINTS */
 
 const sprints =
     getNumber(
@@ -1848,9 +1357,7 @@ const sprints =
     );
 
 
-/* =========================================================
-   BEST SCORE
-========================================================= */
+/* BEST SCORE */
 
 const bestScore =
     getNumber(
@@ -1859,9 +1366,7 @@ const bestScore =
     );
 
 
-/* =========================================================
-   STREAK
-========================================================= */
+/* STREAK */
 
 const streak =
     getNumber(
@@ -1873,24 +1378,19 @@ const streak =
     );
 
 
-/* =========================================================
-   TOP STATS
-========================================================= */
+/* STATS */
 
 document.getElementById(
     "stat-xp"
-).textContent =
-    xp;
+).textContent = xp;
 
 document.getElementById(
     "stat-level"
-).textContent =
-    level;
+).textContent = level;
 
 document.getElementById(
     "stat-sprints"
-).textContent =
-    sprints;
+).textContent = sprints;
 
 document.getElementById(
     "stat-best"
@@ -1898,14 +1398,25 @@ document.getElementById(
     bestScore + "%";
 
 
-/* =========================================================
-   STREAK
-========================================================= */
+document.getElementById(
+    "detail-xp"
+).textContent = xp;
+
+document.getElementById(
+    "detail-sprints"
+).textContent = sprints;
+
+document.getElementById(
+    "detail-best"
+).textContent =
+    bestScore + "%";
+
+
+/* STREAK */
 
 document.getElementById(
     "streak-number"
-).textContent =
-    streak;
+).textContent = streak;
 
 document.getElementById(
     "detail-streak"
@@ -1932,66 +1443,20 @@ if (streak > 0) {
 
 }
 
-else {
 
-    document.getElementById(
-        "streak-subtitle"
-    ).textContent =
-        "Start a Sprint today!";
-
-    document.getElementById(
-        "streak-status"
-    ).textContent =
-        "Start today!";
-
-}
-
-
-/* =========================================================
-   DETAILS
-========================================================= */
-
-document.getElementById(
-    "detail-xp"
-).textContent =
-    xp;
-
-document.getElementById(
-    "detail-sprints"
-).textContent =
-    sprints;
-
-document.getElementById(
-    "detail-best"
-).textContent =
-    bestScore + "%";
-
-
-/* =========================================================
-   XP PROGRESS
-========================================================= */
-
-const xpPerLevel = 100;
+/* XP */
 
 const currentLevelXP =
-    xp % xpPerLevel;
+    xp % 100;
 
 const progress =
-    Math.min(
-        100,
-        (
-            currentLevelXP /
-            xpPerLevel
-        ) * 100
-    );
+    (currentLevelXP / 100) * 100;
 
 document.getElementById(
     "xp-text"
 ).textContent =
     currentLevelXP +
-    " / " +
-    xpPerLevel +
-    " XP";
+    " / 100 XP";
 
 document.getElementById(
     "xp-progress"
@@ -1999,9 +1464,7 @@ document.getElementById(
     progress + "%";
 
 
-/* =========================================================
-   BANNER
-========================================================= */
+/* BANNER */
 
 const savedBanner =
     getStored(
@@ -2009,19 +1472,14 @@ const savedBanner =
         "purple-grid"
     );
 
-const banner =
-    document.getElementById(
-        "profile-banner"
-    );
-
-banner.className =
+document.getElementById(
+    "profile-banner"
+).className =
     "profile-banner " +
     savedBanner;
 
 
-/* =========================================================
-   FRAME
-========================================================= */
+/* FRAME */
 
 const savedFrame =
     getStored(
@@ -2029,19 +1487,14 @@ const savedFrame =
         "blue"
     );
 
-const frame =
-    document.getElementById(
-        "profile-frame"
-    );
-
-frame.className =
+document.getElementById(
+    "profile-frame"
+).className =
     "profile-frame " +
     savedFrame;
 
 
-/* =========================================================
-   TITLE
-========================================================= */
+/* TITLE */
 
 const savedTitle =
     getStored(
@@ -2090,47 +1543,58 @@ if (
 }
 
 
-/* =========================================================
-   TITLE RARITY
-========================================================= */
+/* CHARACTER */
+
+function showProfileCharacter() {
+
+    const container =
+        document.getElementById(
+            "profile-character"
+        );
+
+    if (
+        typeof window.createGooberPreview !==
+        "function"
+    ) {
+
+        container.textContent = "SS";
+
+        return;
+
+    }
+
+
+    const character =
+        window.getEquippedCharacter();
+
+    const goober =
+        window.createGooberPreview(
+            character
+        );
+
+
+    goober.style.transform =
+        "scale(.62)";
+
+    goober.style.transformOrigin =
+        "center";
+
+
+    container.appendChild(
+        goober
+    );
+
+}
+
 
 if (
-    savedTitle === "brainiac" ||
-    savedTitle === "speed-learner"
+    typeof window.createGooberPreview ===
+    "function"
 ) {
 
-    profileTitle.classList.add(
-        "epic"
-    );
+    showProfileCharacter();
 
 }
-
-else if (
-    savedTitle === "knowledge-seeker"
-) {
-
-    profileTitle.classList.add(
-        "mythic"
-    );
-
-}
-
-else if (
-    savedTitle === "study-legend"
-) {
-
-    profileTitle.classList.add(
-        "legendary"
-    );
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-renderUsername();
 
 </script>
 
@@ -2138,4 +1602,3 @@ renderUsername();
 </body>
 
 </html>
-```
