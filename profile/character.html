@@ -10,16 +10,11 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Character | StudySprint</title>
+<title>Edit Profile | StudySprint</title>
 
 <link
     rel="stylesheet"
     href="../style.css"
->
-
-<link
-    rel="stylesheet"
-    href="../shop/shop.css"
 >
 
 <link
@@ -36,25 +31,26 @@
 <header>
 
 <div class="logo">
-🚀 StudySprint
+    StudySprint
 </div>
+
 
 <nav>
 
 <a href="../index.html">
-Home
+    Home
 </a>
 
 <a href="../study/index.html">
-📚 Study
+    Study
 </a>
 
 <a href="../sprint/index.html">
-🏃 Sprint
+    Sprint
 </a>
 
 <a href="index.html">
-👤 Profile
+    Profile
 </a>
 
 </nav>
@@ -62,140 +58,176 @@ Home
 </header>
 
 
-<main>
+<main class="editor-page">
 
 
-<section class="hero">
+<div class="editor-header">
+
+<div>
+
+<div class="editor-kicker">
+    PROFILE
+</div>
 
 <h1>
-🎨 Character
+    Edit Profile
 </h1>
 
 <p>
-Customize your StudySprint character!
+    Customize your StudySprint character.
 </p>
 
-</section>
+</div>
 
 
-<div class="character-editor">
+<a
+    href="index.html"
+    class="back-button"
+>
+    ← Back to Profile
+</a>
+
+</div>
 
 
-<section
+<section class="editor-layout">
+
+
+<!-- PREVIEW -->
+
+<section class="editor-preview-card">
+
+
+<div
     id="banner-preview"
     class="banner-preview purple-grid"
 >
 
 
-<div class="player-info">
-
-<h2 id="player-username">
-Player
-</h2>
-
-<p
-    id="player-tag"
-    style="display:none;"
->
-</p>
-
-</div>
-
-
-<div
-    id="character"
-    class="character"
->
+<div class="preview-content">
 
 <div
     id="equipped-goober"
     class="equipped-goober"
-></div>
+>
+</div>
 
 
 <div
-    id="character-effect"
-    class="character-effects"
-></div>
+    id="player-tag"
+    class="player-tag"
+    style="display:none;"
+>
+</div>
+
+
+<div
+    id="player-username"
+    class="preview-username"
+>
+    Player
+</div>
 
 </div>
+
+
+</div>
+
+
+<div class="preview-label">
+    LIVE PREVIEW
+</div>
+
 
 </section>
 
 
-<section class="customization-section">
+<!-- OPTIONS -->
+
+<section class="editor-options">
+
+
+<div class="editor-card">
 
 <h2>
-Character
+    🧍 Character
 </h2>
 
-<p class="selector-description">
-Choose one of the characters you've unlocked.
+<p>
+    Choose your Goober.
 </p>
 
 <div
     id="character-selector"
-    class="custom-dropdown"
-></div>
+    class="editor-control"
+>
+</div>
 
-</section>
+</div>
 
 
-<section class="customization-section">
+<div class="editor-card">
 
 <h2>
-Banners
+    🎨 Banner
 </h2>
 
-<p class="selector-description">
-Choose a banner you've unlocked.
+<p>
+    Change your profile banner.
 </p>
 
 <div
     id="banners-options"
-    class="custom-dropdown"
-></div>
+    class="editor-control"
+>
+</div>
 
-</section>
+</div>
 
 
-<section class="customization-section">
+<div class="editor-card">
 
 <h2>
-Player Titles
+    🏷️ Title
 </h2>
 
-<p class="selector-description">
-Choose a title you've unlocked.
+<p>
+    Show a title underneath your name.
 </p>
 
 <div
     id="titles-options"
-    class="custom-dropdown"
-></div>
+    class="editor-control"
+>
+</div>
 
-</section>
+</div>
 
 
-<section class="customization-section">
+<div class="editor-card">
 
 <h2>
-Effects
+    ✨ Effect
 </h2>
 
-<p class="selector-description">
-Choose an effect you've unlocked.
+<p>
+    Add an effect to your character.
 </p>
 
 <div
     id="effects-options"
-    class="custom-dropdown"
-></div>
+    class="editor-control"
+>
+</div>
+
+</div>
+
 
 </section>
 
 
-</div>
+</section>
+
 
 </main>
 
