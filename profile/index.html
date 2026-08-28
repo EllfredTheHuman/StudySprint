@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -183,9 +184,6 @@ nav a[href="index.html"] {
         );
 }
 
-
-/* Banner styles */
-
 .profile-banner.blue {
     background:
         linear-gradient(
@@ -370,6 +368,8 @@ nav a[href="index.html"] {
     min-width:0;
 
     padding-top:20px;
+
+    flex:1;
 }
 
 .profile-info h1 {
@@ -390,6 +390,48 @@ nav a[href="index.html"] {
     font-size:13px;
 
     font-weight:700;
+}
+
+
+/* =========================================================
+   EDIT PROFILE BUTTON
+========================================================= */
+
+.edit-profile-button {
+
+    flex-shrink:0;
+
+    margin-bottom:4px;
+
+    padding:11px 17px;
+
+    border:1px solid #334155;
+
+    border-radius:11px;
+
+    background:#172033;
+
+    color:#f8fafc;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.edit-profile-button:hover {
+
+    background:#202b43;
+
+    border-color:#6366f1;
+
+    transform:translateY(-2px);
+
 }
 
 
@@ -432,6 +474,194 @@ nav a[href="index.html"] {
 
 .profile-title.legendary {
     color:#facc15;
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+.profile-editor {
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111a2b,
+            #0c1321
+        );
+
+    border:1px solid #29364d;
+
+}
+
+.profile-editor.open {
+    display:block;
+}
+
+.profile-editor h2 {
+
+    margin:0 0 6px;
+
+    font-size:21px;
+
+}
+
+.profile-editor-subtitle {
+
+    margin:0 0 22px;
+
+    color:#64748b;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+.editor-field {
+
+    margin-bottom:18px;
+
+}
+
+.editor-field label {
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#94a3b8;
+
+    font-size:11px;
+
+    font-weight:900;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
+}
+
+.editor-field input {
+
+    width:100%;
+
+    padding:13px 14px;
+
+    border:1px solid #334155;
+
+    border-radius:11px;
+
+    outline:none;
+
+    background:#080e1a;
+
+    color:#f8fafc;
+
+    font-family:inherit;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    transition:.2s;
+
+}
+
+.editor-field input:focus {
+
+    border-color:#6366f1;
+
+    box-shadow:
+        0 0 0 3px rgba(99,102,241,.12);
+
+}
+
+.editor-buttons {
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.editor-save,
+.editor-cancel {
+
+    padding:11px 18px;
+
+    border-radius:10px;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.editor-save {
+
+    border:1px solid #6366f1;
+
+    background:#4f46e5;
+
+    color:white;
+
+}
+
+.editor-save:hover {
+
+    background:#6366f1;
+
+    transform:translateY(-2px);
+
+}
+
+.editor-cancel {
+
+    border:1px solid #334155;
+
+    background:#172033;
+
+    color:#cbd5e1;
+
+}
+
+.editor-cancel:hover {
+
+    background:#202b43;
+
+}
+
+.editor-message {
+
+    display:none;
+
+    margin-top:12px;
+
+    color:#86efac;
+
+    font-size:12px;
+
+    font-weight:800;
+
+}
+
+.editor-message.show {
+    display:block;
 }
 
 
@@ -872,10 +1102,16 @@ footer {
 
     .profile-info {
         padding-top:0;
+
+        width:100%;
     }
 
     .profile-info h1 {
         font-size:28px;
+    }
+
+    .edit-profile-button {
+        margin-top:5px;
     }
 
     .streak-card {
@@ -937,7 +1173,7 @@ footer {
 <header>
 
 <div class="logo">
-StudySprint
+🚀 StudySprint
 </div>
 
 <nav>
@@ -1012,6 +1248,83 @@ Your StudySprint profile
 >
 </div>
 
+</div>
+
+
+<button
+    id="edit-profile-button"
+    class="edit-profile-button"
+    type="button"
+>
+✏️ Edit Profile
+</button>
+
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE EDITOR
+===================================================== -->
+
+<div
+    id="profile-editor"
+    class="profile-editor"
+>
+
+<h2>
+✏️ Edit Profile
+</h2>
+
+<p class="profile-editor-subtitle">
+Change your StudySprint profile information.
+</p>
+
+
+<div class="editor-field">
+
+<label for="username-input">
+Username
+</label>
+
+<input
+    id="username-input"
+    type="text"
+    maxlength="20"
+    placeholder="Enter a username"
+    autocomplete="off"
+>
+
+
+</div>
+
+
+<div class="editor-buttons">
+
+<button
+    id="save-profile"
+    class="editor-save"
+    type="button"
+>
+💾 Save Changes
+</button>
+
+<button
+    id="cancel-profile"
+    class="editor-cancel"
+    type="button"
+>
+Cancel
+</button>
+
+</div>
+
+
+<div
+    id="editor-message"
+    class="editor-message"
+>
+Profile saved!
 </div>
 
 
@@ -1309,12 +1622,7 @@ Start today!
 <script>
 
 /* =========================================================
-   STUDYSPRINT PROFILE
-========================================================= */
-
-
-/* =========================================================
-   STORAGE
+   STORAGE HELPERS
 ========================================================= */
 
 function getNumber(
@@ -1351,16 +1659,149 @@ function getStored(
    USERNAME
 ========================================================= */
 
-const username =
-    getStored(
-        "username",
-        "Player"
+function renderUsername() {
+
+    const username =
+        getStored(
+            "username",
+            "Player"
+        );
+
+    document.getElementById(
+        "profile-name"
+    ).textContent =
+        username;
+
+}
+
+
+/* =========================================================
+   EDIT PROFILE
+========================================================= */
+
+const editButton =
+    document.getElementById(
+        "edit-profile-button"
     );
 
-document.getElementById(
-    "profile-name"
-).textContent =
-    username;
+const editor =
+    document.getElementById(
+        "profile-editor"
+    );
+
+const usernameInput =
+    document.getElementById(
+        "username-input"
+    );
+
+const saveButton =
+    document.getElementById(
+        "save-profile"
+    );
+
+const cancelButton =
+    document.getElementById(
+        "cancel-profile"
+    );
+
+const editorMessage =
+    document.getElementById(
+        "editor-message"
+    );
+
+
+editButton.addEventListener(
+    "click",
+    function() {
+
+        usernameInput.value =
+            getStored(
+                "username",
+                "Player"
+            );
+
+        editorMessage.classList.remove(
+            "show"
+        );
+
+        editor.classList.add(
+            "open"
+        );
+
+        usernameInput.focus();
+
+    }
+);
+
+
+cancelButton.addEventListener(
+    "click",
+    function() {
+
+        editor.classList.remove(
+            "open"
+        );
+
+        editorMessage.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+saveButton.addEventListener(
+    "click",
+    function() {
+
+        const username =
+            usernameInput.value.trim();
+
+
+        if (!username) {
+
+            usernameInput.focus();
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            "username",
+            username
+        );
+
+
+        renderUsername();
+
+
+        editorMessage.textContent =
+            "✓ Profile saved!";
+
+
+        editorMessage.classList.add(
+            "show"
+        );
+
+
+        setTimeout(
+            function() {
+
+                editor.classList.remove(
+                    "open"
+                );
+
+                editorMessage.classList.remove(
+                    "show"
+                );
+
+            },
+            900
+        );
+
+    }
+);
 
 
 /* =========================================================
@@ -1370,7 +1811,10 @@ document.getElementById(
 const xp =
     getNumber(
         "xp",
-        0
+        getNumber(
+            "XP",
+            0
+        )
     );
 
 
@@ -1681,9 +2125,17 @@ else if (
 
 }
 
+
+/* =========================================================
+   START
+========================================================= */
+
+renderUsername();
+
 </script>
 
 
 </body>
 
 </html>
+```
