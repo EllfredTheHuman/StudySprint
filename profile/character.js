@@ -1,169 +1,41 @@
 /* =========================================================
    STUDYSPRINT CHARACTER EDITOR
-   Character selection + cosmetic equipment
 ========================================================= */
 
 
 /* =========================================================
-   SHOP CHARACTERS
+   CHARACTERS
 ========================================================= */
 
 const SHOP_CHARACTERS = [
 
-    {
-        id: "leafy",
-        name: "Leafy",
-        rarity: "Common",
-        design: "leafy",
-        starter: true
-    },
+    { id:"leafy", name:"Leafy", rarity:"Common", design:"leafy", starter:true },
+    { id:"squish", name:"Squish", rarity:"Common", design:"squish" },
+    { id:"pebble", name:"Pebble", rarity:"Common", design:"pebble" },
+    { id:"button", name:"Button", rarity:"Common", design:"button" },
 
-    {
-        id: "squish",
-        name: "Squish",
-        rarity: "Common",
-        design: "squish"
-    },
+    { id:"horns", name:"Horns", rarity:"Rare", design:"horns" },
+    { id:"shelby", name:"Shelby", rarity:"Rare", design:"shelby" },
+    { id:"tallboi", name:"Tallboi", rarity:"Rare", design:"tallboi" },
+    { id:"four-eyes", name:"Four Eyes", rarity:"Rare", design:"fourEyes" },
 
-    {
-        id: "pebble",
-        name: "Pebble",
-        rarity: "Common",
-        design: "pebble"
-    },
+    { id:"mothball", name:"Mothball", rarity:"Epic", design:"mothball" },
+    { id:"spike", name:"Spike", rarity:"Epic", design:"spike" },
+    { id:"orbit", name:"Orbit", rarity:"Epic", design:"orbit" },
+    { id:"bubble", name:"Bubble", rarity:"Epic", design:"bubble" },
 
-    {
-        id: "button",
-        name: "Button",
-        rarity: "Common",
-        design: "button"
-    },
+    { id:"captain-goob", name:"Captain Goob", rarity:"Mythic", design:"captainGoob" },
+    { id:"tailspin", name:"Tailspin", rarity:"Mythic", design:"tailspin" },
+    { id:"holy-moly", name:"Holy Moly", rarity:"Mythic", design:"holyMoly" },
+    { id:"wingnut", name:"Wingnut", rarity:"Mythic", design:"wingnut" },
 
-    {
-        id: "horns",
-        name: "Horns",
-        rarity: "Rare",
-        design: "horns"
-    },
+    { id:"cosmo", name:"Cosmo", rarity:"Legendary", design:"cosmo" },
+    { id:"the-goober", name:"The Goober", rarity:"Legendary", design:"theGoober" },
+    { id:"golden-goober", name:"Golden Goober", rarity:"Legendary", design:"golden" },
+    { id:"galaxy-goober", name:"Galaxy Goober", rarity:"Legendary", design:"galaxy" },
 
-    {
-        id: "shelby",
-        name: "Shelby",
-        rarity: "Rare",
-        design: "shelby"
-    },
-
-    {
-        id: "tallboi",
-        name: "Tallboi",
-        rarity: "Rare",
-        design: "tallboi"
-    },
-
-    {
-        id: "four-eyes",
-        name: "Four Eyes",
-        rarity: "Rare",
-        design: "fourEyes"
-    },
-
-    {
-        id: "mothball",
-        name: "Mothball",
-        rarity: "Epic",
-        design: "mothball"
-    },
-
-    {
-        id: "spike",
-        name: "Spike",
-        rarity: "Epic",
-        design: "spike"
-    },
-
-    {
-        id: "orbit",
-        name: "Orbit",
-        rarity: "Epic",
-        design: "orbit"
-    },
-
-    {
-        id: "bubble",
-        name: "Bubble",
-        rarity: "Epic",
-        design: "bubble"
-    },
-
-    {
-        id: "captain-goob",
-        name: "Captain Goob",
-        rarity: "Mythic",
-        design: "captainGoob"
-    },
-
-    {
-        id: "tailspin",
-        name: "Tailspin",
-        rarity: "Mythic",
-        design: "tailspin"
-    },
-
-    {
-        id: "holy-moly",
-        name: "Holy Moly",
-        rarity: "Mythic",
-        design: "holyMoly"
-    },
-
-    {
-        id: "wingnut",
-        name: "Wingnut",
-        rarity: "Mythic",
-        design: "wingnut"
-    },
-
-    {
-        id: "cosmo",
-        name: "Cosmo",
-        rarity: "Legendary",
-        design: "cosmo"
-    },
-
-    {
-        id: "the-goober",
-        name: "The Goober",
-        rarity: "Legendary",
-        design: "theGoober"
-    },
-
-    {
-        id: "golden-goober",
-        name: "Golden Goober",
-        rarity: "Legendary",
-        design: "golden"
-    },
-
-    {
-        id: "galaxy-goober",
-        name: "Galaxy Goober",
-        rarity: "Legendary",
-        design: "galaxy"
-    },
-
-    {
-        id: "study-sprout",
-        name: "Study Sprout",
-        rarity: "Epic",
-        design: "studySprout"
-    },
-
-    {
-        id: "study-orbit",
-        name: "Study Orbit",
-        rarity: "Legendary",
-        design: "studyOrbit"
-    }
+    { id:"study-sprout", name:"Study Sprout", rarity:"Epic", design:"studySprout" },
+    { id:"study-orbit", name:"Study Orbit", rarity:"Legendary", design:"studyOrbit" }
 
 ];
 
@@ -174,42 +46,13 @@ const SHOP_CHARACTERS = [
 
 const CHARACTER_BANNERS = [
 
-    {
-        id: "blue",
-        name: "Blue",
-        free: true
-    },
-
-    {
-        id: "green",
-        name: "Green",
-        free: true
-    },
-
-    {
-        id: "sprint-grid",
-        name: "Sprint Grid"
-    },
-
-    {
-        id: "purple-grid",
-        name: "Purple Grid"
-    },
-
-    {
-        id: "neon-blue",
-        name: "Neon Blue"
-    },
-
-    {
-        id: "galaxy-banner",
-        name: "Galaxy"
-    },
-
-    {
-        id: "gold-banner",
-        name: "Golden"
-    }
+    { id:"blue", name:"Blue", free:true },
+    { id:"green", name:"Green", free:true },
+    { id:"sprint-grid", name:"Sprint Grid" },
+    { id:"purple-grid", name:"Purple Grid" },
+    { id:"neon-blue", name:"Neon Blue" },
+    { id:"galaxy-banner", name:"Galaxy" },
+    { id:"gold-banner", name:"Golden" }
 
 ];
 
@@ -220,36 +63,12 @@ const CHARACTER_BANNERS = [
 
 const CHARACTER_TITLES = [
 
-    {
-        id: "none",
-        name: "No Title",
-        free: true
-    },
-
-    {
-        id: "study-sprinter",
-        name: "Study Sprinter"
-    },
-
-    {
-        id: "brainiac",
-        name: "Brainiac"
-    },
-
-    {
-        id: "speed-learner",
-        name: "Speed Learner"
-    },
-
-    {
-        id: "knowledge-seeker",
-        name: "Knowledge Seeker"
-    },
-
-    {
-        id: "study-legend",
-        name: "Study Legend"
-    }
+    { id:"none", name:"No Title", free:true },
+    { id:"study-sprinter", name:"Study Sprinter" },
+    { id:"brainiac", name:"Brainiac" },
+    { id:"speed-learner", name:"Speed Learner" },
+    { id:"knowledge-seeker", name:"Knowledge Seeker" },
+    { id:"study-legend", name:"Study Legend" }
 
 ];
 
@@ -260,61 +79,17 @@ const CHARACTER_TITLES = [
 
 const CHARACTER_EFFECTS = [
 
-    {
-        id: "none",
-        name: "No Effect",
-        free: true
-    },
-
-    {
-        id: "sparkle",
-        name: "Sparkle Effect"
-    },
-
-    {
-        id: "speed-trail",
-        name: "Speed Trail"
-    },
-
-    {
-        id: "lightning",
-        name: "Lightning Effect"
-    },
-
-    {
-        id: "rainbow",
-        name: "Rainbow Aura"
-    },
-
-    {
-        id: "fire",
-        name: "Fire Aura"
-    },
-
-    {
-        id: "glitch",
-        name: "Glitch Effect"
-    },
-
-    {
-        id: "shadow",
-        name: "Shadow Aura"
-    },
-
-    {
-        id: "crystal",
-        name: "Crystal Glow"
-    },
-
-    {
-        id: "cosmic-aura",
-        name: "Cosmic Aura"
-    },
-
-    {
-        id: "crown",
-        name: "Crown + Glow"
-    }
+    { id:"none", name:"No Effect", free:true },
+    { id:"sparkle", name:"Sparkle Effect" },
+    { id:"speed-trail", name:"Speed Trail" },
+    { id:"lightning", name:"Lightning Effect" },
+    { id:"rainbow", name:"Rainbow Aura" },
+    { id:"fire", name:"Fire Aura" },
+    { id:"glitch", name:"Glitch Effect" },
+    { id:"shadow", name:"Shadow Aura" },
+    { id:"crystal", name:"Crystal Glow" },
+    { id:"cosmic-aura", name:"Cosmic Aura" },
+    { id:"crown", name:"Crown + Glow" }
 
 ];
 
@@ -329,6 +104,7 @@ function characterValue(key, fallback) {
         localStorage.getItem(key);
 
     return value || fallback;
+
 }
 
 
@@ -343,7 +119,7 @@ function setCharacterValue(key, value) {
 
 
 /* =========================================================
-   OWNED SHOP ITEMS
+   OWNED ITEMS
 ========================================================= */
 
 function getOwnedItems() {
@@ -432,7 +208,7 @@ function ownsCharacterItem(id, category) {
 
 function getEquippedCharacter() {
 
-    const savedId =
+    const saved =
         characterValue(
             "character_character",
             "leafy"
@@ -442,23 +218,12 @@ function getEquippedCharacter() {
     const character =
         SHOP_CHARACTERS.find(
             item =>
-                item.id === savedId
+                item.id === saved
         );
-
-
-    if (!character) {
-
-        setCharacterValue(
-            "character_character",
-            "leafy"
-        );
-
-        return SHOP_CHARACTERS[0];
-
-    }
 
 
     if (
+        !character ||
         !ownsCharacterItem(
             character.id,
             "character"
@@ -550,18 +315,24 @@ function createGooberPreview(data) {
         "goober-foot foot-right";
 
 
-    face.appendChild(leftEye);
-    face.appendChild(rightEye);
-    face.appendChild(mouth);
+    face.append(
+        leftEye,
+        rightEye,
+        mouth
+    );
 
 
-    feet.appendChild(leftFoot);
-    feet.appendChild(rightFoot);
+    feet.append(
+        leftFoot,
+        rightFoot
+    );
 
 
-    goober.appendChild(feet);
-    goober.appendChild(body);
-    goober.appendChild(face);
+    goober.append(
+        feet,
+        body,
+        face
+    );
 
 
     function addPart(className) {
@@ -573,7 +344,9 @@ function createGooberPreview(data) {
             "goober-part " +
             className;
 
-        goober.appendChild(part);
+        goober.appendChild(
+            part
+        );
 
         return part;
 
@@ -582,55 +355,55 @@ function createGooberPreview(data) {
 
     const designs = {
 
-        leafy: [
+        leafy:[
             "green",
             "leafy-leaf",
             "leafy-stem"
         ],
 
-        squish: [
+        squish:[
             "blue",
             "squishy",
             "squish-cheek-left",
             "squish-cheek-right"
         ],
 
-        pebble: [
+        pebble:[
             "stone",
             "pebble-mark-one",
             "pebble-mark-two",
             "pebble-mark-three"
         ],
 
-        button: [
+        button:[
             "pink",
             "button-top",
             "button-dot-left",
             "button-dot-right"
         ],
 
-        horns: [
+        horns:[
             "purple",
             "horn-left",
             "horn-right"
         ],
 
-        shelby: [
+        shelby:[
             "mint"
         ],
 
-        tallboi: [
+        tallboi:[
             "yellow",
             "tall",
             "tallboi-hat"
         ],
 
-        fourEyes: [
+        fourEyes:[
             "coral",
             "four-eyes-brow"
         ],
 
-        mothball: [
+        mothball:[
             "lavender",
             "moth-wing-left",
             "moth-wing-right",
@@ -638,7 +411,7 @@ function createGooberPreview(data) {
             "moth-antenna-right"
         ],
 
-        spike: [
+        spike:[
             "red",
             "spike-one",
             "spike-two",
@@ -646,78 +419,78 @@ function createGooberPreview(data) {
             "spike-four"
         ],
 
-        orbit: [
+        orbit:[
             "cyan",
             "orbit-ring",
             "orbit-dot"
         ],
 
-        bubble: [
+        bubble:[
             "aqua",
             "bubble-small-one",
             "bubble-small-two",
             "bubble-shine"
         ],
 
-        captainGoob: [
+        captainGoob:[
             "violet",
             "captain-badge",
             "captain-hat"
         ],
 
-        tailspin: [
+        tailspin:[
             "hotpink",
             "tailspin-tail",
             "tailspin-tip"
         ],
 
-        holyMoly: [
+        holyMoly:[
             "gold",
             "holy-halo",
             "holy-rays"
         ],
 
-        wingnut: [
+        wingnut:[
             "peach",
             "wingnut-left",
             "wingnut-right",
             "wingnut-nut"
         ],
 
-        cosmo: [
+        cosmo:[
             "deep-purple",
             "cosmo-stars",
             "cosmo-moon"
         ],
 
-        theGoober: [
+        theGoober:[
             "orange",
             "goober-big-smile",
             "goober-tuft",
             "goober-star"
         ],
 
-        golden: [
+        golden:[
             "golden",
             "golden-shine",
             "golden-crown"
         ],
 
-        galaxy: [
+        galaxy:[
             "galaxy-body",
             "galaxy-stars",
             "galaxy-ring",
             "galaxy-glow"
         ],
 
-        studySprout: [
+        studySprout:[
             "study-green",
             "study-book",
             "study-leaf-left",
             "study-leaf-right"
         ],
 
-        studyOrbit: [
+        studyOrbit:[
             "study-purple",
             "study-orbit-ring",
             "study-star"
@@ -761,19 +534,23 @@ function createGooberPreview(data) {
 
 
     parts.forEach(
-        function(part) {
+        part => {
 
             if (
                 bodyColours.includes(part)
             ) {
 
-                body.classList.add(part);
+                body.classList.add(
+                    part
+                );
 
             }
 
             else {
 
-                addPart(part);
+                addPart(
+                    part
+                );
 
             }
 
@@ -781,9 +558,7 @@ function createGooberPreview(data) {
     );
 
 
-    /* =====================================================
-       FOUR EYES
-    ===================================================== */
+    /* FOUR EYES */
 
     if (
         data.design === "fourEyes"
@@ -803,15 +578,15 @@ function createGooberPreview(data) {
             "goober-eye extra-eye extra-two";
 
 
-        face.appendChild(extraOne);
-        face.appendChild(extraTwo);
+        face.append(
+            extraOne,
+            extraTwo
+        );
 
     }
 
 
-    /* =====================================================
-       SHELBY
-    ===================================================== */
+    /* SHELBY */
 
     if (
         data.design === "shelby"
@@ -837,9 +612,7 @@ function createGooberPreview(data) {
     }
 
 
-    /* =====================================================
-       CAPTAIN GOOB
-    ===================================================== */
+    /* CAPTAIN */
 
     if (
         data.design === "captainGoob"
@@ -876,7 +649,6 @@ function renderEquippedCharacter() {
             "equipped-goober"
         );
 
-
     if (!container)
         return;
 
@@ -884,13 +656,9 @@ function renderEquippedCharacter() {
     container.innerHTML = "";
 
 
-    const equipped =
-        getEquippedCharacter();
-
-
     const goober =
         createGooberPreview(
-            equipped
+            getEquippedCharacter()
         );
 
 
@@ -902,7 +670,7 @@ function renderEquippedCharacter() {
 
 
 /* =========================================================
-   CUSTOM DROPDOWN BUILDER
+   DROPDOWN
 ========================================================= */
 
 function createCustomDropdown(
@@ -957,6 +725,7 @@ function createCustomDropdown(
 
 
     selected.innerHTML = `
+
         <span class="custom-dropdown-text">
             ${current.name}
         </span>
@@ -964,12 +733,8 @@ function createCustomDropdown(
         <span class="custom-dropdown-arrow">
             ▼
         </span>
+
     `;
-
-
-    wrapper.appendChild(
-        selected
-    );
 
 
     const menu =
@@ -980,7 +745,7 @@ function createCustomDropdown(
 
 
     items.forEach(
-        function(item) {
+        item => {
 
             const option =
                 document.createElement("button");
@@ -1012,6 +777,7 @@ function createCustomDropdown(
 
 
             option.innerHTML = `
+
                 <span>
                     ${
                         owned
@@ -1028,6 +794,7 @@ function createCustomDropdown(
                             : ""
                     }
                 </span>
+
             `;
 
 
@@ -1044,7 +811,7 @@ function createCustomDropdown(
 
                 option.addEventListener(
                     "click",
-                    function(event) {
+                    event => {
 
                         event.stopPropagation();
 
@@ -1071,14 +838,15 @@ function createCustomDropdown(
     );
 
 
-    wrapper.appendChild(
+    wrapper.append(
+        selected,
         menu
     );
 
 
     selected.addEventListener(
         "click",
-        function(event) {
+        event => {
 
             event.stopPropagation();
 
@@ -1120,7 +888,7 @@ function createCustomDropdown(
 
 
 /* =========================================================
-   CHARACTER DROPDOWN
+   SELECTORS
 ========================================================= */
 
 function renderCharacterSelector() {
@@ -1130,26 +898,84 @@ function renderCharacterSelector() {
             "character-selector"
         );
 
+    if (!container)
+        return;
+
+
+    createCustomDropdown(
+        container,
+        SHOP_CHARACTERS.filter(
+            item =>
+                ownsCharacterItem(
+                    item.id,
+                    "character"
+                )
+        ),
+        "character",
+        "leafy"
+    );
+
+}
+
+
+function renderBannerOptions() {
+
+    const container =
+        document.getElementById(
+            "banners-options"
+        );
 
     if (!container)
         return;
 
 
-    const ownedCharacters =
-        SHOP_CHARACTERS.filter(
-            character =>
-                ownsCharacterItem(
-                    character.id,
-                    "character"
-                )
+    createCustomDropdown(
+        container,
+        CHARACTER_BANNERS,
+        "banner",
+        "purple-grid"
+    );
+
+}
+
+
+function renderTitleOptions() {
+
+    const container =
+        document.getElementById(
+            "titles-options"
         );
+
+    if (!container)
+        return;
 
 
     createCustomDropdown(
         container,
-        ownedCharacters,
-        "character",
-        "leafy"
+        CHARACTER_TITLES,
+        "title",
+        "none"
+    );
+
+}
+
+
+function renderEffectOptions() {
+
+    const container =
+        document.getElementById(
+            "effects-options"
+        );
+
+    if (!container)
+        return;
+
+
+    createCustomDropdown(
+        container,
+        CHARACTER_EFFECTS,
+        "effect",
+        "none"
     );
 
 }
@@ -1166,16 +992,8 @@ function renderCharacterBanner() {
             "banner-preview"
         );
 
-
     if (!preview)
         return;
-
-
-    const banner =
-        characterValue(
-            "character_banner",
-            "purple-grid"
-        );
 
 
     preview.className =
@@ -1183,33 +1001,10 @@ function renderCharacterBanner() {
 
 
     preview.classList.add(
-        banner
-    );
-
-}
-
-
-/* =========================================================
-   BANNER DROPDOWN
-========================================================= */
-
-function renderBannerOptions() {
-
-    const container =
-        document.getElementById(
-            "banners-options"
-        );
-
-
-    if (!container)
-        return;
-
-
-    createCustomDropdown(
-        container,
-        CHARACTER_BANNERS,
-        "banner",
-        "purple-grid"
+        characterValue(
+            "character_banner",
+            "purple-grid"
+        )
     );
 
 }
@@ -1225,7 +1020,6 @@ function renderCharacterTitle() {
         document.getElementById(
             "player-tag"
         );
-
 
     if (!element)
         return;
@@ -1254,8 +1048,8 @@ function renderCharacterTitle() {
 
     const item =
         CHARACTER_TITLES.find(
-            titleItem =>
-                titleItem.id === title
+            x =>
+                x.id === title
         );
 
 
@@ -1264,7 +1058,6 @@ function renderCharacterTitle() {
             ? item.name
             : title;
 
-
     element.style.display =
         "block";
 
@@ -1272,33 +1065,7 @@ function renderCharacterTitle() {
 
 
 /* =========================================================
-   TITLE DROPDOWN
-========================================================= */
-
-function renderTitleOptions() {
-
-    const container =
-        document.getElementById(
-            "titles-options"
-        );
-
-
-    if (!container)
-        return;
-
-
-    createCustomDropdown(
-        container,
-        CHARACTER_TITLES,
-        "title",
-        "none"
-    );
-
-}
-
-
-/* =========================================================
-   EFFECT HELPERS
+   EFFECTS
 ========================================================= */
 
 function createEffectElement(
@@ -1309,33 +1076,38 @@ function createEffectElement(
     const element =
         document.createElement("div");
 
-
     element.className =
         "character-effect-element " +
         className;
 
-
     character.appendChild(
         element
     );
-
 
     return element;
 
 }
 
 
-/* =========================================================
-   CLEAR EFFECTS
-========================================================= */
-
-function clearCharacterEffects(character) {
+function clearCharacterEffects(
+    character
+) {
 
     if (!character)
         return;
 
 
-    const effectClasses = [
+    character
+        .querySelectorAll(
+            ".character-effect-element"
+        )
+        .forEach(
+            element =>
+                element.remove()
+        );
+
+
+    [
 
         "effect-sparkle",
         "effect-speed-trail",
@@ -1348,10 +1120,7 @@ function clearCharacterEffects(character) {
         "effect-cosmic-aura",
         "effect-crown"
 
-    ];
-
-
-    effectClasses.forEach(
+    ].forEach(
         className => {
 
             character.classList.remove(
@@ -1361,386 +1130,8 @@ function clearCharacterEffects(character) {
         }
     );
 
-
-    character
-        .querySelectorAll(
-            ".character-effect-element"
-        )
-        .forEach(
-            element =>
-                element.remove()
-        );
-
 }
 
-
-/* =========================================================
-   SPARKLE EFFECT
-========================================================= */
-
-function createSparkleEffect(character) {
-
-    character.classList.add(
-        "effect-sparkle"
-    );
-
-
-    for (
-        let i = 0;
-        i < 6;
-        i++
-    ) {
-
-        const sparkle =
-            createEffectElement(
-                character,
-                "effect-sparkle-dot"
-            );
-
-
-        sparkle.classList.add(
-            "sparkle-" +
-            (i + 1)
-        );
-
-
-        sparkle.style.setProperty(
-            "--sparkle-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SPEED TRAIL
-========================================================= */
-
-function createSpeedTrailEffect(character) {
-
-    character.classList.add(
-        "effect-speed-trail"
-    );
-
-
-    for (
-        let i = 0;
-        i < 5;
-        i++
-    ) {
-
-        const streak =
-            createEffectElement(
-                character,
-                "effect-speed-streak"
-            );
-
-
-        streak.style.setProperty(
-            "--trail-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   LIGHTNING
-========================================================= */
-
-function createLightningEffect(character) {
-
-    character.classList.add(
-        "effect-lightning"
-    );
-
-
-    for (
-        let i = 0;
-        i < 4;
-        i++
-    ) {
-
-        const bolt =
-            createEffectElement(
-                character,
-                "effect-lightning-bolt"
-            );
-
-
-        bolt.style.setProperty(
-            "--lightning-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   RAINBOW
-========================================================= */
-
-function createRainbowEffect(character) {
-
-    character.classList.add(
-        "effect-rainbow"
-    );
-
-
-    createEffectElement(
-        character,
-        "effect-rainbow-ring"
-    );
-
-
-    createEffectElement(
-        character,
-        "effect-rainbow-ring-inner"
-    );
-
-}
-
-
-/* =========================================================
-   FIRE
-========================================================= */
-
-function createFireEffect(character) {
-
-    character.classList.add(
-        "effect-fire"
-    );
-
-
-    for (
-        let i = 0;
-        i < 7;
-        i++
-    ) {
-
-        const flame =
-            createEffectElement(
-                character,
-                "effect-flame"
-            );
-
-
-        flame.style.setProperty(
-            "--flame-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   GLITCH
-========================================================= */
-
-function createGlitchEffect(character) {
-
-    character.classList.add(
-        "effect-glitch"
-    );
-
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
-
-        const glitch =
-            createEffectElement(
-                character,
-                "effect-glitch-piece"
-            );
-
-
-        glitch.style.setProperty(
-            "--glitch-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   SHADOW
-========================================================= */
-
-function createShadowEffect(character) {
-
-    character.classList.add(
-        "effect-shadow"
-    );
-
-
-    createEffectElement(
-        character,
-        "effect-shadow-ground"
-    );
-
-}
-
-
-/* =========================================================
-   CRYSTAL
-========================================================= */
-
-function createCrystalEffect(character) {
-
-    character.classList.add(
-        "effect-crystal"
-    );
-
-
-    for (
-        let i = 0;
-        i < 6;
-        i++
-    ) {
-
-        const crystal =
-            createEffectElement(
-                character,
-                "effect-crystal-shard"
-            );
-
-
-        crystal.style.setProperty(
-            "--crystal-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   COSMIC
-========================================================= */
-
-function createCosmicEffect(character) {
-
-    character.classList.add(
-        "effect-cosmic-aura"
-    );
-
-
-    createEffectElement(
-        character,
-        "effect-cosmic-ring"
-    );
-
-
-    for (
-        let i = 0;
-        i < 8;
-        i++
-    ) {
-
-        const star =
-            createEffectElement(
-                character,
-                "effect-cosmic-star"
-            );
-
-
-        star.style.setProperty(
-            "--star-index",
-            i
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   CROWN
-========================================================= */
-
-function createCrownEffect(character) {
-
-    character.classList.add(
-        "effect-crown"
-    );
-
-
-    const goober =
-        character.querySelector(
-            "#equipped-goober > .goober"
-        );
-
-
-    /*
-       IMPORTANT:
-
-       The crown is attached DIRECTLY to
-       the Goober.
-
-       It therefore cannot change the
-       Goober's horizontal position.
-    */
-
-    if (!goober)
-        return;
-
-
-    const crown =
-        document.createElement("div");
-
-
-    crown.className =
-        "character-effect-element " +
-        "character-crown";
-
-
-    crown.innerHTML = `
-        <span class="crown-point"></span>
-        <span class="crown-point"></span>
-        <span class="crown-point"></span>
-    `;
-
-
-    goober.appendChild(
-        crown
-    );
-
-
-    /*
-       Separate glow so the crown itself
-       stays sharp.
-    */
-
-    const glow =
-        createEffectElement(
-            character,
-            "crown-glow"
-        );
-
-
-    glow.style.pointerEvents =
-        "none";
-
-}
-
-
-/* =========================================================
-   MAIN EFFECT RENDERER
-========================================================= */
 
 function renderCharacterEffect() {
 
@@ -1748,7 +1139,6 @@ function renderCharacterEffect() {
         document.getElementById(
             "character"
         );
-
 
     if (!character)
         return;
@@ -1759,7 +1149,7 @@ function renderCharacterEffect() {
     );
 
 
-    const equipped =
+    const effect =
         characterValue(
             "character_effect",
             "none"
@@ -1767,132 +1157,50 @@ function renderCharacterEffect() {
 
 
     if (
-        equipped === "none"
+        effect === "none"
+    )
+        return;
+
+
+    character.classList.add(
+        "effect-" +
+        effect
+    );
+
+
+    if (
+        effect === "crown"
     ) {
 
-        return;
-
-    }
-
-
-    switch (equipped) {
-
-        case "sparkle":
-
-            createSparkleEffect(
-                character
+        const goober =
+            document.querySelector(
+                "#equipped-goober .goober"
             );
 
-            break;
+
+        if (!goober)
+            return;
 
 
-        case "speed-trail":
+        const crown =
+            document.createElement("div");
 
-            createSpeedTrailEffect(
-                character
-            );
-
-            break;
+        crown.className =
+            "character-effect-element character-crown";
 
 
-        case "lightning":
-
-            createLightningEffect(
-                character
-            );
-
-            break;
+        crown.innerHTML = `
+            <span class="crown-point"></span>
+            <span class="crown-point"></span>
+            <span class="crown-point"></span>
+        `;
 
 
-        case "rainbow":
-
-            createRainbowEffect(
-                character
-            );
-
-            break;
-
-
-        case "fire":
-
-            createFireEffect(
-                character
-            );
-
-            break;
-
-
-        case "glitch":
-
-            createGlitchEffect(
-                character
-            );
-
-            break;
-
-
-        case "shadow":
-
-            createShadowEffect(
-                character
-            );
-
-            break;
-
-
-        case "crystal":
-
-            createCrystalEffect(
-                character
-            );
-
-            break;
-
-
-        case "cosmic-aura":
-
-            createCosmicEffect(
-                character
-            );
-
-            break;
-
-
-        case "crown":
-
-            createCrownEffect(
-                character
-            );
-
-            break;
-
-    }
-
-}
-
-
-/* =========================================================
-   EFFECT DROPDOWN
-========================================================= */
-
-function renderEffectOptions() {
-
-    const container =
-        document.getElementById(
-            "effects-options"
+        goober.appendChild(
+            crown
         );
 
-
-    if (!container)
-        return;
-
-
-    createCustomDropdown(
-        container,
-        CHARACTER_EFFECTS,
-        "effect",
-        "none"
-    );
+    }
 
 }
 
@@ -1908,7 +1216,6 @@ function renderPlayerName() {
             "player-username"
         );
 
-
     if (!element)
         return;
 
@@ -1923,33 +1230,7 @@ function renderPlayerName() {
 
 
 /* =========================================================
-   CLOSE DROPDOWNS
-========================================================= */
-
-document.addEventListener(
-    "click",
-    function() {
-
-        document
-            .querySelectorAll(
-                ".custom-dropdown-wrapper.open"
-            )
-            .forEach(
-                dropdown => {
-
-                    dropdown.classList.remove(
-                        "open"
-                    );
-
-                }
-            );
-
-    }
-);
-
-
-/* =========================================================
-   RENDER EVERYTHING
+   MAIN RENDER
 ========================================================= */
 
 function renderEditor() {
@@ -1976,19 +1257,43 @@ function renderEditor() {
 
 
 /* =========================================================
-   PUBLIC API
+   PUBLIC FUNCTIONS
 ========================================================= */
 
 window.renderEditor =
     renderEditor;
 
-
 window.getEquippedCharacter =
     getEquippedCharacter;
 
-
 window.ownsCharacterItem =
     ownsCharacterItem;
+
+window.createGooberPreview =
+    createGooberPreview;
+
+
+/* =========================================================
+   CLOSE DROPDOWNS
+========================================================= */
+
+document.addEventListener(
+    "click",
+    () => {
+
+        document
+            .querySelectorAll(
+                ".custom-dropdown-wrapper.open"
+            )
+            .forEach(
+                dropdown =>
+                    dropdown.classList.remove(
+                        "open"
+                    )
+            );
+
+    }
+);
 
 
 /* =========================================================
@@ -1997,9 +1302,5 @@ window.ownsCharacterItem =
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
-
-        renderEditor();
-
-    }
+    renderEditor
 );
