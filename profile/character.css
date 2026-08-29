@@ -1,6 +1,7 @@
 ```css
 /* =========================================================
-   STUDYSPRINT CHARACTER EDITOR
+   STUDYSPRINT PROFILE EDITOR
+   Banners + Titles + Profile Frames
 ========================================================= */
 
 * {
@@ -9,7 +10,6 @@
 
 
 body {
-
     margin:0;
 
     min-height:100vh;
@@ -28,81 +28,6 @@ body {
         #090d18;
 
     color:#f8fafc;
-
-}
-
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-header {
-
-    height:76px;
-
-    padding:0 6%;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    background:rgba(9,13,24,.92);
-
-    border-bottom:
-        1px solid rgba(148,163,184,.16);
-
-    backdrop-filter:blur(16px);
-
-}
-
-
-.logo {
-
-    color:#f8fafc;
-
-    font-size:25px;
-
-    font-weight:950;
-
-}
-
-
-nav {
-
-    display:flex;
-
-    gap:8px;
-
-}
-
-
-nav a {
-
-    padding:10px 14px;
-
-    border-radius:10px;
-
-    color:#94a3b8;
-
-    text-decoration:none;
-
-    font-size:13px;
-
-    font-weight:800;
-
-    transition:.2s;
-
-}
-
-
-nav a:hover {
-
-    color:#fff;
-
-    background:#111827;
-
 }
 
 
@@ -112,16 +37,23 @@ nav a:hover {
 
 .editor-page {
 
-    width:min(1100px,92%);
+    width:min(
+        900px,
+        92%
+    );
 
-    margin:auto;
+    margin:0 auto;
 
     padding:55px 0 80px;
 
 }
 
 
-.editor-header {
+/* =========================================================
+   HEADING
+========================================================= */
+
+.editor-heading {
 
     display:flex;
 
@@ -129,7 +61,7 @@ nav a:hover {
 
     justify-content:space-between;
 
-    gap:25px;
+    gap:30px;
 
     margin-bottom:30px;
 
@@ -138,9 +70,11 @@ nav a:hover {
 
 .editor-kicker {
 
+    margin:0 0 8px;
+
     color:#818cf8;
 
-    font-size:10px;
+    font-size:11px;
 
     font-weight:950;
 
@@ -149,9 +83,9 @@ nav a:hover {
 }
 
 
-.editor-header h1 {
+.editor-heading h1 {
 
-    margin:7px 0 0;
+    margin:0;
 
     font-size:38px;
 
@@ -160,9 +94,9 @@ nav a:hover {
 }
 
 
-.editor-header p {
+.editor-heading p {
 
-    margin:9px 0 0;
+    margin:10px 0 0;
 
     color:#64748b;
 
@@ -175,13 +109,15 @@ nav a:hover {
 
 .back-button {
 
-    padding:11px 16px;
+    flex-shrink:0;
+
+    padding:11px 15px;
 
     border-radius:10px;
 
-    border:1px solid #263249;
-
     background:#111827;
+
+    border:1px solid #263249;
 
     color:#cbd5e1;
 
@@ -198,28 +134,9 @@ nav a:hover {
 
 .back-button:hover {
 
-    background:#1e293b;
+    background:#1a2140;
 
-    color:white;
-
-}
-
-
-/* =========================================================
-   LAYOUT
-========================================================= */
-
-.editor-layout {
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        minmax(300px,400px);
-
-    gap:25px;
-
-    align-items:start;
+    color:#fff;
 
 }
 
@@ -228,9 +145,11 @@ nav a:hover {
    PREVIEW
 ========================================================= */
 
-.editor-preview-card {
+.editor-preview {
 
     overflow:hidden;
+
+    margin-bottom:22px;
 
     background:
         linear-gradient(
@@ -239,8 +158,7 @@ nav a:hover {
             #0d1422
         );
 
-    border:
-        1px solid #263249;
+    border:1px solid #263249;
 
     border-radius:22px;
 
@@ -249,19 +167,10 @@ nav a:hover {
 
 .banner-preview {
 
-    min-height:450px;
+    height:155px;
 
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    overflow:hidden;
-
-    background-color:#111827;
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 
 }
 
@@ -361,57 +270,35 @@ nav a:hover {
 }
 
 
+/* =========================================================
+   PREVIEW CONTENT
+========================================================= */
+
 .preview-content {
 
-    position:relative;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    width:100%;
-
-    height:100%;
-
-    padding:40px;
-
-}
-
-
-.equipped-goober {
-
-    min-height:190px;
-
     display:flex;
 
     align-items:center;
 
-    justify-content:center;
+    gap:20px;
+
+    padding:25px 30px 30px;
 
 }
 
 
-.preview-username {
+.preview-info h2 {
 
-    margin-top:15px;
-
-    color:white;
+    margin:0;
 
     font-size:25px;
-
-    font-weight:950;
-
-    text-shadow:
-        0 3px 12px rgba(0,0,0,.5);
 
 }
 
 
 .player-tag {
+
+    width:max-content;
 
     margin-top:8px;
 
@@ -419,58 +306,154 @@ nav a:hover {
 
     border-radius:7px;
 
-    background:rgba(15,23,42,.85);
+    background:#111827;
 
-    border:1px solid rgba(255,255,255,.15);
+    border:1px solid #334155;
 
-    color:#c4b5fd;
+    color:#cbd5e1;
 
     font-size:10px;
 
     font-weight:950;
-
-    text-transform:uppercase;
 
     letter-spacing:1px;
 
-}
-
-
-.preview-label {
-
-    padding:13px 18px;
-
-    color:#64748b;
-
-    font-size:10px;
-
-    font-weight:950;
-
-    letter-spacing:1.5px;
-
-    text-align:center;
+    text-transform:uppercase;
 
 }
 
 
 /* =========================================================
-   OPTIONS
+   PROFILE FRAME PREVIEW
 ========================================================= */
 
-.editor-options {
+.profile-frame-preview {
+
+    width:105px;
+
+    height:105px;
+
+    flex-shrink:0;
 
     display:flex;
 
-    flex-direction:column;
+    align-items:center;
 
-    gap:15px;
+    justify-content:center;
+
+    border-radius:22px;
+
+    background:#111827;
+
+    border:8px solid #334155;
+
+    box-shadow:
+        0 0 0 3px #080e1a,
+        0 12px 25px rgba(0,0,0,.4);
 
 }
 
 
+.profile-frame-preview-inner {
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#0b1120;
+
+    color:#64748b;
+
+    font-size:27px;
+
+    font-weight:950;
+
+}
+
+
+/* Frame colours */
+
+.profile-frame-preview.simple-frame {
+
+    border-color:#334155;
+
+}
+
+
+.profile-frame-preview.blue-frame {
+
+    border-color:#3b82f6;
+
+}
+
+
+.profile-frame-preview.purple-frame {
+
+    border-color:#8b5cf6;
+
+}
+
+
+.profile-frame-preview.cyan-frame {
+
+    border-color:#22d3ee;
+
+}
+
+
+.profile-frame-preview.pink-frame {
+
+    border-color:#ec4899;
+
+}
+
+
+.profile-frame-preview.fire-frame {
+
+    border-color:#f97316;
+
+}
+
+
+.profile-frame-preview.cosmic-frame {
+
+    border-color:#a855f7;
+
+    box-shadow:
+        0 0 0 3px #080e1a,
+        0 0 25px rgba(168,85,247,.35);
+
+}
+
+
+.profile-frame-preview.gold-frame {
+
+    border-color:#facc15;
+
+    box-shadow:
+        0 0 0 3px #080e1a,
+        0 0 25px rgba(250,204,21,.3);
+
+}
+
+
+/* =========================================================
+   EDITOR CARDS
+========================================================= */
+
 .editor-card {
 
-    padding:21px;
+    margin-bottom:18px;
+
+    padding:25px;
 
     background:
         linear-gradient(
@@ -482,7 +465,56 @@ nav a:hover {
     border:
         1px solid #263249;
 
-    border-radius:18px;
+    border-radius:20px;
+
+}
+
+
+.editor-card-heading {
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+
+.editor-card-heading > div {
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+.editor-icon {
+
+    width:44px;
+
+    height:44px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border-radius:12px;
+
+    background:#111827;
+
+    border:1px solid #263249;
+
+    font-size:20px;
 
 }
 
@@ -491,14 +523,14 @@ nav a:hover {
 
     margin:0;
 
-    font-size:17px;
+    font-size:18px;
 
 }
 
 
 .editor-card p {
 
-    margin:6px 0 15px;
+    margin:5px 0 0;
 
     color:#64748b;
 
@@ -509,16 +541,16 @@ nav a:hover {
 }
 
 
-.editor-control {
+/* =========================================================
+   DROPDOWN
+========================================================= */
+
+.editor-option {
 
     width:100%;
 
 }
 
-
-/* =========================================================
-   CUSTOM DROPDOWN
-========================================================= */
 
 .custom-dropdown-wrapper {
 
@@ -533,7 +565,7 @@ nav a:hover {
 
     width:100%;
 
-    padding:13px 15px;
+    min-height:52px;
 
     display:flex;
 
@@ -543,10 +575,11 @@ nav a:hover {
 
     gap:15px;
 
-    border:
-        1px solid #334155;
+    padding:0 16px;
 
-    border-radius:11px;
+    border:1px solid #334155;
+
+    border-radius:12px;
 
     background:#0b1120;
 
@@ -558,7 +591,7 @@ nav a:hover {
 
     font-size:13px;
 
-    font-weight:850;
+    font-weight:900;
 
     text-align:left;
 
@@ -567,7 +600,7 @@ nav a:hover {
 
 .custom-dropdown-selected:hover {
 
-    border-color:#6366f1;
+    border-color:#4f46e5;
 
 }
 
@@ -597,29 +630,28 @@ nav a:hover {
 
     z-index:50;
 
+    top:calc(100% + 7px);
+
     left:0;
 
-    right:0;
+    width:100%;
 
-    top:calc(100% + 6px);
-
-    max-height:250px;
+    max-height:280px;
 
     overflow-y:auto;
 
-    padding:6px;
-
     display:none;
 
-    background:#0b1120;
+    padding:6px;
 
-    border:
-        1px solid #334155;
+    background:#111827;
 
-    border-radius:12px;
+    border:1px solid #334155;
+
+    border-radius:13px;
 
     box-shadow:
-        0 20px 40px rgba(0,0,0,.45);
+        0 20px 45px rgba(0,0,0,.45);
 
 }
 
@@ -636,7 +668,7 @@ nav a:hover {
 
     width:100%;
 
-    padding:11px 12px;
+    min-height:44px;
 
     display:flex;
 
@@ -644,11 +676,13 @@ nav a:hover {
 
     justify-content:space-between;
 
-    gap:10px;
+    gap:15px;
+
+    padding:0 12px;
 
     border:0;
 
-    border-radius:8px;
+    border-radius:9px;
 
     background:transparent;
 
@@ -669,18 +703,18 @@ nav a:hover {
 
 .custom-dropdown-option:hover:not(:disabled) {
 
-    background:#1e293b;
+    background:#1a2140;
 
-    color:white;
+    color:#fff;
 
 }
 
 
 .custom-dropdown-option.selected {
 
-    background:#1a2140;
+    background:#202952;
 
-    color:#a5b4fc;
+    color:#fff;
 
 }
 
@@ -698,146 +732,29 @@ nav a:hover {
 
     color:#818cf8;
 
-}
-
-
-/* =========================================================
-   GOOBER SIZE
-========================================================= */
-
-.equipped-goober .goober {
-
-    width:140px;
-
-    height:150px;
-
-    position:relative;
-
-    transform-origin:center;
+    font-weight:950;
 
 }
 
 
 /* =========================================================
-   EFFECT CONTAINER
+   FOOTER
 ========================================================= */
 
-.character-effect-element {
+footer {
 
-    position:absolute;
+    padding:30px 20px;
 
-    pointer-events:none;
+    border-top:
+        1px solid rgba(148,163,184,.12);
 
-}
+    color:#475569;
 
+    text-align:center;
 
-.effect-sparkle-dot {
+    font-size:12px;
 
-    width:8px;
-
-    height:8px;
-
-    border-radius:50%;
-
-    background:#fff;
-
-    box-shadow:
-        0 0 12px #fff;
-
-}
-
-
-.effect-sparkle {
-
-    animation:
-        sparkle-pulse 1.5s infinite;
-
-}
-
-
-@keyframes sparkle-pulse {
-
-    0%,
-    100% {
-        opacity:.4;
-    }
-
-    50% {
-        opacity:1;
-    }
-
-}
-
-
-/* =========================================================
-   CROWN
-========================================================= */
-
-.character-crown {
-
-    position:absolute;
-
-    left:50%;
-
-    top:-30px;
-
-    width:58px;
-
-    height:38px;
-
-    transform:
-        translateX(-50%);
-
-    background:#facc15;
-
-    border-radius:
-        5px 5px 10px 10px;
-
-    box-shadow:
-        0 0 18px rgba(250,204,21,.7);
-
-}
-
-
-.crown-point {
-
-    position:absolute;
-
-    bottom:22px;
-
-    width:17px;
-
-    height:25px;
-
-    background:#facc15;
-
-    clip-path:
-        polygon(
-            50% 0,
-            100% 100%,
-            0 100%
-        );
-
-}
-
-
-.crown-point:nth-child(1) {
-
-    left:3px;
-
-}
-
-
-.crown-point:nth-child(2) {
-
-    left:20px;
-
-}
-
-
-.crown-point:nth-child(3) {
-
-    right:3px;
+    font-weight:700;
 
 }
 
@@ -846,62 +763,7 @@ nav a:hover {
    MOBILE
 ========================================================= */
 
-@media(max-width:800px) {
-
-    .editor-layout {
-
-        grid-template-columns:1fr;
-
-    }
-
-    .editor-preview-card {
-
-        order:1;
-
-    }
-
-    .editor-options {
-
-        order:2;
-
-    }
-
-}
-
-
-@media(max-width:600px) {
-
-    header {
-
-        height:auto;
-
-        padding:14px 4%;
-
-        flex-direction:column;
-
-        gap:10px;
-
-    }
-
-    nav {
-
-        width:100%;
-
-        justify-content:center;
-
-        overflow-x:auto;
-
-    }
-
-    nav a {
-
-        white-space:nowrap;
-
-        padding:8px 10px;
-
-        font-size:11px;
-
-    }
+@media(max-width:650px) {
 
     .editor-page {
 
@@ -911,19 +773,24 @@ nav a:hover {
 
     }
 
-    .editor-header {
+
+    .editor-heading {
 
         align-items:flex-start;
 
         flex-direction:column;
 
+        gap:18px;
+
     }
 
-    .editor-header h1 {
+
+    .editor-heading h1 {
 
         font-size:31px;
 
     }
+
 
     .back-button {
 
@@ -933,9 +800,39 @@ nav a:hover {
 
     }
 
-    .banner-preview {
 
-        min-height:350px;
+    .preview-content {
+
+        padding:20px;
+
+    }
+
+
+    .profile-frame-preview {
+
+        width:85px;
+
+        height:85px;
+
+    }
+
+
+    .editor-card {
+
+        padding:20px;
+
+    }
+
+}
+
+
+@media(max-width:430px) {
+
+    .preview-content {
+
+        align-items:flex-start;
+
+        flex-direction:column;
 
     }
 
