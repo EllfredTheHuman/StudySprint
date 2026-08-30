@@ -1,8 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -17,14 +18,20 @@
 
     <main class="quiz-app">
 
-        <!-- Quiz Header -->
+        <!-- QUIZ HEADER -->
+
         <header class="quiz-header">
 
-            <a href="index.html" class="quit-button">
+            <a
+                href="index.html"
+                class="quit-button"
+                aria-label="Exit Sprint"
+            >
                 ×
             </a>
 
             <div class="quiz-progress">
+
                 <div class="progress-track">
                     <div
                         class="progress-fill"
@@ -35,15 +42,20 @@
                 <span id="questionCounter">
                     1 / 5
                 </span>
+
             </div>
 
         </header>
 
 
-        <!-- Question -->
+        <!-- QUESTION -->
+
         <section class="question-section">
 
-            <p class="quiz-topic" id="quizTopic">
+            <p
+                class="quiz-topic"
+                id="quizTopic"
+            >
                 Topic
             </p>
 
@@ -54,46 +66,58 @@
         </section>
 
 
-        <!-- Answers -->
+        <!-- ANSWERS -->
+
         <section
             class="answers"
             id="answers"
         >
-            <!-- Answers inserted by JavaScript -->
         </section>
 
 
-        <!-- Feedback -->
+        <!-- FEEDBACK -->
+
         <section
             class="feedback"
             id="feedback"
             hidden
         >
-            <div class="feedback-title" id="feedbackTitle">
+
+            <div
+                class="feedback-title"
+                id="feedbackTitle"
+            >
                 Correct!
             </div>
 
             <p id="feedbackText">
                 Nice work.
             </p>
+
         </section>
 
 
-        <!-- Next -->
+        <!-- NEXT -->
+
         <button
             class="next-button"
             id="nextButton"
             hidden
         >
+
             <span id="nextButtonText">
                 Next question
             </span>
 
-            <span>→</span>
+            <span>
+                →
+            </span>
+
         </button>
 
 
-        <!-- Results -->
+        <!-- RESULTS -->
+
         <section
             class="results"
             id="results"
@@ -112,6 +136,7 @@
                 Nice work.
             </h1>
 
+
             <div class="score-card">
 
                 <span class="score-label">
@@ -128,25 +153,36 @@
 
             </div>
 
+
             <div class="result-stats">
 
                 <div>
+
                     <strong id="correctCount">
                         0
                     </strong>
 
-                    <span>Correct</span>
+                    <span>
+                        Correct
+                    </span>
+
                 </div>
 
+
                 <div>
+
                     <strong id="bestScore">
                         —
                     </strong>
 
-                    <span>Best</span>
+                    <span>
+                        Best
+                    </span>
+
                 </div>
 
             </div>
+
 
             <button
                 class="results-button"
@@ -154,6 +190,7 @@
             >
                 Try again
             </button>
+
 
             <a
                 href="index.html"
@@ -166,8 +203,16 @@
 
     </main>
 
+
+    <!-- QUESTION DATA -->
+
+    <script src="../../questions/science.js"></script>
+    <script src="../../questions/maths.js"></script>
+
+    <!-- SPRINT ENGINE -->
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
-```
