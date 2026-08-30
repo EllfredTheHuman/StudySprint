@@ -1,0 +1,137 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sprints — StudySprint</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <p class="eyebrow">SPRINTS</p>
+            <h1>Test yourself.</h1>
+            <p class="header-description">
+                Choose a subject and topic to start a Sprint.
+            </p>
+        </header>
+
+
+        <!-- Subject selection -->
+        <section class="selection-section">
+
+            <div class="section-heading">
+                <h2>Subject</h2>
+            </div>
+
+            <div class="subject-grid">
+
+                <button class="subject-button" data-subject="science">
+                    <span>⚗</span>
+                    Science
+                </button>
+
+                <button class="subject-button" data-subject="maths">
+                    <span>∑</span>
+                    Maths
+                </button>
+
+                <button class="subject-button" data-subject="english">
+                    <span>Aa</span>
+                    English
+                </button>
+
+                <button class="subject-button" data-subject="humanities">
+                    <span>◉</span>
+                    Humanities
+                </button>
+
+                <button class="subject-button" data-subject="french">
+                    <span>A</span>
+                    French
+                </button>
+
+                <button class="subject-button" data-subject="japanese">
+                    <span>あ</span>
+                    Japanese
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Topic selection -->
+        <section class="selection-section" id="topicSection">
+
+            <div class="section-heading">
+                <h2>Topic</h2>
+                <p id="topicHint">Choose a subject first.</p>
+            </div>
+
+            <div id="topicList" class="topic-list">
+                <!-- Topics appear here -->
+            </div>
+
+        </section>
+
+
+        <!-- Start -->
+        <section class="start-section">
+
+            <button
+                class="start-button"
+                id="startButton"
+                disabled
+            >
+                <span>Start Sprint</span>
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+
+            <a href="../index.html" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a href="../study/index.html" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Study</span>
+            </a>
+
+            <a href="index.html" class="nav-item active sprint-nav">
+                <span class="sprint-icon">▶</span>
+                <span>Sprints</span>
+            </a>
+
+            <a href="../rooms/index.html" class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Rooms</span>
+            </a>
+
+            <a href="../profile/index.html" class="nav-item">
+                <span class="nav-icon">●</span>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
