@@ -1,0 +1,128 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudySprint</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <p class="eyebrow">STUDYSPRINT</p>
+                <h1>Welcome back.</h1>
+            </div>
+
+            <button class="profile-button" aria-label="Open profile">
+                <span>👤</span>
+            </button>
+        </header>
+
+
+        <!-- Streak -->
+        <section class="streak-card">
+            <div class="streak-icon">🔥</div>
+
+            <div class="streak-info">
+                <p class="card-label">CURRENT STREAK</p>
+                <h2>7 days</h2>
+                <p>Keep it going today.</p>
+            </div>
+        </section>
+
+
+        <!-- Continue -->
+        <section class="section">
+            <div class="section-heading">
+                <h2>Continue studying</h2>
+            </div>
+
+            <button class="topic-card">
+                <div class="topic-icon">📐</div>
+
+                <div class="topic-info">
+                    <h3>Algebra</h3>
+                    <p>Mathematics</p>
+                </div>
+
+                <span class="arrow">→</span>
+            </button>
+        </section>
+
+
+        <!-- Quick Sprint -->
+        <section class="section">
+            <div class="section-heading">
+                <h2>Quick Sprint</h2>
+                <p>Test yourself in 5 questions.</p>
+            </div>
+
+            <button class="sprint-button">
+                <span>Start a Sprint</span>
+                <span>→</span>
+            </button>
+        </section>
+
+
+        <!-- Rooms -->
+        <section class="section">
+            <div class="section-heading">
+                <h2>Your rooms</h2>
+            </div>
+
+            <div class="room-card">
+                <div>
+                    <h3>8A Science</h3>
+                    <p>24 members</p>
+                </div>
+
+                <span class="room-arrow">→</span>
+            </div>
+        </section>
+
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+
+            <a href="#" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Study</span>
+            </a>
+
+            <a href="#" class="nav-item sprint-nav">
+                <span class="sprint-icon">▶</span>
+                <span>Sprints</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Rooms</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">●</span>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+    </main>
+
+</body>
+</html>
+```
+
+This intentionally has **no backend code yet**. It's just the structural foundation. We'll put the styling in `main/style.css` next, then wire the navigation and real data in afterward.
