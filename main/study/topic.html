@@ -1,0 +1,133 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Topic — StudySprint</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- Header -->
+        <header class="page-header">
+
+            <a href="javascript:history.back()" class="back-button" aria-label="Back">
+                ←
+            </a>
+
+            <div>
+                <p class="eyebrow" id="subjectLabel">SUBJECT</p>
+                <h1 id="topicTitle">Topic</h1>
+            </div>
+
+        </header>
+
+
+        <!-- Topic introduction -->
+        <section class="topic-intro">
+
+            <p class="topic-subject" id="topicSubject">
+                Subject
+            </p>
+
+            <p class="topic-description" id="topicDescription">
+                Learn about this topic.
+            </p>
+
+        </section>
+
+
+        <!-- Progress -->
+        <section class="progress-card">
+
+            <div class="progress-header">
+                <span>Your progress</span>
+                <span id="progressPercent">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                    style="width: 0%"
+                ></div>
+            </div>
+
+        </section>
+
+
+        <!-- Learning sections -->
+        <section class="learning-section">
+
+            <div class="section-heading">
+                <h2>Learn</h2>
+            </div>
+
+            <div id="learningContent">
+
+                <!-- Learning content will be generated here -->
+
+            </div>
+
+        </section>
+
+
+        <!-- Practice -->
+        <section class="practice-section">
+
+            <div class="section-heading">
+                <h2>Ready to practise?</h2>
+                <p>Test what you've learned with a Sprint.</p>
+            </div>
+
+            <button class="practice-button" id="practiceButton">
+                <span>Start a Sprint</span>
+                <span>→</span>
+            </button>
+
+        </section>
+
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+
+            <a href="../index.html" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">▣</span>
+                <span>Study</span>
+            </a>
+
+            <a href="../sprint/index.html" class="nav-item sprint-nav">
+                <span class="sprint-icon">▶</span>
+                <span>Sprints</span>
+            </a>
+
+            <a href="../rooms/index.html" class="nav-item">
+                <span class="nav-icon">♧</span>
+                <span>Rooms</span>
+            </a>
+
+            <a href="../profile/index.html" class="nav-item">
+                <span class="nav-icon">●</span>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
