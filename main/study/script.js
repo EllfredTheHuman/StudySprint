@@ -1,129 +1,282 @@
 ```javascript
-const subjectData = {
+const topicData = {
 
-    science: {
-        name: "Science",
-        description: "Explore how the world around us works.",
-        topics: [
+    // =========================
+    // SCIENCE
+    // =========================
+
+    "The Heart": {
+        subject: "Science",
+        description: "Learn how the heart pumps blood around the body.",
+
+        sections: [
             {
-                name: "The Heart",
-                description: "Learn how the heart and circulatory system work.",
-                icon: "♡"
+                title: "What is the heart?",
+                text: "The heart is a muscular organ that pumps blood around your body. Blood carries oxygen and nutrients to cells and removes waste products."
             },
             {
-                name: "Electricity",
-                description: "Learn about circuits, current, voltage and more.",
-                icon: "ϟ"
+                title: "The four chambers",
+                list: [
+                    "Right atrium — receives blood from the body.",
+                    "Right ventricle — pumps blood to the lungs.",
+                    "Left atrium — receives oxygen-rich blood from the lungs.",
+                    "Left ventricle — pumps blood around the body."
+                ]
             }
         ]
     },
 
-    maths: {
-        name: "Maths",
-        description: "Build your mathematical skills.",
-        topics: [
+
+    "Electricity": {
+        subject: "Science",
+        description: "Learn about electrical circuits, current and voltage.",
+
+        sections: [
             {
-                name: "Algebra",
-                description: "Expressions, equations and solving for unknowns.",
-                icon: "x"
+                title: "What is electricity?",
+                text: "Electricity involves the movement of electric charge. In a circuit, electrical energy can be transferred to devices such as lights, motors and speakers."
             },
             {
-                name: "Geometry",
-                description: "Shapes, angles, area and measurement.",
-                icon: "△"
-            },
-            {
-                name: "BIDMAS",
-                description: "Learn the correct order of mathematical operations.",
-                icon: "÷"
+                title: "Circuits",
+                text: "A circuit needs a complete path for electric current to flow. Common circuit components include cells, switches, wires and globes."
             }
         ]
     },
 
-    english: {
-        name: "English",
-        description: "Develop your language and literary skills.",
-        topics: [
+
+    // =========================
+    // MATHS
+    // =========================
+
+    "Algebra": {
+        subject: "Maths",
+        description: "Learn how to work with variables, expressions and equations.",
+
+        sections: [
             {
-                name: "Grammar",
-                description: "Understand how language is structured.",
-                icon: "Aa"
+                title: "What is a variable?",
+                text: "A variable is a letter or symbol that represents an unknown value. For example, in 3x + 2, x is the variable."
             },
             {
-                name: "Literature",
-                description: "Explore texts, characters, themes and ideas.",
-                icon: "▤"
-            },
-            {
-                name: "Poetry",
-                description: "Explore poetic techniques, structure and meaning.",
-                icon: "✦"
+                title: "Solving equations",
+                text: "To solve an equation, work out the value of the unknown variable while keeping both sides of the equation equal."
             }
         ]
     },
 
-    humanities: {
-        name: "Humanities",
-        description: "Explore people, places, societies and history.",
-        topics: [
+
+    "Geometry": {
+        subject: "Maths",
+        description: "Learn about shapes, angles, measurements and geometry.",
+
+        sections: [
             {
-                name: "Geography",
-                description: "Explore places, environments and the world.",
-                icon: "◎"
+                title: "Angles",
+                list: [
+                    "Acute angles are less than 90°.",
+                    "Right angles are exactly 90°.",
+                    "Obtuse angles are greater than 90° but less than 180°.",
+                    "Straight angles are exactly 180°."
+                ]
             },
             {
-                name: "History",
-                description: "Learn about events and societies from the past.",
-                icon: "⌛"
-            },
-            {
-                name: "Civics",
-                description: "Learn how governments and societies work.",
-                icon: "⚖"
+                title: "Shapes",
+                text: "Geometry involves studying the properties, measurements and relationships of shapes and objects."
             }
         ]
     },
 
-    french: {
-        name: "French",
-        description: "Learn the French language.",
-        topics: [
+
+    "BIDMAS": {
+        subject: "Maths",
+        description: "Learn the order used to solve mathematical expressions.",
+
+        sections: [
             {
-                name: "Vocabulary",
-                description: "Build your French vocabulary.",
-                icon: "A"
+                title: "The order of operations",
+                text: "BIDMAS tells you which operations should be performed first when solving an expression."
             },
             {
-                name: "Grammar",
-                description: "Learn how French sentences are structured.",
-                icon: "Aa"
-            },
-            {
-                name: "Conversation",
-                description: "Practise useful French conversations.",
-                icon: "…"
+                title: "BIDMAS",
+                list: [
+                    "Brackets",
+                    "Indices",
+                    "Division",
+                    "Multiplication",
+                    "Addition",
+                    "Subtraction"
+                ]
             }
         ]
     },
 
-    japanese: {
-        name: "Japanese",
-        description: "Learn Japanese language and writing.",
-        topics: [
+
+    // =========================
+    // ENGLISH
+    // =========================
+
+    "Grammar": {
+        subject: "English",
+        description: "Learn how words and sentences are structured.",
+
+        sections: [
             {
-                name: "Hiragana",
-                description: "Learn the Japanese hiragana writing system.",
-                icon: "あ"
-            },
+                title: "What is grammar?",
+                text: "Grammar is the set of rules that determines how words are combined to create meaningful sentences."
+            }
+        ]
+    },
+
+
+    "Literature": {
+        subject: "English",
+        description: "Explore characters, themes, settings and ideas in literature.",
+
+        sections: [
             {
-                name: "Vocabulary",
-                description: "Build your Japanese vocabulary.",
-                icon: "語"
-            },
+                title: "Reading literature",
+                text: "When studying literature, look at characters, themes, setting, language choices and the ideas the author is communicating."
+            }
+        ]
+    },
+
+
+    "Poetry": {
+        subject: "English",
+        description: "Explore poetic techniques, structure and meaning.",
+
+        sections: [
             {
-                name: "Grammar",
-                description: "Learn how Japanese sentences are structured.",
-                icon: "文"
+                title: "Poetic techniques",
+                list: [
+                    "Simile",
+                    "Metaphor",
+                    "Personification",
+                    "Alliteration",
+                    "Rhyme",
+                    "Repetition"
+                ]
+            }
+        ]
+    },
+
+
+    // =========================
+    // HUMANITIES
+    // =========================
+
+    "Geography": {
+        subject: "Humanities",
+        description: "Explore places, environments and how people interact with them.",
+
+        sections: [
+            {
+                title: "What is geography?",
+                text: "Geography is the study of places, environments, people and the relationships between them."
+            }
+        ]
+    },
+
+
+    "History": {
+        subject: "Humanities",
+        description: "Explore events, people and societies from the past.",
+
+        sections: [
+            {
+                title: "Studying history",
+                text: "History uses evidence from the past to understand events, people, societies and how the world has changed over time."
+            }
+        ]
+    },
+
+
+    "Civics": {
+        subject: "Humanities",
+        description: "Learn how governments, communities and societies work.",
+
+        sections: [
+            {
+                title: "What is civics?",
+                text: "Civics is the study of citizenship, government and how people participate in their communities and societies."
+            }
+        ]
+    },
+
+
+    // =========================
+    // FRENCH
+    // =========================
+
+    "Vocabulary": {
+        subject: "French",
+        description: "Build your French vocabulary.",
+
+        sections: [
+            {
+                title: "Building vocabulary",
+                text: "Learning vocabulary involves understanding what words mean, how they are pronounced and how they are used in sentences."
+            }
+        ]
+    },
+
+
+    "Conversation": {
+        subject: "French",
+        description: "Practise useful French conversations.",
+
+        sections: [
+            {
+                title: "Useful phrases",
+                list: [
+                    "Bonjour — Hello",
+                    "Comment ça va ? — How are you?",
+                    "Merci — Thank you",
+                    "Au revoir — Goodbye"
+                ]
+            }
+        ]
+    },
+
+
+    // =========================
+    // JAPANESE
+    // =========================
+
+    "Hiragana": {
+        subject: "Japanese",
+        description: "Learn the Japanese hiragana writing system.",
+
+        sections: [
+            {
+                title: "What is hiragana?",
+                text: "Hiragana is one of the Japanese writing systems. It is commonly used for grammatical endings, particles and words that do not use kanji."
+            }
+        ]
+    },
+
+
+    "Vocabulary": {
+        subject: "Japanese",
+        description: "Build your Japanese vocabulary.",
+
+        sections: [
+            {
+                title: "Building vocabulary",
+                text: "Learning Japanese vocabulary involves understanding words, pronunciation and how they are used in context."
+            }
+        ]
+    },
+
+
+    "Grammar": {
+        subject: "Japanese",
+        description: "Learn how Japanese sentences are structured.",
+
+        sections: [
+            {
+                title: "Japanese sentence structure",
+                text: "Japanese commonly uses a subject-object-verb structure. Particles help show the role that words play in a sentence."
             }
         ]
     }
@@ -131,58 +284,122 @@ const subjectData = {
 };
 
 
+// =========================
+// GET TOPIC
+// =========================
+
 const params = new URLSearchParams(window.location.search);
+
 const subjectKey = params.get("subject");
+const topicName = params.get("topic");
 
-const subject = subjectData[subjectKey];
+const decodedTopic = topicName
+    ? decodeURIComponent(topicName)
+    : null;
 
-const subjectTitle = document.getElementById("subjectTitle");
+const topic = topicData[decodedTopic];
+
+
+// =========================
+// ELEMENTS
+// =========================
+
+const topicTitle = document.getElementById("topicTitle");
 const subjectLabel = document.getElementById("subjectLabel");
-const subjectDescription = document.getElementById("subjectDescription");
-const topicsList = document.getElementById("topicsList");
+const topicSubject = document.getElementById("topicSubject");
+const topicDescription = document.getElementById("topicDescription");
+const learningContent = document.getElementById("learningContent");
+const practiceButton = document.getElementById("practiceButton");
 
 
-if (!subject) {
+// =========================
+// DISPLAY TOPIC
+// =========================
 
-    subjectTitle.textContent = "Subject not found";
+if (!topic) {
+
     subjectLabel.textContent = "ERROR";
-    subjectDescription.textContent = "We couldn't find that subject.";
+    topicTitle.textContent = "Topic not found";
+    topicSubject.textContent = "";
+    topicDescription.textContent =
+        "We couldn't find the topic you were looking for.";
+
+    practiceButton.style.display = "none";
 
 } else {
 
-    document.title = `${subject.name} — StudySprint`;
+    document.title = `${decodedTopic} — StudySprint`;
 
-    subjectTitle.textContent = subject.name;
-    subjectLabel.textContent = subject.name.toUpperCase();
-    subjectDescription.textContent = subject.description;
+    subjectLabel.textContent = topic.subject.toUpperCase();
 
-    subject.topics.forEach(topic => {
+    topicTitle.textContent = decodedTopic;
 
-        const card = document.createElement("button");
+    topicSubject.textContent = topic.subject;
 
-        card.className = "topic-card";
+    topicDescription.textContent = topic.description;
 
-        card.innerHTML = `
-            <div class="topic-icon">${topic.icon}</div>
 
-            <div class="topic-info">
-                <h3>${topic.name}</h3>
-                <p>${topic.description}</p>
-            </div>
+    // =========================
+    // LEARNING CONTENT
+    // =========================
 
-            <span class="arrow">→</span>
-        `;
+    topic.sections.forEach(section => {
 
-        card.addEventListener("click", () => {
+        const card = document.createElement("article");
 
-            const topicName = encodeURIComponent(topic.name);
+        card.className = "learning-card";
 
-            window.location.href =
-                `topic.html?subject=${subjectKey}&topic=${topicName}`;
 
-        });
+        const title = document.createElement("h3");
 
-        topicsList.appendChild(card);
+        title.textContent = section.title;
+
+        card.appendChild(title);
+
+
+        if (section.text) {
+
+            const paragraph = document.createElement("p");
+
+            paragraph.textContent = section.text;
+
+            card.appendChild(paragraph);
+
+        }
+
+
+        if (section.list) {
+
+            const list = document.createElement("ul");
+
+            section.list.forEach(item => {
+
+                const listItem = document.createElement("li");
+
+                listItem.textContent = item;
+
+                list.appendChild(listItem);
+
+            });
+
+            card.appendChild(list);
+
+        }
+
+
+        learningContent.appendChild(card);
+
+    });
+
+
+    // =========================
+    // START SPRINT
+    // =========================
+
+    practiceButton.addEventListener("click", () => {
+
+        window.location.href =
+            `../sprint/index.html?subject=${encodeURIComponent(subjectKey)}&topic=${encodeURIComponent(decodedTopic)}`;
 
     });
 
