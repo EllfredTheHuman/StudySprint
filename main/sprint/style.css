@@ -1,0 +1,422 @@
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #0b0c0f;
+    --surface: #13151a;
+    --surface-hover: #191c22;
+    --border: #242730;
+
+    --text: #f2f3f5;
+    --muted: #8d929d;
+
+    --accent: #8b7cff;
+    --accent-dark: #7063dc;
+
+    --radius: 16px;
+}
+
+body {
+    min-height: 100vh;
+
+    background: var(--background);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    width: 100%;
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    padding: 24px 18px 110px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    margin-bottom: 6px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 650;
+    letter-spacing: -0.7px;
+}
+
+.header-description {
+    margin-top: 7px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.selection-section {
+    margin-bottom: 30px;
+}
+
+.section-heading {
+    margin-bottom: 13px;
+}
+
+.section-heading h2 {
+    font-size: 18px;
+    font-weight: 650;
+}
+
+.section-heading p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   SUBJECT GRID
+========================= */
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+.subject-button {
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 14px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    color: var(--text);
+
+    text-align: left;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.subject-button span {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    background: #1b1c20;
+    border-radius: 11px;
+
+    font-size: 17px;
+}
+
+.subject-button:hover {
+    background: var(--surface-hover);
+}
+
+.subject-button:active {
+    transform: scale(0.98);
+}
+
+.subject-button.selected {
+    border-color: var(--accent);
+    background: #171621;
+}
+
+
+/* =========================
+   TOPICS
+========================= */
+
+.topic-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.topic-option {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    color: var(--text);
+
+    text-align: left;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.topic-option:hover {
+    background: var(--surface-hover);
+}
+
+.topic-option.selected {
+    border-color: var(--accent);
+    background: #171621;
+}
+
+.topic-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.topic-description {
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.topic-check {
+    color: var(--accent);
+
+    font-size: 18px;
+
+    opacity: 0;
+}
+
+.topic-option.selected .topic-check {
+    opacity: 1;
+}
+
+
+/* =========================
+   START BUTTON
+========================= */
+
+.start-section {
+    margin-top: 10px;
+}
+
+.start-button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 17px 18px;
+
+    background: var(--accent);
+    border-radius: var(--radius);
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.start-button:hover:not(:disabled) {
+    background: var(--accent-dark);
+}
+
+.start-button:active:not(:disabled) {
+    transform: scale(0.985);
+}
+
+.start-button:disabled {
+    background: #202228;
+    color: #5f636c;
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   BOTTOM NAVIGATION
+========================= */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+    bottom: 12px;
+
+    transform: translateX(-50%);
+
+    width: calc(100% - 24px);
+    max-width: 580px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 8px 5px;
+
+    background: rgba(19, 21, 26, 0.94);
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    z-index: 100;
+}
+
+.nav-item {
+    min-width: 58px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+
+    padding: 6px 5px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.nav-item.active {
+    color: var(--text);
+}
+
+.nav-icon {
+    font-size: 19px;
+    line-height: 19px;
+}
+
+.sprint-nav {
+    color: var(--accent);
+}
+
+.sprint-icon {
+    width: 35px;
+    height: 35px;
+
+    display: grid;
+    place-items: center;
+
+    margin-top: -20px;
+
+    background: var(--accent);
+    border: 4px solid var(--background);
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 700px) {
+
+    .app {
+        max-width: 680px;
+        padding-top: 40px;
+    }
+
+    .header h1 {
+        font-size: 30px;
+    }
+
+    .bottom-nav {
+        bottom: 20px;
+    }
+}
+
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}
+```
