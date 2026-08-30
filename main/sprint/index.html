@@ -1,9 +1,14 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Sprints — StudySprint</title>
 
@@ -14,53 +19,140 @@
 
     <main class="app">
 
-        <!-- Header -->
+        <!-- HEADER -->
+
         <header class="header">
-            <p class="eyebrow">SPRINTS</p>
-            <h1>Test yourself.</h1>
-            <p class="header-description">
-                Choose a subject and topic to start a Sprint.
+
+            <p class="eyebrow">
+                STUDYSPRINT
             </p>
+
+            <h1>
+                Sprints
+            </h1>
+
+            <p class="header-description">
+                Pick a subject, choose a topic, and test yourself.
+            </p>
+
         </header>
 
 
-        <!-- Subject selection -->
+        <!-- SUBJECTS -->
+
         <section class="selection-section">
 
             <div class="section-heading">
-                <h2>Subject</h2>
+
+                <h2>
+                    Subject
+                </h2>
+
+                <p>
+                    What do you want to study?
+                </p>
+
             </div>
 
-            <div class="subject-grid">
 
-                <button class="subject-button" data-subject="science">
-                    <span>⚗</span>
-                    Science
+            <div
+                class="subject-grid"
+                id="subjectGrid"
+            >
+
+                <button
+                    class="subject-button"
+                    data-subject="science"
+                >
+
+                    <span>
+                        S
+                    </span>
+
+                    <strong>
+                        Science
+                    </strong>
+
                 </button>
 
-                <button class="subject-button" data-subject="maths">
-                    <span>∑</span>
-                    Maths
+
+                <button
+                    class="subject-button"
+                    data-subject="maths"
+                >
+
+                    <span>
+                        M
+                    </span>
+
+                    <strong>
+                        Maths
+                    </strong>
+
                 </button>
 
-                <button class="subject-button" data-subject="english">
-                    <span>Aa</span>
-                    English
+
+                <button
+                    class="subject-button"
+                    data-subject="english"
+                >
+
+                    <span>
+                        E
+                    </span>
+
+                    <strong>
+                        English
+                    </strong>
+
                 </button>
 
-                <button class="subject-button" data-subject="humanities">
-                    <span>◉</span>
-                    Humanities
+
+                <button
+                    class="subject-button"
+                    data-subject="humanities"
+                >
+
+                    <span>
+                        H
+                    </span>
+
+                    <strong>
+                        Humanities
+                    </strong>
+
                 </button>
 
-                <button class="subject-button" data-subject="french">
-                    <span>A</span>
-                    French
+
+                <button
+                    class="subject-button"
+                    data-subject="french"
+                >
+
+                    <span>
+                        F
+                    </span>
+
+                    <strong>
+                        French
+                    </strong>
+
                 </button>
 
-                <button class="subject-button" data-subject="japanese">
-                    <span>あ</span>
-                    Japanese
+
+                <button
+                    class="subject-button"
+                    data-subject="japanese"
+                >
+
+                    <span>
+                        J
+                    </span>
+
+                    <strong>
+                        Japanese
+                    </strong>
+
                 </button>
 
             </div>
@@ -68,22 +160,38 @@
         </section>
 
 
-        <!-- Topic selection -->
-        <section class="selection-section" id="topicSection">
+        <!-- TOPICS -->
+
+        <section
+            class="selection-section"
+            id="topicsSection"
+            hidden
+        >
 
             <div class="section-heading">
-                <h2>Topic</h2>
-                <p id="topicHint">Choose a subject first.</p>
+
+                <h2>
+                    Topic
+                </h2>
+
+                <p id="topicDescription">
+                    Choose what you want to practise.
+                </p>
+
             </div>
 
-            <div id="topicList" class="topic-list">
-                <!-- Topics appear here -->
+
+            <div
+                class="topic-list"
+                id="topicList"
+            >
             </div>
 
         </section>
 
 
-        <!-- Start -->
+        <!-- START -->
+
         <section class="start-section">
 
             <button
@@ -91,47 +199,458 @@
                 id="startButton"
                 disabled
             >
-                <span>Start Sprint</span>
-                <span>→</span>
+
+                <span>
+                    Choose a topic
+                </span>
+
+                <span>
+                    →
+                </span>
+
             </button>
 
         </section>
 
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-
-            <a href="../index.html" class="nav-item">
-                <span class="nav-icon">⌂</span>
-                <span>Home</span>
-            </a>
-
-            <a href="../study/index.html" class="nav-item">
-                <span class="nav-icon">▣</span>
-                <span>Study</span>
-            </a>
-
-            <a href="index.html" class="nav-item active sprint-nav">
-                <span class="sprint-icon">▶</span>
-                <span>Sprints</span>
-            </a>
-
-            <a href="../rooms/index.html" class="nav-item">
-                <span class="nav-icon">♧</span>
-                <span>Rooms</span>
-            </a>
-
-            <a href="../profile/index.html" class="nav-item">
-                <span class="nav-icon">●</span>
-                <span>Profile</span>
-            </a>
-
-        </nav>
-
     </main>
 
-    <script src="script.js"></script>
+
+    <!-- BOTTOM NAV -->
+
+    <nav class="bottom-nav">
+
+        <a
+            href="../index.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            <span>
+                Home
+            </span>
+
+        </a>
+
+
+        <a
+            href="../study/index.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                ◫
+            </span>
+
+            <span>
+                Study
+            </span>
+
+        </a>
+
+
+        <a
+            href="index.html"
+            class="nav-item active sprint-nav"
+        >
+
+            <span class="sprint-icon">
+                S
+            </span>
+
+            <span>
+                Sprint
+            </span>
+
+        </a>
+
+
+        <a
+            href="../rooms/index.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                ♧
+            </span>
+
+            <span>
+                Rooms
+            </span>
+
+        </a>
+
+
+        <a
+            href="../profile/index.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                ○
+            </span>
+
+            <span>
+                Profile
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <script>
+
+        /* =====================================================
+           TOPIC DATA
+        ===================================================== */
+
+        const subjects = {
+
+            science: {
+
+                name: "Science",
+
+                description:
+                    "Choose a Science topic.",
+
+                topics: [
+                    "The Heart",
+                    "Electricity"
+                ]
+
+            },
+
+
+            maths: {
+
+                name: "Maths",
+
+                description:
+                    "Choose a Maths topic.",
+
+                topics: [
+                    "Algebra",
+                    "Geometry",
+                    "BIDMAS"
+                ]
+
+            },
+
+
+            english: {
+
+                name: "English",
+
+                description:
+                    "Choose an English topic.",
+
+                topics: [
+                    "Grammar",
+                    "Literature",
+                    "Poetry"
+                ]
+
+            },
+
+
+            humanities: {
+
+                name: "Humanities",
+
+                description:
+                    "Choose a Humanities topic.",
+
+                topics: [
+                    "Geography",
+                    "History",
+                    "Civics"
+                ]
+
+            },
+
+
+            french: {
+
+                name: "French",
+
+                description:
+                    "Choose a French topic.",
+
+                topics: [
+                    "Vocabulary",
+                    "Grammar",
+                    "Conversation"
+                ]
+
+            },
+
+
+            japanese: {
+
+                name: "Japanese",
+
+                description:
+                    "Choose a Japanese topic.",
+
+                topics: [
+                    "Vocabulary",
+                    "Hiragana",
+                    "Grammar"
+                ]
+
+            }
+
+        };
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const subjectButtons =
+            document.querySelectorAll(
+                ".subject-button"
+            );
+
+        const topicsSection =
+            document.getElementById(
+                "topicsSection"
+            );
+
+        const topicList =
+            document.getElementById(
+                "topicList"
+            );
+
+        const topicDescription =
+            document.getElementById(
+                "topicDescription"
+            );
+
+        const startButton =
+            document.getElementById(
+                "startButton"
+            );
+
+
+        /* =====================================================
+           STATE
+        ===================================================== */
+
+        let selectedSubject = null;
+        let selectedTopic = null;
+
+
+        /* =====================================================
+           SUBJECT SELECTION
+        ===================================================== */
+
+        subjectButtons.forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectedSubject =
+                        button.dataset.subject;
+
+                    selectedTopic = null;
+
+
+                    subjectButtons.forEach(
+                        otherButton => {
+
+                            otherButton.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    showTopics(
+                        selectedSubject
+                    );
+
+                }
+            );
+
+        });
+
+
+        /* =====================================================
+           SHOW TOPICS
+        ===================================================== */
+
+        function showTopics(subject) {
+
+            const data =
+                subjects[subject];
+
+
+            if (!data) {
+                return;
+            }
+
+
+            topicsSection.hidden = false;
+
+            topicDescription.textContent =
+                data.description;
+
+            topicList.innerHTML = "";
+
+
+            data.topics.forEach(topic => {
+
+                const button =
+                    document.createElement("button");
+
+                button.className =
+                    "topic-option";
+
+
+                button.innerHTML = `
+
+                    <div>
+
+                        <div class="topic-name">
+                            ${topic}
+                        </div>
+
+                        <div class="topic-description">
+                            5 questions
+                        </div>
+
+                    </div>
+
+                    <span class="topic-check">
+                        ✓
+                    </span>
+
+                `;
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        selectedTopic =
+                            topic;
+
+
+                        document
+                            .querySelectorAll(
+                                ".topic-option"
+                            )
+                            .forEach(
+                                option => {
+                                    option.classList.remove(
+                                        "selected"
+                                    );
+                                }
+                            );
+
+
+                        button.classList.add(
+                            "selected"
+                        );
+
+
+                        enableStartButton();
+
+                    }
+                );
+
+
+                topicList.appendChild(
+                    button
+                );
+
+            });
+
+
+            startButton.disabled = true;
+
+            startButton.innerHTML = `
+
+                <span>
+                    Choose a topic
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            `;
+
+
+            topicsSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+        /* =====================================================
+           START BUTTON
+        ===================================================== */
+
+        function enableStartButton() {
+
+            startButton.disabled = false;
+
+            startButton.innerHTML = `
+
+                <span>
+                    Start Sprint
+                </span>
+
+                <span>
+                    →
+                </span>
+
+            `;
+
+        }
+
+
+        startButton.addEventListener(
+            "click",
+            () => {
+
+                if (
+                    !selectedSubject ||
+                    !selectedTopic
+                ) {
+                    return;
+                }
+
+
+                const encodedTopic =
+                    encodeURIComponent(
+                        selectedTopic
+                    );
+
+
+                window.location.href =
+                    `quiz.html?subject=${selectedSubject}&topic=${encodedTopic}`;
+
+            }
+        );
+
+    </script>
 
 </body>
+
 </html>
 ```
