@@ -1,0 +1,173 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sprint — StudySprint</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="quiz-app">
+
+        <!-- Quiz Header -->
+        <header class="quiz-header">
+
+            <a href="index.html" class="quit-button">
+                ×
+            </a>
+
+            <div class="quiz-progress">
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        id="progressFill"
+                    ></div>
+                </div>
+
+                <span id="questionCounter">
+                    1 / 5
+                </span>
+            </div>
+
+        </header>
+
+
+        <!-- Question -->
+        <section class="question-section">
+
+            <p class="quiz-topic" id="quizTopic">
+                Topic
+            </p>
+
+            <h1 id="questionText">
+                Loading question...
+            </h1>
+
+        </section>
+
+
+        <!-- Answers -->
+        <section
+            class="answers"
+            id="answers"
+        >
+            <!-- Answers inserted by JavaScript -->
+        </section>
+
+
+        <!-- Feedback -->
+        <section
+            class="feedback"
+            id="feedback"
+            hidden
+        >
+            <div class="feedback-title" id="feedbackTitle">
+                Correct!
+            </div>
+
+            <p id="feedbackText">
+                Nice work.
+            </p>
+        </section>
+
+
+        <!-- Next -->
+        <button
+            class="next-button"
+            id="nextButton"
+            hidden
+        >
+            <span id="nextButtonText">
+                Next question
+            </span>
+
+            <span>→</span>
+        </button>
+
+
+        <!-- Results -->
+        <section
+            class="results"
+            id="results"
+            hidden
+        >
+
+            <div class="results-icon">
+                ✓
+            </div>
+
+            <p class="eyebrow">
+                SPRINT COMPLETE
+            </p>
+
+            <h1 id="resultsTitle">
+                Nice work.
+            </h1>
+
+            <div class="score-card">
+
+                <span class="score-label">
+                    SCORE
+                </span>
+
+                <strong id="finalScore">
+                    0 / 5
+                </strong>
+
+                <span id="scorePercentage">
+                    0%
+                </span>
+
+            </div>
+
+            <div class="result-stats">
+
+                <div>
+                    <strong id="correctCount">
+                        0
+                    </strong>
+
+                    <span>Correct</span>
+                </div>
+
+                <div>
+                    <strong id="bestScore">
+                        —
+                    </strong>
+
+                    <span>Best</span>
+                </div>
+
+            </div>
+
+            <button
+                class="results-button"
+                id="retryButton"
+            >
+                Try again
+            </button>
+
+            <a
+                href="index.html"
+                class="secondary-button"
+            >
+                Back to Sprints
+            </a>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
