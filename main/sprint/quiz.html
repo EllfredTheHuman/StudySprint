@@ -3,216 +3,89 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>StudySprint Quiz</title>
 
-    <title>Sprint — StudySprint</title>
-
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
 
-    <main class="quiz-app">
+<header>
 
-        <!-- QUIZ HEADER -->
+    <div class="logo">
+        <a href="../index.html">
+            sh🚀 StudySprint
+        </a>
+    </div>
 
-        <header class="quiz-header">
+    <nav>
+        <a href="../index.html">Home</a>
+        <a href="../study/index.html">📚 Study</a>
+        <a href="../sprint/index.html">🏃 Sprint</a>
+        <a href="../profile/index.html">👤 Profile</a>
+    </nav>
 
-            <a
-                href="index.html"
-                class="quit-button"
-                aria-label="Exit Sprint"
-            >
-                ×
-            </a>
-
-            <div class="quiz-progress">
-
-                <div class="progress-track">
-                    <div
-                        class="progress-fill"
-                        id="progressFill"
-                    ></div>
-                </div>
-
-                <span id="questionCounter">
-                    1 / 5
-                </span>
-
-            </div>
-
-        </header>
+</header>
 
 
-        <!-- QUESTION -->
+<main>
 
-        <section class="question-section">
+    <section class="hero">
 
-            <p
-                class="quiz-topic"
-                id="quizTopic"
-            >
-                Topic
-            </p>
+        <p id="quiz-topic">Loading...</p>
 
-            <h1 id="questionText">
-                Loading question...
-            </h1>
+        <h1 id="question">
+            Loading question...
+        </h1>
 
-        </section>
+        <p id="question-number">
+            Question 1 of 5
+        </p>
 
-
-        <!-- ANSWERS -->
-
-        <section
-            class="answers"
-            id="answers"
-        >
-        </section>
+    </section>
 
 
-        <!-- FEEDBACK -->
-
-        <section
-            class="feedback"
-            id="feedback"
-            hidden
-        >
-
-            <div
-                class="feedback-title"
-                id="feedbackTitle"
-            >
-                Correct!
-            </div>
-
-            <p id="feedbackText">
-                Nice work.
-            </p>
-
-        </section>
+    <section class="features" id="answers">
+        <!-- Answers appear here -->
+    </section>
 
 
-        <!-- NEXT -->
+    <section class="hero" id="written-area" style="display:none;">
 
-        <button
-            class="next-button"
-            id="nextButton"
-            hidden
-        >
+        <textarea
+            id="written-answer"
+            placeholder="Type your answer..."
+            rows="5"
+            style="width:100%; max-width:700px;"
+        ></textarea>
 
-            <span id="nextButtonText">
-                Next question
-            </span>
+        <br><br>
 
-            <span>
-                →
-            </span>
-
+        <button class="main-button" id="submit-written">
+            Submit Answer
         </button>
 
-
-        <!-- RESULTS -->
-
-        <section
-            class="results"
-            id="results"
-            hidden
-        >
-
-            <div class="results-icon">
-                ✓
-            </div>
-
-            <p class="eyebrow">
-                SPRINT COMPLETE
-            </p>
-
-            <h1 id="resultsTitle">
-                Nice work.
-            </h1>
+    </section>
 
 
-            <div class="score-card">
+    <section class="hero" id="feedback" style="display:none;">
 
-                <span class="score-label">
-                    SCORE
-                </span>
+        <h2 id="feedback-title"></h2>
 
-                <strong id="finalScore">
-                    0 / 5
-                </strong>
+        <p id="feedback-text"></p>
 
-                <span id="scorePercentage">
-                    0%
-                </span>
+        <button class="main-button" id="next-question">
+            Next Question
+        </button>
 
-            </div>
+    </section>
+
+</main>
 
 
-            <div class="result-stats">
-
-                <div>
-
-                    <strong id="correctCount">
-                        0
-                    </strong>
-
-                    <span>
-                        Correct
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <strong id="bestScore">
-                        —
-                    </strong>
-
-                    <span>
-                        Best
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <button
-                class="results-button"
-                id="retryButton"
-            >
-                Try again
-            </button>
-
-
-            <a
-                href="index.html"
-                class="secondary-button"
-            >
-                Back to Sprints
-            </a>
-
-        </section>
-
-    </main>
-
-
-    <!-- QUESTION DATA -->
-
-    <script src="../../questions/science.js"></script>
-    <script src="../../questions/maths.js"></script>
-
-    <!-- SPRINT ENGINE -->
-
-    <script src="script.js"></script>
+<script src="quiz.js"></script>
 
 </body>
-
 </html>
