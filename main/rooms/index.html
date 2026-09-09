@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rooms — StudySprint</title>
+
+    <link rel="stylesheet" href="rooms.css">
+
+</head>
+
+
+<body>
+
+    <main class="app">
+
+
+        <!-- Header -->
+
+        <header class="header">
+
+            <div>
+
+                <p class="eyebrow">
+                    STUDYSPRINT
+                </p>
+
+                <h1>
+                    Rooms
+                </h1>
+
+            </div>
+
+
+            <button
+                class="back-button"
+                onclick="window.location.href='../index.html'"
+                aria-label="Go home"
+            >
+                ←
+            </button>
+
+        </header>
+
+
+
+
+        <!-- Intro -->
+
+        <section class="intro">
+
+            <h2>
+                Study together.
+            </h2>
+
+            <p>
+                Join a room with a code or create one for your class.
+            </p>
+
+        </section>
+
+
+
+
+        <!-- Join Room -->
+
+        <section class="room-section">
+
+            <div class="section-icon">
+                🔗
+            </div>
+
+            <div class="section-content">
+
+                <h2>
+                    Join a room
+                </h2>
+
+                <p>
+                    Enter the code your teacher or friend gave you.
+                </p>
+
+
+                <div class="join-form">
+
+                    <input
+                        type="text"
+                        id="room-code"
+                        placeholder="ROOM CODE"
+                        maxlength="6"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+
+                    <button
+                        id="join-button"
+                        class="primary-button"
+                    >
+                        Join Room
+                    </button>
+
+                </div>
+
+                <p
+                    id="join-message"
+                    class="message"
+                ></p>
+
+            </div>
+
+        </section>
+
+
+
+
+        <!-- Create Room -->
+
+        <section class="room-section create-section">
+
+            <div class="section-icon">
+                ✨
+            </div>
+
+            <div class="section-content">
+
+                <h2>
+                    Create a room
+                </h2>
+
+                <p>
+                    Start a room and invite other students to join.
+                </p>
+
+
+                <button
+                    id="create-button"
+                    class="secondary-button"
+                >
+                    Create Room
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+
+        <!-- Recent Rooms -->
+
+        <section class="recent-section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Recent rooms
+                </h2>
+
+            </div>
+
+
+            <div
+                id="recent-rooms"
+                class="recent-rooms"
+            >
+
+                <div class="empty-state">
+
+                    <span>
+                        🏠
+                    </span>
+
+                    <p>
+                        No recent rooms
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+
+        <!-- Bottom Navigation -->
+
+        <nav class="bottom-nav">
+
+
+            <a
+                href="../index.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Home
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="../study/index.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Study
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="../sprint/index.html"
+                class="nav-item sprint-nav"
+            >
+
+                <span class="sprint-icon">
+                    ▶
+                </span>
+
+                <span>
+                    Sprints
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="index.html"
+                class="nav-item active"
+            >
+
+                <span class="nav-icon">
+                    ♧
+                </span>
+
+                <span>
+                    Rooms
+                </span>
+
+            </a>
+
+
+
+            <a
+                href="../profile/index.html"
+                class="nav-item"
+            >
+
+                <span class="nav-icon">
+                    ●
+                </span>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+    </main>
+
+
+    <script src="rooms.js"></script>
+
+</body>
+
+</html>
