@@ -1,5 +1,5 @@
 /* =========================================================
-   STUDYSPRINT — ACTUAL QUIZ
+   STUDYSPRINT — QUIZ
    ========================================================= */
 
 * {
@@ -7,9 +7,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
     margin: 0;
-
     min-height: 100vh;
 
     background: #080808;
@@ -29,109 +32,63 @@ body {
 
 main {
     width: 100%;
-    max-width: 850px;
+    max-width: 760px;
 
     margin: 0 auto;
 
-    padding: 35px 18px 70px;
+    padding: 32px 18px 60px;
 }
 
 
 /* =========================================================
-   QUESTION AREA
+   QUESTION
    ========================================================= */
 
 main > .hero:first-child {
-    position: relative;
-
-    padding: 38px 30px 30px;
-
-    margin-bottom: 14px;
+    margin: 0 0 14px;
+    padding: 30px 26px 25px;
 
     background: #101010;
 
-    border: 1px solid #242424;
-    border-radius: 22px;
+    border: 1px solid #222;
+    border-radius: 21px;
 
     text-align: left;
-
-    overflow: hidden;
 }
-
-
-/* subtle background detail */
-
-main > .hero:first-child::after {
-    content: "";
-
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    top: -150px;
-    right: -100px;
-
-    border-radius: 50%;
-
-    background: rgba(255, 255, 255, 0.025);
-
-    pointer-events: none;
-}
-
-
-/* topic */
 
 #quiz-topic {
-    position: relative;
-    z-index: 1;
-
-    margin: 0 0 16px;
+    margin: 0 0 18px;
 
     color: #666;
 
     font-size: 11px;
     font-weight: 800;
 
-    letter-spacing: 1.8px;
+    letter-spacing: 2px;
 
     text-transform: uppercase;
 }
 
-
-/* question */
-
 #question {
-    position: relative;
-    z-index: 1;
-
-    max-width: 760px;
-
     margin: 0;
 
     color: #fff;
 
-    font-size: clamp(30px, 6vw, 48px);
-    font-weight: 800;
+    font-size: clamp(30px, 6vw, 46px);
+    font-weight: 850;
 
     line-height: 1.08;
 
-    letter-spacing: -1.8px;
+    letter-spacing: -2px;
 }
 
-
-/* question counter */
-
 #question-number {
-    position: relative;
-    z-index: 1;
+    margin: 20px 0 0;
 
-    margin: 24px 0 0;
+    color: #555;
 
-    color: #666;
-
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 
@@ -144,68 +101,60 @@ main > .hero:first-child::after {
 
     grid-template-columns: repeat(2, 1fr);
 
-    gap: 10px;
+    gap: 9px;
 
     margin: 0;
-
     padding: 0;
 }
 
 
-/* answer buttons */
+/* GENERATED ANSWER BUTTONS */
 
 #answers button {
-    position: relative;
+    display: flex;
+
+    align-items: center;
 
     width: 100%;
-    min-height: 82px;
+    min-height: 88px;
 
-    padding: 18px 20px;
+    padding: 18px;
 
     background: #101010;
 
     color: #eee;
 
-    border: 1px solid #242424;
-    border-radius: 16px;
+    border: 1px solid #232323;
+    border-radius: 17px;
 
     font-family: inherit;
 
     font-size: 15px;
-    font-weight: 650;
+    font-weight: 700;
 
-    line-height: 1.4;
+    line-height: 1.35;
 
     text-align: left;
 
     cursor: pointer;
 
     transition:
-        background 0.15s ease,
-        border-color 0.15s ease,
-        transform 0.15s ease;
+        background .15s ease,
+        border-color .15s ease,
+        transform .15s ease;
 }
-
-
-/* answer hover */
 
 #answers button:hover:not(:disabled) {
     background: #161616;
 
-    border-color: #3a3a3a;
+    border-color: #444;
 
     transform: translateY(-2px);
 }
 
-
-/* answer press */
-
 #answers button:active:not(:disabled) {
-    transform: scale(0.985);
+    transform: scale(.985);
 }
-
-
-/* disabled answers */
 
 #answers button:disabled {
     cursor: default;
@@ -213,17 +162,16 @@ main > .hero:first-child::after {
 
 
 /* =========================================================
-   WRITTEN ANSWER
+   WRITTEN QUESTIONS
    ========================================================= */
 
 #written-area {
-    margin-top: 14px;
-
-    padding: 22px;
+    margin: 14px 0 0;
+    padding: 20px;
 
     background: #101010;
 
-    border: 1px solid #242424;
+    border: 1px solid #222;
     border-radius: 18px;
 
     text-align: left;
@@ -234,13 +182,11 @@ main > .hero:first-child::after {
 
     width: 100% !important;
     max-width: none !important;
-
-    min-height: 145px;
+    min-height: 150px;
 
     padding: 16px;
 
     background: #080808;
-
     color: #fff;
 
     border: 1px solid #292929;
@@ -254,10 +200,6 @@ main > .hero:first-child::after {
     font-size: 15px;
 
     line-height: 1.5;
-
-    transition:
-        border-color 0.15s ease,
-        box-shadow 0.15s ease;
 }
 
 #written-answer::placeholder {
@@ -265,10 +207,55 @@ main > .hero:first-child::after {
 }
 
 #written-answer:focus {
-    border-color: #555;
+    border-color: #666;
+}
 
-    box-shadow:
-        0 0 0 3px rgba(255, 255, 255, 0.035);
+
+/* =========================================================
+   QUIZ BUTTONS
+   ========================================================= */
+
+#submit-written,
+#next-question {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 54px;
+
+    margin-top: 14px;
+
+    padding: 0 18px;
+
+    background: #fff;
+    color: #080808;
+
+    border: 0;
+    border-radius: 14px;
+
+    font-family: inherit;
+
+    font-size: 14px;
+    font-weight: 850;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        opacity .15s ease;
+}
+
+#submit-written:hover,
+#next-question:hover {
+    transform: translateY(-2px);
+}
+
+#submit-written:active,
+#next-question:active {
+    transform: scale(.985);
 }
 
 
@@ -277,13 +264,12 @@ main > .hero:first-child::after {
    ========================================================= */
 
 #feedback {
-    margin-top: 14px;
-
-    padding: 25px;
+    margin: 14px 0 0;
+    padding: 22px;
 
     background: #101010;
 
-    border: 1px solid #242424;
+    border: 1px solid #292929;
     border-radius: 18px;
 
     text-align: left;
@@ -295,66 +281,19 @@ main > .hero:first-child::after {
     color: #fff;
 
     font-size: 24px;
-    font-weight: 800;
+    font-weight: 850;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -.8px;
 }
 
 #feedback-text {
-    margin: 0 0 20px;
+    margin: 0;
 
     color: #888;
 
     font-size: 14px;
 
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   BUTTONS
-   ========================================================= */
-
-#submit-written,
-#next-question {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-height: 48px;
-
-    padding: 0 20px;
-
-    background: #fff;
-
-    color: #080808;
-
-    border: none;
-    border-radius: 11px;
-
-    font-family: inherit;
-
-    font-size: 13px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
-}
-
-#submit-written:hover,
-#next-question:hover {
-    opacity: 0.86;
-
-    transform: translateY(-2px);
-}
-
-#submit-written:active,
-#next-question:active {
-    transform: scale(0.98);
+    line-height: 1.55;
 }
 
 
@@ -362,22 +301,30 @@ main > .hero:first-child::after {
    MOBILE
    ========================================================= */
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
 
     main {
-        padding: 20px 13px 60px;
+        padding: 18px 12px 45px;
     }
 
     main > .hero:first-child {
-        padding: 30px 22px 25px;
+        padding: 26px 20px 22px;
 
-        border-radius: 19px;
+        border-radius: 18px;
+    }
+
+    #quiz-topic {
+        margin-bottom: 15px;
     }
 
     #question {
-        font-size: 31px;
+        font-size: 30px;
 
-        letter-spacing: -1px;
+        letter-spacing: -1.2px;
+    }
+
+    #question-number {
+        margin-top: 17px;
     }
 
     #answers {
@@ -387,7 +334,7 @@ main > .hero:first-child::after {
     }
 
     #answers button {
-        min-height: 68px;
+        min-height: 70px;
 
         padding: 16px;
 
@@ -396,7 +343,7 @@ main > .hero:first-child::after {
 
     #written-area,
     #feedback {
-        padding: 19px;
+        padding: 17px;
 
         border-radius: 16px;
     }
@@ -404,31 +351,29 @@ main > .hero:first-child::after {
     #written-answer {
         min-height: 130px;
     }
-
-    #submit-written,
-    #next-question {
-        width: 100%;
-    }
-
 }
 
 
 /* =========================================================
-   VERY SMALL PHONES
+   SMALL PHONES
    ========================================================= */
 
 @media (max-width: 380px) {
 
+    main {
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
     main > .hero:first-child {
-        padding: 25px 18px 22px;
+        padding: 23px 17px 20px;
     }
 
     #question {
         font-size: 27px;
     }
 
-    #question-number {
-        margin-top: 18px;
+    #answers button {
+        min-height: 66px;
     }
-
 }
