@@ -2,39 +2,36 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>StudySprint Quiz</title>
 
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="quiz.css">
+
 </head>
+
 
 <body>
 
-<header>
-
-    <div class="logo">
-        <a href="../index.html">
-            sh🚀 StudySprint
-        </a>
-    </div>
-
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="../study/index.html">📚 Study</a>
-        <a href="../sprint/index.html">🏃 Sprint</a>
-        <a href="../profile/index.html">👤 Profile</a>
-    </nav>
-
-</header>
 
 <main>
 
+    <!-- =================================================
+         QUESTION
+    ================================================== -->
+
     <section class="hero">
 
-        <p id="quiz-topic">Loading...</p>
+        <p id="quiz-topic">
+            Loading...
+        </p>
 
         <h1 id="question">
             Loading question...
@@ -46,10 +43,24 @@
 
     </section>
 
-    <section class="features" id="answers">
+
+    <!-- =================================================
+         ANSWERS
+    ================================================== -->
+
+    <section id="answers">
     </section>
 
-    <section class="hero" id="written-area" style="display:none;">
+
+    <!-- =================================================
+         WRITTEN ANSWER
+    ================================================== -->
+
+    <section
+        class="hero"
+        id="written-area"
+        style="display: none;"
+    >
 
         <textarea
             id="written-answer"
@@ -57,19 +68,34 @@
             rows="5"
         ></textarea>
 
-        <button class="main-button" id="submit-written">
+        <button
+            class="main-button"
+            id="submit-written"
+        >
             Submit Answer
         </button>
 
     </section>
 
-    <section class="hero" id="feedback" style="display:none;">
+
+    <!-- =================================================
+         FEEDBACK
+    ================================================== -->
+
+    <section
+        class="hero"
+        id="feedback"
+        style="display: none;"
+    >
 
         <h2 id="feedback-title"></h2>
 
         <p id="feedback-text"></p>
 
-        <button class="main-button" id="next-question">
+        <button
+            class="main-button"
+            id="next-question"
+        >
             Next Question
         </button>
 
@@ -77,7 +103,89 @@
 
 </main>
 
+
+<!-- =====================================================
+     MOBILE BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <a
+        class="nav-item"
+        href="../index.html"
+    >
+
+        <span class="nav-icon">⌂</span>
+
+        <span>
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        class="nav-item"
+        href="../study/index.html"
+    >
+
+        <span class="nav-icon">▣</span>
+
+        <span>
+            Study
+        </span>
+
+    </a>
+
+
+    <a
+        class="nav-item sprint-nav"
+        href="../sprint/index.html"
+    >
+
+        <span class="sprint-icon">
+            ▶
+        </span>
+
+        <span>
+            Sprints
+        </span>
+
+    </a>
+
+
+    <a
+        class="nav-item"
+        href="../rooms/index.html"
+    >
+
+        <span class="nav-icon">♧</span>
+
+        <span>
+            Rooms
+        </span>
+
+    </a>
+
+
+    <a
+        class="nav-item"
+        href="../profile/index.html"
+    >
+
+        <span class="nav-icon">●</span>
+
+        <span>
+            Profile
+        </span>
+
+    </a>
+
+</nav>
+
+
 <script src="quiz.js"></script>
 
 </body>
+
 </html>
