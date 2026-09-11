@@ -1,18 +1,32 @@
+```js
 /* =========================================================
    STUDYSPRINT — ACCOUNT
-   Supabase Authentication
 ========================================================= */
 
 
 /* =========================================================
-   SUPABASE
+   SUPABASE SETUP
 ========================================================= */
 
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
+
+
+if (
+    typeof window.supabase === "undefined"
+) {
+
+    document.getElementById("message").textContent =
+        "Could not load the account system.";
+
+    throw new Error(
+        "Supabase library did not load."
+    );
+}
 
 
 const supabaseClient =
@@ -29,15 +43,15 @@ const supabaseClient =
 const authScreen =
     document.getElementById("auth-screen");
 
-const loggedInScreen =
-    document.getElementById("logged-in-screen");
+const accountScreen =
+    document.getElementById("account-screen");
 
 
-const formTitle =
-    document.getElementById("form-title");
+const title =
+    document.getElementById("title");
 
-const formSubtitle =
-    document.getElementById("form-subtitle");
+const subtitle =
+    document.getElementById("subtitle");
 
 
 const signinTab =
@@ -51,16 +65,16 @@ const authForm =
     document.getElementById("auth-form");
 
 
-const emailInput =
+const email =
     document.getElementById("email");
 
-const passwordInput =
+const password =
     document.getElementById("password");
 
-const confirmPasswordGroup =
-    document.getElementById("confirm-password-group");
+const confirmContainer =
+    document.getElementById("confirm-container");
 
-const confirmPasswordInput =
+const confirmPassword =
     document.getElementById("confirm-password");
 
 
@@ -72,29 +86,29 @@ const message =
     document.getElementById("message");
 
 
-const switchQuestion =
-    document.getElementById("switch-question");
+const switchText =
+    document.getElementById("switch-text");
 
 const switchButton =
     document.getElementById("switch-button");
 
 
-const loggedInEmail =
-    document.getElementById("logged-in-email");
+const accountEmail =
+    document.getElementById("account-email");
 
-const signoutButton =
-    document.getElementById("signout-button");
+const logoutButton =
+    document.getElementById("logout-button");
 
 
 /* =========================================================
-   STATE
+   MODE
 ========================================================= */
 
 let mode = "signin";
 
 
 /* =========================================================
-   SWITCH BETWEEN SIGN IN / SIGN UP
+   MODE SWITCHING
 ========================================================= */
 
 function setMode(newMode) {
@@ -108,76 +122,76 @@ function setMode(newMode) {
 
     if (mode === "signup") {
 
-        formTitle.textContent =
+        title.textContent =
             "Create your account.";
 
-        formSubtitle.textContent =
+        subtitle.textContent =
             "Create an account to save your StudySprint progress.";
 
+
         signinTab.classList.remove("active");
+
         signupTab.classList.add("active");
 
-        confirmPasswordGroup.classList.remove("hidden");
 
-        confirmPasswordInput.required = true;
+        confirmContainer.classList.remove("hidden");
+
+        confirmPassword.required = true;
+
 
         submitButton.textContent =
             "Create Account";
 
-        switchQuestion.textContent =
+
+        switchText.textContent =
             "Already have an account?";
 
         switchButton.textContent =
             "Sign In";
 
-        passwordInput.autocomplete =
+
+        password.autocomplete =
             "new-password";
 
     } else {
 
-        formTitle.textContent =
+        title.textContent =
             "Welcome back.";
 
-        formSubtitle.textContent =
-            "Sign in to continue your StudySprint journey.";
+        subtitle.textContent =
+            "Sign in to your StudySprint account.";
+
 
         signupTab.classList.remove("active");
+
         signinTab.classList.add("active");
 
-        confirmPasswordGroup.classList.add("hidden");
 
-        confirmPasswordInput.required = false;
+        confirmContainer.classList.add("hidden");
+
+        confirmPassword.required = false;
+
 
         submitButton.textContent =
             "Sign In";
 
-        switchQuestion.textContent =
+
+        switchText.textContent =
             "Don't have an account?";
 
         switchButton.textContent =
             "Sign Up";
 
-        passwordInput.autocomplete =
+
+        password.autocomplete =
             "current-password";
     }
 }
 
 
 /* =========================================================
-   MESSAGE
+   MESSAGES
 ========================================================= */
-
-function showMessage(
-    text,
-    type
-) {
-
-    message.textContent = text;
-
-    message.className =
-        "message " + type;
-}
-
 
 function clearMessage() {
 
@@ -188,28 +202,56 @@ function clearMessage() {
 }
 
 
+function showMessage(
+    text,
+    type
+) {
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+}
+
+
 /* =========================================================
-   LOADING STATE
+   LOADING
 ========================================================= */
 
-function setLoading(isLoading) {
+function setLoading(
+    loading
+) {
 
     submitButton.disabled =
-        isLoading;
+        loading;
 
-    if (isLoading) {
 
-        submitButton.textContent =
-            mode === "signup"
-                ? "Creating Account..."
-                : "Signing In...";
+    if (loading) {
+
+        if (mode === "signup") {
+
+            submitButton.textContent =
+                "Creating Account...";
+
+        } else {
+
+            submitButton.textContent =
+                "Signing In...";
+        }
 
     } else {
 
-        submitButton.textContent =
-            mode === "signup"
-                ? "Create Account"
-                : "Sign In";
+        if (mode === "signup") {
+
+            submitButton.textContent =
+                "Create Account";
+
+        } else {
+
+            submitButton.textContent =
+                "Sign In";
+        }
     }
 }
 
@@ -220,20 +262,23 @@ function setLoading(isLoading) {
 
 async function signUp() {
 
-    const email =
-        emailInput.value.trim();
+    const userEmail =
+        email.value.trim();
 
-    const password =
-        passwordInput.value;
+    const userPassword =
+        password.value;
 
-    const confirmPassword =
-        confirmPasswordInput.value;
+    const repeatedPassword =
+        confirmPassword.value;
 
 
-    if (password !== confirmPassword) {
+    if (
+        userPassword !==
+        repeatedPassword
+    ) {
 
         showMessage(
-            "Your passwords do not match.",
+            "The passwords do not match.",
             "error"
         );
 
@@ -241,10 +286,12 @@ async function signUp() {
     }
 
 
-    if (password.length < 6) {
+    if (
+        userPassword.length < 6
+    ) {
 
         showMessage(
-            "Your password must be at least 6 characters.",
+            "Password must be at least 6 characters.",
             "error"
         );
 
@@ -257,17 +304,15 @@ async function signUp() {
 
     try {
 
-        const {
-            data,
-            error
-        } =
+        const result =
             await supabaseClient.auth.signUp({
 
-                email: email,
+                email: userEmail,
 
-                password: password,
+                password: userPassword,
 
                 options: {
+
                     emailRedirectTo:
                         "https://ellfredthehuman.github.io/StudySprint/main/account/"
                 }
@@ -275,23 +320,9 @@ async function signUp() {
             });
 
 
-        if (error) {
-            throw error;
-        }
+        if (result.error) {
 
-
-        if (
-            data.user &&
-            data.user.identities &&
-            data.user.identities.length === 0
-        ) {
-
-            showMessage(
-                "An account with that email may already exist.",
-                "error"
-            );
-
-            return;
+            throw result.error;
         }
 
 
@@ -306,10 +337,14 @@ async function signUp() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Sign up error:",
+            error
+        );
+
 
         showMessage(
-            getFriendlyError(error),
+            getErrorMessage(error),
             "error"
         );
 
@@ -326,11 +361,11 @@ async function signUp() {
 
 async function signIn() {
 
-    const email =
-        emailInput.value.trim();
+    const userEmail =
+        email.value.trim();
 
-    const password =
-        passwordInput.value;
+    const userPassword =
+        password.value;
 
 
     setLoading(true);
@@ -338,20 +373,19 @@ async function signIn() {
 
     try {
 
-        const {
-            error
-        } =
+        const result =
             await supabaseClient.auth.signInWithPassword({
 
-                email: email,
+                email: userEmail,
 
-                password: password
+                password: userPassword
 
             });
 
 
-        if (error) {
-            throw error;
+        if (result.error) {
+
+            throw result.error;
         }
 
 
@@ -363,10 +397,14 @@ async function signIn() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Sign in error:",
+            error
+        );
+
 
         showMessage(
-            getFriendlyError(error),
+            getErrorMessage(error),
             "error"
         );
 
@@ -378,7 +416,7 @@ async function signIn() {
 
 
 /* =========================================================
-   FORM SUBMIT
+   FORM
 ========================================================= */
 
 authForm.addEventListener(
@@ -404,7 +442,7 @@ authForm.addEventListener(
 
 
 /* =========================================================
-   SWITCH BUTTONS
+   SWITCH BUTTON
 ========================================================= */
 
 signinTab.addEventListener(
@@ -431,13 +469,13 @@ switchButton.addEventListener(
     "click",
     function () {
 
-        if (mode === "signup") {
+        if (mode === "signin") {
 
-            setMode("signin");
+            setMode("signup");
 
         } else {
 
-            setMode("signup");
+            setMode("signin");
         }
 
     }
@@ -445,36 +483,39 @@ switchButton.addEventListener(
 
 
 /* =========================================================
-   SHOW LOGGED-IN STATE
+   LOGGED-IN SCREEN
 ========================================================= */
 
-function showLoggedIn(user) {
+function showAccount(user) {
 
     authScreen.classList.add("hidden");
 
-    loggedInScreen.classList.remove("hidden");
+    accountScreen.classList.remove("hidden");
 
 
-    if (user && user.email) {
+    if (
+        user &&
+        user.email
+    ) {
 
-        loggedInEmail.textContent =
+        accountEmail.textContent =
             user.email;
 
     } else {
 
-        loggedInEmail.textContent =
-            "Your StudySprint account is ready.";
+        accountEmail.textContent =
+            "Your StudySprint account";
     }
 }
 
 
 /* =========================================================
-   SHOW LOGGED-OUT STATE
+   LOGGED-OUT SCREEN
 ========================================================= */
 
-function showLoggedOut() {
+function showAuth() {
 
-    loggedInScreen.classList.add("hidden");
+    accountScreen.classList.add("hidden");
 
     authScreen.classList.remove("hidden");
 
@@ -486,56 +527,62 @@ function showLoggedOut() {
    SIGN OUT
 ========================================================= */
 
-signoutButton.addEventListener(
+logoutButton.addEventListener(
     "click",
     async function () {
 
-        signoutButton.disabled =
+        logoutButton.disabled =
             true;
 
-        signoutButton.textContent =
+        logoutButton.textContent =
             "Signing Out...";
 
 
-        const {
-            error
-        } =
-            await supabaseClient.auth.signOut();
+        try {
+
+            const result =
+                await supabaseClient.auth.signOut();
 
 
-        if (error) {
+            if (result.error) {
 
-            console.error(error);
+                throw result.error;
+            }
 
-            signoutButton.disabled =
+
+            showAuth();
+
+
+        } catch (error) {
+
+            console.error(
+                "Sign out error:",
+                error
+            );
+
+        } finally {
+
+            logoutButton.disabled =
                 false;
 
-            signoutButton.textContent =
+            logoutButton.textContent =
                 "Sign Out";
-
-            return;
         }
-
-
-        signoutButton.disabled =
-            false;
-
-        signoutButton.textContent =
-            "Sign Out";
-
-        showLoggedOut();
 
     }
 );
 
 
 /* =========================================================
-   FRIENDLY ERROR MESSAGES
+   ERROR TRANSLATION
 ========================================================= */
 
-function getFriendlyError(error) {
+function getErrorMessage(error) {
 
-    if (!error || !error.message) {
+    if (
+        !error ||
+        !error.message
+    ) {
 
         return "Something went wrong. Please try again.";
     }
@@ -546,7 +593,9 @@ function getFriendlyError(error) {
 
 
     if (
-        text.includes("invalid login credentials")
+        text.includes(
+            "invalid login credentials"
+        )
     ) {
 
         return "Incorrect email or password.";
@@ -554,7 +603,9 @@ function getFriendlyError(error) {
 
 
     if (
-        text.includes("email not confirmed")
+        text.includes(
+            "email not confirmed"
+        )
     ) {
 
         return "Please confirm your email before signing in.";
@@ -562,7 +613,9 @@ function getFriendlyError(error) {
 
 
     if (
-        text.includes("user already registered")
+        text.includes(
+            "user already registered"
+        )
     ) {
 
         return "An account with this email already exists.";
@@ -570,20 +623,15 @@ function getFriendlyError(error) {
 
 
     if (
-        text.includes("password")
-        &&
-        text.includes("6")
+        text.includes(
+            "password"
+        ) &&
+        text.includes(
+            "6"
+        )
     ) {
 
-        return "Your password must be at least 6 characters.";
-    }
-
-
-    if (
-        text.includes("rate limit")
-    ) {
-
-        return "Too many attempts. Please wait a moment and try again.";
+        return "Password must be at least 6 characters.";
     }
 
 
@@ -592,51 +640,52 @@ function getFriendlyError(error) {
 
 
 /* =========================================================
-   CHECK EXISTING SESSION
+   CHECK SESSION
 ========================================================= */
 
 async function checkSession() {
 
     try {
 
-        const {
-            data,
-            error
-        } =
+        const result =
             await supabaseClient.auth.getSession();
 
 
-        if (error) {
-            throw error;
+        if (result.error) {
+
+            throw result.error;
         }
 
 
-        if (data.session) {
+        if (
+            result.data &&
+            result.data.session
+        ) {
 
-            showLoggedIn(
-                data.session.user
+            showAccount(
+                result.data.session.user
             );
 
         } else {
 
-            showLoggedOut();
+            showAuth();
         }
 
 
     } catch (error) {
 
         console.error(
-            "Session check failed:",
+            "Session error:",
             error
         );
 
-        showLoggedOut();
+        showAuth();
     }
 }
 
 
 /* =========================================================
-   AUTH STATE CHANGES
+   AUTH STATE
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
@@ -647,13 +696,13 @@ supabaseClient.auth.onAuthStateChange(
 
         if (session) {
 
-            showLoggedIn(
+            showAccount(
                 session.user
             );
 
         } else {
 
-            showLoggedOut();
+            showAuth();
         }
 
     }
@@ -667,3 +716,4 @@ supabaseClient.auth.onAuthStateChange(
 setMode("signin");
 
 checkSession();
+```
