@@ -1,28 +1,19 @@
-```js
 /* =========================================================
-   STUDYSPRINT — SUPABASE ACCOUNT
+   STUDYSPRINT — ACCOUNT
+   Supabase Authentication
 ========================================================= */
-
-
-/*
-    IMPORTANT
-
-    Put your Supabase publishable key between
-    the quotation marks below.
-
-    Do NOT put a service_role key here.
-*/
-
-const SUPABASE_URL =
-    "https://yfteudoecpkosxjucuky.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
 
 
 /* =========================================================
    SUPABASE
 ========================================================= */
+
+const SUPABASE_URL =
+    "https://yfteudoecpkosxjucuky.supabase.co";
+
+const SUPABASE_KEY =
+    "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -35,169 +26,359 @@ const supabaseClient =
    ELEMENTS
 ========================================================= */
 
-const authSection =
-    document.getElementById(
-        "auth-section"
-    );
+const authScreen =
+    document.getElementById("auth-screen");
 
-const loggedInSection =
-    document.getElementById(
-        "logged-in-section"
-    );
+const loggedInScreen =
+    document.getElementById("logged-in-screen");
 
-const title =
-    document.getElementById(
-        "title"
-    );
 
-const subtitle =
-    document.getElementById(
-        "subtitle"
-    );
+const formTitle =
+    document.getElementById("form-title");
+
+const formSubtitle =
+    document.getElementById("form-subtitle");
+
+
+const signinTab =
+    document.getElementById("signin-tab");
+
+const signupTab =
+    document.getElementById("signup-tab");
+
 
 const authForm =
-    document.getElementById(
-        "auth-form"
-    );
+    document.getElementById("auth-form");
+
 
 const emailInput =
-    document.getElementById(
-        "email"
-    );
+    document.getElementById("email");
 
 const passwordInput =
-    document.getElementById(
-        "password"
-    );
+    document.getElementById("password");
+
+const confirmPasswordGroup =
+    document.getElementById("confirm-password-group");
+
+const confirmPasswordInput =
+    document.getElementById("confirm-password");
+
 
 const submitButton =
-    document.getElementById(
-        "submit-button"
-    );
+    document.getElementById("submit-button");
 
-const switchText =
-    document.getElementById(
-        "switch-text"
-    );
-
-const switchButton =
-    document.getElementById(
-        "switch-button"
-    );
 
 const message =
-    document.getElementById(
-        "message"
-    );
+    document.getElementById("message");
 
-const userEmail =
-    document.getElementById(
-        "user-email"
-    );
 
-const continueButton =
-    document.getElementById(
-        "continue-button"
-    );
+const switchQuestion =
+    document.getElementById("switch-question");
 
-const logoutButton =
-    document.getElementById(
-        "logout-button"
-    );
+const switchButton =
+    document.getElementById("switch-button");
+
+
+const loggedInEmail =
+    document.getElementById("logged-in-email");
+
+const signoutButton =
+    document.getElementById("signout-button");
 
 
 /* =========================================================
    STATE
 ========================================================= */
 
-let signUpMode = false;
+let mode = "signin";
+
+
+/* =========================================================
+   SWITCH BETWEEN SIGN IN / SIGN UP
+========================================================= */
+
+function setMode(newMode) {
+
+    mode = newMode;
+
+    clearMessage();
+
+    authForm.reset();
+
+
+    if (mode === "signup") {
+
+        formTitle.textContent =
+            "Create your account.";
+
+        formSubtitle.textContent =
+            "Create an account to save your StudySprint progress.";
+
+        signinTab.classList.remove("active");
+        signupTab.classList.add("active");
+
+        confirmPasswordGroup.classList.remove("hidden");
+
+        confirmPasswordInput.required = true;
+
+        submitButton.textContent =
+            "Create Account";
+
+        switchQuestion.textContent =
+            "Already have an account?";
+
+        switchButton.textContent =
+            "Sign In";
+
+        passwordInput.autocomplete =
+            "new-password";
+
+    } else {
+
+        formTitle.textContent =
+            "Welcome back.";
+
+        formSubtitle.textContent =
+            "Sign in to continue your StudySprint journey.";
+
+        signupTab.classList.remove("active");
+        signinTab.classList.add("active");
+
+        confirmPasswordGroup.classList.add("hidden");
+
+        confirmPasswordInput.required = false;
+
+        submitButton.textContent =
+            "Sign In";
+
+        switchQuestion.textContent =
+            "Don't have an account?";
+
+        switchButton.textContent =
+            "Sign Up";
+
+        passwordInput.autocomplete =
+            "current-password";
+    }
+}
 
 
 /* =========================================================
    MESSAGE
 ========================================================= */
 
-function showMessage(text) {
+function showMessage(
+    text,
+    type
+) {
 
-    message.textContent =
-        text;
+    message.textContent = text;
 
-    message.style.display =
-        "block";
+    message.className =
+        "message " + type;
 }
 
 
-function hideMessage() {
+function clearMessage() {
 
-    message.textContent =
-        "";
+    message.textContent = "";
 
-    message.style.display =
-        "none";
+    message.className =
+        "message";
 }
 
 
 /* =========================================================
-   SWITCH LOGIN / SIGNUP
+   LOADING STATE
 ========================================================= */
 
-switchButton.addEventListener(
-    "click",
-    function () {
+function setLoading(isLoading) {
 
-        signUpMode =
-            !signUpMode;
+    submitButton.disabled =
+        isLoading;
 
-        hideMessage();
+    if (isLoading) {
 
+        submitButton.textContent =
+            mode === "signup"
+                ? "Creating Account..."
+                : "Signing In...";
 
-        if (signUpMode) {
+    } else {
 
-            title.textContent =
-                "Create your account.";
-
-            subtitle.textContent =
-                "Create an account to save your StudySprint progress.";
-
-            submitButton.textContent =
-                "Create Account";
-
-            switchText.textContent =
-                "Already have an account?";
-
-            switchButton.textContent =
-                "Log In";
-
-            passwordInput.autocomplete =
-                "new-password";
-
-        } else {
-
-            title.textContent =
-                "Welcome back.";
-
-            subtitle.textContent =
-                "Log in to continue your StudySprint account.";
-
-            submitButton.textContent =
-                "Log In";
-
-            switchText.textContent =
-                "Don't have an account?";
-
-            switchButton.textContent =
-                "Sign Up";
-
-            passwordInput.autocomplete =
-                "current-password";
-        }
-
+        submitButton.textContent =
+            mode === "signup"
+                ? "Create Account"
+                : "Sign In";
     }
-);
+}
 
 
 /* =========================================================
-   SUBMIT
+   SIGN UP
+========================================================= */
+
+async function signUp() {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+    const confirmPassword =
+        confirmPasswordInput.value;
+
+
+    if (password !== confirmPassword) {
+
+        showMessage(
+            "Your passwords do not match.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (password.length < 6) {
+
+        showMessage(
+            "Your password must be at least 6 characters.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    setLoading(true);
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+                    emailRedirectTo:
+                        "https://ellfredthehuman.github.io/StudySprint/main/account/"
+                }
+
+            });
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        if (
+            data.user &&
+            data.user.identities &&
+            data.user.identities.length === 0
+        ) {
+
+            showMessage(
+                "An account with that email may already exist.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            "Account created! Check your email to confirm your account.",
+            "success"
+        );
+
+
+        authForm.reset();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    } finally {
+
+        setLoading(false);
+    }
+}
+
+
+/* =========================================================
+   SIGN IN
+========================================================= */
+
+async function signIn() {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+
+    setLoading(true);
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
+
+            });
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        showMessage(
+            "Signed in successfully.",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            getFriendlyError(error),
+            "error"
+        );
+
+    } finally {
+
+        setLoading(false);
+    }
+}
+
+
+/* =========================================================
+   FORM SUBMIT
 ========================================================= */
 
 authForm.addEventListener(
@@ -206,72 +387,16 @@ authForm.addEventListener(
 
         event.preventDefault();
 
-        hideMessage();
+        clearMessage();
 
 
-        const email =
-            emailInput.value
-                .trim()
-                .toLowerCase();
+        if (mode === "signup") {
 
-        const password =
-            passwordInput.value;
+            await signUp();
 
+        } else {
 
-        if (!email || !password) {
-
-            showMessage(
-                "Enter your email and password."
-            );
-
-            return;
-        }
-
-
-        submitButton.disabled =
-            true;
-
-        submitButton.textContent =
-            signUpMode
-                ? "Creating..."
-                : "Logging in...";
-
-
-        try {
-
-            if (signUpMode) {
-
-                await createAccount(
-                    email,
-                    password
-                );
-
-            } else {
-
-                await login(
-                    email,
-                    password
-                );
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-            showMessage(
-                error.message ||
-                "Something went wrong."
-            );
-
-        } finally {
-
-            submitButton.disabled =
-                false;
-
-            submitButton.textContent =
-                signUpMode
-                    ? "Create Account"
-                    : "Log In";
+            await signIn();
         }
 
     }
@@ -279,162 +404,239 @@ authForm.addEventListener(
 
 
 /* =========================================================
-   CREATE ACCOUNT
+   SWITCH BUTTONS
 ========================================================= */
 
-async function createAccount(
-    email,
-    password
-) {
+signinTab.addEventListener(
+    "click",
+    function () {
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.signUp({
+        setMode("signin");
 
-            email:
-                email,
-
-            password:
-                password,
-
-            options: {
-
-                emailRedirectTo:
-                    "https://ellfredthehuman.github.io/StudySprint/main/account/"
-            }
-
-        });
+    }
+);
 
 
-    if (error) {
+signupTab.addEventListener(
+    "click",
+    function () {
 
-        throw error;
+        setMode("signup");
+
+    }
+);
+
+
+switchButton.addEventListener(
+    "click",
+    function () {
+
+        if (mode === "signup") {
+
+            setMode("signin");
+
+        } else {
+
+            setMode("signup");
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SHOW LOGGED-IN STATE
+========================================================= */
+
+function showLoggedIn(user) {
+
+    authScreen.classList.add("hidden");
+
+    loggedInScreen.classList.remove("hidden");
+
+
+    if (user && user.email) {
+
+        loggedInEmail.textContent =
+            user.email;
+
+    } else {
+
+        loggedInEmail.textContent =
+            "Your StudySprint account is ready.";
+    }
+}
+
+
+/* =========================================================
+   SHOW LOGGED-OUT STATE
+========================================================= */
+
+function showLoggedOut() {
+
+    loggedInScreen.classList.add("hidden");
+
+    authScreen.classList.remove("hidden");
+
+    setMode("signin");
+}
+
+
+/* =========================================================
+   SIGN OUT
+========================================================= */
+
+signoutButton.addEventListener(
+    "click",
+    async function () {
+
+        signoutButton.disabled =
+            true;
+
+        signoutButton.textContent =
+            "Signing Out...";
+
+
+        const {
+            error
+        } =
+            await supabaseClient.auth.signOut();
+
+
+        if (error) {
+
+            console.error(error);
+
+            signoutButton.disabled =
+                false;
+
+            signoutButton.textContent =
+                "Sign Out";
+
+            return;
+        }
+
+
+        signoutButton.disabled =
+            false;
+
+        signoutButton.textContent =
+            "Sign Out";
+
+        showLoggedOut();
+
+    }
+);
+
+
+/* =========================================================
+   FRIENDLY ERROR MESSAGES
+========================================================= */
+
+function getFriendlyError(error) {
+
+    if (!error || !error.message) {
+
+        return "Something went wrong. Please try again.";
     }
 
 
-    /*
-        If email confirmation is enabled,
-        Supabase may return a user without
-        an active session.
-    */
+    const text =
+        error.message.toLowerCase();
+
 
     if (
-        data.user &&
-        !data.session
+        text.includes("invalid login credentials")
     ) {
 
-        showMessage(
-            "Account created! Check your email to confirm your account, then log in."
-        );
-
-        return;
+        return "Incorrect email or password.";
     }
 
 
-    if (data.session) {
+    if (
+        text.includes("email not confirmed")
+    ) {
 
-        showLoggedIn(
-            data.session.user
-        );
+        return "Please confirm your email before signing in.";
     }
+
+
+    if (
+        text.includes("user already registered")
+    ) {
+
+        return "An account with this email already exists.";
+    }
+
+
+    if (
+        text.includes("password")
+        &&
+        text.includes("6")
+    ) {
+
+        return "Your password must be at least 6 characters.";
+    }
+
+
+    if (
+        text.includes("rate limit")
+    ) {
+
+        return "Too many attempts. Please wait a moment and try again.";
+    }
+
+
+    return error.message;
 }
 
 
 /* =========================================================
-   LOGIN
-========================================================= */
-
-async function login(
-    email,
-    password
-) {
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.signInWithPassword({
-
-            email:
-                email,
-
-            password:
-                password
-        });
-
-
-    if (error) {
-
-        throw error;
-    }
-
-
-    showLoggedIn(
-        data.user
-    );
-}
-
-
-/* =========================================================
-   SHOW LOGGED IN
-========================================================= */
-
-function showLoggedIn(
-    user
-) {
-
-    if (!user) {
-        return;
-    }
-
-
-    authSection.style.display =
-        "none";
-
-    loggedInSection.style.display =
-        "block";
-
-
-    userEmail.textContent =
-        user.email ||
-        "Signed-in StudySprint user";
-}
-
-
-/* =========================================================
-   CHECK CURRENT SESSION
+   CHECK EXISTING SESSION
 ========================================================= */
 
 async function checkSession() {
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient.auth.getSession();
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.getSession();
 
 
-    if (error) {
-
-        console.error(error);
-
-        return;
-    }
+        if (error) {
+            throw error;
+        }
 
 
-    if (data.session) {
+        if (data.session) {
 
-        showLoggedIn(
-            data.session.user
+            showLoggedIn(
+                data.session.user
+            );
+
+        } else {
+
+            showLoggedOut();
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Session check failed:",
+            error
         );
+
+        showLoggedOut();
     }
 }
 
 
 /* =========================================================
-   AUTH STATE
+   AUTH STATE CHANGES
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
@@ -451,76 +653,8 @@ supabaseClient.auth.onAuthStateChange(
 
         } else {
 
-            authSection.style.display =
-                "block";
-
-            loggedInSection.style.display =
-                "none";
+            showLoggedOut();
         }
-
-    }
-);
-
-
-/* =========================================================
-   CONTINUE
-========================================================= */
-
-continueButton.addEventListener(
-    "click",
-    function () {
-
-        window.location.href =
-            "../index.html";
-
-    }
-);
-
-
-/* =========================================================
-   LOG OUT
-========================================================= */
-
-logoutButton.addEventListener(
-    "click",
-    async function () {
-
-        logoutButton.disabled =
-            true;
-
-        logoutButton.textContent =
-            "Logging out...";
-
-
-        const {
-            error
-        } =
-            await supabaseClient.auth.signOut();
-
-
-        if (error) {
-
-            console.error(error);
-
-            showMessage(
-                error.message
-            );
-
-            logoutButton.disabled =
-                false;
-
-            logoutButton.textContent =
-                "Log Out";
-
-            return;
-        }
-
-
-        logoutButton.disabled =
-            false;
-
-        logoutButton.textContent =
-            "Log Out";
 
     }
 );
@@ -530,5 +664,6 @@ logoutButton.addEventListener(
    START
 ========================================================= */
 
+setMode("signin");
+
 checkSession();
-```
