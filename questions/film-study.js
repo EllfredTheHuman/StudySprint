@@ -1,9 +1,8 @@
-```js
 const filmStudyQuestions = {
     "Film Study": [
 
         // =========================
-        // MULTIPLE CHOICE — 1–50
+        // MULTIPLE CHOICE — 1-50
         // =========================
 
         {
@@ -15,230 +14,98 @@ const filmStudyQuestions = {
         {
             type: "multiple",
             question: "What is an antagonist?",
-            answers: ["The main character", "A character or force opposing the protagonist", "The director", "The narrator"],
-            correctAnswer: "A character or force opposing the protagonist"
+            answers: ["The main character's opponent", "The camera operator", "The narrator", "A minor character"],
+            correctAnswer: "The main character's opponent"
         },
         {
             type: "multiple",
-            question: "What is a film's setting?",
-            answers: ["Its soundtrack", "Where and when the story takes place", "Its ending", "Its actors"],
-            correctAnswer: "Where and when the story takes place"
+            question: "What does cinematography refer to?",
+            answers: ["The visual presentation of a film", "The soundtrack", "The script", "The actors' contracts"],
+            correctAnswer: "The visual presentation of a film"
         },
         {
             type: "multiple",
-            question: "What is cinematography?",
-            answers: ["The use of camera and visual techniques", "Writing dialogue", "Acting", "Editing music"],
-            correctAnswer: "The use of camera and visual techniques"
-        },
-        {
-            type: "multiple",
-            question: "What is a close-up shot usually used to show?",
-            answers: ["A character's emotions or detail", "An entire city", "A whole battlefield", "The credits"],
-            correctAnswer: "A character's emotions or detail"
+            question: "What is a close-up shot commonly used to show?",
+            answers: ["A character's emotions", "A whole city", "A large crowd", "The entire setting"],
+            correctAnswer: "A character's emotions"
         },
         {
             type: "multiple",
             question: "What does a long shot usually show?",
-            answers: ["A small detail", "A wider view of the subject or setting", "Only someone's eyes", "A single object"],
-            correctAnswer: "A wider view of the subject or setting"
+            answers: ["A large area or full setting", "Only someone's eyes", "A single object", "A character's thoughts"],
+            correctAnswer: "A large area or full setting"
         },
         {
             type: "multiple",
-            question: "What is a low-angle shot?",
-            answers: ["A camera looking down", "A camera looking up at a subject", "A shot from behind", "A shot from above"],
-            correctAnswer: "A camera looking up at a subject"
+            question: "What is mise-en-scène?",
+            answers: ["Everything arranged within the frame", "The film's music", "The credits", "The dialogue"],
+            correctAnswer: "Everything arranged within the frame"
         },
         {
             type: "multiple",
-            question: "What can a high-angle shot make a character appear?",
-            answers: ["Powerful", "Small or vulnerable", "Invisible", "Older"],
-            correctAnswer: "Small or vulnerable"
+            question: "What can lighting help establish?",
+            answers: ["Mood", "The film's runtime", "The actors' salaries", "The release date"],
+            correctAnswer: "Mood"
+        },
+        {
+            type: "multiple",
+            question: "What does low-key lighting often create?",
+            answers: ["A dark or mysterious mood", "A cheerful mood", "A musical effect", "A comedic soundtrack"],
+            correctAnswer: "A dark or mysterious mood"
+        },
+        {
+            type: "multiple",
+            question: "What does high-key lighting generally create?",
+            answers: ["A bright, evenly lit appearance", "Complete darkness", "A distorted image", "A silent scene"],
+            correctAnswer: "A bright, evenly lit appearance"
         },
         {
             type: "multiple",
             question: "What is a soundtrack?",
-            answers: ["The written script", "Music and audio used in a film", "The camera", "The credits"],
-            correctAnswer: "Music and audio used in a film"
+            answers: ["The music and recorded audio of a film", "The film poster", "The script", "The camera lens"],
+            correctAnswer: "The music and recorded audio of a film"
         },
         {
             type: "multiple",
             question: "What is diegetic sound?",
-            answers: ["Sound that exists within the film's world", "Music only heard by the audience", "Silence", "Credits music"],
+            answers: ["Sound that exists within the film's world", "Music only heard by the audience", "Silence", "A camera effect"],
             correctAnswer: "Sound that exists within the film's world"
         },
         {
             type: "multiple",
             question: "What is non-diegetic sound?",
-            answers: ["Dialogue between characters", "Sound from inside the film world", "Sound added for the audience", "Footsteps"],
+            answers: ["Sound added for the audience", "Dialogue between characters", "Footsteps made by characters", "A door closing"],
             correctAnswer: "Sound added for the audience"
         },
         {
             type: "multiple",
-            question: "What is mise-en-scène?",
-            answers: ["Everything deliberately placed within the frame", "Only the dialogue", "Only the soundtrack", "The film's title"],
-            correctAnswer: "Everything deliberately placed within the frame"
-        },
-        {
-            type: "multiple",
-            question: "What can lighting be used to create?",
-            answers: ["Mood and atmosphere", "Only dialogue", "Only plot", "Film credits"],
-            correctAnswer: "Mood and atmosphere"
-        },
-        {
-            type: "multiple",
-            question: "What does dark lighting often suggest?",
-            answers: ["Tension or mystery", "Comedy only", "Happiness only", "A celebration"],
-            correctAnswer: "Tension or mystery"
-        },
-        {
-            type: "multiple",
-            question: "What is a motif?",
-            answers: ["A repeated element with meaning", "The main actor", "A camera", "The ending"],
-            correctAnswer: "A repeated element with meaning"
-        },
-        {
-            type: "multiple",
-            question: "What is symbolism?",
-            answers: ["Using something to represent a deeper idea", "Removing dialogue", "Changing actors", "Speeding up a film"],
-            correctAnswer: "Using something to represent a deeper idea"
-        },
-        {
-            type: "multiple",
-            question: "What is foreshadowing?",
-            answers: ["A clue about something that may happen later", "A flashback", "The final scene", "A type of music"],
-            correctAnswer: "A clue about something that may happen later"
-        },
-        {
-            type: "multiple",
-            question: "What is a flashback?",
-            answers: ["A scene showing an earlier event", "A future event", "The opening credits", "A dream only"],
-            correctAnswer: "A scene showing an earlier event"
-        },
-        {
-            type: "multiple",
-            question: "What is conflict?",
-            answers: ["A struggle between opposing forces", "A type of camera", "The soundtrack", "The setting"],
-            correctAnswer: "A struggle between opposing forces"
-        },
-        {
-            type: "multiple",
-            question: "What is a theme?",
-            answers: ["A central idea explored by a text", "A camera angle", "An actor", "A sound effect"],
-            correctAnswer: "A central idea explored by a text"
-        },
-        {
-            type: "multiple",
-            question: "What is dialogue?",
-            answers: ["Spoken words between characters", "Background music", "Camera movement", "Lighting"],
-            correctAnswer: "Spoken words between characters"
-        },
-        {
-            type: "multiple",
             question: "What is a montage?",
-            answers: ["A sequence of edited shots", "One still image", "A type of actor", "A film poster"],
+            answers: ["A sequence of edited shots", "A single still image", "A type of microphone", "A film review"],
             correctAnswer: "A sequence of edited shots"
         },
         {
             type: "multiple",
-            question: "What does editing control?",
-            answers: ["How shots are arranged and connected", "Only the acting", "Only the lighting", "The audience"],
-            correctAnswer: "How shots are arranged and connected"
+            question: "What can camera angle communicate?",
+            answers: ["Power or vulnerability", "The film's budget", "The director's age", "The actors' names"],
+            correctAnswer: "Power or vulnerability"
         },
         {
             type: "multiple",
-            question: "What is a jump cut?",
-            answers: ["A sudden edit between similar shots", "A camera falling", "A slow transition", "A musical effect"],
-            correctAnswer: "A sudden edit between similar shots"
+            question: "What can a low-angle shot make a character appear?",
+            answers: ["Powerful", "Tiny", "Invisible", "Confused"],
+            correctAnswer: "Powerful"
         },
         {
             type: "multiple",
-            question: "What is a fade?",
-            answers: ["A gradual transition to or from an image", "A camera angle", "A sound effect", "A character"],
-            correctAnswer: "A gradual transition to or from an image"
-        },
-        {
-            type: "multiple",
-            question: "What is a dissolve?",
-            answers: ["One image gradually changes into another", "A character disappears instantly", "A sound becomes louder", "A camera zooms"],
-            correctAnswer: "One image gradually changes into another"
+            question: "What can a high-angle shot make a character appear?",
+            answers: ["Vulnerable", "Powerful", "Larger", "More important"],
+            correctAnswer: "Vulnerable"
         },
         {
             type: "multiple",
             question: "What is a tracking shot?",
-            answers: ["A camera moving with the subject", "A still camera", "A close-up", "A sound effect"],
-            correctAnswer: "A camera moving with the subject"
-        },
-        {
-            type: "multiple",
-            question: "What is a pan?",
-            answers: ["The camera rotates horizontally", "The camera moves vertically", "The camera zooms", "The camera stops"],
-            correctAnswer: "The camera rotates horizontally"
-        },
-        {
-            type: "multiple",
-            question: "What is a tilt?",
-            answers: ["The camera moves vertically", "The camera rotates horizontally", "The camera zooms", "The camera cuts"],
-            correctAnswer: "The camera moves vertically"
-        },
-        {
-            type: "multiple",
-            question: "What is a zoom?",
-            answers: ["Changing the lens to make a subject appear closer or farther away", "Moving the camera sideways", "Changing the actor", "Changing the soundtrack"],
-            correctAnswer: "Changing the lens to make a subject appear closer or farther away"
-        },
-        {
-            type: "multiple",
-            question: "What is colour grading?",
-            answers: ["Adjusting the colours and tones of footage", "Writing subtitles", "Recording dialogue", "Choosing actors"],
-            correctAnswer: "Adjusting the colours and tones of footage"
-        },
-        {
-            type: "multiple",
-            question: "Warm colours can often create a feeling of...",
-            answers: ["Comfort or energy", "Coldness only", "Fear only", "Silence"],
-            correctAnswer: "Comfort or energy"
-        },
-        {
-            type: "multiple",
-            question: "Cool colours can often create a feeling of...",
-            answers: ["Calmness, sadness or distance", "Heat only", "Comedy only", "Excitement only"],
-            correctAnswer: "Calmness, sadness or distance"
-        },
-        {
-            type: "multiple",
-            question: "What is a film's narrative?",
-            answers: ["The way its story is presented", "Its camera", "Its soundtrack", "Its actors"],
-            correctAnswer: "The way its story is presented"
-        },
-        {
-            type: "multiple",
-            question: "What is exposition?",
-            answers: ["Information introducing the story or characters", "The final battle", "A camera movement", "A sound effect"],
-            correctAnswer: "Information introducing the story or characters"
-        },
-        {
-            type: "multiple",
-            question: "What is a climax?",
-            answers: ["The point of greatest tension or importance", "The opening scene", "The credits", "The setting"],
-            correctAnswer: "The point of greatest tension or importance"
-        },
-        {
-            type: "multiple",
-            question: "What is a resolution?",
-            answers: ["The part where major conflicts are resolved", "The opening", "The soundtrack", "A camera angle"],
-            correctAnswer: "The part where major conflicts are resolved"
-        },
-        {
-            type: "multiple",
-            question: "What is a character arc?",
-            answers: ["How a character changes throughout a story", "A camera movement", "A type of music", "The film's runtime"],
-            correctAnswer: "How a character changes throughout a story"
-        },
-        {
-            type: "multiple",
-            question: "What is an establishing shot?",
-            answers: ["A shot showing where a scene takes place", "A close-up of an eye", "A shot of the credits", "A sound effect"],
-            correctAnswer: "A shot showing where a scene takes place"
+            answers: ["A camera moving with a subject", "A frozen image", "A type of dialogue", "A lighting technique"],
+            correctAnswer: "A camera moving with a subject"
         },
         {
             type: "multiple",
@@ -248,174 +115,250 @@ const filmStudyQuestions = {
         },
         {
             type: "multiple",
-            question: "What is an over-the-shoulder shot?",
-            answers: ["A shot filmed from behind a character's shoulder", "A shot from the ceiling", "A shot of someone's feet", "A wide shot"],
-            correctAnswer: "A shot filmed from behind a character's shoulder"
+            question: "What is editing?",
+            answers: ["Selecting and arranging shots", "Writing dialogue", "Designing costumes", "Recording actors"],
+            correctAnswer: "Selecting and arranging shots"
         },
         {
             type: "multiple",
-            question: "Why might a director use silence?",
-            answers: ["To create tension or focus attention", "Only to save money", "To remove the story", "To hide the actors"],
-            correctAnswer: "To create tension or focus attention"
+            question: "What is a transition?",
+            answers: ["A way of moving from one shot or scene to another", "A type of actor", "A film location", "A costume"],
+            correctAnswer: "A way of moving from one shot or scene to another"
         },
         {
             type: "multiple",
-            question: "What is pacing?",
-            answers: ["The speed and rhythm of a story", "The camera height", "The colour palette", "The actor's costume"],
-            correctAnswer: "The speed and rhythm of a story"
+            question: "What is a fade?",
+            answers: ["An image gradually appearing or disappearing", "A sudden camera movement", "A type of dialogue", "A sound effect"],
+            correctAnswer: "An image gradually appearing or disappearing"
         },
         {
             type: "multiple",
-            question: "Fast editing can create a sense of...",
-            answers: ["Energy or urgency", "Stillness only", "Sleepiness", "Silence"],
-            correctAnswer: "Energy or urgency"
+            question: "What is a dissolve?",
+            answers: ["One image gradually changes into another", "A character disappears instantly", "A camera zooms quickly", "Music stops"],
+            correctAnswer: "One image gradually changes into another"
         },
         {
             type: "multiple",
-            question: "Slow pacing can create a sense of...",
-            answers: ["Reflection or tension", "Instant action", "Confusion only", "Comedy only"],
-            correctAnswer: "Reflection or tension"
+            question: "What is a narrative?",
+            answers: ["The story being told", "The camera equipment", "The soundtrack", "The film rating"],
+            correctAnswer: "The story being told"
         },
         {
             type: "multiple",
-            question: "What is an archetype?",
-            answers: ["A recognisable character or story pattern", "A camera lens", "A soundtrack", "A film rating"],
-            correctAnswer: "A recognisable character or story pattern"
+            question: "What is setting?",
+            answers: ["Where and when a story takes place", "The main character", "The ending", "The soundtrack"],
+            correctAnswer: "Where and when a story takes place"
+        },
+        {
+            type: "multiple",
+            question: "What is a theme?",
+            answers: ["A central idea or message", "A camera angle", "A type of shot", "A sound effect"],
+            correctAnswer: "A central idea or message"
+        },
+        {
+            type: "multiple",
+            question: "What is symbolism?",
+            answers: ["Using something to represent a deeper idea", "Using only dialogue", "Removing a character", "Changing the film rating"],
+            correctAnswer: "Using something to represent a deeper idea"
+        },
+        {
+            type: "multiple",
+            question: "What is foreshadowing?",
+            answers: ["Hints about what may happen later", "Explaining the ending first", "Introducing every character", "Changing the setting"],
+            correctAnswer: "Hints about what may happen later"
+        },
+        {
+            type: "multiple",
+            question: "What is a flashback?",
+            answers: ["A scene showing an earlier event", "A scene showing the future", "A camera malfunction", "A title card"],
+            correctAnswer: "A scene showing an earlier event"
         },
         {
             type: "multiple",
             question: "What is dramatic irony?",
-            answers: ["The audience knows something a character does not", "Nobody knows anything", "The ending is funny", "A character tells a joke"],
+            answers: ["The audience knows something a character does not", "Nobody knows what happens", "A character tells a joke", "The ending is happy"],
             correctAnswer: "The audience knows something a character does not"
         },
         {
             type: "multiple",
-            question: "What is a genre?",
-            answers: ["A category of film", "A camera angle", "A character", "A soundtrack"],
-            correctAnswer: "A category of film"
+            question: "What is conflict?",
+            answers: ["A struggle between opposing forces", "The film's music", "A camera movement", "The credits"],
+            correctAnswer: "A struggle between opposing forces"
+        },
+        {
+            type: "multiple",
+            question: "What is dialogue?",
+            answers: ["Spoken words between characters", "Background music", "Camera movement", "Costume design"],
+            correctAnswer: "Spoken words between characters"
+        },
+        {
+            type: "multiple",
+            question: "What is a screenplay?",
+            answers: ["The written plan for a film", "The finished film", "A movie poster", "A review"],
+            correctAnswer: "The written plan for a film"
+        },
+        {
+            type: "multiple",
+            question: "What is a film's genre?",
+            answers: ["Its category or type", "Its length", "Its budget", "Its location"],
+            correctAnswer: "Its category or type"
         },
         {
             type: "multiple",
             question: "Which is a film genre?",
-            answers: ["Science fiction", "Close-up", "Dialogue", "Lighting"],
-            correctAnswer: "Science fiction"
+            answers: ["Comedy", "Camera", "Lighting", "Dialogue"],
+            correctAnswer: "Comedy"
         },
         {
             type: "multiple",
-            question: "What is an audience?",
-            answers: ["The people watching the film", "The actors", "The director", "The camera crew"],
-            correctAnswer: "The people watching the film"
+            question: "What does pacing describe?",
+            answers: ["The speed and rhythm of a story", "The camera's weight", "The actors' height", "The film's colour"],
+            correctAnswer: "The speed and rhythm of a story"
         },
         {
             type: "multiple",
-            question: "What is a film's purpose?",
-            answers: ["What the creators aim to achieve", "Its runtime", "Its camera type", "Its location"],
-            correctAnswer: "What the creators aim to achieve"
+            question: "What can fast editing create?",
+            answers: ["A sense of urgency", "A slower story", "Silence", "A wider setting"],
+            correctAnswer: "A sense of urgency"
+        },
+        {
+            type: "multiple",
+            question: "What is a prop?",
+            answers: ["An object used within a scene", "A camera operator", "A type of shot", "A soundtrack"],
+            correctAnswer: "An object used within a scene"
+        },
+        {
+            type: "multiple",
+            question: "What are costumes useful for?",
+            answers: ["Communicating character and setting", "Changing the camera lens", "Creating dialogue", "Editing scenes"],
+            correctAnswer: "Communicating character and setting"
+        },
+        {
+            type: "multiple",
+            question: "What is a facial expression?",
+            answers: ["A visual indication of emotion", "A type of camera", "A transition", "A soundtrack"],
+            correctAnswer: "A visual indication of emotion"
+        },
+        {
+            type: "multiple",
+            question: "What is a reaction shot?",
+            answers: ["A shot showing a character reacting", "A shot of the credits", "A shot showing the setting only", "A type of soundtrack"],
+            correctAnswer: "A shot showing a character reacting"
+        },
+        {
+            type: "multiple",
+            question: "What is an establishing shot?",
+            answers: ["A shot that introduces a location", "A close-up of an eye", "A shot of the director", "A shot of a prop"],
+            correctAnswer: "A shot that introduces a location"
+        },
+        {
+            type: "multiple",
+            question: "What is a medium shot?",
+            answers: ["A shot showing part of a character, often from the waist up", "A shot of an entire city", "An extreme close-up", "A shot of the credits"],
+            correctAnswer: "A shot showing part of a character, often from the waist up"
+        },
+        {
+            type: "multiple",
+            question: "What is an extreme close-up?",
+            answers: ["A very tight shot of a detail", "A shot of a whole landscape", "A wide shot", "A tracking shot"],
+            correctAnswer: "A very tight shot of a detail"
+        },
+        {
+            type: "multiple",
+            question: "What does colour grading affect?",
+            answers: ["The overall colour and visual tone", "The dialogue", "The actors' performances", "The script"],
+            correctAnswer: "The overall colour and visual tone"
+        },
+        {
+            type: "multiple",
+            question: "What can warm colours suggest?",
+            answers: ["Warmth or energy", "Coldness only", "Silence", "Confusion"],
+            correctAnswer: "Warmth or energy"
+        },
+        {
+            type: "multiple",
+            question: "What can cold colours suggest?",
+            answers: ["Coldness, isolation or sadness", "Heat", "Comedy", "Celebration"],
+            correctAnswer: "Coldness, isolation or sadness"
+        },
+        {
+            type: "multiple",
+            question: "What is a film review?",
+            answers: ["An evaluation of a film", "A screenplay", "A camera shot", "A soundtrack"],
+            correctAnswer: "An evaluation of a film"
+        },
+        {
+            type: "multiple",
+            question: "What makes film analysis different from simply summarising a film?",
+            answers: ["Analysis explains how and why techniques create meaning", "Analysis only retells events", "Analysis lists actors", "Analysis gives the runtime"],
+            correctAnswer: "Analysis explains how and why techniques create meaning"
+        },
+        {
+            type: "multiple",
+            question: "What is a director primarily responsible for?",
+            answers: ["Guiding the creative production of the film", "Selling cinema tickets", "Writing every review", "Operating every camera"],
+            correctAnswer: "Guiding the creative production of the film"
+        },
+        {
+            type: "multiple",
+            question: "What is audience positioning?",
+            answers: ["How a film encourages viewers to respond", "Where people sit in a cinema", "The film's release date", "The size of the screen"],
+            correctAnswer: "How a film encourages viewers to respond"
         },
 
         // =========================
-        // WRITTEN — 51–100
+        // WRITTEN — 51-100
         // =========================
 
         {
             type: "written",
-            question: "What is the protagonist?",
+            question: "What is a protagonist?",
             acceptedAnswers: ["the main character", "main character"]
         },
         {
             type: "written",
-            question: "What is the antagonist?",
-            acceptedAnswers: ["the character or force opposing the protagonist", "opposing the protagonist"]
-        },
-        {
-            type: "written",
-            question: "What does setting mean?",
-            acceptedAnswers: ["where and when the story takes place", "where and when a story takes place"]
+            question: "What is an antagonist?",
+            acceptedAnswers: ["the main opponent", "main opponent", "the opponent"]
         },
         {
             type: "written",
             question: "What is cinematography?",
-            acceptedAnswers: ["the use of camera and visual techniques", "camera and visual techniques"]
+            acceptedAnswers: ["the visual presentation of a film", "visual presentation of a film"]
         },
         {
             type: "written",
-            question: "What is a close-up?",
-            acceptedAnswers: ["a shot showing a subject closely", "a close shot"]
+            question: "What is a close-up shot commonly used to show?",
+            acceptedAnswers: ["emotion", "emotions", "facial expressions", "a character's emotions"]
         },
         {
             type: "written",
-            question: "What is a long shot?",
-            acceptedAnswers: ["a shot showing a wider view", "a wide view"]
-        },
-        {
-            type: "written",
-            question: "What is a low-angle shot?",
-            acceptedAnswers: ["a shot looking up at a subject", "camera looking up"]
-        },
-        {
-            type: "written",
-            question: "What is a high-angle shot?",
-            acceptedAnswers: ["a shot looking down at a subject", "camera looking down"]
-        },
-        {
-            type: "written",
-            question: "What is a soundtrack?",
-            acceptedAnswers: ["music and audio used in a film", "music and audio"]
-        },
-        {
-            type: "written",
-            question: "What is diegetic sound?",
-            acceptedAnswers: ["sound that exists within the film world", "sound from within the film world"]
-        },
-        {
-            type: "written",
-            question: "What is non-diegetic sound?",
-            acceptedAnswers: ["sound added for the audience", "sound outside the film world"]
+            question: "What is an establishing shot?",
+            acceptedAnswers: ["a shot that establishes a location", "a shot showing a location", "introduces a location"]
         },
         {
             type: "written",
             question: "What is mise-en-scène?",
-            acceptedAnswers: ["everything placed within the frame", "everything in the frame"]
+            acceptedAnswers: ["everything arranged within the frame", "everything in the frame", "elements arranged within the frame"]
         },
         {
             type: "written",
-            question: "What can lighting help create?",
-            acceptedAnswers: ["mood", "atmosphere", "mood and atmosphere"]
+            question: "What is lighting used for in film?",
+            acceptedAnswers: ["to create mood", "create mood", "mood"]
         },
         {
             type: "written",
-            question: "What is symbolism?",
-            acceptedAnswers: ["using something to represent a deeper idea", "representing a deeper idea"]
+            question: "What is a soundtrack?",
+            acceptedAnswers: ["the music and recorded audio", "music and audio", "film music and audio"]
         },
         {
             type: "written",
-            question: "What is a motif?",
-            acceptedAnswers: ["a repeated element with meaning", "repeated element"]
+            question: "What is diegetic sound?",
+            acceptedAnswers: ["sound from within the film world", "sound that exists within the film world", "sound characters can hear"]
         },
         {
             type: "written",
-            question: "What is foreshadowing?",
-            acceptedAnswers: ["a clue about something that may happen later", "a clue about the future"]
-        },
-        {
-            type: "written",
-            question: "What is a flashback?",
-            acceptedAnswers: ["a scene showing an earlier event", "showing an earlier event"]
-        },
-        {
-            type: "written",
-            question: "What is conflict?",
-            acceptedAnswers: ["a struggle between opposing forces", "a struggle"]
-        },
-        {
-            type: "written",
-            question: "What is a theme?",
-            acceptedAnswers: ["a central idea explored by a text", "central idea"]
-        },
-        {
-            type: "written",
-            question: "What is dialogue?",
-            acceptedAnswers: ["spoken words between characters", "spoken words"]
+            question: "What is non-diegetic sound?",
+            acceptedAnswers: ["sound added for the audience", "sound outside the film world", "sound the characters cannot hear"]
         },
         {
             type: "written",
@@ -424,143 +367,198 @@ const filmStudyQuestions = {
         },
         {
             type: "written",
-            question: "What does editing control?",
-            acceptedAnswers: ["how shots are arranged", "how shots are arranged and connected"]
+            question: "What can a low-angle shot suggest?",
+            acceptedAnswers: ["power", "that a character is powerful", "importance"]
         },
         {
             type: "written",
-            question: "What is a jump cut?",
-            acceptedAnswers: ["a sudden edit between similar shots", "a sudden edit"]
-        },
-        {
-            type: "written",
-            question: "What is a fade?",
-            acceptedAnswers: ["a gradual transition", "gradual transition"]
-        },
-        {
-            type: "written",
-            question: "What is a dissolve?",
-            acceptedAnswers: ["one image gradually changes into another", "gradual change between images"]
+            question: "What can a high-angle shot suggest?",
+            acceptedAnswers: ["vulnerability", "weakness", "that a character is vulnerable"]
         },
         {
             type: "written",
             question: "What is a tracking shot?",
-            acceptedAnswers: ["a camera moving with the subject", "camera moving with the subject"]
-        },
-        {
-            type: "written",
-            question: "What is a pan?",
-            acceptedAnswers: ["the camera rotates horizontally", "horizontal camera movement"]
-        },
-        {
-            type: "written",
-            question: "What is a tilt?",
-            acceptedAnswers: ["the camera moves vertically", "vertical camera movement"]
-        },
-        {
-            type: "written",
-            question: "What is a zoom?",
-            acceptedAnswers: ["changing the lens to make a subject appear closer or farther away", "making a subject appear closer or farther away"]
-        },
-        {
-            type: "written",
-            question: "What is colour grading?",
-            acceptedAnswers: ["adjusting colours and tones", "adjusting the colours"]
-        },
-        {
-            type: "written",
-            question: "What can warm colours suggest?",
-            acceptedAnswers: ["comfort", "energy", "comfort or energy"]
-        },
-        {
-            type: "written",
-            question: "What can cool colours suggest?",
-            acceptedAnswers: ["calmness", "sadness", "distance", "calmness sadness or distance"]
-        },
-        {
-            type: "written",
-            question: "What is narrative?",
-            acceptedAnswers: ["the way a story is presented", "how a story is presented"]
-        },
-        {
-            type: "written",
-            question: "What is exposition?",
-            acceptedAnswers: ["information introducing the story or characters", "story or character information"]
-        },
-        {
-            type: "written",
-            question: "What is the climax?",
-            acceptedAnswers: ["the point of greatest tension", "greatest point of tension"]
-        },
-        {
-            type: "written",
-            question: "What is the resolution?",
-            acceptedAnswers: ["where major conflicts are resolved", "where conflicts are resolved"]
-        },
-        {
-            type: "written",
-            question: "What is a character arc?",
-            acceptedAnswers: ["how a character changes throughout a story", "how a character changes"]
-        },
-        {
-            type: "written",
-            question: "What is an establishing shot?",
-            acceptedAnswers: ["a shot showing where a scene takes place", "a shot showing the setting"]
+            acceptedAnswers: ["a moving camera shot", "a camera moving with a subject", "camera moves with the subject"]
         },
         {
             type: "written",
             question: "What is a point-of-view shot?",
-            acceptedAnswers: ["a shot showing what a character sees", "showing what a character sees"]
+            acceptedAnswers: ["a shot showing what a character sees", "what a character sees", "character's viewpoint"]
         },
         {
             type: "written",
-            question: "What is an over-the-shoulder shot?",
-            acceptedAnswers: ["a shot from behind a character's shoulder", "shot from behind a shoulder"]
+            question: "What is editing?",
+            acceptedAnswers: ["arranging shots", "selecting and arranging shots", "arranging film shots"]
         },
         {
             type: "written",
-            question: "Why can silence be effective in film?",
-            acceptedAnswers: ["it can create tension", "to create tension", "it creates focus"]
+            question: "What is a transition?",
+            acceptedAnswers: ["a way of moving between shots", "moving from one shot to another", "a change between shots"]
         },
         {
             type: "written",
-            question: "What is pacing?",
-            acceptedAnswers: ["the speed and rhythm of a story", "speed and rhythm"]
+            question: "What is a fade?",
+            acceptedAnswers: ["an image gradually appearing or disappearing", "image gradually appears or disappears"]
         },
         {
             type: "written",
-            question: "What can fast editing create?",
-            acceptedAnswers: ["energy", "urgency", "energy or urgency"]
+            question: "What is a dissolve?",
+            acceptedAnswers: ["one image gradually changes into another", "one image changes into another"]
         },
         {
             type: "written",
-            question: "What can slow pacing create?",
-            acceptedAnswers: ["reflection", "tension", "reflection or tension"]
+            question: "What is narrative?",
+            acceptedAnswers: ["the story being told", "the story"]
         },
         {
             type: "written",
-            question: "What is an archetype?",
-            acceptedAnswers: ["a recognisable character or story pattern", "recognisable character pattern"]
+            question: "What is setting?",
+            acceptedAnswers: ["where and when a story takes place", "where and when the story takes place"]
+        },
+        {
+            type: "written",
+            question: "What is a theme?",
+            acceptedAnswers: ["a central idea", "central idea or message", "a central idea or message"]
+        },
+        {
+            type: "written",
+            question: "What is symbolism?",
+            acceptedAnswers: ["using something to represent a deeper idea", "something representing a deeper idea", "representing a deeper idea"]
+        },
+        {
+            type: "written",
+            question: "What is foreshadowing?",
+            acceptedAnswers: ["hints about what will happen later", "hints about future events", "hints about what may happen later"]
+        },
+        {
+            type: "written",
+            question: "What is a flashback?",
+            acceptedAnswers: ["a scene showing an earlier event", "a scene from the past", "showing an earlier event"]
         },
         {
             type: "written",
             question: "What is dramatic irony?",
-            acceptedAnswers: ["the audience knows something a character does not", "audience knows something character does not"]
+            acceptedAnswers: ["the audience knows something a character does not", "audience knows something the character does not"]
+        },
+        {
+            type: "written",
+            question: "What is conflict?",
+            acceptedAnswers: ["a struggle between opposing forces", "a struggle", "opposing forces"]
+        },
+        {
+            type: "written",
+            question: "What is dialogue?",
+            acceptedAnswers: ["spoken words between characters", "conversation between characters", "characters speaking"]
+        },
+        {
+            type: "written",
+            question: "What is a screenplay?",
+            acceptedAnswers: ["the written plan for a film", "written plan for a film", "film script"]
         },
         {
             type: "written",
             question: "What is a genre?",
-            acceptedAnswers: ["a category of film", "category of film"]
+            acceptedAnswers: ["a category or type", "a film category", "type of film"]
         },
         {
             type: "written",
-            question: "What is an audience?",
-            acceptedAnswers: ["the people watching the film", "people watching the film"]
+            question: "What is pacing?",
+            acceptedAnswers: ["the speed and rhythm of a story", "speed of the story", "rhythm of a story"]
         },
         {
             type: "written",
-            question: "What is a film's purpose?",
-            acceptedAnswers: ["what the creators aim to achieve", "what the creators want to achieve"]
+            question: "What is a prop?",
+            acceptedAnswers: ["an object used in a scene", "object used in a scene", "an object in a scene"]
+        },
+        {
+            type: "written",
+            question: "What are costumes used for?",
+            acceptedAnswers: ["to communicate character and setting", "communicate character and setting", "show character and setting"]
+        },
+        {
+            type: "written",
+            question: "What is a reaction shot?",
+            acceptedAnswers: ["a shot showing a character reacting", "showing a character reacting", "character reaction"]
+        },
+        {
+            type: "written",
+            question: "What is a medium shot?",
+            acceptedAnswers: ["a shot showing part of a character", "often from the waist up", "waist up"]
+        },
+        {
+            type: "written",
+            question: "What is an extreme close-up?",
+            acceptedAnswers: ["a very tight shot of a detail", "a very close shot", "tight shot of a detail"]
+        },
+        {
+            type: "written",
+            question: "What is colour grading?",
+            acceptedAnswers: ["adjusting the colours of a film", "changing the overall colour and tone", "adjusting film colours"]
+        },
+        {
+            type: "written",
+            question: "What can warm colours suggest?",
+            acceptedAnswers: ["warmth", "energy", "warmth or energy"]
+        },
+        {
+            type: "written",
+            question: "What can cold colours suggest?",
+            acceptedAnswers: ["coldness", "isolation", "sadness", "coldness or isolation"]
+        },
+        {
+            type: "written",
+            question: "What is a film review?",
+            acceptedAnswers: ["an evaluation of a film", "evaluation of a film"]
+        },
+        {
+            type: "written",
+            question: "What should film analysis explain?",
+            acceptedAnswers: ["how and why techniques create meaning", "how techniques create meaning", "why techniques create meaning"]
+        },
+        {
+            type: "written",
+            question: "What is a director responsible for?",
+            acceptedAnswers: ["guiding the creative production", "guiding the film's creative production", "creative direction"]
+        },
+        {
+            type: "written",
+            question: "What is audience positioning?",
+            acceptedAnswers: ["how a film encourages viewers to respond", "how a film positions the audience", "encouraging audience responses"]
+        },
+        {
+            type: "written",
+            question: "How can music affect a film scene?",
+            acceptedAnswers: ["it can create mood", "create mood", "change the mood", "establish mood"]
+        },
+        {
+            type: "written",
+            question: "How can camera angles affect how we view a character?",
+            acceptedAnswers: ["they can suggest power or vulnerability", "suggest power or vulnerability", "show power or weakness"]
+        },
+        {
+            type: "written",
+            question: "Why is setting important in a film?",
+            acceptedAnswers: ["it establishes where and when the story occurs", "shows where and when the story occurs", "establishes place and time"]
+        },
+        {
+            type: "written",
+            question: "Why might a director use silence?",
+            acceptedAnswers: ["to create tension", "create suspense", "create tension or suspense"]
+        },
+        {
+            type: "written",
+            question: "Why might a filmmaker use fast cuts?",
+            acceptedAnswers: ["to create urgency", "create tension", "increase the pace"]
+        },
+        {
+            type: "written",
+            question: "What is one purpose of symbolism?",
+            acceptedAnswers: ["to communicate deeper meaning", "communicate deeper meaning", "represent an idea"]
+        },
+        {
+            type: "written",
+            question: "Why can facial expressions be important in film?",
+            acceptedAnswers: ["they communicate emotion", "communicate emotion", "show emotion"]
         }
     ]
 };
