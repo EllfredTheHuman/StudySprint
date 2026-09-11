@@ -1,385 +1,733 @@
-// ==========================================
-// STUDYSPRINT QUIZ
-// ==========================================
-
-const params = new URLSearchParams(window.location.search);
-
-const subject = params.get("subject") || "english";
-const topic = params.get("topic") || "Grammar";
+```js
+/* =========================================================
+   STUDYSPRINT — QUIZ ENGINE
+========================================================= */
 
 
-// ==========================================
-// ELEMENTS
-// ==========================================
-
-const questionElement = document.getElementById("question");
-const answersElement = document.getElementById("answers");
-const questionNumberElement = document.getElementById("question-number");
-const topicElement = document.getElementById("quiz-topic");
-
-const feedbackElement = document.getElementById("feedback");
-const feedbackTitle = document.getElementById("feedback-title");
-const feedbackText = document.getElementById("feedback-text");
-
-const nextButton = document.getElementById("next-question");
-
-const writtenArea = document.getElementById("written-area");
-const writtenAnswer = document.getElementById("written-answer");
-const submitWritten = document.getElementById("submit-written");
+/* =========================================================
+   URL PARAMETERS
+========================================================= */
 
 
-topicElement.textContent =
-    subject.charAt(0).toUpperCase() +
-    subject.slice(1) +
-    " • " +
-    topic;
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
 
-// ==========================================
-// QUIZ VARIABLES
-// ==========================================
+const subject =
+    params.get("subject");
+
+
+const topic =
+    params.get("topic");
+
+
+const file =
+    params.get("file");
+
+
+const key =
+    params.get("key");
+
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+
+const quizTopic =
+    document.getElementById(
+        "quiz-topic"
+    );
+
+
+const questionText =
+    document.getElementById(
+        "question"
+    );
+
+
+const questionNumber =
+    document.getElementById(
+        "question-number"
+    );
+
+
+const answersContainer =
+    document.getElementById(
+        "answers"
+    );
+
+
+const writtenArea =
+    document.getElementById(
+        "written-area"
+    );
+
+
+const writtenAnswer =
+    document.getElementById(
+        "written-answer"
+    );
+
+
+const submitWritten =
+    document.getElementById(
+        "submit-written"
+    );
+
+
+const feedback =
+    document.getElementById(
+        "feedback"
+    );
+
+
+const feedbackTitle =
+    document.getElementById(
+        "feedback-title"
+    );
+
+
+const feedbackText =
+    document.getElementById(
+        "feedback-text"
+    );
+
+
+const nextQuestionButton =
+    document.getElementById(
+        "next-question"
+    );
+
+
+
+/* =========================================================
+   QUIZ VARIABLES
+========================================================= */
+
 
 let questions = [];
+
 let currentQuestion = 0;
+
 let score = 0;
+
 let answered = false;
 
 
-// ==========================================
-// LOAD QUESTION FILE
-// ==========================================
 
-async function loadQuestions() {
+/* =========================================================
+   CHECK URL
+========================================================= */
 
-    try {
 
-        const filePath = `../../questions/${subject}.js`;
+if (
+    !subject ||
+    !topic ||
+    !file ||
+    !key
+) {
 
-        const response = await fetch(filePath);
+    showError(
+        "Invalid Sprint",
+        "The Sprint information is missing."
+    );
 
-        if (!response.ok) {
-            throw new Error(
-                `Could not load ${filePath} (${response.status})`
-            );
-        }
-
-        const code = await response.text();
-
-
-        /*
-         * Your question files currently use:
-         *
-         * const englishQuestions = {...}
-         *
-         * Top-level const variables aren't placed on window.
-         *
-         * So we execute the file and return the variable directly.
-         */
-
-        const variableName =
-            subject.toLowerCase() + "Questions";
-
-
-        const getQuestions = new Function(
-            code +
-            `\nreturn typeof ${variableName} !== "undefined"
-                ? ${variableName}
-                : null;`
-        );
-
-
-        const allQuestions = getQuestions();
-
-
-        if (!allQuestions) {
-            throw new Error(
-                `Could not find ${variableName} inside ${filePath}`
-            );
-        }
-
-
-        if (!allQuestions[topic]) {
-            throw new Error(
-                `Topic "${topic}" does not exist in ${variableName}`
-            );
-        }
-
-
-        questions = shuffle(
-            [...allQuestions[topic]]
-        ).slice(0, 5);
-
-
-        if (questions.length === 0) {
-            throw new Error("This topic has no questions.");
-        }
-
-
-        currentQuestion = 0;
-        score = 0;
-
-        showQuestion();
-
-    } catch (error) {
-
-        console.error(error);
-
-        questionElement.textContent =
-            "Could not load questions.";
-
-        answersElement.innerHTML = `
-            <div class="feature-card">
-                <h2>⚠️ Error</h2>
-                <p>${escapeHTML(error.message)}</p>
-                <br>
-                <a href="index.html" class="main-button">
-                    Back
-                </a>
-            </div>
-        `;
-
-    }
-
-}
-
-
-// ==========================================
-// SHUFFLE
-// ==========================================
-
-function shuffle(array) {
-
-    for (let i = array.length - 1; i > 0; i--) {
-
-        const j = Math.floor(
-            Math.random() * (i + 1)
-        );
-
-        [array[i], array[j]] =
-            [array[j], array[i]];
-    }
-
-    return array;
-}
-
-
-// ==========================================
-// SHOW QUESTION
-// ==========================================
-
-function showQuestion() {
-
-    answered = false;
-
-    const question = questions[currentQuestion];
-
-
-    questionNumberElement.textContent =
-        `Question ${currentQuestion + 1} of ${questions.length}`;
-
-
-    questionElement.textContent =
-        question.question;
-
-
-    feedbackElement.style.display = "none";
-
-    writtenArea.style.display = "none";
-
-    answersElement.innerHTML = "";
-
-
-    // ======================================
-    // WRITTEN QUESTION
-    // ======================================
-
-    if (question.type === "written") {
-
-        writtenArea.style.display = "block";
-
-        writtenAnswer.value = "";
-
-        writtenAnswer.focus();
-
-        return;
-    }
-
-
-    // ======================================
-    // MULTIPLE CHOICE
-    // ======================================
-
-    question.answers.forEach((answer, index) => {
-
-        const button = document.createElement("button");
-
-        button.className = "main-button";
-
-        button.textContent = answer;
-
-        button.style.display = "block";
-        button.style.width = "100%";
-        button.style.margin = "10px 0";
-
-
-        button.addEventListener(
-            "click",
-            () => checkMultipleChoice(index)
-        );
-
-
-        answersElement.appendChild(button);
-
-    });
-
-}
-
-
-// ==========================================
-// MULTIPLE CHOICE CHECK
-// ==========================================
-
-function checkMultipleChoice(selected) {
-
-    if (answered) return;
-
-    answered = true;
-
-
-    const question =
-        questions[currentQuestion];
-
-
-    const correct =
-        selected === question.correct;
-
-
-    if (correct) {
-        score++;
-    }
-
-
-    showFeedback(
-        correct,
-        correct
-            ? "Correct!"
-            : "Incorrect!",
-        question.explanation || ""
+    throw new Error(
+        "Missing Sprint parameters"
     );
 
 }
 
 
-// ==========================================
-// WRITTEN ANSWER
-// ==========================================
 
-submitWritten.addEventListener(
-    "click",
-    checkWrittenAnswer
-);
+/* =========================================================
+   FORMAT TITLE
+========================================================= */
+
+
+const subjectNames = {
+
+    science: "Science",
+
+    maths: "Maths",
+
+    english: "English",
+
+    humanities: "Humanities",
+
+    french: "French",
+
+    japanese: "Japanese"
+
+};
+
+
+
+const subjectName =
+    subjectNames[subject] ||
+    subject;
+
+
+
+quizTopic.textContent =
+    `${subjectName} • ${topic}`;
+
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+
+function shuffle(array) {
+
+    const copy =
+        [...array];
+
+
+    for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+
+        [
+            copy[i],
+            copy[j]
+        ] =
+        [
+            copy[j],
+            copy[i]
+        ];
+
+    }
+
+
+    return copy;
+
+}
+
+
+
+/* =========================================================
+   LOAD QUESTION FILE
+========================================================= */
+
+
+async function loadQuestionFile() {
+
+    try {
+
+        const response =
+            await fetch(
+                `../../questions/${file}`
+            );
+
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                `Could not load ${file}`
+            );
+
+        }
+
+
+        const code =
+            await response.text();
+
+
+        /*
+         * The question files use:
+         *
+         * const someQuestions = {...}
+         *
+         * Because const variables are not properties of
+         * window, we execute the file and return the variable.
+         */
+
+
+        const variableName =
+            findVariableName(
+                code
+            );
+
+
+        if (!variableName) {
+
+            throw new Error(
+                `No question variable found in ${file}`
+            );
+
+        }
+
+
+        const questionData =
+            new Function(
+
+                code +
+
+                `
+
+                ;return typeof ${variableName}
+                !== "undefined"
+                ? ${variableName}
+                : null;
+
+                `
+
+            )();
+
+
+        if (
+            !questionData
+        ) {
+
+            throw new Error(
+                `Could not read ${file}`
+            );
+
+        }
+
+
+        /*
+         * Find the requested topic inside
+         * the question file.
+         */
+
+
+        const topicQuestions =
+            questionData[key];
+
+
+        if (
+            !Array.isArray(
+                topicQuestions
+            )
+        ) {
+
+            throw new Error(
+                `Topic "${key}" was not found in ${file}`
+            );
+
+        }
+
+
+        if (
+            topicQuestions.length === 0
+        ) {
+
+            throw new Error(
+                `Topic "${key}" has no questions yet.`
+            );
+
+        }
+
+
+        /*
+         * Take five random questions.
+         */
+
+
+        questions =
+            shuffle(
+                topicQuestions
+            ).slice(
+                0,
+                Math.min(
+                    5,
+                    topicQuestions.length
+                )
+            );
+
+
+        loadQuestion();
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        showError(
+
+            "Could not load Sprint",
+
+            error.message
+
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   FIND QUESTION VARIABLE
+========================================================= */
+
+
+function findVariableName(code) {
+
+    /*
+     * Looks for:
+     *
+     * const japaneseCharactersQuestions = {
+     *
+     * or
+     *
+     * const frenchTravelQuestions = {
+     *
+     */
+
+
+    const match =
+        code.match(
+            /const\s+([A-Za-z_$][\w$]*)\s*=\s*\{/
+        );
+
+
+    if (!match) {
+
+        return null;
+
+    }
+
+
+    return match[1];
+
+}
+
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
+
+
+function loadQuestion() {
+
+    answered =
+        false;
+
+
+    const question =
+        questions[
+            currentQuestion
+        ];
+
+
+    if (!question) {
+
+        finishQuiz();
+
+        return;
+
+    }
+
+
+    questionText.textContent =
+        question.question;
+
+
+    questionNumber.textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+
+    feedback.style.display =
+        "none";
+
+
+    answersContainer.innerHTML =
+        "";
+
+
+    writtenArea.style.display =
+        "none";
+
+
+    writtenAnswer.value =
+        "";
+
+
+    /*
+     * MULTIPLE CHOICE
+     */
+
+
+    if (
+        question.type === "multiple"
+    ) {
+
+        showMultipleChoice(
+            question
+        );
+
+    }
+
+
+    /*
+     * WRITTEN
+     */
+
+
+    else if (
+        question.type === "written"
+    ) {
+
+        showWrittenQuestion(
+            question
+        );
+
+    }
+
+
+    else {
+
+        console.error(
+            "Unknown question type:",
+            question.type
+        );
+
+        showError(
+            "Question Error",
+            "This question has an invalid question type."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   MULTIPLE CHOICE
+========================================================= */
+
+
+function showMultipleChoice(
+    question
+) {
+
+    answersContainer.style.display =
+        "flex";
+
+
+    const shuffledAnswers =
+        shuffle(
+            question.answers
+        );
+
+
+    shuffledAnswers.forEach(
+        answer => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
+            button.textContent =
+                answer;
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    checkMultipleChoice(
+                        question,
+                        answer,
+                        button
+                    );
+
+                }
+            );
+
+
+            answersContainer.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   CHECK MULTIPLE CHOICE
+========================================================= */
+
+
+function checkMultipleChoice(
+    question,
+    answer,
+    selectedButton
+) {
+
+    if (
+        answered
+    ) {
+
+        return;
+
+    }
+
+
+    answered =
+        true;
+
+
+    const buttons =
+        answersContainer.querySelectorAll(
+            "button"
+        );
+
+
+    buttons.forEach(
+        button => {
+
+            button.disabled =
+                true;
+
+        }
+    );
+
+
+    const correct =
+        normalise(
+            answer
+        ) ===
+        normalise(
+            question.correctAnswer
+        );
+
+
+    if (correct) {
+
+        score++;
+
+
+        selectedButton.dataset.correct =
+            "true";
+
+
+        showFeedback(
+
+            "Correct!",
+
+            "Nice work."
+
+        );
+
+    }
+
+    else {
+
+        selectedButton.dataset.correct =
+            "false";
+
+
+        showFeedback(
+
+            "Not quite.",
+
+            `The correct answer was: ${question.correctAnswer}`
+
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   WRITTEN QUESTION
+========================================================= */
+
+
+function showWrittenQuestion(
+    question
+) {
+
+    answersContainer.style.display =
+        "none";
+
+
+    writtenArea.style.display =
+        "block";
+
+
+    writtenAnswer.focus();
+
+}
+
+
+
+/* =========================================================
+   CHECK WRITTEN ANSWER
+========================================================= */
 
 
 function checkWrittenAnswer() {
 
-    if (answered) return;
-
-
-    const answer =
-        writtenAnswer.value.trim();
-
-
-    if (!answer) {
-
-        alert("Please enter an answer.");
+    if (
+        answered
+    ) {
 
         return;
+
     }
-
-
-    answered = true;
 
 
     const question =
-        questions[currentQuestion];
+        questions[
+            currentQuestion
+        ];
 
 
-    /*
-     * Temporary local checker.
-     *
-     * This supports expectedAnswer / acceptedAnswers.
-     * Proper AI checking can be connected later.
-     */
-
-    const studentAnswer =
-        normalise(answer);
+    const userAnswer =
+        normalise(
+            writtenAnswer.value
+        );
 
 
-    let correct = false;
+    if (
+        !userAnswer
+    ) {
 
-
-    if (Array.isArray(question.acceptedAnswers)) {
-
-        correct =
-            question.acceptedAnswers.some(
-                accepted =>
-                    normalise(accepted) === studentAnswer
-            );
+        return;
 
     }
 
 
-    if (question.expectedAnswer) {
-
-        correct =
-            normalise(question.expectedAnswer) ===
-            studentAnswer;
-
-    }
-
-
-    if (correct) {
-        score++;
-    }
-
-
-    showFeedback(
-        correct,
-        correct
-            ? "Correct!"
-            : "Not quite!",
-        question.explanation || ""
-    );
-
-}
-
-
-// ==========================================
-// FEEDBACK
-// ==========================================
-
-function showFeedback(
-    correct,
-    title,
-    explanation
-) {
-
-    feedbackElement.style.display = "block";
-
-
-    feedbackTitle.textContent =
-        title;
-
-
-    feedbackText.textContent =
-        explanation;
-
-
-    answersElement
-        .querySelectorAll("button")
-        .forEach(button => {
-            button.disabled = true;
-        });
+    answered =
+        true;
 
 
     writtenAnswer.disabled =
@@ -390,28 +738,162 @@ function showFeedback(
         true;
 
 
-    if (currentQuestion >= questions.length - 1) {
+    const acceptedAnswers =
+        Array.isArray(
+            question.acceptedAnswers
+        )
+            ? question.acceptedAnswers
+            : [];
 
-        nextButton.textContent =
-            "Finish Sprint";
 
-    } else {
+    const correct =
+        acceptedAnswers.some(
+            accepted => {
 
-        nextButton.textContent =
-            "Next Question";
+                return (
+                    normalise(
+                        accepted
+                    ) ===
+                    userAnswer
+                );
+
+            }
+        );
+
+
+    if (correct) {
+
+        score++;
+
+
+        showFeedback(
+
+            "Correct!",
+
+            "Nice work."
+
+        );
+
+    }
+
+    else {
+
+        showFeedback(
+
+            "Not quite.",
+
+            `Accepted answer: ${acceptedAnswers.join(", ")}`
+
+        );
 
     }
 
 }
 
 
-// ==========================================
-// NEXT QUESTION
-// ==========================================
 
-nextButton.addEventListener(
+/* =========================================================
+   NORMALISE WRITTEN ANSWERS
+========================================================= */
+
+
+function normalise(value) {
+
+    return String(
+        value || ""
+    )
+
+        .trim()
+
+        .toLowerCase()
+
+        .normalize(
+            "NFD"
+        )
+
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+
+        .replace(
+            /[’']/g,
+            "'"
+        )
+
+        .replace(
+            /\s+/g,
+            " "
+        );
+
+}
+
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+
+function showFeedback(
+    title,
+    text
+) {
+
+    feedbackTitle.textContent =
+        title;
+
+
+    feedbackText.textContent =
+        text;
+
+
+    feedback.style.display =
+        "block";
+
+
+    if (
+        currentQuestion >=
+        questions.length - 1
+    ) {
+
+        nextQuestionButton.textContent =
+            "See Results";
+
+    }
+
+    else {
+
+        nextQuestionButton.textContent =
+            "Next Question";
+
+    }
+
+
+    nextQuestionButton.style.display =
+        "block";
+
+}
+
+
+
+/* =========================================================
+   NEXT QUESTION
+========================================================= */
+
+
+nextQuestionButton.addEventListener(
     "click",
     () => {
+
+        if (
+            !answered
+        ) {
+
+            return;
+
+        }
+
 
         currentQuestion++;
 
@@ -424,36 +906,71 @@ nextButton.addEventListener(
             finishQuiz();
 
             return;
+
         }
 
 
-        writtenAnswer.disabled =
-            false;
-
-        submitWritten.disabled =
-            false;
-
-
-        showQuestion();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        loadQuestion();
 
     }
 );
 
 
-// ==========================================
-// FINISH
-// ==========================================
+
+/* =========================================================
+   WRITTEN SUBMIT
+========================================================= */
+
+
+submitWritten.addEventListener(
+    "click",
+    checkWrittenAnswer
+);
+
+
+
+/* =========================================================
+   ENTER KEY FOR WRITTEN QUESTIONS
+========================================================= */
+
+
+writtenAnswer.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            event.ctrlKey
+        ) {
+
+            event.preventDefault();
+
+            checkWrittenAnswer();
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   FINISH QUIZ
+========================================================= */
+
 
 function finishQuiz() {
 
+    /*
+     * Save Sprint statistics.
+     */
+
+
     const completed =
         Number(
-            localStorage.getItem("sprintsCompleted")
+            localStorage.getItem(
+                "sprintsCompleted"
+            )
         ) || 0;
 
 
@@ -463,13 +980,17 @@ function finishQuiz() {
     );
 
 
-    const best =
+    const bestScore =
         Number(
-            localStorage.getItem("bestScore")
+            localStorage.getItem(
+                "bestScore"
+            )
         ) || 0;
 
 
-    if (score > best) {
+    if (
+        score > bestScore
+    ) {
 
         localStorage.setItem(
             "bestScore",
@@ -479,45 +1000,131 @@ function finishQuiz() {
     }
 
 
+    /*
+     * Store the current result.
+     */
+
+
+    localStorage.setItem(
+        "lastSprintScore",
+        score
+    );
+
+
+    localStorage.setItem(
+        "lastSprintTotal",
+        questions.length
+    );
+
+
+    localStorage.setItem(
+        "lastSprintSubject",
+        subject
+    );
+
+
+    localStorage.setItem(
+        "lastSprintTopic",
+        topic
+    );
+
+
+    /*
+     * Redirect to results.
+     */
+
+
     window.location.href =
         `results.html?score=${score}&total=${questions.length}&subject=${encodeURIComponent(subject)}&topic=${encodeURIComponent(topic)}`;
 
 }
 
 
-// ==========================================
-// NORMALISE ANSWER
-// ==========================================
 
-function normalise(value) {
+/* =========================================================
+   ERROR SCREEN
+========================================================= */
 
-    return value
-        .toLowerCase()
-        .trim()
-        .replace(/[.,!?;:]/g, "")
-        .replace(/\s+/g, " ");
+
+function showError(
+    title,
+    message
+) {
+
+    document.body.innerHTML = `
+
+        <main
+            style="
+                max-width:600px;
+                margin:0 auto;
+                padding:50px 20px 120px;
+                color:#f5f5f7;
+                font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            "
+        >
+
+            <p
+                style="
+                    color:#858894;
+                    font-size:11px;
+                    font-weight:800;
+                    letter-spacing:1.8px;
+                    text-transform:uppercase;
+                "
+            >
+                STUDYSPRINT
+            </p>
+
+
+            <h1
+                style="
+                    font-size:32px;
+                    line-height:1.1;
+                "
+            >
+                ${title}
+            </h1>
+
+
+            <p
+                style="
+                    color:#858894;
+                    line-height:1.6;
+                "
+            >
+                ${message}
+            </p>
+
+
+            <a
+                href="index.html"
+                style="
+                    display:block;
+                    margin-top:25px;
+                    padding:15px;
+                    border-radius:13px;
+                    background:#8875f5;
+                    color:white;
+                    text-align:center;
+                    text-decoration:none;
+                    font-weight:800;
+                "
+            >
+                Back to Sprints
+            </a>
+
+        </main>
+
+    `;
 
 }
 
 
-// ==========================================
-// HTML ESCAPE
-// ==========================================
 
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
+/* =========================================================
+   START
+========================================================= */
 
 
-// ==========================================
-// START
-// ==========================================
-
-loadQuestions();
+loadQuestionFile();
+```
