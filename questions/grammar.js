@@ -1,76 +1,105 @@
-```js
 const grammarQuestions = {
     "Grammar": [
 
         // =========================
-        // MULTIPLE CHOICE — 1–50
+        // MULTIPLE CHOICE — 1-50
         // =========================
 
         {
             type: "multiple",
             question: "Which word is a noun?",
-            answers: ["Run", "Beautiful", "Dog", "Quickly"],
-            correctAnswer: "Dog"
+            answers: ["Quickly", "Happiness", "Run", "Beautiful"],
+            correctAnswer: "Happiness"
         },
         {
             type: "multiple",
             question: "Which word is a verb?",
-            answers: ["Jump", "Happy", "Table", "Slowly"],
+            answers: ["Jump", "Blue", "Carefully", "Table"],
             correctAnswer: "Jump"
         },
         {
             type: "multiple",
             question: "Which word is an adjective?",
-            answers: ["Quickly", "Beautiful", "Run", "Chair"],
+            answers: ["Beautiful", "Run", "Quickly", "Happiness"],
             correctAnswer: "Beautiful"
         },
         {
             type: "multiple",
             question: "Which word is an adverb?",
-            answers: ["Slowly", "Slow", "Dog", "Run"],
-            correctAnswer: "Slowly"
-        },
-        {
-            type: "multiple",
-            question: "Which word is a pronoun?",
-            answers: ["They", "House", "Running", "Blue"],
-            correctAnswer: "They"
+            answers: ["Quickly", "Quick", "Runner", "Run"],
+            correctAnswer: "Quickly"
         },
         {
             type: "multiple",
             question: "Which sentence is correct?",
-            answers: ["She go home.", "She goes home.", "She going home.", "She gone home."],
-            correctAnswer: "She goes home."
+            answers: ["She don't like it.", "She doesn't like it.", "She doesn't likes it.", "She not like it."],
+            correctAnswer: "She doesn't like it."
         },
         {
             type: "multiple",
-            question: "Which sentence uses an apostrophe correctly?",
-            answers: ["The dogs bone.", "The dog's bone.", "The dogs' bone.", "The dog's' bone."],
-            correctAnswer: "The dog's bone."
-        },
-        {
-            type: "multiple",
-            question: "Which is a conjunction?",
-            answers: ["And", "Quickly", "House", "Beautiful"],
-            correctAnswer: "And"
+            question: "Which is a pronoun?",
+            answers: ["They", "House", "Run", "Green"],
+            correctAnswer: "They"
         },
         {
             type: "multiple",
             question: "Which is a preposition?",
-            answers: ["Under", "Happy", "Run", "They"],
+            answers: ["Under", "Quickly", "Happy", "Jump"],
             correctAnswer: "Under"
         },
         {
             type: "multiple",
-            question: "Which sentence is punctuated correctly?",
-            answers: ["Where are you.", "Where are you?", "Where are you!", "Where are you,"],
-            correctAnswer: "Where are you?"
+            question: "Which is a conjunction?",
+            answers: ["And", "Blue", "Slowly", "Chair"],
+            correctAnswer: "And"
         },
         {
             type: "multiple",
-            question: "What is the plural of 'child'?",
-            answers: ["Childs", "Children", "Childes", "Childrens"],
+            question: "Which sentence uses a capital letter correctly?",
+            answers: ["i went to Melbourne.", "I went to Melbourne.", "I went to melbourne.", "i went to melbourne."],
+            correctAnswer: "I went to Melbourne."
+        },
+        {
+            type: "multiple",
+            question: "Which punctuation mark ends a question?",
+            answers: [".", "!", "?", ","],
+            correctAnswer: "?"
+        },
+        {
+            type: "multiple",
+            question: "Which punctuation mark shows strong emotion?",
+            answers: [",", "!", ".", ":"],
+            correctAnswer: "!"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is in the past tense?",
+            answers: ["I walk home.", "I am walking home.", "I walked home.", "I will walk home."],
+            correctAnswer: "I walked home."
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is in the future tense?",
+            answers: ["I walked home.", "I walk home.", "I will walk home.", "I am walking home."],
+            correctAnswer: "I will walk home."
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is in the present tense?",
+            answers: ["She played.", "She plays.", "She will play.", "She had played."],
+            correctAnswer: "She plays."
+        },
+        {
+            type: "multiple",
+            question: "Which word is plural?",
+            answers: ["Child", "Children", "Mouse", "Person"],
             correctAnswer: "Children"
+        },
+        {
+            type: "multiple",
+            question: "What is the plural of 'box'?",
+            answers: ["Boxs", "Boxes", "Boxies", "Boxen"],
+            correctAnswer: "Boxes"
         },
         {
             type: "multiple",
@@ -86,229 +115,211 @@ const grammarQuestions = {
         },
         {
             type: "multiple",
-            question: "Which sentence is in the future tense?",
-            answers: ["I walked home.", "I walk home.", "I will walk home.", "I am walking home."],
-            correctAnswer: "I will walk home."
-        },
-        {
-            type: "multiple",
-            question: "Which sentence is in the past tense?",
-            answers: ["She sings.", "She sang.", "She will sing.", "She is singing."],
-            correctAnswer: "She sang."
-        },
-        {
-            type: "multiple",
-            question: "Which sentence is in the present tense?",
-            answers: ["He played.", "He will play.", "He plays.", "He had played."],
-            correctAnswer: "He plays."
-        },
-        {
-            type: "multiple",
-            question: "Which sentence contains a subject?",
-            answers: ["Ran quickly.", "The boy ran.", "Very quickly.", "Under the table."],
-            correctAnswer: "The boy ran."
-        },
-        {
-            type: "multiple",
-            question: "Which word is the subject in 'The cat slept'?",
-            answers: ["The", "Cat", "Slept", "The cat slept"],
-            correctAnswer: "Cat"
-        },
-        {
-            type: "multiple",
-            question: "Which word is the verb in 'The cat slept'?",
-            answers: ["The", "Cat", "Slept", "The cat"],
-            correctAnswer: "Slept"
-        },
-        {
-            type: "multiple",
-            question: "Which sentence is a question?",
-            answers: ["Close the door.", "The door is closed.", "Did you close the door?", "What a door!"],
-            correctAnswer: "Did you close the door?"
-        },
-        {
-            type: "multiple",
-            question: "Which sentence is a command?",
-            answers: ["Close the door.", "The door is closed.", "Is the door closed?", "What a door!"],
-            correctAnswer: "Close the door."
-        },
-        {
-            type: "multiple",
-            question: "Which sentence is exclamatory?",
-            answers: ["What a beautiful day!", "What is the weather?", "The day is beautiful.", "Close the window."],
-            correctAnswer: "What a beautiful day!"
-        },
-        {
-            type: "multiple",
-            question: "Which word correctly completes: '___ going to school.'?",
-            answers: ["Their", "They're", "There", "Them"],
-            correctAnswer: "They're"
-        },
-        {
-            type: "multiple",
-            question: "Which word correctly completes: 'The books are over ___.'?",
-            answers: ["their", "they're", "there", "theyre"],
-            correctAnswer: "there"
-        },
-        {
-            type: "multiple",
-            question: "Which word correctly completes: 'That is ___ house.'?",
-            answers: ["their", "they're", "there", "theirs"],
-            correctAnswer: "their"
-        },
-        {
-            type: "multiple",
-            question: "Which sentence uses 'your' correctly?",
-            answers: ["Your going home.", "Is that your bag?", "Your very kind.", "I like your're shoes."],
-            correctAnswer: "Is that your bag?"
-        },
-        {
-            type: "multiple",
-            question: "Which sentence uses 'you're' correctly?",
-            answers: ["You're very helpful.", "Your very helpful.", "You're book is here.", "I like you're bag."],
-            correctAnswer: "You're very helpful."
-        },
-        {
-            type: "multiple",
-            question: "Which is a complete sentence?",
-            answers: ["Because I was tired.", "Running through the park.", "I went home.", "After the game."],
-            correctAnswer: "I went home."
-        },
-        {
-            type: "multiple",
-            question: "What is a sentence fragment?",
-            answers: ["A complete sentence", "An incomplete sentence", "A question", "A paragraph"],
-            correctAnswer: "An incomplete sentence"
-        },
-        {
-            type: "multiple",
-            question: "Which punctuation ends most statements?",
-            answers: [".", "?", "!", ","],
-            correctAnswer: "."
-        },
-        {
-            type: "multiple",
-            question: "Which punctuation separates items in a list?",
-            answers: [".", ",", "?", "!"],
-            correctAnswer: ","
-        },
-        {
-            type: "multiple",
-            question: "Which punctuation can join two closely related independent clauses?",
-            answers: ["Semicolon", "Apostrophe", "Question mark", "Hyphen"],
-            correctAnswer: "Semicolon"
-        },
-        {
-            type: "multiple",
-            question: "Which word is a conjunction in 'I stayed because it rained'?",
-            answers: ["I", "Stayed", "Because", "Rained"],
-            correctAnswer: "Because"
-        },
-        {
-            type: "multiple",
-            question: "Which word is an adjective in 'The enormous dog barked'?",
-            answers: ["The", "Enormous", "Dog", "Barked"],
-            correctAnswer: "Enormous"
-        },
-        {
-            type: "multiple",
-            question: "Which word is an adverb in 'She ran quickly'?",
-            answers: ["She", "Ran", "Quickly", "None"],
-            correctAnswer: "Quickly"
+            question: "Which sentence has correct subject-verb agreement?",
+            answers: ["The dogs runs.", "The dogs run.", "The dogs running.", "The dogs is run."],
+            correctAnswer: "The dogs run."
         },
         {
             type: "multiple",
             question: "Which sentence has correct subject-verb agreement?",
-            answers: ["They is happy.", "They are happy.", "They am happy.", "They be happy."],
-            correctAnswer: "They are happy."
+            answers: ["He play football.", "He plays football.", "He playing football.", "He playes football."],
+            correctAnswer: "He plays football."
         },
         {
             type: "multiple",
-            question: "Which sentence has correct subject-verb agreement?",
-            answers: ["He are ready.", "He am ready.", "He is ready.", "He be ready."],
-            correctAnswer: "He is ready."
+            question: "Which word is a conjunction?",
+            answers: ["Although", "House", "Slowly", "Green"],
+            correctAnswer: "Although"
         },
         {
             type: "multiple",
-            question: "Which is the comparative form of 'fast'?",
-            answers: ["Fastest", "More fast", "Faster", "Fastly"],
-            correctAnswer: "Faster"
+            question: "Which sentence contains a simile?",
+            answers: ["The moon is a lamp.", "The moon shone brightly.", "The moon was like a silver coin.", "The moon disappeared."],
+            correctAnswer: "The moon was like a silver coin."
         },
         {
             type: "multiple",
-            question: "Which is the superlative form of 'fast'?",
-            answers: ["Faster", "Fastest", "More fast", "Most faster"],
-            correctAnswer: "Fastest"
+            question: "Which sentence contains a metaphor?",
+            answers: ["The boy ran quickly.", "The boy was as fast as a cheetah.", "The boy was a rocket.", "The boy ran home."],
+            correctAnswer: "The boy was a rocket."
         },
         {
             type: "multiple",
-            question: "Which is the comparative form of 'good'?",
-            answers: ["Gooder", "Best", "Better", "More good"],
-            correctAnswer: "Better"
-        },
-        {
-            type: "multiple",
-            question: "Which is the superlative form of 'good'?",
-            answers: ["Goodest", "Better", "Best", "Most good"],
-            correctAnswer: "Best"
-        },
-        {
-            type: "multiple",
-            question: "Which word is a determiner?",
-            answers: ["The", "Quickly", "Run", "Beautifully"],
-            correctAnswer: "The"
+            question: "Which sentence uses an apostrophe correctly?",
+            answers: ["The dogs tail wagged.", "The dog's tail wagged.", "The dogs' tail wagged.", "The dog tail's wagged."],
+            correctAnswer: "The dog's tail wagged."
         },
         {
             type: "multiple",
             question: "Which sentence uses a comma correctly?",
-            answers: ["After school I went home.", "After school, I went home.", "After, school I went home.", "After school I, went home."],
-            correctAnswer: "After school, I went home."
+            answers: ["After school we went home.", "After school, we went home.", "After, school we went home.", "After school we, went home."],
+            correctAnswer: "After school, we went home."
         },
         {
             type: "multiple",
-            question: "Which sentence uses quotation marks correctly?",
-            answers: ["She said, I am tired.", "She said, \"I am tired.\"", "She said \"I am tired.", "She said I am \"tired.\""],
-            correctAnswer: "She said, \"I am tired.\""
+            question: "What does a semicolon commonly connect?",
+            answers: ["Closely related independent clauses", "Two single words", "A title and name", "Only questions"],
+            correctAnswer: "Closely related independent clauses"
         },
         {
             type: "multiple",
-            question: "What is a synonym?",
-            answers: ["A word with a similar meaning", "A word with an opposite meaning", "A punctuation mark", "A sentence"],
-            correctAnswer: "A word with a similar meaning"
+            question: "Which word is an article?",
+            answers: ["The", "Quickly", "Jump", "Beautiful"],
+            correctAnswer: "The"
         },
         {
             type: "multiple",
-            question: "What is an antonym?",
-            answers: ["A similar word", "An opposite word", "A noun", "A verb"],
-            correctAnswer: "An opposite word"
+            question: "Which sentence uses 'their' correctly?",
+            answers: ["Their going home.", "They're going home.", "There going home.", "Their going to home."],
+            correctAnswer: "Their going home."
         },
         {
             type: "multiple",
-            question: "Which word is a synonym for 'happy'?",
-            answers: ["Sad", "Angry", "Joyful", "Tired"],
-            correctAnswer: "Joyful"
+            question: "Which word means 'they are'?",
+            answers: ["Their", "There", "They're", "Theirs"],
+            correctAnswer: "They're"
         },
         {
             type: "multiple",
-            question: "Which word is an antonym for 'ancient'?",
-            answers: ["Old", "Modern", "Historic", "Ancient"],
-            correctAnswer: "Modern"
+            question: "Which word refers to a place?",
+            answers: ["Their", "They're", "There", "Theirs"],
+            correctAnswer: "There"
         },
         {
             type: "multiple",
-            question: "Which sentence is written correctly?",
-            answers: ["my friend lives in melbourne.", "My friend lives in Melbourne.", "my Friend lives in Melbourne.", "My friend lives in melbourne."],
-            correctAnswer: "My friend lives in Melbourne."
+            question: "Which sentence is correct?",
+            answers: ["Your going to school.", "You're going to school.", "Youre going to school.", "Yore going to school."],
+            correctAnswer: "You're going to school."
         },
         {
             type: "multiple",
-            question: "Which word should be capitalised in 'we visited japan'?",
-            answers: ["visited", "japan", "we", "none"],
-            correctAnswer: "japan"
+            question: "Which word shows possession?",
+            answers: ["Its", "It's", "It", "Its'"],
+            correctAnswer: "Its"
+        },
+        {
+            type: "multiple",
+            question: "Which word means 'it is'?",
+            answers: ["Its", "It's", "Its'", "It"],
+            correctAnswer: "It's"
+        },
+        {
+            type: "multiple",
+            question: "Which is an independent clause?",
+            answers: ["Because I was tired", "When the rain stopped", "I went home", "Although it was late"],
+            correctAnswer: "I went home"
+        },
+        {
+            type: "multiple",
+            question: "Which is a dependent clause?",
+            answers: ["I went home.", "She laughed.", "Because I was tired", "The dog barked."],
+            correctAnswer: "Because I was tired"
+        },
+        {
+            type: "multiple",
+            question: "What is a sentence fragment?",
+            answers: ["An incomplete sentence", "A very long sentence", "A question", "A paragraph"],
+            correctAnswer: "An incomplete sentence"
+        },
+        {
+            type: "multiple",
+            question: "What is a run-on sentence?",
+            answers: ["Two or more sentences incorrectly joined", "A sentence with one word", "A question", "A sentence without a noun"],
+            correctAnswer: "Two or more sentences incorrectly joined"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is written in active voice?",
+            answers: ["The ball was kicked by Sam.", "Sam kicked the ball.", "The ball had been kicked.", "The ball is being kicked."],
+            correctAnswer: "Sam kicked the ball."
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is passive voice?",
+            answers: ["Sam kicked the ball.", "Sam is kicking the ball.", "The ball was kicked by Sam.", "Sam kicks the ball."],
+            correctAnswer: "The ball was kicked by Sam."
+        },
+        {
+            type: "multiple",
+            question: "Which word is a conjunction in this sentence: 'I stayed home because it rained.'?",
+            answers: ["Stayed", "Home", "Because", "Rained"],
+            correctAnswer: "Because"
+        },
+        {
+            type: "multiple",
+            question: "Which word is the subject in 'The cat chased the mouse'?",
+            answers: ["Cat", "Chased", "Mouse", "The"],
+            correctAnswer: "Cat"
+        },
+        {
+            type: "multiple",
+            question: "Which word is the object in 'The cat chased the mouse'?",
+            answers: ["Cat", "Chased", "Mouse", "The"],
+            correctAnswer: "Mouse"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence uses a colon correctly?",
+            answers: ["I need three things: food, water and shelter.", "I: need three things.", "I need: three things.", "I need three: things."],
+            correctAnswer: "I need three things: food, water and shelter."
+        },
+        {
+            type: "multiple",
+            question: "What is a compound sentence?",
+            answers: ["A sentence containing two independent clauses", "A single word", "A question", "A sentence fragment"],
+            correctAnswer: "A sentence containing two independent clauses"
+        },
+        {
+            type: "multiple",
+            question: "Which word is a modal verb?",
+            answers: ["Can", "House", "Quickly", "Beautiful"],
+            correctAnswer: "Can"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence uses a modal verb?",
+            answers: ["I can swim.", "I swimming.", "I swimmed.", "I swimmer."],
+            correctAnswer: "I can swim."
+        },
+        {
+            type: "multiple",
+            question: "Which word is an auxiliary verb?",
+            answers: ["Have", "Blue", "Chair", "Quickly"],
+            correctAnswer: "Have"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is grammatically correct?",
+            answers: ["There is many books.", "There are many books.", "There be many books.", "There am many books."],
+            correctAnswer: "There are many books."
+        },
+        {
+            type: "multiple",
+            question: "Which sentence uses a comparative adjective?",
+            answers: ["The dog is fast.", "The dog is faster.", "The dog is fastest.", "The dog runs."],
+            correctAnswer: "The dog is faster."
+        },
+        {
+            type: "multiple",
+            question: "Which sentence uses a superlative adjective?",
+            answers: ["This is big.", "This is bigger.", "This is the biggest.", "This is very big."],
+            correctAnswer: "This is the biggest."
+        },
+        {
+            type: "multiple",
+            question: "Which word is an interjection?",
+            answers: ["Wow", "Table", "Run", "Carefully"],
+            correctAnswer: "Wow"
+        },
+        {
+            type: "multiple",
+            question: "Which sentence is punctuated correctly?",
+            answers: ["Stop, don't move!", "Stop don't, move!", "Stop don't move.", "Stop; don't move?"],
+            correctAnswer: "Stop, don't move!"
         },
 
         // =========================
-        // WRITTEN — 51–100
+        // WRITTEN — 51-100
         // =========================
 
         {
@@ -319,237 +330,217 @@ const grammarQuestions = {
         {
             type: "written",
             question: "What is a verb?",
-            acceptedAnswers: ["a doing word", "an action word", "action word"]
+            acceptedAnswers: ["an action word", "a doing word", "action word"]
         },
         {
             type: "written",
             question: "What is an adjective?",
-            acceptedAnswers: ["a word that describes a noun", "a describing word"]
+            acceptedAnswers: ["a word that describes a noun", "describes a noun", "a describing word"]
         },
         {
             type: "written",
             question: "What is an adverb?",
-            acceptedAnswers: ["a word that describes a verb", "a word that modifies a verb"]
+            acceptedAnswers: ["a word that modifies a verb", "modifies a verb", "describes a verb"]
         },
         {
             type: "written",
             question: "What is a pronoun?",
-            acceptedAnswers: ["a word used instead of a noun", "a word that replaces a noun"]
-        },
-        {
-            type: "written",
-            question: "Give the plural of 'mouse'.",
-            acceptedAnswers: ["mice"]
-        },
-        {
-            type: "written",
-            question: "Give the plural of 'person'.",
-            acceptedAnswers: ["people"]
-        },
-        {
-            type: "written",
-            question: "Give the plural of 'tooth'.",
-            acceptedAnswers: ["teeth"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'run'.",
-            acceptedAnswers: ["ran"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'write'.",
-            acceptedAnswers: ["wrote"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'see'.",
-            acceptedAnswers: ["saw"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'take'.",
-            acceptedAnswers: ["took"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'bring'.",
-            acceptedAnswers: ["brought"]
-        },
-        {
-            type: "written",
-            question: "Give the past tense of 'make'.",
-            acceptedAnswers: ["made"]
-        },
-        {
-            type: "written",
-            question: "Give the future tense of 'play'.",
-            acceptedAnswers: ["will play"]
-        },
-        {
-            type: "written",
-            question: "Give the comparative form of 'small'.",
-            acceptedAnswers: ["smaller"]
-        },
-        {
-            type: "written",
-            question: "Give the superlative form of 'small'.",
-            acceptedAnswers: ["smallest"]
-        },
-        {
-            type: "written",
-            question: "Give the comparative form of 'bad'.",
-            acceptedAnswers: ["worse"]
-        },
-        {
-            type: "written",
-            question: "Give the superlative form of 'bad'.",
-            acceptedAnswers: ["worst"]
-        },
-        {
-            type: "written",
-            question: "Give a synonym for 'big'.",
-            acceptedAnswers: ["large", "huge", "large or huge"]
-        },
-        {
-            type: "written",
-            question: "Give an antonym for 'hot'.",
-            acceptedAnswers: ["cold"]
-        },
-        {
-            type: "written",
-            question: "What punctuation ends a question?",
-            acceptedAnswers: ["question mark", "?"]
-        },
-        {
-            type: "written",
-            question: "What punctuation ends a normal statement?",
-            acceptedAnswers: ["full stop", "period", "."]
-        },
-        {
-            type: "written",
-            question: "What punctuation is used to show possession?",
-            acceptedAnswers: ["apostrophe", "'"]
-        },
-        {
-            type: "written",
-            question: "What punctuation is commonly used to separate items in a list?",
-            acceptedAnswers: ["comma", ","]
-        },
-        {
-            type: "written",
-            question: "What is a conjunction?",
-            acceptedAnswers: ["a word that joins words or clauses", "a joining word"]
-        },
-        {
-            type: "written",
-            question: "Give one conjunction.",
-            acceptedAnswers: ["and", "but", "because", "or", "so"]
+            acceptedAnswers: ["a word that replaces a noun", "word that replaces a noun"]
         },
         {
             type: "written",
             question: "What is a preposition?",
-            acceptedAnswers: ["a word showing a relationship between things", "a word showing position or relationship"]
+            acceptedAnswers: ["a word showing a relationship between things", "shows a relationship between things", "relationship word"]
         },
         {
             type: "written",
-            question: "Give one preposition.",
-            acceptedAnswers: ["in", "on", "under", "over", "between", "beside"]
+            question: "What is a conjunction?",
+            acceptedAnswers: ["a word that joins words or clauses", "joins words or clauses", "joining word"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'she is happy.'",
-            acceptedAnswers: ["She is happy."]
+            question: "What is a capital letter used for?",
+            acceptedAnswers: ["sentence beginnings and proper nouns", "beginnings of sentences and proper nouns", "proper nouns and sentence beginnings"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'i went home.'",
-            acceptedAnswers: ["I went home."]
+            question: "What punctuation mark ends a question?",
+            acceptedAnswers: ["question mark", "?"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'they was late.'",
-            acceptedAnswers: ["They were late."]
+            question: "What punctuation mark shows strong emotion?",
+            acceptedAnswers: ["exclamation mark", "exclamation point", "!"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'he don't like it.'",
-            acceptedAnswers: ["He doesn't like it."]
+            question: "What is the past tense?",
+            acceptedAnswers: ["a tense describing completed actions", "describes completed actions", "actions that have already happened"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'your very funny.'",
-            acceptedAnswers: ["You're very funny."]
+            question: "What is the future tense?",
+            acceptedAnswers: ["a tense describing future actions", "describes future actions", "actions that will happen"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'their going home.'",
-            acceptedAnswers: ["They're going home."]
+            question: "What is the present tense?",
+            acceptedAnswers: ["a tense describing current or regular actions", "current or regular actions", "describes current actions"]
         },
         {
             type: "written",
-            question: "Correct this sentence: 'the dog wagged it's tail.'",
-            acceptedAnswers: ["The dog wagged its tail."]
-        },
-        {
-            type: "written",
-            question: "What is a sentence fragment?",
-            acceptedAnswers: ["an incomplete sentence", "an incomplete thought"]
-        },
-        {
-            type: "written",
-            question: "What is a complete sentence?",
-            acceptedAnswers: ["a sentence containing a complete thought", "a complete thought"]
+            question: "What is a plural noun?",
+            acceptedAnswers: ["a noun referring to more than one", "noun referring to more than one", "more than one"]
         },
         {
             type: "written",
             question: "What is subject-verb agreement?",
-            acceptedAnswers: ["the subject and verb matching correctly", "matching the subject and verb"]
+            acceptedAnswers: ["the subject and verb matching correctly", "subject and verb matching", "matching the subject and verb"]
         },
         {
             type: "written",
-            question: "What is a synonym?",
-            acceptedAnswers: ["a word with a similar meaning", "similar meaning"]
+            question: "What is a simile?",
+            acceptedAnswers: ["a comparison using like or as", "comparison using like or as"]
         },
         {
             type: "written",
-            question: "What is an antonym?",
-            acceptedAnswers: ["a word with an opposite meaning", "opposite meaning"]
+            question: "What is a metaphor?",
+            acceptedAnswers: ["a direct comparison", "a comparison saying one thing is another"]
         },
         {
             type: "written",
-            question: "What is a statement?",
-            acceptedAnswers: ["a sentence that gives information", "a sentence giving information"]
+            question: "What is an apostrophe commonly used for?",
+            acceptedAnswers: ["possession and contractions", "possession or contractions"]
         },
         {
             type: "written",
-            question: "What is a command?",
-            acceptedAnswers: ["an instruction", "a sentence giving an instruction"]
+            question: "What is a comma used for?",
+            acceptedAnswers: ["separating parts of a sentence", "separating items or clauses", "separating parts of sentences"]
         },
         {
             type: "written",
-            question: "What is a question?",
-            acceptedAnswers: ["a sentence that asks something", "a sentence asking something"]
+            question: "What is a semicolon?",
+            acceptedAnswers: ["punctuation joining closely related independent clauses", "punctuation joining related clauses", "joins closely related clauses"]
         },
         {
             type: "written",
-            question: "What is an exclamation?",
-            acceptedAnswers: ["a sentence expressing strong emotion", "strong emotion"]
+            question: "What is an article?",
+            acceptedAnswers: ["a word such as a an or the", "a an or the"]
         },
         {
             type: "written",
-            question: "What is a proper noun?",
-            acceptedAnswers: ["a specific name of a person place or thing", "a specific name"]
+            question: "What is the difference between their and they're?",
+            acceptedAnswers: ["their shows possession while they're means they are", "their is possessive and they're means they are"]
         },
         {
             type: "written",
-            question: "Give an example of a proper noun.",
-            acceptedAnswers: ["Australia", "Melbourne", "Japan", "James"]
+            question: "What does 'there' usually refer to?",
+            acceptedAnswers: ["a place", "a location"]
         },
         {
             type: "written",
-            question: "What should the first word of a sentence begin with?",
-            acceptedAnswers: ["a capital letter", "capital letter"]
+            question: "What does 'your' show?",
+            acceptedAnswers: ["possession", "ownership"]
+        },
+        {
+            type: "written",
+            question: "What does 'you're' mean?",
+            acceptedAnswers: ["you are", "youre means you are"]
+        },
+        {
+            type: "written",
+            question: "What does 'its' usually show?",
+            acceptedAnswers: ["possession", "ownership"]
+        },
+        {
+            type: "written",
+            question: "What does 'it's' mean?",
+            acceptedAnswers: ["it is", "it has"]
+        },
+        {
+            type: "written",
+            question: "What is an independent clause?",
+            acceptedAnswers: ["a clause that can stand alone as a sentence", "can stand alone as a sentence", "complete clause"]
+        },
+        {
+            type: "written",
+            question: "What is a dependent clause?",
+            acceptedAnswers: ["a clause that cannot stand alone", "cannot stand alone as a sentence", "incomplete clause"]
+        },
+        {
+            type: "written",
+            question: "What is a sentence fragment?",
+            acceptedAnswers: ["an incomplete sentence", "incomplete sentence"]
+        },
+        {
+            type: "written",
+            question: "What is a run-on sentence?",
+            acceptedAnswers: ["incorrectly joined sentences or clauses", "two sentences incorrectly joined", "incorrectly joined clauses"]
+        },
+        {
+            type: "written",
+            question: "What is active voice?",
+            acceptedAnswers: ["the subject performs the action", "subject performs the action"]
+        },
+        {
+            type: "written",
+            question: "What is passive voice?",
+            acceptedAnswers: ["the subject receives the action", "subject receives the action"]
+        },
+        {
+            type: "written",
+            question: "What is a subject?",
+            acceptedAnswers: ["who or what performs the action", "who or what the sentence is about", "person or thing performing the action"]
+        },
+        {
+            type: "written",
+            question: "What is an object in a sentence?",
+            acceptedAnswers: ["the person or thing receiving the action", "receives the action"]
+        },
+        {
+            type: "written",
+            question: "What is a compound sentence?",
+            acceptedAnswers: ["a sentence with two independent clauses", "two independent clauses joined"]
+        },
+        {
+            type: "written",
+            question: "What is a modal verb?",
+            acceptedAnswers: ["a verb expressing possibility ability or necessity", "expresses possibility ability or necessity"]
+        },
+        {
+            type: "written",
+            question: "Give one example of a modal verb.",
+            acceptedAnswers: ["can", "could", "may", "might", "must", "should", "would", "will"]
+        },
+        {
+            type: "written",
+            question: "What is an auxiliary verb?",
+            acceptedAnswers: ["a helping verb", "helping verb"]
+        },
+        {
+            type: "written",
+            question: "What is a comparative adjective?",
+            acceptedAnswers: ["an adjective comparing two things", "compares two things"]
+        },
+        {
+            type: "written",
+            question: "What is a superlative adjective?",
+            acceptedAnswers: ["an adjective comparing three or more things", "compares three or more things"]
+        },
+        {
+            type: "written",
+            question: "What is an interjection?",
+            acceptedAnswers: ["a word expressing emotion", "word expressing emotion"]
+        },
+        {
+            type: "written",
+            question: "Why is punctuation important?",
+            acceptedAnswers: ["it makes meaning clear", "helps make meaning clear", "clarifies meaning"]
+        },
+        {
+            type: "written",
+            question: "Why are paragraphs used?",
+            acceptedAnswers: ["to organise ideas", "organise ideas", "organise writing"]
         },
         {
             type: "written",
@@ -558,13 +549,28 @@ const grammarQuestions = {
         },
         {
             type: "written",
-            question: "What is a paragraph?",
-            acceptedAnswers: ["a group of sentences about an idea", "group of sentences about an idea"]
+            question: "What is a phrase?",
+            acceptedAnswers: ["a group of words without a complete subject and verb combination", "group of words that does not contain a complete subject and verb"]
         },
         {
             type: "written",
-            question: "What is grammar?",
-            acceptedAnswers: ["the rules and structure of language", "rules and structure of language"]
+            question: "What is direct speech?",
+            acceptedAnswers: ["the exact words spoken by someone", "exact words spoken"]
+        },
+        {
+            type: "written",
+            question: "What punctuation is commonly used around direct speech?",
+            acceptedAnswers: ["quotation marks", "speech marks", "inverted commas"]
+        },
+        {
+            type: "written",
+            question: "What is proofreading?",
+            acceptedAnswers: ["checking writing for errors", "checking writing for mistakes", "checking for errors"]
+        },
+        {
+            type: "written",
+            question: "Why should writing be edited?",
+            acceptedAnswers: ["to improve clarity and correctness", "improve clarity and correctness", "to fix errors and improve writing"]
         }
     ]
 };
