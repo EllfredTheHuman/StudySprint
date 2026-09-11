@@ -58,5 +58,455 @@
 
         <div class="streak-left">
 
-            <span class="streak-flame"
+            <span class="streak-flame">
+                🔥
+            </span>
+
+            <div>
+
+                <p class="section-label">
+                    CURRENT STREAK
+                </p>
+
+                <h2 id="home-streak">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="streak-days">
+
+            <span class="streak-day active">
+                M
+            </span>
+
+            <span class="streak-day">
+                T
+            </span>
+
+            <span class="streak-day">
+                W
+            </span>
+
+            <span class="streak-day">
+                T
+            </span>
+
+            <span class="streak-day">
+                F
+            </span>
+
+            <span class="streak-day">
+                S
+            </span>
+
+            <span class="streak-day">
+                S
+            </span>
+
+        </div>
+
+
+        <p
+            class="streak-message"
+            id="streak-message"
+        >
+            Start studying today to begin your streak.
+        </p>
+
+    </section>
+
+
+
+    <!-- CONTINUE -->
+
+    <section class="continue-section">
+
+        <div class="section-heading">
+
+            <p class="section-label">
+                PICK UP WHERE YOU LEFT OFF
+            </p>
+
+            <h2>
+                Continue studying
+            </h2>
+
+        </div>
+
+
+        <div class="continue-content">
+
+            <div>
+
+                <p
+                    class="continue-subject"
+                    id="continue-subject"
+                >
+                    No topic yet
+                </p>
+
+                <h3 id="continue-topic">
+                    Start your first topic
+                </h3>
+
+            </div>
+
+
+            <a
+                href="study/index.html"
+                class="continue-button"
+                id="continue-button"
+            >
+                →
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="quick-section">
+
+        <p class="section-label">
+            QUICK ACTIONS
+        </p>
+
+
+        <div class="quick-actions">
+
+            <a
+                href="study/index.html"
+                class="quick-action"
+            >
+
+                <span class="quick-icon">
+                    📚
+                </span>
+
+                <span>
+                    <strong>Study</strong>
+                    <small>Learn a topic</small>
+                </span>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                href="sprint/index.html"
+                class="quick-action sprint-action"
+            >
+
+                <span class="quick-icon">
+                    S
+                </span>
+
+                <span>
+                    <strong>Sprint</strong>
+                    <small>Test yourself</small>
+                </span>
+
+                <span class="quick-arrow">
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- PROGRESS -->
+
+    <section class="progress-section">
+
+        <div class="section-heading">
+
+            <p class="section-label">
+                YOUR PROGRESS
+            </p>
+
+        </div>
+
+
+        <div class="progress-grid">
+
+            <div class="progress-stat">
+
+                <strong id="home-topics">
+                    0
+                </strong>
+
+                <span>
+                    Topics studied
+                </span>
+
+            </div>
+
+
+            <div class="progress-stat">
+
+                <strong id="home-sprints">
+                    0
+                </strong>
+
+                <span>
+                    Sprints completed
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+    <a
+        href="index.html"
+        class="nav-item active"
+    >
+
+        <span class="nav-icon">
+            ⌂
+        </span>
+
+        <span>
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        href="study/index.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            ◫
+        </span>
+
+        <span>
+            Study
+        </span>
+
+    </a>
+
+
+    <a
+        href="sprint/index.html"
+        class="nav-item sprint-nav"
+    >
+
+        <span class="sprint-icon">
+            S
+        </span>
+
+        <span>
+            Sprint
+        </span>
+
+    </a>
+
+
+    <a
+        href="rooms/index.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            ♧
+        </span>
+
+        <span>
+            Rooms
+        </span>
+
+    </a>
+
+
+    <a
+        href="profile/index.html"
+        class="nav-item"
+    >
+
+        <span class="nav-icon">
+            ○
+        </span>
+
+        <span>
+            Profile
+        </span>
+
+    </a>
+
+</nav>
+
+
+
+<script>
+
+
+/* =========================================================
+   CONTINUE STUDYING
+========================================================= */
+
+const lastSubject =
+    localStorage.getItem("lastStudySubject");
+
+const lastTopic =
+    localStorage.getItem("lastStudyTopic");
+
+const lastFile =
+    localStorage.getItem("lastStudyFile");
+
+const lastKey =
+    localStorage.getItem("lastStudyKey");
+
+
+const continueSubject =
+    document.getElementById("continue-subject");
+
+const continueTopic =
+    document.getElementById("continue-topic");
+
+const continueButton =
+    document.getElementById("continue-button");
+
+
+if (
+    lastSubject &&
+    lastTopic &&
+    lastFile &&
+    lastKey
+) {
+
+    continueSubject.textContent =
+        lastSubject;
+
+    continueTopic.textContent =
+        lastTopic;
+
+    continueButton.href =
+        "study/index.html" +
+        "?subject=" +
+        encodeURIComponent(lastSubject) +
+        "&topic=" +
+        encodeURIComponent(lastTopic) +
+        "&file=" +
+        encodeURIComponent(lastFile) +
+        "&key=" +
+        encodeURIComponent(lastKey);
+
+} else {
+
+    continueSubject.textContent =
+        "GET STARTED";
+
+    continueTopic.textContent =
+        "Choose your first topic";
+
+}
+
+
+
+/* =========================================================
+   STREAK
+========================================================= */
+
+const streakElement =
+    document.getElementById("home-streak");
+
+const streakMessage =
+    document.getElementById("streak-message");
+
+
+const streak =
+    Number(
+        localStorage.getItem("streak")
+    ) || 0;
+
+
+streakElement.textContent =
+    streak;
+
+
+if (streak === 0) {
+
+    streakMessage.textContent =
+        "Start studying today to begin your streak.";
+
+} else if (streak === 1) {
+
+    streakMessage.textContent =
+        "You're on a 1-day streak. Keep it going!";
+
+} else {
+
+    streakMessage.textContent =
+        "You're on a " +
+        streak +
+        "-day streak. Keep it alive!";
+
+}
+
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+const topicsStudied =
+    Number(
+        localStorage.getItem("topicsStudied")
+    ) || 0;
+
+
+const sprintsCompleted =
+    Number(
+        localStorage.getItem("sprintsCompleted")
+    ) || 0;
+
+
+document.getElementById(
+    "home-topics"
+).textContent =
+    topicsStudied;
+
+
+document.getElementById(
+    "home-sprints"
+).textContent =
+    sprintsCompleted;
+
+
+</script>
+
+
+<script src="animations.js"></script>
+
+
+</body>
+
+</html>
 ```
