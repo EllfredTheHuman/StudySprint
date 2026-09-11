@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -19,27 +21,183 @@
 
     <main>
 
-        <section class="account-card">
+        <div class="account-card">
 
             <div class="logo">
                 sh🚀 StudySprint
             </div>
 
+
+            <!-- AUTH -->
+
             <div id="auth-screen">
 
-                <div class="heading">
+                <h1 id="title">
+                    Welcome back.
+                </h1>
 
-                    <h1 id="form-title">
-                        Welcome back.
-                    </h1>
-
-                    <p id="form-subtitle">
-                        Sign in to continue your StudySprint journey.
-                    </p>
-
-                </div>
+                <p id="subtitle">
+                    Sign in to your StudySprint account.
+                </p>
 
 
                 <div class="tabs">
 
-                    <
+                    <button
+                        id="signin-tab"
+                        class="tab active"
+                        type="button"
+                    >
+                        Sign In
+                    </button>
+
+                    <button
+                        id="signup-tab"
+                        class="tab"
+                        type="button"
+                    >
+                        Sign Up
+                    </button>
+
+                </div>
+
+
+                <form id="auth-form">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+
+                    <div
+                        id="confirm-container"
+                        class="hidden"
+                    >
+
+                        <label for="confirm-password">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            id="confirm-password"
+                            type="password"
+                            placeholder="Password again"
+                            autocomplete="new-password"
+                        >
+
+                    </div>
+
+
+                    <button
+                        id="submit-button"
+                        class="primary-button"
+                        type="submit"
+                    >
+                        Sign In
+                    </button>
+
+                </form>
+
+
+                <div
+                    id="message"
+                    class="message"
+                ></div>
+
+
+                <div class="switch">
+
+                    <span id="switch-text">
+                        Don't have an account?
+                    </span>
+
+                    <button
+                        id="switch-button"
+                        type="button"
+                    >
+                        Sign Up
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGGED IN -->
+
+            <div
+                id="account-screen"
+                class="hidden"
+            >
+
+                <div class="check">
+                    ✓
+                </div>
+
+                <h1>
+                    You're signed in.
+                </h1>
+
+                <p id="account-email">
+                    Account
+                </p>
+
+
+                <a
+                    href="../index.html"
+                    class="primary-button continue"
+                >
+                    Continue
+                </a>
+
+
+                <button
+                    id="logout-button"
+                    class="secondary-button"
+                    type="button"
+                >
+                    Sign Out
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Supabase -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <!-- StudySprint account code -->
+
+    <script src="account.js"></script>
+
+</body>
+
+</html>
+```
