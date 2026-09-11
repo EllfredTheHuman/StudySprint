@@ -23,13 +23,10 @@ const feedbackTitle = document.getElementById("feedback-title");
 const feedbackText = document.getElementById("feedback-text");
 const nextQuestion = document.getElementById("next-question");
 
-
 let questions = [];
 let quizQuestions = [];
-
 let currentQuestion = 0;
 let score = 0;
-
 let answered = false;
 
 
@@ -49,20 +46,20 @@ async function loadQuestions() {
     try {
 
         /*
-            IMPORTANT:
-
             All question files are directly inside:
 
-            questions/
+            StudySprint/questions/
 
             There are NO subject folders.
         */
 
-        const response = await fetch("../../questions/" + file);
+        const response = await fetch(
+            "../../questions/" + file
+        );
 
         if (!response.ok) {
             throw new Error(
-                "Could not load question file: " + file
+                "Could not load " + file
             );
         }
 
@@ -70,60 +67,63 @@ async function loadQuestions() {
 
 
         /*
-            Get the first top-level const object
-            from the question file.
+            Find the first const object in the file.
+
+            Example:
+
+            const year9AlgebraQuestions = {
         */
 
         const match = code.match(
-            /const\s+([A-Za-z_$][\w$]*)\s*=\s*\{/
+            /const\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{/
         );
-
 
         if (!match) {
             throw new Error(
-                "Could not find the question data in " + file
+                "Could not find question data."
             );
         }
-
 
         const variableName = match[1];
 
 
         /*
-            Execute the question file and return
-            the question object.
+            Load the question object.
         */
 
         const questionData = new Function(
             code +
-            "\nreturn typeof " +
+            "\nreturn " +
             variableName +
-            ' !== "undefined" ? ' +
-            variableName +
-            " : null;"
+            ";"
         )();
 
 
         if (!questionData) {
             throw new Error(
-                "Question data could not be loaded."
+                "Question data is empty."
             );
         }
 
 
         /*
-            Get the selected topic from the file.
+            Find the selected topic.
         */
 
-        let topicQuestions = questionData[key];
+        let topicQuestions = null;
+
+
+        if (key && questionData[key]) {
+            topicQuestions = questionData[key];
+        }
 
 
         /*
-            If the exact key wasn't found, try
-            finding a matching key ignoring case.
+            If the exact key wasn't found,
+            check without worrying about capitalisation.
         */
 
-        if (!topicQuestions) {
+        if (!topicQuestions && key) {
 
             const keys = Object.keys(questionData);
 
@@ -143,23 +143,25 @@ async function loadQuestions() {
         }
 
 
+        /*
+            If the file itself is an array,
+            use the array directly.
+        */
+
+        if (
+            !topicQuestions &&
+            Array.isArray(questionData)
+        ) {
+
+            topicQuestions = questionData;
+        }
+
+
         if (!Array.isArray(topicQuestions)) {
 
-            /*
-                Some files may contain the questions
-                directly rather than inside a topic.
-            */
-
-            if (Array.isArray(questionData)) {
-
-                topicQuestions = questionData;
-
-            } else {
-
-                throw new Error(
-                    "Could not find topic: " + key
-                );
-            }
+            throw new Error(
+                "Could not find topic: " + key
+            );
         }
 
 
@@ -167,8 +169,9 @@ async function loadQuestions() {
 
 
         if (questions.length === 0) {
+
             throw new Error(
-                "This topic does not have any questions yet."
+                "This topic has no questions yet."
             );
         }
 
@@ -177,13 +180,12 @@ async function loadQuestions() {
             Randomise the questions.
         */
 
-        quizQuestions = shuffle(
-            questions.slice()
-        );
+        quizQuestions =
+            shuffle(questions.slice());
 
 
         /*
-            Sprint currently uses 5 questions.
+            Sprint = 5 questions.
         */
 
         quizQuestions =
@@ -192,6 +194,7 @@ async function loadQuestions() {
 
         currentQuestion = 0;
         score = 0;
+
 
         showQuestion();
 
@@ -221,11 +224,14 @@ function showQuestion() {
     writtenArea.style.display = "none";
 
 
-    const question = quizQuestions[currentQuestion];
+    const question =
+        quizQuestions[currentQuestion];
 
 
     if (!question) {
+
         finishQuiz();
+
         return;
     }
 
@@ -241,9 +247,7 @@ function showQuestion() {
         quizQuestions.length;
 
 
-    /*
-        MULTIPLE CHOICE
-    */
+    /* MULTIPLE CHOICE */
 
     if (question.type === "multiple") {
 
@@ -268,17 +272,20 @@ function showQuestion() {
                 document.createElement("button");
 
 
-            button.textContent = answer;
+            button.textContent =
+                answer;
 
 
             button.addEventListener(
                 "click",
                 function () {
+
                     checkMultipleAnswer(
                         answer,
                         question.correctAnswer,
                         button
                     );
+
                 }
             );
 
@@ -291,9 +298,7 @@ function showQuestion() {
     }
 
 
-    /*
-        WRITTEN
-    */
+    /* WRITTEN */
 
     if (question.type === "written") {
 
@@ -310,13 +315,13 @@ function showQuestion() {
 
 
     showError(
-        "This question has an invalid question type."
+        "This question has an invalid type."
     );
 }
 
 
 /* =========================================================
-   MULTIPLE CHOICE CHECK
+   MULTIPLE CHOICE
 ========================================================= */
 
 function checkMultipleAnswer(
@@ -329,6 +334,7 @@ function checkMultipleAnswer(
         return;
     }
 
+
     answered = true;
 
 
@@ -339,6 +345,7 @@ function checkMultipleAnswer(
     for (let i = 0; i < buttons.length; i++) {
 
         buttons[i].disabled = true;
+
 
         if (
             buttons[i].textContent ===
@@ -360,6 +367,7 @@ function checkMultipleAnswer(
     ) {
 
         score++;
+
 
         selectedButton.style.borderColor =
             "#35c759";
@@ -392,7 +400,7 @@ function checkMultipleAnswer(
 
 
 /* =========================================================
-   WRITTEN ANSWER CHECK
+   WRITTEN ANSWERS
 ========================================================= */
 
 submitWritten.addEventListener(
@@ -451,9 +459,13 @@ submitWritten.addEventListener(
                     .toLowerCase();
 
 
-                if (userAnswer === accepted) {
+                if (
+                    userAnswer ===
+                    accepted
+                ) {
 
                     correct = true;
+
                     break;
                 }
             }
@@ -474,6 +486,7 @@ submitWritten.addEventListener(
 
             let correctAnswer =
                 "Check the question and try again.";
+
 
             if (
                 Array.isArray(
@@ -527,6 +540,7 @@ nextQuestion.addEventListener(
 
         currentQuestion++;
 
+
         if (
             currentQuestion >=
             quizQuestions.length
@@ -537,13 +551,14 @@ nextQuestion.addEventListener(
             return;
         }
 
+
         showQuestion();
     }
 );
 
 
 /* =========================================================
-   FINISH
+   FINISH QUIZ
 ========================================================= */
 
 function finishQuiz() {
@@ -552,15 +567,17 @@ function finishQuiz() {
         quizQuestions.length;
 
 
+    const oldSprints =
+        Number(
+            localStorage.getItem(
+                "sprintsCompleted"
+            )
+        ) || 0;
+
+
     localStorage.setItem(
         "sprintsCompleted",
-        String(
-            Number(
-                localStorage.getItem(
-                    "sprintsCompleted"
-                )
-            ) + 1
-        )
+        String(oldSprints + 1)
     );
 
 
@@ -635,14 +652,16 @@ function shuffle(array) {
             );
 
 
-        const temp =
+        const temporary =
             array[i];
+
 
         array[i] =
             array[j];
 
+
         array[j] =
-            temp;
+            temporary;
     }
 
 
@@ -659,16 +678,22 @@ function showError(message) {
     topicElement.textContent =
         "ERROR";
 
+
     questionElement.textContent =
         message;
+
 
     questionNumberElement.textContent =
         "";
 
-    answersElement.innerHTML = "";
+
+    answersElement.innerHTML =
+        "";
+
 
     writtenArea.style.display =
         "none";
+
 
     feedback.style.display =
         "none";
