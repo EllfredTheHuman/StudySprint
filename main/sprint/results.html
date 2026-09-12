@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Results — StudySprint</title>
+
+    <link rel="stylesheet" href="quiz.css">
+
+    <style>
+
+        .results-app {
+            width: min(
+                calc(100% - 28px),
+                560px
+            );
+
+            min-height: 100vh;
+
+            margin: 0 auto;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            padding: 35px 0;
+        }
+
+
+        .result-card {
+            padding: 30px 24px;
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.05),
+                    rgba(255,255,255,.018)
+                );
+
+            text-align: center;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.35);
+        }
+
+
+        .result-label {
+            color: #9a8cff;
+
+            font-size: 10px;
+
+            font-weight: 850;
+
+            letter-spacing: 1.6px;
+        }
+
+
+        .result-card h1 {
+            margin: 10px 0 6px;
+
+            font-size: 34px;
+
+            letter-spacing: -1.4px;
+        }
+
+
+        .result-topic {
+            margin: 0;
+
+            color: #777782;
+
+            font-size: 12px;
+        }
+
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+
+            margin: 30px auto;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            border: 8px solid rgba(136,117,245,.16);
+
+            background: #111117;
+        }
+
+
+        .score-number {
+            font-size: 43px;
+
+            font-weight: 900;
+
+            letter-spacing: -2px;
+        }
+
+
+        .score-total {
+            color: #666671;
+
+            font-size: 11px;
+        }
+
+
+        .result-message {
+            margin: 0 auto 24px;
+
+            color: #85858f;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        .result-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .result-stat {
+            padding: 14px;
+
+            border-radius: 13px;
+
+            background: #101016;
+
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+
+        .result-stat strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: #ffffff;
+
+            font-size: 18px;
+        }
+
+
+        .result-stat span {
+            color: #5f5f69;
+
+            font-size: 9px;
+
+            font-weight: 750;
+
+            text-transform: uppercase;
+
+            letter-spacing: .8px;
+        }
+
+
+        .result-buttons {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .result-button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 0;
+
+            border-radius: 13px;
+
+            background: #8875f5;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 850;
+        }
+
+
+        .result-button.secondary {
+            background: #18171f;
+
+            color: #a2a2ad;
+
+            border: 1px solid rgba(255,255,255,.07);
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="results-app">
+
+    <section class="result-card">
+
+        <div class="result-label">
+            SPRINT COMPLETE
+        </div>
+
+
+        <h1 id="result-heading">
+            Nice work.
+        </h1>
+
+
+        <p
+            id="result-topic"
+            class="result-topic"
+        >
+            Sprint
+        </p>
+
+
+        <div class="score-circle">
+
+            <div
+                id="score-number"
+                class="score-number"
+            >
+                0
+            </div>
+
+            <div class="score-total">
+                / 5
+            </div>
+
+        </div>
+
+
+        <p
+            id="result-message"
+            class="result-message"
+        >
+            You made it to the finish.
+        </p>
+
+
+        <div class="result-stats">
+
+            <div class="result-stat">
+
+                <strong id="percentage">
+                    0%
+                </strong>
+
+                <span>
+                    Score
+                </span>
+
+            </div>
+
+
+            <div class="result-stat">
+
+                <strong id="streak">
+                    0
+                </strong>
+
+                <span>
+                    Day Streak
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="result-buttons">
+
+            <a
+                href="index.html"
+                class="result-button"
+            >
+                Back to Sprints
+            </a>
+
+
+            <a
+                href="../index.html"
+                class="result-button secondary"
+            >
+                Home
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+const raw =
+    localStorage.getItem(
+        "lastSprintResult"
+    );
+
+
+if (!raw) {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+let result;
+
+
+try {
+
+    result =
+        JSON.parse(raw);
+
+}
+
+catch {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+const score =
+    Number(result.score) || 0;
+
+
+const total =
+    Number(result.total) || 5;
+
+
+const percentage =
+    Number(result.percentage) || 0;
+
+
+const streak =
+    Number(
+        localStorage.getItem(
+            "streak"
+        )
+    ) || 0;
+
+
+document.getElementById(
+    "result-topic"
+).textContent =
+    result.topic || "Sprint";
+
+
+document.getElementById(
+    "score-number"
+).textContent =
+    score;
+
+
+document.querySelector(
+    ".score-total"
+).textContent =
+    "/ " + total;
+
+
+document.getElementById(
+    "percentage"
+).textContent =
+    percentage + "%";
+
+
+document.getElementById(
+    "streak"
+).textContent =
+    streak;
+
+
+const heading =
+    document.getElementById(
+        "result-heading"
+    );
+
+
+const message =
+    document.getElementById(
+        "result-message"
+    );
+
+
+if (percentage === 100) {
+
+    heading.textContent =
+        "Perfect Sprint.";
+
+
+    message.textContent =
+        "You got every question right.";
+
+}
+
+else if (percentage >= 80) {
+
+    heading.textContent =
+        "Great work.";
+
+
+    message.textContent =
+        "You're getting seriously good at this.";
+
+}
+
+else if (percentage >= 60) {
+
+    heading.textContent =
+        "Solid effort.";
+
+
+    message.textContent =
+        "A little more practice and you'll nail it.";
+
+}
+
+else {
+
+    heading.textContent =
+        "Keep practising.";
+
+
+    message.textContent =
+        "Every Sprint is another chance to improve.";
+
+}
+
+</script>
+
+</body>
+
+</html>
