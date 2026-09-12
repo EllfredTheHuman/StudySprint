@@ -1,286 +1,618 @@
 /* =========================================================
-   STUDYSPRINT — SPRINT QUIZ
+   STUDYSPRINT — SPRINT ENGINE
 ========================================================= */
 
-const params = new URLSearchParams(window.location.search);
 
-const subject = params.get("subject") || "Science";
-const topic = params.get("topic") || "Unknown Topic";
-const file = params.get("file");
-const key = params.get("key");
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
 
-const questionElement = document.getElementById("question");
-const questionNumberElement = document.getElementById("question-number");
-const topicElement = document.getElementById("quiz-topic");
-const answersElement = document.getElementById("answers");
 
-const writtenArea = document.getElementById("written-area");
-const writtenAnswer = document.getElementById("written-answer");
-const submitWritten = document.getElementById("submit-written");
+const subject =
+    params.get("subject");
 
-const feedback = document.getElementById("feedback");
-const feedbackTitle = document.getElementById("feedback-title");
-const feedbackText = document.getElementById("feedback-text");
-const nextQuestion = document.getElementById("next-question");
 
-let questions = [];
-let quizQuestions = [];
+const topicName =
+    params.get("topic");
+
+
+const questionFile =
+    params.get("file");
+
+
+const QUESTION_COUNT = 5;
+
+
+let allQuestions = [];
+
+let sprintQuestions = [];
+
 let currentQuestion = 0;
+
 let score = 0;
+
 let answered = false;
 
 
 /* =========================================================
-   LOAD QUESTIONS
+   ELEMENTS
 ========================================================= */
 
-async function loadQuestions() {
-
-    topicElement.textContent = topic;
-
-    if (!file) {
-        showError("No question file was selected.");
-        return;
-    }
-
-    try {
-
-        /*
-            All question files are directly inside:
-
-            StudySprint/questions/
-
-            There are NO subject folders.
-        */
-
-        const response = await fetch(
-            "../../questions/" + file
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                "Could not load " + file
-            );
-        }
-
-        const code = await response.text();
+const topicTitle =
+    document.getElementById(
+        "topic-title"
+    );
 
 
-        /*
-            Find the first const object in the file.
-
-            Example:
-
-            const year9AlgebraQuestions = {
-        */
-
-        const match = code.match(
-            /const\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{/
-        );
-
-        if (!match) {
-            throw new Error(
-                "Could not find question data."
-            );
-        }
-
-        const variableName = match[1];
+const questionNumber =
+    document.getElementById(
+        "question-number"
+    );
 
 
-        /*
-            Load the question object.
-        */
-
-        const questionData = new Function(
-            code +
-            "\nreturn " +
-            variableName +
-            ";"
-        )();
+const questionText =
+    document.getElementById(
+        "question"
+    );
 
 
-        if (!questionData) {
-            throw new Error(
-                "Question data is empty."
-            );
-        }
+const answersContainer =
+    document.getElementById(
+        "answers"
+    );
 
 
-        /*
-            Find the selected topic.
-        */
-
-        let topicQuestions = null;
-
-
-        if (key && questionData[key]) {
-            topicQuestions = questionData[key];
-        }
+const feedback =
+    document.getElementById(
+        "feedback"
+    );
 
 
-        /*
-            If the exact key wasn't found,
-            check without worrying about capitalisation.
-        */
-
-        if (!topicQuestions && key) {
-
-            const keys = Object.keys(questionData);
-
-            for (let i = 0; i < keys.length; i++) {
-
-                if (
-                    keys[i].toLowerCase() ===
-                    key.toLowerCase()
-                ) {
-
-                    topicQuestions =
-                        questionData[keys[i]];
-
-                    break;
-                }
-            }
-        }
+const feedbackIcon =
+    document.getElementById(
+        "feedback-icon"
+    );
 
 
-        /*
-            If the file itself is an array,
-            use the array directly.
-        */
-
-        if (
-            !topicQuestions &&
-            Array.isArray(questionData)
-        ) {
-
-            topicQuestions = questionData;
-        }
+const feedbackTitle =
+    document.getElementById(
+        "feedback-title"
+    );
 
 
-        if (!Array.isArray(topicQuestions)) {
-
-            throw new Error(
-                "Could not find topic: " + key
-            );
-        }
+const feedbackText =
+    document.getElementById(
+        "feedback-text"
+    );
 
 
-        questions = topicQuestions;
+const nextButton =
+    document.getElementById(
+        "next-button"
+    );
 
 
-        if (questions.length === 0) {
-
-            throw new Error(
-                "This topic has no questions yet."
-            );
-        }
+const nextText =
+    document.getElementById(
+        "next-text"
+    );
 
 
-        /*
-            Randomise the questions.
-        */
-
-        quizQuestions =
-            shuffle(questions.slice());
+const progressBar =
+    document.getElementById(
+        "progress-bar"
+    );
 
 
-        /*
-            Sprint = 5 questions.
-        */
+/* =========================================================
+   VALIDATION
+========================================================= */
 
-        quizQuestions =
-            quizQuestions.slice(0, 5);
+if (
+    !subject ||
+    !topicName ||
+    !questionFile
+) {
 
+    showFatalError(
+        "This Sprint link is incomplete."
+    );
 
-        currentQuestion = 0;
-        score = 0;
-
-
-        showQuestion();
-
-    } catch (error) {
-
-        console.error(error);
-
-        showError(
-            "There was a problem loading this quiz."
-        );
-    }
 }
 
 
 /* =========================================================
-   SHOW QUESTION
+   TITLE
 ========================================================= */
 
-function showQuestion() {
-
-    answered = false;
-
-    feedback.style.display = "none";
-
-    answersElement.innerHTML = "";
-
-    writtenArea.style.display = "none";
+topicTitle.textContent =
+    topicName || "Sprint";
 
 
-    const question =
-        quizQuestions[currentQuestion];
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+function shuffle(array) {
+
+    const copy =
+        [...array];
 
 
-    if (!question) {
+    for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+    ) {
 
-        finishQuiz();
+        const randomIndex =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
 
-        return;
+
+        const temporary =
+            copy[i];
+
+
+        copy[i] =
+            copy[randomIndex];
+
+
+        copy[randomIndex] =
+            temporary;
+
     }
 
 
-    questionElement.textContent =
+    return copy;
+
+}
+
+
+/* =========================================================
+   LOAD QUESTION FILE
+========================================================= */
+
+async function loadQuestionFile() {
+
+    try {
+
+        const response =
+            await fetch(
+                questionFile,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Question file could not be loaded."
+            );
+
+        }
+
+
+        const source =
+            await response.text();
+
+
+        /*
+         * The question files contain arrays such as:
+         *
+         * const someQuestions = [
+         *     ...
+         * ];
+         *
+         * We expose that array temporarily so this
+         * engine does not need to know the variable
+         * name inside every individual question file.
+         */
+
+        const declaration =
+            source.match(
+                /(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\[/
+            );
+
+
+        if (!declaration) {
+
+            throw new Error(
+                "No question array was found."
+            );
+
+        }
+
+
+        const variableName =
+            declaration[1];
+
+
+        const replacement =
+            "window.__STUDYSPRINT_QUESTIONS = [";
+
+
+        const modifiedSource =
+            source.replace(
+                declaration[0],
+                replacement
+            );
+
+
+        window.__STUDYSPRINT_QUESTIONS =
+            null;
+
+
+        const runner =
+            new Function(
+                modifiedSource +
+                "\nreturn window.__STUDYSPRINT_QUESTIONS;"
+            );
+
+
+        const loadedQuestions =
+            runner();
+
+
+        window.__STUDYSPRINT_QUESTIONS =
+            null;
+
+
+        if (
+            !Array.isArray(
+                loadedQuestions
+            )
+        ) {
+
+            throw new Error(
+                "The question file did not return a question array."
+            );
+
+        }
+
+
+        allQuestions =
+            loadedQuestions
+                .filter(
+                    question =>
+                        question &&
+                        (
+                            question.type === "multiple" ||
+                            Array.isArray(
+                                question.answers
+                            )
+                        )
+                );
+
+
+        if (
+            allQuestions.length === 0
+        ) {
+
+            throw new Error(
+                "This topic has no multiple-choice questions yet."
+            );
+
+        }
+
+
+        startSprint();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "StudySprint Sprint error:",
+            error
+        );
+
+
+        showFatalError(
+            "We couldn't load this topic's questions."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   START SPRINT
+========================================================= */
+
+function startSprint() {
+
+    sprintQuestions =
+        shuffle(
+            allQuestions
+        ).slice(
+            0,
+            Math.min(
+                QUESTION_COUNT,
+                allQuestions.length
+            )
+        );
+
+
+    if (
+        sprintQuestions.length === 0
+    ) {
+
+        showFatalError(
+            "There aren't enough questions for this Sprint."
+        );
+
+        return;
+
+    }
+
+
+    currentQuestion =
+        0;
+
+
+    score =
+        0;
+
+
+    loadQuestion();
+
+}
+
+
+/* =========================================================
+   NORMALISE QUESTION
+========================================================= */
+
+function normaliseQuestion(question) {
+
+    /*
+     * Current StudySprint format:
+     *
+     * {
+     *     type: "multiple",
+     *     question: "...",
+     *     answers: ["A", "B", "C", "D"],
+     *     correctAnswer: "B"
+     * }
+     *
+     * The older Sprint format used:
+     *
+     * answers + correct
+     *
+     * This keeps the Sprint compatible with either.
+     */
+
+
+    if (
+        Array.isArray(
+            question.answers
+        )
+    ) {
+
+        let answers =
+            [...question.answers];
+
+
+        let correctAnswer =
+            question.correctAnswer;
+
+
+        if (
+            correctAnswer === undefined &&
+            typeof question.correct === "number"
+        ) {
+
+            correctAnswer =
+                question.answers[
+                    question.correct
+                ];
+
+        }
+
+
+        return {
+            question:
+                String(
+                    question.question ||
+                    ""
+                ),
+
+            answers,
+
+            correctAnswer:
+                correctAnswer === undefined
+                    ? ""
+                    : String(
+                        correctAnswer
+                    )
+        };
+
+    }
+
+
+    return {
+        question:
+            String(
+                question.question ||
+                ""
+            ),
+
+        answers: [],
+
+        correctAnswer: ""
+    };
+
+}
+
+
+/* =========================================================
+   LOAD QUESTION
+========================================================= */
+
+function loadQuestion() {
+
+    answered =
+        false;
+
+
+    const question =
+        normaliseQuestion(
+            sprintQuestions[
+                currentQuestion
+            ]
+        );
+
+
+    if (
+        !question.question ||
+        question.answers.length < 2 ||
+        !question.correctAnswer
+    ) {
+
+        showFatalError(
+            "One of the questions in this topic is incorrectly formatted."
+        );
+
+        return;
+
+    }
+
+
+    answersContainer.innerHTML =
+        "";
+
+
+    feedback.classList.add(
+        "hidden"
+    );
+
+
+    feedback.classList.remove(
+        "wrong"
+    );
+
+
+    nextButton.classList.add(
+        "hidden"
+    );
+
+
+    questionNumber.textContent =
+        `${currentQuestion + 1} / ${sprintQuestions.length}`;
+
+
+    questionText.textContent =
         question.question;
 
 
-    questionNumberElement.textContent =
-        "Question " +
-        (currentQuestion + 1) +
-        " of " +
-        quizQuestions.length;
+    const progress =
+        (
+            currentQuestion /
+            sprintQuestions.length
+        ) * 100;
 
 
-    /* MULTIPLE CHOICE */
-
-    if (question.type === "multiple") {
-
-        answersElement.style.display = "flex";
+    progressBar.style.width =
+        `${progress}%`;
 
 
-        const shuffledAnswers =
-            shuffle(question.answers.slice());
+    const shuffledAnswers =
+        shuffle(
+            question.answers
+        );
 
 
-        for (
-            let i = 0;
-            i < shuffledAnswers.length;
-            i++
-        ) {
-
-            const answer =
-                shuffledAnswers[i];
-
+    shuffledAnswers.forEach(
+        (
+            answer,
+            index
+        ) => {
 
             const button =
-                document.createElement("button");
+                document.createElement(
+                    "button"
+                );
 
 
-            button.textContent =
+            button.type =
+                "button";
+
+
+            button.className =
+                "answer-button";
+
+
+            const letter =
+                document.createElement(
+                    "span"
+                );
+
+
+            letter.className =
+                "answer-letter";
+
+
+            letter.textContent =
+                String.fromCharCode(
+                    65 + index
+                );
+
+
+            const text =
+                document.createElement(
+                    "span"
+                );
+
+
+            text.className =
+                "answer-text";
+
+
+            text.textContent =
                 answer;
+
+
+            const result =
+                document.createElement(
+                    "span"
+                );
+
+
+            result.className =
+                "answer-result";
+
+
+            result.textContent =
+                "✓";
+
+
+            button.appendChild(
+                letter
+            );
+
+
+            button.appendChild(
+                text
+            );
+
+
+            button.appendChild(
+                result
+            );
 
 
             button.addEventListener(
                 "click",
                 function () {
 
-                    checkMultipleAnswer(
+                    checkAnswer(
                         answer,
                         question.correctAnswer,
                         button
@@ -290,41 +622,21 @@ function showQuestion() {
             );
 
 
-            answersElement.appendChild(button);
+            answersContainer.appendChild(
+                button
+            );
+
         }
-
-
-        return;
-    }
-
-
-    /* WRITTEN */
-
-    if (question.type === "written") {
-
-        answersElement.style.display = "none";
-
-        writtenArea.style.display = "block";
-
-        writtenAnswer.value = "";
-
-        writtenAnswer.focus();
-
-        return;
-    }
-
-
-    showError(
-        "This question has an invalid type."
     );
+
 }
 
 
 /* =========================================================
-   MULTIPLE CHOICE
+   CHECK ANSWER
 ========================================================= */
 
-function checkMultipleAnswer(
+function checkAnswer(
     selectedAnswer,
     correctAnswer,
     selectedButton
@@ -335,277 +647,294 @@ function checkMultipleAnswer(
     }
 
 
-    answered = true;
+    answered =
+        true;
 
 
     const buttons =
-        answersElement.querySelectorAll("button");
+        document.querySelectorAll(
+            ".answer-button"
+        );
 
 
-    for (let i = 0; i < buttons.length; i++) {
-
-        buttons[i].disabled = true;
-
-
-        if (
-            buttons[i].textContent ===
-            correctAnswer
-        ) {
-
-            buttons[i].style.borderColor =
-                "#35c759";
-
-            buttons[i].style.background =
-                "rgba(53, 199, 89, 0.12)";
+    buttons.forEach(
+        button => {
+            button.disabled =
+                true;
         }
-    }
+    );
 
 
-    if (
-        selectedAnswer ===
-        correctAnswer
-    ) {
+    const isCorrect =
+        selectedAnswer.trim() ===
+        correctAnswer.trim();
+
+
+    if (isCorrect) {
 
         score++;
 
 
-        selectedButton.style.borderColor =
-            "#35c759";
-
-        selectedButton.style.background =
-            "rgba(53, 199, 89, 0.12)";
-
-
-        showFeedback(
-            "Correct!",
-            "Nice work."
+        selectedButton.classList.add(
+            "correct"
         );
 
-    } else {
 
-        selectedButton.style.borderColor =
-            "#ff453a";
-
-        selectedButton.style.background =
-            "rgba(255, 69, 58, 0.12)";
-
-
-        showFeedback(
-            "Incorrect",
-            "The correct answer was: " +
-            correctAnswer
-        );
-    }
-}
-
-
-/* =========================================================
-   WRITTEN ANSWERS
-========================================================= */
-
-submitWritten.addEventListener(
-    "click",
-    function () {
-
-        if (answered) {
-            return;
-        }
-
-
-        const question =
-            quizQuestions[currentQuestion];
-
-
-        const userAnswer =
-            writtenAnswer.value
-                .trim()
-                .toLowerCase();
-
-
-        if (!userAnswer) {
-
-            showFeedback(
-                "Enter an answer",
-                "Type your answer before submitting."
-            );
-
-            return;
-        }
-
-
-        answered = true;
-
-
-        let correct = false;
-
-
-        if (
-            Array.isArray(
-                question.acceptedAnswers
+        selectedButton
+            .querySelector(
+                ".answer-result"
             )
-        ) {
+            .textContent =
+            "✓";
 
-            for (
-                let i = 0;
-                i < question.acceptedAnswers.length;
-                i++
-            ) {
 
-                const accepted =
-                    String(
-                        question.acceptedAnswers[i]
-                    )
-                    .trim()
-                    .toLowerCase();
+        feedbackIcon.textContent =
+            "✓";
+
+
+        feedbackTitle.textContent =
+            "Correct";
+
+
+        feedbackText.textContent =
+            "Nice work. Keep going.";
+
+
+        feedback.classList.remove(
+            "hidden"
+        );
+
+
+        feedback.classList.remove(
+            "wrong"
+        );
+
+    }
+
+    else {
+
+        selectedButton.classList.add(
+            "wrong"
+        );
+
+
+        selectedButton
+            .querySelector(
+                ".answer-result"
+            )
+            .textContent =
+            "×";
+
+
+        buttons.forEach(
+            button => {
+
+                const text =
+                    button.querySelector(
+                        ".answer-text"
+                    );
 
 
                 if (
-                    userAnswer ===
-                    accepted
+                    text &&
+                    text.textContent.trim() ===
+                    correctAnswer.trim()
                 ) {
 
-                    correct = true;
+                    button.classList.add(
+                        "correct"
+                    );
 
-                    break;
+
+                    button.querySelector(
+                        ".answer-result"
+                    ).textContent =
+                        "✓";
+
                 }
+
             }
-        }
+        );
 
 
-        if (correct) {
-
-            score++;
-
-
-            showFeedback(
-                "Correct!",
-                "Nice work."
-            );
-
-        } else {
-
-            let correctAnswer =
-                "Check the question and try again.";
+        feedbackIcon.textContent =
+            "×";
 
 
-            if (
-                Array.isArray(
-                    question.acceptedAnswers
-                ) &&
-                question.acceptedAnswers.length > 0
-            ) {
-
-                correctAnswer =
-                    question.acceptedAnswers[0];
-            }
+        feedbackTitle.textContent =
+            "Not quite";
 
 
-            showFeedback(
-                "Incorrect",
-                "An accepted answer was: " +
-                correctAnswer
-            );
-        }
+        feedbackText.textContent =
+            "The correct answer is " +
+            correctAnswer +
+            ".";
+
+
+        feedback.classList.remove(
+            "hidden"
+        );
+
+
+        feedback.classList.add(
+            "wrong"
+        );
+
     }
-);
 
 
-/* =========================================================
-   FEEDBACK
-========================================================= */
+    if (
+        currentQuestion ===
+        sprintQuestions.length - 1
+    ) {
 
-function showFeedback(
-    title,
-    text
-) {
+        nextText.textContent =
+            "See Results";
 
-    feedbackTitle.textContent =
-        title;
+    }
 
-    feedbackText.textContent =
-        text;
+    else {
 
-    feedback.style.display =
-        "block";
+        nextText.textContent =
+            "Next Question";
+
+    }
+
+
+    nextButton.classList.remove(
+        "hidden"
+    );
+
 }
 
 
 /* =========================================================
-   NEXT QUESTION
+   NEXT
 ========================================================= */
 
-nextQuestion.addEventListener(
+nextButton.addEventListener(
     "click",
     function () {
+
+        if (!answered) {
+            return;
+        }
+
 
         currentQuestion++;
 
 
         if (
             currentQuestion >=
-            quizQuestions.length
+            sprintQuestions.length
         ) {
 
-            finishQuiz();
+            finishSprint();
 
             return;
+
         }
 
 
-        showQuestion();
+        loadQuestion();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
     }
 );
 
 
 /* =========================================================
-   FINISH QUIZ
+   FINISH
 ========================================================= */
 
-function finishQuiz() {
+function finishSprint() {
 
     const total =
-        quizQuestions.length;
+        sprintQuestions.length;
 
 
-    const oldSprints =
+    const percentage =
+        Math.round(
+            (
+                score /
+                total
+            ) * 100
+        );
+
+
+    const today =
+        new Date().toDateString();
+
+
+    const previousDate =
+        localStorage.getItem(
+            "lastSprintDate"
+        );
+
+
+    let streak =
         Number(
             localStorage.getItem(
-                "sprintsCompleted"
+                "streak"
             )
         ) || 0;
 
 
+    if (
+        previousDate === today
+    ) {
+
+        /* Same day:
+           don't increase the streak. */
+
+    }
+
+    else {
+
+        const yesterday =
+            new Date();
+
+
+        yesterday.setDate(
+            yesterday.getDate() - 1
+        );
+
+
+        if (
+            previousDate ===
+            yesterday.toDateString()
+        ) {
+
+            streak++;
+
+        }
+
+        else {
+
+            streak = 1;
+
+        }
+
+    }
+
+
     localStorage.setItem(
-        "sprintsCompleted",
-        String(oldSprints + 1)
+        "streak",
+        String(streak)
     );
 
 
     localStorage.setItem(
-        "lastSprintScore",
-        String(score)
+        "lastSprintDate",
+        today
     );
 
 
-    localStorage.setItem(
-        "lastSprintTotal",
-        String(total)
-    );
-
-
-    localStorage.setItem(
-        "lastSprintSubject",
-        subject
-    );
-
-
-    localStorage.setItem(
-        "lastSprintTopic",
-        topic
-    );
-
-
-    const previousBest =
+    const bestScore =
         Number(
             localStorage.getItem(
                 "bestScore"
@@ -613,59 +942,90 @@ function finishQuiz() {
         ) || 0;
 
 
-    if (score > previousBest) {
+    if (
+        percentage >
+        bestScore
+    ) {
 
         localStorage.setItem(
             "bestScore",
-            String(score)
+            String(percentage)
         );
+
     }
+
+
+    const bestStreak =
+        Number(
+            localStorage.getItem(
+                "bestStreak"
+            )
+        ) || 0;
+
+
+    if (
+        streak >
+        bestStreak
+    ) {
+
+        localStorage.setItem(
+            "bestStreak",
+            String(streak)
+        );
+
+    }
+
+
+    const quizzes =
+        Number(
+            localStorage.getItem(
+                "quizzes"
+            )
+        ) || 0;
+
+
+    localStorage.setItem(
+        "quizzes",
+        String(
+            quizzes + 1
+        )
+    );
+
+
+    const result = {
+
+        subject:
+            subject,
+
+        topic:
+            topicName,
+
+        score:
+            score,
+
+        total:
+            total,
+
+        percentage:
+            percentage,
+
+        date:
+            today
+
+    };
+
+
+    localStorage.setItem(
+        "lastSprintResult",
+        JSON.stringify(
+            result
+        )
+    );
 
 
     window.location.href =
-        "results.html?score=" +
-        encodeURIComponent(score) +
-        "&total=" +
-        encodeURIComponent(total) +
-        "&subject=" +
-        encodeURIComponent(subject) +
-        "&topic=" +
-        encodeURIComponent(topic);
-}
+        "results.html";
 
-
-/* =========================================================
-   SHUFFLE
-========================================================= */
-
-function shuffle(array) {
-
-    for (
-        let i = array.length - 1;
-        i > 0;
-        i--
-    ) {
-
-        const j =
-            Math.floor(
-                Math.random() * (i + 1)
-            );
-
-
-        const temporary =
-            array[i];
-
-
-        array[i] =
-            array[j];
-
-
-        array[j] =
-            temporary;
-    }
-
-
-    return array;
 }
 
 
@@ -673,30 +1033,106 @@ function shuffle(array) {
    ERROR
 ========================================================= */
 
-function showError(message) {
+function showFatalError(
+    message
+) {
 
-    topicElement.textContent =
-        "ERROR";
+    document.body.innerHTML = `
+
+        <main style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:24px;
+            background:#08080d;
+            color:#f5f5f7;
+            font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+        ">
+
+            <section style="
+                width:min(460px,100%);
+                padding:30px;
+                border:1px solid rgba(255,255,255,.08);
+                border-radius:22px;
+                background:#101016;
+                text-align:center;
+            ">
+
+                <div style="
+                    font-size:38px;
+                    margin-bottom:15px;
+                ">
+                    ⚠️
+                </div>
+
+                <h1 style="
+                    margin:0 0 10px;
+                    font-size:25px;
+                ">
+                    Sprint unavailable
+                </h1>
+
+                <p style="
+                    margin:0 0 22px;
+                    color:#777782;
+                    font-size:13px;
+                    line-height:1.5;
+                ">
+                    ${escapeHtml(message)}
+                </p>
+
+                <a
+                    href="index.html"
+                    style="
+                        display:block;
+                        padding:14px;
+                        border-radius:13px;
+                        background:#8875f5;
+                        color:white;
+                        text-decoration:none;
+                        font-weight:800;
+                        font-size:13px;
+                    "
+                >
+                    Back to Sprints
+                </a>
+
+            </section>
+
+        </main>
+
+    `;
+
+}
 
 
-    questionElement.textContent =
-        message;
+function escapeHtml(
+    text
+) {
 
+    return String(text)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-    questionNumberElement.textContent =
-        "";
-
-
-    answersElement.innerHTML =
-        "";
-
-
-    writtenArea.style.display =
-        "none";
-
-
-    feedback.style.display =
-        "none";
 }
 
 
@@ -704,4 +1140,4 @@ function showError(message) {
    START
 ========================================================= */
 
-loadQuestions();
+loadQuestionFile();
