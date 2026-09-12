@@ -1,37 +1,20 @@
 /* =========================================================
-   STUDYSPRINT — SPRINT ENGINE
+   STUDYSPRINT — SPRINT QUIZ ENGINE
 ========================================================= */
 
+const params = new URLSearchParams(window.location.search);
 
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const subject =
-    params.get("subject");
-
-
-const topicName =
-    params.get("topic");
-
-
-const questionFile =
-    params.get("file");
-
+const subject = params.get("subject");
+const topicName = params.get("topic");
+const questionFile = params.get("file");
 
 const QUESTION_COUNT = 5;
 
-
 let allQuestions = [];
-
 let sprintQuestions = [];
 
 let currentQuestion = 0;
-
 let score = 0;
-
 let answered = false;
 
 
@@ -40,83 +23,47 @@ let answered = false;
 ========================================================= */
 
 const topicTitle =
-    document.getElementById(
-        "topic-title"
-    );
-
+    document.getElementById("topic-title");
 
 const questionNumber =
-    document.getElementById(
-        "question-number"
-    );
-
+    document.getElementById("question-number");
 
 const questionText =
-    document.getElementById(
-        "question"
-    );
-
+    document.getElementById("question");
 
 const answersContainer =
-    document.getElementById(
-        "answers"
-    );
-
+    document.getElementById("answers");
 
 const feedback =
-    document.getElementById(
-        "feedback"
-    );
-
+    document.getElementById("feedback");
 
 const feedbackIcon =
-    document.getElementById(
-        "feedback-icon"
-    );
-
+    document.getElementById("feedback-icon");
 
 const feedbackTitle =
-    document.getElementById(
-        "feedback-title"
-    );
-
+    document.getElementById("feedback-title");
 
 const feedbackText =
-    document.getElementById(
-        "feedback-text"
-    );
-
+    document.getElementById("feedback-text");
 
 const nextButton =
-    document.getElementById(
-        "next-button"
-    );
-
+    document.getElementById("next-button");
 
 const nextText =
-    document.getElementById(
-        "next-text"
-    );
-
+    document.getElementById("next-text");
 
 const progressBar =
-    document.getElementById(
-        "progress-bar"
-    );
+    document.getElementById("progress-bar");
 
 
 /* =========================================================
-   VALIDATION
+   BASIC VALIDATION
 ========================================================= */
 
-if (
-    !subject ||
-    !topicName ||
-    !questionFile
-) {
+if (!topicName || !questionFile) {
 
-    showFatalError(
-        "This Sprint link is incomplete."
+    showError(
+        "This Sprint link is missing information."
     );
 
 }
@@ -136,39 +83,30 @@ topicTitle.textContent =
 
 function shuffle(array) {
 
-    const copy =
-        [...array];
-
+    const result = [...array];
 
     for (
-        let i = copy.length - 1;
+        let i = result.length - 1;
         i > 0;
         i--
     ) {
 
-        const randomIndex =
+        const j =
             Math.floor(
-                Math.random() *
-                (i + 1)
+                Math.random() * (i + 1)
             );
 
-
-        const temporary =
-            copy[i];
-
-
-        copy[i] =
-            copy[randomIndex];
-
-
-        copy[randomIndex] =
-            temporary;
+        [
+            result[i],
+            result[j]
+        ] = [
+            result[j],
+            result[i]
+        ];
 
     }
 
-
-    return copy;
-
+    return result;
 }
 
 
@@ -192,7 +130,8 @@ async function loadQuestionFile() {
         if (!response.ok) {
 
             throw new Error(
-                "Question file could not be loaded."
+                "HTTP " +
+                response.status
             );
 
         }
@@ -203,91 +142,241 @@ async function loadQuestionFile() {
 
 
         /*
-         * The question files contain arrays such as:
+         * Question files are normal JavaScript files.
          *
-         * const someQuestions = [
-         *     ...
-         * ];
+         * We run the file in an isolated function and
+         * detect the array assigned inside it.
          *
-         * We expose that array temporarily so this
-         * engine does not need to know the variable
-         * name inside every individual question file.
+         * This supports files using:
+         *
+         * const questions = [...]
+         *
+         * let questions = [...]
+         *
+         * var questions = [...]
+         *
+         * as well as named arrays.
          */
 
-        const declaration =
-            source.match(
-                /(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\[/
+
+        const beforeKeys =
+            new Set(
+                Object.keys(window)
             );
 
 
-        if (!declaration) {
-
-            throw new Error(
-                "No question array was found."
+        const script =
+            document.createElement(
+                "script"
             );
+
+
+        /*
+         * Convert the question file into a Blob URL.
+         * This lets the browser execute it exactly like
+         * a normal JavaScript file.
+         */
+
+
+        const blob =
+            new Blob(
+                [source],
+                {
+                    type:
+                        "text/javascript"
+                }
+            );
+
+
+        const blobURL =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        await new Promise(
+            (resolve, reject) => {
+
+                script.src =
+                    blobURL;
+
+                script.onload =
+                    resolve;
+
+                script.onerror =
+                    reject;
+
+                document.head.appendChild(
+                    script
+                );
+
+            }
+        );
+
+
+        URL.revokeObjectURL(
+            blobURL
+        );
+
+
+        /*
+         * If the question file declares a global
+         * variable using var, it will appear here.
+         *
+         * For const/let files we also inspect the
+         * source and evaluate the array safely.
+         */
+
+
+        const globalCandidates =
+            Object.keys(window)
+                .filter(
+                    key =>
+                        !beforeKeys.has(key)
+                );
+
+
+        for (
+            const key of globalCandidates
+        ) {
+
+            if (
+                Array.isArray(
+                    window[key]
+                )
+            ) {
+
+                allQuestions =
+                    window[key];
+
+                break;
+
+            }
 
         }
 
 
-        const variableName =
-            declaration[1];
-
-
-        const replacement =
-            "window.__STUDYSPRINT_QUESTIONS = [";
-
-
-        const modifiedSource =
-            source.replace(
-                declaration[0],
-                replacement
-            );
-
-
-        window.__STUDYSPRINT_QUESTIONS =
-            null;
-
-
-        const runner =
-            new Function(
-                modifiedSource +
-                "\nreturn window.__STUDYSPRINT_QUESTIONS;"
-            );
-
-
-        const loadedQuestions =
-            runner();
-
-
-        window.__STUDYSPRINT_QUESTIONS =
-            null;
+        /*
+         * Most modern question files use const/let.
+         * In that case the variable isn't attached to
+         * window, so extract the array expression.
+         */
 
 
         if (
-            !Array.isArray(
-                loadedQuestions
-            )
+            allQuestions.length === 0
         ) {
 
-            throw new Error(
-                "The question file did not return a question array."
-            );
+            const match =
+                source.match(
+                    /(?:const|let|var)\s+[A-Za-z_][A-Za-z0-9_]*\s*=\s*(\[[\s\S]*\]);?\s*$/
+                );
+
+
+            if (match) {
+
+                try {
+
+                    allQuestions =
+                        Function(
+                            '"use strict"; return (' +
+                            match[1] +
+                            ')'
+                        )();
+
+                }
+
+                catch (error) {
+
+                    console.error(
+                        "Question array evaluation failed:",
+                        error
+                    );
+
+                }
+
+            }
 
         }
 
 
-        allQuestions =
-            loadedQuestions
-                .filter(
-                    question =>
-                        question &&
-                        (
-                            question.type === "multiple" ||
-                            Array.isArray(
-                                question.answers
-                            )
+        /*
+         * Final fallback:
+         *
+         * Find the first array beginning with an object
+         * containing "type".
+         */
+
+
+        if (
+            allQuestions.length === 0
+        ) {
+
+            const arrayStart =
+                source.indexOf("[\n");
+
+            if (
+                arrayStart !== -1
+            ) {
+
+                const arraySource =
+                    source.slice(
+                        arrayStart
+                    );
+
+
+                try {
+
+                    const possibleQuestions =
+                        Function(
+                            '"use strict"; return (' +
+                            arraySource +
+                            ')'
+                        )();
+
+
+                    if (
+                        Array.isArray(
+                            possibleQuestions
                         )
-                );
+                    ) {
+
+                        allQuestions =
+                            possibleQuestions;
+
+                    }
+
+                }
+
+                catch {
+
+                    /* Final validation below handles it. */
+
+                }
+
+            }
+
+        }
+
+
+        /*
+         * Remove anything that isn't an actual
+         * multiple-choice question.
+         */
+
+
+        allQuestions =
+            allQuestions.filter(
+                question =>
+                    question &&
+                    typeof question === "object" &&
+                    Array.isArray(
+                        question.answers
+                    ) &&
+                    question.answers.length >= 2 &&
+                    typeof question.question ===
+                        "string"
+            );
 
 
         if (
@@ -295,10 +384,19 @@ async function loadQuestionFile() {
         ) {
 
             throw new Error(
-                "This topic has no multiple-choice questions yet."
+                "No usable multiple-choice questions were found in " +
+                questionFile
             );
 
         }
+
+
+        console.log(
+            "Loaded " +
+            allQuestions.length +
+            " questions for " +
+            topicName
+        );
 
 
         startSprint();
@@ -313,11 +411,88 @@ async function loadQuestionFile() {
         );
 
 
-        showFatalError(
-            "We couldn't load this topic's questions."
+        showError(
+            "We couldn't load the questions for " +
+            topicName +
+            "."
         );
 
     }
+
+}
+
+
+/* =========================================================
+   NORMALISE QUESTION
+========================================================= */
+
+function normaliseQuestion(question) {
+
+    const answers =
+        Array.isArray(
+            question.answers
+        )
+            ? [...question.answers]
+            : [];
+
+
+    let correctAnswer =
+        question.correctAnswer;
+
+
+    /*
+     * Support the older format:
+     *
+     * correct: 2
+     */
+
+    if (
+        correctAnswer === undefined &&
+        typeof question.correct === "number"
+    ) {
+
+        correctAnswer =
+            answers[
+                question.correct
+            ];
+
+    }
+
+
+    /*
+     * Support another possible format:
+     *
+     * correct: "answer text"
+     */
+
+    if (
+        correctAnswer === undefined &&
+        typeof question.correct === "string"
+    ) {
+
+        correctAnswer =
+            question.correct;
+
+    }
+
+
+    return {
+
+        question:
+            String(
+                question.question || ""
+            ),
+
+        answers,
+
+        correctAnswer:
+            correctAnswer === undefined
+                ? ""
+                : String(
+                    correctAnswer
+                )
+
+    };
 
 }
 
@@ -340,114 +515,11 @@ function startSprint() {
         );
 
 
-    if (
-        sprintQuestions.length === 0
-    ) {
+    currentQuestion = 0;
 
-        showFatalError(
-            "There aren't enough questions for this Sprint."
-        );
-
-        return;
-
-    }
-
-
-    currentQuestion =
-        0;
-
-
-    score =
-        0;
-
+    score = 0;
 
     loadQuestion();
-
-}
-
-
-/* =========================================================
-   NORMALISE QUESTION
-========================================================= */
-
-function normaliseQuestion(question) {
-
-    /*
-     * Current StudySprint format:
-     *
-     * {
-     *     type: "multiple",
-     *     question: "...",
-     *     answers: ["A", "B", "C", "D"],
-     *     correctAnswer: "B"
-     * }
-     *
-     * The older Sprint format used:
-     *
-     * answers + correct
-     *
-     * This keeps the Sprint compatible with either.
-     */
-
-
-    if (
-        Array.isArray(
-            question.answers
-        )
-    ) {
-
-        let answers =
-            [...question.answers];
-
-
-        let correctAnswer =
-            question.correctAnswer;
-
-
-        if (
-            correctAnswer === undefined &&
-            typeof question.correct === "number"
-        ) {
-
-            correctAnswer =
-                question.answers[
-                    question.correct
-                ];
-
-        }
-
-
-        return {
-            question:
-                String(
-                    question.question ||
-                    ""
-                ),
-
-            answers,
-
-            correctAnswer:
-                correctAnswer === undefined
-                    ? ""
-                    : String(
-                        correctAnswer
-                    )
-        };
-
-    }
-
-
-    return {
-        question:
-            String(
-                question.question ||
-                ""
-            ),
-
-        answers: [],
-
-        correctAnswer: ""
-    };
 
 }
 
@@ -458,35 +530,7 @@ function normaliseQuestion(question) {
 
 function loadQuestion() {
 
-    answered =
-        false;
-
-
-    const question =
-        normaliseQuestion(
-            sprintQuestions[
-                currentQuestion
-            ]
-        );
-
-
-    if (
-        !question.question ||
-        question.answers.length < 2 ||
-        !question.correctAnswer
-    ) {
-
-        showFatalError(
-            "One of the questions in this topic is incorrectly formatted."
-        );
-
-        return;
-
-    }
-
-
-    answersContainer.innerHTML =
-        "";
+    answered = false;
 
 
     feedback.classList.add(
@@ -504,12 +548,39 @@ function loadQuestion() {
     );
 
 
-    questionNumber.textContent =
-        `${currentQuestion + 1} / ${sprintQuestions.length}`;
+    answersContainer.innerHTML =
+        "";
+
+
+    const question =
+        normaliseQuestion(
+            sprintQuestions[
+                currentQuestion
+            ]
+        );
+
+
+    if (
+        !question.question ||
+        question.answers.length < 2 ||
+        !question.correctAnswer
+    ) {
+
+        showError(
+            "One of the questions in this topic is invalid."
+        );
+
+        return;
+
+    }
 
 
     questionText.textContent =
         question.question;
+
+
+    questionNumber.textContent =
+        `${currentQuestion + 1} / ${sprintQuestions.length}`;
 
 
     const progress =
@@ -520,7 +591,7 @@ function loadQuestion() {
 
 
     progressBar.style.width =
-        `${progress}%`;
+        progress + "%";
 
 
     const shuffledAnswers =
@@ -610,7 +681,7 @@ function loadQuestion() {
 
             button.addEventListener(
                 "click",
-                function () {
+                () => {
 
                     checkAnswer(
                         answer,
@@ -647,8 +718,7 @@ function checkAnswer(
     }
 
 
-    answered =
-        true;
+    answered = true;
 
 
     const buttons =
@@ -659,8 +729,10 @@ function checkAnswer(
 
     buttons.forEach(
         button => {
+
             button.disabled =
                 true;
+
         }
     );
 
@@ -746,9 +818,11 @@ function checkAnswer(
                     );
 
 
-                    button.querySelector(
-                        ".answer-result"
-                    ).textContent =
+                    button
+                        .querySelector(
+                            ".answer-result"
+                        )
+                        .textContent =
                         "✓";
 
                 }
@@ -809,12 +883,12 @@ function checkAnswer(
 
 
 /* =========================================================
-   NEXT
+   NEXT QUESTION
 ========================================================= */
 
 nextButton.addEventListener(
     "click",
-    function () {
+    () => {
 
         if (!answered) {
             return;
@@ -838,6 +912,7 @@ nextButton.addEventListener(
 
         loadQuestion();
 
+
         window.scrollTo({
             top: 0,
             behavior: "smooth"
@@ -848,7 +923,7 @@ nextButton.addEventListener(
 
 
 /* =========================================================
-   FINISH
+   FINISH SPRINT
 ========================================================= */
 
 function finishSprint() {
@@ -885,15 +960,8 @@ function finishSprint() {
 
 
     if (
-        previousDate === today
+        previousDate !== today
     ) {
-
-        /* Same day:
-           don't increase the streak. */
-
-    }
-
-    else {
 
         const yesterday =
             new Date();
@@ -1030,12 +1098,10 @@ function finishSprint() {
 
 
 /* =========================================================
-   ERROR
+   ERROR SCREEN
 ========================================================= */
 
-function showFatalError(
-    message
-) {
+function showError(message) {
 
     document.body.innerHTML = `
 
@@ -1047,7 +1113,12 @@ function showFatalError(
             padding:24px;
             background:#08080d;
             color:#f5f5f7;
-            font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                'Segoe UI',
+                sans-serif;
         ">
 
             <section style="
@@ -1107,9 +1178,11 @@ function showFatalError(
 }
 
 
-function escapeHtml(
-    text
-) {
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(text) {
 
     return String(text)
         .replace(
