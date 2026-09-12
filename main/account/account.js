@@ -1,33 +1,21 @@
-```js
 /* =========================================================
    STUDYSPRINT — ACCOUNT
-========================================================= */
-
-
-/* =========================================================
-   SUPABASE SETUP
 ========================================================= */
 
 const SUPABASE_URL =
     "https://yfteudoecpkosxjucuky.supabase.co";
 
-
 const SUPABASE_KEY =
-    "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
+    "PASTE_YOUR_SUPABASE_PUBLISHABLE_KEY_HERE";
 
 
-if (
-    typeof window.supabase === "undefined"
-) {
+/* =========================================================
+   START SUPABASE
+========================================================= */
 
-    document.getElementById("message").textContent =
-        "Could not load the account system.";
-
-    throw new Error(
-        "Supabase library did not load."
-    );
+if (!window.supabase) {
+    throw new Error("Supabase failed to load.");
 }
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -46,13 +34,11 @@ const authScreen =
 const accountScreen =
     document.getElementById("account-screen");
 
-
 const title =
     document.getElementById("title");
 
 const subtitle =
     document.getElementById("subtitle");
-
 
 const signinTab =
     document.getElementById("signin-tab");
@@ -60,10 +46,8 @@ const signinTab =
 const signupTab =
     document.getElementById("signup-tab");
 
-
 const authForm =
     document.getElementById("auth-form");
-
 
 const email =
     document.getElementById("email");
@@ -77,21 +61,17 @@ const confirmContainer =
 const confirmPassword =
     document.getElementById("confirm-password");
 
-
 const submitButton =
     document.getElementById("submit-button");
 
-
 const message =
     document.getElementById("message");
-
 
 const switchText =
     document.getElementById("switch-text");
 
 const switchButton =
     document.getElementById("switch-button");
-
 
 const accountEmail =
     document.getElementById("account-email");
@@ -108,14 +88,15 @@ let mode = "signin";
 
 
 /* =========================================================
-   MODE SWITCHING
+   SET MODE
 ========================================================= */
 
 function setMode(newMode) {
 
     mode = newMode;
 
-    clearMessage();
+    message.textContent = "";
+    message.className = "message";
 
     authForm.reset();
 
@@ -128,27 +109,21 @@ function setMode(newMode) {
         subtitle.textContent =
             "Create an account to save your StudySprint progress.";
 
-
         signinTab.classList.remove("active");
-
         signupTab.classList.add("active");
-
 
         confirmContainer.classList.remove("hidden");
 
         confirmPassword.required = true;
 
-
         submitButton.textContent =
             "Create Account";
-
 
         switchText.textContent =
             "Already have an account?";
 
         switchButton.textContent =
             "Sign In";
-
 
         password.autocomplete =
             "new-password";
@@ -159,29 +134,23 @@ function setMode(newMode) {
             "Welcome back.";
 
         subtitle.textContent =
-            "Sign in to your StudySprint account.";
-
+            "Sign in to continue your StudySprint journey.";
 
         signupTab.classList.remove("active");
-
         signinTab.classList.add("active");
-
 
         confirmContainer.classList.add("hidden");
 
         confirmPassword.required = false;
 
-
         submitButton.textContent =
             "Sign In";
-
 
         switchText.textContent =
             "Don't have an account?";
 
         switchButton.textContent =
             "Sign Up";
-
 
         password.autocomplete =
             "current-password";
@@ -190,25 +159,50 @@ function setMode(newMode) {
 
 
 /* =========================================================
-   MESSAGES
+   SIGN IN TAB
 ========================================================= */
 
-function clearMessage() {
+signinTab.onclick = function () {
+    setMode("signin");
+};
 
-    message.textContent = "";
 
-    message.className =
-        "message";
-}
+/* =========================================================
+   SIGN UP TAB
+========================================================= */
 
+signupTab.onclick = function () {
+    setMode("signup");
+};
+
+
+/* =========================================================
+   BOTTOM SWITCH BUTTON
+========================================================= */
+
+switchButton.onclick = function () {
+
+    if (mode === "signin") {
+
+        setMode("signup");
+
+    } else {
+
+        setMode("signin");
+    }
+};
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
 
 function showMessage(
     text,
     type
 ) {
 
-    message.textContent =
-        text;
+    message.textContent = text;
 
     message.className =
         "message " + type;
@@ -224,6 +218,15 @@ function setLoading(
 ) {
 
     submitButton.disabled =
+        loading;
+
+    signinTab.disabled =
+        loading;
+
+    signupTab.disabled =
+        loading;
+
+    switchButton.disabled =
         loading;
 
 
@@ -257,10 +260,16 @@ function setLoading(
 
 
 /* =========================================================
-   SIGN UP
+   FORM SUBMIT
 ========================================================= */
 
-async function signUp() {
+authForm.onsubmit = async function (event) {
+
+    event.preventDefault();
+
+    message.textContent = "";
+    message.className = "message";
+
 
     const userEmail =
         email.value.trim();
@@ -268,17 +277,11 @@ async function signUp() {
     const userPassword =
         password.value;
 
-    const repeatedPassword =
-        confirmPassword.value;
 
-
-    if (
-        userPassword !==
-        repeatedPassword
-    ) {
+    if (!userEmail) {
 
         showMessage(
-            "The passwords do not match.",
+            "Please enter your email.",
             "error"
         );
 
@@ -286,12 +289,10 @@ async function signUp() {
     }
 
 
-    if (
-        userPassword.length < 6
-    ) {
+    if (!userPassword) {
 
         showMessage(
-            "Password must be at least 6 characters.",
+            "Please enter your password.",
             "error"
         );
 
@@ -299,74 +300,105 @@ async function signUp() {
     }
 
 
-    setLoading(true);
+    /* =====================================================
+       SIGN UP
+    ===================================================== */
+
+    if (mode === "signup") {
+
+        const repeatedPassword =
+            confirmPassword.value;
 
 
-    try {
+        if (
+            userPassword !==
+            repeatedPassword
+        ) {
 
-        const result =
-            await supabaseClient.auth.signUp({
+            showMessage(
+                "The passwords do not match.",
+                "error"
+            );
 
-                email: userEmail,
-
-                password: userPassword,
-
-                options: {
-
-                    emailRedirectTo:
-                        "https://ellfredthehuman.github.io/StudySprint/main/account/"
-                }
-
-            });
-
-
-        if (result.error) {
-
-            throw result.error;
+            return;
         }
 
 
-        showMessage(
-            "Account created! Check your email to confirm your account.",
-            "success"
-        );
+        if (
+            userPassword.length < 6
+        ) {
+
+            showMessage(
+                "Password must be at least 6 characters.",
+                "error"
+            );
+
+            return;
+        }
 
 
-        authForm.reset();
+        setLoading(true);
 
 
-    } catch (error) {
+        try {
 
-        console.error(
-            "Sign up error:",
-            error
-        );
+            const result =
+                await supabaseClient.auth.signUp({
+
+                    email: userEmail,
+
+                    password: userPassword,
+
+                    options: {
+
+                        emailRedirectTo:
+                            "https://ellfredthehuman.github.io/StudySprint/main/account/"
+
+                    }
+
+                });
 
 
-        showMessage(
-            getErrorMessage(error),
-            "error"
-        );
+            if (result.error) {
+                throw result.error;
+            }
 
-    } finally {
 
-        setLoading(false);
+            authForm.reset();
+
+
+            showMessage(
+                "Account created! Check your email to confirm your account.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "SIGN UP ERROR:",
+                error
+            );
+
+
+            showMessage(
+                getErrorMessage(error),
+                "error"
+            );
+
+        } finally {
+
+            setLoading(false);
+        }
+
+
+        return;
     }
-}
 
 
-/* =========================================================
-   SIGN IN
-========================================================= */
-
-async function signIn() {
-
-    const userEmail =
-        email.value.trim();
-
-    const userPassword =
-        password.value;
-
+    /* =====================================================
+       SIGN IN
+    ===================================================== */
 
     setLoading(true);
 
@@ -384,7 +416,6 @@ async function signIn() {
 
 
         if (result.error) {
-
             throw result.error;
         }
 
@@ -398,7 +429,7 @@ async function signIn() {
     } catch (error) {
 
         console.error(
-            "Sign in error:",
+            "SIGN IN ERROR:",
             error
         );
 
@@ -412,74 +443,8 @@ async function signIn() {
 
         setLoading(false);
     }
-}
 
-
-/* =========================================================
-   FORM
-========================================================= */
-
-authForm.addEventListener(
-    "submit",
-    async function (event) {
-
-        event.preventDefault();
-
-        clearMessage();
-
-
-        if (mode === "signup") {
-
-            await signUp();
-
-        } else {
-
-            await signIn();
-        }
-
-    }
-);
-
-
-/* =========================================================
-   SWITCH BUTTON
-========================================================= */
-
-signinTab.addEventListener(
-    "click",
-    function () {
-
-        setMode("signin");
-
-    }
-);
-
-
-signupTab.addEventListener(
-    "click",
-    function () {
-
-        setMode("signup");
-
-    }
-);
-
-
-switchButton.addEventListener(
-    "click",
-    function () {
-
-        if (mode === "signin") {
-
-            setMode("signup");
-
-        } else {
-
-            setMode("signin");
-        }
-
-    }
-);
+};
 
 
 /* =========================================================
@@ -527,54 +492,48 @@ function showAuth() {
    SIGN OUT
 ========================================================= */
 
-logoutButton.addEventListener(
-    "click",
-    async function () {
+logoutButton.onclick = async function () {
 
-        logoutButton.disabled =
-            true;
+    logoutButton.disabled = true;
 
-        logoutButton.textContent =
-            "Signing Out...";
+    logoutButton.textContent =
+        "Signing Out...";
 
 
-        try {
+    try {
 
-            const result =
-                await supabaseClient.auth.signOut();
-
-
-            if (result.error) {
-
-                throw result.error;
-            }
+        const result =
+            await supabaseClient.auth.signOut();
 
 
-            showAuth();
-
-
-        } catch (error) {
-
-            console.error(
-                "Sign out error:",
-                error
-            );
-
-        } finally {
-
-            logoutButton.disabled =
-                false;
-
-            logoutButton.textContent =
-                "Sign Out";
+        if (result.error) {
+            throw result.error;
         }
 
+
+        showAuth();
+
+
+    } catch (error) {
+
+        console.error(
+            "SIGN OUT ERROR:",
+            error
+        );
+
+    } finally {
+
+        logoutButton.disabled =
+            false;
+
+        logoutButton.textContent =
+            "Sign Out";
     }
-);
+};
 
 
 /* =========================================================
-   ERROR TRANSLATION
+   ERROR MESSAGES
 ========================================================= */
 
 function getErrorMessage(error) {
@@ -640,7 +599,7 @@ function getErrorMessage(error) {
 
 
 /* =========================================================
-   CHECK SESSION
+   CHECK EXISTING SESSION
 ========================================================= */
 
 async function checkSession() {
@@ -652,7 +611,6 @@ async function checkSession() {
 
 
         if (result.error) {
-
             throw result.error;
         }
 
@@ -675,7 +633,7 @@ async function checkSession() {
     } catch (error) {
 
         console.error(
-            "Session error:",
+            "SESSION ERROR:",
             error
         );
 
@@ -716,4 +674,3 @@ supabaseClient.auth.onAuthStateChange(
 setMode("signin");
 
 checkSession();
-```
