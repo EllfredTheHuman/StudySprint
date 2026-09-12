@@ -19,160 +19,122 @@
 
 <body>
 
-
 <main class="app">
 
+    <header class="page-header">
 
-    <header class="header">
+        <a href="../index.html" class="back-link">
+            ← Home
+        </a>
 
-        <p class="eyebrow">
+        <div class="eyebrow">
             STUDYSPRINT
-        </p>
+        </div>
 
         <h1>
             Sprints
         </h1>
 
-        <p class="header-description">
-            Pick a subject, choose a topic, and test yourself.
+        <p>
+            Five questions. One topic. Give it your best.
         </p>
 
     </header>
 
 
-
-    <!-- =====================================================
-         SUBJECTS
-    ====================================================== -->
-
-    <section class="selection-section">
+    <section class="selection-card">
 
         <div class="section-heading">
 
-            <h2>
-                Subject
-            </h2>
+            <span class="section-number">
+                01
+            </span>
 
-            <p>
-                What do you want to study?
-            </p>
+            <div>
+                <h2>
+                    Choose a subject
+                </h2>
 
-        </div>
-
-
-        <div
-            class="subject-grid"
-            id="subjectGrid"
-        >
-
-            <button
-                class="subject-button"
-                data-subject="science"
-            >
-                <span>S</span>
-                <strong>Science</strong>
-            </button>
-
-
-            <button
-                class="subject-button"
-                data-subject="maths"
-            >
-                <span>M</span>
-                <strong>Maths</strong>
-            </button>
-
-
-            <button
-                class="subject-button"
-                data-subject="english"
-            >
-                <span>E</span>
-                <strong>English</strong>
-            </button>
-
-
-            <button
-                class="subject-button"
-                data-subject="humanities"
-            >
-                <span>H</span>
-                <strong>Humanities</strong>
-            </button>
-
-
-            <button
-                class="subject-button"
-                data-subject="french"
-            >
-                <span>F</span>
-                <strong>French</strong>
-            </button>
-
-
-            <button
-                class="subject-button"
-                data-subject="japanese"
-            >
-                <span>J</span>
-                <strong>Japanese</strong>
-            </button>
+                <p>
+                    What do you want to practise?
+                </p>
+            </div>
 
         </div>
+
+
+        <div id="subject-grid" class="subject-grid"></div>
 
     </section>
 
 
-
-    <!-- =====================================================
-         TOPICS
-    ====================================================== -->
-
     <section
-        class="selection-section"
-        id="topicsSection"
-        hidden
+        id="topic-section"
+        class="selection-card hidden"
     >
 
         <div class="section-heading">
 
-            <h2>
-                Topic
-            </h2>
+            <span class="section-number">
+                02
+            </span>
 
-            <p id="topicDescription">
-                Choose what you want to practise.
-            </p>
+            <div>
+
+                <h2>
+                    Choose a topic
+                </h2>
+
+                <p id="topic-description">
+                    Pick a topic to begin.
+                </p>
+
+            </div>
 
         </div>
 
 
         <div
+            id="topic-list"
             class="topic-list"
-            id="topicList"
         ></div>
 
     </section>
 
 
+    <section
+        id="ready-card"
+        class="ready-card hidden"
+    >
 
-    <!-- =====================================================
-         START
-    ====================================================== -->
+        <div>
 
-    <section class="start-section">
+            <span class="ready-label">
+                READY?
+            </span>
+
+            <h2 id="ready-title">
+                Start your Sprint
+            </h2>
+
+            <p>
+                You'll get 5 random questions.
+            </p>
+
+        </div>
+
 
         <button
+            id="start-button"
             class="start-button"
-            id="startButton"
-            disabled
+            type="button"
         >
 
             <span>
-                Choose a topic
+                Start Sprint
             </span>
 
-            <span>
+            <span class="arrow">
                 →
             </span>
 
@@ -180,22 +142,12 @@
 
     </section>
 
-
 </main>
 
 
-
-<!-- =========================================================
-     BOTTOM NAV
-========================================================== -->
-
 <nav class="bottom-nav">
 
-
-    <a
-        href="../index.html"
-        class="nav-item"
-    >
+    <a href="../index.html" class="nav-item">
 
         <span class="nav-icon">
             ⌂
@@ -206,7 +158,6 @@
         </span>
 
     </a>
-
 
 
     <a
@@ -225,13 +176,12 @@
     </a>
 
 
-
     <a
         href="index.html"
-        class="nav-item active sprint-nav"
+        class="nav-item active"
     >
 
-        <span class="sprint-icon">
+        <span class="nav-icon sprint-icon">
             S
         </span>
 
@@ -240,7 +190,6 @@
         </span>
 
     </a>
-
 
 
     <a
@@ -259,7 +208,6 @@
     </a>
 
 
-
     <a
         href="../profile/index.html"
         class="nav-item"
@@ -275,516 +223,420 @@
 
     </a>
 
-
 </nav>
-
 
 
 <script>
 
-
-/* =========================================================
-   TOPIC DATA
-
-   file = question file inside /questions
-   key  = topic name inside that file
-========================================================= */
-
-
-const subjects = {
-
+const SUBJECTS = {
 
     science: {
-
         name: "Science",
-
-        description:
-            "Choose a Science topic.",
-
+        icon: "S",
+        description: "Explore the world around you.",
         topics: [
-
             {
                 name: "Rocks and Minerals",
-                file: "rocks-and-minerals.js",
-                key: "Rocks and Minerals"
+                file: "../../questions/rocks-and-minerals.js"
             },
-
             {
                 name: "Energy and Forces",
-                file: "energy-and-forces.js",
-                key: "Energy and Forces"
-            },
-
-            {
-                name: "To Be Released",
-                file: "to-be-released.js",
-                key: "To Be Released"
+                file: "../../questions/energy-and-forces.js"
             }
-
         ]
-
     },
-
 
 
     maths: {
-
         name: "Maths",
-
-        description:
-            "Choose a Maths topic.",
-
+        icon: "M",
+        description: "Put your mathematical skills to the test.",
         topics: [
-
             {
                 name: "Year 9 Algebra",
-                file: "year-9-algebra.js",
-                key: "Year 9 Algebra"
+                file: "../../questions/year-9-algebra.js"
             },
-
             {
                 name: "BIDMAS",
-                file: "bidmas.js",
-                key: "BIDMAS"
+                file: "../../questions/bidmas.js"
             },
-
             {
-                name: "Area And Perimeter",
-                file: "area-and-perimeter.js",
-                key: "Area And Perimeter"
+                name: "Area and Perimeter",
+                file: "../../questions/area-and-perimeter.js"
             }
-
         ]
-
     },
-
 
 
     english: {
-
         name: "English",
-
-        description:
-            "Choose an English topic.",
-
+        icon: "E",
+        description: "Test your English knowledge.",
         topics: [
-
             {
                 name: "Film Study",
-                file: "film-study.js",
-                key: "Film Study"
+                file: "../../questions/film-study.js"
             },
-
             {
                 name: "Grammar",
-                file: "grammar.js",
-                key: "Grammar"
+                file: "../../questions/grammar.js"
             },
-
             {
                 name: "English",
-                file: "english-generic.js",
-                key: "English"
+                file: "../../questions/english-generic.js"
             }
-
         ]
-
     },
-
 
 
     humanities: {
-
         name: "Humanities",
-
-        description:
-            "Choose a Humanities topic.",
-
+        icon: "H",
+        description: "Explore people, places and society.",
         topics: [
-
             {
                 name: "Humanities",
-                file: "humanities-generic-1.js",
-                key: "Humanities"
+                file: "../../questions/humanities-generic-1.js"
             },
-
             {
                 name: "Geography",
-                file: "geography.js",
-                key: "Geography"
-            },
-
-            {
-                name: "To Be Released",
-                file: "to-be-released.js",
-                key: "To Be Released"
+                file: "../../questions/geography.js"
             }
-
         ]
-
     },
-
 
 
     french: {
-
         name: "French",
-
-        description:
-            "Choose a French topic.",
-
+        icon: "F",
+        description: "Practise your French.",
         topics: [
-
             {
                 name: "Characters",
-                file: "french-characters.js",
-                key: "Characters"
+                file: "../../questions/french-characters.js"
             },
-
             {
                 name: "People, Places & Vehicles",
-                file: "french-people-places-vehicles.js",
-                key: "People Places Vehicles"
+                file: "../../questions/french-people-places-vehicles.js"
             },
-
             {
                 name: "Travel",
-                file: "french-travel.js",
-                key: "Travel"
+                file: "../../questions/french-travel.js"
             }
-
         ]
-
     },
 
 
-
     japanese: {
-
         name: "Japanese",
-
-        description:
-            "Choose a Japanese topic.",
-
+        icon: "J",
+        description: "Practise your Japanese.",
         topics: [
-
             {
                 name: "Characters",
-                file: "japanese-characters.js",
-                key: "Characters"
+                file: "../../questions/japanese-characters.js"
             },
-
             {
                 name: "People, Places & Vehicles",
-                file: "japanese-people-places-vehicles.js",
-                key: "People Places Vehicles"
+                file: "../../questions/japanese-people-places-vehicles.js"
             },
-
             {
                 name: "Travel",
-                file: "japanese-travel.js",
-                key: "Travel"
+                file: "../../questions/japanese-travel.js"
             }
-
         ]
-
     }
 
 };
 
 
+const subjectGrid =
+    document.getElementById("subject-grid");
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-
-const subjectButtons =
-    document.querySelectorAll(
-        ".subject-button"
-    );
-
-
-const topicsSection =
-    document.getElementById(
-        "topicsSection"
-    );
-
+const topicSection =
+    document.getElementById("topic-section");
 
 const topicList =
-    document.getElementById(
-        "topicList"
-    );
-
+    document.getElementById("topic-list");
 
 const topicDescription =
-    document.getElementById(
-        "topicDescription"
-    );
+    document.getElementById("topic-description");
 
+const readyCard =
+    document.getElementById("ready-card");
+
+const readyTitle =
+    document.getElementById("ready-title");
 
 const startButton =
-    document.getElementById(
-        "startButton"
-    );
-
+    document.getElementById("start-button");
 
 
 let selectedSubject = null;
-
 let selectedTopic = null;
 
 
+function createSubjectButtons() {
 
-/* =========================================================
-   SUBJECT SELECTION
-========================================================= */
+    Object.entries(SUBJECTS).forEach(
+        ([id, subject]) => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "subject-button";
+
+            button.innerHTML = `
+
+                <span class="subject-icon">
+                    ${subject.icon}
+                </span>
+
+                <span class="subject-info">
+
+                    <strong>
+                        ${subject.name}
+                    </strong>
+
+                    <small>
+                        ${subject.topics.length} topics
+                    </small>
+
+                </span>
+
+                <span class="subject-arrow">
+                    →
+                </span>
+
+            `;
 
 
-subjectButtons.forEach(button => {
+            button.addEventListener(
+                "click",
+                function () {
 
-    button.addEventListener(
-        "click",
-        () => {
-
-            selectedSubject =
-                button.dataset.subject;
-
-            selectedTopic = null;
-
-
-            subjectButtons.forEach(
-                otherButton => {
-
-                    otherButton.classList.remove(
-                        "selected"
+                    selectSubject(
+                        id,
+                        button
                     );
 
                 }
             );
 
 
-            button.classList.add(
-                "selected"
-            );
-
-
-            showTopics(
-                selectedSubject
-            );
+            subjectGrid.appendChild(button);
 
         }
     );
 
-});
+}
 
 
+function selectSubject(
+    subjectId,
+    selectedButton
+) {
 
-/* =========================================================
-   SHOW TOPICS
-========================================================= */
+    selectedSubject =
+        subjectId;
 
-
-function showTopics(subject) {
-
-    const data =
-        subjects[subject];
-
-
-    if (!data) {
-        return;
-    }
+    selectedTopic =
+        null;
 
 
-    topicsSection.hidden =
-        false;
-
-
-    topicDescription.textContent =
-        data.description;
-
-
-    topicList.innerHTML =
-        "";
-
-
-    data.topics.forEach(topic => {
-
-
-        const button =
-            document.createElement(
-                "button"
-            );
-
-
-        button.className =
-            "topic-option";
-
-
-        button.innerHTML = `
-
-            <div>
-
-                <div class="topic-name">
-                    ${topic.name}
-                </div>
-
-                <div class="topic-description">
-                    100 questions
-                </div>
-
-            </div>
-
-            <span class="topic-check">
-                ✓
-            </span>
-
-        `;
-
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                selectedTopic =
-                    topic;
-
-
-                document
-                    .querySelectorAll(
-                        ".topic-option"
-                    )
-                    .forEach(
-                        option => {
-
-                            option.classList.remove(
-                                "selected"
-                            );
-
-                        }
-                    );
-
-
-                button.classList.add(
+    document
+        .querySelectorAll(".subject-button")
+        .forEach(
+            button => {
+                button.classList.remove(
                     "selected"
                 );
-
-
-                enableStartButton();
-
             }
         );
 
 
-        topicList.appendChild(
-            button
+    selectedButton.classList.add(
+        "selected"
+    );
+
+
+    showTopics(subjectId);
+
+}
+
+
+function showTopics(subjectId) {
+
+    const subject =
+        SUBJECTS[subjectId];
+
+
+    topicSection.classList.remove(
+        "hidden"
+    );
+
+
+    topicDescription.textContent =
+        subject.description;
+
+
+    topicList.innerHTML = "";
+
+
+    subject.topics.forEach(
+        (topic, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className =
+                "topic-button";
+
+
+            button.innerHTML = `
+
+                <span class="topic-index">
+                    ${String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span class="topic-info">
+
+                    <strong>
+                        ${topic.name}
+                    </strong>
+
+                    <small>
+                        5 random questions
+                    </small>
+
+                </span>
+
+                <span class="topic-check">
+                    ✓
+                </span>
+
+            `;
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    selectTopic(
+                        topic,
+                        button
+                    );
+
+                }
+            );
+
+
+            topicList.appendChild(button);
+
+        }
+    );
+
+
+    topicSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+function selectTopic(
+    topic,
+    selectedButton
+) {
+
+    selectedTopic =
+        topic;
+
+
+    document
+        .querySelectorAll(".topic-button")
+        .forEach(
+            button => {
+                button.classList.remove(
+                    "selected"
+                );
+            }
         );
 
-    });
+
+    selectedButton.classList.add(
+        "selected"
+    );
 
 
-    startButton.disabled =
-        true;
+    readyCard.classList.remove(
+        "hidden"
+    );
 
 
-    startButton.innerHTML = `
-
-        <span>
-            Choose a topic
-        </span>
-
-        <span>
-            →
-        </span>
-
-    `;
+    readyTitle.textContent =
+        topic.name;
 
 
-    topicsSection.scrollIntoView({
-
+    readyCard.scrollIntoView({
         behavior: "smooth",
-
-        block: "start"
-
+        block: "center"
     });
 
 }
-
-
-
-/* =========================================================
-   ENABLE START
-========================================================= */
-
-
-function enableStartButton() {
-
-    startButton.disabled =
-        false;
-
-
-    startButton.innerHTML = `
-
-        <span>
-            Start Sprint
-        </span>
-
-        <span>
-            →
-        </span>
-
-    `;
-
-}
-
-
-
-/* =========================================================
-   START SPRINT
-========================================================= */
 
 
 startButton.addEventListener(
     "click",
-    () => {
+    function () {
 
         if (
             !selectedSubject ||
             !selectedTopic
         ) {
-
             return;
-
         }
 
 
         const params =
-            new URLSearchParams({
+            new URLSearchParams();
 
-                subject:
-                    selectedSubject,
 
-                topic:
-                    selectedTopic.name,
+        params.set(
+            "subject",
+            selectedSubject
+        );
 
-                file:
-                    selectedTopic.file,
 
-                key:
-                    selectedTopic.key
+        params.set(
+            "topic",
+            selectedTopic.name
+        );
 
-            });
+
+        params.set(
+            "file",
+            selectedTopic.file
+        );
 
 
         window.location.href =
-            `quiz.html?${params.toString()}`;
+            "quiz.html?" +
+            params.toString();
 
     }
 );
 
 
-</script>
+createSubjectButtons();
 
+</script>
 
 </body>
 
