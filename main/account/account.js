@@ -1,5 +1,11 @@
 /* =========================================================
    STUDYSPRINT — ACCOUNT
+   Supabase authentication
+========================================================= */
+
+
+/* =========================================================
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
@@ -8,14 +14,6 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
 
-
-/* =========================================================
-   START SUPABASE
-========================================================= */
-
-if (!window.supabase) {
-    throw new Error("Supabase failed to load.");
-}
 
 const supabaseClient =
     window.supabase.createClient(
@@ -49,20 +47,23 @@ const signupTab =
 const authForm =
     document.getElementById("auth-form");
 
-const email =
+const emailInput =
     document.getElementById("email");
 
-const password =
+const passwordInput =
     document.getElementById("password");
 
 const confirmContainer =
     document.getElementById("confirm-container");
 
-const confirmPassword =
+const confirmPasswordInput =
     document.getElementById("confirm-password");
 
 const submitButton =
     document.getElementById("submit-button");
+
+const submitText =
+    document.getElementById("submit-text");
 
 const message =
     document.getElementById("message");
@@ -81,25 +82,38 @@ const logoutButton =
 
 
 /* =========================================================
-   MODE
+   STATE
 ========================================================= */
 
 let mode = "signin";
 
 
 /* =========================================================
-   SET MODE
+   MESSAGE
+========================================================= */
+
+function showMessage(text, type = "") {
+
+    message.textContent = text;
+
+    message.className = "message";
+
+    if (type) {
+        message.classList.add(type);
+    }
+
+}
+
+
+/* =========================================================
+   MODE
 ========================================================= */
 
 function setMode(newMode) {
 
     mode = newMode;
 
-    message.textContent = "";
-    message.className = "message";
-
-    authForm.reset();
-
+    showMessage("");
 
     if (mode === "signup") {
 
@@ -107,16 +121,16 @@ function setMode(newMode) {
             "Create your account.";
 
         subtitle.textContent =
-            "Create an account to save your StudySprint progress.";
+            "Join StudySprint and start learning.";
 
         signinTab.classList.remove("active");
         signupTab.classList.add("active");
 
         confirmContainer.classList.remove("hidden");
 
-        confirmPassword.required = true;
+        confirmPasswordInput.required = true;
 
-        submitButton.textContent =
+        submitText.textContent =
             "Create Account";
 
         switchText.textContent =
@@ -125,7 +139,7 @@ function setMode(newMode) {
         switchButton.textContent =
             "Sign In";
 
-        password.autocomplete =
+        passwordInput.autocomplete =
             "new-password";
 
     } else {
@@ -141,9 +155,11 @@ function setMode(newMode) {
 
         confirmContainer.classList.add("hidden");
 
-        confirmPassword.required = false;
+        confirmPasswordInput.required = false;
 
-        submitButton.textContent =
+        confirmPasswordInput.value = "";
+
+        submitText.textContent =
             "Sign In";
 
         switchText.textContent =
@@ -152,60 +168,10 @@ function setMode(newMode) {
         switchButton.textContent =
             "Sign Up";
 
-        password.autocomplete =
+        passwordInput.autocomplete =
             "current-password";
     }
-}
 
-
-/* =========================================================
-   SIGN IN TAB
-========================================================= */
-
-signinTab.onclick = function () {
-    setMode("signin");
-};
-
-
-/* =========================================================
-   SIGN UP TAB
-========================================================= */
-
-signupTab.onclick = function () {
-    setMode("signup");
-};
-
-
-/* =========================================================
-   BOTTOM SWITCH BUTTON
-========================================================= */
-
-switchButton.onclick = function () {
-
-    if (mode === "signin") {
-
-        setMode("signup");
-
-    } else {
-
-        setMode("signin");
-    }
-};
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
-function showMessage(
-    text,
-    type
-) {
-
-    message.textContent = text;
-
-    message.className =
-        "message " + type;
 }
 
 
@@ -213,75 +179,49 @@ function showMessage(
    LOADING
 ========================================================= */
 
-function setLoading(
-    loading
-) {
+function setLoading(loading) {
 
-    submitButton.disabled =
-        loading;
-
-    signinTab.disabled =
-        loading;
-
-    signupTab.disabled =
-        loading;
-
-    switchButton.disabled =
-        loading;
-
+    submitButton.disabled = loading;
 
     if (loading) {
 
-        if (mode === "signup") {
-
-            submitButton.textContent =
-                "Creating Account...";
-
-        } else {
-
-            submitButton.textContent =
-                "Signing In...";
-        }
+        submitText.textContent =
+            mode === "signup"
+                ? "Creating account..."
+                : "Signing in...";
 
     } else {
 
-        if (mode === "signup") {
+        submitText.textContent =
+            mode === "signup"
+                ? "Create Account"
+                : "Sign In";
 
-            submitButton.textContent =
-                "Create Account";
-
-        } else {
-
-            submitButton.textContent =
-                "Sign In";
-        }
     }
+
 }
 
 
 /* =========================================================
-   FORM SUBMIT
+   SIGN UP
 ========================================================= */
 
-authForm.onsubmit = async function (event) {
+async function signUp() {
 
-    event.preventDefault();
+    const email =
+        emailInput.value.trim();
 
-    message.textContent = "";
-    message.className = "message";
+    const password =
+        passwordInput.value;
 
-
-    const userEmail =
-        email.value.trim();
-
-    const userPassword =
-        password.value;
+    const confirmPassword =
+        confirmPasswordInput.value;
 
 
-    if (!userEmail) {
+    if (password.length < 6) {
 
         showMessage(
-            "Please enter your email.",
+            "Your password must be at least 6 characters.",
             "error"
         );
 
@@ -289,160 +229,196 @@ authForm.onsubmit = async function (event) {
     }
 
 
-    if (!userPassword) {
+    if (password !== confirmPassword) {
 
         showMessage(
-            "Please enter your password.",
+            "Your passwords don't match.",
             "error"
         );
 
         return;
     }
 
-
-    /* =====================================================
-       SIGN UP
-    ===================================================== */
-
-    if (mode === "signup") {
-
-        const repeatedPassword =
-            confirmPassword.value;
-
-
-        if (
-            userPassword !==
-            repeatedPassword
-        ) {
-
-            showMessage(
-                "The passwords do not match.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        if (
-            userPassword.length < 6
-        ) {
-
-            showMessage(
-                "Password must be at least 6 characters.",
-                "error"
-            );
-
-            return;
-        }
-
-
-        setLoading(true);
-
-
-        try {
-
-            const result =
-                await supabaseClient.auth.signUp({
-
-                    email: userEmail,
-
-                    password: userPassword,
-
-                    options: {
-
-                        emailRedirectTo:
-                            "https://ellfredthehuman.github.io/StudySprint/main/account/"
-
-                    }
-
-                });
-
-
-            if (result.error) {
-                throw result.error;
-            }
-
-
-            authForm.reset();
-
-
-            showMessage(
-                "Account created! Check your email to confirm your account.",
-                "success"
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "SIGN UP ERROR:",
-                error
-            );
-
-
-            showMessage(
-                getErrorMessage(error),
-                "error"
-            );
-
-        } finally {
-
-            setLoading(false);
-        }
-
-
-        return;
-    }
-
-
-    /* =====================================================
-       SIGN IN
-    ===================================================== */
 
     setLoading(true);
 
 
-    try {
+    const { error } =
+        await supabaseClient.auth.signUp({
 
-        const result =
-            await supabaseClient.auth.signInWithPassword({
+            email: email,
 
-                email: userEmail,
+            password: password,
 
-                password: userPassword
+            options: {
 
-            });
+                emailRedirectTo:
+                    "https://ellfredthehuman.github.io/StudySprint/main/account/"
 
+            }
 
-        if (result.error) {
-            throw result.error;
-        }
-
-
-        showMessage(
-            "Signed in successfully.",
-            "success"
-        );
+        });
 
 
-    } catch (error) {
+    setLoading(false);
 
-        console.error(
-            "SIGN IN ERROR:",
-            error
-        );
 
+    if (error) {
 
         showMessage(
-            getErrorMessage(error),
+            error.message,
             "error"
         );
 
-    } finally {
-
-        setLoading(false);
+        return;
     }
+
+
+    showMessage(
+        "Account created! Check your email to confirm your account.",
+        "success"
+    );
+
+}
+
+
+/* =========================================================
+   SIGN IN
+========================================================= */
+
+async function signIn() {
+
+    const email =
+        emailInput.value.trim();
+
+    const password =
+        passwordInput.value;
+
+
+    setLoading(true);
+
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    setLoading(false);
+
+
+    if (error) {
+
+        showMessage(
+            error.message,
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (data.session) {
+
+        showLoggedIn(
+            data.session.user
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTH FORM
+========================================================= */
+
+authForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+        showMessage("");
+
+        if (!emailInput.value.trim()) {
+
+            showMessage(
+                "Please enter your email address.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!passwordInput.value) {
+
+            showMessage(
+                "Please enter your password.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            if (mode === "signup") {
+
+                await signUp();
+
+            } else {
+
+                await signIn();
+
+            }
+
+        } catch (error) {
+
+            showMessage(
+                "Something went wrong. Please try again.",
+                "error"
+            );
+
+            setLoading(false);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+signinTab.onclick = function () {
+
+    setMode("signin");
+
+};
+
+
+signupTab.onclick = function () {
+
+    setMode("signup");
+
+};
+
+
+switchButton.onclick = function () {
+
+    setMode(
+        mode === "signin"
+            ? "signup"
+            : "signin"
+    );
 
 };
 
@@ -451,26 +427,15 @@ authForm.onsubmit = async function (event) {
    LOGGED-IN SCREEN
 ========================================================= */
 
-function showAccount(user) {
+function showLoggedIn(user) {
 
     authScreen.classList.add("hidden");
 
     accountScreen.classList.remove("hidden");
 
+    accountEmail.textContent =
+        user.email || "Account";
 
-    if (
-        user &&
-        user.email
-    ) {
-
-        accountEmail.textContent =
-            user.email;
-
-    } else {
-
-        accountEmail.textContent =
-            "Your StudySprint account";
-    }
 }
 
 
@@ -478,124 +443,45 @@ function showAccount(user) {
    LOGGED-OUT SCREEN
 ========================================================= */
 
-function showAuth() {
+function showLoggedOut() {
 
     accountScreen.classList.add("hidden");
 
     authScreen.classList.remove("hidden");
 
-    setMode("signin");
 }
 
 
 /* =========================================================
-   SIGN OUT
+   LOGOUT
 ========================================================= */
 
-logoutButton.onclick = async function () {
+logoutButton.onclick =
+    async function () {
 
-    logoutButton.disabled = true;
-
-    logoutButton.textContent =
-        "Signing Out...";
-
-
-    try {
-
-        const result =
+        const { error } =
             await supabaseClient.auth.signOut();
 
 
-        if (result.error) {
-            throw result.error;
+        if (error) {
+
+            console.error(error);
+
+            return;
         }
 
 
-        showAuth();
+        emailInput.value = "";
 
+        passwordInput.value = "";
 
-    } catch (error) {
+        confirmPasswordInput.value = "";
 
-        console.error(
-            "SIGN OUT ERROR:",
-            error
-        );
+        showLoggedOut();
 
-    } finally {
+        setMode("signin");
 
-        logoutButton.disabled =
-            false;
-
-        logoutButton.textContent =
-            "Sign Out";
-    }
-};
-
-
-/* =========================================================
-   ERROR MESSAGES
-========================================================= */
-
-function getErrorMessage(error) {
-
-    if (
-        !error ||
-        !error.message
-    ) {
-
-        return "Something went wrong. Please try again.";
-    }
-
-
-    const text =
-        error.message.toLowerCase();
-
-
-    if (
-        text.includes(
-            "invalid login credentials"
-        )
-    ) {
-
-        return "Incorrect email or password.";
-    }
-
-
-    if (
-        text.includes(
-            "email not confirmed"
-        )
-    ) {
-
-        return "Please confirm your email before signing in.";
-    }
-
-
-    if (
-        text.includes(
-            "user already registered"
-        )
-    ) {
-
-        return "An account with this email already exists.";
-    }
-
-
-    if (
-        text.includes(
-            "password"
-        ) &&
-        text.includes(
-            "6"
-        )
-    ) {
-
-        return "Password must be at least 6 characters.";
-    }
-
-
-    return error.message;
-}
+    };
 
 
 /* =========================================================
@@ -604,63 +490,56 @@ function getErrorMessage(error) {
 
 async function checkSession() {
 
-    try {
-
-        const result =
-            await supabaseClient.auth.getSession();
-
-
-        if (result.error) {
-            throw result.error;
-        }
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.getSession();
 
 
-        if (
-            result.data &&
-            result.data.session
-        ) {
-
-            showAccount(
-                result.data.session.user
-            );
-
-        } else {
-
-            showAuth();
-        }
-
-
-    } catch (error) {
+    if (error) {
 
         console.error(
-            "SESSION ERROR:",
+            "Session error:",
             error
         );
 
-        showAuth();
+        return;
     }
+
+
+    if (data.session) {
+
+        showLoggedIn(
+            data.session.user
+        );
+
+    } else {
+
+        showLoggedOut();
+
+    }
+
 }
 
 
 /* =========================================================
-   AUTH STATE
+   AUTH STATE CHANGES
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-    function (
-        event,
-        session
-    ) {
+    function (event, session) {
 
         if (session) {
 
-            showAccount(
+            showLoggedIn(
                 session.user
             );
 
         } else {
 
-            showAuth();
+            showLoggedOut();
+
         }
 
     }
