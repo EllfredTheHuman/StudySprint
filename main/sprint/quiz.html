@@ -10,9 +10,8 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>StudySprint Quiz</title>
+    <title>Sprint — StudySprint</title>
 
-    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="quiz.css">
 
 </head>
@@ -20,172 +19,106 @@
 
 <body>
 
+<main class="quiz-app">
 
-<main>
+    <header class="quiz-header">
 
-    <!-- =================================================
-         QUESTION
-    ================================================== -->
+        <a href="index.html" class="quit-link">
+            ← Quit
+        </a>
 
-    <section class="hero">
+        <div
+            id="topic-title"
+            class="topic-title"
+        >
+            Sprint
+        </div>
 
-        <p id="quiz-topic">
-            Loading...
-        </p>
+        <div
+            id="question-number"
+            class="question-number"
+        >
+            1 / 5
+        </div>
+
+    </header>
+
+
+    <div class="progress-track">
+
+        <div
+            id="progress-bar"
+            class="progress-bar"
+        ></div>
+
+    </div>
+
+
+    <section class="question-card">
+
+        <div class="question-kicker">
+            QUESTION
+        </div>
 
         <h1 id="question">
-            Loading question...
+            Loading...
         </h1>
 
-        <p id="question-number">
-            Question 1 of 5
-        </p>
-
     </section>
 
-
-    <!-- =================================================
-         ANSWERS
-    ================================================== -->
-
-    <section id="answers">
-    </section>
-
-
-    <!-- =================================================
-         WRITTEN ANSWER
-    ================================================== -->
 
     <section
-        class="hero"
-        id="written-area"
-        style="display: none;"
-    >
+        id="answers"
+        class="answers"
+    ></section>
 
-        <textarea
-            id="written-answer"
-            placeholder="Type your answer..."
-            rows="5"
-        ></textarea>
-
-        <button
-            class="main-button"
-            id="submit-written"
-        >
-            Submit Answer
-        </button>
-
-    </section>
-
-
-    <!-- =================================================
-         FEEDBACK
-    ================================================== -->
 
     <section
-        class="hero"
         id="feedback"
-        style="display: none;"
+        class="feedback hidden"
     >
 
-        <h2 id="feedback-title"></h2>
-
-        <p id="feedback-text"></p>
-
-        <button
-            class="main-button"
-            id="next-question"
+        <div
+            id="feedback-icon"
+            class="feedback-icon"
         >
-            Next Question
-        </button>
+            ✓
+        </div>
+
+        <div>
+
+            <strong id="feedback-title">
+                Correct
+            </strong>
+
+            <p id="feedback-text"></p>
+
+        </div>
 
     </section>
+
+
+    <button
+        id="next-button"
+        class="next-button hidden"
+        type="button"
+    >
+
+        <span id="next-text">
+            Next Question
+        </span>
+
+        <span>
+            →
+        </span>
+
+    </button>
 
 </main>
-
-
-<!-- =====================================================
-     MOBILE BOTTOM NAV
-===================================================== -->
-
-<nav class="bottom-nav">
-
-    <a
-        class="nav-item"
-        href="../index.html"
-    >
-
-        <span class="nav-icon">⌂</span>
-
-        <span>
-            Home
-        </span>
-
-    </a>
-
-
-    <a
-        class="nav-item"
-        href="../study/index.html"
-    >
-
-        <span class="nav-icon">▣</span>
-
-        <span>
-            Study
-        </span>
-
-    </a>
-
-
-    <a
-        class="nav-item sprint-nav"
-        href="../sprint/index.html"
-    >
-
-        <span class="sprint-icon">
-            ▶
-        </span>
-
-        <span>
-            Sprints
-        </span>
-
-    </a>
-
-
-    <a
-        class="nav-item"
-        href="../rooms/index.html"
-    >
-
-        <span class="nav-icon">♧</span>
-
-        <span>
-            Rooms
-        </span>
-
-    </a>
-
-
-    <a
-        class="nav-item"
-        href="../profile/index.html"
-    >
-
-        <span class="nav-icon">●</span>
-
-        <span>
-            Profile
-        </span>
-
-    </a>
-
-</nav>
 
 
 <script src="quiz.js"></script>
 
 </body>
 
-</html>
+</html>w
