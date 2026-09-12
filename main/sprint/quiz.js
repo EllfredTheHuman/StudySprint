@@ -22,38 +22,17 @@ let answered = false;
    ELEMENTS
 ========================================================= */
 
-const topicTitle =
-    document.getElementById("topic-title");
-
-const questionNumber =
-    document.getElementById("question-number");
-
-const questionText =
-    document.getElementById("question");
-
-const answersContainer =
-    document.getElementById("answers");
-
-const feedback =
-    document.getElementById("feedback");
-
-const feedbackIcon =
-    document.getElementById("feedback-icon");
-
-const feedbackTitle =
-    document.getElementById("feedback-title");
-
-const feedbackText =
-    document.getElementById("feedback-text");
-
-const nextButton =
-    document.getElementById("next-button");
-
-const nextText =
-    document.getElementById("next-text");
-
-const progressBar =
-    document.getElementById("progress-bar");
+const topicTitle = document.getElementById("topic-title");
+const questionNumber = document.getElementById("question-number");
+const questionText = document.getElementById("question");
+const answersContainer = document.getElementById("answers");
+const feedback = document.getElementById("feedback");
+const feedbackIcon = document.getElementById("feedback-icon");
+const feedbackTitle = document.getElementById("feedback-title");
+const feedbackText = document.getElementById("feedback-text");
+const nextButton = document.getElementById("next-button");
+const nextText = document.getElementById("next-text");
+const progressBar = document.getElementById("progress-bar");
 
 
 /* =========================================================
@@ -160,7 +139,7 @@ async function loadQuestionFile() {
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " +
+                "Could not load question file. HTTP " +
                 response.status
             );
 
@@ -171,20 +150,24 @@ async function loadQuestionFile() {
             await response.text();
 
 
-        /*
-         * Question files normally look like:
-         *
-         * const japanesePeoplePlacesVehiclesQuestions = {
-         *
-         *     "People Places Vehicles": [
-         *
-         *         ...
-         *
-         *     ]
-         *
-         * };
-         */
+        if (!source.trim()) {
 
+            throw new Error(
+                "The question file is empty."
+            );
+
+        }
+
+
+        console.log(
+            "Loaded question file:",
+            questionFile
+        );
+
+
+        /* =====================================================
+           FIND QUESTION VARIABLE
+        ===================================================== */
 
         const variableMatch =
             source.match(
@@ -205,34 +188,123 @@ async function loadQuestionFile() {
             variableMatch[1];
 
 
-        let questionData;
+        console.log(
+            "Question variable:",
+            variableName
+        );
 
 
         /* =====================================================
-           EVALUATE QUESTION FILE
+           PARSE QUESTION DATA
         ===================================================== */
 
-        try {
+        let questionData = null;
 
-            questionData =
-                Function(
-                    source +
-                    "\nreturn " +
-                    variableName +
-                    ";"
-                )();
+
+        /*
+         * Question files use JavaScript object syntax.
+         *
+         * Instead of using Function(), create a temporary
+         * module-like script and expose the variable by
+         * replacing its declaration.
+         *
+         * Example:
+         *
+         * const japaneseQuestions = {
+         *     ...
+         * };
+         *
+         * becomes:
+         *
+         * window.__studySprintQuestionData = {
+         *     ...
+         * };
+         */
+
+
+        const declarationPattern =
+            new RegExp(
+                "\\b(?:const|let|var)\\s+" +
+                variableName +
+                "\\s*=",
+                "m"
+            );
+
+
+        if (
+            !declarationPattern.test(source)
+        ) {
+
+            throw new Error(
+                "Could not locate the question data."
+            );
 
         }
 
-        catch (error) {
 
-            console.error(
-                "Question file evaluation error:",
-                error
+        const modifiedSource =
+            source.replace(
+                declarationPattern,
+                "window.__studySprintQuestionData ="
             );
 
+
+        /*
+         * Remove any old temporary value.
+         */
+
+        window.__studySprintQuestionData =
+            undefined;
+
+
+        /*
+         * Create temporary script.
+         */
+
+        const script =
+            document.createElement(
+                "script"
+            );
+
+
+        script.textContent =
+            modifiedSource;
+
+
+        document.head.appendChild(
+            script
+        );
+
+
+        /*
+         * Read the resulting object.
+         */
+
+        questionData =
+            window.__studySprintQuestionData;
+
+
+        /*
+         * Remove temporary script.
+         */
+
+        script.remove();
+
+
+        /*
+         * Clean up global value.
+         */
+
+        delete window.__studySprintQuestionData;
+
+
+        if (
+            questionData === undefined ||
+            questionData === null
+        ) {
+
             throw new Error(
-                "The question file contains invalid JavaScript."
+                "The question data could not be read."
             );
 
         }
@@ -246,23 +318,17 @@ async function loadQuestionFile() {
             Array.isArray(questionData)
         ) {
 
-            /*
-             * The file directly contains an array.
-             */
-
             allQuestions =
                 questionData;
 
         }
 
         else if (
-            questionData &&
             typeof questionData === "object"
         ) {
 
             /*
-             * First attempt:
-             * exact topic name.
+             * Exact topic match.
              */
 
             if (
@@ -279,16 +345,7 @@ async function loadQuestionFile() {
             else {
 
                 /*
-                 * Second attempt:
-                 * normalised topic name.
-                 *
-                 * Example:
-                 *
-                 * URL:
-                 * People, Places & Vehicles
-                 *
-                 * File:
-                 * People Places Vehicles
+                 * Normalised topic match.
                  */
 
                 const wantedTopic =
@@ -327,9 +384,8 @@ async function loadQuestionFile() {
                 else {
 
                     /*
-                     * Final fallback:
-                     * if there is exactly one array
-                     * inside the object, use it.
+                     * If there is exactly one array,
+                     * use it automatically.
                      */
 
                     const arrays =
@@ -360,7 +416,7 @@ async function loadQuestionFile() {
 
 
         /* =====================================================
-           VALIDATE QUESTION ARRAY
+           VALIDATE ARRAY
         ===================================================== */
 
         if (
@@ -368,7 +424,9 @@ async function loadQuestionFile() {
         ) {
 
             throw new Error(
-                "No question array was found for this topic."
+                "No question array was found for " +
+                topicName +
+                "."
             );
 
         }
@@ -381,37 +439,81 @@ async function loadQuestionFile() {
 
 
         /* =====================================================
-           FILTER MULTIPLE-CHOICE QUESTIONS
+           ONLY USE MULTIPLE-CHOICE QUESTIONS
         ===================================================== */
-
-        /*
-         * StudySprint question files contain:
-         *
-         * 50 multiple-choice
-         * 50 written
-         *
-         * Sprint only uses multiple-choice.
-         */
 
         allQuestions =
             allQuestions.filter(
-                question =>
-                    question &&
-                    typeof question === "object" &&
-                    question.type === "multiple" &&
-                    typeof question.question === "string" &&
-                    Array.isArray(
-                        question.answers
-                    ) &&
-                    question.answers.length >= 2 &&
-                    (
+                question => {
+
+                    if (
+                        !question ||
+                        typeof question !== "object"
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        question.type !== "multiple"
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        typeof question.question !==
+                        "string"
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        !Array.isArray(
+                            question.answers
+                        )
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    if (
+                        question.answers.length < 2
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    const hasCorrectAnswer =
                         typeof question.correctAnswer ===
                             "string" ||
                         typeof question.correct ===
                             "string" ||
                         typeof question.correct ===
-                            "number"
-                    )
+                            "number";
+
+
+                    if (!hasCorrectAnswer) {
+
+                        return false;
+
+                    }
+
+
+                    return true;
+
+                }
             );
 
 
@@ -426,8 +528,7 @@ async function loadQuestionFile() {
         ) {
 
             throw new Error(
-                "No usable multiple-choice questions were found in " +
-                questionFile
+                "No usable multiple-choice questions were found."
             );
 
         }
@@ -478,10 +579,6 @@ function normaliseQuestion(question) {
         question.correctAnswer;
 
 
-    /* =====================================================
-       SUPPORT NUMERIC CORRECT INDEX
-    ===================================================== */
-
     if (
         correctAnswer === undefined &&
         typeof question.correct === "number"
@@ -494,10 +591,6 @@ function normaliseQuestion(question) {
 
     }
 
-
-    /* =====================================================
-       SUPPORT STRING CORRECT ANSWER
-    ===================================================== */
 
     if (
         correctAnswer === undefined &&
@@ -567,10 +660,6 @@ function loadQuestion() {
     answered = false;
 
 
-    /* =====================================================
-       RESET FEEDBACK
-    ===================================================== */
-
     feedback.classList.add(
         "hidden"
     );
@@ -581,26 +670,14 @@ function loadQuestion() {
     );
 
 
-    /* =====================================================
-       RESET NEXT BUTTON
-    ===================================================== */
-
     nextButton.classList.add(
         "hidden"
     );
 
 
-    /* =====================================================
-       CLEAR ANSWERS
-    ===================================================== */
-
     answersContainer.innerHTML =
         "";
 
-
-    /* =====================================================
-       GET QUESTION
-    ===================================================== */
 
     const question =
         normaliseQuestion(
@@ -625,25 +702,13 @@ function loadQuestion() {
     }
 
 
-    /* =====================================================
-       QUESTION TEXT
-    ===================================================== */
-
     questionText.textContent =
         question.question;
 
 
-    /* =====================================================
-       QUESTION NUMBER
-    ===================================================== */
-
     questionNumber.textContent =
         `${currentQuestion + 1} / ${sprintQuestions.length}`;
 
-
-    /* =====================================================
-       PROGRESS
-    ===================================================== */
 
     const progress =
         (
@@ -656,19 +721,11 @@ function loadQuestion() {
         progress + "%";
 
 
-    /* =====================================================
-       SHUFFLE ANSWERS
-    ===================================================== */
-
     const shuffledAnswers =
         shuffle(
             question.answers
         );
 
-
-    /* =====================================================
-       CREATE ANSWER BUTTONS
-    ===================================================== */
 
     shuffledAnswers.forEach(
         (
@@ -690,10 +747,6 @@ function loadQuestion() {
                 "answer-button";
 
 
-            /* =================================================
-               LETTER
-            ================================================= */
-
             const letter =
                 document.createElement(
                     "span"
@@ -710,10 +763,6 @@ function loadQuestion() {
                 );
 
 
-            /* =================================================
-               ANSWER TEXT
-            ================================================= */
-
             const text =
                 document.createElement(
                     "span"
@@ -727,10 +776,6 @@ function loadQuestion() {
             text.textContent =
                 answer;
 
-
-            /* =================================================
-               RESULT ICON
-            ================================================= */
 
             const result =
                 document.createElement(
@@ -746,10 +791,6 @@ function loadQuestion() {
                 "";
 
 
-            /* =================================================
-               BUILD BUTTON
-            ================================================= */
-
             button.appendChild(
                 letter
             );
@@ -764,10 +805,6 @@ function loadQuestion() {
                 result
             );
 
-
-            /* =================================================
-               CLICK
-            ================================================= */
 
             button.addEventListener(
                 "click",
@@ -813,19 +850,11 @@ function checkAnswer(
     answered = true;
 
 
-    /* =====================================================
-       GET ALL BUTTONS
-    ===================================================== */
-
     const buttons =
         document.querySelectorAll(
             ".answer-button"
         );
 
-
-    /* =====================================================
-       DISABLE BUTTONS
-    ===================================================== */
 
     buttons.forEach(
         button => {
@@ -837,10 +866,6 @@ function checkAnswer(
     );
 
 
-    /* =====================================================
-       COMPARE ANSWERS
-    ===================================================== */
-
     const isCorrect =
         String(
             selectedAnswer
@@ -849,10 +874,6 @@ function checkAnswer(
             correctAnswer
         ).trim();
 
-
-    /* =====================================================
-       CORRECT
-    ===================================================== */
 
     if (isCorrect) {
 
@@ -901,10 +922,6 @@ function checkAnswer(
 
     }
 
-    /* =====================================================
-       WRONG
-    ===================================================== */
-
     else {
 
         selectedButton.classList.add(
@@ -925,10 +942,6 @@ function checkAnswer(
 
         }
 
-
-        /* =================================================
-           FIND CORRECT ANSWER BUTTON
-        ================================================= */
 
         buttons.forEach(
             button => {
@@ -996,10 +1009,6 @@ function checkAnswer(
 
     }
 
-
-    /* =====================================================
-       NEXT BUTTON
-    ===================================================== */
 
     if (
         currentQuestion ===
@@ -1078,7 +1087,7 @@ function finishSprint() {
         sprintQuestions.length;
 
 
-    if (total <= 0) {
+    if (total === 0) {
 
         showError(
             "No questions were completed."
@@ -1089,10 +1098,6 @@ function finishSprint() {
     }
 
 
-    /* =====================================================
-       CALCULATE SCORE
-    ===================================================== */
-
     const percentage =
         Math.round(
             (
@@ -1101,10 +1106,6 @@ function finishSprint() {
             ) * 100
         );
 
-
-    /* =====================================================
-       DATE
-    ===================================================== */
 
     const today =
         new Date().toDateString();
@@ -1115,10 +1116,6 @@ function finishSprint() {
             "lastSprintDate"
         );
 
-
-    /* =====================================================
-       STREAK
-    ===================================================== */
 
     let streak =
         Number(
@@ -1159,10 +1156,6 @@ function finishSprint() {
     }
 
 
-    /* =====================================================
-       SAVE STREAK
-    ===================================================== */
-
     localStorage.setItem(
         "streak",
         String(streak)
@@ -1174,10 +1167,6 @@ function finishSprint() {
         today
     );
 
-
-    /* =====================================================
-       BEST SCORE
-    ===================================================== */
 
     const bestScore =
         Number(
@@ -1200,10 +1189,6 @@ function finishSprint() {
     }
 
 
-    /* =====================================================
-       BEST STREAK
-    ===================================================== */
-
     const bestStreak =
         Number(
             localStorage.getItem(
@@ -1225,10 +1210,6 @@ function finishSprint() {
     }
 
 
-    /* =====================================================
-       QUIZ COUNT
-    ===================================================== */
-
     const quizzes =
         Number(
             localStorage.getItem(
@@ -1244,10 +1225,6 @@ function finishSprint() {
         )
     );
 
-
-    /* =====================================================
-       RESULT
-    ===================================================== */
 
     const result = {
 
@@ -1279,10 +1256,6 @@ function finishSprint() {
         )
     );
 
-
-    /* =====================================================
-       RESULTS PAGE
-    ===================================================== */
 
     window.location.href =
         "results.html";
@@ -1408,4 +1381,11 @@ function escapeHtml(text) {
    START APPLICATION
 ========================================================= */
 
-loadQuestionFile();
+if (
+    topicName &&
+    questionFile
+) {
+
+    loadQuestionFile();
+
+}
