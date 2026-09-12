@@ -39,12 +39,8 @@ const progressBar = document.getElementById("progress-bar");
 
 
 /* =========================================================
-   BASIC VALIDATION
+   BASIC SETUP
 ========================================================= */
-
-if (!topicName || !questionFile) {
-    showError("This Sprint link is missing information.");
-}
 
 if (topicTitle) {
     topicTitle.textContent = topicName || "Sprint";
@@ -61,12 +57,14 @@ function shuffle(array) {
 
     for (let i = result.length - 1; i > 0; i--) {
 
-        const j = Math.floor(Math.random() * (i + 1));
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
 
-        [result[i], result[j]] = [
-            result[j],
-            result[i]
-        ];
+        [result[i], result[j]] =
+            [result[j], result[i]];
+
     }
 
     return result;
@@ -74,7 +72,7 @@ function shuffle(array) {
 
 
 /* =========================================================
-   TOPIC NORMALISATION
+   NORMALISE TOPIC NAME
 ========================================================= */
 
 function normaliseTopicName(value) {
@@ -82,6 +80,7 @@ function normaliseTopicName(value) {
     return String(value || "")
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "");
+
 }
 
 
@@ -94,20 +93,25 @@ async function loadQuestionFile() {
     try {
 
         if (!questionFile) {
-            throw new Error("No question file was supplied.");
+
+            throw new Error(
+                "No question file was supplied."
+            );
+
         }
 
 
         /* -------------------------------------------------
-           FETCH FILE
+           FETCH QUESTION FILE
         ------------------------------------------------- */
 
-        const response = await fetch(
-            questionFile,
-            {
-                cache: "no-store"
-            }
-        );
+        const response =
+            await fetch(
+                questionFile,
+                {
+                    cache: "no-store"
+                }
+            );
 
 
         if (!response.ok) {
@@ -116,10 +120,12 @@ async function loadQuestionFile() {
                 "Could not load question file. HTTP " +
                 response.status
             );
+
         }
 
 
-        const source = await response.text();
+        const source =
+            await response.text();
 
 
         if (!source.trim()) {
@@ -127,6 +133,7 @@ async function loadQuestionFile() {
             throw new Error(
                 "The question file is empty."
             );
+
         }
 
 
@@ -137,12 +144,13 @@ async function loadQuestionFile() {
 
 
         /* -------------------------------------------------
-           FIND THE QUESTION VARIABLE
+           FIND VARIABLE
         ------------------------------------------------- */
 
-        const variableMatch = source.match(
-            /\b(?:const|let|var)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*/
-        );
+        const variableMatch =
+            source.match(
+                /\b(?:const|let|var)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*/
+            );
 
 
         if (!variableMatch) {
@@ -150,10 +158,12 @@ async function loadQuestionFile() {
             throw new Error(
                 "No question data variable was found."
             );
+
         }
 
 
-        const variableName = variableMatch[1];
+        const variableName =
+            variableMatch[1];
 
 
         console.log(
@@ -163,53 +173,43 @@ async function loadQuestionFile() {
 
 
         /* -------------------------------------------------
-           TURN THE QUESTION FILE INTO A MODULE
-           
-           Example:
+           TURN:
 
-           const japaneseQuestions = {
-               ...
-           };
+           const someVariable = {...}
 
-           becomes:
+           INTO:
 
-           export default {
-               ...
-           };
+           export default {...}
         ------------------------------------------------- */
 
-        const declarationPattern = new RegExp(
-            "\\b(?:const|let|var)\\s+" +
-            variableName +
-            "\\s*=",
-            "m"
-        );
-
-
-        if (!declarationPattern.test(source)) {
-
-            throw new Error(
-                "Could not locate the question data."
+        const declarationPattern =
+            new RegExp(
+                "\\b(?:const|let|var)\\s+" +
+                variableName +
+                "\\s*=",
+                "m"
             );
-        }
 
 
-        const moduleSource = source.replace(
-            declarationPattern,
-            "export default"
-        );
+        const moduleSource =
+            source.replace(
+                declarationPattern,
+                "export default"
+            );
 
 
         /* -------------------------------------------------
-           CREATE TEMPORARY MODULE
+           CREATE MODULE
         ------------------------------------------------- */
 
-        const blob = new Blob(
-            [moduleSource],
-            {
-                type: "text/javascript"
-            }
-        );
+        const blob =
+            new Blob(
+                [moduleSource],
+                {
+                    type:
+                        "text/javascript"
+                }
+            );
 
 
         const moduleUrl =
@@ -221,16 +221,19 @@ async function loadQuestionFile() {
 
         try {
 
+            /*
+             * IMPORTANT:
+             * Do NOT add ?v=... to a blob URL.
+             */
+
             questionModule =
-                await import(
-                    moduleUrl +
-                    "?v=" +
-                    Date.now()
-                );
+                await import(moduleUrl);
 
         } finally {
 
-            URL.revokeObjectURL(moduleUrl);
+            URL.revokeObjectURL(
+                moduleUrl
+            );
 
         }
 
@@ -251,6 +254,7 @@ async function loadQuestionFile() {
             throw new Error(
                 "The question data could not be read."
             );
+
         }
 
 
@@ -261,21 +265,22 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           FIND CORRECT TOPIC
+           FIND TOPIC
         ================================================= */
 
         if (Array.isArray(questionData)) {
 
-            allQuestions = questionData;
+            allQuestions =
+                questionData;
 
         } else if (
             typeof questionData === "object"
         ) {
 
 
-            /* ---------------------------------------------
-               EXACT TOPIC MATCH
-            --------------------------------------------- */
+            /* ------------------------------------------------
+               EXACT MATCH
+            ------------------------------------------------ */
 
             if (
                 Array.isArray(
@@ -289,56 +294,62 @@ async function loadQuestionFile() {
             } else {
 
 
-                /* -----------------------------------------
-                   NORMALISED TOPIC MATCH
-
-                   Example:
-
-                   URL:
-                   People, Places & Vehicles
-
-                   File:
-                   People Places Vehicles
-                ----------------------------------------- */
+                /* ------------------------------------------------
+                   NORMALISED MATCH
+                ------------------------------------------------ */
 
                 const wantedTopic =
-                    normaliseTopicName(topicName);
+                    normaliseTopicName(
+                        topicName
+                    );
 
 
                 const matchingKey =
-                    Object.keys(questionData).find(
+                    Object.keys(
+                        questionData
+                    ).find(
                         key =>
-                            normaliseTopicName(key) ===
-                            wantedTopic
+                            normaliseTopicName(
+                                key
+                            ) === wantedTopic
                     );
 
 
                 if (
                     matchingKey &&
                     Array.isArray(
-                        questionData[matchingKey]
+                        questionData[
+                            matchingKey
+                        ]
                     )
                 ) {
 
                     allQuestions =
-                        questionData[matchingKey];
+                        questionData[
+                            matchingKey
+                        ];
 
                 } else {
 
 
-                    /* -------------------------------------
+                    /* ------------------------------------------------
                        SINGLE ARRAY FALLBACK
-                    ------------------------------------- */
+                    ------------------------------------------------ */
 
                     const arrays =
-                        Object.values(questionData)
-                            .filter(
-                                value =>
-                                    Array.isArray(value)
-                            );
+                        Object.values(
+                            questionData
+                        ).filter(
+                            value =>
+                                Array.isArray(
+                                    value
+                                )
+                        );
 
 
-                    if (arrays.length === 1) {
+                    if (
+                        arrays.length === 1
+                    ) {
 
                         allQuestions =
                             arrays[0];
@@ -353,16 +364,21 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           VALIDATE ARRAY
+           CHECK ARRAY
         ================================================= */
 
-        if (!Array.isArray(allQuestions)) {
+        if (
+            !Array.isArray(
+                allQuestions
+            )
+        ) {
 
             throw new Error(
                 "No question array was found for " +
                 topicName +
                 "."
             );
+
         }
 
 
@@ -373,65 +389,73 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           ONLY USE MULTIPLE-CHOICE QUESTIONS
+           ONLY MULTIPLE CHOICE
         ================================================= */
 
         allQuestions =
-            allQuestions.filter(question => {
+            allQuestions.filter(
+                question => {
 
-                if (
-                    !question ||
-                    typeof question !== "object"
-                ) {
-                    return false;
+                    if (
+                        !question ||
+                        typeof question !==
+                            "object"
+                    ) {
+                        return false;
+                    }
+
+
+                    if (
+                        question.type !==
+                        "multiple"
+                    ) {
+                        return false;
+                    }
+
+
+                    if (
+                        typeof question.question !==
+                        "string"
+                    ) {
+                        return false;
+                    }
+
+
+                    if (
+                        !Array.isArray(
+                            question.answers
+                        )
+                    ) {
+                        return false;
+                    }
+
+
+                    if (
+                        question.answers.length <
+                        2
+                    ) {
+                        return false;
+                    }
+
+
+                    const hasCorrectAnswer =
+                        typeof
+                            question.correctAnswer ===
+                            "string" ||
+
+                        typeof
+                            question.correct ===
+                            "string" ||
+
+                        typeof
+                            question.correct ===
+                            "number";
+
+
+                    return hasCorrectAnswer;
+
                 }
-
-
-                if (
-                    question.type !== "multiple"
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    typeof question.question !==
-                    "string"
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    !Array.isArray(
-                        question.answers
-                    )
-                ) {
-                    return false;
-                }
-
-
-                if (
-                    question.answers.length < 2
-                ) {
-                    return false;
-                }
-
-
-                const hasCorrectAnswer =
-                    typeof question.correctAnswer ===
-                        "string" ||
-
-                    typeof question.correct ===
-                        "string" ||
-
-                    typeof question.correct ===
-                        "number";
-
-
-                return hasCorrectAnswer;
-
-            });
+            );
 
 
         console.log(
@@ -440,11 +464,14 @@ async function loadQuestionFile() {
         );
 
 
-        if (allQuestions.length === 0) {
+        if (
+            allQuestions.length === 0
+        ) {
 
             throw new Error(
                 "No usable multiple-choice questions were found."
             );
+
         }
 
 
@@ -478,10 +505,14 @@ async function loadQuestionFile() {
    NORMALISE QUESTION
 ========================================================= */
 
-function normaliseQuestion(question) {
+function normaliseQuestion(
+    question
+) {
 
     const answers =
-        Array.isArray(question.answers)
+        Array.isArray(
+            question.answers
+        )
             ? [...question.answers]
             : [];
 
@@ -492,18 +523,22 @@ function normaliseQuestion(question) {
 
     if (
         correctAnswer === undefined &&
-        typeof question.correct === "number"
+        typeof question.correct ===
+            "number"
     ) {
 
         correctAnswer =
-            answers[question.correct];
+            answers[
+                question.correct
+            ];
 
     }
 
 
     if (
         correctAnswer === undefined &&
-        typeof question.correct === "string"
+        typeof question.correct ===
+            "string"
     ) {
 
         correctAnswer =
@@ -524,7 +559,9 @@ function normaliseQuestion(question) {
         correctAnswer:
             correctAnswer === undefined
                 ? ""
-                : String(correctAnswer)
+                : String(
+                    correctAnswer
+                )
 
     };
 
@@ -538,7 +575,9 @@ function normaliseQuestion(question) {
 function startSprint() {
 
     sprintQuestions =
-        shuffle(allQuestions).slice(
+        shuffle(
+            allQuestions
+        ).slice(
             0,
             Math.min(
                 QUESTION_COUNT,
@@ -566,19 +605,28 @@ function loadQuestion() {
     answered = false;
 
 
-    feedback.classList.add("hidden");
+    feedback.classList.add(
+        "hidden"
+    );
 
-    feedback.classList.remove("wrong");
+    feedback.classList.remove(
+        "wrong"
+    );
 
-    nextButton.classList.add("hidden");
+    nextButton.classList.add(
+        "hidden"
+    );
 
 
-    answersContainer.innerHTML = "";
+    answersContainer.innerHTML =
+        "";
 
 
     const question =
         normaliseQuestion(
-            sprintQuestions[currentQuestion]
+            sprintQuestions[
+                currentQuestion
+            ]
         );
 
 
@@ -606,9 +654,10 @@ function loadQuestion() {
 
 
     const progress =
-        (currentQuestion /
-            sprintQuestions.length) *
-        100;
+        (
+            currentQuestion /
+            sprintQuestions.length
+        ) * 100;
 
 
     progressBar.style.width =
@@ -616,11 +665,16 @@ function loadQuestion() {
 
 
     const shuffledAnswers =
-        shuffle(question.answers);
+        shuffle(
+            question.answers
+        );
 
 
     shuffledAnswers.forEach(
-        (answer, index) => {
+        (
+            answer,
+            index
+        ) => {
 
             const button =
                 document.createElement(
@@ -628,7 +682,8 @@ function loadQuestion() {
                 );
 
 
-            button.type = "button";
+            button.type =
+                "button";
 
             button.className =
                 "answer-button";
@@ -672,11 +727,17 @@ function loadQuestion() {
                 "";
 
 
-            button.appendChild(letter);
+            button.appendChild(
+                letter
+            );
 
-            button.appendChild(text);
+            button.appendChild(
+                text
+            );
 
-            button.appendChild(result);
+            button.appendChild(
+                result
+            );
 
 
             button.addEventListener(
@@ -729,14 +790,21 @@ function checkAnswer(
 
     buttons.forEach(
         button => {
-            button.disabled = true;
+
+            button.disabled =
+                true;
+
         }
     );
 
 
     const isCorrect =
-        String(selectedAnswer).trim() ===
-        String(correctAnswer).trim();
+        String(
+            selectedAnswer
+        ).trim() ===
+        String(
+            correctAnswer
+        ).trim();
 
 
     /* =====================================================
@@ -824,7 +892,9 @@ function checkAnswer(
                 if (
                     text &&
                     text.textContent.trim() ===
-                    String(correctAnswer).trim()
+                    String(
+                        correctAnswer
+                    ).trim()
                 ) {
 
                     button.classList.add(
@@ -964,7 +1034,10 @@ function finishSprint() {
 
     const percentage =
         Math.round(
-            (score / total) * 100
+            (
+                score /
+                total
+            ) * 100
         );
 
 
@@ -986,7 +1059,9 @@ function finishSprint() {
         ) || 0;
 
 
-    if (previousDate !== today) {
+    if (
+        previousDate !== today
+    ) {
 
         const yesterday =
             new Date();
@@ -1037,11 +1112,15 @@ function finishSprint() {
         ) || 0;
 
 
-    if (percentage > bestScore) {
+    if (
+        percentage > bestScore
+    ) {
 
         localStorage.setItem(
             "bestScore",
-            String(percentage)
+            String(
+                percentage
+            )
         );
 
     }
@@ -1059,11 +1138,15 @@ function finishSprint() {
         ) || 0;
 
 
-    if (streak > bestStreak) {
+    if (
+        streak > bestStreak
+    ) {
 
         localStorage.setItem(
             "bestStreak",
-            String(streak)
+            String(
+                streak
+            )
         );
 
     }
@@ -1083,7 +1166,9 @@ function finishSprint() {
 
     localStorage.setItem(
         "quizzes",
-        String(quizzes + 1)
+        String(
+            quizzes + 1
+        )
     );
 
 
@@ -1116,7 +1201,9 @@ function finishSprint() {
 
     localStorage.setItem(
         "lastSprintResult",
-        JSON.stringify(result)
+        JSON.stringify(
+            result
+        )
     );
 
 
@@ -1130,7 +1217,9 @@ function finishSprint() {
    ERROR SCREEN
 ========================================================= */
 
-function showError(message) {
+function showError(
+    message
+) {
 
     document.body.innerHTML = `
 
@@ -1142,7 +1231,7 @@ function showError(message) {
             padding:24px;
             background:#0d0d12;
             color:#ffffff;
-            font-family:Arial, sans-serif;
+            font-family:Arial,sans-serif;
             text-align:center;
         ">
 
@@ -1153,7 +1242,9 @@ function showError(message) {
                 border-radius:20px;
                 background:#17171f;
                 border:1px solid #292934;
-                box-shadow:0 20px 60px rgba(0,0,0,0.35);
+                box-shadow:
+                    0 20px 60px
+                    rgba(0,0,0,0.35);
             ">
 
                 <div style="
@@ -1211,23 +1302,43 @@ function showError(message) {
    ESCAPE HTML
 ========================================================= */
 
-function escapeHtml(text) {
+function escapeHtml(
+    text
+) {
 
     return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
 /* =========================================================
-   START
+   START LOADING
 ========================================================= */
 
-if (topicName && questionFile) {
+if (
+    topicName &&
+    questionFile
+) {
 
     loadQuestionFile();
 
