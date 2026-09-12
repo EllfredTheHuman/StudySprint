@@ -2,59 +2,54 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>StudySprint — Account</title>
+    <title>Account — StudySprint</title>
 
     <link rel="stylesheet" href="account.css">
-
 </head>
 
 <body>
 
-    <main>
+    <main class="page">
 
-        <div class="account-card">
+        <section class="account-card">
 
-            <div class="logo">
-                StudySprint
+            <div class="brand">
+                <a href="../index.html">
+                    <span class="brand-icon">🚀</span>
+                    <span>StudySprint</span>
+                </a>
             </div>
 
 
-            <!-- AUTH -->
-
             <div id="auth-screen">
 
-                <h1 id="title">
-                    Welcome back.
-                </h1>
+                <div class="heading">
 
-                <p id="subtitle">
-                    Sign in to your StudySprint account.
-                </p>
+                    <div class="eyebrow">
+                        YOUR ACCOUNT
+                    </div>
+
+                    <h1 id="title">
+                        Welcome back.
+                    </h1>
+
+                    <p id="subtitle">
+                        Sign in to continue your StudySprint journey.
+                    </p>
+
+                </div>
 
 
                 <div class="tabs">
 
-                    <button
-                        id="signin-tab"
-                        class="tab active"
-                        type="button"
-                    >
+                    <button id="signin-tab" class="tab active" type="button">
                         Sign In
                     </button>
 
-                    <button
-                        id="signup-tab"
-                        class="tab"
-                        type="button"
-                    >
+                    <button id="signup-tab" class="tab" type="button">
                         Sign Up
                     </button>
 
@@ -63,78 +58,89 @@
 
                 <form id="auth-form">
 
-                    <label for="email">
-                        Email
-                    </label>
+                    <div class="input-group">
 
-                    <input
-                        id="email"
-                        type="email"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    >
+                        <label for="email">
+                            Email
+                        </label>
 
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
 
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input
-                        id="password"
-                        type="password"
-                        placeholder="Password"
-                        autocomplete="current-password"
-                        required
-                    >
+                    </div>
 
 
-                    <div
-                        id="confirm-container"
-                        class="hidden"
-                    >
+                    <div class="input-group">
+
+                        <div class="label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <span id="password-hint">
+                                6+ characters
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="input-group hidden" id="confirm-container">
 
                         <label for="confirm-password">
-                            Confirm Password
+                            Confirm password
                         </label>
 
                         <input
                             id="confirm-password"
                             type="password"
-                            placeholder="Password again"
+                            placeholder="Enter your password again"
                             autocomplete="new-password"
                         >
 
                     </div>
 
 
-                    <button
-                        id="submit-button"
-                        class="primary-button"
-                        type="submit"
-                    >
-                        Sign In
+                    <button id="submit-button" class="primary-button" type="submit">
+
+                        <span id="submit-text">
+                            Sign In
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
                     </button>
 
                 </form>
 
 
-                <div
-                    id="message"
-                    class="message"
-                ></div>
+                <div id="message" class="message"></div>
 
 
-                <div class="switch">
+                <div class="switch-area">
 
                     <span id="switch-text">
                         Don't have an account?
                     </span>
 
-                    <button
-                        id="switch-button"
-                        type="button"
-                    >
+                    <button id="switch-button" type="button">
                         Sign Up
                     </button>
 
@@ -143,57 +149,65 @@
             </div>
 
 
-            <!-- LOGGED IN -->
+            <div id="account-screen" class="hidden">
 
-            <div
-                id="account-screen"
-                class="hidden"
-            >
-
-                <div class="check">
+                <div class="success-icon">
                     ✓
                 </div>
 
-                <h1>
-                    You're signed in.
-                </h1>
+                <div class="heading">
 
-                <p id="account-email">
-                    Account
-                </p>
+                    <div class="eyebrow">
+                        YOU'RE SIGNED IN
+                    </div>
+
+                    <h1>
+                        Welcome to StudySprint.
+                    </h1>
+
+                    <p>
+                        Your account is ready to go.
+                    </p>
+
+                </div>
 
 
-                <a
-                    href="../index.html"
-                    class="primary-button continue"
-                >
-                    Continue
+                <div class="account-info">
+
+                    <span class="info-label">
+                        SIGNED IN AS
+                    </span>
+
+                    <span id="account-email" class="account-email">
+                        —
+                    </span>
+
+                </div>
+
+
+                <a href="../index.html" class="primary-button home-button">
+                    <span>Continue to StudySprint</span>
+                    <span class="button-arrow">→</span>
                 </a>
 
 
-                <button
-                    id="logout-button"
-                    class="secondary-button"
-                    type="button"
-                >
+                <button id="logout-button" class="logout-button" type="button">
                     Sign Out
                 </button>
 
             </div>
 
-        </div>
+
+            <div class="footer-note">
+                Study smarter. Level up faster.
+            </div>
+
+        </section>
 
     </main>
 
 
-    <!-- Supabase -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    ></script>
-
-    <!-- StudySprint account code -->
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="account.js"></script>
 
 </body>
