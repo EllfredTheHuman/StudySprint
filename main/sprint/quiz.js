@@ -172,18 +172,19 @@ async function loadQuestionFile() {
 
 
         /*
-         * Question files look like:
+         * Question files normally look like:
          *
          * const japanesePeoplePlacesVehiclesQuestions = {
          *
          *     "People Places Vehicles": [
+         *
          *         ...
+         *
          *     ]
          *
          * };
-         *
-         * Find the variable name.
          */
+
 
         const variableMatch =
             source.match(
@@ -207,9 +208,9 @@ async function loadQuestionFile() {
         let questionData;
 
 
-        /*
-         * Evaluate the file and return the variable.
-         */
+        /* =====================================================
+           EVALUATE QUESTION FILE
+        ===================================================== */
 
         try {
 
@@ -246,7 +247,7 @@ async function loadQuestionFile() {
         ) {
 
             /*
-             * File directly contains an array.
+             * The file directly contains an array.
              */
 
             allQuestions =
@@ -260,7 +261,8 @@ async function loadQuestionFile() {
         ) {
 
             /*
-             * First try the exact URL topic.
+             * First attempt:
+             * exact topic name.
              */
 
             if (
@@ -277,15 +279,16 @@ async function loadQuestionFile() {
             else {
 
                 /*
-                 * Match topic names after removing punctuation.
+                 * Second attempt:
+                 * normalised topic name.
                  *
-                 * For example:
+                 * Example:
                  *
-                 * "People, Places & Vehicles"
+                 * URL:
+                 * People, Places & Vehicles
                  *
-                 * matches:
-                 *
-                 * "People Places Vehicles"
+                 * File:
+                 * People Places Vehicles
                  */
 
                 const wantedTopic =
@@ -324,10 +327,9 @@ async function loadQuestionFile() {
                 else {
 
                     /*
-                     * Final object fallback.
-                     *
-                     * If the object contains exactly one
-                     * array, use that array.
+                     * Final fallback:
+                     * if there is exactly one array
+                     * inside the object, use it.
                      */
 
                     const arrays =
@@ -358,7 +360,7 @@ async function loadQuestionFile() {
 
 
         /* =====================================================
-           VALIDATE ARRAY
+           VALIDATE QUESTION ARRAY
         ===================================================== */
 
         if (
@@ -378,13 +380,17 @@ async function loadQuestionFile() {
         );
 
 
+        /* =====================================================
+           FILTER MULTIPLE-CHOICE QUESTIONS
+        ===================================================== */
+
         /*
-         * Your files contain:
+         * StudySprint question files contain:
          *
          * 50 multiple-choice
          * 50 written
          *
-         * Sprint should ONLY use multiple-choice.
+         * Sprint only uses multiple-choice.
          */
 
         allQuestions =
@@ -427,9 +433,9 @@ async function loadQuestionFile() {
         }
 
 
-        /*
-         * Start Sprint.
-         */
+        /* =====================================================
+           START
+        ===================================================== */
 
         startSprint();
 
@@ -445,7 +451,7 @@ async function loadQuestionFile() {
 
         showError(
             "We couldn't load the questions for " +
-            topicName +
+            (topicName || "this topic") +
             "."
         );
 
@@ -472,11 +478,9 @@ function normaliseQuestion(question) {
         question.correctAnswer;
 
 
-    /*
-     * Support:
-     *
-     * correct: 2
-     */
+    /* =====================================================
+       SUPPORT NUMERIC CORRECT INDEX
+    ===================================================== */
 
     if (
         correctAnswer === undefined &&
@@ -491,11 +495,9 @@ function normaliseQuestion(question) {
     }
 
 
-    /*
-     * Support:
-     *
-     * correct: "answer"
-     */
+    /* =====================================================
+       SUPPORT STRING CORRECT ANSWER
+    ===================================================== */
 
     if (
         correctAnswer === undefined &&
@@ -565,6 +567,10 @@ function loadQuestion() {
     answered = false;
 
 
+    /* =====================================================
+       RESET FEEDBACK
+    ===================================================== */
+
     feedback.classList.add(
         "hidden"
     );
@@ -575,14 +581,26 @@ function loadQuestion() {
     );
 
 
+    /* =====================================================
+       RESET NEXT BUTTON
+    ===================================================== */
+
     nextButton.classList.add(
         "hidden"
     );
 
 
+    /* =====================================================
+       CLEAR ANSWERS
+    ===================================================== */
+
     answersContainer.innerHTML =
         "";
 
+
+    /* =====================================================
+       GET QUESTION
+    ===================================================== */
 
     const question =
         normaliseQuestion(
@@ -607,13 +625,25 @@ function loadQuestion() {
     }
 
 
+    /* =====================================================
+       QUESTION TEXT
+    ===================================================== */
+
     questionText.textContent =
         question.question;
 
 
+    /* =====================================================
+       QUESTION NUMBER
+    ===================================================== */
+
     questionNumber.textContent =
         `${currentQuestion + 1} / ${sprintQuestions.length}`;
 
+
+    /* =====================================================
+       PROGRESS
+    ===================================================== */
 
     const progress =
         (
@@ -626,11 +656,19 @@ function loadQuestion() {
         progress + "%";
 
 
+    /* =====================================================
+       SHUFFLE ANSWERS
+    ===================================================== */
+
     const shuffledAnswers =
         shuffle(
             question.answers
         );
 
+
+    /* =====================================================
+       CREATE ANSWER BUTTONS
+    ===================================================== */
 
     shuffledAnswers.forEach(
         (
@@ -652,6 +690,10 @@ function loadQuestion() {
                 "answer-button";
 
 
+            /* =================================================
+               LETTER
+            ================================================= */
+
             const letter =
                 document.createElement(
                     "span"
@@ -668,6 +710,10 @@ function loadQuestion() {
                 );
 
 
+            /* =================================================
+               ANSWER TEXT
+            ================================================= */
+
             const text =
                 document.createElement(
                     "span"
@@ -682,6 +728,10 @@ function loadQuestion() {
                 answer;
 
 
+            /* =================================================
+               RESULT ICON
+            ================================================= */
+
             const result =
                 document.createElement(
                     "span"
@@ -693,8 +743,12 @@ function loadQuestion() {
 
 
             result.textContent =
-                "✓";
+                "";
 
+
+            /* =================================================
+               BUILD BUTTON
+            ================================================= */
 
             button.appendChild(
                 letter
@@ -710,6 +764,10 @@ function loadQuestion() {
                 result
             );
 
+
+            /* =================================================
+               CLICK
+            ================================================= */
 
             button.addEventListener(
                 "click",
@@ -746,18 +804,28 @@ function checkAnswer(
 ) {
 
     if (answered) {
+
         return;
+
     }
 
 
     answered = true;
 
 
+    /* =====================================================
+       GET ALL BUTTONS
+    ===================================================== */
+
     const buttons =
         document.querySelectorAll(
             ".answer-button"
         );
 
+
+    /* =====================================================
+       DISABLE BUTTONS
+    ===================================================== */
 
     buttons.forEach(
         button => {
@@ -769,10 +837,22 @@ function checkAnswer(
     );
 
 
-    const isCorrect =
-        selectedAnswer.trim() ===
-        correctAnswer.trim();
+    /* =====================================================
+       COMPARE ANSWERS
+    ===================================================== */
 
+    const isCorrect =
+        String(
+            selectedAnswer
+        ).trim() ===
+        String(
+            correctAnswer
+        ).trim();
+
+
+    /* =====================================================
+       CORRECT
+    ===================================================== */
 
     if (isCorrect) {
 
@@ -784,12 +864,18 @@ function checkAnswer(
         );
 
 
-        selectedButton
-            .querySelector(
+        const result =
+            selectedButton.querySelector(
                 ".answer-result"
-            )
-            .textContent =
-            "✓";
+            );
+
+
+        if (result) {
+
+            result.textContent =
+                "✓";
+
+        }
 
 
         feedbackIcon.textContent =
@@ -815,6 +901,10 @@ function checkAnswer(
 
     }
 
+    /* =====================================================
+       WRONG
+    ===================================================== */
+
     else {
 
         selectedButton.classList.add(
@@ -822,13 +912,23 @@ function checkAnswer(
         );
 
 
-        selectedButton
-            .querySelector(
+        const selectedResult =
+            selectedButton.querySelector(
                 ".answer-result"
-            )
-            .textContent =
-            "×";
+            );
 
+
+        if (selectedResult) {
+
+            selectedResult.textContent =
+                "×";
+
+        }
+
+
+        /* =================================================
+           FIND CORRECT ANSWER BUTTON
+        ================================================= */
 
         buttons.forEach(
             button => {
@@ -842,7 +942,9 @@ function checkAnswer(
                 if (
                     text &&
                     text.textContent.trim() ===
-                    correctAnswer.trim()
+                    String(
+                        correctAnswer
+                    ).trim()
                 ) {
 
                     button.classList.add(
@@ -850,12 +952,18 @@ function checkAnswer(
                     );
 
 
-                    button
-                        .querySelector(
+                    const result =
+                        button.querySelector(
                             ".answer-result"
-                        )
-                        .textContent =
-                        "✓";
+                        );
+
+
+                    if (result) {
+
+                        result.textContent =
+                            "✓";
+
+                    }
 
                 }
 
@@ -888,6 +996,10 @@ function checkAnswer(
 
     }
 
+
+    /* =====================================================
+       NEXT BUTTON
+    ===================================================== */
 
     if (
         currentQuestion ===
@@ -923,7 +1035,9 @@ nextButton.addEventListener(
     () => {
 
         if (!answered) {
+
             return;
+
         }
 
 
@@ -964,6 +1078,21 @@ function finishSprint() {
         sprintQuestions.length;
 
 
+    if (total <= 0) {
+
+        showError(
+            "No questions were completed."
+        );
+
+        return;
+
+    }
+
+
+    /* =====================================================
+       CALCULATE SCORE
+    ===================================================== */
+
     const percentage =
         Math.round(
             (
@@ -972,6 +1101,10 @@ function finishSprint() {
             ) * 100
         );
 
+
+    /* =====================================================
+       DATE
+    ===================================================== */
 
     const today =
         new Date().toDateString();
@@ -982,6 +1115,10 @@ function finishSprint() {
             "lastSprintDate"
         );
 
+
+    /* =====================================================
+       STREAK
+    ===================================================== */
 
     let streak =
         Number(
@@ -1022,6 +1159,10 @@ function finishSprint() {
     }
 
 
+    /* =====================================================
+       SAVE STREAK
+    ===================================================== */
+
     localStorage.setItem(
         "streak",
         String(streak)
@@ -1033,6 +1174,10 @@ function finishSprint() {
         today
     );
 
+
+    /* =====================================================
+       BEST SCORE
+    ===================================================== */
 
     const bestScore =
         Number(
@@ -1055,6 +1200,10 @@ function finishSprint() {
     }
 
 
+    /* =====================================================
+       BEST STREAK
+    ===================================================== */
+
     const bestStreak =
         Number(
             localStorage.getItem(
@@ -1076,6 +1225,10 @@ function finishSprint() {
     }
 
 
+    /* =====================================================
+       QUIZ COUNT
+    ===================================================== */
+
     const quizzes =
         Number(
             localStorage.getItem(
@@ -1091,6 +1244,10 @@ function finishSprint() {
         )
     );
 
+
+    /* =====================================================
+       RESULT
+    ===================================================== */
 
     const result = {
 
@@ -1123,6 +1280,10 @@ function finishSprint() {
     );
 
 
+    /* =====================================================
+       RESULTS PAGE
+    ===================================================== */
+
     window.location.href =
         "results.html";
 
@@ -1140,4 +1301,111 @@ function showError(message) {
         <main style="
             min-height:100vh;
             display:flex;
-            alig
+            align-items:center;
+            justify-content:center;
+            padding:24px;
+            background:#0d0d12;
+            color:#ffffff;
+            font-family:Arial, sans-serif;
+            text-align:center;
+        ">
+
+            <div style="
+                width:100%;
+                max-width:500px;
+                padding:32px;
+                border-radius:20px;
+                background:#17171f;
+                border:1px solid #292934;
+                box-shadow:0 20px 60px rgba(0,0,0,0.35);
+            ">
+
+                <div style="
+                    font-size:48px;
+                    margin-bottom:16px;
+                ">
+                    ⚠️
+                </div>
+
+                <h1 style="
+                    margin:0 0 12px;
+                    font-size:24px;
+                ">
+                    Something went wrong
+                </h1>
+
+                <p style="
+                    margin:0 0 24px;
+                    color:#aaaab5;
+                    line-height:1.5;
+                ">
+                    ${escapeHtml(message)}
+                </p>
+
+                <button
+                    type="button"
+                    onclick="window.location.href='index.html'"
+                    style="
+                        border:0;
+                        border-radius:12px;
+                        padding:14px 20px;
+                        background:#8875f5;
+                        color:#ffffff;
+                        font-size:15px;
+                        font-weight:700;
+                        cursor:pointer;
+                    "
+                >
+                    Back to Sprint
+                </button>
+
+            </div>
+
+        </main>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   START APPLICATION
+========================================================= */
+
+loadQuestionFile();
