@@ -107,6 +107,7 @@ function shuffle(array) {
     }
 
     return result;
+
 }
 
 
@@ -142,240 +143,261 @@ async function loadQuestionFile() {
 
 
         /*
-         * Question files are normal JavaScript files.
+         * Your question files use structures like:
          *
-         * We run the file in an isolated function and
-         * detect the array assigned inside it.
+         * const japanesePeoplePlacesVehiclesQuestions = {
          *
-         * This supports files using:
+         *     "People Places Vehicles": [
+         *         ...
+         *     ]
+         *
+         * };
+         *
+         * So we first find the variable name.
+         */
+
+        const variableMatch =
+            source.match(
+                /\b(?:const|let|var)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*/
+            );
+
+
+        if (!variableMatch) {
+
+            throw new Error(
+                "No question data variable was found."
+            );
+
+        }
+
+
+        const variableName =
+            variableMatch[1];
+
+
+        /*
+         * Evaluate the actual question file.
+         *
+         * This is much safer for our question-file format
+         * than injecting it as a <script> and guessing
+         * window variables.
+         */
+
+        let questionData;
+
+
+        try {
+
+            questionData =
+                Function(
+                    source +
+                    "\nreturn " +
+                    variableName +
+                    ";"
+                )();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Could not evaluate question file:",
+                error
+            );
+
+            throw new Error(
+                "The question file contains invalid JavaScript."
+            );
+
+        }
+
+
+        /*
+         * The data can be either:
+         *
+         * 1. An array:
          *
          * const questions = [...]
          *
-         * let questions = [...]
+         * OR
          *
-         * var questions = [...]
+         * 2. An object containing topic arrays:
          *
-         * as well as named arrays.
+         * const questions = {
+         *     "Topic": [...]
+         * };
          */
 
 
-        const beforeKeys =
-            new Set(
-                Object.keys(window)
-            );
-
-
-        const script =
-            document.createElement(
-                "script"
-            );
-
-
-        /*
-         * Convert the question file into a Blob URL.
-         * This lets the browser execute it exactly like
-         * a normal JavaScript file.
-         */
-
-
-        const blob =
-            new Blob(
-                [source],
-                {
-                    type:
-                        "text/javascript"
-                }
-            );
-
-
-        const blobURL =
-            URL.createObjectURL(
-                blob
-            );
-
-
-        await new Promise(
-            (resolve, reject) => {
-
-                script.src =
-                    blobURL;
-
-                script.onload =
-                    resolve;
-
-                script.onerror =
-                    reject;
-
-                document.head.appendChild(
-                    script
-                );
-
-            }
-        );
-
-
-        URL.revokeObjectURL(
-            blobURL
-        );
-
-
-        /*
-         * If the question file declares a global
-         * variable using var, it will appear here.
-         *
-         * For const/let files we also inspect the
-         * source and evaluate the array safely.
-         */
-
-
-        const globalCandidates =
-            Object.keys(window)
-                .filter(
-                    key =>
-                        !beforeKeys.has(key)
-                );
-
-
-        for (
-            const key of globalCandidates
+        if (
+            Array.isArray(questionData)
         ) {
 
+            allQuestions =
+                questionData;
+
+        }
+
+        else if (
+            questionData &&
+            typeof questionData === "object"
+        ) {
+
+            /*
+             * First try to find an exact topic match.
+             */
+
+            const exactTopic =
+                questionData[topicName];
+
+
             if (
-                Array.isArray(
-                    window[key]
-                )
+                Array.isArray(exactTopic)
             ) {
 
                 allQuestions =
-                    window[key];
-
-                break;
+                    exactTopic;
 
             }
 
-        }
+            else {
+
+                /*
+                 * Topic names sometimes differ slightly.
+                 *
+                 * Example:
+                 *
+                 * URL:
+                 * People, Places & Vehicles
+                 *
+                 * File:
+                 * People Places Vehicles
+                 *
+                 * Normalise punctuation so both can match.
+                 */
+
+                const normaliseTopicName =
+                    value =>
+                        String(value)
+                            .toLowerCase()
+                            .replace(
+                                /[^a-z0-9]+/g,
+                                ""
+                            );
 
 
-        /*
-         * Most modern question files use const/let.
-         * In that case the variable isn't attached to
-         * window, so extract the array expression.
-         */
+                const wantedTopic =
+                    normaliseTopicName(
+                        topicName
+                    );
 
 
-        if (
-            allQuestions.length === 0
-        ) {
+                const matchingKey =
+                    Object.keys(
+                        questionData
+                    ).find(
+                        key =>
+                            normaliseTopicName(
+                                key
+                            ) === wantedTopic
+                    );
 
-            const match =
-                source.match(
-                    /(?:const|let|var)\s+[A-Za-z_][A-Za-z0-9_]*\s*=\s*(\[[\s\S]*\]);?\s*$/
-                );
 
-
-            if (match) {
-
-                try {
+                if (
+                    matchingKey &&
+                    Array.isArray(
+                        questionData[
+                            matchingKey
+                        ]
+                    )
+                ) {
 
                     allQuestions =
-                        Function(
-                            '"use strict"; return (' +
-                            match[1] +
-                            ')'
-                        )();
+                        questionData[
+                            matchingKey
+                        ];
 
                 }
 
-                catch (error) {
+                else {
 
-                    console.error(
-                        "Question array evaluation failed:",
-                        error
-                    );
+                    /*
+                     * If there is only one question array
+                     * in the object, use it.
+                     *
+                     * This handles files like:
+                     *
+                     * {
+                     *     "People Places Vehicles": [...]
+                     * }
+                     */
 
-                }
-
-            }
-
-        }
-
-
-        /*
-         * Final fallback:
-         *
-         * Find the first array beginning with an object
-         * containing "type".
-         */
-
-
-        if (
-            allQuestions.length === 0
-        ) {
-
-            const arrayStart =
-                source.indexOf("[\n");
-
-            if (
-                arrayStart !== -1
-            ) {
-
-                const arraySource =
-                    source.slice(
-                        arrayStart
-                    );
-
-
-                try {
-
-                    const possibleQuestions =
-                        Function(
-                            '"use strict"; return (' +
-                            arraySource +
-                            ')'
-                        )();
+                    const arrayValues =
+                        Object.values(
+                            questionData
+                        ).filter(
+                            value =>
+                                Array.isArray(
+                                    value
+                                )
+                        );
 
 
                     if (
-                        Array.isArray(
-                            possibleQuestions
-                        )
+                        arrayValues.length === 1
                     ) {
 
                         allQuestions =
-                            possibleQuestions;
+                            arrayValues[0];
 
                     }
 
                 }
 
-                catch {
-
-                    /* Final validation below handles it. */
-
-                }
-
             }
 
         }
 
 
         /*
-         * Remove anything that isn't an actual
-         * multiple-choice question.
+         * Make sure we actually got an array.
          */
 
+        if (
+            !Array.isArray(allQuestions)
+        ) {
+
+            throw new Error(
+                "No question array was found for this topic."
+            );
+
+        }
+
+
+        /*
+         * Sprint uses MULTIPLE-CHOICE questions only.
+         *
+         * Written questions are deliberately excluded.
+         */
 
         allQuestions =
             allQuestions.filter(
                 question =>
                     question &&
                     typeof question === "object" &&
+                    question.type === "multiple" &&
                     Array.isArray(
                         question.answers
                     ) &&
                     question.answers.length >= 2 &&
                     typeof question.question ===
-                        "string"
+                        "string" &&
+                    (
+                        question.correctAnswer !==
+                        undefined ||
+                        question.correct !==
+                        undefined
+                    )
             );
 
 
@@ -392,12 +414,21 @@ async function loadQuestionFile() {
 
 
         console.log(
-            "Loaded " +
-            allQuestions.length +
-            " questions for " +
+            "StudySprint Sprint loaded:",
+            allQuestions.length,
+            "multiple-choice questions"
+        );
+
+
+        console.log(
+            "Topic:",
             topicName
         );
 
+
+        /*
+         * Start the Sprint.
+         */
 
         startSprint();
 
@@ -441,7 +472,7 @@ function normaliseQuestion(question) {
 
 
     /*
-     * Support the older format:
+     * Support:
      *
      * correct: 2
      */
@@ -460,7 +491,7 @@ function normaliseQuestion(question) {
 
 
     /*
-     * Support another possible format:
+     * Support:
      *
      * correct: "answer text"
      */
@@ -1196,21 +1227,3 @@ function escapeHtml(text) {
         .replace(
             />/g,
             "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadQuestionFile();
