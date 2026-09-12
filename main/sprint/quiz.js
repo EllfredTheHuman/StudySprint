@@ -73,8 +73,12 @@ if (!topicName || !questionFile) {
    TITLE
 ========================================================= */
 
-topicTitle.textContent =
-    topicName || "Sprint";
+if (topicTitle) {
+
+    topicTitle.textContent =
+        topicName || "Sprint";
+
+}
 
 
 /* =========================================================
@@ -112,12 +116,37 @@ function shuffle(array) {
 
 
 /* =========================================================
+   NORMALISE TOPIC NAME
+========================================================= */
+
+function normaliseTopicName(value) {
+
+    return String(value || "")
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]+/g,
+            ""
+        );
+
+}
+
+
+/* =========================================================
    LOAD QUESTION FILE
 ========================================================= */
 
 async function loadQuestionFile() {
 
     try {
+
+        if (!questionFile) {
+
+            throw new Error(
+                "No question file was supplied."
+            );
+
+        }
+
 
         const response =
             await fetch(
@@ -143,7 +172,7 @@ async function loadQuestionFile() {
 
 
         /*
-         * Your question files use structures like:
+         * Question files look like:
          *
          * const japanesePeoplePlacesVehiclesQuestions = {
          *
@@ -153,7 +182,7 @@ async function loadQuestionFile() {
          *
          * };
          *
-         * So we first find the variable name.
+         * Find the variable name.
          */
 
         const variableMatch =
@@ -175,16 +204,12 @@ async function loadQuestionFile() {
             variableMatch[1];
 
 
-        /*
-         * Evaluate the actual question file.
-         *
-         * This is much safer for our question-file format
-         * than injecting it as a <script> and guessing
-         * window variables.
-         */
-
         let questionData;
 
+
+        /*
+         * Evaluate the file and return the variable.
+         */
 
         try {
 
@@ -201,7 +226,7 @@ async function loadQuestionFile() {
         catch (error) {
 
             console.error(
-                "Could not evaluate question file:",
+                "Question file evaluation error:",
                 error
             );
 
@@ -212,26 +237,17 @@ async function loadQuestionFile() {
         }
 
 
-        /*
-         * The data can be either:
-         *
-         * 1. An array:
-         *
-         * const questions = [...]
-         *
-         * OR
-         *
-         * 2. An object containing topic arrays:
-         *
-         * const questions = {
-         *     "Topic": [...]
-         * };
-         */
-
+        /* =====================================================
+           FIND QUESTION ARRAY
+        ===================================================== */
 
         if (
             Array.isArray(questionData)
         ) {
+
+            /*
+             * File directly contains an array.
+             */
 
             allQuestions =
                 questionData;
@@ -244,47 +260,33 @@ async function loadQuestionFile() {
         ) {
 
             /*
-             * First try to find an exact topic match.
+             * First try the exact URL topic.
              */
 
-            const exactTopic =
-                questionData[topicName];
-
-
             if (
-                Array.isArray(exactTopic)
+                Array.isArray(
+                    questionData[topicName]
+                )
             ) {
 
                 allQuestions =
-                    exactTopic;
+                    questionData[topicName];
 
             }
 
             else {
 
                 /*
-                 * Topic names sometimes differ slightly.
+                 * Match topic names after removing punctuation.
                  *
-                 * Example:
+                 * For example:
                  *
-                 * URL:
-                 * People, Places & Vehicles
+                 * "People, Places & Vehicles"
                  *
-                 * File:
-                 * People Places Vehicles
+                 * matches:
                  *
-                 * Normalise punctuation so both can match.
+                 * "People Places Vehicles"
                  */
-
-                const normaliseTopicName =
-                    value =>
-                        String(value)
-                            .toLowerCase()
-                            .replace(
-                                /[^a-z0-9]+/g,
-                                ""
-                            );
-
 
                 const wantedTopic =
                     normaliseTopicName(
@@ -322,17 +324,13 @@ async function loadQuestionFile() {
                 else {
 
                     /*
-                     * If there is only one question array
-                     * in the object, use it.
+                     * Final object fallback.
                      *
-                     * This handles files like:
-                     *
-                     * {
-                     *     "People Places Vehicles": [...]
-                     * }
+                     * If the object contains exactly one
+                     * array, use that array.
                      */
 
-                    const arrayValues =
+                    const arrays =
                         Object.values(
                             questionData
                         ).filter(
@@ -344,11 +342,11 @@ async function loadQuestionFile() {
 
 
                     if (
-                        arrayValues.length === 1
+                        arrays.length === 1
                     ) {
 
                         allQuestions =
-                            arrayValues[0];
+                            arrays[0];
 
                     }
 
@@ -359,9 +357,9 @@ async function loadQuestionFile() {
         }
 
 
-        /*
-         * Make sure we actually got an array.
-         */
+        /* =====================================================
+           VALIDATE ARRAY
+        ===================================================== */
 
         if (
             !Array.isArray(allQuestions)
@@ -374,10 +372,19 @@ async function loadQuestionFile() {
         }
 
 
+        console.log(
+            "Total questions found:",
+            allQuestions.length
+        );
+
+
         /*
-         * Sprint uses MULTIPLE-CHOICE questions only.
+         * Your files contain:
          *
-         * Written questions are deliberately excluded.
+         * 50 multiple-choice
+         * 50 written
+         *
+         * Sprint should ONLY use multiple-choice.
          */
 
         allQuestions =
@@ -386,19 +393,26 @@ async function loadQuestionFile() {
                     question &&
                     typeof question === "object" &&
                     question.type === "multiple" &&
+                    typeof question.question === "string" &&
                     Array.isArray(
                         question.answers
                     ) &&
                     question.answers.length >= 2 &&
-                    typeof question.question ===
-                        "string" &&
                     (
-                        question.correctAnswer !==
-                        undefined ||
-                        question.correct !==
-                        undefined
+                        typeof question.correctAnswer ===
+                            "string" ||
+                        typeof question.correct ===
+                            "string" ||
+                        typeof question.correct ===
+                            "number"
                     )
             );
+
+
+        console.log(
+            "Multiple-choice questions found:",
+            allQuestions.length
+        );
 
 
         if (
@@ -413,21 +427,8 @@ async function loadQuestionFile() {
         }
 
 
-        console.log(
-            "StudySprint Sprint loaded:",
-            allQuestions.length,
-            "multiple-choice questions"
-        );
-
-
-        console.log(
-            "Topic:",
-            topicName
-        );
-
-
         /*
-         * Start the Sprint.
+         * Start Sprint.
          */
 
         startSprint();
@@ -493,7 +494,7 @@ function normaliseQuestion(question) {
     /*
      * Support:
      *
-     * correct: "answer text"
+     * correct: "answer"
      */
 
     if (
@@ -1139,91 +1140,4 @@ function showError(message) {
         <main style="
             min-height:100vh;
             display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:24px;
-            background:#08080d;
-            color:#f5f5f7;
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                'Segoe UI',
-                sans-serif;
-        ">
-
-            <section style="
-                width:min(460px,100%);
-                padding:30px;
-                border:1px solid rgba(255,255,255,.08);
-                border-radius:22px;
-                background:#101016;
-                text-align:center;
-            ">
-
-                <div style="
-                    font-size:38px;
-                    margin-bottom:15px;
-                ">
-                    ⚠️
-                </div>
-
-                <h1 style="
-                    margin:0 0 10px;
-                    font-size:25px;
-                ">
-                    Sprint unavailable
-                </h1>
-
-                <p style="
-                    margin:0 0 22px;
-                    color:#777782;
-                    font-size:13px;
-                    line-height:1.5;
-                ">
-                    ${escapeHtml(message)}
-                </p>
-
-                <a
-                    href="index.html"
-                    style="
-                        display:block;
-                        padding:14px;
-                        border-radius:13px;
-                        background:#8875f5;
-                        color:white;
-                        text-decoration:none;
-                        font-weight:800;
-                        font-size:13px;
-                    "
-                >
-                    Back to Sprints
-                </a>
-
-            </section>
-
-        </main>
-
-    `;
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(text) {
-
-    return String(text)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
+            alig
