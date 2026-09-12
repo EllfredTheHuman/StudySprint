@@ -1,3 +1,4 @@
+```js
 /* =========================================================
    STUDYSPRINT — SPRINT QUIZ ENGINE
 ========================================================= */
@@ -39,7 +40,7 @@ const progressBar = document.getElementById("progress-bar");
 
 
 /* =========================================================
-   BASIC SETUP
+   SETUP
 ========================================================= */
 
 if (topicTitle) {
@@ -64,7 +65,6 @@ function shuffle(array) {
 
         [result[i], result[j]] =
             [result[j], result[i]];
-
     }
 
     return result;
@@ -72,7 +72,7 @@ function shuffle(array) {
 
 
 /* =========================================================
-   NORMALISE TOPIC NAME
+   NORMALISE TOPIC
 ========================================================= */
 
 function normaliseTopicName(value) {
@@ -102,7 +102,7 @@ async function loadQuestionFile() {
 
 
         /* -------------------------------------------------
-           FETCH QUESTION FILE
+           FETCH FILE
         ------------------------------------------------- */
 
         const response =
@@ -144,7 +144,7 @@ async function loadQuestionFile() {
 
 
         /* -------------------------------------------------
-           FIND VARIABLE
+           FIND QUESTION VARIABLE
         ------------------------------------------------- */
 
         const variableMatch =
@@ -172,15 +172,25 @@ async function loadQuestionFile() {
         );
 
 
-        /* -------------------------------------------------
-           TURN:
+        /* =================================================
+           CREATE A SAFE GLOBAL NAME
+        ================================================= */
 
-           const someVariable = {...}
+        window.__studySprintData =
+            undefined;
 
-           INTO:
 
-           export default {...}
-        ------------------------------------------------- */
+        /*
+         * Example:
+         *
+         * const japaneseQuestions = {...};
+         *
+         * becomes:
+         *
+         * window.__studySprintData = {...};
+         *
+         * This lets us retrieve the object after execution.
+         */
 
         const declarationPattern =
             new RegExp(
@@ -191,60 +201,69 @@ async function loadQuestionFile() {
             );
 
 
-        const moduleSource =
-            source.replace(
-                declarationPattern,
-                "export default"
-            );
+        if (
+            !declarationPattern.test(
+                source
+            )
+        ) {
 
-
-        /* -------------------------------------------------
-           CREATE MODULE
-        ------------------------------------------------- */
-
-        const blob =
-            new Blob(
-                [moduleSource],
-                {
-                    type:
-                        "text/javascript"
-                }
-            );
-
-
-        const moduleUrl =
-            URL.createObjectURL(blob);
-
-
-        let questionModule;
-
-
-        try {
-
-            /*
-             * IMPORTANT:
-             * Do NOT add ?v=... to a blob URL.
-             */
-
-            questionModule =
-                await import(moduleUrl);
-
-        } finally {
-
-            URL.revokeObjectURL(
-                moduleUrl
+            throw new Error(
+                "Could not locate question data."
             );
 
         }
 
 
-        /* -------------------------------------------------
-           GET DATA
-        ------------------------------------------------- */
+        const executableSource =
+            source.replace(
+                declarationPattern,
+                "window.__studySprintData ="
+            );
+
+
+        /* =================================================
+           EXECUTE QUESTION DATA
+        ================================================= */
+
+        try {
+
+            /*
+             * IMPORTANT:
+             *
+             * We deliberately use eval here because the
+             * question files are the user's own static
+             * StudySprint question files.
+             *
+             * There are NO Blob URLs, dynamic imports,
+             * Function() calls, or module URLs.
+             */
+
+            eval(executableSource);
+
+        } catch (error) {
+
+            console.error(
+                "Question file execution error:",
+                error
+            );
+
+            throw new Error(
+                "The question file contains invalid JavaScript."
+            );
+
+        }
+
 
         const questionData =
-            questionModule.default;
+            window.__studySprintData;
 
+
+        delete window.__studySprintData;
+
+
+        /* =================================================
+           CHECK DATA
+        ================================================= */
 
         if (
             questionData === undefined ||
@@ -259,16 +278,19 @@ async function loadQuestionFile() {
 
 
         console.log(
-            "Question data loaded:",
-            questionData
+            "Question data successfully loaded."
         );
 
 
         /* =================================================
-           FIND TOPIC
+           FIND TOPIC ARRAY
         ================================================= */
 
-        if (Array.isArray(questionData)) {
+        if (
+            Array.isArray(
+                questionData
+            )
+        ) {
 
             allQuestions =
                 questionData;
@@ -279,7 +301,7 @@ async function loadQuestionFile() {
 
 
             /* ------------------------------------------------
-               EXACT MATCH
+               EXACT TOPIC
             ------------------------------------------------ */
 
             if (
@@ -295,7 +317,7 @@ async function loadQuestionFile() {
 
 
                 /* ------------------------------------------------
-                   NORMALISED MATCH
+                   NORMALISED TOPIC
                 ------------------------------------------------ */
 
                 const wantedTopic =
@@ -364,7 +386,7 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           CHECK ARRAY
+           VALIDATE ARRAY
         ================================================= */
 
         if (
@@ -401,7 +423,9 @@ async function loadQuestionFile() {
                         typeof question !==
                             "object"
                     ) {
+
                         return false;
+
                     }
 
 
@@ -409,7 +433,9 @@ async function loadQuestionFile() {
                         question.type !==
                         "multiple"
                     ) {
+
                         return false;
+
                     }
 
 
@@ -417,7 +443,9 @@ async function loadQuestionFile() {
                         typeof question.question !==
                         "string"
                     ) {
+
                         return false;
+
                     }
 
 
@@ -426,7 +454,9 @@ async function loadQuestionFile() {
                             question.answers
                         )
                     ) {
+
                         return false;
+
                     }
 
 
@@ -434,7 +464,9 @@ async function loadQuestionFile() {
                         question.answers.length <
                         2
                     ) {
+
                         return false;
+
                     }
 
 
@@ -476,7 +508,7 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           START
+           START SPRINT
         ================================================= */
 
         startSprint();
@@ -492,7 +524,10 @@ async function loadQuestionFile() {
 
         showError(
             "We couldn't load the questions for " +
-            (topicName || "this topic") +
+            (
+                topicName ||
+                "this topic"
+            ) +
             "."
         );
 
@@ -551,7 +586,8 @@ function normaliseQuestion(
 
         question:
             String(
-                question.question || ""
+                question.question ||
+                ""
             ),
 
         answers,
@@ -807,10 +843,6 @@ function checkAnswer(
         ).trim();
 
 
-    /* =====================================================
-       CORRECT
-    ===================================================== */
-
     if (isCorrect) {
 
         score++;
@@ -855,11 +887,6 @@ function checkAnswer(
 
 
     } else {
-
-
-        /* =================================================
-           WRONG
-        ================================================= */
 
         selectedButton.classList.add(
             "wrong"
@@ -943,10 +970,6 @@ function checkAnswer(
 
     }
 
-
-    /* =====================================================
-       NEXT BUTTON
-    ===================================================== */
 
     if (
         currentQuestion ===
@@ -1100,10 +1123,6 @@ function finishSprint() {
     );
 
 
-    /* =====================================================
-       BEST SCORE
-    ===================================================== */
-
     const bestScore =
         Number(
             localStorage.getItem(
@@ -1125,10 +1144,6 @@ function finishSprint() {
 
     }
 
-
-    /* =====================================================
-       BEST STREAK
-    ===================================================== */
 
     const bestStreak =
         Number(
@@ -1152,10 +1167,6 @@ function finishSprint() {
     }
 
 
-    /* =====================================================
-       QUIZ COUNT
-    ===================================================== */
-
     const quizzes =
         Number(
             localStorage.getItem(
@@ -1171,10 +1182,6 @@ function finishSprint() {
         )
     );
 
-
-    /* =====================================================
-       RESULT
-    ===================================================== */
 
     const result = {
 
@@ -1214,7 +1221,7 @@ function finishSprint() {
 
 
 /* =========================================================
-   ERROR SCREEN
+   ERROR
 ========================================================= */
 
 function showError(
@@ -1332,7 +1339,7 @@ function escapeHtml(
 
 
 /* =========================================================
-   START LOADING
+   BEGIN
 ========================================================= */
 
 if (
@@ -1343,3 +1350,4 @@ if (
     loadQuestionFile();
 
 }
+```
