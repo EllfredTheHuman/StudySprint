@@ -1,3 +1,4 @@
+```js
 /* =========================================================
    STUDYSPRINT — SPRINT QUIZ ENGINE
 ========================================================= */
@@ -148,47 +149,38 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           FIND VARIABLE DECLARATION
+           FIND ASSIGNMENT
         ================================================= */
 
-        const variableMatch =
-            source.match(
-                /\b(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*/
-            );
+        const equalsIndex =
+            source.indexOf("=");
 
 
-        if (!variableMatch) {
+        if (equalsIndex === -1) {
 
             throw new Error(
-                "No question data variable was found."
+                "No question data assignment was found."
             );
 
         }
 
 
-        const variableName =
-            variableMatch[1];
-
-
-        console.log(
-            "Question variable:",
-            variableName
-        );
-
-
-        /* =================================================
-           GET OBJECT SOURCE
-        ================================================= */
-
-        const declarationEnd =
-            variableMatch.index +
-            variableMatch[0].length;
-
+        /*
+         * The question files use this structure:
+         *
+         * const someQuestions = {
+         *     "Topic": [...]
+         * };
+         *
+         * Everything after the first "=" is the object.
+         */
 
         let objectSource =
-            source.slice(
-                declarationEnd
-            ).trim();
+            source
+                .slice(
+                    equalsIndex + 1
+                )
+                .trim();
 
 
         /* =================================================
@@ -233,16 +225,12 @@ async function loadQuestionFile() {
 
         try {
 
-            const parser =
-                new Function(
+            questionData =
+                Function(
                     "return (" +
                     objectSource +
                     ");"
-                );
-
-
-            questionData =
-                parser();
+                )();
 
         } catch (error) {
 
@@ -329,7 +317,9 @@ async function loadQuestionFile() {
                NORMALISED MATCH
             --------------------------------------------- */
 
-            else {
+            if (
+                allQuestions.length === 0
+            ) {
 
                 const wantedTopic =
                     normaliseTopicName(
@@ -341,7 +331,7 @@ async function loadQuestionFile() {
                     Object.keys(
                         questionData
                     ).find(
-                        key => {
+                        function (key) {
 
                             return (
                                 normaliseTopicName(
@@ -385,10 +375,13 @@ async function loadQuestionFile() {
                     Object.values(
                         questionData
                     ).filter(
-                        value =>
-                            Array.isArray(
+                        function (value) {
+
+                            return Array.isArray(
                                 value
-                            )
+                            );
+
+                        }
                     );
 
 
@@ -437,7 +430,7 @@ async function loadQuestionFile() {
 
         allQuestions =
             allQuestions.filter(
-                question => {
+                function (question) {
 
                     if (
                         !question ||
@@ -616,8 +609,11 @@ function normaliseQuestion(question) {
         answers:
 
             answers.map(
-                answer =>
-                    String(answer)
+                function (answer) {
+
+                    return String(answer);
+
+                }
             ),
 
         correctAnswer:
@@ -779,10 +775,10 @@ function loadQuestion() {
 
 
     shuffledAnswers.forEach(
-        (
+        function (
             answer,
             index
-        ) => {
+        ) {
 
             const button =
                 document.createElement(
@@ -902,7 +898,7 @@ function checkAnswer(
 
 
     buttons.forEach(
-        button => {
+        function (button) {
 
             button.disabled =
                 true;
@@ -1002,7 +998,7 @@ function checkAnswer(
 
 
         buttons.forEach(
-            button => {
+            function (button) {
 
                 const text =
                     button.querySelector(
