@@ -4,31 +4,19 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>StudySprint Room</title>
 
-    <link
-        rel="stylesheet"
-        href="room.css"
-    >
+    <link rel="stylesheet" href="room.css">
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <a
-        href="index.html"
-        class="back-button"
-    >
+    <a href="index.html" class="back-button">
         ← Rooms
     </a>
 
@@ -41,224 +29,388 @@
 
 <main>
 
+    <section class="room-header">
 
-<section class="room-header">
-
-    <div
-        class="room-type"
-        id="room-type"
-    >
-        ROOM
-    </div>
-
-    <h1 id="room-name">
-        Loading...
-    </h1>
-
-    <p id="member-count">
-        Loading members...
-    </p>
-
-</section>
-
-
-<section class="code-card">
-
-    <p>
-        ROOM CODE
-    </p>
-
-    <strong id="room-code">
-        ------
-    </strong>
-
-    <button
-        id="copy-code"
-        type="button"
-    >
-        Copy Code
-    </button>
-
-    <span
-        id="copy-message"
-    ></span>
-
-</section>
-
-
-<nav class="room-nav">
-
-    <button
-        class="room-nav-button active"
-        data-section="home"
-    >
-        🏠
-        <span>Home</span>
-    </button>
-
-    <button
-        class="room-nav-button"
-        data-section="leaderboard"
-    >
-        🏆
-        <span>Leaderboard</span>
-    </button>
-
-    <button
-        class="room-nav-button"
-        data-section="assignments"
-    >
-        📋
-        <span>Assignments</span>
-    </button>
-
-    <button
-        class="room-nav-button"
-        data-section="members"
-    >
-        👥
-        <span>Members</span>
-    </button>
-
-    <button
-        class="room-nav-button"
-        data-section="challenges"
-    >
-        🎯
-        <span>Challenges</span>
-    </button>
-
-</nav>
-
-
-<section
-    class="room-section active"
-    id="section-home"
->
-
-    <div class="section-card">
-
-        <h2>
-            Welcome 👋
-        </h2>
-
-        <p id="welcome-text">
-            Welcome to your StudySprint room.
-        </p>
-
-    </div>
-
-
-    <div class="section-card">
-
-        <h2>
-            Activity
-        </h2>
-
-        <p class="muted">
-            Room activity will appear here.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section
-    class="room-section"
-    id="section-leaderboard"
->
-
-    <div class="section-card">
-
-        <h2>
-            🏆 Leaderboard
-        </h2>
-
-        <p class="muted">
-            Your room leaderboard will appear here.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section
-    class="room-section"
-    id="section-assignments"
->
-
-    <div class="section-card">
-
-        <h2>
-            📋 Assignments
-        </h2>
-
-        <p class="muted">
-            Assignments will appear here.
-        </p>
-
-    </div>
-
-</section>
-
-
-<section
-    class="room-section"
-    id="section-members"
->
-
-    <div class="section-card">
-
-        <h2>
-            👥 Members
-        </h2>
-
-        <div id="members-list">
-            Loading...
+        <div class="room-type" id="room-type">
+            ROOM
         </div>
 
-    </div>
+        <h1 id="room-name">
+            Loading...
+        </h1>
 
-</section>
-
-
-<section
-    class="room-section"
-    id="section-challenges"
->
-
-    <div class="section-card">
-
-        <h2>
-            🎯 Challenges
-        </h2>
-
-        <p class="muted">
-            Room challenges will appear here.
+        <p id="member-count">
+            Loading members...
         </p>
 
-    </div>
-
-</section>
+    </section>
 
 
-<div
-    class="room-error"
-    id="room-error"
->
-</div>
+    <section class="code-card">
 
+        <p>
+            ROOM CODE
+        </p>
+
+        <strong id="room-code">
+            ------
+        </strong>
+
+        <button id="copy-code" type="button">
+            Copy Code
+        </button>
+
+        <span id="copy-message"></span>
+
+    </section>
+
+
+    <nav class="room-nav">
+
+        <button class="room-nav-button active" data-section="home">
+            🏠
+            <span>Home</span>
+        </button>
+
+        <button class="room-nav-button" data-section="leaderboard">
+            🏆
+            <span>Leaderboard</span>
+        </button>
+
+        <button class="room-nav-button" data-section="assignments">
+            📋
+            <span>Assignments</span>
+        </button>
+
+        <button class="room-nav-button" data-section="members">
+            👥
+            <span>Members</span>
+        </button>
+
+        <button class="room-nav-button" data-section="challenges">
+            🎯
+            <span>Challenges</span>
+        </button>
+
+        <button class="room-nav-button" data-section="settings">
+            ⚙️
+            <span>Settings</span>
+        </button>
+
+    </nav>
+
+
+    <section class="room-section active" id="section-home">
+
+        <div class="section-card">
+
+            <h2>
+                Welcome 👋
+            </h2>
+
+            <p id="welcome-text">
+                Welcome to your StudySprint room.
+            </p>
+
+        </div>
+
+
+        <div class="section-card">
+
+            <h2>
+                Activity
+            </h2>
+
+            <div id="activity-list">
+
+                <p class="muted">
+                    No activity yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="room-section" id="section-leaderboard">
+
+        <div class="section-card">
+
+            <h2>
+                🏆 Leaderboard
+            </h2>
+
+            <div id="leaderboard-list">
+
+                <p class="muted">
+                    Loading leaderboard...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="room-section" id="section-assignments">
+
+        <div class="section-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        📋 Assignments
+                    </h2>
+
+                    <p class="muted">
+                        Goals for everyone in the room.
+                    </p>
+
+                </div>
+
+                <button
+                    id="new-assignment-button"
+                    class="small-action-button hidden"
+                    type="button"
+                >
+                    + New
+                </button>
+
+            </div>
+
+
+            <div id="assignments-list">
+
+                <p class="muted">
+                    No assignments yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="room-section" id="section-members">
+
+        <div class="section-card">
+
+            <h2>
+                👥 Members
+            </h2>
+
+            <div id="members-list">
+                Loading...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="room-section" id="section-challenges">
+
+        <div class="section-card">
+
+            <h2>
+                🎯 Challenges
+            </h2>
+
+            <p class="muted">
+                Room challenges will appear here.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="room-section" id="section-settings">
+
+        <div class="section-card settings-card">
+
+            <h2>
+                ⚙️ Room Settings
+            </h2>
+
+            <p class="muted">
+                Manage this room.
+            </p>
+
+
+            <div id="owner-settings">
+
+                <div class="danger-zone">
+
+                    <div>
+
+                        <h3>
+                            Delete Room
+                        </h3>
+
+                        <p>
+                            Permanently deletes this room and everything inside it.
+                        </p>
+
+                    </div>
+
+                    <button
+                        id="delete-room-button"
+                        class="danger-button"
+                        type="button"
+                    >
+                        Delete Room
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div id="member-settings" class="hidden">
+
+                <div class="settings-info">
+
+                    <h3>
+                        Room Settings
+                    </h3>
+
+                    <p>
+                        Only the room owner can change room settings.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div id="room-error" class="room-error"></div>
 
 </main>
 
 
-<script
-    type="module"
-    src="room.js"
-></script>
+<div id="assignment-modal" class="modal hidden">
 
+    <div class="modal-backdrop" id="assignment-backdrop"></div>
+
+    <div class="modal-card">
+
+        <button
+            class="close-button"
+            id="close-assignment-modal"
+            type="button"
+        >
+            ×
+        </button>
+
+
+        <h2>
+            New Assignment
+        </h2>
+
+        <p class="muted">
+            Choose something everyone in the room should work towards.
+        </p>
+
+
+        <label for="assignment-title">
+            Assignment name
+        </label>
+
+        <input
+            id="assignment-title"
+            type="text"
+            placeholder="e.g. Reach a 7 day streak"
+        >
+
+
+        <label for="assignment-type">
+            What are you tracking?
+        </label>
+
+        <select id="assignment-type">
+
+            <option value="study">
+                📚 Complete a Study
+            </option>
+
+            <option value="sprint">
+                🏃 Complete a Sprint
+            </option>
+
+            <option value="test">
+                📝 Complete a Test
+            </option>
+
+            <option value="streak">
+                🔥 Reach a Streak
+            </option>
+
+            <option value="achievement">
+                🎯 Earn Achievements
+            </option>
+
+            <option value="score">
+                📈 Reach a Score
+            </option>
+
+            <option value="activities">
+                ✅ Complete Activities
+            </option>
+
+            <option value="studyTime">
+                ⏱️ Study for Time
+            </option>
+
+            <option value="custom">
+                ✏️ Custom Goal
+            </option>
+
+        </select>
+
+
+        <div id="assignment-options"></div>
+
+
+        <label for="assignment-due">
+            Due date
+        </label>
+
+        <input
+            id="assignment-due"
+            type="date"
+        >
+
+
+        <button
+            id="save-assignment-button"
+            class="primary-button"
+            type="button"
+        >
+            Create Assignment
+        </button>
+
+        <p
+            id="assignment-message"
+            class="form-message"
+        ></p>
+
+    </div>
+
+</div>
+
+
+<script type="module" src="room.js"></script>
 
 </body>
 
