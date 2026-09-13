@@ -1,4 +1,4 @@
-const areaAndPerimeterQuestions = {
+window.areaAndPerimeterQuestions = {
     "Area And Perimeter": [
 
         // =========================
