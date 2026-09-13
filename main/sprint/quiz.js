@@ -1,6 +1,5 @@
-```js
 /* =========================================================
-   STUDYSPRINT — SPRINT QUIZ ENGINE
+   STUDYSPRINT — SPRINT QUIZ
 ========================================================= */
 
 const params = new URLSearchParams(window.location.search);
@@ -13,7 +12,6 @@ const QUESTION_COUNT = 5;
 
 let allQuestions = [];
 let sprintQuestions = [];
-
 let currentQuestion = 0;
 let score = 0;
 let answered = false;
@@ -39,29 +37,20 @@ const nextText = document.getElementById("next-text");
 const progressBar = document.getElementById("progress-bar");
 
 
-/* =========================================================
-   BASIC SETUP
-========================================================= */
-
 if (topicTitle) {
     topicTitle.textContent = topicName || "Sprint";
 }
 
 
 /* =========================================================
-   SHUFFLE
+   HELPERS
 ========================================================= */
 
 function shuffle(array) {
-
     const result = [...array];
 
     for (let i = result.length - 1; i > 0; i--) {
-
-        const j =
-            Math.floor(
-                Math.random() * (i + 1)
-            );
+        const j = Math.floor(Math.random() * (i + 1));
 
         [result[i], result[j]] =
             [result[j], result[i]];
@@ -71,21 +60,15 @@ function shuffle(array) {
 }
 
 
-/* =========================================================
-   NORMALISE TOPIC NAME
-========================================================= */
-
 function normaliseTopicName(value) {
-
     return String(value || "")
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "");
-
 }
 
 
 /* =========================================================
-   LOAD QUESTION FILE
+   LOAD QUESTIONS
 ========================================================= */
 
 async function loadQuestionFile() {
@@ -93,13 +76,8 @@ async function loadQuestionFile() {
     try {
 
         if (!questionFile) {
-
-            throw new Error(
-                "No question file was supplied."
-            );
-
+            throw new Error("No question file was supplied.");
         }
-
 
         console.log(
             "Loading question file:",
@@ -107,118 +85,73 @@ async function loadQuestionFile() {
         );
 
 
-        /* =================================================
-           FETCH FILE
-        ================================================= */
-
-        const response =
-            await fetch(
-                questionFile,
-                {
-                    cache: "no-store"
-                }
-            );
+        const response = await fetch(
+            questionFile,
+            {
+                cache: "no-store"
+            }
+        );
 
 
         if (!response.ok) {
-
             throw new Error(
                 "Could not load question file. HTTP " +
                 response.status
             );
-
         }
 
 
-        const source =
-            await response.text();
+        const source = await response.text();
 
 
         if (!source.trim()) {
-
-            throw new Error(
-                "The question file is empty."
-            );
-
+            throw new Error("The question file is empty.");
         }
 
 
-        console.log(
-            "Question file loaded successfully."
-        );
-
-
-        /* =================================================
-           FIND ASSIGNMENT
-        ================================================= */
-
-        const equalsIndex =
-            source.indexOf("=");
-
-
-        if (equalsIndex === -1) {
-
-            throw new Error(
-                "No question data assignment was found."
-            );
-
-        }
+        console.log("Question file loaded successfully.");
 
 
         /*
-         * The question files use this structure:
+         * Find the object after the variable assignment.
          *
-         * const someQuestions = {
-         *     "Topic": [...]
+         * Example:
+         *
+         * const japaneseQuestions = {
+         *     ...
          * };
-         *
-         * Everything after the first "=" is the object.
          */
+
+        const equalsIndex = source.indexOf("=");
+
+
+        if (equalsIndex === -1) {
+            throw new Error(
+                "No question data assignment was found."
+            );
+        }
+
 
         let objectSource =
             source
-                .slice(
-                    equalsIndex + 1
-                )
+                .slice(equalsIndex + 1)
                 .trim();
 
 
-        /* =================================================
-           REMOVE FINAL SEMICOLON
-        ================================================= */
+        /*
+         * Remove the final semicolon.
+         */
 
-        if (
-            objectSource.endsWith(";")
-        ) {
-
+        if (objectSource.endsWith(";")) {
             objectSource =
                 objectSource
-                    .slice(
-                        0,
-                        -1
-                    )
+                    .slice(0, -1)
                     .trim();
-
         }
 
 
-        if (!objectSource) {
+        console.log("Parsing question object...");
 
-            throw new Error(
-                "No question object was found."
-            );
-
-        }
-
-
-        console.log(
-            "Parsing question object..."
-        );
-
-
-        /* =================================================
-           PARSE JAVASCRIPT OBJECT
-        ================================================= */
 
         let questionData;
 
@@ -229,7 +162,7 @@ async function loadQuestionFile() {
                 Function(
                     "return (" +
                     objectSource +
-                    ");"
+                    ")"
                 )();
 
         } catch (error) {
@@ -239,23 +172,9 @@ async function loadQuestionFile() {
                 error
             );
 
-
             throw new Error(
                 "The question file contains invalid JavaScript."
             );
-
-        }
-
-
-        if (
-            questionData === null ||
-            questionData === undefined
-        ) {
-
-            throw new Error(
-                "The question data is empty."
-            );
-
         }
 
 
@@ -266,39 +185,24 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           FIND CORRECT TOPIC
+           FIND TOPIC
         ================================================= */
 
         allQuestions = [];
 
 
-        /* -------------------------------------------------
-           FILE ITSELF IS AN ARRAY
-        ------------------------------------------------- */
+        if (Array.isArray(questionData)) {
 
-        if (
-            Array.isArray(
-                questionData
-            )
-        ) {
+            allQuestions = questionData;
 
-            allQuestions =
-                questionData;
-
-        }
-
-
-        /* -------------------------------------------------
-           FILE IS AN OBJECT
-        ------------------------------------------------- */
-
-        else if (
+        } else if (
+            questionData &&
             typeof questionData === "object"
         ) {
 
-            /* ---------------------------------------------
-               EXACT MATCH
-            --------------------------------------------- */
+            /*
+             * Exact topic name.
+             */
 
             if (
                 topicName &&
@@ -313,100 +217,74 @@ async function loadQuestionFile() {
             }
 
 
-            /* ---------------------------------------------
-               NORMALISED MATCH
-            --------------------------------------------- */
+            /*
+             * Normalised topic name.
+             *
+             * This allows:
+             *
+             * People Places Vehicles
+             *
+             * to match:
+             *
+             * People, Places & Vehicles
+             */
 
-            if (
-                allQuestions.length === 0
-            ) {
+            if (allQuestions.length === 0) {
 
-                const wantedTopic =
+                const wanted =
                     normaliseTopicName(
                         topicName
                     );
 
 
-                const matchingKey =
+                const key =
                     Object.keys(
                         questionData
                     ).find(
-                        function (key) {
+                        function (item) {
 
                             return (
-                                normaliseTopicName(
-                                    key
-                                ) ===
-                                wantedTopic
+                                normaliseTopicName(item) ===
+                                wanted
                             );
 
                         }
                     );
 
 
-                if (
-                    matchingKey &&
-                    Array.isArray(
-                        questionData[
-                            matchingKey
-                        ]
-                    )
-                ) {
-
+                if (key) {
                     allQuestions =
-                        questionData[
-                            matchingKey
-                        ];
-
+                        questionData[key];
                 }
-
             }
 
 
-            /* ---------------------------------------------
-               SINGLE ARRAY FALLBACK
-            --------------------------------------------- */
+            /*
+             * If there is only one array in the file,
+             * use that array.
+             */
 
-            if (
-                allQuestions.length === 0
-            ) {
+            if (allQuestions.length === 0) {
 
                 const arrays =
                     Object.values(
                         questionData
                     ).filter(
                         function (value) {
-
-                            return Array.isArray(
-                                value
-                            );
-
+                            return Array.isArray(value);
                         }
                     );
 
 
-                if (
-                    arrays.length === 1
-                ) {
-
-                    allQuestions =
-                        arrays[0];
-
+                if (arrays.length === 1) {
+                    allQuestions = arrays[0];
                 }
-
             }
-
         }
 
 
-        /* =================================================
-           CHECK TOPIC
-        ================================================= */
-
         if (
-            !Array.isArray(
-                allQuestions
-            ) ||
+            !Array.isArray(allQuestions) ||
             allQuestions.length === 0
         ) {
 
@@ -414,7 +292,6 @@ async function loadQuestionFile() {
                 "No questions were found for the topic: " +
                 (topicName || "unknown")
             );
-
         }
 
 
@@ -424,90 +301,22 @@ async function loadQuestionFile() {
         );
 
 
-        /* =================================================
-           FILTER MULTIPLE CHOICE
-        ================================================= */
+        /*
+         * Sprint only uses multiple-choice questions.
+         */
 
         allQuestions =
             allQuestions.filter(
                 function (question) {
 
-                    if (
-                        !question ||
-                        typeof question !== "object"
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        question.type !== "multiple"
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        typeof question.question !== "string"
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        !Array.isArray(
-                            question.answers
-                        )
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
-                        question.answers.length < 2
-                    ) {
-
-                        return false;
-
-                    }
-
-
-                    if (
+                    return (
+                        question &&
+                        question.type === "multiple" &&
+                        typeof question.question === "string" &&
+                        Array.isArray(question.answers) &&
+                        question.answers.length >= 2 &&
                         typeof question.correctAnswer === "string"
-                    ) {
-
-                        return true;
-
-                    }
-
-
-                    if (
-                        typeof question.correct === "string"
-                    ) {
-
-                        return true;
-
-                    }
-
-
-                    if (
-                        typeof question.correct === "number"
-                    ) {
-
-                        return true;
-
-                    }
-
-
-                    return false;
+                    );
 
                 }
             );
@@ -519,20 +328,13 @@ async function loadQuestionFile() {
         );
 
 
-        if (
-            allQuestions.length === 0
-        ) {
+        if (allQuestions.length === 0) {
 
             throw new Error(
                 "The topic contains no usable multiple-choice questions."
             );
-
         }
 
-
-        /* =================================================
-           START
-        ================================================= */
 
         startSprint();
 
@@ -551,79 +353,7 @@ async function loadQuestionFile() {
             ". " +
             error.message
         );
-
     }
-
-}
-
-
-/* =========================================================
-   NORMALISE QUESTION
-========================================================= */
-
-function normaliseQuestion(question) {
-
-    const answers =
-        Array.isArray(
-            question.answers
-        )
-            ? [...question.answers]
-            : [];
-
-
-    let correctAnswer =
-        question.correctAnswer;
-
-
-    if (
-        correctAnswer === undefined &&
-        typeof question.correct === "number"
-    ) {
-
-        correctAnswer =
-            answers[
-                question.correct
-            ];
-
-    }
-
-
-    if (
-        correctAnswer === undefined &&
-        typeof question.correct === "string"
-    ) {
-
-        correctAnswer =
-            question.correct;
-
-    }
-
-
-    return {
-
-        question:
-            String(
-                question.question || ""
-            ),
-
-        answers:
-
-            answers.map(
-                function (answer) {
-
-                    return String(answer);
-
-                }
-            ),
-
-        correctAnswer:
-
-            correctAnswer === undefined
-                ? ""
-                : String(correctAnswer)
-
-    };
-
 }
 
 
@@ -634,9 +364,7 @@ function normaliseQuestion(question) {
 function startSprint() {
 
     sprintQuestions =
-        shuffle(
-            allQuestions
-        ).slice(
+        shuffle(allQuestions).slice(
             0,
             Math.min(
                 QUESTION_COUNT,
@@ -650,7 +378,6 @@ function startSprint() {
 
 
     loadQuestion();
-
 }
 
 
@@ -664,187 +391,100 @@ function loadQuestion() {
 
 
     if (feedback) {
-
-        feedback.classList.add(
-            "hidden"
-        );
-
-        feedback.classList.remove(
-            "wrong"
-        );
-
+        feedback.classList.add("hidden");
+        feedback.classList.remove("wrong");
     }
 
 
     if (nextButton) {
-
-        nextButton.classList.add(
-            "hidden"
-        );
-
+        nextButton.classList.add("hidden");
     }
 
 
     if (answersContainer) {
-
-        answersContainer.innerHTML =
-            "";
-
+        answersContainer.innerHTML = "";
     }
 
 
-    const rawQuestion =
-        sprintQuestions[
-            currentQuestion
-        ];
+    const question =
+        sprintQuestions[currentQuestion];
 
 
-    if (!rawQuestion) {
+    if (!question) {
 
         showError(
             "The question could not be loaded."
         );
 
         return;
-
-    }
-
-
-    const question =
-        normaliseQuestion(
-            rawQuestion
-        );
-
-
-    if (
-        !question.question ||
-        question.answers.length < 2 ||
-        !question.correctAnswer
-    ) {
-
-        showError(
-            "One of the questions in this topic is invalid."
-        );
-
-        return;
-
     }
 
 
     if (questionText) {
-
         questionText.textContent =
             question.question;
-
     }
 
 
     if (questionNumber) {
 
         questionNumber.textContent =
-            String(
-                currentQuestion + 1
-            ) +
+            String(currentQuestion + 1) +
             " / " +
-            String(
-                sprintQuestions.length
-            );
-
+            String(sprintQuestions.length);
     }
 
 
     if (progressBar) {
 
-        const progress =
+        progressBar.style.width =
             (
                 currentQuestion /
-                sprintQuestions.length
-            ) * 100;
-
-
-        progressBar.style.width =
-            progress + "%";
-
+                sprintQuestions.length *
+                100
+            ) + "%";
     }
 
 
-    const shuffledAnswers =
-        shuffle(
-            question.answers
-        );
+    const answers =
+        shuffle(question.answers);
 
 
-    shuffledAnswers.forEach(
-        function (
-            answer,
-            index
-        ) {
+    answers.forEach(
+        function (answer, index) {
 
             const button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
 
-            button.type =
-                "button";
-
-            button.className =
-                "answer-button";
+            button.type = "button";
+            button.className = "answer-button";
 
 
             const letter =
-                document.createElement(
-                    "span"
-                );
+                document.createElement("span");
 
-
-            letter.className =
-                "answer-letter";
-
+            letter.className = "answer-letter";
             letter.textContent =
-                String.fromCharCode(
-                    65 + index
-                );
+                String.fromCharCode(65 + index);
 
 
             const text =
-                document.createElement(
-                    "span"
-                );
+                document.createElement("span");
 
-
-            text.className =
-                "answer-text";
-
-            text.textContent =
-                answer;
+            text.className = "answer-text";
+            text.textContent = answer;
 
 
             const result =
-                document.createElement(
-                    "span"
-                );
+                document.createElement("span");
+
+            result.className = "answer-result";
 
 
-            result.className =
-                "answer-result";
-
-            result.textContent =
-                "";
-
-
-            button.appendChild(
-                letter
-            );
-
-            button.appendChild(
-                text
-            );
-
-            button.appendChild(
-                result
-            );
+            button.appendChild(letter);
+            button.appendChild(text);
+            button.appendChild(result);
 
 
             button.addEventListener(
@@ -861,13 +501,9 @@ function loadQuestion() {
             );
 
 
-            answersContainer.appendChild(
-                button
-            );
-
+            answersContainer.appendChild(button);
         }
     );
-
 }
 
 
@@ -882,9 +518,7 @@ function checkAnswer(
 ) {
 
     if (answered) {
-
         return;
-
     }
 
 
@@ -899,24 +533,17 @@ function checkAnswer(
 
     buttons.forEach(
         function (button) {
-
-            button.disabled =
-                true;
-
+            button.disabled = true;
         }
     );
 
 
-    const isCorrect =
-        String(
-            selectedAnswer
-        ).trim() ===
-        String(
-            correctAnswer
-        ).trim();
+    const correct =
+        String(selectedAnswer).trim() ===
+        String(correctAnswer).trim();
 
 
-    if (isCorrect) {
+    if (correct) {
 
         score++;
 
@@ -933,48 +560,31 @@ function checkAnswer(
 
 
         if (result) {
-
-            result.textContent =
-                "✓";
-
+            result.textContent = "✓";
         }
 
 
         if (feedbackIcon) {
-
-            feedbackIcon.textContent =
-                "✓";
-
+            feedbackIcon.textContent = "✓";
         }
 
 
         if (feedbackTitle) {
-
-            feedbackTitle.textContent =
-                "Correct";
-
+            feedbackTitle.textContent = "Correct";
         }
 
 
         if (feedbackText) {
-
             feedbackText.textContent =
                 "Nice work. Keep going.";
-
         }
 
 
         if (feedback) {
-
-            feedback.classList.remove(
-                "hidden"
-            );
-
-            feedback.classList.remove(
-                "wrong"
-            );
-
+            feedback.classList.remove("hidden");
+            feedback.classList.remove("wrong");
         }
+
 
     } else {
 
@@ -990,10 +600,7 @@ function checkAnswer(
 
 
         if (selectedResult) {
-
-            selectedResult.textContent =
-                "×";
-
+            selectedResult.textContent = "×";
         }
 
 
@@ -1009,9 +616,7 @@ function checkAnswer(
                 if (
                     text &&
                     text.textContent.trim() ===
-                    String(
-                        correctAnswer
-                    ).trim()
+                    String(correctAnswer).trim()
                 ) {
 
                     button.classList.add(
@@ -1026,92 +631,57 @@ function checkAnswer(
 
 
                     if (result) {
-
-                        result.textContent =
-                            "✓";
-
+                        result.textContent = "✓";
                     }
-
                 }
-
             }
         );
 
 
         if (feedbackIcon) {
-
-            feedbackIcon.textContent =
-                "×";
-
+            feedbackIcon.textContent = "×";
         }
 
 
         if (feedbackTitle) {
-
             feedbackTitle.textContent =
                 "Not quite";
-
         }
 
 
         if (feedbackText) {
-
             feedbackText.textContent =
                 "The correct answer is " +
                 correctAnswer +
                 ".";
-
         }
 
 
         if (feedback) {
-
-            feedback.classList.remove(
-                "hidden"
-            );
-
-            feedback.classList.add(
-                "wrong"
-            );
-
+            feedback.classList.remove("hidden");
+            feedback.classList.add("wrong");
         }
-
     }
 
 
     if (nextText) {
 
-        if (
+        nextText.textContent =
             currentQuestion ===
             sprintQuestions.length - 1
-        ) {
-
-            nextText.textContent =
-                "See Results";
-
-        } else {
-
-            nextText.textContent =
-                "Next Question";
-
-        }
-
+                ? "See Results"
+                : "Next Question";
     }
 
 
     if (nextButton) {
-
-        nextButton.classList.remove(
-            "hidden"
-        );
-
+        nextButton.classList.remove("hidden");
     }
-
 }
 
 
 /* =========================================================
-   NEXT QUESTION
+   NEXT BUTTON
 ========================================================= */
 
 if (nextButton) {
@@ -1121,9 +691,7 @@ if (nextButton) {
         function () {
 
             if (!answered) {
-
                 return;
-
             }
 
 
@@ -1138,7 +706,6 @@ if (nextButton) {
                 finishSprint();
 
                 return;
-
             }
 
 
@@ -1149,15 +716,13 @@ if (nextButton) {
                 top: 0,
                 behavior: "smooth"
             });
-
         }
     );
-
 }
 
 
 /* =========================================================
-   FINISH SPRINT
+   FINISH
 ========================================================= */
 
 function finishSprint() {
@@ -1166,23 +731,11 @@ function finishSprint() {
         sprintQuestions.length;
 
 
-    if (total === 0) {
-
-        showError(
-            "No questions were completed."
-        );
-
-        return;
-
-    }
-
-
     const percentage =
         Math.round(
-            (
-                score /
-                total
-            ) * 100
+            score /
+            total *
+            100
         );
 
 
@@ -1204,9 +757,7 @@ function finishSprint() {
         ) || 0;
 
 
-    if (
-        previousDate !== today
-    ) {
+    if (previousDate !== today) {
 
         const yesterday =
             new Date();
@@ -1227,9 +778,7 @@ function finishSprint() {
         } else {
 
             streak = 1;
-
         }
-
     }
 
 
@@ -1253,15 +802,12 @@ function finishSprint() {
         ) || 0;
 
 
-    if (
-        percentage > bestScore
-    ) {
+    if (percentage > bestScore) {
 
         localStorage.setItem(
             "bestScore",
             String(percentage)
         );
-
     }
 
 
@@ -1273,15 +819,12 @@ function finishSprint() {
         ) || 0;
 
 
-    if (
-        streak > bestStreak
-    ) {
+    if (streak > bestStreak) {
 
         localStorage.setItem(
             "bestStreak",
             String(streak)
         );
-
     }
 
 
@@ -1295,46 +838,28 @@ function finishSprint() {
 
     localStorage.setItem(
         "quizzes",
-        String(
-            quizzes + 1
-        )
+        String(quizzes + 1)
     );
 
 
     const result = {
-
-        subject:
-            subject,
-
-        topic:
-            topicName,
-
-        score:
-            score,
-
-        total:
-            total,
-
-        percentage:
-            percentage,
-
-        date:
-            today
-
+        subject: subject,
+        topic: topicName,
+        score: score,
+        total: total,
+        percentage: percentage,
+        date: today
     };
 
 
     localStorage.setItem(
         "lastSprintResult",
-        JSON.stringify(
-            result
-        )
+        JSON.stringify(result)
     );
 
 
     window.location.href =
         "results.html";
-
 }
 
 
@@ -1344,92 +869,49 @@ function finishSprint() {
 
 function showError(message) {
 
-    document.body.innerHTML =
-        "";
+    document.body.innerHTML = "";
 
 
     const main =
-        document.createElement(
-            "main"
-        );
+        document.createElement("main");
 
 
-    main.style.minHeight =
-        "100vh";
-
-    main.style.display =
-        "flex";
-
-    main.style.alignItems =
-        "center";
-
-    main.style.justifyContent =
-        "center";
-
-    main.style.padding =
-        "24px";
-
-    main.style.background =
-        "#0d0d12";
-
-    main.style.color =
-        "#ffffff";
-
+    main.style.minHeight = "100vh";
+    main.style.display = "flex";
+    main.style.alignItems = "center";
+    main.style.justifyContent = "center";
+    main.style.padding = "24px";
+    main.style.background = "#0d0d12";
+    main.style.color = "#ffffff";
     main.style.fontFamily =
         "Arial, sans-serif";
-
-    main.style.textAlign =
-        "center";
+    main.style.textAlign = "center";
 
 
     const box =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
-    box.style.width =
-        "100%";
-
-    box.style.maxWidth =
-        "500px";
-
-    box.style.padding =
-        "32px";
-
-    box.style.borderRadius =
-        "20px";
-
-    box.style.background =
-        "#17171f";
-
+    box.style.width = "100%";
+    box.style.maxWidth = "500px";
+    box.style.padding = "32px";
+    box.style.borderRadius = "20px";
+    box.style.background = "#17171f";
     box.style.border =
         "1px solid #292934";
 
-    box.style.boxShadow =
-        "0 20px 60px rgba(0,0,0,0.35)";
-
 
     const icon =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
 
-    icon.textContent =
-        "⚠️";
-
-    icon.style.fontSize =
-        "48px";
-
-    icon.style.marginBottom =
-        "16px";
+    icon.textContent = "⚠️";
+    icon.style.fontSize = "48px";
+    icon.style.marginBottom = "16px";
 
 
     const title =
-        document.createElement(
-            "h1"
-        );
+        document.createElement("h1");
 
 
     title.textContent =
@@ -1438,103 +920,50 @@ function showError(message) {
     title.style.margin =
         "0 0 12px";
 
-    title.style.fontSize =
-        "24px";
-
 
     const text =
-        document.createElement(
-            "p"
-        );
+        document.createElement("p");
 
 
-    text.textContent =
-        message;
-
-    text.style.margin =
-        "0 0 24px";
-
-    text.style.color =
-        "#aaaab5";
-
-    text.style.lineHeight =
-        "1.5";
+    text.textContent = message;
+    text.style.color = "#aaaab5";
+    text.style.lineHeight = "1.5";
 
 
-    const backButton =
-        document.createElement(
-            "button"
-        );
+    const button =
+        document.createElement("button");
 
 
-    backButton.type =
-        "button";
-
-    backButton.textContent =
-        "Back to Sprint";
-
-    backButton.style.border =
-        "0";
-
-    backButton.style.borderRadius =
-        "12px";
-
-    backButton.style.padding =
-        "14px 20px";
-
-    backButton.style.background =
-        "#8875f5";
-
-    backButton.style.color =
-        "#ffffff";
-
-    backButton.style.fontSize =
-        "15px";
-
-    backButton.style.fontWeight =
-        "700";
-
-    backButton.style.cursor =
-        "pointer";
+    button.type = "button";
+    button.textContent = "Back to Sprint";
 
 
-    backButton.addEventListener(
+    button.style.border = "0";
+    button.style.borderRadius = "12px";
+    button.style.padding = "14px 20px";
+    button.style.background = "#8875f5";
+    button.style.color = "#ffffff";
+    button.style.fontSize = "15px";
+    button.style.fontWeight = "700";
+
+
+    button.addEventListener(
         "click",
         function () {
-
             window.location.href =
                 "index.html";
-
         }
     );
 
 
-    box.appendChild(
-        icon
-    );
+    box.appendChild(icon);
+    box.appendChild(title);
+    box.appendChild(text);
+    box.appendChild(button);
 
-    box.appendChild(
-        title
-    );
+    main.appendChild(box);
 
-    box.appendChild(
-        text
-    );
-
-    box.appendChild(
-        backButton
-    );
-
-
-    main.appendChild(
-        box
-    );
-
-
-    document.body.appendChild(
-        main
-    );
-
+    document.body.appendChild(main);
 }
 
 
