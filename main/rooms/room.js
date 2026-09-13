@@ -6,9 +6,12 @@ import {
     getDatabase,
     ref,
     onValue,
+    get,
+    remove,
     push,
     set
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+
 
 
 const firebaseConfig = {
@@ -22,29 +25,49 @@ const firebaseConfig = {
 };
 
 
+
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 
-const params =
-    new URLSearchParams(window.location.search);
 
-const roomCode =
-    params.get("code");
+const params = new URLSearchParams(window.location.search);
+const roomCode = params.get("code");
 
 
-const userId =
+let userId =
+    localStorage.getItem("studysprint_username_id") ||
     localStorage.getItem("studysprint_user_id");
 
+
+if (!userId) {
+
+    userId =
+        "user_" +
+        Date.now() +
+        "_" +
+        Math.random()
+            .toString(36)
+            .slice(2, 8);
+
+    localStorage.setItem(
+        "studysprint_user_id",
+        userId
+    );
+}
+
+
 const username =
-    localStorage.getItem("studysprint_username") || "Student";
+    localStorage.getItem("studysprint_username") ||
+    "Student";
 
 
-const roomTypeElement =
-    document.getElementById("room-type");
 
 const roomNameElement =
     document.getElementById("room-name");
+
+const roomTypeElement =
+    document.getElementById("room-type");
 
 const memberCountElement =
     document.getElementById("member-count");
@@ -58,18 +81,67 @@ const copyCodeButton =
 const copyMessage =
     document.getElementById("copy-message");
 
+const welcomeText =
+    document.getElementById("welcome-text");
+
 const membersList =
     document.getElementById("members-list");
+
+const leaderboardList =
+    document.getElementById("leaderboard-list");
+
+const assignmentsList =
+    document.getElementById("assignments-list");
+
+const activityList =
+    document.getElementById("activity-list");
 
 const roomError =
     document.getElementById("room-error");
 
-const welcomeText =
-    document.getElementById("welcome-text");
+const newAssignmentButton =
+    document.getElementById("new-assignment-button");
+
+const assignmentModal =
+    document.getElementById("assignment-modal");
+
+const closeAssignmentModal =
+    document.getElementById("close-assignment-modal");
+
+const assignmentBackdrop =
+    document.getElementById("assignment-backdrop");
+
+const assignmentType =
+    document.getElementById("assignment-type");
+
+const assignmentOptions =
+    document.getElementById("assignment-options");
+
+const assignmentTitle =
+    document.getElementById("assignment-title");
+
+const assignmentDue =
+    document.getElementById("assignment-due");
+
+const saveAssignmentButton =
+    document.getElementById("save-assignment-button");
+
+const assignmentMessage =
+    document.getElementById("assignment-message");
+
+const deleteRoomButton =
+    document.getElementById("delete-room-button");
+
+const ownerSettings =
+    document.getElementById("owner-settings");
+
+const memberSettings =
+    document.getElementById("member-settings");
+
 
 
 let currentRoom = null;
-let isOwner = false;
+
 
 
 if (!roomCode) {
@@ -83,52 +155,83 @@ if (!roomCode) {
 }
 
 
-/* LOAD */
 
-function loadRoom() {
+/* =========================================================
+   LOAD ROOM
+========================================================= */
 
-    const roomRef =
-        ref(database, "rooms/" + roomCode);
+async function loadRoom() {
 
+    try {
+
+        const roomRef =
+            ref(
+                database,
+                "rooms/" + roomCode.toUpperCase()
+            );
+
+        const snapshot =
+            await get(roomRef);
+
+
+        if (!snapshot.exists()) {
+
+            showError("This room does not exist.");
+            return;
+
+        }
+
+
+        currentRoom =
+            snapshot.val();
+
+
+        renderRoom();
+
+        listenToRoom(roomRef);
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            "Could not load the room."
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   LIVE ROOM
+========================================================= */
+
+function listenToRoom(roomRef) {
 
     onValue(
         roomRef,
-
         snapshot => {
 
             if (!snapshot.exists()) {
 
-                showError(
-                    "This room does not exist or has been deleted."
-                );
-
+                window.location.href = "index.html";
                 return;
 
             }
 
+            currentRoom = snapshot.val();
 
-            currentRoom =
-                snapshot.val();
-
-
-            const members =
-                currentRoom.members || {};
-
-
-            isOwner =
-                currentRoom.owner === userId;
-
-
-            renderRoom(currentRoom, members);
+            renderRoom();
 
         },
-
         error => {
 
             console.error(error);
 
             showError(
-                "Couldn't load this room. Check your Firebase database rules."
+                "Could not connect to the room."
             );
 
         }
@@ -137,142 +240,158 @@ function loadRoom() {
 }
 
 
-/* RENDER */
 
-function renderRoom(room, members) {
+/* =========================================================
+   RENDER ROOM
+========================================================= */
 
-    const type =
-        room.type === "class"
-            ? "CLASS"
-            : "FRIENDS";
+function renderRoom() {
+
+    roomNameElement.textContent =
+        currentRoom.name || "StudySprint Room";
 
 
     roomTypeElement.textContent =
-        type;
-
-
-    roomNameElement.textContent =
-        room.name || "Untitled Room";
+        currentRoom.type === "class"
+            ? "CLASS ROOM"
+            : "FRIEND ROOM";
 
 
     roomCodeElement.textContent =
-        roomCode;
+        roomCode.toUpperCase();
 
 
-    const memberArray =
-        Object.entries(members)
-            .map(([id, member]) => ({
-                id,
-                ...member
-            }));
+    const members =
+        currentRoom.members || {};
+
+    const memberIds =
+        Object.keys(members);
 
 
     memberCountElement.textContent =
-        memberArray.length +
-        (
-            memberArray.length === 1
-                ? " member"
-                : " members"
-        );
+        memberIds.length === 1
+            ? "1 member"
+            : memberIds.length + " members";
 
 
     welcomeText.textContent =
-        isOwner
-            ? "You created this room. Let's get your group moving."
-            : "Welcome to " +
-              (room.name || "your room") +
-              ".";
+        "Welcome to " +
+        (currentRoom.name || "your room") +
+        ".";
 
 
-    renderMembers(memberArray);
+    const isOwner =
+        currentRoom.owner === userId;
 
-    renderLeaderboard(memberArray);
 
-    renderAssignments(room.assignments || {});
+    if (isOwner) {
 
-    renderChallenges(room.challenges || {});
+        ownerSettings.classList.remove("hidden");
+        memberSettings.classList.add("hidden");
 
-    renderActivity(room);
+        newAssignmentButton.classList.remove("hidden");
+
+    } else {
+
+        ownerSettings.classList.add("hidden");
+        memberSettings.classList.remove("hidden");
+
+        newAssignmentButton.classList.add("hidden");
+
+    }
+
+
+    renderMembers(members);
+    renderLeaderboard(members);
+    renderAssignments(
+        currentRoom.assignments || {},
+        members
+    );
+    renderActivity(
+        currentRoom.activity || {}
+    );
 
 }
 
 
-/* MEMBERS */
+
+/* =========================================================
+   MEMBERS
+========================================================= */
 
 function renderMembers(members) {
 
-    if (!members.length) {
+    const ids =
+        Object.keys(members);
 
-        membersList.innerHTML = `
-            <div class="empty-small">
-                No members yet.
-            </div>
-        `;
+
+    if (ids.length === 0) {
+
+        membersList.innerHTML =
+            '<p class="muted">No members yet.</p>';
 
         return;
+
     }
-
-
-    members.sort((a, b) => {
-
-        if (a.role === "owner") return -1;
-
-        if (b.role === "owner") return 1;
-
-        return String(a.name || "")
-            .localeCompare(
-                String(b.name || "")
-            );
-
-    });
 
 
     membersList.innerHTML = "";
 
 
-    members.forEach(member => {
+    ids.forEach(id => {
+
+        const member =
+            members[id] || {};
+
 
         const row =
             document.createElement("div");
-
 
         row.className =
             "member-row";
 
 
-        row.innerHTML = `
+        const avatar =
+            document.createElement("div");
 
-            <div class="member-avatar">
-                ${escapeHTML(
-                    getInitials(
-                        member.name || "Student"
-                    )
-                )}
-            </div>
+        avatar.className =
+            "member-avatar";
 
-            <div class="member-info">
 
-                <strong>
-                    ${escapeHTML(
-                        member.name || "Student"
-                    )}
-                </strong>
+        const name =
+            member.name ||
+            "Student";
 
-                <span>
-                    ${
-                        member.role === "owner"
-                            ? "Room owner"
-                            : "Member"
-                    }
-                </span>
 
-            </div>
+        avatar.textContent =
+            name.charAt(0).toUpperCase();
 
-            <div class="member-score">
-                ${Number(member.score) || 0} pts
-            </div>
 
-        `;
+        const nameElement =
+            document.createElement("div");
+
+        nameElement.className =
+            "member-name";
+
+        nameElement.textContent =
+            name;
+
+
+        const role =
+            document.createElement("div");
+
+        role.className =
+            "member-role";
+
+        role.textContent =
+            member.role === "owner"
+                ? "Owner"
+                : "Member";
+
+
+        row.appendChild(avatar);
+        row.appendChild(nameElement);
+        row.appendChild(role);
 
 
         membersList.appendChild(row);
@@ -282,859 +401,1189 @@ function renderMembers(members) {
 }
 
 
-/* LEADERBOARD */
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
 
 function renderLeaderboard(members) {
 
-    const section =
-        document.getElementById(
-            "section-leaderboard"
-        );
+    const ids =
+        Object.keys(members);
 
 
-    if (!section) return;
+    if (ids.length === 0) {
 
-
-    const sorted =
-        [...members].sort(
-            (a, b) =>
-                (Number(b.score) || 0) -
-                (Number(a.score) || 0)
-        );
-
-
-    let html = `
-
-        <div class="section-card">
-
-            <div class="section-card-heading">
-
-                <div>
-
-                    <span class="section-mini-label">
-                        ROOM RANKINGS
-                    </span>
-
-                    <h2>🏆 Leaderboard</h2>
-
-                </div>
-
-                <span class="live-pill">
-                    LIVE
-                </span>
-
-            </div>
-
-            <div class="leaderboard-list">
-
-    `;
-
-
-    if (!sorted.length) {
-
-        html += `
-            <div class="empty-small">
-                No members yet.
-            </div>
-        `;
-
-    } else {
-
-        sorted.forEach((member, index) => {
-
-            const position =
-                index + 1;
-
-
-            let medal =
-                String(position);
-
-
-            if (position === 1) medal = "🥇";
-
-            if (position === 2) medal = "🥈";
-
-            if (position === 3) medal = "🥉";
-
-
-            html += `
-
-                <div class="leaderboard-row">
-
-                    <div class="leaderboard-position">
-                        ${medal}
-                    </div>
-
-                    <div class="leaderboard-avatar">
-                        ${escapeHTML(
-                            getInitials(
-                                member.name || "Student"
-                            )
-                        )}
-                    </div>
-
-                    <div class="leaderboard-name">
-
-                        <strong>
-                            ${escapeHTML(
-                                member.name || "Student"
-                            )}
-                        </strong>
-
-                        ${
-                            member.role === "owner"
-                                ? "<span>OWNER</span>"
-                                : ""
-                        }
-
-                    </div>
-
-                    <div class="leaderboard-score">
-
-                        ${Number(member.score) || 0}
-
-                        <small>
-                            pts
-                        </small>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        });
-
-    }
-
-
-    html += `
-
-            </div>
-
-            <div class="leaderboard-note">
-                Scores will update as members complete StudySprint activities.
-            </div>
-
-        </div>
-
-    `;
-
-
-    section.innerHTML =
-        html;
-
-}
-
-
-/* ASSIGNMENTS */
-
-function renderAssignments(assignments) {
-
-    const section =
-        document.getElementById(
-            "section-assignments"
-        );
-
-
-    if (!section) return;
-
-
-    const items =
-        Object.entries(assignments);
-
-
-    let html = `
-
-        <div class="section-card">
-
-            <div class="section-card-heading">
-
-                <div>
-
-                    <span class="section-mini-label">
-                        ROOM WORK
-                    </span>
-
-                    <h2>📋 Assignments</h2>
-
-                </div>
-
-            </div>
-
-    `;
-
-
-    if (isOwner) {
-
-        html += `
-
-            <button
-                class="assignment-create-button"
-                id="new-assignment-button"
-                type="button"
-            >
-                + New Assignment
-            </button>
-
-        `;
-
-    }
-
-
-    if (!items.length) {
-
-        html += `
-
-            <div class="dashboard-empty">
-
-                <div class="dashboard-empty-icon">
-                    📋
-                </div>
-
-                <h3>No assignments yet</h3>
-
-                <p>
-                    ${
-                        isOwner
-                            ? "Create the first assignment for your room."
-                            : "Assignments created by the room owner will appear here."
-                    }
-                </p>
-
-            </div>
-
-        `;
-
-    } else {
-
-        html += `
-            <div class="dashboard-list">
-        `;
-
-
-        items
-            .sort(
-                (a, b) =>
-                    (Number(b[1].createdAt) || 0) -
-                    (Number(a[1].createdAt) || 0)
-            )
-            .forEach(([id, assignment]) => {
-
-                html += `
-
-                    <div class="dashboard-item">
-
-                        <div class="dashboard-item-icon">
-                            📚
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                ${escapeHTML(
-                                    assignment.title ||
-                                    "Assignment"
-                                )}
-                            </strong>
-
-                            <span>
-                                ${escapeHTML(
-                                    assignment.description ||
-                                    "StudySprint assignment"
-                                )}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            });
-
-
-        html += `
-            </div>
-        `;
-
-    }
-
-
-    html += `
-        </div>
-    `;
-
-
-    section.innerHTML =
-        html;
-
-
-    const createButton =
-        document.getElementById(
-            "new-assignment-button"
-        );
-
-
-    if (createButton) {
-
-        createButton.addEventListener(
-            "click",
-            openAssignmentModal
-        );
-
-    }
-
-}
-
-
-/* ASSIGNMENT MODAL */
-
-function openAssignmentModal() {
-
-    if (!isOwner) return;
-
-
-    let modal =
-        document.getElementById(
-            "assignment-modal"
-        );
-
-
-    if (!modal) {
-
-        modal =
-            document.createElement("div");
-
-        modal.id =
-            "assignment-modal";
-
-        modal.className =
-            "assignment-modal";
-
-
-        modal.innerHTML = `
-
-            <div class="assignment-modal-card">
-
-                <h2>
-                    New Assignment
-                </h2>
-
-                <p>
-                    Create an assignment for everyone in this room.
-                </p>
-
-                <input
-                    id="assignment-title"
-                    class="assignment-input"
-                    type="text"
-                    maxlength="80"
-                    placeholder="Assignment title"
-                >
-
-                <textarea
-                    id="assignment-description"
-                    class="assignment-textarea"
-                    maxlength="300"
-                    placeholder="Description or instructions"
-                ></textarea>
-
-                <div class="assignment-modal-actions">
-
-                    <button
-                        class="cancel-assignment"
-                        id="cancel-assignment"
-                        type="button"
-                    >
-                        Cancel
-                    </button>
-
-                    <button
-                        class="save-assignment"
-                        id="save-assignment"
-                        type="button"
-                    >
-                        Create
-                    </button>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        document.body.appendChild(modal);
-
-
-        document
-            .getElementById("cancel-assignment")
-            .addEventListener(
-                "click",
-                closeAssignmentModal
-            );
-
-
-        document
-            .getElementById("save-assignment")
-            .addEventListener(
-                "click",
-                saveAssignment
-            );
-
-
-        modal.addEventListener(
-            "click",
-            event => {
-
-                if (event.target === modal) {
-                    closeAssignmentModal();
-                }
-
-            }
-        );
-
-    }
-
-
-    modal.classList.add("open");
-
-
-    document
-        .getElementById("assignment-title")
-        .focus();
-
-}
-
-
-function closeAssignmentModal() {
-
-    const modal =
-        document.getElementById(
-            "assignment-modal"
-        );
-
-
-    if (modal) {
-
-        modal.classList.remove("open");
-
-    }
-
-}
-
-
-async function saveAssignment() {
-
-    if (!isOwner) return;
-
-
-    const titleInput =
-        document.getElementById(
-            "assignment-title"
-        );
-
-    const descriptionInput =
-        document.getElementById(
-            "assignment-description"
-        );
-
-
-    const title =
-        titleInput.value.trim();
-
-    const description =
-        descriptionInput.value.trim();
-
-
-    if (!title) {
-
-        titleInput.focus();
+        leaderboardList.innerHTML =
+            '<p class="muted">No members yet.</p>';
 
         return;
 
     }
 
 
-    const saveButton =
-        document.getElementById(
-            "save-assignment"
-        );
+    leaderboardList.innerHTML = "";
 
 
-    saveButton.disabled =
-        true;
+    const sorted =
+        ids
+            .map(id => {
 
-    saveButton.textContent =
-        "Saving...";
+                const member =
+                    members[id] || {};
 
 
-    try {
+                return {
+                    id: id,
+                    name:
+                        member.name ||
+                        "Student",
+                    score:
+                        Number(member.score) || 0
+                };
 
-        const assignmentsRef =
-            ref(
-                database,
-                "rooms/" +
-                roomCode +
-                "/assignments"
+            })
+            .sort(
+                (a, b) =>
+                    b.score - a.score
             );
 
 
-        const newAssignment =
-            push(assignmentsRef);
+    sorted.forEach((member, index) => {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "leaderboard-row";
 
 
-        await set(
-            newAssignment,
-            {
+        const rank =
+            document.createElement("div");
 
-                title: title,
+        rank.className =
+            "rank";
 
-                description: description,
-
-                createdAt: Date.now(),
-
-                createdBy: userId,
-
-                createdByName: username
-
-            }
-        );
+        rank.textContent =
+            index + 1;
 
 
-        titleInput.value =
-            "";
+        const name =
+            document.createElement("div");
 
-        descriptionInput.value =
-            "";
+        name.className =
+            "leaderboard-name";
+
+        name.textContent =
+            member.name;
 
 
-        closeAssignmentModal();
+        const score =
+            document.createElement("div");
+
+        score.className =
+            "leaderboard-value";
+
+        score.textContent =
+            member.score;
 
 
-    } catch (error) {
+        row.appendChild(rank);
+        row.appendChild(name);
+        row.appendChild(score);
 
-        console.error(error);
 
-        saveButton.disabled =
-            false;
+        leaderboardList.appendChild(row);
 
-        saveButton.textContent =
-            "Create";
-
-        alert(
-            "Couldn't create the assignment."
-        );
-
-    }
+    });
 
 }
 
 
-/* CHALLENGES */
 
-function renderChallenges(challenges) {
+/* =========================================================
+   ASSIGNMENTS
+========================================================= */
 
-    const section =
-        document.getElementById(
-            "section-challenges"
-        );
+function renderAssignments(
+    assignments,
+    members
+) {
 
-
-    if (!section) return;
-
-
-    const items =
-        Object.entries(challenges);
+    const ids =
+        Object.keys(assignments);
 
 
-    let html = `
+    if (ids.length === 0) {
 
-        <div class="section-card">
+        assignmentsList.innerHTML =
+            '<p class="muted">No assignments yet.</p>';
 
-            <div class="section-card-heading">
-
-                <div>
-
-                    <span class="section-mini-label">
-                        ROOM EVENTS
-                    </span>
-
-                    <h2>🎯 Challenges</h2>
-
-                </div>
-
-            </div>
-
-    `;
-
-
-    if (!items.length) {
-
-        html += `
-
-            <div class="dashboard-empty">
-
-                <div class="dashboard-empty-icon">
-                    🎯
-                </div>
-
-                <h3>No challenges yet</h3>
-
-                <p>
-                    Room challenges will appear here.
-                </p>
-
-            </div>
-
-        `;
-
-    } else {
-
-        html += `
-            <div class="dashboard-list">
-        `;
-
-
-        items.forEach(([id, challenge]) => {
-
-            html += `
-
-                <div class="dashboard-item">
-
-                    <div class="dashboard-item-icon">
-                        🎯
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            ${escapeHTML(
-                                challenge.title ||
-                                "Challenge"
-                            )}
-                        </strong>
-
-                        <span>
-                            ${escapeHTML(
-                                challenge.description ||
-                                "Room challenge"
-                            )}
-                        </span>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        });
-
-
-        html += `
-            </div>
-        `;
+        return;
 
     }
 
 
-    html += `
-        </div>
-    `;
+    assignmentsList.innerHTML = "";
 
 
-    section.innerHTML =
-        html;
+    ids
+        .sort((a, b) => {
 
-}
+            const first =
+                assignments[a].createdAt || 0;
 
+            const second =
+                assignments[b].createdAt || 0;
 
-/* ACTIVITY */
+            return second - first;
 
-function renderActivity(room) {
+        })
+        .forEach(id => {
 
-    const section =
-        document.getElementById(
-            "section-home"
-        );
-
-
-    if (!section) return;
-
-
-    const announcements =
-        Object.entries(
-            room.announcements || {}
-        );
+            const assignment =
+                assignments[id];
 
 
-    const oldActivity =
-        section.querySelector(
-            ".activity-card"
-        );
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "assignment-card";
 
 
-    if (oldActivity) {
-        oldActivity.remove();
-    }
+            const top =
+                document.createElement("div");
+
+            top.className =
+                "assignment-top";
 
 
-    const card =
-        document.createElement("div");
+            const title =
+                document.createElement("h3");
+
+            title.className =
+                "assignment-title";
+
+            title.textContent =
+                assignment.title ||
+                "Assignment";
 
 
-    card.className =
-        "section-card activity-card";
+            const type =
+                document.createElement("div");
+
+            type.className =
+                "assignment-type";
+
+            type.textContent =
+                getAssignmentTypeName(
+                    assignment.type
+                );
 
 
-    let html = `
-
-        <div class="section-card-heading">
-
-            <div>
-
-                <span class="section-mini-label">
-                    ROOM FEED
-                </span>
-
-                <h2>Activity</h2>
-
-            </div>
-
-            <span class="live-pill">
-                LIVE
-            </span>
-
-        </div>
-
-    `;
+            top.appendChild(title);
+            top.appendChild(type);
 
 
-    if (!announcements.length) {
+            const description =
+                document.createElement("p");
 
-        html += `
+            description.className =
+                "assignment-description";
 
-            <div class="dashboard-empty">
-
-                <div class="dashboard-empty-icon">
-                    ✨
-                </div>
-
-                <h3>Room is ready</h3>
-
-                <p>
-                    Announcements and activity will appear here.
-                </p>
-
-            </div>
-
-        `;
-
-    } else {
-
-        html += `
-            <div class="dashboard-list">
-        `;
+            description.textContent =
+                getAssignmentDescription(
+                    assignment
+                );
 
 
-        announcements
-            .sort(
-                (a, b) =>
-                    (Number(b[1].createdAt) || 0) -
-                    (Number(a[1].createdAt) || 0)
-            )
-            .forEach(([id, announcement]) => {
+            const memberIds =
+                Object.keys(members);
 
-                html += `
 
-                    <div class="activity-item">
+            let completed = 0;
 
-                        <div class="activity-icon">
-                            📢
-                        </div>
 
-                        <div>
+            memberIds.forEach(memberId => {
 
-                            <strong>
-                                ${escapeHTML(
-                                    announcement.title ||
-                                    "Announcement"
-                                )}
-                            </strong>
+                if (
+                    assignment.completed &&
+                    assignment.completed[memberId]
+                ) {
 
-                            <p>
-                                ${escapeHTML(
-                                    announcement.text ||
-                                    ""
-                                )}
-                            </p>
+                    completed++;
 
-                        </div>
-
-                    </div>
-
-                `;
+                }
 
             });
 
 
-        html += `
-            </div>
-        `;
-
-    }
+            const total =
+                memberIds.length;
 
 
-    card.innerHTML =
-        html;
+            const percentage =
+                total === 0
+                    ? 0
+                    : Math.round(
+                        completed /
+                        total *
+                        100
+                    );
 
 
-    section.appendChild(card);
+            const progress =
+                document.createElement("div");
+
+            progress.className =
+                "assignment-progress";
+
+
+            const progressHeader =
+                document.createElement("div");
+
+            progressHeader.className =
+                "progress-header";
+
+
+            const progressText =
+                document.createElement("span");
+
+            progressText.textContent =
+                completed +
+                " / " +
+                total +
+                " completed";
+
+
+            const percentText =
+                document.createElement("span");
+
+            percentText.textContent =
+                percentage + "%";
+
+
+            progressHeader.appendChild(
+                progressText
+            );
+
+            progressHeader.appendChild(
+                percentText
+            );
+
+
+            const progressBar =
+                document.createElement("div");
+
+            progressBar.className =
+                "progress-bar";
+
+
+            const progressFill =
+                document.createElement("div");
+
+            progressFill.className =
+                "progress-fill";
+
+            progressFill.style.width =
+                percentage + "%";
+
+
+            progressBar.appendChild(
+                progressFill
+            );
+
+
+            progress.appendChild(
+                progressHeader
+            );
+
+            progress.appendChild(
+                progressBar
+            );
+
+
+            card.appendChild(top);
+            card.appendChild(description);
+            card.appendChild(progress);
+
+
+            if (assignment.due) {
+
+                const due =
+                    document.createElement("div");
+
+                due.className =
+                    "assignment-due";
+
+                due.textContent =
+                    "Due " +
+                    formatDate(
+                        assignment.due
+                    );
+
+                card.appendChild(due);
+
+            }
+
+
+            assignmentsList.appendChild(card);
+
+        });
 
 }
 
 
-/* COPY */
 
-copyCodeButton.addEventListener(
+/* =========================================================
+   ASSIGNMENT FORM
+========================================================= */
+
+function updateAssignmentOptions() {
+
+    const type =
+        assignmentType.value;
+
+
+    assignmentOptions.innerHTML = "";
+
+
+    if (type === "study") {
+
+        addSelect(
+            "Topic",
+            "assignment-topic",
+            [
+                "Area and Perimeter",
+                "BIDMAS",
+                "Rocks and Minerals",
+                "Energy and Forces",
+                "Grammar",
+                "Geography",
+                "Japanese Characters",
+                "Japanese Travel",
+                "French Travel"
+            ]
+        );
+
+    }
+
+
+    if (type === "sprint") {
+
+        addSelect(
+            "Topic",
+            "assignment-topic",
+            [
+                "Area and Perimeter",
+                "BIDMAS",
+                "Rocks and Minerals",
+                "Energy and Forces",
+                "Grammar",
+                "Geography",
+                "Japanese Characters",
+                "Japanese Travel",
+                "French Travel"
+            ]
+        );
+
+    }
+
+
+    if (type === "test") {
+
+        addSelect(
+            "Topic",
+            "assignment-topic",
+            [
+                "Area and Perimeter",
+                "BIDMAS",
+                "Rocks and Minerals",
+                "Energy and Forces",
+                "Grammar",
+                "Geography",
+                "Japanese Characters",
+                "Japanese Travel",
+                "French Travel"
+            ]
+        );
+
+    }
+
+
+    if (type === "streak") {
+
+        addNumberInput(
+            "Required streak",
+            "streak-target",
+            "7",
+            "Number of days"
+        );
+
+    }
+
+
+    if (type === "achievement") {
+
+        addNumberInput(
+            "Achievements required",
+            "achievement-target",
+            "2",
+            "Number of achievements"
+        );
+
+    }
+
+
+    if (type === "score") {
+
+        addNumberInput(
+            "Required score",
+            "score-target",
+            "80",
+            "Percentage"
+        );
+
+    }
+
+
+    if (type === "activities") {
+
+        addNumberInput(
+            "Activities required",
+            "activities-target",
+            "5",
+            "Number of activities"
+        );
+
+    }
+
+
+    if (type === "studyTime") {
+
+        addNumberInput(
+            "Study time required",
+            "study-time-target",
+            "30",
+            "Minutes"
+        );
+
+    }
+
+
+    if (type === "custom") {
+
+        const wrapper =
+            document.createElement("div");
+
+        wrapper.className =
+            "dynamic-option";
+
+
+        const label =
+            document.createElement("label");
+
+        label.textContent =
+            "Goal description";
+
+        label.htmlFor =
+            "custom-goal";
+
+
+        const input =
+            document.createElement("input");
+
+        input.id =
+            "custom-goal";
+
+        input.type =
+            "text";
+
+        input.placeholder =
+            "e.g. Finish revision before Friday";
+
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+
+
+        assignmentOptions.appendChild(
+            wrapper
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   FORM HELPERS
+========================================================= */
+
+function addSelect(
+    labelText,
+    id,
+    values
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "dynamic-option";
+
+
+    const label =
+        document.createElement("label");
+
+    label.textContent =
+        labelText;
+
+    label.htmlFor =
+        id;
+
+
+    const select =
+        document.createElement("select");
+
+    select.id =
+        id;
+
+
+    values.forEach(value => {
+
+        const option =
+            document.createElement("option");
+
+        option.value =
+            value;
+
+        option.textContent =
+            value;
+
+        select.appendChild(option);
+
+    });
+
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(select);
+
+
+    assignmentOptions.appendChild(
+        wrapper
+    );
+
+}
+
+
+
+function addNumberInput(
+    labelText,
+    id,
+    value,
+    description
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        "dynamic-option";
+
+
+    const label =
+        document.createElement("label");
+
+    label.textContent =
+        labelText;
+
+    label.htmlFor =
+        id;
+
+
+    const descriptionElement =
+        document.createElement("p");
+
+    descriptionElement.className =
+        "option-description";
+
+    descriptionElement.textContent =
+        description;
+
+
+    const input =
+        document.createElement("input");
+
+    input.id =
+        id;
+
+    input.type =
+        "number";
+
+    input.min =
+        "1";
+
+    input.value =
+        value;
+
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(
+        descriptionElement
+    );
+    wrapper.appendChild(input);
+
+
+    assignmentOptions.appendChild(
+        wrapper
+    );
+
+}
+
+
+
+/* =========================================================
+   OPEN ASSIGNMENT
+========================================================= */
+
+newAssignmentButton.addEventListener(
+    "click",
+    () => {
+
+        assignmentTitle.value = "";
+        assignmentDue.value = "";
+        assignmentMessage.textContent = "";
+
+        assignmentType.value =
+            "study";
+
+        updateAssignmentOptions();
+
+        assignmentModal.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+
+assignmentType.addEventListener(
+    "change",
+    updateAssignmentOptions
+);
+
+
+
+function closeAssignment() {
+
+    assignmentModal.classList.add(
+        "hidden"
+    );
+
+}
+
+
+closeAssignmentModal.addEventListener(
+    "click",
+    closeAssignment
+);
+
+
+assignmentBackdrop.addEventListener(
+    "click",
+    closeAssignment
+);
+
+
+
+/* =========================================================
+   SAVE ASSIGNMENT
+========================================================= */
+
+saveAssignmentButton.addEventListener(
     "click",
     async () => {
 
+        if (
+            !currentRoom ||
+            currentRoom.owner !== userId
+        ) {
+
+            return;
+
+        }
+
+
+        const title =
+            assignmentTitle.value.trim();
+
+
+        if (!title) {
+
+            assignmentMessage.textContent =
+                "Give the assignment a name.";
+
+            return;
+
+        }
+
+
+        const type =
+            assignmentType.value;
+
+
+        const data = {
+
+            title: title,
+
+            type: type,
+
+            createdBy: userId,
+
+            createdAt: Date.now(),
+
+            due:
+                assignmentDue.value ||
+                null,
+
+            completed: {}
+
+        };
+
+
+        if (
+            type === "study" ||
+            type === "sprint" ||
+            type === "test"
+        ) {
+
+            const topic =
+                document.getElementById(
+                    "assignment-topic"
+                );
+
+            data.topic =
+                topic
+                    ? topic.value
+                    : "";
+
+        }
+
+
+        if (type === "streak") {
+
+            data.target =
+                Number(
+                    document.getElementById(
+                        "streak-target"
+                    ).value
+                );
+
+        }
+
+
+        if (type === "achievement") {
+
+            data.target =
+                Number(
+                    document.getElementById(
+                        "achievement-target"
+                    ).value
+                );
+
+        }
+
+
+        if (type === "score") {
+
+            data.target =
+                Number(
+                    document.getElementById(
+                        "score-target"
+                    ).value
+                );
+
+        }
+
+
+        if (type === "activities") {
+
+            data.target =
+                Number(
+                    document.getElementById(
+                        "activities-target"
+                    ).value
+                );
+
+        }
+
+
+        if (type === "studyTime") {
+
+            data.target =
+                Number(
+                    document.getElementById(
+                        "study-time-target"
+                    ).value
+                );
+
+        }
+
+
+        if (type === "custom") {
+
+            data.goal =
+                document.getElementById(
+                    "custom-goal"
+                ).value.trim();
+
+        }
+
+
         try {
 
-            await navigator.clipboard.writeText(
-                roomCode
+            saveAssignmentButton.disabled =
+                true;
+
+            saveAssignmentButton.textContent =
+                "Creating...";
+
+
+            const assignmentRef =
+                push(
+                    ref(
+                        database,
+                        "rooms/" +
+                        roomCode +
+                        "/assignments"
+                    )
+                );
+
+
+            await set(
+                assignmentRef,
+                data
             );
 
 
-            copyMessage.textContent =
-                "Copied!";
+            closeAssignment();
 
-            copyMessage.classList.add(
-                "show"
+
+        } catch (error) {
+
+            console.error(error);
+
+            assignmentMessage.textContent =
+                "Could not create the assignment.";
+
+        } finally {
+
+            saveAssignmentButton.disabled =
+                false;
+
+            saveAssignmentButton.textContent =
+                "Create Assignment";
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   ASSIGNMENT TEXT
+========================================================= */
+
+function getAssignmentTypeName(type) {
+
+    const names = {
+
+        study: "Study",
+
+        sprint: "Sprint",
+
+        test: "Test",
+
+        streak: "Streak",
+
+        achievement: "Achievement",
+
+        score: "Score",
+
+        activities: "Activities",
+
+        studyTime: "Study Time",
+
+        custom: "Custom"
+
+    };
+
+
+    return names[type] || "Goal";
+
+}
+
+
+
+function getAssignmentDescription(
+    assignment
+) {
+
+    if (assignment.type === "study") {
+
+        return (
+            "Complete the " +
+            assignment.topic +
+            " study."
+        );
+
+    }
+
+
+    if (assignment.type === "sprint") {
+
+        return (
+            "Complete a Sprint on " +
+            assignment.topic +
+            "."
+        );
+
+    }
+
+
+    if (assignment.type === "test") {
+
+        return (
+            "Complete the " +
+            assignment.topic +
+            " test."
+        );
+
+    }
+
+
+    if (assignment.type === "streak") {
+
+        return (
+            "Reach a " +
+            assignment.target +
+            " day streak."
+        );
+
+    }
+
+
+    if (assignment.type === "achievement") {
+
+        return (
+            "Earn " +
+            assignment.target +
+            " achievements."
+        );
+
+    }
+
+
+    if (assignment.type === "score") {
+
+        return (
+            "Reach a score of " +
+            assignment.target +
+            "% or higher."
+        );
+
+    }
+
+
+    if (assignment.type === "activities") {
+
+        return (
+            "Complete " +
+            assignment.target +
+            " activities."
+        );
+
+    }
+
+
+    if (assignment.type === "studyTime") {
+
+        return (
+            "Study for at least " +
+            assignment.target +
+            " minutes."
+        );
+
+    }
+
+
+    if (assignment.type === "custom") {
+
+        return (
+            assignment.goal ||
+            "Complete the custom goal."
+        );
+
+    }
+
+
+    return "Complete this assignment.";
+
+}
+
+
+
+/* =========================================================
+   ACTIVITY
+========================================================= */
+
+function renderActivity(activity) {
+
+    const ids =
+        Object.keys(activity);
+
+
+    if (ids.length === 0) {
+
+        activityList.innerHTML =
+            '<p class="muted">No activity yet.</p>';
+
+        return;
+
+    }
+
+
+    activityList.innerHTML = "";
+
+
+    ids
+        .sort((a, b) => {
+
+            return (
+                (activity[b].createdAt || 0) -
+                (activity[a].createdAt || 0)
+            );
+
+        })
+        .slice(0, 10)
+        .forEach(id => {
+
+            const item =
+                activity[id];
+
+
+            const wrapper =
+                document.createElement("div");
+
+            wrapper.className =
+                "activity-item";
+
+
+            const title =
+                document.createElement("div");
+
+            title.className =
+                "activity-title";
+
+            title.textContent =
+                item.text ||
+                "Room activity";
+
+
+            const time =
+                document.createElement("div");
+
+            time.className =
+                "activity-time";
+
+            time.textContent =
+                item.createdAt
+                    ? formatRelativeTime(
+                        item.createdAt
+                    )
+                    : "";
+
+
+            wrapper.appendChild(title);
+            wrapper.appendChild(time);
+
+
+            activityList.appendChild(wrapper);
+
+        });
+
+}
+
+
+
+/* =========================================================
+   DELETE ROOM
+========================================================= */
+
+deleteRoomButton.addEventListener(
+    "click",
+    async () => {
+
+        if (
+            !currentRoom ||
+            currentRoom.owner !== userId
+        ) {
+
+            return;
+
+        }
+
+
+        const confirmed =
+            window.confirm(
+                "Delete this room permanently? This cannot be undone."
             );
 
 
-            setTimeout(
-                () => {
+        if (!confirmed) {
 
-                    copyMessage.classList.remove(
-                        "show"
-                    );
+            return;
 
-                },
-                1600
+        }
+
+
+        try {
+
+            deleteRoomButton.disabled =
+                true;
+
+            deleteRoomButton.textContent =
+                "Deleting...";
+
+
+            await remove(
+                ref(
+                    database,
+                    "rooms/" + roomCode
+                )
             );
 
 
-        } catch {
+            window.location.href =
+                "index.html";
 
-            copyMessage.textContent =
-                "Copy failed";
+        } catch (error) {
 
-            copyMessage.classList.add(
-                "show"
+            console.error(error);
+
+            deleteRoomButton.disabled =
+                false;
+
+            deleteRoomButton.textContent =
+                "Delete Room";
+
+            showError(
+                "Could not delete the room."
             );
 
         }
@@ -1143,7 +1592,47 @@ copyCodeButton.addEventListener(
 );
 
 
-/* NAV */
+
+/* =========================================================
+   COPY CODE
+========================================================= */
+
+copyCodeButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await navigator.clipboard.writeText(
+                roomCode.toUpperCase()
+            );
+
+            copyMessage.textContent =
+                "Copied!";
+
+            setTimeout(
+                () => {
+                    copyMessage.textContent =
+                        "";
+                },
+                1800
+            );
+
+        } catch (error) {
+
+            copyMessage.textContent =
+                "Could not copy.";
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 document
     .querySelectorAll(".room-nav-button")
@@ -1153,7 +1642,7 @@ document
             "click",
             () => {
 
-                const target =
+                const section =
                     button.dataset.section;
 
 
@@ -1174,9 +1663,9 @@ document
                     .querySelectorAll(
                         ".room-section"
                     )
-                    .forEach(section => {
+                    .forEach(item => {
 
-                        section.classList.remove(
+                        item.classList.remove(
                             "active"
                         );
 
@@ -1188,19 +1677,26 @@ document
                 );
 
 
-                const section =
+                const target =
                     document.getElementById(
-                        "section-" + target
+                        "section-" +
+                        section
                     );
 
 
-                if (section) {
+                if (target) {
 
-                    section.classList.add(
+                    target.classList.add(
                         "active"
                     );
 
                 }
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
 
             }
         );
@@ -1208,61 +1704,95 @@ document
     });
 
 
-/* HELPERS */
 
-function getInitials(name) {
+/* =========================================================
+   HELPERS
+========================================================= */
 
-    const parts =
-        String(name)
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean);
+function formatDate(value) {
 
-
-    if (!parts.length) {
-        return "?";
-    }
+    const date =
+        new Date(
+            value + "T00:00:00"
+        );
 
 
-    if (parts.length === 1) {
-
-        return parts[0]
-            .slice(0, 2)
-            .toUpperCase();
-
-    }
-
-
-    return (
-        parts[0][0] +
-        parts[parts.length - 1][0]
-    ).toUpperCase();
+    return date.toLocaleDateString(
+        undefined,
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
 
 }
 
 
-function escapeHTML(value) {
 
-    const div =
-        document.createElement("div");
+function formatRelativeTime(timestamp) {
 
-    div.textContent =
-        value == null
-            ? ""
-            : String(value);
+    const difference =
+        Date.now() - timestamp;
 
-    return div.innerHTML;
+
+    const minutes =
+        Math.floor(
+            difference / 60000
+        );
+
+
+    if (minutes < 1) {
+        return "Just now";
+    }
+
+
+    if (minutes === 1) {
+        return "1 minute ago";
+    }
+
+
+    if (minutes < 60) {
+        return minutes + " minutes ago";
+    }
+
+
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+
+    if (hours === 1) {
+        return "1 hour ago";
+    }
+
+
+    if (hours < 24) {
+        return hours + " hours ago";
+    }
+
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+
+    if (days === 1) {
+        return "1 day ago";
+    }
+
+
+    return days + " days ago";
 
 }
+
 
 
 function showError(message) {
 
     roomError.textContent =
         message;
-
-    roomError.classList.add(
-        "visible"
-    );
 
 }
