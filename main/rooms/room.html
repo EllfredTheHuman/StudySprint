@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StudySprint Room</title>
+
+    <link
+        rel="stylesheet"
+        href="room.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <a
+        href="index.html"
+        class="back-button"
+    >
+        ← Rooms
+    </a>
+
+    <div class="logo">
+        sh🚀 StudySprint
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="room-header">
+
+    <div
+        class="room-type"
+        id="room-type"
+    >
+        ROOM
+    </div>
+
+    <h1 id="room-name">
+        Loading...
+    </h1>
+
+    <p id="member-count">
+        Loading members...
+    </p>
+
+</section>
+
+
+<section class="code-card">
+
+    <p>
+        ROOM CODE
+    </p>
+
+    <strong id="room-code">
+        ------
+    </strong>
+
+    <button
+        id="copy-code"
+        type="button"
+    >
+        Copy Code
+    </button>
+
+    <span
+        id="copy-message"
+    ></span>
+
+</section>
+
+
+<nav class="room-nav">
+
+    <button
+        class="room-nav-button active"
+        data-section="home"
+    >
+        🏠
+        <span>Home</span>
+    </button>
+
+    <button
+        class="room-nav-button"
+        data-section="leaderboard"
+    >
+        🏆
+        <span>Leaderboard</span>
+    </button>
+
+    <button
+        class="room-nav-button"
+        data-section="assignments"
+    >
+        📋
+        <span>Assignments</span>
+    </button>
+
+    <button
+        class="room-nav-button"
+        data-section="members"
+    >
+        👥
+        <span>Members</span>
+    </button>
+
+    <button
+        class="room-nav-button"
+        data-section="challenges"
+    >
+        🎯
+        <span>Challenges</span>
+    </button>
+
+</nav>
+
+
+<section
+    class="room-section active"
+    id="section-home"
+>
+
+    <div class="section-card">
+
+        <h2>
+            Welcome 👋
+        </h2>
+
+        <p id="welcome-text">
+            Welcome to your StudySprint room.
+        </p>
+
+    </div>
+
+
+    <div class="section-card">
+
+        <h2>
+            Activity
+        </h2>
+
+        <p class="muted">
+            Room activity will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section
+    class="room-section"
+    id="section-leaderboard"
+>
+
+    <div class="section-card">
+
+        <h2>
+            🏆 Leaderboard
+        </h2>
+
+        <p class="muted">
+            Your room leaderboard will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section
+    class="room-section"
+    id="section-assignments"
+>
+
+    <div class="section-card">
+
+        <h2>
+            📋 Assignments
+        </h2>
+
+        <p class="muted">
+            Assignments will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section
+    class="room-section"
+    id="section-members"
+>
+
+    <div class="section-card">
+
+        <h2>
+            👥 Members
+        </h2>
+
+        <div id="members-list">
+            Loading...
+        </div>
+
+    </div>
+
+</section>
+
+
+<section
+    class="room-section"
+    id="section-challenges"
+>
+
+    <div class="section-card">
+
+        <h2>
+            🎯 Challenges
+        </h2>
+
+        <p class="muted">
+            Room challenges will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+<div
+    class="room-error"
+    id="room-error"
+>
+</div>
+
+
+</main>
+
+
+<script
+    type="module"
+    src="room.js"
+></script>
+
+
+</body>
+
+</html>
