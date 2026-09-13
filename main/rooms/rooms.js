@@ -23,7 +23,7 @@ import {
 ========================================================= */
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
+    apiKey: "YOUR_FIREBASE_API_KEY",
     authDomain: "studysprint-67f63.firebaseapp.com",
     databaseURL: "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "studysprint-67f63",
@@ -33,7 +33,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const database = getDatabase(app);
 
 
@@ -45,10 +44,8 @@ let username =
     localStorage.getItem("studysprint_username") ||
     "Student";
 
-
 let userId =
     localStorage.getItem("studysprint_user_id");
-
 
 if (!userId) {
 
@@ -64,7 +61,6 @@ if (!userId) {
         "studysprint_user_id",
         userId
     );
-
 }
 
 
@@ -73,50 +69,45 @@ if (!userId) {
 ========================================================= */
 
 const createButton =
-    document.getElementById("create-room");
+    document.getElementById("create-room-button");
 
 const joinButton =
-    document.getElementById("join-room");
+    document.getElementById("join-room-button");
 
 const modal =
     document.getElementById("room-modal");
 
-const modalTitle =
-    document.getElementById("modal-title");
-
-const modalBody =
-    document.getElementById("modal-body");
+const modalContent =
+    document.getElementById("modal-content");
 
 const closeModal =
     document.getElementById("close-modal");
 
-const roomList =
-    document.getElementById("room-list");
+const modalBackdrop =
+    document.getElementById("modal-backdrop");
 
-const emptyState =
-    document.getElementById("empty-state");
+const roomList =
+    document.getElementById("rooms-list");
 
 
 /* =========================================================
    MODAL
 ========================================================= */
 
-function openModal(title, content) {
+function openModal(content) {
 
-    modalTitle.textContent = title;
+    modalContent.innerHTML = "";
 
-    modalBody.innerHTML = "";
+    modalContent.appendChild(content);
 
-    modalBody.appendChild(content);
-
-    modal.classList.add("show");
+    modal.classList.remove("hidden");
 
 }
 
 
 function closeRoomModal() {
 
-    modal.classList.remove("show");
+    modal.classList.add("hidden");
 
 }
 
@@ -127,26 +118,27 @@ closeModal.addEventListener(
 );
 
 
-modal.addEventListener(
+modalBackdrop.addEventListener(
     "click",
-    function (event) {
-
-        if (event.target === modal) {
-            closeRoomModal();
-        }
-
-    }
+    closeRoomModal
 );
 
 
 /* =========================================================
-   CREATE ROOM SCREEN
+   CREATE ROOM
 ========================================================= */
 
 function showCreateRoom() {
 
     const wrapper =
         document.createElement("div");
+
+
+    const title =
+        document.createElement("h2");
+
+    title.textContent =
+        "Create Room";
 
 
     const nameLabel =
@@ -193,7 +185,8 @@ function showCreateRoom() {
         "room-type-option selected";
 
     friendsOption.innerHTML =
-        "<strong>👥 Friends</strong><span>For you and your friends</span>";
+        "<strong>👥 Friends</strong>" +
+        "<span>For you and your friends</span>";
 
 
     const classOption =
@@ -205,7 +198,8 @@ function showCreateRoom() {
         "room-type-option";
 
     classOption.innerHTML =
-        "<strong>🏫 Class</strong><span>For a school class</span>";
+        "<strong>🏫 Class</strong>" +
+        "<span>For a school class</span>";
 
 
     friendsOption.addEventListener(
@@ -306,6 +300,10 @@ function showCreateRoom() {
                     );
 
 
+                const now =
+                    Date.now();
+
+
                 const roomData = {
 
                     name: name,
@@ -316,7 +314,7 @@ function showCreateRoom() {
 
                     ownerName: username,
 
-                    createdAt: Date.now(),
+                    createdAt: now,
 
                     members: {
 
@@ -324,7 +322,7 @@ function showCreateRoom() {
 
                             name: username,
 
-                            joinedAt: Date.now(),
+                            joinedAt: now,
 
                             role: "owner"
 
@@ -364,10 +362,13 @@ function showCreateRoom() {
 
             catch (err) {
 
-                console.error(err);
+                console.error(
+                    "Create room error:",
+                    err
+                );
 
                 error.textContent =
-                    "Something went wrong creating the room.";
+                    "Could not create the room. Check your Firebase connection.";
 
                 submitButton.disabled = false;
 
@@ -380,47 +381,41 @@ function showCreateRoom() {
     );
 
 
-    wrapper.appendChild(
-        nameLabel
-    );
+    wrapper.appendChild(title);
 
-    wrapper.appendChild(
-        nameInput
-    );
+    wrapper.appendChild(nameLabel);
 
-    wrapper.appendChild(
-        typeLabel
-    );
+    wrapper.appendChild(nameInput);
 
-    wrapper.appendChild(
-        typeContainer
-    );
+    wrapper.appendChild(typeLabel);
 
-    wrapper.appendChild(
-        submitButton
-    );
+    wrapper.appendChild(typeContainer);
 
-    wrapper.appendChild(
-        error
-    );
+    wrapper.appendChild(submitButton);
+
+    wrapper.appendChild(error);
 
 
-    openModal(
-        "Create Room",
-        wrapper
-    );
+    openModal(wrapper);
 
 }
 
 
 /* =========================================================
-   JOIN ROOM SCREEN
+   JOIN ROOM
 ========================================================= */
 
 function showJoinRoom() {
 
     const wrapper =
         document.createElement("div");
+
+
+    const title =
+        document.createElement("h2");
+
+    title.textContent =
+        "Join Room";
 
 
     const label =
@@ -525,23 +520,23 @@ function showJoinRoom() {
                     snapshot.val();
 
 
-                const memberRef =
+                const now =
+                    Date.now();
+
+
+                await set(
                     ref(
                         database,
                         "rooms/" +
                         code +
                         "/members/" +
                         userId
-                    );
-
-
-                await set(
-                    memberRef,
+                    ),
                     {
 
                         name: username,
 
-                        joinedAt: Date.now(),
+                        joinedAt: now,
 
                         role: "member"
 
@@ -563,10 +558,13 @@ function showJoinRoom() {
 
             catch (err) {
 
-                console.error(err);
+                console.error(
+                    "Join room error:",
+                    err
+                );
 
                 error.textContent =
-                    "Something went wrong joining the room.";
+                    "Could not join the room. Check your Firebase connection.";
 
                 join.disabled = false;
 
@@ -579,27 +577,18 @@ function showJoinRoom() {
     );
 
 
-    wrapper.appendChild(
-        label
-    );
+    wrapper.appendChild(title);
 
-    wrapper.appendChild(
-        input
-    );
+    wrapper.appendChild(label);
 
-    wrapper.appendChild(
-        join
-    );
+    wrapper.appendChild(input);
 
-    wrapper.appendChild(
-        error
-    );
+    wrapper.appendChild(join);
+
+    wrapper.appendChild(error);
 
 
-    openModal(
-        "Join Room",
-        wrapper
-    );
+    openModal(wrapper);
 
 }
 
@@ -642,12 +631,22 @@ function saveLocalRoom(
     const existing =
         rooms.find(
             function (room) {
+
                 return room.code === code;
+
             }
         );
 
 
-    if (!existing) {
+    if (existing) {
+
+        existing.name = name;
+
+        existing.type = type;
+
+    }
+
+    else {
 
         rooms.push({
 
@@ -685,16 +684,49 @@ function displayRooms() {
 
     if (rooms.length === 0) {
 
-        emptyState.style.display =
-            "block";
+        const empty =
+            document.createElement("div");
+
+        empty.className =
+            "empty-state";
+
+
+        const icon =
+            document.createElement("div");
+
+        icon.className =
+            "empty-icon";
+
+        icon.textContent =
+            "🏠";
+
+
+        const title =
+            document.createElement("h3");
+
+        title.textContent =
+            "No rooms yet";
+
+
+        const text =
+            document.createElement("p");
+
+        text.textContent =
+            "Create a room for your class or invite your friends.";
+
+
+        empty.appendChild(icon);
+
+        empty.appendChild(title);
+
+        empty.appendChild(text);
+
+
+        roomList.appendChild(empty);
 
         return;
 
     }
-
-
-    emptyState.style.display =
-        "none";
 
 
     rooms.forEach(
