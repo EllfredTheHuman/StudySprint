@@ -1,4 +1,4 @@
-const frenchCharactersQuestions = {
+window.frenchCharactersQuestions = {
     "Characters": [
 
         // =========================
