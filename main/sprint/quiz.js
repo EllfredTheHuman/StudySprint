@@ -100,8 +100,14 @@ async function loadQuestionFile() {
         }
 
 
+        console.log(
+            "Loading question file:",
+            questionFile
+        );
+
+
         /* =================================================
-           FETCH QUESTION FILE
+           FETCH FILE
         ================================================= */
 
         const response =
@@ -137,13 +143,12 @@ async function loadQuestionFile() {
 
 
         console.log(
-            "Loaded question file:",
-            questionFile
+            "Question file loaded successfully."
         );
 
 
         /* =================================================
-           FIND VARIABLE
+           FIND VARIABLE DECLARATION
         ================================================= */
 
         const variableMatch =
@@ -172,22 +177,17 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           REMOVE THE VARIABLE DECLARATION
+           GET OBJECT SOURCE
         ================================================= */
 
-        const declarationPattern =
-            new RegExp(
-                "\\b(?:const|let|var)\\s+" +
-                variableName +
-                "\\s*=",
-                "m"
-            );
+        const declarationEnd =
+            variableMatch.index +
+            variableMatch[0].length;
 
 
-        const objectSource =
-            source.replace(
-                declarationPattern,
-                ""
+        let objectSource =
+            source.slice(
+                declarationEnd
             ).trim();
 
 
@@ -195,37 +195,37 @@ async function loadQuestionFile() {
            REMOVE FINAL SEMICOLON
         ================================================= */
 
-        let cleanSource =
-            objectSource;
-
-
         if (
-            cleanSource.endsWith(";")
+            objectSource.endsWith(";")
         ) {
 
-            cleanSource =
-                cleanSource.slice(
-                    0,
-                    -1
-                ).trim();
+            objectSource =
+                objectSource
+                    .slice(
+                        0,
+                        -1
+                    )
+                    .trim();
 
         }
 
 
+        if (!objectSource) {
+
+            throw new Error(
+                "No question object was found."
+            );
+
+        }
+
+
+        console.log(
+            "Parsing question object..."
+        );
+
+
         /* =================================================
-           CREATE FUNCTION
-
-           The question files are JavaScript objects.
-
-           Example:
-
-           const questions = {
-               "Topic": [
-                   ...
-               ]
-           };
-
-           We return the object directly.
+           PARSE JAVASCRIPT OBJECT
         ================================================= */
 
         let questionData;
@@ -233,23 +233,24 @@ async function loadQuestionFile() {
 
         try {
 
-            const getQuestionData =
+            const parser =
                 new Function(
                     "return (" +
-                    cleanSource +
+                    objectSource +
                     ");"
                 );
 
 
             questionData =
-                getQuestionData();
+                parser();
 
         } catch (error) {
 
             console.error(
-                "Question file execution error:",
+                "Question object parsing error:",
                 error
             );
+
 
             throw new Error(
                 "The question file contains invalid JavaScript."
@@ -259,26 +260,33 @@ async function loadQuestionFile() {
 
 
         if (
-            questionData === undefined ||
-            questionData === null
+            questionData === null ||
+            questionData === undefined
         ) {
 
             throw new Error(
-                "The question data could not be read."
+                "The question data is empty."
             );
 
         }
 
 
         console.log(
-            "Question data successfully loaded:",
+            "Question data loaded:",
             questionData
         );
 
 
         /* =================================================
-           FIND TOPIC
+           FIND CORRECT TOPIC
         ================================================= */
+
+        allQuestions = [];
+
+
+        /* -------------------------------------------------
+           FILE ITSELF IS AN ARRAY
+        ------------------------------------------------- */
 
         if (
             Array.isArray(
@@ -289,16 +297,23 @@ async function loadQuestionFile() {
             allQuestions =
                 questionData;
 
-        } else if (
+        }
+
+
+        /* -------------------------------------------------
+           FILE IS AN OBJECT
+        ------------------------------------------------- */
+
+        else if (
             typeof questionData === "object"
         ) {
 
-
-            /* ------------------------------------------------
+            /* ---------------------------------------------
                EXACT MATCH
-            ------------------------------------------------ */
+            --------------------------------------------- */
 
             if (
+                topicName &&
                 Array.isArray(
                     questionData[topicName]
                 )
@@ -307,12 +322,14 @@ async function loadQuestionFile() {
                 allQuestions =
                     questionData[topicName];
 
-            } else {
+            }
 
 
-                /* ------------------------------------------------
-                   NORMALISED MATCH
-                ------------------------------------------------ */
+            /* ---------------------------------------------
+               NORMALISED MATCH
+            --------------------------------------------- */
+
+            else {
 
                 const wantedTopic =
                     normaliseTopicName(
@@ -324,10 +341,16 @@ async function loadQuestionFile() {
                     Object.keys(
                         questionData
                     ).find(
-                        key =>
-                            normaliseTopicName(
-                                key
-                            ) === wantedTopic
+                        key => {
+
+                            return (
+                                normaliseTopicName(
+                                    key
+                                ) ===
+                                wantedTopic
+                            );
+
+                        }
                     );
 
 
@@ -345,32 +368,36 @@ async function loadQuestionFile() {
                             matchingKey
                         ];
 
-                } else {
+                }
+
+            }
 
 
-                    /* ------------------------------------------------
-                       SINGLE ARRAY FALLBACK
-                    ------------------------------------------------ */
+            /* ---------------------------------------------
+               SINGLE ARRAY FALLBACK
+            --------------------------------------------- */
 
-                    const arrays =
-                        Object.values(
-                            questionData
-                        ).filter(
-                            value =>
-                                Array.isArray(
-                                    value
-                                )
-                        );
+            if (
+                allQuestions.length === 0
+            ) {
+
+                const arrays =
+                    Object.values(
+                        questionData
+                    ).filter(
+                        value =>
+                            Array.isArray(
+                                value
+                            )
+                    );
 
 
-                    if (
-                        arrays.length === 1
-                    ) {
+                if (
+                    arrays.length === 1
+                ) {
 
-                        allQuestions =
-                            arrays[0];
-
-                    }
+                    allQuestions =
+                        arrays[0];
 
                 }
 
@@ -380,32 +407,32 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           CHECK ARRAY
+           CHECK TOPIC
         ================================================= */
 
         if (
             !Array.isArray(
                 allQuestions
-            )
+            ) ||
+            allQuestions.length === 0
         ) {
 
             throw new Error(
-                "No question array was found for " +
-                topicName +
-                "."
+                "No questions were found for the topic: " +
+                (topicName || "unknown")
             );
 
         }
 
 
         console.log(
-            "Total questions found:",
+            "Questions found:",
             allQuestions.length
         );
 
 
         /* =================================================
-           ONLY MULTIPLE CHOICE
+           FILTER MULTIPLE CHOICE
         ================================================= */
 
         allQuestions =
@@ -416,21 +443,27 @@ async function loadQuestionFile() {
                         !question ||
                         typeof question !== "object"
                     ) {
+
                         return false;
+
                     }
 
 
                     if (
                         question.type !== "multiple"
                     ) {
+
                         return false;
+
                     }
 
 
                     if (
                         typeof question.question !== "string"
                     ) {
+
                         return false;
+
                     }
 
 
@@ -439,31 +472,56 @@ async function loadQuestionFile() {
                             question.answers
                         )
                     ) {
+
                         return false;
+
                     }
 
 
                     if (
                         question.answers.length < 2
                     ) {
+
                         return false;
+
                     }
 
 
-                    const hasCorrectAnswer =
-                        typeof question.correctAnswer === "string" ||
-                        typeof question.correct === "string" ||
-                        typeof question.correct === "number";
+                    if (
+                        typeof question.correctAnswer === "string"
+                    ) {
+
+                        return true;
+
+                    }
 
 
-                    return hasCorrectAnswer;
+                    if (
+                        typeof question.correct === "string"
+                    ) {
+
+                        return true;
+
+                    }
+
+
+                    if (
+                        typeof question.correct === "number"
+                    ) {
+
+                        return true;
+
+                    }
+
+
+                    return false;
 
                 }
             );
 
 
         console.log(
-            "Multiple-choice questions found:",
+            "Usable multiple-choice questions:",
             allQuestions.length
         );
 
@@ -473,7 +531,7 @@ async function loadQuestionFile() {
         ) {
 
             throw new Error(
-                "No usable multiple-choice questions were found."
+                "The topic contains no usable multiple-choice questions."
             );
 
         }
@@ -555,14 +613,18 @@ function normaliseQuestion(question) {
                 question.question || ""
             ),
 
-        answers,
+        answers:
+
+            answers.map(
+                answer =>
+                    String(answer)
+            ),
 
         correctAnswer:
+
             correctAnswer === undefined
                 ? ""
-                : String(
-                    correctAnswer
-                )
+                : String(correctAnswer)
 
     };
 
@@ -588,7 +650,6 @@ function startSprint() {
 
 
     currentQuestion = 0;
-
     score = 0;
 
 
@@ -606,28 +667,56 @@ function loadQuestion() {
     answered = false;
 
 
-    feedback.classList.add(
-        "hidden"
-    );
+    if (feedback) {
 
-    feedback.classList.remove(
-        "wrong"
-    );
+        feedback.classList.add(
+            "hidden"
+        );
 
-    nextButton.classList.add(
-        "hidden"
-    );
+        feedback.classList.remove(
+            "wrong"
+        );
+
+    }
 
 
-    answersContainer.innerHTML =
-        "";
+    if (nextButton) {
+
+        nextButton.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    if (answersContainer) {
+
+        answersContainer.innerHTML =
+            "";
+
+    }
+
+
+    const rawQuestion =
+        sprintQuestions[
+            currentQuestion
+        ];
+
+
+    if (!rawQuestion) {
+
+        showError(
+            "The question could not be loaded."
+        );
+
+        return;
+
+    }
 
 
     const question =
         normaliseQuestion(
-            sprintQuestions[
-                currentQuestion
-            ]
+            rawQuestion
         );
 
 
@@ -646,29 +735,41 @@ function loadQuestion() {
     }
 
 
-    questionText.textContent =
-        question.question;
+    if (questionText) {
+
+        questionText.textContent =
+            question.question;
+
+    }
 
 
-    questionNumber.textContent =
-        String(
-            currentQuestion + 1
-        ) +
-        " / " +
-        String(
-            sprintQuestions.length
-        );
+    if (questionNumber) {
+
+        questionNumber.textContent =
+            String(
+                currentQuestion + 1
+            ) +
+            " / " +
+            String(
+                sprintQuestions.length
+            );
+
+    }
 
 
-    const progress =
-        (
-            currentQuestion /
-            sprintQuestions.length
-        ) * 100;
+    if (progressBar) {
+
+        const progress =
+            (
+                currentQuestion /
+                sprintQuestions.length
+            ) * 100;
 
 
-    progressBar.style.width =
-        progress + "%";
+        progressBar.style.width =
+            progress + "%";
+
+    }
 
 
     const shuffledAnswers =
@@ -701,6 +802,7 @@ function loadQuestion() {
                     "span"
                 );
 
+
             letter.className =
                 "answer-letter";
 
@@ -715,6 +817,7 @@ function loadQuestion() {
                     "span"
                 );
 
+
             text.className =
                 "answer-text";
 
@@ -726,6 +829,7 @@ function loadQuestion() {
                 document.createElement(
                     "span"
                 );
+
 
             result.className =
                 "answer-result";
@@ -749,7 +853,7 @@ function loadQuestion() {
 
             button.addEventListener(
                 "click",
-                () => {
+                function () {
 
                     checkAnswer(
                         answer,
@@ -782,7 +886,9 @@ function checkAnswer(
 ) {
 
     if (answered) {
+
         return;
+
     }
 
 
@@ -838,24 +944,41 @@ function checkAnswer(
         }
 
 
-        feedbackIcon.textContent =
-            "✓";
+        if (feedbackIcon) {
 
-        feedbackTitle.textContent =
-            "Correct";
+            feedbackIcon.textContent =
+                "✓";
 
-        feedbackText.textContent =
-            "Nice work. Keep going.";
+        }
 
 
-        feedback.classList.remove(
-            "hidden"
-        );
+        if (feedbackTitle) {
 
-        feedback.classList.remove(
-            "wrong"
-        );
+            feedbackTitle.textContent =
+                "Correct";
 
+        }
+
+
+        if (feedbackText) {
+
+            feedbackText.textContent =
+                "Nice work. Keep going.";
+
+        }
+
+
+        if (feedback) {
+
+            feedback.classList.remove(
+                "hidden"
+            );
+
+            feedback.classList.remove(
+                "wrong"
+            );
+
+        }
 
     } else {
 
@@ -919,48 +1042,74 @@ function checkAnswer(
         );
 
 
-        feedbackIcon.textContent =
-            "×";
+        if (feedbackIcon) {
 
-        feedbackTitle.textContent =
-            "Not quite";
+            feedbackIcon.textContent =
+                "×";
 
-        feedbackText.textContent =
-            "The correct answer is " +
-            correctAnswer +
-            ".";
+        }
 
 
-        feedback.classList.remove(
+        if (feedbackTitle) {
+
+            feedbackTitle.textContent =
+                "Not quite";
+
+        }
+
+
+        if (feedbackText) {
+
+            feedbackText.textContent =
+                "The correct answer is " +
+                correctAnswer +
+                ".";
+
+        }
+
+
+        if (feedback) {
+
+            feedback.classList.remove(
+                "hidden"
+            );
+
+            feedback.classList.add(
+                "wrong"
+            );
+
+        }
+
+    }
+
+
+    if (nextText) {
+
+        if (
+            currentQuestion ===
+            sprintQuestions.length - 1
+        ) {
+
+            nextText.textContent =
+                "See Results";
+
+        } else {
+
+            nextText.textContent =
+                "Next Question";
+
+        }
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.classList.remove(
             "hidden"
         );
 
-        feedback.classList.add(
-            "wrong"
-        );
-
     }
-
-
-    if (
-        currentQuestion ===
-        sprintQuestions.length - 1
-    ) {
-
-        nextText.textContent =
-            "See Results";
-
-    } else {
-
-        nextText.textContent =
-            "Next Question";
-
-    }
-
-
-    nextButton.classList.remove(
-        "hidden"
-    );
 
 }
 
@@ -969,40 +1118,46 @@ function checkAnswer(
    NEXT QUESTION
 ========================================================= */
 
-nextButton.addEventListener(
-    "click",
-    () => {
+if (nextButton) {
 
-        if (!answered) {
-            return;
+    nextButton.addEventListener(
+        "click",
+        function () {
+
+            if (!answered) {
+
+                return;
+
+            }
+
+
+            currentQuestion++;
+
+
+            if (
+                currentQuestion >=
+                sprintQuestions.length
+            ) {
+
+                finishSprint();
+
+                return;
+
+            }
+
+
+            loadQuestion();
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
         }
+    );
 
-
-        currentQuestion++;
-
-
-        if (
-            currentQuestion >=
-            sprintQuestions.length
-        ) {
-
-            finishSprint();
-
-            return;
-
-        }
-
-
-        loadQuestion();
-
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-);
+}
 
 
 /* =========================================================
@@ -1108,9 +1263,7 @@ function finishSprint() {
 
         localStorage.setItem(
             "bestScore",
-            String(
-                percentage
-            )
+            String(percentage)
         );
 
     }
@@ -1130,9 +1283,7 @@ function finishSprint() {
 
         localStorage.setItem(
             "bestStreak",
-            String(
-                streak
-            )
+            String(streak)
         );
 
     }
@@ -1198,48 +1349,201 @@ function finishSprint() {
 function showError(message) {
 
     document.body.innerHTML =
-        '<main style="' +
-        'min-height:100vh;' +
-        'display:flex;' +
-        'align-items:center;' +
-        'justify-content:center;' +
-        'padding:24px;' +
-        'background:#0d0d12;' +
-        'color:#ffffff;' +
-        'font-family:Arial,sans-serif;' +
-        'text-align:center;' +
-        '">' +
+        "";
 
-        '<div style="' +
-        'width:100%;' +
-        'max-width:500px;' +
-        'padding:32px;' +
-        'border-radius:20px;' +
-        'background:#17171f;' +
-        'border:1px solid #292934;' +
-        'box-shadow:0 20px 60px rgba(0,0,0,0.35);' +
-        '">' +
 
-        '<div style="' +
-        'font-size:48px;' +
-        'margin-bottom:16px;' +
-        '">' +
-        '⚠️' +
-        '</div>' +
+    const main =
+        document.createElement(
+            "main"
+        );
 
-        '<h1 style="' +
-        'margin:0 0 12px;' +
-        'font-size:24px;' +
-        '">' +
-        'Something went wrong' +
-        '</h1>' +
 
-        '<p style="' +
-        'margin:0 0 24px;' +
-        'color:#aaaab5;' +
-        'line-height:1.5;' +
-        '">' +
-        escapeHtml(message) +
-        '</p>' +
+    main.style.minHeight =
+        "100vh";
 
-        '<button ' +
+    main.style.display =
+        "flex";
+
+    main.style.alignItems =
+        "center";
+
+    main.style.justifyContent =
+        "center";
+
+    main.style.padding =
+        "24px";
+
+    main.style.background =
+        "#0d0d12";
+
+    main.style.color =
+        "#ffffff";
+
+    main.style.fontFamily =
+        "Arial, sans-serif";
+
+    main.style.textAlign =
+        "center";
+
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+
+    box.style.width =
+        "100%";
+
+    box.style.maxWidth =
+        "500px";
+
+    box.style.padding =
+        "32px";
+
+    box.style.borderRadius =
+        "20px";
+
+    box.style.background =
+        "#17171f";
+
+    box.style.border =
+        "1px solid #292934";
+
+    box.style.boxShadow =
+        "0 20px 60px rgba(0,0,0,0.35)";
+
+
+    const icon =
+        document.createElement(
+            "div"
+        );
+
+
+    icon.textContent =
+        "⚠️";
+
+    icon.style.fontSize =
+        "48px";
+
+    icon.style.marginBottom =
+        "16px";
+
+
+    const title =
+        document.createElement(
+            "h1"
+        );
+
+
+    title.textContent =
+        "Something went wrong";
+
+    title.style.margin =
+        "0 0 12px";
+
+    title.style.fontSize =
+        "24px";
+
+
+    const text =
+        document.createElement(
+            "p"
+        );
+
+
+    text.textContent =
+        message;
+
+    text.style.margin =
+        "0 0 24px";
+
+    text.style.color =
+        "#aaaab5";
+
+    text.style.lineHeight =
+        "1.5";
+
+
+    const backButton =
+        document.createElement(
+            "button"
+        );
+
+
+    backButton.type =
+        "button";
+
+    backButton.textContent =
+        "Back to Sprint";
+
+    backButton.style.border =
+        "0";
+
+    backButton.style.borderRadius =
+        "12px";
+
+    backButton.style.padding =
+        "14px 20px";
+
+    backButton.style.background =
+        "#8875f5";
+
+    backButton.style.color =
+        "#ffffff";
+
+    backButton.style.fontSize =
+        "15px";
+
+    backButton.style.fontWeight =
+        "700";
+
+    backButton.style.cursor =
+        "pointer";
+
+
+    backButton.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+
+    box.appendChild(
+        icon
+    );
+
+    box.appendChild(
+        title
+    );
+
+    box.appendChild(
+        text
+    );
+
+    box.appendChild(
+        backButton
+    );
+
+
+    main.appendChild(
+        box
+    );
+
+
+    document.body.appendChild(
+        main
+    );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadQuestionFile();
