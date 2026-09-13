@@ -84,6 +84,113 @@ function normaliseTopicName(value) {
 
 
 /* =========================================================
+   EXTRACT QUESTION DATA
+========================================================= */
+
+function extractQuestionData(source) {
+
+    /*
+     * The question files use this structure:
+     *
+     * const someName = {
+     *     "Topic": [...]
+     * };
+     *
+     * We only need the object after the first "=".
+     */
+
+
+    const equalsPosition =
+        source.indexOf("=");
+
+
+    if (
+        equalsPosition === -1
+    ) {
+
+        throw new Error(
+            "The question file does not contain a data assignment."
+        );
+
+    }
+
+
+    let dataSource =
+        source.slice(
+            equalsPosition + 1
+        );
+
+
+    /*
+     * Remove comments.
+     */
+
+    dataSource =
+        dataSource.replace(
+            /\/\*[\s\S]*?\*\//g,
+            ""
+        );
+
+
+    dataSource =
+        dataSource.replace(
+            /\/\/.*$/gm,
+            ""
+        );
+
+
+    dataSource =
+        dataSource.trim();
+
+
+    /*
+     * Remove a trailing semicolon.
+     */
+
+    if (
+        dataSource.endsWith(";")
+    ) {
+
+        dataSource =
+            dataSource.slice(
+                0,
+                -1
+            ).trim();
+
+    }
+
+
+    /*
+     * Convert JavaScript object syntax into JSON
+     * where possible.
+     *
+     * The StudySprint question files use normal JSON-style
+     * quoted keys and strings, so JSON.parse is appropriate.
+     */
+
+    try {
+
+        return JSON.parse(
+            dataSource
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not parse question data:",
+            error
+        );
+
+        throw new Error(
+            "The question file could not be parsed. Make sure its data uses valid JSON-style syntax."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    LOAD QUESTION FILE
 ========================================================= */
 
@@ -100,9 +207,9 @@ async function loadQuestionFile() {
         }
 
 
-        /* -------------------------------------------------
-           FETCH FILE
-        ------------------------------------------------- */
+        /* =================================================
+           FETCH
+        ================================================= */
 
         const response =
             await fetch(
@@ -142,11 +249,9 @@ async function loadQuestionFile() {
         );
 
 
-        /* -------------------------------------------------
-           FIND VARIABLE NAME
-
-           We deliberately avoid using "$" anywhere.
-        ------------------------------------------------- */
+        /* =================================================
+           FIND VARIABLE
+        ================================================= */
 
         const variableMatch =
             source.match(
@@ -173,88 +278,14 @@ async function loadQuestionFile() {
         );
 
 
-        /* -------------------------------------------------
-           FIND VARIABLE DECLARATION
-        ------------------------------------------------- */
-
-        const declarationPattern =
-            new RegExp(
-                "\\b(?:const|let|var)\\s+" +
-                variableName +
-                "\\s*=",
-                "m"
-            );
-
-
-        if (
-            !declarationPattern.test(
-                source
-            )
-        ) {
-
-            throw new Error(
-                "Could not locate question data."
-            );
-
-        }
-
-
-        /* -------------------------------------------------
-           REPLACE:
-
-           const variableName =
-
-           WITH:
-
-           window.__studySprintData =
-        ------------------------------------------------- */
-
-        const executableSource =
-            source.replace(
-                declarationPattern,
-                "window.__studySprintData ="
-            );
-
-
-        /* -------------------------------------------------
-           CLEAR OLD DATA
-        ------------------------------------------------- */
-
-        window.__studySprintData =
-            undefined;
-
-
-        /* -------------------------------------------------
-           EXECUTE QUESTION FILE
-        ------------------------------------------------- */
-
-        try {
-
-            eval(executableSource);
-
-        } catch (error) {
-
-            console.error(
-                "Question file execution error:",
-                error
-            );
-
-            throw new Error(
-                "The question file contains invalid JavaScript."
-            );
-
-        }
-
-
-        /* -------------------------------------------------
-           READ QUESTION DATA
-        ------------------------------------------------- */
+        /* =================================================
+           EXTRACT DATA
+        ================================================= */
 
         const questionData =
-            window.__studySprintData;
-
-
-        delete window.__studySprintData;
+            extractQuestionData(
+                source
+            );
 
 
         if (
@@ -294,7 +325,7 @@ async function loadQuestionFile() {
 
 
             /* ------------------------------------------------
-               EXACT TOPIC MATCH
+               EXACT MATCH
             ------------------------------------------------ */
 
             if (
@@ -310,13 +341,7 @@ async function loadQuestionFile() {
 
 
                 /* ------------------------------------------------
-                   NORMALISED TOPIC MATCH
-
-                   "People, Places & Vehicles"
-
-                   becomes:
-
-                   "peopleplacesvehicles"
+                   NORMALISED MATCH
                 ------------------------------------------------ */
 
                 const wantedTopic =
@@ -502,7 +527,8 @@ async function loadQuestionFile() {
         showError(
             "We couldn't load the questions for " +
             (topicName || "this topic") +
-            "."
+            ". " +
+            error.message
         );
 
     }
