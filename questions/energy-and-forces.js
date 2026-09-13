@@ -1,4 +1,4 @@
-const energyAndForcesQuestions = {
+window.energyAndForcesQuestions = {
 
     "Energy and Forces": [
 
