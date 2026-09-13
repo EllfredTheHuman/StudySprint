@@ -1,4 +1,4 @@
-const bidmasQuestions = {
+window.bidmas.Questions = {
     "BIDMAS": [
 
         // =========================
