@@ -15,6 +15,7 @@ import {
 } from "./room-code.js";
 
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
     authDomain: "studysprint-67f63.firebaseapp.com",
@@ -26,572 +27,1092 @@ const firebaseConfig = {
 };
 
 
+
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 
-const createButton = document.getElementById("create-room-button");
-const joinButton = document.getElementById("join-room-button");
 
-const modal = document.getElementById("room-modal");
-const modalBackdrop = document.getElementById("modal-backdrop");
-const closeModalButton = document.getElementById("close-modal");
-const modalContent = document.getElementById("modal-content");
+/* =========================================================
+   USER
+========================================================= */
 
-const roomsList = document.getElementById("rooms-list");
+let userId =
+    localStorage.getItem("studysprint_user_id");
 
-
-let username = localStorage.getItem("studysprint_username") || "Student";
-
-let userId = localStorage.getItem("studysprint_user_id");
 
 if (!userId) {
+
     userId =
         "user_" +
         Date.now() +
         "_" +
-        Math.random().toString(36).slice(2, 8);
+        Math.random()
+            .toString(36)
+            .slice(2, 8);
 
-    localStorage.setItem("studysprint_user_id", userId);
-}
-
-
-let savedRooms = [];
-
-try {
-    savedRooms = JSON.parse(
-        localStorage.getItem("studysprint_rooms") || "[]"
-    );
-} catch {
-    savedRooms = [];
-}
-
-
-function saveRooms() {
     localStorage.setItem(
-        "studysprint_rooms",
-        JSON.stringify(savedRooms)
+        "studysprint_user_id",
+        userId
     );
+
 }
 
 
-function openModal(content) {
-    modalContent.innerHTML = content;
-    modal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
-}
+let username =
+    localStorage.getItem(
+        "studysprint_username"
+    ) || "Student";
 
 
-function closeModal() {
-    modal.classList.add("hidden");
-    document.body.classList.remove("modal-open");
-}
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const createRoomButton =
+    document.getElementById(
+        "create-room-button"
+    );
+
+const joinRoomButton =
+    document.getElementById(
+        "join-room-button"
+    );
+
+const roomsList =
+    document.getElementById(
+        "rooms-list"
+    );
+
+const roomModal =
+    document.getElementById(
+        "room-modal"
+    );
+
+const modalBackdrop =
+    document.getElementById(
+        "modal-backdrop"
+    );
+
+const closeModalButton =
+    document.getElementById(
+        "close-modal"
+    );
+
+const modalContent =
+    document.getElementById(
+        "modal-content"
+    );
 
 
-function escapeHTML(value) {
-    const div = document.createElement("div");
-    div.textContent = value;
-    return div.innerHTML;
-}
+
+/* =========================================================
+   DELETED ROOMS
+========================================================= */
+
+/*
+    Deleted room codes are stored locally.
+
+    This means that once a user deletes a room,
+    that room code is permanently hidden from
+    their Rooms page on that browser.
+*/
+
+function getDeletedRoomCodes() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "studysprint_deleted_rooms"
+            );
 
 
-function showError(message) {
-    const existing = document.getElementById("room-modal-error");
+        if (!saved) {
+            return [];
+        }
 
-    if (existing) {
-        existing.textContent = message;
-        return;
+
+        const parsed =
+            JSON.parse(saved);
+
+
+        if (!Array.isArray(parsed)) {
+            return [];
+        }
+
+
+        return parsed.map(
+            code =>
+                String(code).toUpperCase()
+        );
+
+    } catch {
+
+        return [];
+
     }
 
-    const error = document.createElement("div");
-
-    error.id = "room-modal-error";
-    error.className = "modal-error";
-    error.textContent = message;
-
-    modalContent.appendChild(error);
 }
 
 
-function showCreateRoom() {
 
-    openModal(`
-        <div class="modal-heading">
-            <div class="modal-icon">🏠</div>
+function markRoomAsDeleted(roomCode) {
 
-            <div>
-                <p class="modal-eyebrow">NEW ROOM</p>
-                <h2>Create a Room</h2>
+    const code =
+        String(roomCode).toUpperCase();
+
+
+    const deletedRooms =
+        getDeletedRoomCodes();
+
+
+    if (
+        !deletedRooms.includes(code)
+    ) {
+
+        deletedRooms.push(code);
+
+    }
+
+
+    localStorage.setItem(
+        "studysprint_deleted_rooms",
+        JSON.stringify(deletedRooms)
+    );
+
+}
+
+
+
+function isRoomDeleted(roomCode) {
+
+    const code =
+        String(roomCode).toUpperCase();
+
+
+    return getDeletedRoomCodes()
+        .includes(code);
+
+}
+
+
+
+/* =========================================================
+   USER ROOMS
+========================================================= */
+
+async function loadRooms() {
+
+    roomsList.innerHTML = `
+        <div class="loading-state">
+            Loading rooms...
+        </div>
+    `;
+
+
+    try {
+
+        const roomsRef =
+            ref(
+                database,
+                "rooms"
+            );
+
+
+        const snapshot =
+            await get(roomsRef);
+
+
+        if (!snapshot.exists()) {
+
+            showEmptyState();
+            return;
+
+        }
+
+
+        const allRooms =
+            snapshot.val();
+
+
+        const rooms =
+            [];
+
+
+        Object.keys(allRooms)
+            .forEach(code => {
+
+                /*
+                    NEVER show a room that this
+                    user has permanently deleted.
+                */
+
+                if (
+                    isRoomDeleted(code)
+                ) {
+
+                    return;
+
+                }
+
+
+                const room =
+                    allRooms[code];
+
+
+                if (!room) {
+                    return;
+                }
+
+
+                const members =
+                    room.members || {};
+
+
+                /*
+                    Only show rooms where the
+                    current user is actually a member.
+                */
+
+                if (
+                    members[userId]
+                ) {
+
+                    rooms.push({
+                        code: code,
+                        room: room
+                    });
+
+                }
+
+            });
+
+
+        if (rooms.length === 0) {
+
+            showEmptyState();
+            return;
+
+        }
+
+
+        renderRooms(rooms);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        roomsList.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                <h3>
+                    Couldn't load rooms
+                </h3>
+
+                <p>
+                    Check your connection and try again.
+                </p>
             </div>
+        `;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   RENDER ROOMS
+========================================================= */
+
+function renderRooms(rooms) {
+
+    roomsList.innerHTML = "";
+
+
+    rooms.forEach(
+        ({ code, room }) => {
+
+            const card =
+                document.createElement(
+                    "button"
+                );
+
+
+            card.type =
+                "button";
+
+            card.className =
+                "room-card";
+
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    if (
+                        isRoomDeleted(code)
+                    ) {
+                        return;
+                    }
+
+
+                    window.location.href =
+                        "room.html?code=" +
+                        encodeURIComponent(
+                            code
+                        );
+
+                }
+            );
+
+
+            const top =
+                document.createElement(
+                    "div"
+                );
+
+            top.className =
+                "room-card-top";
+
+
+            const icon =
+                document.createElement(
+                    "div"
+                );
+
+            icon.className =
+                "room-card-icon";
+
+            icon.textContent =
+                room.type === "class"
+                    ? "🏫"
+                    : "👥";
+
+
+            const type =
+                document.createElement(
+                    "span"
+                );
+
+            type.className =
+                "room-card-type";
+
+            type.textContent =
+                room.type === "class"
+                    ? "CLASS"
+                    : "FRIENDS";
+
+
+            top.appendChild(icon);
+            top.appendChild(type);
+
+
+            const name =
+                document.createElement(
+                    "h3"
+                );
+
+            name.className =
+                "room-card-name";
+
+            name.textContent =
+                room.name ||
+                "StudySprint Room";
+
+
+            const members =
+                room.members || {};
+
+
+            const memberCount =
+                Object.keys(
+                    members
+                ).length;
+
+
+            const info =
+                document.createElement(
+                    "p"
+                );
+
+            info.className =
+                "room-card-info";
+
+            info.textContent =
+                memberCount === 1
+                    ? "1 member"
+                    : memberCount +
+                      " members";
+
+
+            const codeElement =
+                document.createElement(
+                    "span"
+                );
+
+            codeElement.className =
+                "room-card-code";
+
+            codeElement.textContent =
+                code.toUpperCase();
+
+
+            card.appendChild(top);
+            card.appendChild(name);
+            card.appendChild(info);
+            card.appendChild(codeElement);
+
+
+            roomsList.appendChild(card);
+
+        }
+    );
+
+}
+
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+function showEmptyState() {
+
+    roomsList.innerHTML = `
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                🏠
+            </div>
+
+            <h3>
+                No rooms yet
+            </h3>
+
+            <p>
+                Create a room for your class
+                or invite your friends.
+            </p>
+
+        </div>
+    `;
+
+}
+
+
+
+/* =========================================================
+   CREATE ROOM MODAL
+========================================================= */
+
+function openCreateRoomModal() {
+
+    modalContent.innerHTML = `
+        <div class="modal-eyebrow">
+            NEW ROOM
         </div>
 
+        <h2>
+            Create a Room
+        </h2>
+
         <p class="modal-description">
-            Make a space for your class or your friends.
+            Choose what kind of group you're creating.
         </p>
 
-        <label class="input-label" for="room-name-input">
+        <label for="room-name-input">
             Room name
         </label>
 
         <input
             id="room-name-input"
-            class="modal-input"
             type="text"
-            maxlength="40"
             placeholder="e.g. Year 8 Science"
-            autocomplete="off"
+            maxlength="40"
         >
 
-        <p class="input-label">Room type</p>
+        <label>
+            Room type
+        </label>
 
-        <div class="room-type-grid">
+        <div class="room-type-options">
 
             <button
                 type="button"
                 class="room-type-option selected"
                 data-room-type="class"
             >
-                <span class="type-icon">🏫</span>
+                <span class="room-option-icon">
+                    🏫
+                </span>
 
                 <span>
-                    <strong>Class</strong>
-                    <small>For school classes</small>
+                    <strong>
+                        Class
+                    </strong>
+
+                    <small>
+                        For school classes
+                    </small>
                 </span>
+
             </button>
+
 
             <button
                 type="button"
                 class="room-type-option"
                 data-room-type="friends"
             >
-                <span class="type-icon">👥</span>
+                <span class="room-option-icon">
+                    👥
+                </span>
 
                 <span>
-                    <strong>Friends</strong>
-                    <small>For your friend group</small>
+                    <strong>
+                        Friends
+                    </strong>
+
+                    <small>
+                        For your friend group
+                    </small>
                 </span>
+
             </button>
 
         </div>
 
+
         <button
+            id="confirm-create-room"
+            class="primary-button"
             type="button"
-            class="modal-primary-button"
-            id="confirm-create"
         >
             Create Room
         </button>
-    `);
+
+        <p
+            id="create-room-message"
+            class="form-message"
+        ></p>
+    `;
 
 
-    let selectedType = "class";
+    let selectedType =
+        "class";
 
-    document.querySelectorAll(".room-type-option").forEach(button => {
 
-        button.addEventListener("click", () => {
+    document
+        .querySelectorAll(
+            ".room-type-option"
+        )
+        .forEach(button => {
 
-            document.querySelectorAll(".room-type-option").forEach(option => {
-                option.classList.remove("selected");
-            });
+            button.addEventListener(
+                "click",
+                () => {
 
-            button.classList.add("selected");
+                    document
+                        .querySelectorAll(
+                            ".room-type-option"
+                        )
+                        .forEach(
+                            option => {
+                                option.classList.remove(
+                                    "selected"
+                                );
+                            }
+                        );
 
-            selectedType = button.dataset.roomType;
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    selectedType =
+                        button.dataset.roomType;
+
+                }
+            );
+
         });
 
-    });
 
+    document
+        .getElementById(
+            "confirm-create-room"
+        )
+        .addEventListener(
+            "click",
+            () => {
 
-    document.getElementById("confirm-create").addEventListener(
-        "click",
-        async () => {
-
-            const nameInput =
-                document.getElementById("room-name-input");
-
-            const roomName =
-                nameInput.value.trim();
-
-            if (!roomName) {
-                showError("Give your room a name first.");
-                nameInput.focus();
-                return;
-            }
-
-            const confirmButton =
-                document.getElementById("confirm-create");
-
-            confirmButton.disabled = true;
-            confirmButton.textContent = "Creating...";
-
-
-            try {
-
-                const code =
-                    await findAvailableRoomCode(database);
-
-
-                const roomData = {
-
-                    name: roomName,
-
-                    type: selectedType,
-
-                    owner: userId,
-
-                    ownerName: username,
-
-                    createdAt: Date.now(),
-
-                    members: {
-
-                        [userId]: {
-
-                            name: username,
-
-                            joinedAt: Date.now(),
-
-                            role: "owner",
-
-                            score: 0,
-
-                            weeklyScore: 0,
-
-                            quizzes: 0,
-
-                            streak: 0
-
-                        }
-
-                    },
-
-                    announcements: {},
-
-                    assignments: {},
-
-                    challenges: {}
-
-                };
-
-
-                await set(
-                    ref(database, "rooms/" + code),
-                    roomData
-                );
-
-
-                if (!savedRooms.some(room => room.code === code)) {
-
-                    savedRooms.push({
-
-                        code: code,
-
-                        name: roomName,
-
-                        type: selectedType
-
-                    });
-
-                    saveRooms();
-                }
-
-
-                window.location.href =
-                    "room.html?code=" +
-                    encodeURIComponent(code);
-
-            } catch (error) {
-
-                console.error(error);
-
-                confirmButton.disabled = false;
-                confirmButton.textContent = "Create Room";
-
-                showError(
-                    "Couldn't create the room. Check your Firebase connection."
+                createRoom(
+                    selectedType
                 );
 
             }
+        );
 
-        }
-    );
+
+    openModal();
+
 }
 
 
-function showJoinRoom() {
 
-    openModal(`
-        <div class="modal-heading">
-            <div class="modal-icon">🔗</div>
+/* =========================================================
+   CREATE ROOM
+========================================================= */
 
-            <div>
-                <p class="modal-eyebrow">JOIN ROOM</p>
-                <h2>Enter Room Code</h2>
-            </div>
+async function createRoom(type) {
+
+    const nameInput =
+        document.getElementById(
+            "room-name-input"
+        );
+
+    const message =
+        document.getElementById(
+            "create-room-message"
+        );
+
+    const button =
+        document.getElementById(
+            "confirm-create-room"
+        );
+
+
+    const name =
+        nameInput.value.trim();
+
+
+    if (!name) {
+
+        message.textContent =
+            "Give your room a name.";
+
+        return;
+
+    }
+
+
+    try {
+
+        button.disabled = true;
+
+        button.textContent =
+            "Creating...";
+
+
+        const code =
+            await findAvailableRoomCode(
+                database
+            );
+
+
+        const now =
+            Date.now();
+
+
+        const roomData = {
+
+            name: name,
+
+            type: type,
+
+            owner: userId,
+
+            ownerName: username,
+
+            createdAt: now,
+
+            members: {
+
+                [userId]: {
+
+                    name: username,
+
+                    joinedAt: now,
+
+                    role: "owner"
+
+                }
+
+            },
+
+            announcements: {},
+
+            assignments: {},
+
+            challenges: {},
+
+            activity: {}
+
+        };
+
+
+        await set(
+            ref(
+                database,
+                "rooms/" + code
+            ),
+            roomData
+        );
+
+
+        /*
+            Make sure a newly created room
+            isn't accidentally marked deleted.
+        */
+
+        removeDeletedRoomMark(
+            code
+        );
+
+
+        window.location.href =
+            "room.html?code=" +
+            encodeURIComponent(code);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            "Could not create the room.";
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Create Room";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   JOIN ROOM MODAL
+========================================================= */
+
+function openJoinRoomModal() {
+
+    modalContent.innerHTML = `
+        <div class="modal-eyebrow">
+            JOIN ROOM
         </div>
 
+        <h2>
+            Join a Room
+        </h2>
+
         <p class="modal-description">
-            Enter the six-character code shared by your class or friends.
+            Enter the six-character room code.
         </p>
 
-        <label class="input-label" for="join-code-input">
+        <label for="join-code-input">
             Room code
         </label>
 
         <input
             id="join-code-input"
-            class="modal-input room-code-input"
             type="text"
-            maxlength="6"
             placeholder="ABC123"
+            maxlength="6"
             autocomplete="off"
             autocapitalize="characters"
         >
 
         <button
+            id="confirm-join-room"
+            class="primary-button"
             type="button"
-            class="modal-primary-button"
-            id="confirm-join"
         >
             Join Room
         </button>
-    `);
+
+        <p
+            id="join-room-message"
+            class="form-message"
+        ></p>
+    `;
 
 
-    const codeInput =
-        document.getElementById("join-code-input");
+    const input =
+        document.getElementById(
+            "join-code-input"
+        );
 
 
-    codeInput.addEventListener("input", () => {
+    input.addEventListener(
+        "input",
+        () => {
 
-        codeInput.value =
-            codeInput.value
-                .toUpperCase()
-                .replace(/[^A-Z0-9]/g, "")
-                .slice(0, 6);
-
-    });
-
-
-    document.getElementById("confirm-join").addEventListener(
-        "click",
-        async () => {
-
-            const code =
-                codeInput.value.trim().toUpperCase();
-
-            if (code.length !== 6) {
-                showError("Room codes are 6 characters long.");
-                codeInput.focus();
-                return;
-            }
-
-
-            const joinConfirm =
-                document.getElementById("confirm-join");
-
-            joinConfirm.disabled = true;
-            joinConfirm.textContent = "Checking...";
-
-
-            try {
-
-                const roomSnapshot =
-                    await get(
-                        ref(database, "rooms/" + code)
-                    );
-
-
-                if (!roomSnapshot.exists()) {
-
-                    joinConfirm.disabled = false;
-                    joinConfirm.textContent = "Join Room";
-
-                    showError(
-                        "That room doesn't exist. Check the code and try again."
-                    );
-
-                    return;
-                }
-
-
-                const room =
-                    roomSnapshot.val();
-
-
-                const memberPath =
-                    "rooms/" +
-                    code +
-                    "/members/" +
-                    userId;
-
-
-                await set(
-                    ref(database, memberPath),
-                    {
-
-                        name: username,
-
-                        joinedAt: Date.now(),
-
-                        role: "member",
-
-                        score: 0,
-
-                        weeklyScore: 0,
-
-                        quizzes: 0,
-
-                        streak: 0
-
-                    }
-                );
-
-
-                if (!savedRooms.some(room => room.code === code)) {
-
-                    savedRooms.push({
-
-                        code: code,
-
-                        name: room.name || "Room",
-
-                        type: room.type || "friends"
-
-                    });
-
-                    saveRooms();
-
-                }
-
-
-                window.location.href =
-                    "room.html?code=" +
-                    encodeURIComponent(code);
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                joinConfirm.disabled = false;
-                joinConfirm.textContent = "Join Room";
-
-                showError(
-                    "Couldn't join the room. Check your Firebase connection."
-                );
-
-            }
+            input.value =
+                input.value
+                    .toUpperCase()
+                    .replace(
+                        /[^A-Z0-9]/g,
+                        ""
+                    )
+                    .slice(0, 6);
 
         }
     );
 
 
-    codeInput.focus();
+    document
+        .getElementById(
+            "confirm-join-room"
+        )
+        .addEventListener(
+            "click",
+            joinRoom
+        );
+
+
+    openModal();
+
+
+    setTimeout(
+        () => {
+            input.focus();
+        },
+        100
+    );
+
 }
 
 
-function renderRooms() {
 
-    if (!savedRooms.length) {
+/* =========================================================
+   JOIN ROOM
+========================================================= */
 
-        roomsList.innerHTML = `
-            <div class="empty-state">
+async function joinRoom() {
 
-                <div class="empty-icon">
-                    🏠
-                </div>
+    const input =
+        document.getElementById(
+            "join-code-input"
+        );
 
-                <h3>No rooms yet</h3>
+    const message =
+        document.getElementById(
+            "join-room-message"
+        );
 
-                <p>
-                    Create a room for your class or invite your friends.
-                </p>
+    const button =
+        document.getElementById(
+            "confirm-join-room"
+        );
 
-            </div>
-        `;
+
+    const code =
+        input.value
+            .trim()
+            .toUpperCase();
+
+
+    if (code.length !== 6) {
+
+        message.textContent =
+            "Enter a six-character room code.";
 
         return;
+
     }
 
 
-    roomsList.innerHTML = "";
+    /*
+        A room previously deleted by this user
+        can NEVER be joined again from this browser.
+    */
+
+    if (
+        isRoomDeleted(code)
+    ) {
+
+        message.textContent =
+            "This room has been deleted.";
+
+        return;
+
+    }
 
 
-    savedRooms.forEach(room => {
+    try {
 
-        const card = document.createElement("button");
+        button.disabled = true;
 
-        card.type = "button";
-        card.className = "room-card";
-
-
-        const typeText =
-            room.type === "class"
-                ? "CLASS"
-                : "FRIENDS";
+        button.textContent =
+            "Checking...";
 
 
-        const typeIcon =
-            room.type === "class"
-                ? "🏫"
-                : "👥";
+        const roomRef =
+            ref(
+                database,
+                "rooms/" + code
+            );
 
 
-        card.innerHTML = `
-
-            <div class="room-card-icon">
-                ${typeIcon}
-            </div>
-
-            <div class="room-card-info">
-
-                <span class="room-card-type">
-                    ${typeText}
-                </span>
-
-                <h3>
-                    ${escapeHTML(room.name || "Untitled Room")}
-                </h3>
-
-                <p>
-                    Code: <strong>${escapeHTML(room.code)}</strong>
-                </p>
-
-            </div>
-
-            <div class="room-card-arrow">
-                →
-            </div>
-
-        `;
+        const snapshot =
+            await get(roomRef);
 
 
-        card.addEventListener("click", () => {
+        if (!snapshot.exists()) {
 
-            window.location.href =
-                "room.html?code=" +
-                encodeURIComponent(room.code);
+            message.textContent =
+                "That room does not exist.";
 
-        });
+            button.disabled =
+                false;
+
+            button.textContent =
+                "Join Room";
+
+            return;
+
+        }
 
 
-        roomsList.appendChild(card);
+        const room =
+            snapshot.val();
 
-    });
+
+        const members =
+            room.members || {};
+
+
+        /*
+            If the user is already in the room,
+            just open it.
+        */
+
+        if (!members[userId]) {
+
+            await set(
+                ref(
+                    database,
+                    "rooms/" +
+                    code +
+                    "/members/" +
+                    userId
+                ),
+                {
+                    name: username,
+
+                    joinedAt:
+                        Date.now(),
+
+                    role:
+                        "member"
+                }
+            );
+
+        }
+
+
+        window.location.href =
+            "room.html?code=" +
+            encodeURIComponent(code);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        message.textContent =
+            "Could not join the room.";
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Join Room";
+
+    }
 
 }
 
 
-createButton.addEventListener(
+
+/* =========================================================
+   REMOVE DELETED MARK
+========================================================= */
+
+function removeDeletedRoomMark(
+    roomCode
+) {
+
+    const code =
+        String(roomCode).toUpperCase();
+
+
+    const remaining =
+        getDeletedRoomCodes()
+            .filter(
+                item => item !== code
+            );
+
+
+    localStorage.setItem(
+        "studysprint_deleted_rooms",
+        JSON.stringify(remaining)
+    );
+
+}
+
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal() {
+
+    roomModal.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+function closeModal() {
+
+    roomModal.classList.add(
+        "hidden"
+    );
+
+    modalContent.innerHTML = "";
+
+}
+
+
+
+createRoomButton.addEventListener(
     "click",
-    showCreateRoom
+    openCreateRoomModal
 );
 
 
-joinButton.addEventListener(
+joinRoomButton.addEventListener(
     "click",
-    showJoinRoom
+    openJoinRoomModal
 );
 
 
@@ -607,16 +1128,37 @@ modalBackdrop.addEventListener(
 );
 
 
-document.addEventListener(
-    "keydown",
+
+/* =========================================================
+   PROFILE NAME REFRESH
+========================================================= */
+
+window.addEventListener(
+    "storage",
     event => {
 
-        if (event.key === "Escape") {
-            closeModal();
+        if (
+            event.key ===
+            "studysprint_username"
+        ) {
+
+            username =
+                localStorage.getItem(
+                    "studysprint_username"
+                ) || "Student";
+
+
+            loadRooms();
+
         }
 
     }
 );
 
 
-renderRooms();
+
+/* =========================================================
+   START
+========================================================= */
+
+loadRooms();
