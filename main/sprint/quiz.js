@@ -1,4 +1,3 @@
-```js
 /* =========================================================
    STUDYSPRINT — SPRINT QUIZ ENGINE
 ========================================================= */
@@ -40,7 +39,7 @@ const progressBar = document.getElementById("progress-bar");
 
 
 /* =========================================================
-   SETUP
+   BASIC SETUP
 ========================================================= */
 
 if (topicTitle) {
@@ -72,7 +71,7 @@ function shuffle(array) {
 
 
 /* =========================================================
-   NORMALISE TOPIC
+   NORMALISE TOPIC NAME
 ========================================================= */
 
 function normaliseTopicName(value) {
@@ -144,12 +143,14 @@ async function loadQuestionFile() {
 
 
         /* -------------------------------------------------
-           FIND QUESTION VARIABLE
+           FIND VARIABLE NAME
+
+           We deliberately avoid using "$" anywhere.
         ------------------------------------------------- */
 
         const variableMatch =
             source.match(
-                /\b(?:const|let|var)\s+([A-Za-z_$][A-Za-z0-9_$]*)\s*=\s*/
+                /\b(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*/
             );
 
 
@@ -172,25 +173,9 @@ async function loadQuestionFile() {
         );
 
 
-        /* =================================================
-           CREATE A SAFE GLOBAL NAME
-        ================================================= */
-
-        window.__studySprintData =
-            undefined;
-
-
-        /*
-         * Example:
-         *
-         * const japaneseQuestions = {...};
-         *
-         * becomes:
-         *
-         * window.__studySprintData = {...};
-         *
-         * This lets us retrieve the object after execution.
-         */
+        /* -------------------------------------------------
+           FIND VARIABLE DECLARATION
+        ------------------------------------------------- */
 
         const declarationPattern =
             new RegExp(
@@ -214,6 +199,16 @@ async function loadQuestionFile() {
         }
 
 
+        /* -------------------------------------------------
+           REPLACE:
+
+           const variableName =
+
+           WITH:
+
+           window.__studySprintData =
+        ------------------------------------------------- */
+
         const executableSource =
             source.replace(
                 declarationPattern,
@@ -221,22 +216,19 @@ async function loadQuestionFile() {
             );
 
 
-        /* =================================================
-           EXECUTE QUESTION DATA
-        ================================================= */
+        /* -------------------------------------------------
+           CLEAR OLD DATA
+        ------------------------------------------------- */
+
+        window.__studySprintData =
+            undefined;
+
+
+        /* -------------------------------------------------
+           EXECUTE QUESTION FILE
+        ------------------------------------------------- */
 
         try {
-
-            /*
-             * IMPORTANT:
-             *
-             * We deliberately use eval here because the
-             * question files are the user's own static
-             * StudySprint question files.
-             *
-             * There are NO Blob URLs, dynamic imports,
-             * Function() calls, or module URLs.
-             */
 
             eval(executableSource);
 
@@ -254,16 +246,16 @@ async function loadQuestionFile() {
         }
 
 
+        /* -------------------------------------------------
+           READ QUESTION DATA
+        ------------------------------------------------- */
+
         const questionData =
             window.__studySprintData;
 
 
         delete window.__studySprintData;
 
-
-        /* =================================================
-           CHECK DATA
-        ================================================= */
 
         if (
             questionData === undefined ||
@@ -278,12 +270,13 @@ async function loadQuestionFile() {
 
 
         console.log(
-            "Question data successfully loaded."
+            "Question data successfully loaded:",
+            questionData
         );
 
 
         /* =================================================
-           FIND TOPIC ARRAY
+           FIND TOPIC
         ================================================= */
 
         if (
@@ -301,7 +294,7 @@ async function loadQuestionFile() {
 
 
             /* ------------------------------------------------
-               EXACT TOPIC
+               EXACT TOPIC MATCH
             ------------------------------------------------ */
 
             if (
@@ -317,7 +310,13 @@ async function loadQuestionFile() {
 
 
                 /* ------------------------------------------------
-                   NORMALISED TOPIC
+                   NORMALISED TOPIC MATCH
+
+                   "People, Places & Vehicles"
+
+                   becomes:
+
+                   "peopleplacesvehicles"
                 ------------------------------------------------ */
 
                 const wantedTopic =
@@ -386,7 +385,7 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           VALIDATE ARRAY
+           CHECK ARRAY
         ================================================= */
 
         if (
@@ -420,32 +419,23 @@ async function loadQuestionFile() {
 
                     if (
                         !question ||
-                        typeof question !==
-                            "object"
+                        typeof question !== "object"
                     ) {
-
                         return false;
-
                     }
 
 
                     if (
-                        question.type !==
-                        "multiple"
+                        question.type !== "multiple"
                     ) {
-
                         return false;
-
                     }
 
 
                     if (
-                        typeof question.question !==
-                        "string"
+                        typeof question.question !== "string"
                     ) {
-
                         return false;
-
                     }
 
 
@@ -454,34 +444,21 @@ async function loadQuestionFile() {
                             question.answers
                         )
                     ) {
-
                         return false;
-
                     }
 
 
                     if (
-                        question.answers.length <
-                        2
+                        question.answers.length < 2
                     ) {
-
                         return false;
-
                     }
 
 
                     const hasCorrectAnswer =
-                        typeof
-                            question.correctAnswer ===
-                            "string" ||
-
-                        typeof
-                            question.correct ===
-                            "string" ||
-
-                        typeof
-                            question.correct ===
-                            "number";
+                        typeof question.correctAnswer === "string" ||
+                        typeof question.correct === "string" ||
+                        typeof question.correct === "number";
 
 
                     return hasCorrectAnswer;
@@ -508,7 +485,7 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           START SPRINT
+           START
         ================================================= */
 
         startSprint();
@@ -524,10 +501,7 @@ async function loadQuestionFile() {
 
         showError(
             "We couldn't load the questions for " +
-            (
-                topicName ||
-                "this topic"
-            ) +
+            (topicName || "this topic") +
             "."
         );
 
@@ -540,9 +514,7 @@ async function loadQuestionFile() {
    NORMALISE QUESTION
 ========================================================= */
 
-function normaliseQuestion(
-    question
-) {
+function normaliseQuestion(question) {
 
     const answers =
         Array.isArray(
@@ -558,8 +530,7 @@ function normaliseQuestion(
 
     if (
         correctAnswer === undefined &&
-        typeof question.correct ===
-            "number"
+        typeof question.correct === "number"
     ) {
 
         correctAnswer =
@@ -572,8 +543,7 @@ function normaliseQuestion(
 
     if (
         correctAnswer === undefined &&
-        typeof question.correct ===
-            "string"
+        typeof question.correct === "string"
     ) {
 
         correctAnswer =
@@ -586,8 +556,7 @@ function normaliseQuestion(
 
         question:
             String(
-                question.question ||
-                ""
+                question.question || ""
             ),
 
         answers,
@@ -686,7 +655,13 @@ function loadQuestion() {
 
 
     questionNumber.textContent =
-        `${currentQuestion + 1} / ${sprintQuestions.length}`;
+        String(
+            currentQuestion + 1
+        ) +
+        " / " +
+        String(
+            sprintQuestions.length
+        );
 
 
     const progress =
@@ -1221,86 +1196,74 @@ function finishSprint() {
 
 
 /* =========================================================
-   ERROR
+   ERROR SCREEN
 ========================================================= */
 
-function showError(
-    message
-) {
+function showError(message) {
 
-    document.body.innerHTML = `
+    document.body.innerHTML =
+        '<main style="' +
+        'min-height:100vh;' +
+        'display:flex;' +
+        'align-items:center;' +
+        'justify-content:center;' +
+        'padding:24px;' +
+        'background:#0d0d12;' +
+        'color:#ffffff;' +
+        'font-family:Arial,sans-serif;' +
+        'text-align:center;' +
+        '">' +
 
-        <main style="
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:24px;
-            background:#0d0d12;
-            color:#ffffff;
-            font-family:Arial,sans-serif;
-            text-align:center;
-        ">
+        '<div style="' +
+        'width:100%;' +
+        'max-width:500px;' +
+        'padding:32px;' +
+        'border-radius:20px;' +
+        'background:#17171f;' +
+        'border:1px solid #292934;' +
+        'box-shadow:0 20px 60px rgba(0,0,0,0.35);' +
+        '">' +
 
-            <div style="
-                width:100%;
-                max-width:500px;
-                padding:32px;
-                border-radius:20px;
-                background:#17171f;
-                border:1px solid #292934;
-                box-shadow:
-                    0 20px 60px
-                    rgba(0,0,0,0.35);
-            ">
+        '<div style="' +
+        'font-size:48px;' +
+        'margin-bottom:16px;' +
+        '">' +
+        '⚠️' +
+        '</div>' +
 
-                <div style="
-                    font-size:48px;
-                    margin-bottom:16px;
-                ">
-                    ⚠️
-                </div>
+        '<h1 style="' +
+        'margin:0 0 12px;' +
+        'font-size:24px;' +
+        '">' +
+        'Something went wrong' +
+        '</h1>' +
 
+        '<p style="' +
+        'margin:0 0 24px;' +
+        'color:#aaaab5;' +
+        'line-height:1.5;' +
+        '">' +
+        escapeHtml(message) +
+        '</p>' +
 
-                <h1 style="
-                    margin:0 0 12px;
-                    font-size:24px;
-                ">
-                    Something went wrong
-                </h1>
+        '<button ' +
+        'type="button" ' +
+        'onclick="window.location.href=\'index.html\'" ' +
+        'style="' +
+        'border:0;' +
+        'border-radius:12px;' +
+        'padding:14px 20px;' +
+        'background:#8875f5;' +
+        'color:#ffffff;' +
+        'font-size:15px;' +
+        'font-weight:700;' +
+        'cursor:pointer;' +
+        '">' +
+        'Back to Sprint' +
+        '</button>' +
 
-
-                <p style="
-                    margin:0 0 24px;
-                    color:#aaaab5;
-                    line-height:1.5;
-                ">
-                    ${escapeHtml(message)}
-                </p>
-
-
-                <button
-                    type="button"
-                    onclick="window.location.href='index.html'"
-                    style="
-                        border:0;
-                        border-radius:12px;
-                        padding:14px 20px;
-                        background:#8875f5;
-                        color:#ffffff;
-                        font-size:15px;
-                        font-weight:700;
-                        cursor:pointer;
-                    "
-                >
-                    Back to Sprint
-                </button>
-
-            </div>
-
-        </main>
-
-    `;
+        '</div>' +
+        '</main>';
 
 }
 
@@ -1309,9 +1272,7 @@ function showError(
    ESCAPE HTML
 ========================================================= */
 
-function escapeHtml(
-    text
-) {
+function escapeHtml(text) {
 
     return String(text)
         .replace(
@@ -1339,7 +1300,7 @@ function escapeHtml(
 
 
 /* =========================================================
-   BEGIN
+   START
 ========================================================= */
 
 if (
@@ -1350,4 +1311,3 @@ if (
     loadQuestionFile();
 
 }
-```
