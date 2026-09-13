@@ -1,4 +1,4 @@
-const englishGenericQuestions = {
+window.englishGenericQuestions = {
     "English": [
 
         // =========================
