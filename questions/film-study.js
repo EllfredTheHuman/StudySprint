@@ -1,4 +1,4 @@
-const filmStudyQuestions = {
+window.filmStudyQuestions = {
     "Film Study": [
 
         // =========================
