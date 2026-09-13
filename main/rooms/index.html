@@ -15,273 +15,105 @@
 
 <body>
 
-    <main class="app">
+
+<header>
+
+    <a href="../index.html" class="logo">
+        StudySprint
+    </a>
+
+</header>
 
 
-        <!-- Header -->
-
-        <header class="header">
-
-            <div>
-
-                <p class="eyebrow">
-                    STUDYSPRINT
-                </p>
-
-                <h1>
-                    Rooms
-                </h1>
-
-            </div>
+<main>
 
 
-            <button
-                class="back-button"
-                onclick="window.location.href='../index.html'"
-                aria-label="Go home"
-            >
-                ←
-            </button>
+    <section class="page-header">
 
-        </header>
+        <div class="eyebrow">
+            YOUR GROUPS
+        </div>
+
+        <h1>
+            Rooms
+        </h1>
+
+        <p>
+            Study together, compete with friends, and keep your group connected.
+        </p>
+
+    </section>
 
 
+    <section class="actions">
+
+        <button class="primary-button" id="create-room-button">
+            + Create Room
+        </button>
+
+        <button class="secondary-button" id="join-room-button">
+            Join Room
+        </button>
+
+    </section>
 
 
-        <!-- Intro -->
+    <section class="rooms-section">
 
-        <section class="intro">
+        <div class="section-title">
 
             <h2>
-                Study together.
+                Your Rooms
             </h2>
 
-            <p>
-                Join a room with a code or create one for your class.
-            </p>
-
-        </section>
+        </div>
 
 
+        <div id="rooms-list" class="rooms-list">
 
+            <div class="empty-state">
 
-        <!-- Join Room -->
-
-        <section class="room-section">
-
-            <div class="section-icon">
-                🔗
-            </div>
-
-            <div class="section-content">
-
-                <h2>
-                    Join a room
-                </h2>
-
-                <p>
-                    Enter the code your teacher or friend gave you.
-                </p>
-
-
-                <div class="join-form">
-
-                    <input
-                        type="text"
-                        id="room-code"
-                        placeholder="ROOM CODE"
-                        maxlength="6"
-                        autocomplete="off"
-                        spellcheck="false"
-                    >
-
-                    <button
-                        id="join-button"
-                        class="primary-button"
-                    >
-                        Join Room
-                    </button>
-
+                <div class="empty-icon">
+                    🏠
                 </div>
 
-                <p
-                    id="join-message"
-                    class="message"
-                ></p>
-
-            </div>
-
-        </section>
-
-
-
-
-        <!-- Create Room -->
-
-        <section class="room-section create-section">
-
-            <div class="section-icon">
-                ✨
-            </div>
-
-            <div class="section-content">
-
-                <h2>
-                    Create a room
-                </h2>
+                <h3>
+                    No rooms yet
+                </h3>
 
                 <p>
-                    Start a room and invite other students to join.
+                    Create a room for your class or invite your friends.
                 </p>
 
-
-                <button
-                    id="create-button"
-                    class="secondary-button"
-                >
-                    Create Room
-                </button>
-
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
+</main>
 
 
-        <!-- Recent Rooms -->
+<div class="modal hidden" id="room-modal">
 
-        <section class="recent-section">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
 
-            <div class="section-heading">
+    <div class="modal-card">
 
-                <h2>
-                    Recent rooms
-                </h2>
+        <button class="close-button" id="close-modal">
+            ×
+        </button>
 
-            </div>
+        <div id="modal-content"></div>
 
+    </div>
 
-            <div
-                id="recent-rooms"
-                class="recent-rooms"
-            >
-
-                <div class="empty-state">
-
-                    <span>
-                        🏠
-                    </span>
-
-                    <p>
-                        No recent rooms
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
+</div>
 
 
+<script type="module" src="rooms.js"></script>
 
-
-        <!-- Bottom Navigation -->
-
-        <nav class="bottom-nav">
-
-
-            <a
-                href="../index.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    ⌂
-                </span>
-
-                <span>
-                    Home
-                </span>
-
-            </a>
-
-
-
-            <a
-                href="../study/index.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    ▣
-                </span>
-
-                <span>
-                    Study
-                </span>
-
-            </a>
-
-
-
-            <a
-                href="../sprint/index.html"
-                class="nav-item sprint-nav"
-            >
-
-                <span class="sprint-icon">
-                    ▶
-                </span>
-
-                <span>
-                    Sprints
-                </span>
-
-            </a>
-
-
-
-            <a
-                href="index.html"
-                class="nav-item active"
-            >
-
-                <span class="nav-icon">
-                    ♧
-                </span>
-
-                <span>
-                    Rooms
-                </span>
-
-            </a>
-
-
-
-            <a
-                href="../profile/index.html"
-                class="nav-item"
-            >
-
-                <span class="nav-icon">
-                    ●
-                </span>
-
-                <span>
-                    Profile
-                </span>
-
-            </a>
-
-
-        </nav>
-
-
-    </main>
-
-
-    <script src="rooms.js"></script>
 
 </body>
 
