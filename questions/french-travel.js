@@ -1,4 +1,4 @@
-const frenchTravelQuestions = {
+window.frenchTravelQuestions = {
     "Travel": [
 
         // =========================
