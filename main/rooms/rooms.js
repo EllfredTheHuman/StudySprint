@@ -9,8 +9,7 @@ import {
     getDatabase,
     ref,
     set,
-    get,
-    child
+    get
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
@@ -34,7 +33,6 @@ const firebaseConfig = {
 ========================================================= */
 
 const app = initializeApp(firebaseConfig);
-
 const database = getDatabase(app);
 
 
@@ -42,28 +40,37 @@ const database = getDatabase(app);
    DOM
 ========================================================= */
 
-const createRoomButton = document.getElementById("create-room-button");
-const joinRoomButton = document.getElementById("join-room-button");
+const createRoomButton =
+    document.getElementById("create-room-button");
 
-const roomModal = document.getElementById("room-modal");
-const modalContent = document.getElementById("modal-content");
+const joinRoomButton =
+    document.getElementById("join-room-button");
 
-const closeModalButton = document.getElementById("close-modal");
-const modalBackdrop = document.getElementById("modal-backdrop");
+const roomModal =
+    document.getElementById("room-modal");
 
-const roomsList = document.getElementById("rooms-list");
+const modalContent =
+    document.getElementById("modal-content");
+
+const closeModalButton =
+    document.getElementById("close-modal");
+
+const modalBackdrop =
+    document.getElementById("modal-backdrop");
+
+const roomsList =
+    document.getElementById("rooms-list");
 
 
 /* =========================================================
-   LOCAL USER
+   USER
 ========================================================= */
 
-let username = localStorage.getItem("studysprint_username");
+let username =
+    localStorage.getItem("studysprint_username");
 
 if (!username) {
-
     username = "Student";
-
 }
 
 
@@ -73,22 +80,23 @@ if (!username) {
 
 function generateRoomCode() {
 
-    const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
     let code = "";
 
     for (let i = 0; i < 6; i++) {
 
-        const randomIndex = Math.floor(
-            Math.random() * characters.length
-        );
+        const randomIndex =
+            Math.floor(
+                Math.random() * characters.length
+            );
 
         code += characters[randomIndex];
 
     }
 
     return code;
-
 }
 
 
@@ -101,7 +109,9 @@ function getLocalRooms() {
     try {
 
         return JSON.parse(
-            localStorage.getItem("studysprint_rooms") || "[]"
+            localStorage.getItem(
+                "studysprint_rooms"
+            ) || "[]"
         );
 
     } catch {
@@ -184,6 +194,7 @@ function showCreateRoom() {
                 type="text"
                 maxlength="40"
                 placeholder="e.g. Year 8 Maths"
+                autocomplete="off"
             >
 
         </div>
@@ -243,8 +254,13 @@ function showCreateRoom() {
 
             roomType = "class";
 
-            classRoomButton.classList.add("selected");
-            friendRoomButton.classList.remove("selected");
+            classRoomButton.classList.add(
+                "selected"
+            );
+
+            friendRoomButton.classList.remove(
+                "selected"
+            );
 
         }
     );
@@ -256,8 +272,13 @@ function showCreateRoom() {
 
             roomType = "friends";
 
-            friendRoomButton.classList.add("selected");
-            classRoomButton.classList.remove("selected");
+            friendRoomButton.classList.add(
+                "selected"
+            );
+
+            classRoomButton.classList.remove(
+                "selected"
+            );
 
         }
     );
@@ -286,6 +307,7 @@ async function createRoom(roomType) {
     const roomNameInput =
         document.getElementById("room-name");
 
+
     const roomName =
         roomNameInput.value.trim();
 
@@ -303,20 +325,29 @@ async function createRoom(roomType) {
 
 
     const submitButton =
-        document.getElementById("create-room-submit");
+        document.getElementById(
+            "create-room-submit"
+        );
 
 
     submitButton.disabled = true;
 
-    submitButton.textContent = "Creating...";
+    submitButton.textContent =
+        "Creating...";
 
 
     try {
 
-        let roomCode = generateRoomCode();
+        let roomCode =
+            generateRoomCode();
+
 
         let roomReference =
-            ref(database, "rooms/" + roomCode);
+            ref(
+                database,
+                "rooms/" + roomCode
+            );
+
 
         let existingRoom =
             await get(roomReference);
@@ -324,10 +355,16 @@ async function createRoom(roomType) {
 
         while (existingRoom.exists()) {
 
-            roomCode = generateRoomCode();
+            roomCode =
+                generateRoomCode();
+
 
             roomReference =
-                ref(database, "rooms/" + roomCode);
+                ref(
+                    database,
+                    "rooms/" + roomCode
+                );
+
 
             existingRoom =
                 await get(roomReference);
@@ -353,9 +390,10 @@ async function createRoom(roomType) {
 
                     joinedAt: Date.now(),
 
-                    role: roomType === "class"
-                        ? "student"
-                        : "member"
+                    role:
+                        roomType === "class"
+                            ? "student"
+                            : "member"
 
                 }
 
@@ -423,7 +461,8 @@ async function createRoom(roomType) {
 
         alert(
             "We couldn't create the room.\n\n" +
-            "Check that Firebase Realtime Database is enabled."
+            "Check that Firebase Realtime Database " +
+            "is enabled and its rules allow testing."
         );
 
     }
@@ -483,11 +522,366 @@ function showJoinRoom() {
             codeInput.value =
                 codeInput.value
                     .toUpperCase()
-                    .replace(/[^A-Z0-9]/g, "");
+                    .replace(
+                        /[^A-Z0-9]/g,
+                        ""
+                    );
 
         }
     );
 
 
     document
-        .g
+        .getElementById("join-room-submit")
+        .addEventListener(
+            "click",
+            function () {
+
+                joinRoom();
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   JOIN ROOM
+========================================================= */
+
+async function joinRoom() {
+
+    const codeInput =
+        document.getElementById("room-code");
+
+
+    const code =
+        codeInput.value.trim().toUpperCase();
+
+
+    if (code.length !== 6) {
+
+        codeInput.focus();
+
+        return;
+
+    }
+
+
+    const submitButton =
+        document.getElementById(
+            "join-room-submit"
+        );
+
+
+    submitButton.disabled = true;
+
+    submitButton.textContent =
+        "Checking...";
+
+
+    try {
+
+        const roomReference =
+            ref(
+                database,
+                "rooms/" + code
+            );
+
+
+        const snapshot =
+            await get(roomReference);
+
+
+        if (!snapshot.exists()) {
+
+            alert(
+                "That room doesn't exist."
+            );
+
+
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+                "Join Room";
+
+            return;
+
+        }
+
+
+        const room =
+            snapshot.val();
+
+
+        await set(
+            ref(
+                database,
+                "rooms/" +
+                code +
+                "/members/" +
+                username
+            ),
+            {
+
+                name: username,
+
+                joinedAt: Date.now(),
+
+                role:
+                    room.type === "class"
+                        ? "student"
+                        : "member"
+
+            }
+        );
+
+
+        const localRooms =
+            getLocalRooms();
+
+
+        const alreadyJoined =
+            localRooms.some(
+                function (localRoom) {
+
+                    return (
+                        localRoom.code === code
+                    );
+
+                }
+            );
+
+
+        if (!alreadyJoined) {
+
+            localRooms.push({
+
+                code: code,
+
+                name: room.name,
+
+                type: room.type,
+
+                owner: room.owner
+
+            });
+
+
+            saveLocalRooms(
+                localRooms
+            );
+
+        }
+
+
+        closeModal();
+
+        renderRooms();
+
+
+        alert(
+            "Joined " +
+            room.name +
+            "!"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not join room:",
+            error
+        );
+
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+            "Join Room";
+
+
+        alert(
+            "We couldn't join that room.\n\n" +
+            "Check your Firebase connection."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   OPEN ROOM
+========================================================= */
+
+function openRoom(room) {
+
+    window.location.href =
+        "room.html?code=" +
+        encodeURIComponent(room.code);
+
+}
+
+
+/* =========================================================
+   RENDER ROOMS
+========================================================= */
+
+function renderRooms() {
+
+    const rooms =
+        getLocalRooms();
+
+
+    if (rooms.length === 0) {
+
+        roomsList.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    No rooms yet
+                </h3>
+
+                <p>
+                    Create a room for your class or invite your friends.
+                </p>
+
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    roomsList.innerHTML = "";
+
+
+    rooms.forEach(
+        function (room) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "room-card";
+
+
+            const roomInfo =
+                document.createElement("div");
+
+            roomInfo.className =
+                "room-info";
+
+
+            const roomName =
+                document.createElement("h3");
+
+            roomName.className =
+                "room-name";
+
+            roomName.textContent =
+                room.name;
+
+
+            const roomMeta =
+                document.createElement("div");
+
+            roomMeta.className =
+                "room-meta";
+
+
+            roomMeta.textContent =
+                (
+                    room.type === "class"
+                        ? "📚 Class"
+                        : "👥 Friends"
+                ) +
+                " · Code " +
+                room.code;
+
+
+            const arrow =
+                document.createElement("div");
+
+            arrow.className =
+                "room-arrow";
+
+            arrow.textContent =
+                "›";
+
+
+            roomInfo.appendChild(
+                roomName
+            );
+
+            roomInfo.appendChild(
+                roomMeta
+            );
+
+
+            card.appendChild(
+                roomInfo
+            );
+
+            card.appendChild(
+                arrow
+            );
+
+
+            card.addEventListener(
+                "click",
+                function () {
+
+                    openRoom(room);
+
+                }
+            );
+
+
+            roomsList.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BUTTON EVENTS
+========================================================= */
+
+createRoomButton.addEventListener(
+    "click",
+    showCreateRoom
+);
+
+
+joinRoomButton.addEventListener(
+    "click",
+    showJoinRoom
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+renderRooms();
+
+
+console.log(
+    "StudySprint Rooms Firebase connected."
+);
+
+console.log(
+    "Realtime Database ready."
+);
