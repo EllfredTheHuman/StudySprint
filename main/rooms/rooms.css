@@ -1,63 +1,64 @@
-/* =========================================================
-   STUDYSPRINT — ROOMS
-   Mobile-first dark modern design
-========================================================= */
-
-
 * {
     box-sizing: border-box;
 }
-
 
 html {
     min-height: 100%;
 }
 
-
 body {
     margin: 0;
     min-height: 100vh;
 
-    background: #0d0d12;
-    color: #f4f4f7;
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(136, 117, 245, 0.12),
+            transparent 38%
+        ),
+        #09090d;
+
+    color: #f4f3f8;
 
     font-family:
-        Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
 
-/* =========================================================
-   HEADER
-========================================================= */
+
+/* HEADER */
 
 header {
     width: 100%;
 
-    padding: 20px;
+    padding: 20px 18px;
 
-    border-bottom: 1px solid #202027;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
-    background: #0d0d12;
+    background: rgba(9, 9, 13, 0.85);
+
+    backdrop-filter: blur(16px);
 }
 
-
 .logo {
-    color: #ffffff;
+    color: white;
+
+    text-decoration: none;
 
     font-size: 20px;
     font-weight: 800;
 
-    text-decoration: none;
+    letter-spacing: -0.5px;
 }
 
 
-/* =========================================================
-   MAIN
-========================================================= */
+/* MAIN */
 
 main {
     width: 100%;
@@ -65,56 +66,51 @@ main {
 
     margin: 0 auto;
 
-    padding: 36px 20px 100px;
+    padding: 44px 18px 70px;
 }
 
 
-/* =========================================================
-   PAGE HEADER
-========================================================= */
+/* PAGE HEADER */
 
 .page-header {
-    margin-bottom: 28px;
+    margin-bottom: 30px;
 }
 
-
 .eyebrow {
-    margin-bottom: 8px;
-
     color: #8875f5;
 
     font-size: 12px;
     font-weight: 800;
 
-    letter-spacing: 1.5px;
-}
+    letter-spacing: 1.8px;
 
+    margin-bottom: 10px;
+}
 
 .page-header h1 {
-    margin: 0 0 10px;
-
-    font-size: 38px;
-    line-height: 1.05;
-
-    letter-spacing: -1px;
-}
-
-
-.page-header p {
     margin: 0;
 
-    max-width: 520px;
+    font-size: clamp(40px, 11vw, 62px);
 
-    color: #96969f;
+    line-height: 0.95;
 
-    font-size: 15px;
+    letter-spacing: -2.5px;
+}
+
+.page-header p {
+    max-width: 570px;
+
+    margin: 18px 0 0;
+
+    color: #9795a4;
+
+    font-size: 16px;
+
     line-height: 1.6;
 }
 
 
-/* =========================================================
-   ACTIONS
-========================================================= */
+/* ACTIONS */
 
 .actions {
     display: grid;
@@ -126,86 +122,75 @@ main {
     margin-bottom: 42px;
 }
 
+.actions button {
+    min-height: 56px;
 
-button {
-    border: 0;
+    border-radius: 16px;
+
+    padding: 0 18px;
 
     font: inherit;
+    font-weight: 800;
 
     cursor: pointer;
-}
-
-
-.primary-button,
-.secondary-button {
-    min-height: 52px;
-
-    border-radius: 14px;
-
-    font-size: 15px;
-    font-weight: 750;
 
     transition:
         transform 0.15s ease,
+        border-color 0.15s ease,
         background 0.15s ease;
 }
 
-
-.primary-button {
-    background: #8875f5;
-    color: #ffffff;
-}
-
-
-.secondary-button {
-    background: #181820;
-    color: #ffffff;
-
-    border: 1px solid #292934;
-}
-
-
-.primary-button:hover,
-.secondary-button:hover {
+.actions button:hover {
     transform: translateY(-2px);
 }
 
+.primary-button {
+    border: 1px solid #8875f5;
 
-.primary-button:active,
-.secondary-button:active {
-    transform: scale(0.98);
+    background: #8875f5;
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(136, 117, 245, 0.18);
+}
+
+.primary-button:hover {
+    background: #9584fa;
+}
+
+.secondary-button {
+    border: 1px solid rgba(136, 117, 245, 0.45);
+
+    background: rgba(136, 117, 245, 0.08);
+
+    color: #c8c1ff;
+}
+
+.secondary-button:hover {
+    border-color: #8875f5;
+
+    background: rgba(136, 117, 245, 0.15);
 }
 
 
-/* =========================================================
-   ROOMS
-========================================================= */
+/* ROOMS */
 
 .rooms-section {
-    width: 100%;
+    margin-top: 10px;
 }
-
 
 .section-title {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
     margin-bottom: 14px;
 }
-
 
 .section-title h2 {
     margin: 0;
 
-    font-size: 18px;
+    font-size: 20px;
+
+    letter-spacing: -0.5px;
 }
-
-
-/* =========================================================
-   ROOM LIST
-========================================================= */
 
 .rooms-list {
     display: flex;
@@ -216,20 +201,28 @@ button {
 }
 
 
+/* ROOM CARD */
+
 .room-card {
+    width: 100%;
+
     display: flex;
 
     align-items: center;
-    justify-content: space-between;
 
-    gap: 15px;
+    gap: 14px;
 
-    padding: 17px;
+    padding: 16px;
 
-    background: #15151d;
+    border: 1px solid rgba(255, 255, 255, 0.07);
 
-    border: 1px solid #24242e;
-    border-radius: 16px;
+    border-radius: 18px;
+
+    background: #111116;
+
+    color: white;
+
+    text-align: left;
 
     cursor: pointer;
 
@@ -239,115 +232,138 @@ button {
         background 0.15s ease;
 }
 
-
 .room-card:hover {
     transform: translateY(-2px);
 
-    background: #191922;
+    border-color: rgba(136, 117, 245, 0.5);
 
-    border-color: #393948;
+    background: #15151c;
 }
 
+.room-card-icon {
+    width: 52px;
+    height: 52px;
 
-.room-info {
-    min-width: 0;
-}
-
-
-.room-name {
-    margin: 0 0 5px;
-
-    color: #ffffff;
-
-    font-size: 16px;
-    font-weight: 750;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-
-.room-meta {
-    color: #858590;
-
-    font-size: 13px;
-}
-
-
-.room-arrow {
     flex-shrink: 0;
 
-    color: #777781;
+    display: grid;
 
-    font-size: 22px;
+    place-items: center;
+
+    border-radius: 15px;
+
+    background: rgba(136, 117, 245, 0.12);
+
+    font-size: 24px;
+}
+
+.room-card-info {
+    min-width: 0;
+
+    flex: 1;
+}
+
+.room-card-type {
+    color: #8875f5;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.4px;
+}
+
+.room-card h3 {
+    margin: 4px 0;
+
+    font-size: 17px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.room-card p {
+    margin: 0;
+
+    color: #777582;
+
+    font-size: 12px;
+}
+
+.room-card p strong {
+    color: #aaa7b7;
+}
+
+.room-card-arrow {
+    color: #777582;
+
+    font-size: 24px;
+
+    padding-left: 4px;
 }
 
 
-/* =========================================================
-   EMPTY STATE
-========================================================= */
+/* EMPTY */
 
 .empty-state {
-    padding: 42px 20px;
+    padding: 48px 20px;
+
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.015);
 
     text-align: center;
-
-    background: #121219;
-
-    border: 1px dashed #292934;
-    border-radius: 18px;
 }
-
 
 .empty-icon {
+    font-size: 38px;
+
     margin-bottom: 12px;
-
-    font-size: 32px;
 }
-
 
 .empty-state h3 {
-    margin: 0 0 7px;
+    margin: 0 0 8px;
 
-    font-size: 16px;
+    font-size: 18px;
 }
 
-
 .empty-state p {
+    max-width: 330px;
+
     margin: 0 auto;
 
-    max-width: 320px;
-
-    color: #858590;
+    color: #777582;
 
     font-size: 14px;
+
     line-height: 1.5;
 }
 
 
-/* =========================================================
-   MODAL
-========================================================= */
+/* MODAL */
 
 .modal {
     position: fixed;
 
     inset: 0;
 
-    z-index: 100;
+    z-index: 1000;
 
-    display: flex;
+    display: grid;
 
-    align-items: flex-end;
-    justify-content: center;
+    place-items: center;
+
+    padding: 18px;
 }
-
 
 .modal.hidden {
     display: none;
 }
-
 
 .modal-backdrop {
     position: absolute;
@@ -355,207 +371,324 @@ button {
     inset: 0;
 
     background: rgba(0, 0, 0, 0.72);
-}
 
+    backdrop-filter: blur(10px);
+}
 
 .modal-card {
     position: relative;
 
-    z-index: 1;
+    z-index: 2;
 
     width: 100%;
-    max-width: 560px;
 
-    padding: 26px 20px 30px;
+    max-width: 470px;
 
-    background: #15151d;
+    max-height: calc(100vh - 36px);
 
-    border-top: 1px solid #292934;
+    overflow-y: auto;
 
-    border-radius: 22px 22px 0 0;
+    padding: 26px;
 
-    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 24px;
+
+    background: #111116;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5);
 }
-
 
 .close-button {
     position: absolute;
 
-    top: 14px;
-    right: 16px;
+    top: 15px;
+    right: 15px;
 
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
+
+    border: 0;
 
     border-radius: 50%;
 
-    background: #22222b;
+    background: rgba(255, 255, 255, 0.06);
 
-    color: #ffffff;
+    color: #aaa7b7;
 
     font-size: 24px;
-    line-height: 1;
+
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    color: white;
 }
 
 
-.modal-title {
-    margin: 0 0 8px;
+/* MODAL CONTENT */
 
-    font-size: 24px;
+.modal-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding-right: 40px;
 }
 
+.modal-icon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background: rgba(136, 117, 245, 0.13);
+
+    font-size: 23px;
+}
+
+.modal-eyebrow {
+    margin: 0 0 3px;
+
+    color: #8875f5;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
+}
+
+.modal-heading h2 {
+    margin: 0;
+
+    font-size: 25px;
+
+    letter-spacing: -0.8px;
+}
 
 .modal-description {
-    margin: 0 0 24px;
+    margin: 18px 0 24px;
 
-    color: #92929c;
+    color: #85828f;
 
     font-size: 14px;
+
     line-height: 1.5;
 }
 
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-group {
-    margin-bottom: 17px;
-}
-
-
-.form-group label {
+.input-label {
     display: block;
 
-    margin-bottom: 7px;
+    margin: 0 0 8px;
 
-    color: #cfcfd6;
+    color: #bcb9c6;
 
-    font-size: 13px;
-    font-weight: 650;
+    font-size: 12px;
+
+    font-weight: 800;
 }
 
-
-.form-input {
+.modal-input {
     width: 100%;
 
-    padding: 14px 15px;
+    height: 54px;
 
-    background: #0e0e14;
+    margin-bottom: 22px;
 
-    border: 1px solid #2a2a35;
-    border-radius: 12px;
+    padding: 0 15px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 14px;
 
     outline: none;
 
-    color: #ffffff;
+    background: #0b0b0f;
+
+    color: white;
 
     font: inherit;
+
     font-size: 15px;
 }
 
-
-.form-input:focus {
+.modal-input:focus {
     border-color: #8875f5;
+
+    box-shadow:
+        0 0 0 3px rgba(136, 117, 245, 0.12);
+}
+
+.room-code-input {
+    text-align: center;
+
+    font-size: 25px;
+
+    font-weight: 900;
+
+    letter-spacing: 5px;
 }
 
 
-.room-type-options {
+/* TYPE SELECTOR */
+
+.room-type-grid {
     display: grid;
 
     grid-template-columns: 1fr 1fr;
 
     gap: 10px;
+
+    margin-bottom: 22px;
 }
 
+.room-type-option {
+    display: flex;
 
-.room-type {
-    padding: 15px;
+    align-items: center;
 
-    background: #101017;
+    gap: 10px;
 
-    border: 1px solid #292934;
-    border-radius: 13px;
+    min-height: 74px;
 
-    color: #ffffff;
+    padding: 12px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 15px;
+
+    background: #0b0b0f;
+
+    color: white;
 
     text-align: left;
+
+    cursor: pointer;
 }
 
+.room-type-option:hover {
+    border-color: rgba(136, 117, 245, 0.5);
+}
 
-.room-type strong {
+.room-type-option.selected {
+    border-color: #8875f5;
+
+    background: rgba(136, 117, 245, 0.1);
+}
+
+.type-icon {
+    font-size: 22px;
+}
+
+.room-type-option strong {
     display: block;
-
-    margin-bottom: 4px;
 
     font-size: 14px;
 }
 
+.room-type-option small {
+    display: block;
 
-.room-type span {
-    color: #858590;
+    margin-top: 3px;
 
-    font-size: 12px;
+    color: #777582;
+
+    font-size: 10px;
 }
 
 
-.room-type.selected {
-    border-color: #8875f5;
+/* MODAL BUTTON */
 
-    background: #1a172b;
-}
-
-
-.modal-submit {
+.modal-primary-button {
     width: 100%;
 
-    min-height: 50px;
+    min-height: 54px;
 
-    margin-top: 8px;
+    border: 0;
 
-    border-radius: 13px;
+    border-radius: 15px;
 
     background: #8875f5;
 
-    color: #ffffff;
+    color: white;
 
-    font-size: 15px;
-    font-weight: 750;
+    font: inherit;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(136, 117, 245, 0.16);
+}
+
+.modal-primary-button:hover {
+    background: #9584fa;
+}
+
+.modal-primary-button:disabled {
+    opacity: 0.55;
+
+    cursor: wait;
+}
+
+.modal-error {
+    margin-top: 14px;
+
+    padding: 12px 14px;
+
+    border: 1px solid rgba(255, 90, 90, 0.2);
+
+    border-radius: 12px;
+
+    background: rgba(255, 90, 90, 0.07);
+
+    color: #ff9999;
+
+    font-size: 13px;
+
+    line-height: 1.4;
 }
 
 
-/* =========================================================
-   DESKTOP
-========================================================= */
+/* MOBILE */
 
-@media (min-width: 700px) {
-
-    header {
-        padding: 22px 32px;
-    }
-
+@media (max-width: 500px) {
 
     main {
-        padding: 60px 30px 100px;
+        padding-top: 34px;
     }
 
+    .actions {
+        grid-template-columns: 1fr;
 
-    .page-header h1 {
-        font-size: 46px;
+        gap: 9px;
     }
 
-
-    .modal {
-        align-items: center;
+    .actions button {
+        min-height: 54px;
     }
-
 
     .modal-card {
-        border: 1px solid #292934;
+        padding: 22px;
 
-        border-radius: 20px;
+        border-radius: 21px;
+    }
 
-        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    .room-type-grid {
+        grid-template-columns: 1fr;
     }
 
 }
