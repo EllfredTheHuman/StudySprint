@@ -10,15 +10,8 @@ body {
     margin: 0;
     min-height: 100vh;
 
-    background:
-        radial-gradient(
-            circle at top,
-            rgba(136, 117, 245, 0.12),
-            transparent 38%
-        ),
-        #09090d;
-
-    color: #f4f3f8;
+    background: #09090d;
+    color: #f5f3fa;
 
     font-family:
         -apple-system,
@@ -31,192 +24,138 @@ body.modal-open {
     overflow: hidden;
 }
 
-
-/* HEADER */
-
 header {
-    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 20;
 
-    padding: 20px 18px;
+    padding: 16px;
 
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
-    background: rgba(9, 9, 13, 0.85);
+    background: rgba(9, 9, 13, 0.92);
 
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
 }
 
 .logo {
     color: white;
-
     text-decoration: none;
 
-    font-size: 20px;
-    font-weight: 800;
-
-    letter-spacing: -0.5px;
+    font-size: 19px;
+    font-weight: 900;
 }
-
-
-/* MAIN */
 
 main {
     width: 100%;
-    max-width: 760px;
-
-    margin: 0 auto;
-
-    padding: 44px 18px 70px;
+    padding: 28px 15px 50px;
 }
 
-
-/* PAGE HEADER */
-
 .page-header {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .eyebrow {
+    margin-bottom: 8px;
+
     color: #8875f5;
 
-    font-size: 12px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 900;
 
-    letter-spacing: 1.8px;
-
-    margin-bottom: 10px;
+    letter-spacing: 1.6px;
 }
 
 .page-header h1 {
     margin: 0;
 
-    font-size: clamp(40px, 11vw, 62px);
-
+    font-size: 43px;
     line-height: 0.95;
 
-    letter-spacing: -2.5px;
+    letter-spacing: -2px;
 }
 
 .page-header p {
-    max-width: 570px;
+    margin: 13px 0 0;
 
-    margin: 18px 0 0;
+    color: #7e7b87;
 
-    color: #9795a4;
-
-    font-size: 16px;
-
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
-
-/* ACTIONS */
-
 .actions {
-    display: grid;
+    display: flex;
+    flex-direction: column;
 
-    grid-template-columns: 1fr 1fr;
+    gap: 9px;
 
-    gap: 12px;
-
-    margin-bottom: 42px;
+    margin-bottom: 32px;
 }
 
 .actions button {
-    min-height: 56px;
+    width: 100%;
+    min-height: 55px;
 
-    border-radius: 16px;
-
-    padding: 0 18px;
+    border-radius: 15px;
 
     font: inherit;
-    font-weight: 800;
+    font-weight: 850;
 
     cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
-}
-
-.actions button:hover {
-    transform: translateY(-2px);
 }
 
 .primary-button {
-    border: 1px solid #8875f5;
+    border: 0;
 
     background: #8875f5;
-
     color: white;
 
-    box-shadow:
-        0 10px 30px rgba(136, 117, 245, 0.18);
-}
-
-.primary-button:hover {
-    background: #9584fa;
+    box-shadow: 0 9px 25px rgba(136, 117, 245, 0.18);
 }
 
 .secondary-button {
-    border: 1px solid rgba(136, 117, 245, 0.45);
+    border: 1px solid rgba(136, 117, 245, 0.35);
 
     background: rgba(136, 117, 245, 0.08);
 
-    color: #c8c1ff;
+    color: #b9afff;
 }
-
-.secondary-button:hover {
-    border-color: #8875f5;
-
-    background: rgba(136, 117, 245, 0.15);
-}
-
-
-/* ROOMS */
 
 .rooms-section {
-    margin-top: 10px;
+    width: 100%;
 }
 
 .section-title {
-    margin-bottom: 14px;
+    margin-bottom: 11px;
 }
 
 .section-title h2 {
     margin: 0;
 
-    font-size: 20px;
-
-    letter-spacing: -0.5px;
+    font-size: 18px;
 }
 
 .rooms-list {
     display: flex;
-
     flex-direction: column;
 
-    gap: 10px;
+    gap: 9px;
 }
-
-
-/* ROOM CARD */
 
 .room-card {
     width: 100%;
 
     display: flex;
-
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 
-    padding: 16px;
+    padding: 14px;
 
     border: 1px solid rgba(255, 255, 255, 0.07);
 
-    border-radius: 18px;
+    border-radius: 17px;
 
     background: #111116;
 
@@ -225,140 +164,111 @@ main {
     text-align: left;
 
     cursor: pointer;
-
-    transition:
-        transform 0.15s ease,
-        border-color 0.15s ease,
-        background 0.15s ease;
-}
-
-.room-card:hover {
-    transform: translateY(-2px);
-
-    border-color: rgba(136, 117, 245, 0.5);
-
-    background: #15151c;
 }
 
 .room-card-icon {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
 
     flex-shrink: 0;
 
-    display: grid;
-
-    place-items: center;
-
-    border-radius: 15px;
+    border-radius: 14px;
 
     background: rgba(136, 117, 245, 0.12);
 
-    font-size: 24px;
+    font-size: 21px;
 }
 
 .room-card-info {
     min-width: 0;
-
     flex: 1;
 }
 
 .room-card-type {
     color: #8875f5;
 
-    font-size: 10px;
-
+    font-size: 9px;
     font-weight: 900;
 
-    letter-spacing: 1.4px;
+    letter-spacing: 1.2px;
 }
 
 .room-card h3 {
-    margin: 4px 0;
-
-    font-size: 17px;
-
-    white-space: nowrap;
+    margin: 3px 0;
 
     overflow: hidden;
 
+    font-size: 15px;
+
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .room-card p {
     margin: 0;
 
-    color: #777582;
+    color: #696671;
 
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .room-card p strong {
-    color: #aaa7b7;
+    color: #9994a6;
 }
 
 .room-card-arrow {
-    color: #777582;
+    color: #66636f;
 
-    font-size: 24px;
-
-    padding-left: 4px;
+    font-size: 22px;
 }
 
-
-/* EMPTY */
-
 .empty-state {
-    padding: 48px 20px;
+    padding: 42px 18px;
 
     border: 1px dashed rgba(255, 255, 255, 0.1);
 
-    border-radius: 20px;
-
-    background: rgba(255, 255, 255, 0.015);
+    border-radius: 18px;
 
     text-align: center;
 }
 
 .empty-icon {
-    font-size: 38px;
+    margin-bottom: 10px;
 
-    margin-bottom: 12px;
+    font-size: 34px;
 }
 
 .empty-state h3 {
-    margin: 0 0 8px;
+    margin: 0 0 6px;
 
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .empty-state p {
-    max-width: 330px;
+    margin: 0;
 
-    margin: 0 auto;
+    color: #706d79;
 
-    color: #777582;
-
-    font-size: 14px;
+    font-size: 12px;
 
     line-height: 1.5;
 }
-
 
 /* MODAL */
 
 .modal {
     position: fixed;
-
     inset: 0;
 
-    z-index: 1000;
+    z-index: 100;
 
-    display: grid;
+    display: flex;
+    align-items: flex-end;
 
-    place-items: center;
-
-    padding: 18px;
+    padding: 0;
 }
 
 .modal.hidden {
@@ -367,95 +277,77 @@ main {
 
 .modal-backdrop {
     position: absolute;
-
     inset: 0;
 
     background: rgba(0, 0, 0, 0.72);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .modal-card {
     position: relative;
-
     z-index: 2;
 
     width: 100%;
 
-    max-width: 470px;
-
-    max-height: calc(100vh - 36px);
+    max-height: 88vh;
 
     overflow-y: auto;
 
-    padding: 26px;
+    padding: 24px 18px 28px;
 
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 24px 24px 0 0;
 
-    border-radius: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.09);
 
-    background: #111116;
+    background: #121217;
 
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .close-button {
     position: absolute;
 
-    top: 15px;
-    right: 15px;
+    top: 14px;
+    right: 14px;
 
     width: 38px;
     height: 38px;
 
     border: 0;
-
     border-radius: 50%;
 
     background: rgba(255, 255, 255, 0.06);
 
     color: #aaa7b7;
 
-    font-size: 24px;
+    font-size: 23px;
 
     cursor: pointer;
 }
-
-.close-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-
-    color: white;
-}
-
-
-/* MODAL CONTENT */
 
 .modal-heading {
     display: flex;
 
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 
-    padding-right: 40px;
+    padding-right: 45px;
 }
 
 .modal-icon {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
 
     display: grid;
-
     place-items: center;
 
-    flex-shrink: 0;
+    border-radius: 14px;
 
-    border-radius: 15px;
+    background: rgba(136, 117, 245, 0.12);
 
-    background: rgba(136, 117, 245, 0.13);
-
-    font-size: 23px;
+    font-size: 21px;
 }
 
 .modal-eyebrow {
@@ -463,53 +355,49 @@ main {
 
     color: #8875f5;
 
-    font-size: 10px;
-
+    font-size: 9px;
     font-weight: 900;
 
-    letter-spacing: 1.5px;
+    letter-spacing: 1.3px;
 }
 
 .modal-heading h2 {
     margin: 0;
 
-    font-size: 25px;
+    font-size: 23px;
 
-    letter-spacing: -0.8px;
+    letter-spacing: -0.7px;
 }
 
 .modal-description {
-    margin: 18px 0 24px;
+    margin: 16px 0 22px;
 
-    color: #85828f;
+    color: #817e8b;
 
-    font-size: 14px;
-
+    font-size: 13px;
     line-height: 1.5;
 }
 
 .input-label {
     display: block;
 
-    margin: 0 0 8px;
+    margin: 0 0 7px;
 
-    color: #bcb9c6;
+    color: #b9b5c2;
 
-    font-size: 12px;
-
+    font-size: 11px;
     font-weight: 800;
 }
 
 .modal-input {
     width: 100%;
+    height: 53px;
 
-    height: 54px;
+    margin-bottom: 18px;
 
-    margin-bottom: 22px;
+    padding: 0 14px;
 
-    padding: 0 15px;
-
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
     border-radius: 14px;
 
@@ -520,54 +408,45 @@ main {
     color: white;
 
     font: inherit;
-
-    font-size: 15px;
 }
 
 .modal-input:focus {
     border-color: #8875f5;
 
-    box-shadow:
-        0 0 0 3px rgba(136, 117, 245, 0.12);
+    box-shadow: 0 0 0 3px rgba(136, 117, 245, 0.11);
 }
 
 .room-code-input {
     text-align: center;
 
-    font-size: 25px;
-
+    font-size: 24px;
     font-weight: 900;
 
     letter-spacing: 5px;
 }
 
-
-/* TYPE SELECTOR */
-
 .room-type-grid {
     display: grid;
-
     grid-template-columns: 1fr 1fr;
 
-    gap: 10px;
+    gap: 8px;
 
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .room-type-option {
-    display: flex;
+    min-height: 75px;
 
+    display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
-    min-height: 74px;
-
-    padding: 12px;
+    padding: 11px;
 
     border: 1px solid rgba(255, 255, 255, 0.08);
 
-    border-radius: 15px;
+    border-radius: 14px;
 
     background: #0b0b0f;
 
@@ -578,10 +457,6 @@ main {
     cursor: pointer;
 }
 
-.room-type-option:hover {
-    border-color: rgba(136, 117, 245, 0.5);
-}
-
 .room-type-option.selected {
     border-color: #8875f5;
 
@@ -589,13 +464,13 @@ main {
 }
 
 .type-icon {
-    font-size: 22px;
+    font-size: 21px;
 }
 
 .room-type-option strong {
     display: block;
 
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .room-type-option small {
@@ -603,51 +478,37 @@ main {
 
     margin-top: 3px;
 
-    color: #777582;
+    color: #6e6b76;
 
-    font-size: 10px;
+    font-size: 9px;
 }
-
-
-/* MODAL BUTTON */
 
 .modal-primary-button {
     width: 100%;
-
-    min-height: 54px;
+    min-height: 53px;
 
     border: 0;
 
-    border-radius: 15px;
+    border-radius: 14px;
 
     background: #8875f5;
 
     color: white;
 
     font: inherit;
-
     font-weight: 900;
 
     cursor: pointer;
-
-    box-shadow:
-        0 10px 25px rgba(136, 117, 245, 0.16);
-}
-
-.modal-primary-button:hover {
-    background: #9584fa;
 }
 
 .modal-primary-button:disabled {
-    opacity: 0.55;
-
-    cursor: wait;
+    opacity: 0.5;
 }
 
 .modal-error {
-    margin-top: 14px;
+    margin-top: 12px;
 
-    padding: 12px 14px;
+    padding: 12px;
 
     border: 1px solid rgba(255, 90, 90, 0.2);
 
@@ -657,38 +518,42 @@ main {
 
     color: #ff9999;
 
-    font-size: 13px;
-
-    line-height: 1.4;
+    font-size: 12px;
 }
 
+@media (min-width: 700px) {
 
-/* MOBILE */
+    body {
+        display: flex;
+        justify-content: center;
+    }
 
-@media (max-width: 500px) {
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
 
     main {
-        padding-top: 34px;
+        width: 430px;
+
+        padding-top: 105px;
     }
 
-    .actions {
-        grid-template-columns: 1fr;
+    .modal {
+        align-items: center;
 
-        gap: 9px;
-    }
-
-    .actions button {
-        min-height: 54px;
+        padding: 18px;
     }
 
     .modal-card {
-        padding: 22px;
+        width: 100%;
 
-        border-radius: 21px;
+        max-width: 430px;
+
+        border-radius: 24px;
+
+        border: 1px solid rgba(255, 255, 255, 0.09);
     }
-
-    .room-type-grid {
-        grid-template-columns: 1fr;
-    }
-
 }
