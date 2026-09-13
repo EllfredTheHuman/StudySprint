@@ -1,4 +1,4 @@
-const year9AlgebraQuestions = {
+window.year9AlgebraQuestions = {
     "Year 9 Algebra": [
 
         // =========================
