@@ -1,7 +1,3 @@
-/* =========================================================
-   STUDYSPRINT — ROOM PAGE
-========================================================= */
-
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -9,13 +5,9 @@ import {
 import {
     getDatabase,
     ref,
-    get
+    onValue
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
-
-/* =========================================================
-   FIREBASE
-========================================================= */
 
 const firebaseConfig = {
     apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
@@ -28,97 +20,798 @@ const firebaseConfig = {
 };
 
 
-const app =
-    initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
-
-const database =
-    getDatabase(app);
-
-
-/* =========================================================
-   ROOM CODE
-========================================================= */
 
 const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
+    new URLSearchParams(window.location.search);
 
 const roomCode =
     params.get("code");
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+const roomTypeElement =
+    document.getElementById("room-type");
 
-const roomName =
-    document.getElementById(
-        "room-name"
-    );
+const roomNameElement =
+    document.getElementById("room-name");
 
+const memberCountElement =
+    document.getElementById("member-count");
 
-const roomType =
-    document.getElementById(
-        "room-type"
-    );
+const roomCodeElement =
+    document.getElementById("room-code");
 
-
-const displayedCode =
-    document.getElementById(
-        "room-code"
-    );
-
-
-const memberCount =
-    document.getElementById(
-        "member-count"
-    );
-
-
-const membersList =
-    document.getElementById(
-        "members-list"
-    );
-
-
-const welcomeText =
-    document.getElementById(
-        "welcome-text"
-    );
-
-
-const errorBox =
-    document.getElementById(
-        "room-error"
-    );
-
-
-const copyButton =
-    document.getElementById(
-        "copy-code"
-    );
-
+const copyCodeButton =
+    document.getElementById("copy-code");
 
 const copyMessage =
-    document.getElementById(
-        "copy-message"
+    document.getElementById("copy-message");
+
+const membersList =
+    document.getElementById("members-list");
+
+const roomError =
+    document.getElementById("room-error");
+
+const welcomeText =
+    document.getElementById("welcome-text");
+
+
+if (!roomCode) {
+
+    showError("No room code was provided.");
+
+} else {
+
+    loadRoom();
+
+}
+
+
+/* ERROR */
+
+function showError(message) {
+
+    roomError.textContent = message;
+
+    roomError.classList.add("visible");
+
+    roomNameElement.textContent = "Room unavailable";
+
+    memberCountElement.textContent = "";
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value == null ? "" : String(value);
+
+    return div.innerHTML;
+
+}
+
+
+/* LOAD ROOM */
+
+function loadRoom() {
+
+    const roomRef =
+        ref(database, "rooms/" + roomCode);
+
+
+    onValue(
+        roomRef,
+        snapshot => {
+
+            if (!snapshot.exists()) {
+
+                showError(
+                    "This room does not exist or has been deleted."
+                );
+
+                return;
+
+            }
+
+
+            const room =
+                snapshot.val();
+
+
+            renderRoom(room);
+
+        },
+
+        error => {
+
+            console.error(error);
+
+            showError(
+                "Couldn't load this room. Check your Firebase connection and database rules."
+            );
+
+        }
     );
 
+}
 
-/* =========================================================
-   COPY CODE
-========================================================= */
 
-copyButton.addEventListener(
+/* RENDER ROOM */
+
+function renderRoom(room) {
+
+    const type =
+        room.type === "class"
+            ? "CLASS"
+            : "FRIENDS";
+
+
+    roomTypeElement.textContent =
+        type;
+
+
+    roomNameElement.textContent =
+        room.name || "Untitled Room";
+
+
+    roomCodeElement.textContent =
+        roomCode;
+
+
+    const members =
+        room.members || {};
+
+
+    const memberArray =
+        Object.entries(members)
+            .map(([id, member]) => ({
+                id,
+                ...member
+            }));
+
+
+    memberCountElement.textContent =
+        memberArray.length +
+        (memberArray.length === 1 ? " member" : " members");
+
+
+    welcomeText.textContent =
+        type === "CLASS"
+            ? "Welcome to " + (room.name || "your class") + "."
+            : "Welcome to " + (room.name || "your friend group") + ".";
+
+
+    renderMembers(memberArray);
+
+    renderLeaderboard(memberArray);
+
+    renderAssignments(room.assignments || {});
+
+    renderChallenges(room.challenges || {});
+
+    renderActivity(room);
+
+}
+
+
+/* MEMBERS */
+
+function renderMembers(members) {
+
+    if (!members.length) {
+
+        membersList.innerHTML = `
+            <div class="empty-small">
+                No members yet.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    members.sort((a, b) => {
+
+        if (a.role === "owner") return -1;
+
+        if (b.role === "owner") return 1;
+
+        return (a.name || "").localeCompare(
+            b.name || ""
+        );
+
+    });
+
+
+    membersList.innerHTML = "";
+
+
+    members.forEach(member => {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "member-row";
+
+
+        const initials =
+            getInitials(member.name || "Student");
+
+
+        row.innerHTML = `
+
+            <div class="member-avatar">
+                ${escapeHTML(initials)}
+            </div>
+
+            <div class="member-info">
+
+                <strong>
+                    ${escapeHTML(member.name || "Student")}
+                </strong>
+
+                <span>
+                    ${member.role === "owner"
+                        ? "Owner"
+                        : "Member"}
+                </span>
+
+            </div>
+
+            <div class="member-score">
+                ${Number(member.score) || 0}
+                pts
+            </div>
+
+        `;
+
+
+        membersList.appendChild(row);
+
+    });
+
+}
+
+
+/* LEADERBOARD */
+
+function renderLeaderboard(members) {
+
+    const section =
+        document.getElementById("section-leaderboard");
+
+
+    if (!section) return;
+
+
+    const sorted =
+        [...members].sort(
+            (a, b) =>
+                (Number(b.score) || 0) -
+                (Number(a.score) || 0)
+        );
+
+
+    let leaderboardHTML = `
+
+        <div class="section-card leaderboard-card">
+
+            <div class="section-card-heading">
+
+                <div>
+                    <span class="section-mini-label">
+                        ROOM RANKINGS
+                    </span>
+
+                    <h2>🏆 Leaderboard</h2>
+                </div>
+
+                <span class="live-pill">
+                    LIVE
+                </span>
+
+            </div>
+
+            <div class="leaderboard-list">
+
+    `;
+
+
+    if (!sorted.length) {
+
+        leaderboardHTML += `
+
+            <div class="empty-small">
+                No members yet.
+            </div>
+
+        `;
+
+    } else {
+
+        sorted.forEach((member, index) => {
+
+            const score =
+                Number(member.score) || 0;
+
+
+            const position =
+                index + 1;
+
+
+            let medal = "";
+
+            if (position === 1) medal = "🥇";
+            if (position === 2) medal = "🥈";
+            if (position === 3) medal = "🥉";
+
+
+            leaderboardHTML += `
+
+                <div class="leaderboard-row">
+
+                    <div class="leaderboard-position">
+                        ${medal || position}
+                    </div>
+
+                    <div class="leaderboard-avatar">
+                        ${escapeHTML(
+                            getInitials(
+                                member.name || "Student"
+                            )
+                        )}
+                    </div>
+
+                    <div class="leaderboard-name">
+
+                        <strong>
+                            ${escapeHTML(
+                                member.name || "Student"
+                            )}
+                        </strong>
+
+                        ${
+                            member.role === "owner"
+                                ? `<span>OWNER</span>`
+                                : ""
+                        }
+
+                    </div>
+
+                    <div class="leaderboard-score">
+                        ${score}
+                        <small>pts</small>
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    leaderboardHTML += `
+
+            </div>
+
+            <div class="leaderboard-note">
+                Scores will update as members complete StudySprint activities.
+            </div>
+
+        </div>
+
+    `;
+
+
+    section.innerHTML =
+        leaderboardHTML;
+
+}
+
+
+/* ASSIGNMENTS */
+
+function renderAssignments(assignments) {
+
+    const section =
+        document.getElementById("section-assignments");
+
+
+    if (!section) return;
+
+
+    const items =
+        Object.entries(assignments);
+
+
+    let html = `
+
+        <div class="section-card">
+
+            <div class="section-card-heading">
+
+                <div>
+                    <span class="section-mini-label">
+                        ROOM WORK
+                    </span>
+
+                    <h2>📋 Assignments</h2>
+                </div>
+
+            </div>
+
+    `;
+
+
+    if (!items.length) {
+
+        html += `
+
+            <div class="dashboard-empty">
+
+                <div class="dashboard-empty-icon">
+                    📋
+                </div>
+
+                <h3>No assignments yet</h3>
+
+                <p>
+                    Assignments created for this room will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        html += `<div class="dashboard-list">`;
+
+
+        items.forEach(([id, assignment]) => {
+
+            html += `
+
+                <div class="dashboard-item">
+
+                    <div class="dashboard-item-icon">
+                        📚
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            ${escapeHTML(
+                                assignment.title || "Assignment"
+                            )}
+                        </strong>
+
+                        <span>
+                            ${
+                                escapeHTML(
+                                    assignment.description ||
+                                    "StudySprint assignment"
+                                )
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        html += `</div>`;
+
+    }
+
+
+    html += `</div>`;
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+/* CHALLENGES */
+
+function renderChallenges(challenges) {
+
+    const section =
+        document.getElementById("section-challenges");
+
+
+    if (!section) return;
+
+
+    const items =
+        Object.entries(challenges);
+
+
+    let html = `
+
+        <div class="section-card">
+
+            <div class="section-card-heading">
+
+                <div>
+                    <span class="section-mini-label">
+                        ROOM EVENTS
+                    </span>
+
+                    <h2>🎯 Challenges</h2>
+                </div>
+
+            </div>
+
+    `;
+
+
+    if (!items.length) {
+
+        html += `
+
+            <div class="dashboard-empty">
+
+                <div class="dashboard-empty-icon">
+                    🎯
+                </div>
+
+                <h3>No challenges yet</h3>
+
+                <p>
+                    Room challenges will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        html += `<div class="dashboard-list">`;
+
+
+        items.forEach(([id, challenge]) => {
+
+            html += `
+
+                <div class="dashboard-item challenge-item">
+
+                    <div class="dashboard-item-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            ${escapeHTML(
+                                challenge.title || "Challenge"
+                            )}
+                        </strong>
+
+                        <span>
+                            ${
+                                escapeHTML(
+                                    challenge.description ||
+                                    "Room challenge"
+                                )
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+
+        html += `</div>`;
+
+    }
+
+
+    html += `</div>`;
+
+
+    section.innerHTML =
+        html;
+
+}
+
+
+/* ACTIVITY */
+
+function renderActivity(room) {
+
+    const section =
+        document.getElementById("section-home");
+
+
+    if (!section) return;
+
+
+    const announcements =
+        Object.entries(
+            room.announcements || {}
+        );
+
+
+    let activityHTML = `
+
+        <div class="section-card">
+
+            <div class="section-card-heading">
+
+                <div>
+                    <span class="section-mini-label">
+                        ROOM FEED
+                    </span>
+
+                    <h2>Activity</h2>
+                </div>
+
+                <span class="live-pill">
+                    LIVE
+                </span>
+
+            </div>
+
+    `;
+
+
+    if (!announcements.length) {
+
+        activityHTML += `
+
+            <div class="dashboard-empty activity-empty">
+
+                <div class="dashboard-empty-icon">
+                    ✨
+                </div>
+
+                <h3>Your room is ready</h3>
+
+                <p>
+                    Announcements and activity will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    } else {
+
+        activityHTML += `<div class="dashboard-list">`;
+
+
+        announcements
+            .sort(
+                (a, b) =>
+                    (Number(b[1].createdAt) || 0) -
+                    (Number(a[1].createdAt) || 0)
+            )
+            .forEach(([id, announcement]) => {
+
+                activityHTML += `
+
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            📢
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                ${escapeHTML(
+                                    announcement.title ||
+                                    "Announcement"
+                                )}
+                            </strong>
+
+                            <p>
+                                ${escapeHTML(
+                                    announcement.text ||
+                                    ""
+                                )}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+
+        activityHTML += `</div>`;
+
+    }
+
+
+    activityHTML += `</div>`;
+
+
+    const cards =
+        section.querySelectorAll(".section-card");
+
+
+    if (cards.length > 1) {
+
+        cards[cards.length - 1].outerHTML =
+            activityHTML;
+
+    } else {
+
+        section.insertAdjacentHTML(
+            "beforeend",
+            activityHTML
+        );
+
+    }
+
+}
+
+
+/* INITIALS */
+
+function getInitials(name) {
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+    if (!parts.length) return "?";
+
+
+    if (parts.length === 1) {
+
+        return parts[0]
+            .slice(0, 2)
+            .toUpperCase();
+
+    }
+
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
+
+}
+
+
+/* COPY CODE */
+
+copyCodeButton.addEventListener(
     "click",
-    async function () {
+    async () => {
 
-        if (!roomCode) {
-            return;
-        }
+        if (!roomCode) return;
 
 
         try {
@@ -128,352 +821,79 @@ copyButton.addEventListener(
             );
 
             copyMessage.textContent =
-                "Code copied!";
+                "Copied!";
 
-        }
+            copyMessage.classList.add("show");
 
-        catch {
+
+            setTimeout(() => {
+
+                copyMessage.classList.remove("show");
+
+            }, 1800);
+
+
+        } catch {
 
             copyMessage.textContent =
-                "Copy failed — hold to copy the code.";
+                "Copy failed";
+
+            copyMessage.classList.add("show");
 
         }
-
-
-        setTimeout(
-            function () {
-
-                copyMessage.textContent =
-                    "";
-
-            },
-            2000
-        );
 
     }
 );
 
 
-/* =========================================================
-   TABS
-========================================================= */
+/* NAVIGATION */
 
-const navButtons =
-    document.querySelectorAll(
-        ".room-nav-button"
-    );
+document.querySelectorAll(
+    ".room-nav-button"
+).forEach(button => {
 
+    button.addEventListener(
+        "click",
+        () => {
 
-navButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const section =
-                    button.dataset.section;
+            const target =
+                button.dataset.section;
 
 
-                navButtons.forEach(
-                    function (item) {
+            document.querySelectorAll(
+                ".room-nav-button"
+            ).forEach(item => {
 
-                        item.classList.remove(
-                            "active"
-                        );
+                item.classList.remove("active");
 
-                    }
+            });
+
+
+            document.querySelectorAll(
+                ".room-section"
+            ).forEach(section => {
+
+                section.classList.remove("active");
+
+            });
+
+
+            button.classList.add("active");
+
+
+            const section =
+                document.getElementById(
+                    "section-" + target
                 );
 
 
-                button.classList.add(
-                    "active"
-                );
+            if (section) {
 
-
-                document
-                    .querySelectorAll(
-                        ".room-section"
-                    )
-                    .forEach(
-                        function (item) {
-
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        }
-                    );
-
-
-                const selected =
-                    document.getElementById(
-                        "section-" +
-                        section
-                    );
-
-
-                if (selected) {
-
-                    selected.classList.add(
-                        "active"
-                    );
-
-                }
+                section.classList.add("active");
 
             }
-        );
-
-    }
-);
-
-
-/* =========================================================
-   LOAD ROOM
-========================================================= */
-
-async function loadRoom() {
-
-    if (!roomCode) {
-
-        showError(
-            "No room code was provided."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const roomRef =
-            ref(
-                database,
-                "rooms/" +
-                roomCode
-            );
-
-
-        const snapshot =
-            await get(roomRef);
-
-
-        if (!snapshot.exists()) {
-
-            showError(
-                "This room does not exist."
-            );
-
-            return;
-
-        }
-
-
-        const room =
-            snapshot.val();
-
-
-        renderRoom(room);
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        showError(
-            "Could not load this room."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   RENDER ROOM
-========================================================= */
-
-function renderRoom(room) {
-
-    roomName.textContent =
-        room.name || "StudySprint Room";
-
-
-    displayedCode.textContent =
-        roomCode;
-
-
-    const type =
-        room.type === "class"
-            ? "CLASS ROOM"
-            : "FRIENDS ROOM";
-
-
-    roomType.textContent =
-        type;
-
-
-    const members =
-        room.members || {};
-
-
-    const memberArray =
-        Object.entries(
-            members
-        );
-
-
-    memberCount.textContent =
-        memberArray.length +
-        (
-            memberArray.length === 1
-                ? " member"
-                : " members"
-        );
-
-
-    welcomeText.textContent =
-        "Welcome to " +
-        (
-            room.name ||
-            "your StudySprint room"
-        ) +
-        "!";
-
-
-    renderMembers(
-        memberArray
-    );
-
-}
-
-
-/* =========================================================
-   MEMBERS
-========================================================= */
-
-function renderMembers(
-    memberArray
-) {
-
-    membersList.innerHTML = "";
-
-
-    if (memberArray.length === 0) {
-
-        membersList.textContent =
-            "No members yet.";
-
-        return;
-
-    }
-
-
-    memberArray.forEach(
-        function ([id, member]) {
-
-            const row =
-                document.createElement(
-                    "div"
-                );
-
-            row.className =
-                "member";
-
-
-            const icon =
-                document.createElement(
-                    "div"
-                );
-
-            icon.className =
-                "member-icon";
-
-
-            const name =
-                member.name ||
-                "Student";
-
-
-            icon.textContent =
-                name
-                    .charAt(0)
-                    .toUpperCase();
-
-
-            const nameElement =
-                document.createElement(
-                    "div"
-                );
-
-            nameElement.className =
-                "member-name";
-
-            nameElement.textContent =
-                name;
-
-
-            const role =
-                document.createElement(
-                    "div"
-                );
-
-            role.className =
-                "member-role";
-
-            role.textContent =
-                member.role === "owner"
-                    ? "Owner"
-                    : "Member";
-
-
-            row.appendChild(
-                icon
-            );
-
-            row.appendChild(
-                nameElement
-            );
-
-            row.appendChild(
-                role
-            );
-
-
-            membersList.appendChild(
-                row
-            );
 
         }
     );
 
-}
-
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-function showError(message) {
-
-    errorBox.textContent =
-        message;
-
-
-    roomName.textContent =
-        "Room unavailable";
-
-
-    displayedCode.textContent =
-        "------";
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-loadRoom();
+});
