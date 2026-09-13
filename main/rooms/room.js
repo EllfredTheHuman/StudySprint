@@ -18,7 +18,7 @@ import {
 ========================================================= */
 
 const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
+    apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
     authDomain: "studysprint-67f63.firebaseapp.com",
     databaseURL: "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "studysprint-67f63",
