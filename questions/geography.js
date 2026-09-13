@@ -1,5 +1,4 @@
-```js
-const geographyQuestions = {
+window.geographyQuestions = {
     "Geography": [
 
         // =========================
