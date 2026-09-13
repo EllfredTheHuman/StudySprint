@@ -1,4 +1,4 @@
-const toBeReleasedQuestions = {
+window.toBeReleasedQuestions = {
 
     "To Be Released": []
 
