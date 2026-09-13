@@ -1,4 +1,4 @@
-const japaneseCharactersQuestions = {
+window.japaneseCharactersQuestions = {
     "Characters": [
 
         // =========================
