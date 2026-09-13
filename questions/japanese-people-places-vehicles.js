@@ -1,9 +1,8 @@
-```js
-const japanesePeoplePlacesVehiclesQuestions = {
+window.japanesePeoplePlacesVehiclesQuestions = {
     "People Places Vehicles": [
 
         // =========================
-        // MULTIPLE CHOICE — 1-50
+        // MULTIPLE CHOICE — 1-49
         // =========================
 
         {
@@ -308,7 +307,7 @@ const japanesePeoplePlacesVehiclesQuestions = {
         },
 
         // =========================
-        // WRITTEN — 51-100
+        // WRITTEN — 50
         // =========================
 
         {
@@ -558,4 +557,3 @@ const japanesePeoplePlacesVehiclesQuestions = {
         }
     ]
 };
-```
