@@ -1,4 +1,4 @@
-const grammarQuestions = {
+window.grammarQuestions = {
     "Grammar": [
 
         // =========================
