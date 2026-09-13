@@ -5,7 +5,9 @@ import {
 import {
     getDatabase,
     ref,
-    onValue
+    onValue,
+    push,
+    set
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
@@ -29,6 +31,13 @@ const params =
 
 const roomCode =
     params.get("code");
+
+
+const userId =
+    localStorage.getItem("studysprint_user_id");
+
+const username =
+    localStorage.getItem("studysprint_username") || "Student";
 
 
 const roomTypeElement =
@@ -59,6 +68,10 @@ const welcomeText =
     document.getElementById("welcome-text");
 
 
+let currentRoom = null;
+let isOwner = false;
+
+
 if (!roomCode) {
 
     showError("No room code was provided.");
@@ -70,37 +83,7 @@ if (!roomCode) {
 }
 
 
-/* ERROR */
-
-function showError(message) {
-
-    roomError.textContent = message;
-
-    roomError.classList.add("visible");
-
-    roomNameElement.textContent = "Room unavailable";
-
-    memberCountElement.textContent = "";
-
-}
-
-
-/* ESCAPE HTML */
-
-function escapeHTML(value) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        value == null ? "" : String(value);
-
-    return div.innerHTML;
-
-}
-
-
-/* LOAD ROOM */
+/* LOAD */
 
 function loadRoom() {
 
@@ -110,6 +93,7 @@ function loadRoom() {
 
     onValue(
         roomRef,
+
         snapshot => {
 
             if (!snapshot.exists()) {
@@ -123,11 +107,19 @@ function loadRoom() {
             }
 
 
-            const room =
+            currentRoom =
                 snapshot.val();
 
 
-            renderRoom(room);
+            const members =
+                currentRoom.members || {};
+
+
+            isOwner =
+                currentRoom.owner === userId;
+
+
+            renderRoom(currentRoom, members);
 
         },
 
@@ -136,7 +128,7 @@ function loadRoom() {
             console.error(error);
 
             showError(
-                "Couldn't load this room. Check your Firebase connection and database rules."
+                "Couldn't load this room. Check your Firebase database rules."
             );
 
         }
@@ -145,9 +137,9 @@ function loadRoom() {
 }
 
 
-/* RENDER ROOM */
+/* RENDER */
 
-function renderRoom(room) {
+function renderRoom(room, members) {
 
     const type =
         room.type === "class"
@@ -167,10 +159,6 @@ function renderRoom(room) {
         roomCode;
 
 
-    const members =
-        room.members || {};
-
-
     const memberArray =
         Object.entries(members)
             .map(([id, member]) => ({
@@ -181,13 +169,19 @@ function renderRoom(room) {
 
     memberCountElement.textContent =
         memberArray.length +
-        (memberArray.length === 1 ? " member" : " members");
+        (
+            memberArray.length === 1
+                ? " member"
+                : " members"
+        );
 
 
     welcomeText.textContent =
-        type === "CLASS"
-            ? "Welcome to " + (room.name || "your class") + "."
-            : "Welcome to " + (room.name || "your friend group") + ".";
+        isOwner
+            ? "You created this room. Let's get your group moving."
+            : "Welcome to " +
+              (room.name || "your room") +
+              ".";
 
 
     renderMembers(memberArray);
@@ -225,9 +219,10 @@ function renderMembers(members) {
 
         if (b.role === "owner") return 1;
 
-        return (a.name || "").localeCompare(
-            b.name || ""
-        );
+        return String(a.name || "")
+            .localeCompare(
+                String(b.name || "")
+            );
 
     });
 
@@ -240,37 +235,41 @@ function renderMembers(members) {
         const row =
             document.createElement("div");
 
+
         row.className =
             "member-row";
-
-
-        const initials =
-            getInitials(member.name || "Student");
 
 
         row.innerHTML = `
 
             <div class="member-avatar">
-                ${escapeHTML(initials)}
+                ${escapeHTML(
+                    getInitials(
+                        member.name || "Student"
+                    )
+                )}
             </div>
 
             <div class="member-info">
 
                 <strong>
-                    ${escapeHTML(member.name || "Student")}
+                    ${escapeHTML(
+                        member.name || "Student"
+                    )}
                 </strong>
 
                 <span>
-                    ${member.role === "owner"
-                        ? "Owner"
-                        : "Member"}
+                    ${
+                        member.role === "owner"
+                            ? "Room owner"
+                            : "Member"
+                    }
                 </span>
 
             </div>
 
             <div class="member-score">
-                ${Number(member.score) || 0}
-                pts
+                ${Number(member.score) || 0} pts
             </div>
 
         `;
@@ -288,7 +287,9 @@ function renderMembers(members) {
 function renderLeaderboard(members) {
 
     const section =
-        document.getElementById("section-leaderboard");
+        document.getElementById(
+            "section-leaderboard"
+        );
 
 
     if (!section) return;
@@ -302,18 +303,20 @@ function renderLeaderboard(members) {
         );
 
 
-    let leaderboardHTML = `
+    let html = `
 
-        <div class="section-card leaderboard-card">
+        <div class="section-card">
 
             <div class="section-card-heading">
 
                 <div>
+
                     <span class="section-mini-label">
                         ROOM RANKINGS
                     </span>
 
                     <h2>🏆 Leaderboard</h2>
+
                 </div>
 
                 <span class="live-pill">
@@ -329,39 +332,37 @@ function renderLeaderboard(members) {
 
     if (!sorted.length) {
 
-        leaderboardHTML += `
-
+        html += `
             <div class="empty-small">
                 No members yet.
             </div>
-
         `;
 
     } else {
 
         sorted.forEach((member, index) => {
 
-            const score =
-                Number(member.score) || 0;
-
-
             const position =
                 index + 1;
 
 
-            let medal = "";
+            let medal =
+                String(position);
+
 
             if (position === 1) medal = "🥇";
+
             if (position === 2) medal = "🥈";
+
             if (position === 3) medal = "🥉";
 
 
-            leaderboardHTML += `
+            html += `
 
                 <div class="leaderboard-row">
 
                     <div class="leaderboard-position">
-                        ${medal || position}
+                        ${medal}
                     </div>
 
                     <div class="leaderboard-avatar">
@@ -382,15 +383,20 @@ function renderLeaderboard(members) {
 
                         ${
                             member.role === "owner"
-                                ? `<span>OWNER</span>`
+                                ? "<span>OWNER</span>"
                                 : ""
                         }
 
                     </div>
 
                     <div class="leaderboard-score">
-                        ${score}
-                        <small>pts</small>
+
+                        ${Number(member.score) || 0}
+
+                        <small>
+                            pts
+                        </small>
+
                     </div>
 
                 </div>
@@ -402,7 +408,7 @@ function renderLeaderboard(members) {
     }
 
 
-    leaderboardHTML += `
+    html += `
 
             </div>
 
@@ -416,7 +422,7 @@ function renderLeaderboard(members) {
 
 
     section.innerHTML =
-        leaderboardHTML;
+        html;
 
 }
 
@@ -426,7 +432,9 @@ function renderLeaderboard(members) {
 function renderAssignments(assignments) {
 
     const section =
-        document.getElementById("section-assignments");
+        document.getElementById(
+            "section-assignments"
+        );
 
 
     if (!section) return;
@@ -443,16 +451,35 @@ function renderAssignments(assignments) {
             <div class="section-card-heading">
 
                 <div>
+
                     <span class="section-mini-label">
                         ROOM WORK
                     </span>
 
                     <h2>📋 Assignments</h2>
+
                 </div>
 
             </div>
 
     `;
+
+
+    if (isOwner) {
+
+        html += `
+
+            <button
+                class="assignment-create-button"
+                id="new-assignment-button"
+                type="button"
+            >
+                + New Assignment
+            </button>
+
+        `;
+
+    }
 
 
     if (!items.length) {
@@ -468,7 +495,11 @@ function renderAssignments(assignments) {
                 <h3>No assignments yet</h3>
 
                 <p>
-                    Assignments created for this room will appear here.
+                    ${
+                        isOwner
+                            ? "Create the first assignment for your room."
+                            : "Assignments created by the room owner will appear here."
+                    }
                 </p>
 
             </div>
@@ -477,55 +508,326 @@ function renderAssignments(assignments) {
 
     } else {
 
-        html += `<div class="dashboard-list">`;
+        html += `
+            <div class="dashboard-list">
+        `;
 
 
-        items.forEach(([id, assignment]) => {
+        items
+            .sort(
+                (a, b) =>
+                    (Number(b[1].createdAt) || 0) -
+                    (Number(a[1].createdAt) || 0)
+            )
+            .forEach(([id, assignment]) => {
 
-            html += `
+                html += `
 
-                <div class="dashboard-item">
+                    <div class="dashboard-item">
 
-                    <div class="dashboard-item-icon">
-                        📚
-                    </div>
+                        <div class="dashboard-item-icon">
+                            📚
+                        </div>
 
-                    <div>
+                        <div>
 
-                        <strong>
-                            ${escapeHTML(
-                                assignment.title || "Assignment"
-                            )}
-                        </strong>
+                            <strong>
+                                ${escapeHTML(
+                                    assignment.title ||
+                                    "Assignment"
+                                )}
+                            </strong>
 
-                        <span>
-                            ${
-                                escapeHTML(
+                            <span>
+                                ${escapeHTML(
                                     assignment.description ||
                                     "StudySprint assignment"
-                                )
-                            }
-                        </span>
+                                )}
+                            </span>
+
+                        </div>
 
                     </div>
 
-                </div>
+                `;
 
-            `;
-
-        });
+            });
 
 
-        html += `</div>`;
+        html += `
+            </div>
+        `;
 
     }
 
 
-    html += `</div>`;
+    html += `
+        </div>
+    `;
 
 
     section.innerHTML =
         html;
+
+
+    const createButton =
+        document.getElementById(
+            "new-assignment-button"
+        );
+
+
+    if (createButton) {
+
+        createButton.addEventListener(
+            "click",
+            openAssignmentModal
+        );
+
+    }
+
+}
+
+
+/* ASSIGNMENT MODAL */
+
+function openAssignmentModal() {
+
+    if (!isOwner) return;
+
+
+    let modal =
+        document.getElementById(
+            "assignment-modal"
+        );
+
+
+    if (!modal) {
+
+        modal =
+            document.createElement("div");
+
+        modal.id =
+            "assignment-modal";
+
+        modal.className =
+            "assignment-modal";
+
+
+        modal.innerHTML = `
+
+            <div class="assignment-modal-card">
+
+                <h2>
+                    New Assignment
+                </h2>
+
+                <p>
+                    Create an assignment for everyone in this room.
+                </p>
+
+                <input
+                    id="assignment-title"
+                    class="assignment-input"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Assignment title"
+                >
+
+                <textarea
+                    id="assignment-description"
+                    class="assignment-textarea"
+                    maxlength="300"
+                    placeholder="Description or instructions"
+                ></textarea>
+
+                <div class="assignment-modal-actions">
+
+                    <button
+                        class="cancel-assignment"
+                        id="cancel-assignment"
+                        type="button"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="save-assignment"
+                        id="save-assignment"
+                        type="button"
+                    >
+                        Create
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document.body.appendChild(modal);
+
+
+        document
+            .getElementById("cancel-assignment")
+            .addEventListener(
+                "click",
+                closeAssignmentModal
+            );
+
+
+        document
+            .getElementById("save-assignment")
+            .addEventListener(
+                "click",
+                saveAssignment
+            );
+
+
+        modal.addEventListener(
+            "click",
+            event => {
+
+                if (event.target === modal) {
+                    closeAssignmentModal();
+                }
+
+            }
+        );
+
+    }
+
+
+    modal.classList.add("open");
+
+
+    document
+        .getElementById("assignment-title")
+        .focus();
+
+}
+
+
+function closeAssignmentModal() {
+
+    const modal =
+        document.getElementById(
+            "assignment-modal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove("open");
+
+    }
+
+}
+
+
+async function saveAssignment() {
+
+    if (!isOwner) return;
+
+
+    const titleInput =
+        document.getElementById(
+            "assignment-title"
+        );
+
+    const descriptionInput =
+        document.getElementById(
+            "assignment-description"
+        );
+
+
+    const title =
+        titleInput.value.trim();
+
+    const description =
+        descriptionInput.value.trim();
+
+
+    if (!title) {
+
+        titleInput.focus();
+
+        return;
+
+    }
+
+
+    const saveButton =
+        document.getElementById(
+            "save-assignment"
+        );
+
+
+    saveButton.disabled =
+        true;
+
+    saveButton.textContent =
+        "Saving...";
+
+
+    try {
+
+        const assignmentsRef =
+            ref(
+                database,
+                "rooms/" +
+                roomCode +
+                "/assignments"
+            );
+
+
+        const newAssignment =
+            push(assignmentsRef);
+
+
+        await set(
+            newAssignment,
+            {
+
+                title: title,
+
+                description: description,
+
+                createdAt: Date.now(),
+
+                createdBy: userId,
+
+                createdByName: username
+
+            }
+        );
+
+
+        titleInput.value =
+            "";
+
+        descriptionInput.value =
+            "";
+
+
+        closeAssignmentModal();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        saveButton.disabled =
+            false;
+
+        saveButton.textContent =
+            "Create";
+
+        alert(
+            "Couldn't create the assignment."
+        );
+
+    }
 
 }
 
@@ -535,7 +837,9 @@ function renderAssignments(assignments) {
 function renderChallenges(challenges) {
 
     const section =
-        document.getElementById("section-challenges");
+        document.getElementById(
+            "section-challenges"
+        );
 
 
     if (!section) return;
@@ -552,11 +856,13 @@ function renderChallenges(challenges) {
             <div class="section-card-heading">
 
                 <div>
+
                     <span class="section-mini-label">
                         ROOM EVENTS
                     </span>
 
                     <h2>🎯 Challenges</h2>
+
                 </div>
 
             </div>
@@ -586,14 +892,16 @@ function renderChallenges(challenges) {
 
     } else {
 
-        html += `<div class="dashboard-list">`;
+        html += `
+            <div class="dashboard-list">
+        `;
 
 
         items.forEach(([id, challenge]) => {
 
             html += `
 
-                <div class="dashboard-item challenge-item">
+                <div class="dashboard-item">
 
                     <div class="dashboard-item-icon">
                         🎯
@@ -603,17 +911,16 @@ function renderChallenges(challenges) {
 
                         <strong>
                             ${escapeHTML(
-                                challenge.title || "Challenge"
+                                challenge.title ||
+                                "Challenge"
                             )}
                         </strong>
 
                         <span>
-                            ${
-                                escapeHTML(
-                                    challenge.description ||
-                                    "Room challenge"
-                                )
-                            }
+                            ${escapeHTML(
+                                challenge.description ||
+                                "Room challenge"
+                            )}
                         </span>
 
                     </div>
@@ -625,12 +932,16 @@ function renderChallenges(challenges) {
         });
 
 
-        html += `</div>`;
+        html += `
+            </div>
+        `;
 
     }
 
 
-    html += `</div>`;
+    html += `
+        </div>
+    `;
 
 
     section.innerHTML =
@@ -644,7 +955,9 @@ function renderChallenges(challenges) {
 function renderActivity(room) {
 
     const section =
-        document.getElementById("section-home");
+        document.getElementById(
+            "section-home"
+        );
 
 
     if (!section) return;
@@ -656,40 +969,59 @@ function renderActivity(room) {
         );
 
 
-    let activityHTML = `
+    const oldActivity =
+        section.querySelector(
+            ".activity-card"
+        );
 
-        <div class="section-card">
 
-            <div class="section-card-heading">
+    if (oldActivity) {
+        oldActivity.remove();
+    }
 
-                <div>
-                    <span class="section-mini-label">
-                        ROOM FEED
-                    </span>
 
-                    <h2>Activity</h2>
-                </div>
+    const card =
+        document.createElement("div");
 
-                <span class="live-pill">
-                    LIVE
+
+    card.className =
+        "section-card activity-card";
+
+
+    let html = `
+
+        <div class="section-card-heading">
+
+            <div>
+
+                <span class="section-mini-label">
+                    ROOM FEED
                 </span>
 
+                <h2>Activity</h2>
+
             </div>
+
+            <span class="live-pill">
+                LIVE
+            </span>
+
+        </div>
 
     `;
 
 
     if (!announcements.length) {
 
-        activityHTML += `
+        html += `
 
-            <div class="dashboard-empty activity-empty">
+            <div class="dashboard-empty">
 
                 <div class="dashboard-empty-icon">
                     ✨
                 </div>
 
-                <h3>Your room is ready</h3>
+                <h3>Room is ready</h3>
 
                 <p>
                     Announcements and activity will appear here.
@@ -701,7 +1033,9 @@ function renderActivity(room) {
 
     } else {
 
-        activityHTML += `<div class="dashboard-list">`;
+        html += `
+            <div class="dashboard-list">
+        `;
 
 
         announcements
@@ -712,7 +1046,7 @@ function renderActivity(room) {
             )
             .forEach(([id, announcement]) => {
 
-                activityHTML += `
+                html += `
 
                     <div class="activity-item">
 
@@ -745,36 +1079,136 @@ function renderActivity(room) {
             });
 
 
-        activityHTML += `</div>`;
+        html += `
+            </div>
+        `;
 
     }
 
 
-    activityHTML += `</div>`;
+    card.innerHTML =
+        html;
 
 
-    const cards =
-        section.querySelectorAll(".section-card");
-
-
-    if (cards.length > 1) {
-
-        cards[cards.length - 1].outerHTML =
-            activityHTML;
-
-    } else {
-
-        section.insertAdjacentHTML(
-            "beforeend",
-            activityHTML
-        );
-
-    }
+    section.appendChild(card);
 
 }
 
 
-/* INITIALS */
+/* COPY */
+
+copyCodeButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await navigator.clipboard.writeText(
+                roomCode
+            );
+
+
+            copyMessage.textContent =
+                "Copied!";
+
+            copyMessage.classList.add(
+                "show"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    copyMessage.classList.remove(
+                        "show"
+                    );
+
+                },
+                1600
+            );
+
+
+        } catch {
+
+            copyMessage.textContent =
+                "Copy failed";
+
+            copyMessage.classList.add(
+                "show"
+            );
+
+        }
+
+    }
+);
+
+
+/* NAV */
+
+document
+    .querySelectorAll(".room-nav-button")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const target =
+                    button.dataset.section;
+
+
+                document
+                    .querySelectorAll(
+                        ".room-nav-button"
+                    )
+                    .forEach(item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                document
+                    .querySelectorAll(
+                        ".room-section"
+                    )
+                    .forEach(section => {
+
+                        section.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                const section =
+                    document.getElementById(
+                        "section-" + target
+                    );
+
+
+                if (section) {
+
+                    section.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* HELPERS */
 
 function getInitials(name) {
 
@@ -785,7 +1219,9 @@ function getInitials(name) {
             .filter(Boolean);
 
 
-    if (!parts.length) return "?";
+    if (!parts.length) {
+        return "?";
+    }
 
 
     if (parts.length === 1) {
@@ -805,95 +1241,28 @@ function getInitials(name) {
 }
 
 
-/* COPY CODE */
+function escapeHTML(value) {
 
-copyCodeButton.addEventListener(
-    "click",
-    async () => {
+    const div =
+        document.createElement("div");
 
-        if (!roomCode) return;
+    div.textContent =
+        value == null
+            ? ""
+            : String(value);
 
+    return div.innerHTML;
 
-        try {
-
-            await navigator.clipboard.writeText(
-                roomCode
-            );
-
-            copyMessage.textContent =
-                "Copied!";
-
-            copyMessage.classList.add("show");
+}
 
 
-            setTimeout(() => {
+function showError(message) {
 
-                copyMessage.classList.remove("show");
+    roomError.textContent =
+        message;
 
-            }, 1800);
-
-
-        } catch {
-
-            copyMessage.textContent =
-                "Copy failed";
-
-            copyMessage.classList.add("show");
-
-        }
-
-    }
-);
-
-
-/* NAVIGATION */
-
-document.querySelectorAll(
-    ".room-nav-button"
-).forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            const target =
-                button.dataset.section;
-
-
-            document.querySelectorAll(
-                ".room-nav-button"
-            ).forEach(item => {
-
-                item.classList.remove("active");
-
-            });
-
-
-            document.querySelectorAll(
-                ".room-section"
-            ).forEach(section => {
-
-                section.classList.remove("active");
-
-            });
-
-
-            button.classList.add("active");
-
-
-            const section =
-                document.getElementById(
-                    "section-" + target
-                );
-
-
-            if (section) {
-
-                section.classList.add("active");
-
-            }
-
-        }
+    roomError.classList.add(
+        "visible"
     );
 
-});
+}
