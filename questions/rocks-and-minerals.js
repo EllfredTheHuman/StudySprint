@@ -1,4 +1,4 @@
-const rocksAndMineralsQuestions = {
+window.rocksAndMineralsQuestions = {
 
     "Rocks and Minerals": [
 
