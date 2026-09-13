@@ -1,7 +1,3 @@
-/* =========================================================
-   STUDYSPRINT — ROOMS
-========================================================= */
-
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -9,21 +5,18 @@ import {
 import {
     getDatabase,
     ref,
-    set,
-    get
+    get,
+    set
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 import {
+    generateRoomCode,
     findAvailableRoomCode
 } from "./room-code.js";
 
 
-/* =========================================================
-   FIREBASE
-========================================================= */
-
 const firebaseConfig = {
-    apiKey: "YOUR_FIREBASE_API_KEY",
+    apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
     authDomain: "studysprint-67f63.firebaseapp.com",
     databaseURL: "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "studysprint-67f63",
@@ -32,281 +25,215 @@ const firebaseConfig = {
     appId: "1:1076120438088:web:284c4856998fb607ac1f7d"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 
-/* =========================================================
-   USER
-========================================================= */
+const createButton = document.getElementById("create-room-button");
+const joinButton = document.getElementById("join-room-button");
 
-let username =
-    localStorage.getItem("studysprint_username") ||
-    "Student";
+const modal = document.getElementById("room-modal");
+const modalBackdrop = document.getElementById("modal-backdrop");
+const closeModalButton = document.getElementById("close-modal");
+const modalContent = document.getElementById("modal-content");
 
-let userId =
-    localStorage.getItem("studysprint_user_id");
+const roomsList = document.getElementById("rooms-list");
+
+
+let username = localStorage.getItem("studysprint_username") || "Student";
+
+let userId = localStorage.getItem("studysprint_user_id");
 
 if (!userId) {
-
     userId =
         "user_" +
         Date.now() +
         "_" +
-        Math.random()
-            .toString(36)
-            .slice(2, 8);
+        Math.random().toString(36).slice(2, 8);
 
+    localStorage.setItem("studysprint_user_id", userId);
+}
+
+
+let savedRooms = [];
+
+try {
+    savedRooms = JSON.parse(
+        localStorage.getItem("studysprint_rooms") || "[]"
+    );
+} catch {
+    savedRooms = [];
+}
+
+
+function saveRooms() {
     localStorage.setItem(
-        "studysprint_user_id",
-        userId
+        "studysprint_rooms",
+        JSON.stringify(savedRooms)
     );
 }
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const createButton =
-    document.getElementById("create-room-button");
-
-const joinButton =
-    document.getElementById("join-room-button");
-
-const modal =
-    document.getElementById("room-modal");
-
-const modalContent =
-    document.getElementById("modal-content");
-
-const closeModal =
-    document.getElementById("close-modal");
-
-const modalBackdrop =
-    document.getElementById("modal-backdrop");
-
-const roomList =
-    document.getElementById("rooms-list");
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
 function openModal(content) {
-
-    modalContent.innerHTML = "";
-
-    modalContent.appendChild(content);
-
+    modalContent.innerHTML = content;
     modal.classList.remove("hidden");
-
+    document.body.classList.add("modal-open");
 }
 
 
-function closeRoomModal() {
-
+function closeModal() {
     modal.classList.add("hidden");
-
+    document.body.classList.remove("modal-open");
 }
 
 
-closeModal.addEventListener(
-    "click",
-    closeRoomModal
-);
+function escapeHTML(value) {
+    const div = document.createElement("div");
+    div.textContent = value;
+    return div.innerHTML;
+}
 
 
-modalBackdrop.addEventListener(
-    "click",
-    closeRoomModal
-);
+function showError(message) {
+    const existing = document.getElementById("room-modal-error");
 
+    if (existing) {
+        existing.textContent = message;
+        return;
+    }
 
-/* =========================================================
-   CREATE ROOM
-========================================================= */
+    const error = document.createElement("div");
+
+    error.id = "room-modal-error";
+    error.className = "modal-error";
+    error.textContent = message;
+
+    modalContent.appendChild(error);
+}
+
 
 function showCreateRoom() {
 
-    const wrapper =
-        document.createElement("div");
+    openModal(`
+        <div class="modal-heading">
+            <div class="modal-icon">🏠</div>
+
+            <div>
+                <p class="modal-eyebrow">NEW ROOM</p>
+                <h2>Create a Room</h2>
+            </div>
+        </div>
+
+        <p class="modal-description">
+            Make a space for your class or your friends.
+        </p>
+
+        <label class="input-label" for="room-name-input">
+            Room name
+        </label>
+
+        <input
+            id="room-name-input"
+            class="modal-input"
+            type="text"
+            maxlength="40"
+            placeholder="e.g. Year 8 Science"
+            autocomplete="off"
+        >
+
+        <p class="input-label">Room type</p>
+
+        <div class="room-type-grid">
+
+            <button
+                type="button"
+                class="room-type-option selected"
+                data-room-type="class"
+            >
+                <span class="type-icon">🏫</span>
+
+                <span>
+                    <strong>Class</strong>
+                    <small>For school classes</small>
+                </span>
+            </button>
+
+            <button
+                type="button"
+                class="room-type-option"
+                data-room-type="friends"
+            >
+                <span class="type-icon">👥</span>
+
+                <span>
+                    <strong>Friends</strong>
+                    <small>For your friend group</small>
+                </span>
+            </button>
+
+        </div>
+
+        <button
+            type="button"
+            class="modal-primary-button"
+            id="confirm-create"
+        >
+            Create Room
+        </button>
+    `);
 
 
-    const title =
-        document.createElement("h2");
+    let selectedType = "class";
 
-    title.textContent =
-        "Create Room";
+    document.querySelectorAll(".room-type-option").forEach(button => {
 
+        button.addEventListener("click", () => {
 
-    const nameLabel =
-        document.createElement("label");
+            document.querySelectorAll(".room-type-option").forEach(option => {
+                option.classList.remove("selected");
+            });
 
-    nameLabel.textContent =
-        "Room name";
+            button.classList.add("selected");
 
+            selectedType = button.dataset.roomType;
+        });
 
-    const nameInput =
-        document.createElement("input");
-
-    nameInput.type = "text";
-
-    nameInput.placeholder =
-        "e.g. Year 8 Science";
-
-    nameInput.maxLength = 40;
+    });
 
 
-    const typeLabel =
-        document.createElement("label");
-
-    typeLabel.textContent =
-        "Room type";
-
-
-    const typeContainer =
-        document.createElement("div");
-
-    typeContainer.className =
-        "room-type-options";
-
-
-    let selectedType = "friends";
-
-
-    const friendsOption =
-        document.createElement("button");
-
-    friendsOption.type = "button";
-
-    friendsOption.className =
-        "room-type-option selected";
-
-    friendsOption.innerHTML =
-        "<strong>👥 Friends</strong>" +
-        "<span>For you and your friends</span>";
-
-
-    const classOption =
-        document.createElement("button");
-
-    classOption.type = "button";
-
-    classOption.className =
-        "room-type-option";
-
-    classOption.innerHTML =
-        "<strong>🏫 Class</strong>" +
-        "<span>For a school class</span>";
-
-
-    friendsOption.addEventListener(
+    document.getElementById("confirm-create").addEventListener(
         "click",
-        function () {
+        async () => {
 
-            selectedType = "friends";
+            const nameInput =
+                document.getElementById("room-name-input");
 
-            friendsOption.classList.add(
-                "selected"
-            );
-
-            classOption.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    classOption.addEventListener(
-        "click",
-        function () {
-
-            selectedType = "class";
-
-            classOption.classList.add(
-                "selected"
-            );
-
-            friendsOption.classList.remove(
-                "selected"
-            );
-
-        }
-    );
-
-
-    typeContainer.appendChild(
-        friendsOption
-    );
-
-    typeContainer.appendChild(
-        classOption
-    );
-
-
-    const submitButton =
-        document.createElement("button");
-
-    submitButton.type = "button";
-
-    submitButton.className =
-        "modal-action-button";
-
-    submitButton.textContent =
-        "Create Room";
-
-
-    const error =
-        document.createElement("p");
-
-    error.className =
-        "modal-error";
-
-
-    submitButton.addEventListener(
-        "click",
-        async function () {
-
-            const name =
+            const roomName =
                 nameInput.value.trim();
 
-
-            if (!name) {
-
-                error.textContent =
-                    "Give your room a name.";
-
+            if (!roomName) {
+                showError("Give your room a name first.");
+                nameInput.focus();
                 return;
-
             }
 
+            const confirmButton =
+                document.getElementById("confirm-create");
 
-            submitButton.disabled = true;
-
-            submitButton.textContent =
-                "Creating...";
-
-            error.textContent = "";
+            confirmButton.disabled = true;
+            confirmButton.textContent = "Creating...";
 
 
             try {
 
                 const code =
-                    await findAvailableRoomCode(
-                        database
-                    );
-
-
-                const now =
-                    Date.now();
+                    await findAvailableRoomCode(database);
 
 
                 const roomData = {
 
-                    name: name,
+                    name: roomName,
 
                     type: selectedType,
 
@@ -314,7 +241,7 @@ function showCreateRoom() {
 
                     ownerName: username,
 
-                    createdAt: now,
+                    createdAt: Date.now(),
 
                     members: {
 
@@ -322,9 +249,17 @@ function showCreateRoom() {
 
                             name: username,
 
-                            joinedAt: now,
+                            joinedAt: Date.now(),
 
-                            role: "owner"
+                            role: "owner",
+
+                            score: 0,
+
+                            weeklyScore: 0,
+
+                            quizzes: 0,
+
+                            streak: 0
 
                         }
 
@@ -340,236 +275,211 @@ function showCreateRoom() {
 
 
                 await set(
-                    ref(
-                        database,
-                        "rooms/" + code
-                    ),
+                    ref(database, "rooms/" + code),
                     roomData
                 );
 
 
-                saveLocalRoom(
-                    code,
-                    name,
-                    selectedType
-                );
+                if (!savedRooms.some(room => room.code === code)) {
+
+                    savedRooms.push({
+
+                        code: code,
+
+                        name: roomName,
+
+                        type: selectedType
+
+                    });
+
+                    saveRooms();
+                }
 
 
                 window.location.href =
-                    "room.html?code=" + code;
+                    "room.html?code=" +
+                    encodeURIComponent(code);
 
-            }
+            } catch (error) {
 
-            catch (err) {
+                console.error(error);
 
-                console.error(
-                    "Create room error:",
-                    err
+                confirmButton.disabled = false;
+                confirmButton.textContent = "Create Room";
+
+                showError(
+                    "Couldn't create the room. Check your Firebase connection."
                 );
-
-                error.textContent =
-                    "Could not create the room. Check your Firebase connection.";
-
-                submitButton.disabled = false;
-
-                submitButton.textContent =
-                    "Create Room";
 
             }
 
         }
     );
-
-
-    wrapper.appendChild(title);
-
-    wrapper.appendChild(nameLabel);
-
-    wrapper.appendChild(nameInput);
-
-    wrapper.appendChild(typeLabel);
-
-    wrapper.appendChild(typeContainer);
-
-    wrapper.appendChild(submitButton);
-
-    wrapper.appendChild(error);
-
-
-    openModal(wrapper);
-
 }
 
 
-/* =========================================================
-   JOIN ROOM
-========================================================= */
-
 function showJoinRoom() {
 
-    const wrapper =
-        document.createElement("div");
+    openModal(`
+        <div class="modal-heading">
+            <div class="modal-icon">🔗</div>
+
+            <div>
+                <p class="modal-eyebrow">JOIN ROOM</p>
+                <h2>Enter Room Code</h2>
+            </div>
+        </div>
+
+        <p class="modal-description">
+            Enter the six-character code shared by your class or friends.
+        </p>
+
+        <label class="input-label" for="join-code-input">
+            Room code
+        </label>
+
+        <input
+            id="join-code-input"
+            class="modal-input room-code-input"
+            type="text"
+            maxlength="6"
+            placeholder="ABC123"
+            autocomplete="off"
+            autocapitalize="characters"
+        >
+
+        <button
+            type="button"
+            class="modal-primary-button"
+            id="confirm-join"
+        >
+            Join Room
+        </button>
+    `);
 
 
-    const title =
-        document.createElement("h2");
-
-    title.textContent =
-        "Join Room";
+    const codeInput =
+        document.getElementById("join-code-input");
 
 
-    const label =
-        document.createElement("label");
+    codeInput.addEventListener("input", () => {
 
-    label.textContent =
-        "Room code";
+        codeInput.value =
+            codeInput.value
+                .toUpperCase()
+                .replace(/[^A-Z0-9]/g, "")
+                .slice(0, 6);
 
-
-    const input =
-        document.createElement("input");
-
-    input.type = "text";
-
-    input.placeholder =
-        "ABC123";
-
-    input.maxLength = 6;
-
-    input.autocomplete = "off";
-
-    input.style.textTransform =
-        "uppercase";
+    });
 
 
-    const join =
-        document.createElement("button");
-
-    join.type = "button";
-
-    join.className =
-        "modal-action-button";
-
-    join.textContent =
-        "Join Room";
-
-
-    const error =
-        document.createElement("p");
-
-    error.className =
-        "modal-error";
-
-
-    join.addEventListener(
+    document.getElementById("confirm-join").addEventListener(
         "click",
-        async function () {
+        async () => {
 
             const code =
-                input.value
-                    .trim()
-                    .toUpperCase();
+                codeInput.value.trim().toUpperCase();
 
-
-            if (!/^[A-Z0-9]{6}$/.test(code)) {
-
-                error.textContent =
-                    "Enter a valid 6-character room code.";
-
+            if (code.length !== 6) {
+                showError("Room codes are 6 characters long.");
+                codeInput.focus();
                 return;
-
             }
 
 
-            join.disabled = true;
+            const joinConfirm =
+                document.getElementById("confirm-join");
 
-            join.textContent =
-                "Joining...";
-
-            error.textContent = "";
+            joinConfirm.disabled = true;
+            joinConfirm.textContent = "Checking...";
 
 
             try {
 
-                const roomRef =
-                    ref(
-                        database,
-                        "rooms/" + code
+                const roomSnapshot =
+                    await get(
+                        ref(database, "rooms/" + code)
                     );
 
 
-                const snapshot =
-                    await get(roomRef);
+                if (!roomSnapshot.exists()) {
 
+                    joinConfirm.disabled = false;
+                    joinConfirm.textContent = "Join Room";
 
-                if (!snapshot.exists()) {
-
-                    error.textContent =
-                        "That room does not exist.";
-
-                    join.disabled = false;
-
-                    join.textContent =
-                        "Join Room";
+                    showError(
+                        "That room doesn't exist. Check the code and try again."
+                    );
 
                     return;
-
                 }
 
 
                 const room =
-                    snapshot.val();
+                    roomSnapshot.val();
 
 
-                const now =
-                    Date.now();
+                const memberPath =
+                    "rooms/" +
+                    code +
+                    "/members/" +
+                    userId;
 
 
                 await set(
-                    ref(
-                        database,
-                        "rooms/" +
-                        code +
-                        "/members/" +
-                        userId
-                    ),
+                    ref(database, memberPath),
                     {
 
                         name: username,
 
-                        joinedAt: now,
+                        joinedAt: Date.now(),
 
-                        role: "member"
+                        role: "member",
+
+                        score: 0,
+
+                        weeklyScore: 0,
+
+                        quizzes: 0,
+
+                        streak: 0
 
                     }
                 );
 
 
-                saveLocalRoom(
-                    code,
-                    room.name,
-                    room.type
-                );
+                if (!savedRooms.some(room => room.code === code)) {
+
+                    savedRooms.push({
+
+                        code: code,
+
+                        name: room.name || "Room",
+
+                        type: room.type || "friends"
+
+                    });
+
+                    saveRooms();
+
+                }
 
 
                 window.location.href =
-                    "room.html?code=" + code;
+                    "room.html?code=" +
+                    encodeURIComponent(code);
 
-            }
 
-            catch (err) {
+            } catch (error) {
 
-                console.error(
-                    "Join room error:",
-                    err
+                console.error(error);
+
+                joinConfirm.disabled = false;
+                joinConfirm.textContent = "Join Room";
+
+                showError(
+                    "Couldn't join the room. Check your Firebase connection."
                 );
-
-                error.textContent =
-                    "Could not join the room. Check your Firebase connection.";
-
-                join.disabled = false;
-
-                join.textContent =
-                    "Join Room";
 
             }
 
@@ -577,236 +487,101 @@ function showJoinRoom() {
     );
 
 
-    wrapper.appendChild(title);
-
-    wrapper.appendChild(label);
-
-    wrapper.appendChild(input);
-
-    wrapper.appendChild(join);
-
-    wrapper.appendChild(error);
-
-
-    openModal(wrapper);
-
+    codeInput.focus();
 }
 
 
-/* =========================================================
-   LOCAL ROOMS
-========================================================= */
+function renderRooms() {
 
-function getLocalRooms() {
+    if (!savedRooms.length) {
 
-    try {
+        roomsList.innerHTML = `
+            <div class="empty-state">
 
-        return JSON.parse(
-            localStorage.getItem(
-                "studysprint_rooms"
-            )
-        ) || [];
+                <div class="empty-icon">
+                    🏠
+                </div>
 
+                <h3>No rooms yet</h3>
+
+                <p>
+                    Create a room for your class or invite your friends.
+                </p>
+
+            </div>
+        `;
+
+        return;
     }
 
-    catch {
 
-        return [];
-
-    }
-
-}
+    roomsList.innerHTML = "";
 
 
-function saveLocalRoom(
-    code,
-    name,
-    type
-) {
+    savedRooms.forEach(room => {
 
-    const rooms =
-        getLocalRooms();
+        const card = document.createElement("button");
+
+        card.type = "button";
+        card.className = "room-card";
 
 
-    const existing =
-        rooms.find(
-            function (room) {
-
-                return room.code === code;
-
-            }
-        );
+        const typeText =
+            room.type === "class"
+                ? "CLASS"
+                : "FRIENDS";
 
 
-    if (existing) {
+        const typeIcon =
+            room.type === "class"
+                ? "🏫"
+                : "👥";
 
-        existing.name = name;
 
-        existing.type = type;
+        card.innerHTML = `
 
-    }
+            <div class="room-card-icon">
+                ${typeIcon}
+            </div>
 
-    else {
+            <div class="room-card-info">
 
-        rooms.push({
+                <span class="room-card-type">
+                    ${typeText}
+                </span>
 
-            code: code,
+                <h3>
+                    ${escapeHTML(room.name || "Untitled Room")}
+                </h3>
 
-            name: name,
+                <p>
+                    Code: <strong>${escapeHTML(room.code)}</strong>
+                </p>
 
-            type: type
+            </div>
+
+            <div class="room-card-arrow">
+                →
+            </div>
+
+        `;
+
+
+        card.addEventListener("click", () => {
+
+            window.location.href =
+                "room.html?code=" +
+                encodeURIComponent(room.code);
 
         });
 
-    }
 
+        roomsList.appendChild(card);
 
-    localStorage.setItem(
-        "studysprint_rooms",
-        JSON.stringify(rooms)
-    );
+    });
 
 }
 
-
-/* =========================================================
-   DISPLAY ROOMS
-========================================================= */
-
-function displayRooms() {
-
-    roomList.innerHTML = "";
-
-
-    const rooms =
-        getLocalRooms();
-
-
-    if (rooms.length === 0) {
-
-        const empty =
-            document.createElement("div");
-
-        empty.className =
-            "empty-state";
-
-
-        const icon =
-            document.createElement("div");
-
-        icon.className =
-            "empty-icon";
-
-        icon.textContent =
-            "🏠";
-
-
-        const title =
-            document.createElement("h3");
-
-        title.textContent =
-            "No rooms yet";
-
-
-        const text =
-            document.createElement("p");
-
-        text.textContent =
-            "Create a room for your class or invite your friends.";
-
-
-        empty.appendChild(icon);
-
-        empty.appendChild(title);
-
-        empty.appendChild(text);
-
-
-        roomList.appendChild(empty);
-
-        return;
-
-    }
-
-
-    rooms.forEach(
-        function (room) {
-
-            const card =
-                document.createElement("button");
-
-            card.className =
-                "room-card";
-
-
-            const icon =
-                document.createElement("div");
-
-            icon.className =
-                "room-card-icon";
-
-            icon.textContent =
-                room.type === "class"
-                    ? "🏫"
-                    : "👥";
-
-
-            const info =
-                document.createElement("div");
-
-            info.className =
-                "room-card-info";
-
-
-            const name =
-                document.createElement("h3");
-
-            name.textContent =
-                room.name;
-
-
-            const type =
-                document.createElement("p");
-
-            type.textContent =
-                room.type === "class"
-                    ? "Class room"
-                    : "Friends room";
-
-
-            info.appendChild(name);
-
-            info.appendChild(type);
-
-
-            card.appendChild(icon);
-
-            card.appendChild(info);
-
-
-            card.addEventListener(
-                "click",
-                function () {
-
-                    window.location.href =
-                        "room.html?code=" +
-                        room.code;
-
-                }
-            );
-
-
-            roomList.appendChild(card);
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
 
 createButton.addEventListener(
     "click",
@@ -820,8 +595,28 @@ joinButton.addEventListener(
 );
 
 
-/* =========================================================
-   START
-========================================================= */
+closeModalButton.addEventListener(
+    "click",
+    closeModal
+);
 
-displayRooms();
+
+modalBackdrop.addEventListener(
+    "click",
+    closeModal
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Escape") {
+            closeModal();
+        }
+
+    }
+);
+
+
+renderRooms();
