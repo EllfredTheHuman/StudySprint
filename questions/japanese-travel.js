@@ -1,5 +1,5 @@
 ```js
-const japaneseTravelQuestions = {
+window.japaneseTravelQuestions = {
     "Travel": [
 
         // =========================
