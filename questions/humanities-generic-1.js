@@ -1,4 +1,4 @@
-const humanitiesGeneric1Questions = {
+window.humanitiesGeneric1Questions = {
     "Humanities": [
 
         // =========================
