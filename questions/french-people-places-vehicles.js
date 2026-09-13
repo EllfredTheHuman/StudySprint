@@ -1,4 +1,4 @@
-const frenchPeoplePlacesVehiclesQuestions = {
+window.frenchPeoplePlacesVechilesQuestions = {
     "People Places Vehicles": [
 
         // =========================
