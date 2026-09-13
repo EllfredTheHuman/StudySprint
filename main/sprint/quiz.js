@@ -84,113 +84,6 @@ function normaliseTopicName(value) {
 
 
 /* =========================================================
-   EXTRACT QUESTION DATA
-========================================================= */
-
-function extractQuestionData(source) {
-
-    /*
-     * The question files use this structure:
-     *
-     * const someName = {
-     *     "Topic": [...]
-     * };
-     *
-     * We only need the object after the first "=".
-     */
-
-
-    const equalsPosition =
-        source.indexOf("=");
-
-
-    if (
-        equalsPosition === -1
-    ) {
-
-        throw new Error(
-            "The question file does not contain a data assignment."
-        );
-
-    }
-
-
-    let dataSource =
-        source.slice(
-            equalsPosition + 1
-        );
-
-
-    /*
-     * Remove comments.
-     */
-
-    dataSource =
-        dataSource.replace(
-            /\/\*[\s\S]*?\*\//g,
-            ""
-        );
-
-
-    dataSource =
-        dataSource.replace(
-            /\/\/.*$/gm,
-            ""
-        );
-
-
-    dataSource =
-        dataSource.trim();
-
-
-    /*
-     * Remove a trailing semicolon.
-     */
-
-    if (
-        dataSource.endsWith(";")
-    ) {
-
-        dataSource =
-            dataSource.slice(
-                0,
-                -1
-            ).trim();
-
-    }
-
-
-    /*
-     * Convert JavaScript object syntax into JSON
-     * where possible.
-     *
-     * The StudySprint question files use normal JSON-style
-     * quoted keys and strings, so JSON.parse is appropriate.
-     */
-
-    try {
-
-        return JSON.parse(
-            dataSource
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Could not parse question data:",
-            error
-        );
-
-        throw new Error(
-            "The question file could not be parsed. Make sure its data uses valid JSON-style syntax."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
    LOAD QUESTION FILE
 ========================================================= */
 
@@ -208,7 +101,7 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           FETCH
+           FETCH QUESTION FILE
         ================================================= */
 
         const response =
@@ -279,13 +172,90 @@ async function loadQuestionFile() {
 
 
         /* =================================================
-           EXTRACT DATA
+           REMOVE THE VARIABLE DECLARATION
         ================================================= */
 
-        const questionData =
-            extractQuestionData(
-                source
+        const declarationPattern =
+            new RegExp(
+                "\\b(?:const|let|var)\\s+" +
+                variableName +
+                "\\s*=",
+                "m"
             );
+
+
+        const objectSource =
+            source.replace(
+                declarationPattern,
+                ""
+            ).trim();
+
+
+        /* =================================================
+           REMOVE FINAL SEMICOLON
+        ================================================= */
+
+        let cleanSource =
+            objectSource;
+
+
+        if (
+            cleanSource.endsWith(";")
+        ) {
+
+            cleanSource =
+                cleanSource.slice(
+                    0,
+                    -1
+                ).trim();
+
+        }
+
+
+        /* =================================================
+           CREATE FUNCTION
+
+           The question files are JavaScript objects.
+
+           Example:
+
+           const questions = {
+               "Topic": [
+                   ...
+               ]
+           };
+
+           We return the object directly.
+        ================================================= */
+
+        let questionData;
+
+
+        try {
+
+            const getQuestionData =
+                new Function(
+                    "return (" +
+                    cleanSource +
+                    ");"
+                );
+
+
+            questionData =
+                getQuestionData();
+
+        } catch (error) {
+
+            console.error(
+                "Question file execution error:",
+                error
+            );
+
+            throw new Error(
+                "The question file contains invalid JavaScript."
+            );
+
+        }
 
 
         if (
@@ -1273,67 +1243,3 @@ function showError(message) {
         '</p>' +
 
         '<button ' +
-        'type="button" ' +
-        'onclick="window.location.href=\'index.html\'" ' +
-        'style="' +
-        'border:0;' +
-        'border-radius:12px;' +
-        'padding:14px 20px;' +
-        'background:#8875f5;' +
-        'color:#ffffff;' +
-        'font-size:15px;' +
-        'font-weight:700;' +
-        'cursor:pointer;' +
-        '">' +
-        'Back to Sprint' +
-        '</button>' +
-
-        '</div>' +
-        '</main>';
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(text) {
-
-    return String(text)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-if (
-    topicName &&
-    questionFile
-) {
-
-    loadQuestionFile();
-
-}
