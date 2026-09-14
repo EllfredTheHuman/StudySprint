@@ -11,6 +11,8 @@
         content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
+    <meta name="theme-color" content="#09090f">
+
     <title>StudySprint</title>
 
     <link rel="stylesheet" href="style.css">
@@ -21,24 +23,15 @@
 <body>
 
 
-<header>
+<header class="topbar">
 
-    <div class="logo">
-        <a href="index.html">
-            sh🚀 StudySprint
-        </a>
-    </div>
+    <a href="index.html" class="logo">
+        sh🚀 StudySprint
+    </a>
 
-
-    <nav>
-
-        <a href="index.html">Home</a>
-        <a href="study/index.html">📚 Study</a>
-        <a href="sprint/index.html">🏃 Sprint</a>
-        <a href="test/index.html">📝 Test</a>
-        <a href="profile/index.html">👤 Profile</a>
-
-    </nav>
+    <a href="profile/index.html" class="profile-button">
+        👤
+    </a>
 
 </header>
 
@@ -47,209 +40,359 @@
 <main>
 
 
-<section class="hero">
+    <section class="welcome">
 
-    <h1>
-        Study smarter.
-        <br>
-        Level up faster.
-    </h1>
+        <p class="small-label">
+            WELCOME BACK
+        </p>
+
+        <h1>
+            Ready to<br>
+            <span>study?</span>
+        </h1>
+
+        <p class="welcome-text">
+            Pick something to work on and keep moving forward.
+        </p>
+
+    </section>
 
 
-    <p>
-        Turn studying into a game.
-        Learn topics, complete quizzes, and earn XP.
-    </p>
 
+    <a href="study/index.html" class="start-card">
 
-    <a href="study/index.html" class="main-button">
-        🚀 Start Studying
+        <div class="start-icon">
+            🚀
+        </div>
+
+        <div class="start-content">
+
+            <p>
+                START STUDYING
+            </p>
+
+            <h2>
+                Learn something new
+            </h2>
+
+            <span>
+                Choose a subject and start learning →
+            </span>
+
+        </div>
+
     </a>
 
-</section>
 
 
+    <section class="quick-actions">
 
-<section class="features">
 
+        <a href="study/index.html" class="quick-card">
 
-    <div class="feature-card">
+            <div class="quick-icon">
+                📚
+            </div>
 
-        <h2>
-            📚 Study
-        </h2>
+            <strong>
+                Study
+            </strong>
 
-        <p>
-            Learn topics through interactive quizzes and track your progress.
-        </p>
+            <span>
+                Learn
+            </span>
 
-        <a href="study/index.html" class="main-button">
-            PLAY
         </a>
 
-    </div>
 
 
+        <a href="sprint/index.html" class="quick-card">
 
-    <div class="feature-card">
+            <div class="quick-icon">
+                🏃
+            </div>
 
-        <h2>
-            🏃 Sprint
-        </h2>
+            <strong>
+                Sprint
+            </strong>
 
-        <p>
-            Race against time and challenge yourself.
-        </p>
+            <span>
+                Race
+            </span>
 
-        <a href="sprint/index.html" class="main-button">
-            PLAY
         </a>
 
-    </div>
 
 
+        <a href="test/index.html" class="quick-card">
 
-    <div class="feature-card">
+            <div class="quick-icon">
+                📝
+            </div>
 
-        <h2>
-            📝 Test
-        </h2>
+            <strong>
+                Test
+            </strong>
 
-        <p>
-            Test your knowledge with a full test for a topic.
-        </p>
+            <span>
+                Test yourself
+            </span>
 
-        <a href="test/index.html" class="main-button">
-            TEST
         </a>
 
-    </div>
 
-
-</section>
-
-
-
-<section class="hero">
-
-    <h1>
-        ⭐ Your Progress
-    </h1>
-
-</section>
+    </section>
 
 
 
-<section class="features">
+    <section class="section">
 
 
-    <div class="stat">
+        <div class="section-title">
 
-        <h2 id="home-xp">
-            0
+            <div>
+
+                <p>
+                    YOUR PROGRESS
+                </p>
+
+                <h2>
+                    Keep going.
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <span class="stat-icon">
+                    🔥
+                </span>
+
+                <strong id="home-streak">
+                    0
+                </strong>
+
+                <small>
+                    Streak
+                </small>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                <span class="stat-icon">
+                    📝
+                </span>
+
+                <strong id="home-quizzes">
+                    0
+                </strong>
+
+                <small>
+                    Quizzes
+                </small>
+
+            </div>
+
+
+
+            <div class="stat">
+
+                <span class="stat-icon">
+                    🏆
+                </span>
+
+                <strong id="home-achievements">
+                    0
+                </strong>
+
+                <small>
+                    Achievements
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <section class="challenge">
+
+
+        <div class="challenge-top">
+
+            <span>
+                🎯
+            </span>
+
+            <p>
+                DAILY CHALLENGE
+            </p>
+
+        </div>
+
+
+        <h2>
+            Complete 5 questions today.
         </h2>
 
-        <p>
-            ⭐ Total XP
-        </p>
-
-    </div>
-
-
-
-    <div class="stat">
-
-        <h2 id="home-level">
-            1
-        </h2>
 
         <p>
-            🏆 Level
+            Keep your streak alive and push your progress further.
         </p>
 
-    </div>
+
+        <a href="study/index.html">
+            Start Challenge →
+        </a>
+
+
+    </section>
 
 
 
-    <div class="stat">
+    <a href="rooms/index.html" class="rooms-card">
 
-        <h2 id="home-quizzes">
-            0
-        </h2>
+        <div class="rooms-icon">
+            👥
+        </div>
 
-        <p>
-            📝 Quizzes Completed
-        </p>
+        <div>
 
-    </div>
+            <p>
+                ROOMS
+            </p>
 
+            <h2>
+                Study with your people
+            </h2>
 
-</section>
+            <span>
+                Classes, friends and leaderboards
+            </span>
 
+        </div>
 
+        <b>
+            →
+        </b>
 
-<section class="hero">
-
-    <h1>
-        🎯 Daily Challenge
-    </h1>
-
-
-    <p>
-        Complete 5 questions today and earn bonus XP!
-    </p>
-
-
-    <a href="study/index.html" class="main-button">
-        Accept Challenge
     </a>
 
-</section>
-
-
-
-<section class="home-shop">
-
-    <div class="shop-icon">
-        🛒
-    </div>
-
-    <a href="shop/index.html" class="go-to-shop">
-        Go to Shop
-    </a>
-
-</section>
 
 
 </main>
 
 
 
-<footer>
+<nav class="bottom-nav">
 
-    © 2026 StudySprint
 
-</footer>
+    <a href="index.html" class="bottom-item active">
+
+        <span>
+            🏠
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+
+    <a href="study/index.html" class="bottom-item">
+
+        <span>
+            📚
+        </span>
+
+        <small>
+            Study
+        </small>
+
+    </a>
+
+
+
+    <a href="sprint/index.html" class="bottom-item">
+
+        <span>
+            🏃
+        </span>
+
+        <small>
+            Sprint
+        </small>
+
+    </a>
+
+
+
+    <a href="rooms/index.html" class="bottom-item">
+
+        <span>
+            👥
+        </span>
+
+        <small>
+            Rooms
+        </small>
+
+    </a>
+
+
+
+    <a href="profile/index.html" class="bottom-item">
+
+        <span>
+            👤
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+
+</nav>
 
 
 
 <script>
 
-    let xp =
-        Number(localStorage.getItem("XP")) || 0;
+    const streak =
+        Number(localStorage.getItem("streak")) || 0;
 
-    let quizzes =
-        Number(localStorage.getItem("quizzes")) || 0;
+    const quizzes =
+        Number(localStorage.getItem("quizzes")) ||
+        Number(localStorage.getItem("quizzes_completed")) ||
+        0;
 
-    let level =
-        Math.floor(xp / 100) + 1;
+    const achievements =
+        Number(localStorage.getItem("achievements")) || 0;
 
 
-    document.getElementById("home-xp").textContent = xp;
-
-    document.getElementById("home-level").textContent = level;
+    document.getElementById("home-streak").textContent = streak;
 
     document.getElementById("home-quizzes").textContent = quizzes;
+
+    document.getElementById("home-achievements").textContent = achievements;
 
 </script>
 
