@@ -1,12 +1,22 @@
 import {
     createClient
-} from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+} from "https://esm.sh/@supabase/supabase-js@2";
 
 
 
-const SUPABASE_URL = "https://yfteudoecpkosxjucuky.supabase.co";
+/* =========================================================
+   STUDYSPRINT — PROFILE
+   Supabase account-connected profile
+========================================================= */
 
-const SUPABASE_KEY = "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
+
+const SUPABASE_URL =
+    "https://yfteudoecpkosxjucuky.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
+
 
 
 const supabase =
@@ -17,76 +27,57 @@ const supabase =
 
 
 
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+
 const profileName =
-    document.getElementById(
-        "profile-name"
-    );
+    document.getElementById("profile-name");
 
 
 const profileUsername =
-    document.getElementById(
-        "profile-username"
-    );
+    document.getElementById("profile-username");
 
 
 const accountEmail =
-    document.getElementById(
-        "account-email"
-    );
+    document.getElementById("account-email");
 
 
 const editButton =
-    document.getElementById(
-        "edit-profile-button"
-    );
+    document.getElementById("edit-profile-button");
 
 
 const saveButton =
-    document.getElementById(
-        "save-profile-button"
-    );
+    document.getElementById("save-profile-button");
 
 
 const modal =
-    document.getElementById(
-        "profile-modal"
-    );
+    document.getElementById("profile-modal");
 
 
 const backdrop =
-    document.getElementById(
-        "profile-backdrop"
-    );
+    document.getElementById("profile-backdrop");
 
 
 const closeButton =
-    document.getElementById(
-        "close-profile-modal"
-    );
+    document.getElementById("close-profile-modal");
 
 
 const displayNameInput =
-    document.getElementById(
-        "display-name"
-    );
+    document.getElementById("display-name");
 
 
 const usernameInput =
-    document.getElementById(
-        "username"
-    );
+    document.getElementById("username");
 
 
 const profileMessage =
-    document.getElementById(
-        "profile-message"
-    );
+    document.getElementById("profile-message");
 
 
 const profileError =
-    document.getElementById(
-        "profile-error"
-    );
+    document.getElementById("profile-error");
 
 
 
@@ -96,13 +87,16 @@ let currentProfile = null;
 
 
 
-function showError(text) {
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
 
-    profileError.textContent = text;
 
-    profileError.classList.remove(
-        "hidden"
-    );
+function showError(message) {
+
+    profileError.textContent = message;
+
+    profileError.classList.remove("hidden");
 
 }
 
@@ -112,33 +106,39 @@ function hideError() {
 
     profileError.textContent = "";
 
-    profileError.classList.add(
-        "hidden"
-    );
+    profileError.classList.add("hidden");
 
 }
 
+
+
+/* =========================================================
+   USER
+========================================================= */
 
 
 async function getCurrentUser() {
 
-    const {
-        data,
-        error
-    } = await supabase.auth.getUser();
+    const result =
+        await supabase.auth.getUser();
 
 
-    if (error) {
+    if (result.error) {
 
-        throw error;
+        throw result.error;
 
     }
 
 
-    return data.user;
+    return result.data.user;
 
 }
 
+
+
+/* =========================================================
+   LOAD PROFILE
+========================================================= */
 
 
 async function loadProfile() {
@@ -164,31 +164,33 @@ async function loadProfile() {
 
 
         accountEmail.textContent =
-            currentUser.email || "No email";
+            currentUser.email ||
+            "No email";
 
 
 
-        const {
-            data,
-            error
-        } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", currentUser.id)
-            .maybeSingle();
+        const result =
+            await supabase
+                .from("profiles")
+                .select("*")
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .maybeSingle();
 
 
-        if (error) {
+        if (result.error) {
 
-            throw error;
+            throw result.error;
 
         }
 
 
 
-        if (!data) {
+        if (!result.data) {
 
-            await createMissingProfile();
+            await createProfile();
 
             return;
 
@@ -196,7 +198,8 @@ async function loadProfile() {
 
 
 
-        currentProfile = data;
+        currentProfile =
+            result.data;
 
 
         renderProfile();
@@ -220,51 +223,54 @@ async function loadProfile() {
 
 
 
-async function createMissingProfile() {
+/* =========================================================
+   CREATE MISSING PROFILE
+========================================================= */
+
+
+async function createProfile() {
 
     const metadata =
-        currentUser.user_metadata || {};
+        currentUser.user_metadata ||
+        {};
 
 
-    const username =
+    let username =
         metadata.username ||
-        "player";
+        "student";
 
 
-    const displayName =
+    let displayName =
         metadata.display_name ||
         username;
 
 
-    const newProfile = {
+
+    const profile = {
 
         id: currentUser.id,
 
-        username:
-            username,
+        username: username,
 
-        display_name:
-            displayName
+        display_name: displayName
 
     };
 
 
 
-    const {
-        data,
-        error
-    } = await supabase
-        .from("profiles")
-        .insert(newProfile)
-        .select("*")
-        .single();
+    const result =
+        await supabase
+            .from("profiles")
+            .insert(profile)
+            .select("*")
+            .single();
 
 
-    if (error) {
+    if (result.error) {
 
         console.error(
             "Profile creation error:",
-            error
+            result.error
         );
 
 
@@ -278,7 +284,9 @@ async function createMissingProfile() {
 
 
 
-    currentProfile = data;
+    currentProfile =
+        result.data;
+
 
     renderProfile();
 
@@ -286,14 +294,25 @@ async function createMissingProfile() {
 
 
 
+/* =========================================================
+   NUMBER HELPER
+========================================================= */
+
+
 function getNumber(
     object,
-    possibleNames
+    names
 ) {
 
     for (
-        const name of possibleNames
+        let i = 0;
+        i < names.length;
+        i++
     ) {
+
+        const name =
+            names[i];
+
 
         if (
             object &&
@@ -301,17 +320,17 @@ function getNumber(
             object[name] !== undefined
         ) {
 
-            const number =
+            const value =
                 Number(
                     object[name]
                 );
 
 
             if (
-                Number.isFinite(number)
+                Number.isFinite(value)
             ) {
 
-                return number;
+                return value;
 
             }
 
@@ -324,6 +343,11 @@ function getNumber(
 
 }
 
+
+
+/* =========================================================
+   RENDER PROFILE
+========================================================= */
 
 
 function renderProfile() {
@@ -339,12 +363,12 @@ function renderProfile() {
     const displayName =
         currentProfile.display_name ||
         currentProfile.username ||
-        "Player";
+        "Student";
 
 
     const username =
         currentProfile.username ||
-        "player";
+        "student";
 
 
 
@@ -360,9 +384,7 @@ function renderProfile() {
     const streak =
         getNumber(
             currentProfile,
-            [
-                "streak"
-            ]
+            ["streak"]
         );
 
 
@@ -462,6 +484,11 @@ function renderProfile() {
 
 
 
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+
 function loadAchievements(
     streak,
     quizzes,
@@ -474,6 +501,10 @@ function loadAchievements(
         );
 
 
+    container.innerHTML = "";
+
+
+
     const achievements = [];
 
 
@@ -483,11 +514,11 @@ function loadAchievements(
         achievements.push({
             icon: "🔥",
             title: "Getting Started",
-            description:
-                "Reach a 3 day streak."
+            description: "Reach a 3 day streak."
         });
 
     }
+
 
 
     if (streak >= 7) {
@@ -495,11 +526,11 @@ function loadAchievements(
         achievements.push({
             icon: "🔥",
             title: "Week Warrior",
-            description:
-                "Reach a 7 day streak."
+            description: "Reach a 7 day streak."
         });
 
     }
+
 
 
     if (quizzes >= 10) {
@@ -507,11 +538,11 @@ function loadAchievements(
         achievements.push({
             icon: "📝",
             title: "Quiz Machine",
-            description:
-                "Complete 10 quizzes."
+            description: "Complete 10 quizzes."
         });
 
     }
+
 
 
     if (quizzes >= 25) {
@@ -519,11 +550,11 @@ function loadAchievements(
         achievements.push({
             icon: "🏆",
             title: "Quiz Master",
-            description:
-                "Complete 25 quizzes."
+            description: "Complete 25 quizzes."
         });
 
     }
+
 
 
     if (bestScore >= 100) {
@@ -531,39 +562,64 @@ function loadAchievements(
         achievements.push({
             icon: "💯",
             title: "Perfect Score",
-            description:
-                "Get a perfect score."
+            description: "Get a perfect score."
         });
 
     }
 
 
 
-    if (
-        achievements.length === 0
-    ) {
+    if (achievements.length === 0) {
 
-        container.innerHTML = `
-            <div class="achievement locked">
+        const item =
+            document.createElement("div");
 
-                <div class="achievement-icon">
-                    🔒
-                </div>
 
-                <div>
+        item.className =
+            "achievement locked";
 
-                    <strong>
-                        No achievements yet
-                    </strong>
 
-                    <p>
-                        Keep studying to unlock achievements.
-                    </p>
+        const icon =
+            document.createElement("div");
 
-                </div>
 
-            </div>
-        `;
+        icon.className =
+            "achievement-icon";
+
+
+        icon.textContent =
+            "🔒";
+
+
+        const content =
+            document.createElement("div");
+
+
+        const title =
+            document.createElement("strong");
+
+
+        title.textContent =
+            "No achievements yet";
+
+
+        const description =
+            document.createElement("p");
+
+
+        description.textContent =
+            "Keep studying to unlock achievements.";
+
+
+        content.appendChild(title);
+
+        content.appendChild(description);
+
+        item.appendChild(icon);
+
+        item.appendChild(content);
+
+        container.appendChild(item);
 
         return;
 
@@ -571,50 +627,75 @@ function loadAchievements(
 
 
 
-    container.innerHTML = "";
+    for (
+        let i = 0;
+        i < achievements.length;
+        i++
+    ) {
+
+        const achievement =
+            achievements[i];
 
 
-    achievements.forEach(
-        function(achievement) {
-
-            const item =
-                document.createElement(
-                    "div"
-                );
+        const item =
+            document.createElement("div");
 
 
-            item.className =
-                "achievement";
+        item.className =
+            "achievement";
 
 
-            item.innerHTML = `
-                <div class="achievement-icon">
-                    ${achievement.icon}
-                </div>
-
-                <div>
-
-                    <strong>
-                        ${achievement.title}
-                    </strong>
-
-                    <p>
-                        ${achievement.description}
-                    </p>
-
-                </div>
-            `;
+        const icon =
+            document.createElement("div");
 
 
-            container.appendChild(
-                item
-            );
+        icon.className =
+            "achievement-icon";
 
-        }
-    );
+
+        icon.textContent =
+            achievement.icon;
+
+
+        const content =
+            document.createElement("div");
+
+
+        const title =
+            document.createElement("strong");
+
+
+        title.textContent =
+            achievement.title;
+
+
+        const description =
+            document.createElement("p");
+
+
+        description.textContent =
+            achievement.description;
+
+
+        content.appendChild(title);
+
+        content.appendChild(description);
+
+        item.appendChild(icon);
+
+        item.appendChild(content);
+
+        container.appendChild(item);
+
+    }
 
 }
 
+
+
+/* =========================================================
+   MODAL
+========================================================= */
 
 
 function openModal() {
@@ -626,7 +707,7 @@ function openModal() {
     }
 
 
-    hideMessage();
+    profileMessage.textContent = "";
 
 
     displayNameInput.value =
@@ -640,9 +721,7 @@ function openModal() {
         "";
 
 
-    modal.classList.remove(
-        "hidden"
-    );
+    modal.classList.remove("hidden");
 
 
     displayNameInput.focus();
@@ -653,29 +732,15 @@ function openModal() {
 
 function closeModal() {
 
-    modal.classList.add(
-        "hidden"
-    );
+    modal.classList.add("hidden");
 
 }
 
 
 
-function hideMessage() {
-
-    profileMessage.textContent = "";
-
-}
-
-
-
-function showMessage(text) {
-
-    profileMessage.textContent =
-        text;
-
-}
-
+/* =========================================================
+   SAVE PROFILE
+========================================================= */
 
 
 async function saveProfile() {
@@ -699,11 +764,15 @@ async function saveProfile() {
 
 
 
+    profileMessage.textContent =
+        "";
+
+
+
     if (!displayName) {
 
-        showMessage(
-            "Please enter a display name."
-        );
+        profileMessage.textContent =
+            "Please enter a display name.";
 
         return;
 
@@ -713,9 +782,8 @@ async function saveProfile() {
 
     if (!username) {
 
-        showMessage(
-            "Please enter a username."
-        );
+        profileMessage.textContent =
+            "Please enter a username.";
 
         return;
 
@@ -723,13 +791,10 @@ async function saveProfile() {
 
 
 
-    if (
-        displayName.length > 24
-    ) {
+    if (displayName.length > 24) {
 
-        showMessage(
-            "Display name must be 24 characters or less."
-        );
+        profileMessage.textContent =
+            "Display name must be 24 characters or less.";
 
         return;
 
@@ -737,13 +802,10 @@ async function saveProfile() {
 
 
 
-    if (
-        username.length > 20
-    ) {
+    if (username.length > 20) {
 
-        showMessage(
-            "Username must be 20 characters or less."
-        );
+        profileMessage.textContent =
+            "Username must be 20 characters or less.";
 
         return;
 
@@ -751,15 +813,18 @@ async function saveProfile() {
 
 
 
+    const usernamePattern =
+        /^[a-z0-9._-]+$/;
+
+
     if (
-        !/^[a-z0-9._-]+$/.test(
+        !usernamePattern.test(
             username
         )
     ) {
 
-        showMessage(
-            "Username can only use letters, numbers, dots, dashes and underscores."
-        );
+        profileMessage.textContent =
+            "Username can only use letters, numbers, dots, dashes and underscores.";
 
         return;
 
@@ -767,7 +832,9 @@ async function saveProfile() {
 
 
 
-    saveButton.disabled = true;
+    saveButton.disabled =
+        true;
+
 
     saveButton.textContent =
         "Saving...";
@@ -776,33 +843,36 @@ async function saveProfile() {
 
     try {
 
-        const {
-            data: existingUsername,
-            error: usernameError
-        } = await supabase
-            .from("profiles")
-            .select("id")
-            .eq("username", username)
-            .neq("id", currentUser.id)
-            .maybeSingle();
+        const usernameCheck =
+            await supabase
+                .from("profiles")
+                .select("id")
+                .eq(
+                    "username",
+                    username
+                )
+                .neq(
+                    "id",
+                    currentUser.id
+                )
+                .maybeSingle();
 
 
+        if (usernameCheck.error) {
 
-        if (usernameError) {
-
-            throw usernameError;
+            throw usernameCheck.error;
 
         }
 
 
 
-        if (existingUsername) {
+        if (usernameCheck.data) {
 
-            showMessage(
-                "That username is already taken."
-            );
+            profileMessage.textContent =
+                "That username is already taken.";
 
-            saveButton.disabled = false;
+            saveButton.disabled =
+                false;
 
             saveButton.textContent =
                 "Save Profile";
@@ -813,40 +883,40 @@ async function saveProfile() {
 
 
 
-        const {
-            data,
-            error
-        } = await supabase
-            .from("profiles")
-            .update({
-                username:
-                    username,
+        const result =
+            await supabase
+                .from("profiles")
+                .update({
 
-                display_name:
-                    displayName
-            })
-            .eq(
-                "id",
-                currentUser.id
-            )
-            .select("*")
-            .single();
+                    username:
+                        username,
+
+                    display_name:
+                        displayName
+
+                })
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .select("*")
+                .single();
 
 
+        if (result.error) {
 
-        if (error) {
-
-            throw error;
+            throw result.error;
 
         }
 
 
 
         currentProfile =
-            data;
+            result.data;
 
 
         renderProfile();
+
 
         closeModal();
 
@@ -859,21 +929,27 @@ async function saveProfile() {
         );
 
 
-        showMessage(
-            "Could not save your profile."
-        );
+        profileMessage.textContent =
+            "Could not save your profile.";
 
     }
 
 
 
-    saveButton.disabled = false;
+    saveButton.disabled =
+        false;
+
 
     saveButton.textContent =
         "Save Profile";
 
 }
 
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
 
 
 editButton.addEventListener(
@@ -901,8 +977,16 @@ backdrop.addEventListener(
 
 
 
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+
 supabase.auth.onAuthStateChange(
-    function(event, session) {
+    function(
+        event,
+        session
+    ) {
 
         if (!session) {
 
@@ -914,6 +998,11 @@ supabase.auth.onAuthStateChange(
     }
 );
 
+
+
+/* =========================================================
+   START
+========================================================= */
 
 
 loadProfile();
