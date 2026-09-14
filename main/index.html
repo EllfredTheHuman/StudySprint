@@ -7,7 +7,22 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#09090f"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
     >
 
     <title>StudySprint</title>
@@ -20,489 +35,546 @@
 <body>
 
 
-<main>
+    <!-- AUTH CHECK -->
 
+    <div
+        id="auth-loading"
+        class="auth-loading"
+    >
 
-    <!-- HEADER -->
-
-    <header class="home-header">
-
-        <div>
-
-            <p class="eyebrow">
-                STUDYSPRINT
-            </p>
-
-            <h1>
-                Welcome back.
-            </h1>
-
+        <div class="loading-logo">
+            StudySprint
         </div>
 
-        <a
-            href="profile/index.html"
-            class="profile-button"
-            aria-label="Profile"
-        >
-            ○
-        </a>
+        <div class="loading-spinner"></div>
 
-    </header>
+    </div>
 
 
 
-    <!-- STREAK -->
+    <!-- APP -->
 
-    <section class="streak-section">
-
-        <div class="streak-left">
-
-            <span class="streak-flame">
-                🔥
-            </span>
-
-            <div>
-
-                <p class="section-label">
-                    CURRENT STREAK
-                </p>
-
-                <h2 id="home-streak">
-                    0
-                </h2>
-
-            </div>
-
-        </div>
+    <div
+        id="app"
+        class="app hidden"
+    >
 
 
-        <div class="streak-days">
+        <header class="header">
 
-            <span class="streak-day active">
-                M
-            </span>
-
-            <span class="streak-day">
-                T
-            </span>
-
-            <span class="streak-day">
-                W
-            </span>
-
-            <span class="streak-day">
-                T
-            </span>
-
-            <span class="streak-day">
-                F
-            </span>
-
-            <span class="streak-day">
-                S
-            </span>
-
-            <span class="streak-day">
-                S
-            </span>
-
-        </div>
+            <a
+                href="index.html"
+                class="logo"
+            >
+                StudySprint
+            </a>
 
 
-        <p
-            class="streak-message"
-            id="streak-message"
-        >
-            Start studying today to begin your streak.
-        </p>
+            <nav class="desktop-nav">
 
-    </section>
-
-
-
-    <!-- CONTINUE -->
-
-    <section class="continue-section">
-
-        <div class="section-heading">
-
-            <p class="section-label">
-                PICK UP WHERE YOU LEFT OFF
-            </p>
-
-            <h2>
-                Continue studying
-            </h2>
-
-        </div>
-
-
-        <div class="continue-content">
-
-            <div>
-
-                <p
-                    class="continue-subject"
-                    id="continue-subject"
+                <a
+                    href="main/index.html"
+                    class="active"
                 >
-                    No topic yet
+                    Home
+                </a>
+
+                <a href="main/study/index.html">
+                    📚 Study
+                </a>
+
+                <a href="main/sprint/index.html">
+                    🏃 Sprint
+                </a>
+
+                <a href="main/rooms/index.html">
+                    👥 Rooms
+                </a>
+
+                <a href="main/profile/index.html">
+                    👤 Profile
+                </a>
+
+            </nav>
+
+        </header>
+
+
+
+        <main>
+
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <p class="eyebrow">
+                    STUDYSPRINT
                 </p>
 
-                <h3 id="continue-topic">
-                    Start your first topic
-                </h3>
+                <h1>
+                    Study smarter.<br>
+                    Level up faster.
+                </h1>
 
-            </div>
+                <p class="hero-description">
+                    Learn topics, complete quizzes,
+                    and build better study habits.
+                </p>
+
+                <a
+                    href="main/study/index.html"
+                    class="main-button"
+                >
+                    Start Studying
+                </a>
+
+            </section>
 
 
-            <a
-                href="study/index.html"
-                class="continue-button"
-                id="continue-button"
-            >
-                →
+
+            <!-- MAIN MODES -->
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            LEARN
+                        </p>
+
+                        <h2>
+                            Choose your mode
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="mode-grid">
+
+
+                    <a
+                        href="main/study/index.html"
+                        class="mode-card"
+                    >
+
+                        <div class="mode-icon">
+                            📚
+                        </div>
+
+                        <div class="mode-content">
+
+                            <h3>
+                                Study
+                            </h3>
+
+                            <p>
+                                Learn topics and practise with questions.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <a
+                        href="main/sprint/index.html"
+                        class="mode-card"
+                    >
+
+                        <div class="mode-icon">
+                            🏃
+                        </div>
+
+                        <div class="mode-content">
+
+                            <h3>
+                                Sprint
+                            </h3>
+
+                            <p>
+                                Test yourself with a quick challenge.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <a
+                        href="main/rooms/index.html"
+                        class="mode-card"
+                    >
+
+                        <div class="mode-icon">
+                            👥
+                        </div>
+
+                        <div class="mode-content">
+
+                            <h3>
+                                Rooms
+                            </h3>
+
+                            <p>
+                                Study and compete with your class or friends.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <a
+                        href="main/profile/index.html"
+                        class="mode-card"
+                    >
+
+                        <div class="mode-icon">
+                            👤
+                        </div>
+
+                        <div class="mode-content">
+
+                            <h3>
+                                Profile
+                            </h3>
+
+                            <p>
+                                See your progress, streaks and achievements.
+                            </p>
+
+                        </div>
+
+                        <span class="card-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- PROGRESS -->
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <p class="eyebrow">
+                            YOUR PROGRESS
+                        </p>
+
+                        <h2>
+                            Keep going
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-icon">
+                            🔥
+                        </span>
+
+                        <strong id="home-streak">
+                            0
+                        </strong>
+
+                        <span>
+                            Day streak
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-icon">
+                            📝
+                        </span>
+
+                        <strong id="home-quizzes">
+                            0
+                        </strong>
+
+                        <span>
+                            Quizzes
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="stat-card">
+
+                        <span class="stat-icon">
+                            🎯
+                        </span>
+
+                        <strong id="home-score">
+                            0%
+                        </strong>
+
+                        <span>
+                            Best score
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- DAILY CHALLENGE -->
+
+            <section class="challenge-card">
+
+                <div>
+
+                    <p class="eyebrow">
+                        DAILY CHALLENGE
+                    </p>
+
+                    <h2>
+                        Ready for a quick challenge?
+                    </h2>
+
+                    <p>
+                        Complete a Sprint and keep your progress moving.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="main/sprint/index.html"
+                    class="secondary-button"
+                >
+                    Start Sprint
+                </a>
+
+            </section>
+
+
+        </main>
+
+
+
+        <footer>
+
+            <span>
+                © 2026 StudySprint
+            </span>
+
+            <a href="main/account/index.html">
+                Account
             </a>
 
-        </div>
-
-    </section>
+        </footer>
 
 
 
-    <!-- QUICK ACTIONS -->
+        <!-- MOBILE NAV -->
 
-    <section class="quick-section">
-
-        <p class="section-label">
-            QUICK ACTIONS
-        </p>
-
-
-        <div class="quick-actions">
+        <nav class="bottom-nav">
 
             <a
-                href="study/index.html"
-                class="quick-action"
+                href="index.html"
+                class="active"
             >
-
-                <span class="quick-icon">
-                    📚
-                </span>
-
-                <span>
-                    <strong>Study</strong>
-                    <small>Learn a topic</small>
-                </span>
-
-                <span class="quick-arrow">
-                    →
-                </span>
-
+                <span>🏠</span>
+                <small>Home</small>
             </a>
 
-
-            <a
-                href="sprint/index.html"
-                class="quick-action sprint-action"
-            >
-
-                <span class="quick-icon">
-                    S
-                </span>
-
-                <span>
-                    <strong>Sprint</strong>
-                    <small>Test yourself</small>
-                </span>
-
-                <span class="quick-arrow">
-                    →
-                </span>
-
+            <a href="main/study/index.html">
+                <span>📚</span>
+                <small>Study</small>
             </a>
 
-        </div>
+            <a href="main/sprint/index.html">
+                <span>🏃</span>
+                <small>Sprint</small>
+            </a>
 
-    </section>
+            <a href="main/rooms/index.html">
+                <span>👥</span>
+                <small>Rooms</small>
+            </a>
 
+            <a href="main/profile/index.html">
+                <span>👤</span>
+                <small>Profile</small>
+            </a>
 
+        </nav>
 
-    <!-- PROGRESS -->
 
-    <section class="progress-section">
+    </div>
 
-        <div class="section-heading">
 
-            <p class="section-label">
-                YOUR PROGRESS
-            </p>
 
-        </div>
+    <script>
 
+        (function () {
 
-        <div class="progress-grid">
+            const loading =
+                document.getElementById("auth-loading");
 
-            <div class="progress-stat">
+            const app =
+                document.getElementById("app");
 
-                <strong id="home-topics">
-                    0
-                </strong>
 
-                <span>
-                    Topics studied
-                </span>
+            /*
+             * Supabase stores the current session
+             * in localStorage.
+             *
+             * If there is no session, send the user
+             * to the Account page first.
+             */
 
-            </div>
+            const storageKey =
+                "sb-yfteudoecpkosxjucuky-auth-token";
 
+            const storedSession =
+                localStorage.getItem(storageKey);
 
-            <div class="progress-stat">
 
-                <strong id="home-sprints">
-                    0
-                </strong>
+            if (!storedSession) {
 
-                <span>
-                    Sprints completed
-                </span>
+                window.location.replace(
+                    "main/account/index.html"
+                );
 
-            </div>
+                return;
 
-        </div>
+            }
 
-    </section>
 
+            let sessionExists = false;
 
-</main>
 
+            try {
 
+                const parsed =
+                    JSON.parse(storedSession);
 
-<!-- BOTTOM NAV -->
+                if (
+                    parsed &&
+                    parsed.access_token
+                ) {
 
-<nav class="bottom-nav">
+                    sessionExists = true;
 
-    <a
-        href="index.html"
-        class="nav-item active"
-    >
+                }
 
-        <span class="nav-icon">
-            ⌂
-        </span>
+            }
+            catch (error) {
 
-        <span>
-            Home
-        </span>
+                sessionExists = false;
 
-    </a>
+            }
 
 
-    <a
-        href="study/index.html"
-        class="nav-item"
-    >
+            if (!sessionExists) {
 
-        <span class="nav-icon">
-            ◫
-        </span>
+                localStorage.removeItem(storageKey);
 
-        <span>
-            Study
-        </span>
+                window.location.replace(
+                    "main/account/index.html"
+                );
 
-    </a>
+                return;
 
+            }
 
-    <a
-        href="sprint/index.html"
-        class="nav-item sprint-nav"
-    >
 
-        <span class="sprint-icon">
-            S
-        </span>
+            loading.classList.add("hidden");
 
-        <span>
-            Sprint
-        </span>
+            app.classList.remove("hidden");
 
-    </a>
 
+            const streak =
+                Number(
+                    localStorage.getItem("streak")
+                ) || 0;
 
-    <a
-        href="rooms/index.html"
-        class="nav-item"
-    >
+            const quizzes =
+                Number(
+                    localStorage.getItem("quizzes")
+                ) ||
+                Number(
+                    localStorage.getItem("quizzes_completed")
+                ) ||
+                0;
 
-        <span class="nav-icon">
-            ♧
-        </span>
+            const bestScore =
+                Number(
+                    localStorage.getItem("bestScore")
+                ) ||
+                Number(
+                    localStorage.getItem("best_score")
+                ) ||
+                0;
 
-        <span>
-            Rooms
-        </span>
 
-    </a>
+            document.getElementById(
+                "home-streak"
+            ).textContent = streak;
 
 
-    <a
-        href="profile/index.html"
-        class="nav-item"
-    >
+            document.getElementById(
+                "home-quizzes"
+            ).textContent = quizzes;
 
-        <span class="nav-icon">
-            ○
-        </span>
 
-        <span>
-            Profile
-        </span>
+            document.getElementById(
+                "home-score"
+            ).textContent =
+                bestScore > 0
+                    ? bestScore + "%"
+                    : "0%";
 
-    </a>
+        })();
 
-</nav>
-
-
-
-<script>
-
-
-/* =========================================================
-   CONTINUE STUDYING
-========================================================= */
-
-const lastSubject =
-    localStorage.getItem("lastStudySubject");
-
-const lastTopic =
-    localStorage.getItem("lastStudyTopic");
-
-const lastFile =
-    localStorage.getItem("lastStudyFile");
-
-const lastKey =
-    localStorage.getItem("lastStudyKey");
-
-
-const continueSubject =
-    document.getElementById("continue-subject");
-
-const continueTopic =
-    document.getElementById("continue-topic");
-
-const continueButton =
-    document.getElementById("continue-button");
-
-
-if (
-    lastSubject &&
-    lastTopic &&
-    lastFile &&
-    lastKey
-) {
-
-    continueSubject.textContent =
-        lastSubject;
-
-    continueTopic.textContent =
-        lastTopic;
-
-    continueButton.href =
-        "study/index.html" +
-        "?subject=" +
-        encodeURIComponent(lastSubject) +
-        "&topic=" +
-        encodeURIComponent(lastTopic) +
-        "&file=" +
-        encodeURIComponent(lastFile) +
-        "&key=" +
-        encodeURIComponent(lastKey);
-
-} else {
-
-    continueSubject.textContent =
-        "GET STARTED";
-
-    continueTopic.textContent =
-        "Choose your first topic";
-
-}
-
-
-
-/* =========================================================
-   STREAK
-========================================================= */
-
-const streakElement =
-    document.getElementById("home-streak");
-
-const streakMessage =
-    document.getElementById("streak-message");
-
-
-const streak =
-    Number(
-        localStorage.getItem("streak")
-    ) || 0;
-
-
-streakElement.textContent =
-    streak;
-
-
-if (streak === 0) {
-
-    streakMessage.textContent =
-        "Start studying today to begin your streak.";
-
-} else if (streak === 1) {
-
-    streakMessage.textContent =
-        "You're on a 1-day streak. Keep it going!";
-
-} else {
-
-    streakMessage.textContent =
-        "You're on a " +
-        streak +
-        "-day streak. Keep it alive!";
-
-}
-
-
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-const topicsStudied =
-    Number(
-        localStorage.getItem("topicsStudied")
-    ) || 0;
-
-
-const sprintsCompleted =
-    Number(
-        localStorage.getItem("sprintsCompleted")
-    ) || 0;
-
-
-document.getElementById(
-    "home-topics"
-).textContent =
-    topicsStudied;
-
-
-document.getElementById(
-    "home-sprints"
-).textContent =
-    sprintsCompleted;
-
-
-</script>
-
-
-<script src="animations.js"></script>
+    </script>
 
 
 </body>
