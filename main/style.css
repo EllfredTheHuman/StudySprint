@@ -1,263 +1,511 @@
-```html
-<!DOCTYPE html>
-<html lang="en">
+```css
+/* =========================================================
+   STUDYSPRINT — HOME
+   Original-style dark modern design
+========================================================= */
 
-<head>
 
-    <meta charset="UTF-8">
+* {
+    box-sizing: border-box;
+}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
 
-    <title>StudySprint</title>
+html {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
 
-    <link rel="stylesheet" href="style.css">
+    overflow-x: hidden;
+}
 
-</head>
 
+body {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 100vh;
 
-<body>
+    margin: 0;
 
+    overflow-x: hidden;
 
-<header>
+    background: #09090f;
+    color: white;
 
-    <div class="logo">
-        <a href="index.html">
-            sh🚀 StudySprint
-        </a>
-    </div>
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
 
 
-    <nav>
+img,
+video,
+iframe {
+    max-width: 100%;
+}
 
-        <a href="index.html">Home</a>
-        <a href="study/index.html">📚 Study</a>
-        <a href="sprint/index.html">🏃 Sprint</a>
-        <a href="test/index.html">📝 Test</a>
-        <a href="profile/index.html">👤 Profile</a>
 
-    </nav>
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-</header>
 
+header {
+    width: 100%;
+    max-width: 100%;
 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-<main>
+    gap: 20px;
 
+    padding: 18px 24px;
 
-<section class="hero">
+    border-bottom: 1px solid #20202a;
 
-    <h1>
-        Study smarter.
-        <br>
-        Level up faster.
-    </h1>
+    background: #09090f;
+}
 
 
-    <p>
-        Turn studying into a game.
-        Learn topics, complete quizzes, and earn XP.
-    </p>
+.logo {
+    flex-shrink: 0;
 
+    font-size: 20px;
+    font-weight: 800;
+}
 
-    <a href="study/index.html" class="main-button">
-        🚀 Start Studying
-    </a>
 
-</section>
+.logo a {
+    white-space: nowrap;
+}
 
 
+nav {
+    min-width: 0;
+    max-width: 100%;
 
-<section class="features">
+    display: flex;
+    align-items: center;
 
+    gap: 6px;
 
-    <div class="feature-card">
+    overflow-x: auto;
+    overflow-y: hidden;
 
-        <h2>
-            📚 Study
-        </h2>
+    scrollbar-width: none;
+}
 
-        <p>
-            Learn topics through interactive quizzes and track your progress.
-        </p>
 
-        <a href="study/index.html" class="main-button">
-            PLAY
-        </a>
+nav::-webkit-scrollbar {
+    display: none;
+}
 
-    </div>
 
+nav a {
+    flex-shrink: 0;
 
+    padding: 8px 10px;
 
-    <div class="feature-card">
+    border-radius: 9px;
 
-        <h2>
-            🏃 Sprint
-        </h2>
+    color: #8b8895;
 
-        <p>
-            Race against time and challenge yourself.
-        </p>
+    font-size: 13px;
+    font-weight: 600;
 
-        <a href="sprint/index.html" class="main-button">
-            PLAY
-        </a>
+    white-space: nowrap;
+}
 
-    </div>
 
+nav a:hover {
+    color: white;
+    background: #17161f;
+}
 
 
-    <div class="feature-card">
+main {
+    width: 100%;
+    min-width: 0;
+    max-width: 900px;
 
-        <h2>
-            📝 Test
-        </h2>
+    margin: 0 auto;
 
-        <p>
-            Test your knowledge with a full test for a topic.
-        </p>
+    padding: 24px 20px 50px;
+}
 
-        <a href="test/index.html" class="main-button">
-            TEST
-        </a>
 
-    </div>
+.hero {
+    width: 100%;
+    min-width: 0;
 
+    margin-bottom: 20px;
 
-</section>
+    padding: 42px 28px;
 
+    border: 1px solid #24232e;
+    border-radius: 22px;
 
+    background: #111018;
 
-<section class="hero">
+    overflow: hidden;
+}
 
-    <h1>
-        ⭐ Your Progress
-    </h1>
 
-</section>
+.hero h1 {
+    max-width: 100%;
 
+    margin: 0;
 
+    font-size: clamp(32px, 7vw, 56px);
+    line-height: 1;
 
-<section class="features">
+    letter-spacing: -2px;
+}
 
 
-    <div class="stat">
+.hero p {
+    max-width: 600px;
 
-        <h2 id="home-xp">
-            0
-        </h2>
+    margin: 18px 0 24px;
 
-        <p>
-            ⭐ Total XP
-        </p>
+    color: #96939f;
 
-    </div>
+    font-size: 15px;
+    line-height: 1.6;
+}
 
 
+.main-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-    <div class="stat">
+    min-height: 46px;
 
-        <h2 id="home-level">
-            1
-        </h2>
+    padding: 0 18px;
 
-        <p>
-            🏆 Level
-        </p>
+    border-radius: 12px;
 
-    </div>
+    background: #8875f5;
+    color: white;
 
+    font-size: 13px;
+    font-weight: 800;
+}
 
 
-    <div class="stat">
+.features {
+    width: 100%;
+    min-width: 0;
 
-        <h2 id="home-quizzes">
-            0
-        </h2>
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 
-        <p>
-            📝 Quizzes Completed
-        </p>
+    gap: 12px;
 
-    </div>
+    margin-bottom: 20px;
+}
 
 
-</section>
+.feature-card {
+    min-width: 0;
 
+    padding: 22px;
 
+    border: 1px solid #24232e;
+    border-radius: 18px;
 
-<section class="hero">
+    background: #111018;
 
-    <h1>
-        🎯 Daily Challenge
-    </h1>
+    overflow: hidden;
+}
 
 
-    <p>
-        Complete 5 questions today and earn bonus XP!
-    </p>
+.feature-card h2 {
+    margin: 0 0 10px;
 
+    font-size: 21px;
+}
 
-    <a href="study/index.html" class="main-button">
-        Accept Challenge
-    </a>
 
-</section>
+.feature-card p {
+    margin: 0 0 20px;
 
+    color: #898692;
 
+    font-size: 13px;
+    line-height: 1.5;
+}
 
-<section class="home-shop">
 
-    <div class="shop-icon">
-        🛒
-    </div>
+.feature-card .main-button {
+    width: 100%;
+}
 
-    <a href="shop/index.html" class="go-to-shop">
-        Go to Shop
-    </a>
 
-</section>
+.stat {
+    min-width: 0;
 
+    padding: 22px 12px;
 
-</main>
+    border: 1px solid #24232e;
+    border-radius: 18px;
 
+    background: #111018;
 
+    text-align: center;
 
-<footer>
+    overflow: hidden;
+}
 
-    © 2026 StudySprint
 
-</footer>
+.stat h2 {
+    margin: 0 0 8px;
 
+    font-size: 28px;
+}
 
 
-<script>
+.stat p {
+    margin: 0;
 
-    let xp =
-        Number(localStorage.getItem("XP")) || 0;
+    color: #898692;
 
-    let quizzes =
-        Number(localStorage.getItem("quizzes")) || 0;
+    font-size: 12px;
+}
 
-    let level =
-        Math.floor(xp / 100) + 1;
 
+.home-shop {
+    width: 100%;
+    min-width: 0;
 
-    document.getElementById("home-xp").textContent = xp;
+    display: flex;
+    align-items: center;
+    gap: 14px;
 
-    document.getElementById("home-level").textContent = level;
+    padding: 18px;
 
-    document.getElementById("home-quizzes").textContent = quizzes;
+    border: 1px solid #24232e;
+    border-radius: 18px;
 
-</script>
+    background: #111018;
+}
 
 
-<script src="animations.js"></script>
+.shop-icon {
+    flex-shrink: 0;
 
+    width: 44px;
+    height: 44px;
 
-</body>
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-</html>
+    border-radius: 12px;
+
+    background: #1a1823;
+
+    font-size: 21px;
+}
+
+
+.go-to-shop {
+    min-width: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+footer {
+    width: 100%;
+
+    padding: 20px;
+
+    color: #575460;
+
+    font-size: 11px;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+
+@media (max-width: 599px) {
+
+    html,
+    body {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+
+        overflow-x: hidden;
+    }
+
+
+    header {
+        width: 100%;
+
+        display: block;
+
+        padding: 16px;
+    }
+
+
+    .logo {
+        margin-bottom: 13px;
+    }
+
+
+    nav {
+        width: 100%;
+        max-width: 100%;
+
+        padding-bottom: 2px;
+    }
+
+
+    nav a {
+        font-size: 12px;
+        padding: 8px 9px;
+    }
+
+
+    main {
+        width: 100%;
+        max-width: 100%;
+
+        padding:
+            16px
+            14px
+            35px;
+    }
+
+
+    .hero {
+        width: 100%;
+
+        padding:
+            30px
+            20px;
+
+        border-radius: 20px;
+    }
+
+
+    .hero h1 {
+        font-size: 38px;
+        line-height: 0.98;
+        letter-spacing: -1.7px;
+    }
+
+
+    .hero p {
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+
+    .main-button {
+        width: 100%;
+    }
+
+
+    .features {
+        width: 100%;
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .feature-card {
+        width: 100%;
+
+        padding: 20px;
+
+        border-radius: 17px;
+    }
+
+
+    .feature-card p {
+        min-height: 0;
+    }
+
+
+    .features .stat {
+        width: 100%;
+    }
+
+
+    .stat {
+        padding: 18px 10px;
+    }
+
+
+    .stat h2 {
+        font-size: 25px;
+    }
+
+
+    .stat p {
+        font-size: 11px;
+    }
+
+
+    .home-shop {
+        width: 100%;
+
+        padding: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+
+@media (max-width: 360px) {
+
+    header {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    main {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    .hero {
+        padding:
+            26px
+            17px;
+    }
+
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+
+    .feature-card {
+        padding: 17px;
+    }
+
+}
 ```
