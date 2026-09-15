@@ -2,119 +2,547 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#09090f">
-    <title>StudySprint — Study</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#09090f"
+    >
+
+    <title>StudySprint - Study</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
 
 <body>
 
 <header class="topbar">
-    <a href="../index.html" class="logo">StudySprint</a>
-    <a href="../profile/index.html" class="profile-button">👤</a>
+
+    <a
+        href="../index.html"
+        class="logo"
+    >
+        StudySprint
+    </a>
+
+    <a
+        href="../profile/index.html"
+        class="profile-button"
+    >
+        Profile
+    </a>
+
 </header>
+
 
 <main>
 
-    <!-- SUBJECT SELECT -->
 
-    <section id="subject-screen">
+    <!-- GAME SELECTION -->
+
+    <section id="game-screen">
 
         <div class="page-heading">
-            <p class="small-label">STUDY</p>
-            <h1>What do you<br><span>want to learn?</span></h1>
-            <p>Choose a subject to get started.</p>
+
+            <p class="small-label">
+                STUDY
+            </p>
+
+            <h1>
+                Choose your
+                <br>
+                <span>game.</span>
+            </h1>
+
+            <p>
+                Choose what your study rewards will help you build.
+            </p>
+
         </div>
 
-        <div class="subject-grid">
 
-            <button class="subject-card" data-subject="science">
-                <span>🔬</span>
-                <strong>Science</strong>
-                <small>Explore the world</small>
+        <div class="game-grid">
+
+
+            <button
+                class="game-card"
+                data-game="garden"
+                type="button"
+            >
+
+                <div class="game-preview garden-preview">
+
+                    <div class="preview-ground"></div>
+
+                    <div class="preview-plant"></div>
+
+                </div>
+
+                <div class="game-card-content">
+
+                    <strong>
+                        Garden
+                    </strong>
+
+                    <small>
+                        Grow and customise your garden.
+                    </small>
+
+                </div>
+
             </button>
 
-            <button class="subject-card" data-subject="maths">
-                <span>➗</span>
-                <strong>Maths</strong>
-                <small>Numbers & logic</small>
+
+
+            <button
+                class="game-card"
+                data-game="fishing"
+                type="button"
+            >
+
+                <div class="game-preview fishing-preview">
+
+                    <div class="preview-water"></div>
+
+                    <div class="preview-fish"></div>
+
+                </div>
+
+                <div class="game-card-content">
+
+                    <strong>
+                        Fishing
+                    </strong>
+
+                    <small>
+                        Catch fish and build your collection.
+                    </small>
+
+                </div>
+
             </button>
 
-            <button class="subject-card" data-subject="english">
-                <span>📖</span>
-                <strong>English</strong>
-                <small>Words & stories</small>
+
+
+            <button
+                class="game-card"
+                data-game="restaurant"
+                type="button"
+            >
+
+                <div class="game-preview restaurant-preview">
+
+                    <div class="preview-counter"></div>
+
+                    <div class="preview-table"></div>
+
+                </div>
+
+                <div class="game-card-content">
+
+                    <strong>
+                        Restaurant
+                    </strong>
+
+                    <small>
+                        Build and improve your restaurant.
+                    </small>
+
+                </div>
+
             </button>
 
-            <button class="subject-card" data-subject="humanities">
-                <span>🌍</span>
-                <strong>Humanities</strong>
-                <small>People & places</small>
+
+
+            <button
+                class="game-card disabled-game"
+                type="button"
+                disabled
+            >
+
+                <div class="game-preview">
+
+                    <div class="locked-preview">
+                        Coming Soon
+                    </div>
+
+                </div>
+
+                <div class="game-card-content">
+
+                    <strong>
+                        More Games
+                    </strong>
+
+                    <small>
+                        More worlds are coming.
+                    </small>
+
+                </div>
+
             </button>
 
-            <button class="subject-card" data-subject="japanese">
-                <span>🇯🇵</span>
-                <strong>Japanese</strong>
-                <small>日本語</small>
-            </button>
-
-            <button class="subject-card" data-subject="french">
-                <span>🇫🇷</span>
-                <strong>French</strong>
-                <small>Français</small>
-            </button>
 
         </div>
 
     </section>
 
 
-    <!-- TOPIC SELECT -->
 
-    <section id="topic-screen" class="hidden">
+    <!-- SUBJECT SELECTION -->
 
-        <button id="back-subjects" class="back-button">← Subjects</button>
+    <section
+        id="subject-screen"
+        class="hidden"
+    >
+
+        <button
+            id="back-games"
+            class="back-button"
+            type="button"
+        >
+            Back to Games
+        </button>
+
 
         <div class="page-heading compact">
-            <p class="small-label" id="selected-subject-label">SUBJECT</p>
-            <h1>Choose a<br><span>topic.</span></h1>
+
+            <p class="small-label">
+                STUDY
+            </p>
+
+            <h1>
+                Choose a
+                <br>
+                <span>subject.</span>
+            </h1>
+
+            <p id="selected-game-description">
+                Choose a subject.
+            </p>
+
         </div>
+
+
+        <div class="subject-grid">
+
+
+            <button
+                class="subject-card"
+                data-subject="science"
+                type="button"
+            >
+
+                <strong>
+                    Science
+                </strong>
+
+                <small>
+                    Explore the world.
+                </small>
+
+            </button>
+
+
+
+            <button
+                class="subject-card"
+                data-subject="maths"
+                type="button"
+            >
+
+                <strong>
+                    Maths
+                </strong>
+
+                <small>
+                    Numbers and logic.
+                </small>
+
+            </button>
+
+
+
+            <button
+                class="subject-card"
+                data-subject="english"
+                type="button"
+            >
+
+                <strong>
+                    English
+                </strong>
+
+                <small>
+                    Words and stories.
+                </small>
+
+            </button>
+
+
+
+            <button
+                class="subject-card"
+                data-subject="humanities"
+                type="button"
+            >
+
+                <strong>
+                    Humanities
+                </strong>
+
+                <small>
+                    People and places.
+                </small>
+
+            </button>
+
+
+
+            <button
+                class="subject-card"
+                data-subject="japanese"
+                type="button"
+            >
+
+                <strong>
+                    Japanese
+                </strong>
+
+                <small>
+                    日本語
+                </small>
+
+            </button>
+
+
+
+            <button
+                class="subject-card"
+                data-subject="french"
+                type="button"
+            >
+
+                <strong>
+                    French
+                </strong>
+
+                <small>
+                    Français
+                </small>
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- TOPIC SELECTION -->
+
+    <section
+        id="topic-screen"
+        class="hidden"
+    >
+
+        <button
+            id="back-subjects"
+            class="back-button"
+            type="button"
+        >
+            Back to Subjects
+        </button>
+
+
+        <div class="page-heading compact">
+
+            <p
+                class="small-label"
+                id="selected-subject-label"
+            >
+                SUBJECT
+            </p>
+
+            <h1>
+                Choose a
+                <br>
+                <span>topic.</span>
+            </h1>
+
+            <p>
+                Pick what you want to study.
+            </p>
+
+        </div>
+
 
         <div id="topic-list"></div>
 
     </section>
 
 
+
+    <!-- READY -->
+
+    <section
+        id="ready-screen"
+        class="hidden"
+    >
+
+        <button
+            id="back-topics"
+            class="back-button"
+            type="button"
+        >
+            Back to Topics
+        </button>
+
+
+        <div class="ready-card">
+
+
+            <p class="small-label">
+                READY
+            </p>
+
+
+            <h1 id="ready-game">
+                Garden
+            </h1>
+
+
+            <div class="ready-divider"></div>
+
+
+            <p class="ready-topic-label">
+                TOPIC
+            </p>
+
+
+            <h2 id="ready-topic">
+                Topic
+            </h2>
+
+
+            <div class="reward-box">
+
+                <div class="reward-coin">
+                    C
+                </div>
+
+                <div>
+
+                    <strong>
+                        Earn coins
+                    </strong>
+
+                    <small>
+                        Correct answers earn coins for your chosen game.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="start-study"
+                class="primary-button"
+                type="button"
+            >
+                Start Studying
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+
     <!-- QUIZ -->
 
-    <section id="quiz-screen" class="hidden">
+    <section
+        id="quiz-screen"
+        class="hidden"
+    >
 
         <div class="quiz-top">
 
-            <button id="back-topics" class="back-button">
-                ← Topics
+            <button
+                id="back-to-ready"
+                class="back-button"
+                type="button"
+            >
+                Leave
             </button>
 
+
             <div class="progress-area">
-                <span id="question-number">Question 1</span>
+
+                <span id="question-number">
+                    Question 1
+                </span>
+
                 <div class="progress-track">
-                    <div id="progress-bar"></div>
+
+                    <div
+                        id="progress-bar"
+                    ></div>
+
                 </div>
+
             </div>
 
         </div>
 
+
+        <div class="study-reward">
+
+            <span>
+                Coins
+            </span>
+
+            <strong id="study-coins">
+                0
+            </strong>
+
+        </div>
+
+
         <div class="quiz-card">
 
-            <p class="question-type" id="question-type">QUESTION</p>
+
+            <p
+                class="question-type"
+                id="question-type"
+            >
+                QUESTION
+            </p>
+
 
             <h1 id="question-text"></h1>
 
+
             <div id="answers-area"></div>
 
-            <div id="written-area" class="hidden">
+
+            <div
+                id="written-area"
+                class="hidden"
+            >
 
                 <input
                     id="written-answer"
@@ -123,96 +551,163 @@
                     placeholder="Type your answer..."
                 >
 
-                <button id="submit-written" class="primary-button">
+                <button
+                    id="submit-written"
+                    class="primary-button"
+                    type="button"
+                >
                     Check Answer
                 </button>
 
             </div>
 
-            <div id="feedback" class="feedback hidden">
+
+            <div
+                id="feedback"
+                class="feedback hidden"
+            >
+
                 <strong id="feedback-title"></strong>
+
                 <p id="feedback-text"></p>
+
             </div>
 
-            <button id="next-button" class="next-button hidden">
-                Next Question →
+
+            <button
+                id="next-button"
+                class="next-button hidden"
+                type="button"
+            >
+                Next Question
             </button>
+
 
         </div>
 
     </section>
+
 
 
     <!-- COMPLETE -->
 
-    <section id="complete-screen" class="hidden">
+    <section
+        id="complete-screen"
+        class="hidden"
+    >
 
         <div class="complete-card">
 
-            <div class="complete-icon">🎉</div>
 
-            <p class="small-label">SESSION COMPLETE</p>
-
-            <h1>Nice work.</h1>
-
-            <p id="complete-message">
-                You finished your study session.
+            <p class="small-label">
+                SESSION COMPLETE
             </p>
+
+
+            <h1>
+                Nice work.
+            </h1>
+
+
+            <p>
+                You finished this study session.
+            </p>
+
 
             <div class="complete-stats">
 
-                <div>
-                    <strong id="score-number">0</strong>
-                    <small>Correct</small>
-                </div>
 
                 <div>
-                    <strong id="total-number">0</strong>
-                    <small>Questions</small>
+
+                    <strong id="score-number">
+                        0
+                    </strong>
+
+                    <small>
+                        Correct
+                    </small>
+
                 </div>
+
+
+                <div>
+
+                    <strong id="coins-earned">
+                        0
+                    </strong>
+
+                    <small>
+                        Coins earned
+                    </small>
+
+                </div>
+
 
             </div>
 
-            <button id="study-again" class="primary-button">
+
+            <button
+                id="study-again"
+                class="primary-button"
+                type="button"
+            >
                 Study Again
             </button>
 
-            <button id="return-home" class="secondary-button">
+
+            <button
+                id="return-home"
+                class="secondary-button"
+                type="button"
+            >
                 Back Home
             </button>
+
 
         </div>
 
     </section>
 
+
 </main>
+
 
 
 <nav class="bottom-nav">
 
-    <a href="../index.html" class="bottom-item">
-        <span>🏠</span>
-        <small>Home</small>
+    <a
+        href="../index.html"
+        class="bottom-item"
+    >
+        <span>Home</span>
     </a>
 
-    <a href="index.html" class="bottom-item active">
-        <span>📚</span>
-        <small>Study</small>
+    <a
+        href="index.html"
+        class="bottom-item active"
+    >
+        <span>Study</span>
     </a>
 
-    <a href="../sprint/index.html" class="bottom-item">
-        <span>🏃</span>
-        <small>Sprint</small>
+    <a
+        href="../sprint/index.html"
+        class="bottom-item"
+    >
+        <span>Sprint</span>
     </a>
 
-    <a href="../rooms/index.html" class="bottom-item">
-        <span>👥</span>
-        <small>Rooms</small>
+    <a
+        href="../rooms/index.html"
+        class="bottom-item"
+    >
+        <span>Rooms</span>
     </a>
 
-    <a href="../profile/index.html" class="bottom-item">
-        <span>👤</span>
-        <small>Profile</small>
+    <a
+        href="../profile/index.html"
+        class="bottom-item"
+    >
+        <span>Profile</span>
     </a>
 
 </nav>
@@ -221,4 +716,5 @@
 <script src="study.js"></script>
 
 </body>
+
 </html>
