@@ -10,11 +10,23 @@
     var supabaseClient = null;
 
     var selectedAvatar =
-        localStorage.getItem("studysprint_avatar") || "👤";
+        localStorage.getItem("studysprint_avatar") || "S";
 
 
-    var defaultUsername =
-        localStorage.getItem("studysprint_username") || "Student";
+    function getElement(id) {
+        return document.getElementById(id);
+    }
+
+
+    function setText(id, value) {
+
+        var element = getElement(id);
+
+        if (element) {
+            element.textContent = value;
+        }
+
+    }
 
 
     function loadSupabase() {
@@ -22,9 +34,7 @@
         return new Promise(function (resolve, reject) {
 
             if (window.supabase) {
-
                 resolve();
-
                 return;
             }
 
@@ -43,7 +53,9 @@
 
 
             script.onerror = function () {
-                reject(new Error("Could not load Supabase."));
+                reject(
+                    new Error("Supabase failed to load.")
+                );
             };
 
 
@@ -55,69 +67,116 @@
 
 
 
-    async function init() {
+    async function createSupabase() {
 
         try {
 
             await loadSupabase();
 
+            if (
+                window.supabase &&
+                window.supabase.createClient
+            ) {
 
-            supabaseClient =
-                window.supabase.createClient(
-                    SUPABASE_URL,
-                    SUPABASE_KEY,
-                    {
-                        auth: {
-                            persistSession: true,
-                            autoRefreshToken: true,
-                            detectSessionInUrl: true
+                supabaseClient =
+                    window.supabase.createClient(
+                        SUPABASE_URL,
+                        SUPABASE_KEY,
+                        {
+                            auth: {
+                                persistSession: true,
+                                autoRefreshToken: true,
+                                detectSessionInUrl: true
+                            }
                         }
-                    }
-                );
+                    );
 
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Supabase could not initialise:",
+                error
+            );
+
+        }
+
+    }
+
+
+
+    async function getUser() {
+
+        if (!supabaseClient) {
+            return null;
+        }
+
+
+        try {
 
             var result =
                 await supabaseClient.auth.getUser();
 
 
-            var user =
-                result.data.user;
+            if (
+                result &&
+                result.data &&
+                result.data.user
+            ) {
 
+                return result.data.user;
 
-            if (!user) {
-
-                window.location.replace(
-                    "/StudySprint/main/account/index.html"
-                );
-
-                return;
             }
-
-
-            setupProfile(user);
-
-            setupButtons(user);
-
-            loadStats();
-
-            setupAvatarPicker();
 
         } catch (error) {
 
-            console.error(
-                "StudySprint profile error:",
+            console.warn(
+                "Could not get Supabase user:",
                 error
             );
 
-            setupProfile(null);
+        }
 
-            setupButtons(null);
 
-            loadStats();
+        return null;
 
-            setupAvatarPicker();
+    }
+
+
+
+    function getUsername(user) {
+
+        var saved =
+            localStorage.getItem(
+                "studysprint_username"
+            );
+
+
+        if (
+            saved &&
+            saved.trim()
+        ) {
+
+            return saved.trim();
 
         }
+
+
+        if (
+            user &&
+            user.user_metadata &&
+            user.user_metadata.username
+        ) {
+
+            return String(
+                user.user_metadata.username
+            ).trim();
+
+        }
+
+
+        return "Student";
 
     }
 
@@ -126,36 +185,7 @@
     function setupProfile(user) {
 
         var username =
-            localStorage.getItem("studysprint_username");
-
-
-        if (!username && user) {
-
-            username =
-                user.user_metadata &&
-                user.user_metadata.username
-                    ? user.user_metadata.username
-                    : null;
-
-        }
-
-
-        if (!username) {
-
-            username = "Student";
-
-        }
-
-
-        username =
-            String(username).trim();
-
-
-        if (!username) {
-
-            username = "Student";
-
-        }
+            getUsername(user);
 
 
         var email =
@@ -164,24 +194,40 @@
                 : "StudySprint account";
 
 
-        document.getElementById(
-            "profile-name"
-        ).textContent = username;
+        setText(
+            "profile-name",
+            username
+        );
 
 
-        document.getElementById(
-            "profile-email"
-        ).textContent = email;
+        setText(
+            "profile-email",
+            email
+        );
 
 
-        document.getElementById(
-            "avatar"
-        ).textContent = selectedAvatar;
+        setText(
+            "avatar",
+            selectedAvatar
+        );
 
 
-        document.getElementById(
-            "profile-avatar"
-        ).textContent = selectedAvatar;
+        setText(
+            "profile-avatar",
+            selectedAvatar
+        );
+
+
+        var usernameInput =
+            getElement("username-input");
+
+
+        if (usernameInput) {
+
+            usernameInput.value =
+                username;
+
+        }
 
     }
 
@@ -219,236 +265,75 @@
             ) || 0;
 
 
-        document.getElementById(
-            "stat-streak"
-        ).textContent = streak;
+        setText(
+            "stat-streak",
+            streak
+        );
 
 
-        document.getElementById(
-            "stat-quizzes"
-        ).textContent = quizzes;
+        setText(
+            "stat-quizzes",
+            quizzes
+        );
 
 
-        document.getElementById(
-            "stat-achievements"
-        ).textContent = achievements;
+        setText(
+            "stat-achievements",
+            achievements
+        );
 
     }
 
 
 
-    function setupButtons(user) {
-
-        var editButton =
-            document.getElementById(
-                "edit-profile-button"
-            );
-
+    function openModal() {
 
         var modal =
-            document.getElementById(
-                "edit-modal"
-            );
+            getElement("edit-modal");
 
 
-        var closeButton =
-            document.getElementById(
-                "close-modal"
-            );
+        var input =
+            getElement("username-input");
 
 
-        var backdrop =
-            document.getElementById(
-                "modal-backdrop"
-            );
+        if (!modal) {
+            return;
+        }
 
 
-        var saveButton =
-            document.getElementById(
-                "save-profile-button"
-            );
+        if (input) {
+
+            input.value =
+                localStorage.getItem(
+                    "studysprint_username"
+                ) || "Student";
+
+        }
 
 
-        var usernameInput =
-            document.getElementById(
-                "username-input"
-            );
+        selectedAvatar =
+            localStorage.getItem(
+                "studysprint_avatar"
+            ) || "S";
 
 
-        editButton.addEventListener(
-            "click",
-            function () {
-
-                usernameInput.value =
-                    localStorage.getItem(
-                        "studysprint_username"
-                    ) || "Student";
+        updateAvatarSelection();
 
 
-                selectedAvatar =
-                    localStorage.getItem(
-                        "studysprint_avatar"
-                    ) || "👤";
+        var message =
+            getElement("form-message");
 
 
-                updateAvatarSelection();
+        if (message) {
+            message.textContent = "";
+        }
 
 
-                document
-                    .getElementById("form-message")
-                    .textContent = "";
+        modal.classList.remove("hidden");
 
-
-                modal.classList.remove("hidden");
-
-            }
+        document.body.classList.add(
+            "modal-open"
         );
-
-
-        closeButton.addEventListener(
-            "click",
-            closeModal
-        );
-
-
-        backdrop.addEventListener(
-            "click",
-            closeModal
-        );
-
-
-        saveButton.addEventListener(
-            "click",
-            function () {
-
-                var username =
-                    usernameInput.value.trim();
-
-
-                if (!username) {
-
-                    document
-                        .getElementById("form-message")
-                        .textContent =
-                        "Please enter a username.";
-
-                    return;
-                }
-
-
-                if (username.length > 24) {
-
-                    document
-                        .getElementById("form-message")
-                        .textContent =
-                        "Username is too long.";
-
-                    return;
-                }
-
-
-                localStorage.setItem(
-                    "studysprint_username",
-                    username
-                );
-
-
-                localStorage.setItem(
-                    "studysprint_avatar",
-                    selectedAvatar
-                );
-
-
-                if (user && supabaseClient) {
-
-                    supabaseClient.auth.updateUser({
-
-                        data: {
-                            username: username
-                        }
-
-                    }).catch(function (error) {
-
-                        console.warn(
-                            "Could not update auth metadata:",
-                            error
-                        );
-
-                    });
-
-                }
-
-
-                document.getElementById(
-                    "profile-name"
-                ).textContent = username;
-
-
-                document.getElementById(
-                    "profile-email"
-                ).textContent =
-                    user && user.email
-                        ? user.email
-                        : "StudySprint account";
-
-
-                document.getElementById(
-                    "avatar"
-                ).textContent =
-                    selectedAvatar;
-
-
-                document.getElementById(
-                    "profile-avatar"
-                ).textContent =
-                    selectedAvatar;
-
-
-                closeModal();
-
-            }
-        );
-
-
-        document
-            .getElementById("sign-out-button")
-            .addEventListener(
-                "click",
-                async function () {
-
-                    var button =
-                        document.getElementById(
-                            "sign-out-button"
-                        );
-
-
-                    button.disabled = true;
-
-
-                    if (supabaseClient) {
-
-                        try {
-
-                            await supabaseClient.auth.signOut();
-
-                        } catch (error) {
-
-                            console.error(
-                                "Sign out error:",
-                                error
-                            );
-
-                        }
-
-                    }
-
-
-                    window.location.replace(
-                        "/StudySprint/main/account/index.html"
-                    );
-
-                }
-            );
 
     }
 
@@ -456,9 +341,245 @@
 
     function closeModal() {
 
-        document
-            .getElementById("edit-modal")
-            .classList.add("hidden");
+        var modal =
+            getElement("edit-modal");
+
+
+        if (modal) {
+
+            modal.classList.add("hidden");
+
+        }
+
+
+        document.body.classList.remove(
+            "modal-open"
+        );
+
+    }
+
+
+
+    function setupEditButton() {
+
+        var button =
+            getElement(
+                "edit-profile-button"
+            );
+
+
+        if (!button) {
+
+            console.warn(
+                "StudySprint: edit-profile-button not found."
+            );
+
+            return;
+
+        }
+
+
+        button.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                openModal();
+
+            }
+        );
+
+    }
+
+
+
+    function setupModal() {
+
+        var closeButton =
+            getElement(
+                "close-modal"
+            );
+
+
+        var backdrop =
+            getElement(
+                "modal-backdrop"
+            );
+
+
+        var saveButton =
+            getElement(
+                "save-profile-button"
+            );
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                function () {
+
+                    closeModal();
+
+                }
+            );
+
+        }
+
+
+        if (backdrop) {
+
+            backdrop.addEventListener(
+                "click",
+                function () {
+
+                    closeModal();
+
+                }
+            );
+
+        }
+
+
+        if (saveButton) {
+
+            saveButton.addEventListener(
+                "click",
+                saveProfile
+            );
+
+        }
+
+    }
+
+
+
+    async function saveProfile() {
+
+        var input =
+            getElement(
+                "username-input"
+            );
+
+
+        var message =
+            getElement(
+                "form-message"
+            );
+
+
+        var button =
+            getElement(
+                "save-profile-button"
+            );
+
+
+        if (!input) {
+            return;
+        }
+
+
+        var username =
+            input.value.trim();
+
+
+        if (!username) {
+
+            if (message) {
+
+                message.textContent =
+                    "Please enter a username.";
+
+            }
+
+            return;
+
+        }
+
+
+        if (username.length > 24) {
+
+            if (message) {
+
+                message.textContent =
+                    "Username must be 24 characters or less.";
+
+            }
+
+            return;
+
+        }
+
+
+        if (button) {
+            button.disabled = true;
+        }
+
+
+        localStorage.setItem(
+            "studysprint_username",
+            username
+        );
+
+
+        localStorage.setItem(
+            "studysprint_avatar",
+            selectedAvatar
+        );
+
+
+        setText(
+            "profile-name",
+            username
+        );
+
+
+        setText(
+            "avatar",
+            selectedAvatar
+        );
+
+
+        setText(
+            "profile-avatar",
+            selectedAvatar
+        );
+
+
+        if (
+            supabaseClient &&
+            supabaseClient.auth
+        ) {
+
+            try {
+
+                await supabaseClient.auth.updateUser({
+
+                    data: {
+                        username: username
+                    }
+
+                });
+
+            } catch (error) {
+
+                console.warn(
+                    "Username saved locally, but Supabase metadata could not be updated:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        if (button) {
+            button.disabled = false;
+        }
+
+
+        closeModal();
 
     }
 
@@ -480,7 +601,7 @@
                     function () {
 
                         selectedAvatar =
-                            button.dataset.avatar;
+                            button.dataset.avatar || "S";
 
 
                         updateAvatarSelection();
@@ -509,8 +630,12 @@
         buttons.forEach(
             function (button) {
 
+                var avatar =
+                    button.dataset.avatar;
+
+
                 if (
-                    button.dataset.avatar ===
+                    avatar ===
                     selectedAvatar
                 ) {
 
@@ -533,6 +658,118 @@
 
 
 
-    init();
+    function setupSignOut() {
+
+        var button =
+            getElement(
+                "sign-out-button"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        button.addEventListener(
+            "click",
+            async function () {
+
+                button.disabled = true;
+
+
+                if (
+                    supabaseClient &&
+                    supabaseClient.auth
+                ) {
+
+                    try {
+
+                        await supabaseClient.auth.signOut();
+
+                    } catch (error) {
+
+                        console.warn(
+                            "Supabase sign out error:",
+                            error
+                        );
+
+                    }
+
+                }
+
+
+                window.location.replace(
+                    "/StudySprint/main/account/index.html"
+                );
+
+            }
+        );
+
+    }
+
+
+
+    async function init() {
+
+        /*
+         * Set up the UI FIRST.
+         * This means Edit Profile still works even
+         * if Supabase has a problem.
+         */
+
+        setupProfile(null);
+
+        loadStats();
+
+        setupEditButton();
+
+        setupModal();
+
+        setupAvatarPicker();
+
+        setupSignOut();
+
+
+        /*
+         * Supabase is secondary.
+         */
+
+        await createSupabase();
+
+
+        var user =
+            await getUser();
+
+
+        if (user) {
+
+            setupProfile(user);
+
+        }
+
+    }
+
+
+
+    /*
+     * Wait until the page exists before touching it.
+     */
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            init
+        );
+
+    } else {
+
+        init();
+
+    }
 
 })();
