@@ -13,7 +13,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
-
 /* =========================================================
    FIREBASE
 ========================================================= */
@@ -52,28 +51,60 @@ const database =
     getDatabase(app);
 
 
-
 /* =========================================================
    USER
 ========================================================= */
 
-const userId =
-    localStorage.getItem("studysprint_user_id");
+let userId =
+    localStorage.getItem(
+        "studysprint_user_id"
+    );
 
 
-const username =
-    localStorage.getItem("studysprint_username")
-    || "Student";
+if (!userId) {
+
+    userId =
+        "user_"
+        + Date.now()
+        + "_"
+        + Math.random()
+            .toString(36)
+            .substring(2, 8);
+
+    localStorage.setItem(
+        "studysprint_user_id",
+        userId
+    );
+
+}
 
 
-const avatar =
-    localStorage.getItem("studysprint_avatar")
-    || "S";
+function getUsername() {
 
+    return (
+        localStorage.getItem(
+            "studysprint_username"
+        )
+        || "Student"
+    ).trim();
+
+}
+
+
+function getAvatar() {
+
+    return (
+        localStorage.getItem(
+            "studysprint_avatar"
+        )
+        || "S"
+    );
+
+}
 
 
 /* =========================================================
-   ROOM CODE
+   ROOM
 ========================================================= */
 
 const params =
@@ -86,84 +117,74 @@ const roomCode =
     (
         params.get("code")
         || ""
-    ).trim().toUpperCase();
+    )
+    .trim()
+    .toUpperCase();
 
 
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const roomNameElement =
-    document.getElementById("room-name");
+let currentRoom =
+    null;
 
 
-const roomTypeElement =
-    document.getElementById("room-type");
-
-
-const roomCodeElement =
-    document.getElementById("room-code");
-
-
-const memberCountElement =
-    document.getElementById("member-count");
-
-
-const copyButton =
-    document.getElementById("copy-code");
-
-
-const copyMessage =
-    document.getElementById("copy-message");
-
-
-const roomError =
-    document.getElementById("room-error");
-
+let roomUnsubscribe =
+    null;
 
 
 /* =========================================================
-   STATE
+   ELEMENT HELPERS
 ========================================================= */
 
-let currentRoom = null;
+function get(id) {
 
-let roomListener = null;
-
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function showError(message) {
-
-    if (!roomError) {
-        return;
-    }
-
-    roomError.textContent =
-        message;
-
-    roomError.classList.remove(
-        "hidden"
-    );
+    return document.getElementById(id);
 
 }
 
 
-function hideError() {
+function setText(
+    id,
+    value
+) {
 
-    if (!roomError) {
-        return;
+    const element =
+        get(id);
+
+    if (element) {
+
+        element.textContent =
+            value;
+
     }
 
-    roomError.textContent = "";
+}
 
-    roomError.classList.add(
-        "hidden"
-    );
+
+function showElement(
+    element
+) {
+
+    if (element) {
+
+        element.classList.remove(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+function hideElement(
+    element
+) {
+
+    if (element) {
+
+        element.classList.add(
+            "hidden"
+        );
+
+    }
 
 }
 
@@ -171,60 +192,182 @@ function hideError() {
 function escapeHtml(value) {
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
 }
 
 
-function formatDate(timestamp) {
+/* =========================================================
+   ERROR
+========================================================= */
 
-    if (!timestamp) {
-        return "";
+function showError(
+    message
+) {
+
+    const element =
+        get("room-error");
+
+    if (!element) {
+        return;
     }
 
-    const date =
-        new Date(timestamp);
+    element.textContent =
+        message;
 
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
+    showElement(element);
+
+}
+
+
+function clearError() {
+
+    const element =
+        get("room-error");
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        "";
+
+    hideElement(element);
+
+}
+
+
+/* =========================================================
+   ROOM NAVIGATION
+========================================================= */
+
+function setupNavigation() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".room-nav-button"
+        );
+
+
+    const sections =
+        document.querySelectorAll(
+            ".room-section"
+        );
+
+
+    if (!buttons.length) {
+        return;
+    }
+
+
+    function showSection(
+        sectionName
     ) {
-        return "";
+
+        buttons.forEach(
+            function (button) {
+
+                const active =
+                    button.dataset.section ===
+                    sectionName;
+
+
+                button.classList.toggle(
+                    "active",
+                    active
+                );
+
+            }
+        );
+
+
+        sections.forEach(
+            function (section) {
+
+                const active =
+                    section.dataset.section ===
+                    sectionName;
+
+
+                section.classList.toggle(
+                    "hidden",
+                    !active
+                );
+
+            }
+        );
+
     }
 
-    return date.toLocaleDateString(
-        "en-AU",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
+
+    buttons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+
+                    const sectionName =
+                        button.dataset.section;
+
+
+                    if (!sectionName) {
+                        return;
+                    }
+
+
+                    showSection(
+                        sectionName
+                    );
+
+                }
+            );
+
         }
+    );
+
+
+    showSection(
+        "home"
     );
 
 }
 
 
-
 /* =========================================================
-   UPDATE CURRENT USER
+   SYNC PROFILE TO ROOM
 ========================================================= */
 
-async function syncCurrentUser() {
-
-    if (!userId) {
-        return;
-    }
+async function syncProfile() {
 
     if (!roomCode) {
         return;
     }
 
-    const memberReference =
+
+    const memberRef =
         ref(
             database,
             "rooms/"
@@ -234,52 +377,63 @@ async function syncCurrentUser() {
         );
 
 
-    const snapshot =
-        await get(memberReference);
+    try {
+
+        const snapshot =
+            await get(memberRef);
 
 
-    if (!snapshot.exists()) {
-        return;
+        if (!snapshot.exists()) {
+            return;
+        }
+
+
+        const member =
+            snapshot.val()
+            || {};
+
+
+        const name =
+            getUsername();
+
+
+        const avatar =
+            getAvatar();
+
+
+        const changes = {
+
+            name: name,
+
+            avatar: avatar
+
+        };
+
+
+        if (!member.joinedAt) {
+
+            changes.joinedAt =
+                Date.now();
+
+        }
+
+
+        await update(
+            memberRef,
+            changes
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Profile sync error:",
+            error
+        );
+
     }
-
-
-    const existing =
-        snapshot.val()
-        || {};
-
-
-    const updates = {
-
-        name: username,
-
-        avatar: avatar
-
-    };
-
-
-    if (!existing.joinedAt) {
-
-        updates.joinedAt =
-            Date.now();
-
-    }
-
-
-    if (!existing.role) {
-
-        updates.role =
-            "member";
-
-    }
-
-
-    await update(
-        memberReference,
-        updates
-    );
 
 }
-
 
 
 /* =========================================================
@@ -288,7 +442,7 @@ async function syncCurrentUser() {
 
 async function loadRoom() {
 
-    hideError();
+    clearError();
 
 
     if (!roomCode) {
@@ -302,28 +456,9 @@ async function loadRoom() {
     }
 
 
-    if (!userId) {
-
-        showError(
-            "Your StudySprint account could not be found."
-        );
-
-        return;
-
-    }
-
-
-    if (roomCodeElement) {
-
-        roomCodeElement.textContent =
-            roomCode;
-
-    }
-
-
     try {
 
-        const roomReference =
+        const roomRef =
             ref(
                 database,
                 "rooms/"
@@ -332,9 +467,7 @@ async function loadRoom() {
 
 
         const snapshot =
-            await get(
-                roomReference
-            );
+            await get(roomRef);
 
 
         if (!snapshot.exists()) {
@@ -352,7 +485,20 @@ async function loadRoom() {
             snapshot.val();
 
 
-        await syncCurrentUser();
+        if (
+            currentRoom.deleted === true
+        ) {
+
+            showError(
+                "This room has been deleted."
+            );
+
+            return;
+
+        }
+
+
+        await syncProfile();
 
 
         renderRoom(
@@ -360,12 +506,13 @@ async function loadRoom() {
         );
 
 
-        listenToRoom();
+        startRoomListener();
+
 
     } catch (error) {
 
         console.error(
-            "StudySprint room error:",
+            "Room loading error:",
             error
         );
 
@@ -379,19 +526,20 @@ async function loadRoom() {
 }
 
 
-
 /* =========================================================
-   REAL-TIME ROOM LISTENER
+   REAL-TIME LISTENER
 ========================================================= */
 
-function listenToRoom() {
+function startRoomListener() {
 
-    if (!roomCode) {
-        return;
+    if (roomUnsubscribe) {
+
+        roomUnsubscribe();
+
     }
 
 
-    const roomReference =
+    const roomRef =
         ref(
             database,
             "rooms/"
@@ -399,9 +547,9 @@ function listenToRoom() {
         );
 
 
-    roomListener =
+    roomUnsubscribe =
         onValue(
-            roomReference,
+            roomRef,
             function (snapshot) {
 
                 if (!snapshot.exists()) {
@@ -437,46 +585,49 @@ function listenToRoom() {
 }
 
 
-
 /* =========================================================
    RENDER ROOM
 ========================================================= */
 
-function renderRoom(room) {
+function renderRoom(
+    room
+) {
 
     if (!room) {
         return;
     }
 
 
-    if (roomNameElement) {
-
-        roomNameElement.textContent =
-            room.name
-            || "Untitled Room";
-
-    }
+    setText(
+        "room-name",
+        room.name
+        || "Untitled Room"
+    );
 
 
-    if (roomTypeElement) {
+    setText(
+        "room-code",
+        roomCode
+    );
+
+
+    const roomType =
+        get("room-type");
+
+
+    if (roomType) {
 
         const type =
-            room.type
-            || "friends";
+            String(
+                room.type
+                || "friends"
+            ).toLowerCase();
 
 
-        roomTypeElement.textContent =
+        roomType.textContent =
             type === "class"
                 ? "CLASS"
                 : "FRIENDS";
-
-    }
-
-
-    if (roomCodeElement) {
-
-        roomCodeElement.textContent =
-            roomCode;
 
     }
 
@@ -502,11 +653,15 @@ function renderRoom(room) {
 
 
     renderActivity(
+        room.activity
+    );
+
+
+    updateOwnerControls(
         room
     );
 
 }
-
 
 
 /* =========================================================
@@ -517,28 +672,30 @@ function renderMemberCount(
     members
 ) {
 
-    if (!memberCountElement) {
+    const element =
+        get("member-count");
+
+
+    if (!element) {
         return;
     }
 
 
-    const list =
+    const count =
         members
-            ? Object.values(members)
-            : [];
+            ? Object.keys(members).length
+            : 0;
 
 
-    memberCountElement.textContent =
-        list.length
-        + " "
+    element.textContent =
+        count
         + (
-            list.length === 1
-                ? "member"
-                : "members"
+            count === 1
+                ? " member"
+                : " members"
         );
 
 }
-
 
 
 /* =========================================================
@@ -550,9 +707,7 @@ function renderMembers(
 ) {
 
     const container =
-        document.getElementById(
-            "members-list"
-        );
+        get("members-list");
 
 
     if (!container) {
@@ -560,7 +715,8 @@ function renderMembers(
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     const entries =
@@ -586,14 +742,14 @@ function renderMembers(
                 String(
                     a[1].name
                     || "Student"
-                ).toLowerCase();
+                );
 
 
             const second =
                 String(
                     b[1].name
                     || "Student"
-                ).toLowerCase();
+                );
 
 
             return first.localeCompare(
@@ -621,10 +777,11 @@ function renderMembers(
                 || "Student";
 
 
-            const memberAvatar =
+            const avatar =
                 member.avatar
-                || String(name).charAt(0).toUpperCase()
-                || "S";
+                || name
+                    .charAt(0)
+                    .toUpperCase();
 
 
             const role =
@@ -642,12 +799,21 @@ function renderMembers(
                 "member-card";
 
 
+            if (
+                memberId === userId
+            ) {
+
+                card.classList.add(
+                    "current-user"
+                );
+
+            }
+
+
             card.innerHTML =
 
                 '<div class="member-avatar">'
-                + escapeHtml(
-                    memberAvatar
-                )
+                + escapeHtml(avatar)
                 + '</div>'
 
                 + '<div class="member-info">'
@@ -667,17 +833,6 @@ function renderMembers(
                 + '</div>';
 
 
-            if (
-                memberId === userId
-            ) {
-
-                card.classList.add(
-                    "current-user"
-                );
-
-            }
-
-
             container.appendChild(
                 card
             );
@@ -686,7 +841,6 @@ function renderMembers(
     );
 
 }
-
 
 
 /* =========================================================
@@ -698,9 +852,7 @@ function renderLeaderboard(
 ) {
 
     const container =
-        document.getElementById(
-            "leaderboard-list"
-        );
+        get("leaderboard-list");
 
 
     if (!container) {
@@ -708,7 +860,8 @@ function renderLeaderboard(
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     const entries =
@@ -730,21 +883,22 @@ function renderLeaderboard(
     entries.sort(
         function (a, b) {
 
-            const first =
+            const firstScore =
                 Number(
                     a[1].score
                     || 0
                 );
 
 
-            const second =
+            const secondScore =
                 Number(
                     b[1].score
                     || 0
                 );
 
 
-            return second - first;
+            return secondScore -
+                firstScore;
 
         }
     );
@@ -767,17 +921,18 @@ function renderLeaderboard(
                 || "Student";
 
 
+            const avatar =
+                member.avatar
+                || name
+                    .charAt(0)
+                    .toUpperCase();
+
+
             const score =
                 Number(
                     member.score
                     || 0
                 );
-
-
-            const memberAvatar =
-                member.avatar
-                || String(name).charAt(0).toUpperCase()
-                || "S";
 
 
             const row =
@@ -810,9 +965,7 @@ function renderLeaderboard(
                 + '</span>'
 
                 + '<div class="leaderboard-avatar">'
-                + escapeHtml(
-                    memberAvatar
-                )
+                + escapeHtml(avatar)
                 + '</div>'
 
                 + '<div class="leaderboard-name">'
@@ -834,7 +987,6 @@ function renderLeaderboard(
 }
 
 
-
 /* =========================================================
    ASSIGNMENTS
 ========================================================= */
@@ -844,9 +996,7 @@ function renderAssignments(
 ) {
 
     const container =
-        document.getElementById(
-            "assignments-list"
-        );
+        get("assignments-list");
 
 
     if (!container) {
@@ -854,7 +1004,8 @@ function renderAssignments(
     }
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
     const entries =
@@ -879,7 +1030,8 @@ function renderAssignments(
             return Number(
                 b[1].createdAt
                 || 0
-            ) - Number(
+            ) -
+            Number(
                 a[1].createdAt
                 || 0
             );
@@ -896,16 +1048,6 @@ function renderAssignments(
                 || {};
 
 
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.className =
-                "assignment-card";
-
-
             const title =
                 assignment.title
                 || "Assignment";
@@ -917,9 +1059,18 @@ function renderAssignments(
 
 
             const completed =
-                assignment.completed
-                ? assignment.completed[userId]
-                : false;
+                assignment.completed &&
+                assignment.completed[userId];
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "assignment-card";
 
 
             card.innerHTML =
@@ -933,18 +1084,6 @@ function renderAssignments(
                 + '<strong>'
                 + escapeHtml(title)
                 + '</strong>'
-
-                + (
-                    assignment.due
-                        ? '<small>Due '
-                        + escapeHtml(
-                            formatDate(
-                                assignment.due
-                            )
-                        )
-                        + '</small>'
-                        : ""
-                )
 
                 + '</div>'
 
@@ -967,19 +1106,16 @@ function renderAssignments(
 }
 
 
-
 /* =========================================================
    ACTIVITY
 ========================================================= */
 
 function renderActivity(
-    room
+    activity
 ) {
 
     const container =
-        document.getElementById(
-            "activity-list"
-        );
+        get("activity-list");
 
 
     if (!container) {
@@ -987,18 +1123,14 @@ function renderActivity(
     }
 
 
-    container.innerHTML = "";
-
-
-    const activity =
-        room.activity
-        || {};
+    container.innerHTML =
+        "";
 
 
     const entries =
-        Object.entries(
-            activity
-        );
+        activity
+            ? Object.entries(activity)
+            : [];
 
 
     if (!entries.length) {
@@ -1017,7 +1149,8 @@ function renderActivity(
             return Number(
                 b[1].createdAt
                 || 0
-            ) - Number(
+            ) -
+            Number(
                 a[1].createdAt
                 || 0
             );
@@ -1026,67 +1159,100 @@ function renderActivity(
     );
 
 
-    entries.slice(
-        0,
-        20
-    ).forEach(
-        function (entry) {
+    entries
+        .slice(0, 20)
+        .forEach(
+            function (entry) {
 
-            const item =
-                entry[1]
-                || {};
+                const item =
+                    entry[1]
+                    || {};
 
 
-            const row =
-                document.createElement(
-                    "div"
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                row.className =
+                    "activity-item";
+
+
+                row.innerHTML =
+
+                    '<strong>'
+                    + escapeHtml(
+                        item.message
+                        || "New activity"
+                    )
+                    + '</strong>';
+
+
+                container.appendChild(
+                    row
                 );
 
-
-            row.className =
-                "activity-item";
-
-
-            row.innerHTML =
-
-                '<strong>'
-                + escapeHtml(
-                    item.message
-                    || "New activity"
-                )
-                + '</strong>'
-
-                + (
-                    item.createdAt
-                        ? '<small>'
-                        + escapeHtml(
-                            formatDate(
-                                item.createdAt
-                            )
-                        )
-                        + '</small>'
-                        : ""
-                );
-
-
-            container.appendChild(
-                row
-            );
-
-        }
-    );
+            }
+        );
 
 }
 
 
-
 /* =========================================================
-   COPY ROOM CODE
+   OWNER CONTROLS
 ========================================================= */
 
-if (copyButton) {
+function updateOwnerControls(
+    room
+) {
 
-    copyButton.addEventListener(
+    const deleteButton =
+        get("delete-room");
+
+
+    if (!deleteButton) {
+        return;
+    }
+
+
+    const isOwner =
+        room.owner === userId;
+
+
+    if (isOwner) {
+
+        showElement(
+            deleteButton
+        );
+
+    } else {
+
+        hideElement(
+            deleteButton
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   COPY CODE
+========================================================= */
+
+function setupCopyButton() {
+
+    const button =
+        get("copy-code");
+
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener(
         "click",
         async function () {
 
@@ -1097,28 +1263,29 @@ if (copyButton) {
                 );
 
 
-                if (copyMessage) {
+                const message =
+                    get("copy-message");
 
-                    copyMessage.textContent =
-                        "Copied!";
 
-                    copyMessage.classList.remove(
-                        "hidden"
+                if (message) {
+
+                    message.textContent =
+                        "Copied";
+
+                    showElement(
+                        message
                     );
 
 
                     setTimeout(
                         function () {
 
-                            copyMessage.textContent =
-                                "";
-
-                            copyMessage.classList.add(
-                                "hidden"
+                            hideElement(
+                                message
                             );
 
                         },
-                        1800
+                        1500
                     );
 
                 }
@@ -1126,7 +1293,7 @@ if (copyButton) {
             } catch (error) {
 
                 console.error(
-                    "Copy failed:",
+                    "Copy error:",
                     error
                 );
 
@@ -1138,27 +1305,24 @@ if (copyButton) {
 }
 
 
-
 /* =========================================================
    LEAVE ROOM
 ========================================================= */
 
-const leaveButton =
-    document.getElementById(
-        "leave-room"
-    );
+function setupLeaveButton() {
+
+    const button =
+        get("leave-room");
 
 
-if (leaveButton) {
+    if (!button) {
+        return;
+    }
 
-    leaveButton.addEventListener(
+
+    button.addEventListener(
         "click",
         async function () {
-
-            if (!userId) {
-                return;
-            }
-
 
             const confirmed =
                 window.confirm(
@@ -1194,6 +1358,7 @@ if (leaveButton) {
                     error
                 );
 
+
                 showError(
                     "Could not leave the room."
                 );
@@ -1206,20 +1371,22 @@ if (leaveButton) {
 }
 
 
-
 /* =========================================================
-   OWNER DELETE
+   DELETE ROOM
 ========================================================= */
 
-const deleteButton =
-    document.getElementById(
-        "delete-room"
-    );
+function setupDeleteButton() {
+
+    const button =
+        get("delete-room");
 
 
-if (deleteButton) {
+    if (!button) {
+        return;
+    }
 
-    deleteButton.addEventListener(
+
+    button.addEventListener(
         "click",
         async function () {
 
@@ -1290,6 +1457,7 @@ if (deleteButton) {
                     error
                 );
 
+
                 showError(
                     "Could not delete the room."
                 );
@@ -1302,9 +1470,66 @@ if (deleteButton) {
 }
 
 
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+function setupBackButton() {
+
+    const button =
+        document.querySelector(
+            ".back-button"
+        );
+
+
+    if (!button) {
+        return;
+    }
+
+
+    button.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+}
+
 
 /* =========================================================
-   INITIALISE
+   CLEAN UP
 ========================================================= */
+
+window.addEventListener(
+    "beforeunload",
+    function () {
+
+        if (roomUnsubscribe) {
+
+            roomUnsubscribe();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+setupNavigation();
+
+setupCopyButton();
+
+setupLeaveButton();
+
+setupDeleteButton();
+
+setupBackButton();
 
 loadRoom();
