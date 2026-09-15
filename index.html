@@ -2,134 +2,109 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta name="theme-color" content="#09090f">
+
     <title>StudySprint</title>
-
-    <style>
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            background: #09090f;
-            overflow: hidden;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-        }
-
-        .loader {
-            text-align: center;
-        }
-
-        .logo {
-            margin-bottom: 10px;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .text {
-            color: #777481;
-            font-size: 11px;
-        }
-    </style>
 
 </head>
 
+
 <body>
 
-<div class="loader">
-    <div class="logo">StudySprint</div>
-    <div class="text">Loading...</div>
-</div>
+    <p>Loading StudySprint...</p>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
 
-<script>
+        var SUPABASE_URL =
+            "https://yfteudoecpkosxjucuky.supabase.co";
 
-var SUPABASE_URL =
-    "https://yfteudoecpkosxjucuky.supabase.co";
-
-var SUPABASE_KEY =
-    "YOUR_EXISTING_PUBLISHABLE_KEY";
+        var SUPABASE_KEY =
+            "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
 
 
-var supabase =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY,
-        {
-            auth: {
-                persistSession: true,
-                autoRefreshToken: true,
-                detectSessionInUrl: true
+        var script =
+            document.createElement("script");
+
+        script.src =
+            "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+
+        script.onload = async function () {
+
+            var client =
+                window.supabase.createClient(
+                    SUPABASE_URL,
+                    SUPABASE_KEY,
+                    {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    }
+                );
+
+
+            try {
+
+                var result =
+                    await client.auth.getSession();
+
+                var session =
+                    result.data.session;
+
+
+                if (session) {
+
+                    window.location.replace(
+                        "/StudySprint/main/index.html"
+                    );
+
+                } else {
+
+                    window.location.replace(
+                        "/StudySprint/main/account/index.html"
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "StudySprint authentication error:",
+                    error
+                );
+
+                window.location.replace(
+                    "/StudySprint/main/account/index.html"
+                );
+
             }
-        }
-    );
+
+        };
 
 
-async function checkAuth() {
-
-    try {
-
-        var result =
-            await supabase.auth.getUser();
-
-        var user =
-            result.data.user;
-
-
-        if (user) {
+        script.onerror = function () {
 
             window.location.replace(
-                "/StudySprint/main/index.html"
+                "/StudySprint/main/account/index.html"
             );
 
-            return;
-
-        }
+        };
 
 
-        window.location.replace(
-            "/StudySprint/main/account/index.html"
-        );
+        document.head.appendChild(script);
 
-    } catch (error) {
-
-        console.error(
-            "Authentication check failed:",
-            error
-        );
-
-
-        window.location.replace(
-            "/StudySprint/main/account/index.html"
-        );
-
-    }
-
-}
-
-
-checkAuth();
-
-</script>
+    </script>
 
 </body>
 
