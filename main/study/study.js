@@ -78,18 +78,6 @@ var questionBanks = {
             icon: "📖",
             file: "../../questions/english-generic.js",
             globalName: "englishGenericQuestions"
-        },
-        {
-            name: "Literature",
-            icon: "📚",
-            file: "../../questions/literature.js",
-            globalName: "literatureQuestions"
-        },
-        {
-            name: "Poetry",
-            icon: "📝",
-            file: "../../questions/poetry.js",
-            globalName: "poetryQuestions"
         }
     ],
 
@@ -152,6 +140,7 @@ var questionBanks = {
 
 };
 
+
 var subjectNames = {
     science: "SCIENCE",
     maths: "MATHS",
@@ -161,29 +150,61 @@ var subjectNames = {
     french: "FRENCH"
 };
 
-var subjectScreen = document.getElementById("subject-screen");
-var topicScreen = document.getElementById("topic-screen");
-var quizScreen = document.getElementById("quiz-screen");
-var completeScreen = document.getElementById("complete-screen");
 
-var topicList = document.getElementById("topic-list");
-var selectedSubjectLabel = document.getElementById("selected-subject-label");
+var subjectScreen =
+    document.getElementById("subject-screen");
 
-var questionNumber = document.getElementById("question-number");
-var progressBar = document.getElementById("progress-bar");
-var questionType = document.getElementById("question-type");
-var questionText = document.getElementById("question-text");
+var topicScreen =
+    document.getElementById("topic-screen");
 
-var answersArea = document.getElementById("answers-area");
-var writtenArea = document.getElementById("written-area");
-var writtenAnswer = document.getElementById("written-answer");
-var submitWritten = document.getElementById("submit-written");
+var quizScreen =
+    document.getElementById("quiz-screen");
 
-var feedback = document.getElementById("feedback");
-var feedbackTitle = document.getElementById("feedback-title");
-var feedbackText = document.getElementById("feedback-text");
+var completeScreen =
+    document.getElementById("complete-screen");
 
-var nextButton = document.getElementById("next-button");
+var topicList =
+    document.getElementById("topic-list");
+
+var selectedSubjectLabel =
+    document.getElementById("selected-subject-label");
+
+var questionNumber =
+    document.getElementById("question-number");
+
+var progressBar =
+    document.getElementById("progress-bar");
+
+var questionType =
+    document.getElementById("question-type");
+
+var questionText =
+    document.getElementById("question-text");
+
+var answersArea =
+    document.getElementById("answers-area");
+
+var writtenArea =
+    document.getElementById("written-area");
+
+var writtenAnswer =
+    document.getElementById("written-answer");
+
+var submitWritten =
+    document.getElementById("submit-written");
+
+var feedback =
+    document.getElementById("feedback");
+
+var feedbackTitle =
+    document.getElementById("feedback-title");
+
+var feedbackText =
+    document.getElementById("feedback-text");
+
+var nextButton =
+    document.getElementById("next-button");
+
 
 var currentSubject = null;
 var currentTopic = null;
@@ -194,7 +215,7 @@ var currentAnswered = false;
 
 
 /* =========================================================
-   SCREEN HELPERS
+   SCREEN
 ========================================================= */
 
 function showScreen(screen) {
@@ -205,43 +226,91 @@ function showScreen(screen) {
     completeScreen.classList.add("hidden");
 
     screen.classList.remove("hidden");
+
 }
 
 
 /* =========================================================
-   LOAD REAL QUESTION FILE
+   LOAD QUESTION FILE
 ========================================================= */
 
 function loadQuestionBank(topic, callback) {
 
-    var existing = window[topic.globalName];
+    var existing =
+        window[topic.globalName];
 
     if (existing) {
-        callback(existing);
+        callback(normaliseQuestionBank(existing));
         return;
     }
 
-    var script = document.createElement("script");
+
+    var script =
+        document.createElement("script");
 
     script.src = topic.file;
 
     script.onload = function () {
 
-        var bank = window[topic.globalName];
+        var bank =
+            window[topic.globalName];
 
         if (!bank) {
             callback([]);
             return;
         }
 
-        callback(bank);
+        callback(
+            normaliseQuestionBank(bank)
+        );
+
     };
+
 
     script.onerror = function () {
+
+        console.error(
+            "Could not load question file:",
+            topic.file
+        );
+
         callback([]);
+
     };
 
+
     document.body.appendChild(script);
+
+}
+
+
+/* =========================================================
+   TURN THE REAL BANK INTO AN ARRAY
+========================================================= */
+
+function normaliseQuestionBank(bank) {
+
+    if (Array.isArray(bank)) {
+        return bank.slice();
+    }
+
+
+    var result = [];
+
+    Object.keys(bank).forEach(function (key) {
+
+        if (Array.isArray(bank[key])) {
+
+            result =
+                result.concat(bank[key]);
+
+        }
+
+    });
+
+
+    return result;
+
 }
 
 
@@ -249,24 +318,32 @@ function loadQuestionBank(topic, callback) {
    SUBJECTS
 ========================================================= */
 
-document.querySelectorAll(".subject-card").forEach(function (button) {
+document
+    .querySelectorAll(".subject-card")
+    .forEach(function (button) {
 
-    button.addEventListener("click", function () {
+        button.addEventListener(
+            "click",
+            function () {
 
-        currentSubject = button.getAttribute("data-subject");
+                currentSubject =
+                    button.getAttribute(
+                        "data-subject"
+                    );
 
-        selectedSubjectLabel.textContent =
-            subjectNames[currentSubject];
+                selectedSubjectLabel.textContent =
+                    subjectNames[currentSubject];
 
-        renderTopics();
+                renderTopics();
 
-        showScreen(topicScreen);
+                showScreen(topicScreen);
 
-        window.scrollTo(0, 0);
+                window.scrollTo(0, 0);
+
+            }
+        );
 
     });
-
-});
 
 
 /* =========================================================
@@ -277,44 +354,68 @@ function renderTopics() {
 
     topicList.innerHTML = "";
 
-    var topics = questionBanks[currentSubject] || [];
+    var topics =
+        questionBanks[currentSubject] || [];
+
 
     topics.forEach(function (topic) {
 
-        var button = document.createElement("button");
+        var button =
+            document.createElement("button");
 
-        button.className = "topic-card";
+        button.className =
+            "topic-card";
+
 
         button.innerHTML =
             '<span class="topic-icon">' +
                 topic.icon +
             '</span>' +
+
             '<span class="topic-content">' +
-                '<strong>' + topic.name + '</strong>' +
-                '<small>Study this topic</small>' +
+                '<strong>' +
+                    topic.name +
+                '</strong>' +
+
+                '<small>' +
+                    'Study this topic' +
+                '</small>' +
+
             '</span>' +
-            '<span class="topic-arrow">→</span>';
 
-        button.addEventListener("click", function () {
+            '<span class="topic-arrow">' +
+                '→' +
+            '</span>';
 
-            currentTopic = topic;
 
-            loadQuestionBank(topic, function (questions) {
+        button.addEventListener(
+            "click",
+            function () {
 
-                if (!questions || !questions.length) {
+                currentTopic = topic;
 
-                    alert(
-                        "There are no questions available for this topic yet."
-                    );
+                loadQuestionBank(
+                    topic,
+                    function (questions) {
 
-                    return;
-                }
+                        if (!questions.length) {
 
-                startQuiz(questions);
+                            alert(
+                                "No questions could be loaded for this topic."
+                            );
 
-            });
+                            return;
 
-        });
+                        }
+
+                        startQuiz(questions);
+
+                    }
+                );
+
+            }
+        );
+
 
         topicList.appendChild(button);
 
@@ -324,14 +425,20 @@ function renderTopics() {
 
 
 /* =========================================================
-   START QUIZ
+   START
 ========================================================= */
 
 function startQuiz(questions) {
 
-    currentQuestions = questions.slice();
+    currentQuestions =
+        shuffle(
+            questions.slice()
+        );
+
     currentQuestionIndex = 0;
+
     currentScore = 0;
+
     currentAnswered = false;
 
     showScreen(quizScreen);
@@ -344,40 +451,51 @@ function startQuiz(questions) {
 
 
 /* =========================================================
-   QUESTION TYPE
+   SHUFFLE
+========================================================= */
+
+function shuffle(array) {
+
+    for (
+        var i = array.length - 1;
+        i > 0;
+        i--
+    ) {
+
+        var j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        var temp =
+            array[i];
+
+        array[i] =
+            array[j];
+
+        array[j] =
+            temp;
+
+    }
+
+    return array;
+
+}
+
+
+/* =========================================================
+   WRITTEN?
 ========================================================= */
 
 function isWrittenQuestion(question) {
 
-    if (!question) {
-        return false;
-    }
+    return (
+        question.type === "written" ||
+        Array.isArray(
+            question.acceptedAnswers
+        )
+    );
 
-    if (question.type === "written") {
-        return true;
-    }
-
-    if (question.type === "short_answer") {
-        return true;
-    }
-
-    if (question.type === "multiple") {
-        return false;
-    }
-
-    if (question.answers && question.correct !== undefined) {
-        return false;
-    }
-
-    if (
-        question.answer !== undefined ||
-        question.correctAnswer !== undefined ||
-        question.acceptedAnswers !== undefined
-    ) {
-        return true;
-    }
-
-    return false;
 }
 
 
@@ -387,57 +505,80 @@ function isWrittenQuestion(question) {
 
 function showQuestion() {
 
-    var question = currentQuestions[currentQuestionIndex];
+    var question =
+        currentQuestions[
+            currentQuestionIndex
+        ];
+
 
     if (!question) {
+
         finishQuiz();
+
         return;
+
     }
+
 
     currentAnswered = false;
 
+
     feedback.classList.add("hidden");
+
     feedback.classList.remove(
         "correct-feedback",
         "wrong-feedback"
     );
 
+
     nextButton.classList.add("hidden");
 
+
     answersArea.innerHTML = "";
+
     writtenAnswer.value = "";
 
-    var total = currentQuestions.length;
-    var number = currentQuestionIndex + 1;
+    writtenAnswer.disabled = false;
+
+    submitWritten.disabled = false;
+
+
+    var number =
+        currentQuestionIndex + 1;
+
+    var total =
+        currentQuestions.length;
+
 
     questionNumber.textContent =
-        "Question " + number + " of " + total;
+        "Question " +
+        number +
+        " of " +
+        total;
+
 
     progressBar.style.width =
-        ((number - 1) / total * 100) + "%";
+        (
+            ((number - 1) / total) *
+            100
+        ) + "%";
+
 
     questionText.textContent =
-        question.question || "Question";
+        question.question;
 
-    if (isWrittenQuestion(question)) {
 
-        questionType.textContent = "WRITTEN ANSWER";
+    if (
+        isWrittenQuestion(question)
+    ) {
 
-        answersArea.classList.add("hidden");
-        writtenArea.classList.remove("hidden");
-
-        setTimeout(function () {
-            writtenAnswer.focus();
-        }, 100);
+        showWrittenQuestion();
 
     } else {
 
-        questionType.textContent = "MULTIPLE CHOICE";
-
-        answersArea.classList.remove("hidden");
-        writtenArea.classList.add("hidden");
-
-        renderMultipleChoice(question);
+        showMultipleChoiceQuestion(
+            question
+        );
 
     }
 
@@ -448,54 +589,120 @@ function showQuestion() {
    MULTIPLE CHOICE
 ========================================================= */
 
-function renderMultipleChoice(question) {
+function showMultipleChoiceQuestion(
+    question
+) {
 
-    var answers = question.answers || [];
+    questionType.textContent =
+        "MULTIPLE CHOICE";
 
-    answers.forEach(function (answer, index) {
 
-        var button = document.createElement("button");
+    answersArea.classList.remove(
+        "hidden"
+    );
 
-        button.className = "answer-button";
+    writtenArea.classList.add(
+        "hidden"
+    );
 
-        var letter = document.createElement("span");
 
-        letter.className = "answer-letter";
+    var answers =
+        question.answers || [];
 
-        letter.textContent =
-            String.fromCharCode(65 + index);
 
-        var text = document.createElement("span");
+    var correctAnswer =
+        question.correctAnswer;
 
-        text.textContent = answer;
 
-        button.appendChild(letter);
-        button.appendChild(text);
+    var shuffled =
+        answers.map(function (answer) {
 
-        button.addEventListener("click", function () {
-
-            checkMultipleChoice(
-                question,
-                index,
-                button
-            );
+            return {
+                text: answer,
+                correct:
+                    answer === correctAnswer
+            };
 
         });
 
-        answersArea.appendChild(button);
 
-    });
+    shuffle(shuffled);
+
+
+    shuffled.forEach(
+        function (item, index) {
+
+            var button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "answer-button";
+
+
+            var letter =
+                document.createElement(
+                    "span"
+                );
+
+            letter.className =
+                "answer-letter";
+
+
+            letter.textContent =
+                String.fromCharCode(
+                    65 + index
+                );
+
+
+            var text =
+                document.createElement(
+                    "span"
+                );
+
+            text.textContent =
+                item.text;
+
+
+            button.appendChild(letter);
+
+            button.appendChild(text);
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    checkMultipleChoice(
+                        item.correct,
+                        item.text,
+                        shuffled,
+                        button
+                    );
+
+                }
+            );
+
+
+            answersArea.appendChild(
+                button
+            );
+
+        }
+    );
 
 }
 
 
 /* =========================================================
-   CHECK MULTIPLE CHOICE
+   CHECK MC
 ========================================================= */
 
 function checkMultipleChoice(
-    question,
-    selectedIndex,
+    correct,
+    selectedText,
+    answers,
     selectedButton
 ) {
 
@@ -503,22 +710,33 @@ function checkMultipleChoice(
         return;
     }
 
+
     currentAnswered = true;
 
-    var correctIndex = Number(question.correct);
 
     var buttons =
-        answersArea.querySelectorAll(".answer-button");
+        answersArea.querySelectorAll(
+            ".answer-button"
+        );
 
-    buttons.forEach(function (button) {
-        button.disabled = true;
-    });
 
-    if (selectedIndex === correctIndex) {
+    buttons.forEach(
+        function (button) {
+
+            button.disabled = true;
+
+        }
+    );
+
+
+    if (correct) {
 
         currentScore++;
 
-        selectedButton.classList.add("correct");
+        selectedButton.classList.add(
+            "correct"
+        );
+
 
         showFeedback(
             true,
@@ -526,26 +744,42 @@ function checkMultipleChoice(
             "Nice work. You got it right."
         );
 
+
     } else {
 
-        selectedButton.classList.add("wrong");
+        selectedButton.classList.add(
+            "wrong"
+        );
+
+
+        var correctIndex =
+            answers.findIndex(
+                function (item) {
+                    return item.correct;
+                }
+            );
+
 
         if (buttons[correctIndex]) {
-            buttons[correctIndex].classList.add("correct");
+
+            buttons[
+                correctIndex
+            ].classList.add(
+                "correct"
+            );
+
         }
 
-        var correctAnswer =
-            question.answers &&
-            question.answers[correctIndex];
 
         showFeedback(
             false,
             "Not quite.",
             "The correct answer is: " +
-            (correctAnswer || "the answer shown above.")
+            answers[correctIndex].text
         );
 
     }
+
 
     showNextButton();
 
@@ -553,56 +787,39 @@ function checkMultipleChoice(
 
 
 /* =========================================================
-   WRITTEN ANSWER
+   WRITTEN QUESTION
 ========================================================= */
 
-submitWritten.addEventListener("click", function () {
+function showWrittenQuestion() {
 
-    checkWrittenAnswer();
-
-});
-
-
-writtenAnswer.addEventListener("keydown", function (event) {
-
-    if (event.key === "Enter") {
-        checkWrittenAnswer();
-    }
-
-});
+    questionType.textContent =
+        "WRITTEN ANSWER";
 
 
-function getWrittenAnswers(question) {
+    answersArea.classList.add(
+        "hidden"
+    );
 
-    var answers = [];
+    writtenArea.classList.remove(
+        "hidden"
+    );
 
-    if (question.answer !== undefined) {
 
-        if (Array.isArray(question.answer)) {
-            answers = answers.concat(question.answer);
-        } else {
-            answers.push(question.answer);
-        }
+    setTimeout(
+        function () {
 
-    }
+            writtenAnswer.focus();
 
-    if (question.correctAnswer !== undefined) {
+        },
+        100
+    );
 
-        if (Array.isArray(question.correctAnswer)) {
-            answers = answers.concat(question.correctAnswer);
-        } else {
-            answers.push(question.correctAnswer);
-        }
-
-    }
-
-    if (Array.isArray(question.acceptedAnswers)) {
-        answers = answers.concat(question.acceptedAnswers);
-    }
-
-    return answers;
 }
 
+
+/* =========================================================
+   NORMALISE WRITTEN ANSWER
+========================================================= */
 
 function normaliseAnswer(value) {
 
@@ -615,72 +832,116 @@ function normaliseAnswer(value) {
 }
 
 
+/* =========================================================
+   CHECK WRITTEN
+========================================================= */
+
 function checkWrittenAnswer() {
 
     if (currentAnswered) {
         return;
     }
 
+
     var question =
-        currentQuestions[currentQuestionIndex];
+        currentQuestions[
+            currentQuestionIndex
+        ];
+
 
     var userAnswer =
-        normaliseAnswer(writtenAnswer.value);
+        normaliseAnswer(
+            writtenAnswer.value
+        );
+
 
     if (!userAnswer) {
         return;
     }
 
+
     currentAnswered = true;
 
+
     var accepted =
-        getWrittenAnswers(question);
+        question.acceptedAnswers || [];
+
 
     var correct = false;
 
-    accepted.forEach(function (answer) {
 
-        if (
-            normaliseAnswer(answer) ===
-            userAnswer
-        ) {
-            correct = true;
+    accepted.forEach(
+        function (answer) {
+
+            if (
+                normaliseAnswer(answer) ===
+                userAnswer
+            ) {
+
+                correct = true;
+
+            }
+
         }
+    );
 
-    });
 
     writtenAnswer.disabled = true;
+
     submitWritten.disabled = true;
+
 
     if (correct) {
 
         currentScore++;
 
+
         showFeedback(
             true,
             "Correct!",
-            "Your written answer matches the expected answer."
+            "Your written answer matches an accepted answer."
         );
 
-    } else {
 
-        var displayAnswer =
-            accepted.length ?
-            accepted[0] :
-            "Check the topic again.";
+    } else {
 
         showFeedback(
             false,
             "Not quite.",
-            "The expected answer is: " +
-            displayAnswer
+            "Accepted answer: " +
+            accepted[0]
         );
 
     }
 
+
     showNextButton();
 
 }
+
+
+/* =========================================================
+   WRITTEN BUTTON
+========================================================= */
+
+submitWritten.addEventListener(
+    "click",
+    checkWrittenAnswer
+);
+
+
+writtenAnswer.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Enter") {
+
+            checkWrittenAnswer();
+
+        }
+
+    }
+);
 
 
 /* =========================================================
@@ -693,21 +954,30 @@ function showFeedback(
     message
 ) {
 
-    feedback.classList.remove("hidden");
+    feedback.classList.remove(
+        "hidden"
+    );
+
 
     feedback.classList.remove(
         "correct-feedback",
         "wrong-feedback"
     );
 
+
     feedback.classList.add(
-        correct ?
-        "correct-feedback" :
-        "wrong-feedback"
+        correct
+            ? "correct-feedback"
+            : "wrong-feedback"
     );
 
-    feedbackTitle.textContent = title;
-    feedbackText.textContent = message;
+
+    feedbackTitle.textContent =
+        title;
+
+
+    feedbackText.textContent =
+        message;
 
 }
 
@@ -718,38 +988,54 @@ function showFeedback(
 
 function showNextButton() {
 
-    nextButton.textContent =
-        currentQuestionIndex >= currentQuestions.length - 1
-        ? "Finish →"
-        : "Next Question →";
+    if (
+        currentQuestionIndex >=
+        currentQuestions.length - 1
+    ) {
 
-    nextButton.classList.remove("hidden");
+        nextButton.textContent =
+            "Finish →";
+
+    } else {
+
+        nextButton.textContent =
+            "Next Question →";
+
+    }
+
+
+    nextButton.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-nextButton.addEventListener("click", function () {
+nextButton.addEventListener(
+    "click",
+    function () {
 
-    currentQuestionIndex++;
+        currentQuestionIndex++;
 
-    if (
-        currentQuestionIndex >=
-        currentQuestions.length
-    ) {
 
-        finishQuiz();
-        return;
+        if (
+            currentQuestionIndex >=
+            currentQuestions.length
+        ) {
+
+            finishQuiz();
+
+            return;
+
+        }
+
+
+        showQuestion();
+
+        window.scrollTo(0, 0);
 
     }
-
-    writtenAnswer.disabled = false;
-    submitWritten.disabled = false;
-
-    showQuestion();
-
-    window.scrollTo(0, 0);
-
-});
+);
 
 
 /* =========================================================
@@ -758,39 +1044,53 @@ nextButton.addEventListener("click", function () {
 
 function finishQuiz() {
 
-    progressBar.style.width = "100%";
+    progressBar.style.width =
+        "100%";
 
-    var oldQuizzes =
-        Number(localStorage.getItem("quizzes")) || 0;
+
+    var quizzes =
+        Number(
+            localStorage.getItem(
+                "quizzes"
+            )
+        ) || 0;
+
 
     localStorage.setItem(
         "quizzes",
-        String(oldQuizzes + 1)
+        String(quizzes + 1)
     );
 
-    var oldCompleted =
-        Number(localStorage.getItem("quizzes_completed")) || 0;
+
+    var completed =
+        Number(
+            localStorage.getItem(
+                "quizzes_completed"
+            )
+        ) || 0;
+
 
     localStorage.setItem(
         "quizzes_completed",
-        String(oldCompleted + 1)
+        String(completed + 1)
     );
 
-    var streak =
-        Number(localStorage.getItem("streak")) || 0;
 
-    localStorage.setItem(
-        "streak",
-        String(streak + 1)
-    );
-
-    document.getElementById("score-number").textContent =
+    document.getElementById(
+        "score-number"
+    ).textContent =
         currentScore;
 
-    document.getElementById("total-number").textContent =
+
+    document.getElementById(
+        "total-number"
+    ).textContent =
         currentQuestions.length;
 
-    document.getElementById("complete-message").textContent =
+
+    document.getElementById(
+        "complete-message"
+    ).textContent =
         "You scored " +
         currentScore +
         " out of " +
@@ -799,7 +1099,11 @@ function finishQuiz() {
         currentTopic.name +
         ".";
 
-    showScreen(completeScreen);
+
+    showScreen(
+        completeScreen
+    );
+
 
     window.scrollTo(0, 0);
 
@@ -810,37 +1114,60 @@ function finishQuiz() {
    NAVIGATION
 ========================================================= */
 
-document.getElementById("back-subjects")
-    .addEventListener("click", function () {
+document.getElementById(
+    "back-subjects"
+).addEventListener(
+    "click",
+    function () {
 
-        showScreen(subjectScreen);
-
-        window.scrollTo(0, 0);
-
-    });
-
-
-document.getElementById("back-topics")
-    .addEventListener("click", function () {
-
-        showScreen(topicScreen);
+        showScreen(
+            subjectScreen
+        );
 
         window.scrollTo(0, 0);
 
-    });
+    }
+);
 
 
-document.getElementById("study-again")
-    .addEventListener("click", function () {
+document.getElementById(
+    "back-topics"
+).addEventListener(
+    "click",
+    function () {
 
-        startQuiz(currentQuestions);
+        showScreen(
+            topicScreen
+        );
 
-    });
+        window.scrollTo(0, 0);
+
+    }
+);
 
 
-document.getElementById("return-home")
-    .addEventListener("click", function () {
+document.getElementById(
+    "study-again"
+).addEventListener(
+    "click",
+    function () {
 
-        window.location.href = "../index.html";
+        startQuiz(
+            currentQuestions
+        );
 
-    });
+    }
+);
+
+
+document.getElementById(
+    "return-home"
+).addEventListener(
+    "click",
+    function () {
+
+        window.location.href =
+            "../index.html";
+
+    }
+);
