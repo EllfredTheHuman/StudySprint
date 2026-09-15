@@ -1,1008 +1,538 @@
-import {
-    createClient
-} from "https://esm.sh/@supabase/supabase-js@2";
+(function () {
 
+    var SUPABASE_URL =
+        "https://yfteudoecpkosxjucuky.supabase.co";
 
+    var SUPABASE_KEY =
+        "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
 
-/* =========================================================
-   STUDYSPRINT — PROFILE
-   Supabase account-connected profile
-========================================================= */
 
+    var supabaseClient = null;
 
-const SUPABASE_URL =
-    "https://yfteudoecpkosxjucuky.supabase.co";
+    var selectedAvatar =
+        localStorage.getItem("studysprint_avatar") || "👤";
 
 
-const SUPABASE_KEY =
-    "sb_publishable_d7w3Cg-X8oTsmJLgIO_OgQ_3DmiqeMo";
+    var defaultUsername =
+        localStorage.getItem("studysprint_username") || "Student";
 
 
+    function loadSupabase() {
 
-const supabase =
-    createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+        return new Promise(function (resolve, reject) {
 
+            if (window.supabase) {
 
+                resolve();
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+                return;
+            }
 
 
-const profileName =
-    document.getElementById("profile-name");
+            var script =
+                document.createElement("script");
 
 
-const profileUsername =
-    document.getElementById("profile-username");
+            script.src =
+                "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
 
-const accountEmail =
-    document.getElementById("account-email");
+            script.onload = function () {
+                resolve();
+            };
 
 
-const editButton =
-    document.getElementById("edit-profile-button");
+            script.onerror = function () {
+                reject(new Error("Could not load Supabase."));
+            };
 
 
-const saveButton =
-    document.getElementById("save-profile-button");
+            document.head.appendChild(script);
 
-
-const modal =
-    document.getElementById("profile-modal");
-
-
-const backdrop =
-    document.getElementById("profile-backdrop");
-
-
-const closeButton =
-    document.getElementById("close-profile-modal");
-
-
-const displayNameInput =
-    document.getElementById("display-name");
-
-
-const usernameInput =
-    document.getElementById("username");
-
-
-const profileMessage =
-    document.getElementById("profile-message");
-
-
-const profileError =
-    document.getElementById("profile-error");
-
-
-
-let currentUser = null;
-
-let currentProfile = null;
-
-
-
-/* =========================================================
-   ERROR MESSAGE
-========================================================= */
-
-
-function showError(message) {
-
-    profileError.textContent = message;
-
-    profileError.classList.remove("hidden");
-
-}
-
-
-
-function hideError() {
-
-    profileError.textContent = "";
-
-    profileError.classList.add("hidden");
-
-}
-
-
-
-/* =========================================================
-   USER
-========================================================= */
-
-
-async function getCurrentUser() {
-
-    const result =
-        await supabase.auth.getUser();
-
-
-    if (result.error) {
-
-        throw result.error;
-
-    }
-
-
-    return result.data.user;
-
-}
-
-
-
-/* =========================================================
-   LOAD PROFILE
-========================================================= */
-
-
-async function loadProfile() {
-
-    hideError();
-
-
-    try {
-
-        currentUser =
-            await getCurrentUser();
-
-
-        if (!currentUser) {
-
-            window.location.href =
-                "../account/index.html";
-
-            return;
-
-        }
-
-
-
-        accountEmail.textContent =
-            currentUser.email ||
-            "No email";
-
-
-
-        const result =
-            await supabase
-                .from("profiles")
-                .select("*")
-                .eq(
-                    "id",
-                    currentUser.id
-                )
-                .maybeSingle();
-
-
-        if (result.error) {
-
-            throw result.error;
-
-        }
-
-
-
-        if (!result.data) {
-
-            await createProfile();
-
-            return;
-
-        }
-
-
-
-        currentProfile =
-            result.data;
-
-
-        renderProfile();
-
-    }
-    catch (error) {
-
-        console.error(
-            "Profile loading error:",
-            error
-        );
-
-
-        showError(
-            "Could not load your profile."
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   CREATE MISSING PROFILE
-========================================================= */
-
-
-async function createProfile() {
-
-    const metadata =
-        currentUser.user_metadata ||
-        {};
-
-
-    let username =
-        metadata.username ||
-        "student";
-
-
-    let displayName =
-        metadata.display_name ||
-        username;
-
-
-
-    const profile = {
-
-        id: currentUser.id,
-
-        username: username,
-
-        display_name: displayName
-
-    };
-
-
-
-    const result =
-        await supabase
-            .from("profiles")
-            .insert(profile)
-            .select("*")
-            .single();
-
-
-    if (result.error) {
-
-        console.error(
-            "Profile creation error:",
-            result.error
-        );
-
-
-        showError(
-            "Your account exists, but your profile could not be created."
-        );
-
-        return;
+        });
 
     }
 
 
 
-    currentProfile =
-        result.data;
+    async function init() {
+
+        try {
+
+            await loadSupabase();
 
 
-    renderProfile();
-
-}
-
-
-
-/* =========================================================
-   NUMBER HELPER
-========================================================= */
-
-
-function getNumber(
-    object,
-    names
-) {
-
-    for (
-        let i = 0;
-        i < names.length;
-        i++
-    ) {
-
-        const name =
-            names[i];
-
-
-        if (
-            object &&
-            object[name] !== null &&
-            object[name] !== undefined
-        ) {
-
-            const value =
-                Number(
-                    object[name]
+            supabaseClient =
+                window.supabase.createClient(
+                    SUPABASE_URL,
+                    SUPABASE_KEY,
+                    {
+                        auth: {
+                            persistSession: true,
+                            autoRefreshToken: true,
+                            detectSessionInUrl: true
+                        }
+                    }
                 );
 
 
-            if (
-                Number.isFinite(value)
-            ) {
+            var result =
+                await supabaseClient.auth.getUser();
 
-                return value;
 
+            var user =
+                result.data.user;
+
+
+            if (!user) {
+
+                window.location.replace(
+                    "/StudySprint/main/account/index.html"
+                );
+
+                return;
             }
 
+
+            setupProfile(user);
+
+            setupButtons(user);
+
+            loadStats();
+
+            setupAvatarPicker();
+
+        } catch (error) {
+
+            console.error(
+                "StudySprint profile error:",
+                error
+            );
+
+            setupProfile(null);
+
+            setupButtons(null);
+
+            loadStats();
+
+            setupAvatarPicker();
+
         }
 
     }
 
 
-    return 0;
 
-}
+    function setupProfile(user) {
 
-
-
-/* =========================================================
-   RENDER PROFILE
-========================================================= */
+        var username =
+            localStorage.getItem("studysprint_username");
 
 
-function renderProfile() {
+        if (!username && user) {
 
-    if (!currentProfile) {
+            username =
+                user.user_metadata &&
+                user.user_metadata.username
+                    ? user.user_metadata.username
+                    : null;
 
-        return;
-
-    }
-
-
-
-    const displayName =
-        currentProfile.display_name ||
-        currentProfile.username ||
-        "Student";
+        }
 
 
-    const username =
-        currentProfile.username ||
-        "student";
+        if (!username) {
+
+            username = "Student";
+
+        }
 
 
-
-    profileName.textContent =
-        displayName;
-
-
-    profileUsername.textContent =
-        "@" + username;
+        username =
+            String(username).trim();
 
 
+        if (!username) {
 
-    const streak =
-        getNumber(
-            currentProfile,
-            ["streak"]
-        );
+            username = "Student";
 
-
-    const quizzes =
-        getNumber(
-            currentProfile,
-            [
-                "quizzes",
-                "quizzes_completed"
-            ]
-        );
+        }
 
 
-    const bestScore =
-        getNumber(
-            currentProfile,
-            [
-                "best_score",
-                "bestScore"
-            ]
-        );
+        var email =
+            user && user.email
+                ? user.email
+                : "StudySprint account";
 
 
-    const studies =
-        getNumber(
-            currentProfile,
-            [
-                "studies",
-                "studies_completed"
-            ]
-        );
-
-
-    const sprints =
-        getNumber(
-            currentProfile,
-            [
-                "sprints",
-                "sprints_completed"
-            ]
-        );
-
-
-    const tests =
-        getNumber(
-            currentProfile,
-            [
-                "tests",
-                "tests_completed"
-            ]
-        );
-
-
-
-    document.getElementById(
-        "stat-streak"
-    ).textContent = streak;
-
-
-    document.getElementById(
-        "stat-quizzes"
-    ).textContent = quizzes;
-
-
-    document.getElementById(
-        "stat-score"
-    ).textContent =
-        bestScore > 0
-            ? bestScore + "%"
-            : "0%";
-
-
-
-    document.getElementById(
-        "activity-studies"
-    ).textContent = studies;
-
-
-    document.getElementById(
-        "activity-sprints"
-    ).textContent = sprints;
-
-
-    document.getElementById(
-        "activity-tests"
-    ).textContent = tests;
-
-
-
-    loadAchievements(
-        streak,
-        quizzes,
-        bestScore
-    );
-
-}
-
-
-
-/* =========================================================
-   ACHIEVEMENTS
-========================================================= */
-
-
-function loadAchievements(
-    streak,
-    quizzes,
-    bestScore
-) {
-
-    const container =
         document.getElementById(
-            "achievements-list"
+            "profile-name"
+        ).textContent = username;
+
+
+        document.getElementById(
+            "profile-email"
+        ).textContent = email;
+
+
+        document.getElementById(
+            "avatar"
+        ).textContent = selectedAvatar;
+
+
+        document.getElementById(
+            "profile-avatar"
+        ).textContent = selectedAvatar;
+
+    }
+
+
+
+    function loadStats() {
+
+        var streak =
+            Number(
+                localStorage.getItem("streak")
+            ) || 0;
+
+
+        var quizzes =
+            Number(
+                localStorage.getItem("quizzes")
+            ) || 0;
+
+
+        if (!quizzes) {
+
+            quizzes =
+                Number(
+                    localStorage.getItem(
+                        "quizzes_completed"
+                    )
+                ) || 0;
+
+        }
+
+
+        var achievements =
+            Number(
+                localStorage.getItem("achievements")
+            ) || 0;
+
+
+        document.getElementById(
+            "stat-streak"
+        ).textContent = streak;
+
+
+        document.getElementById(
+            "stat-quizzes"
+        ).textContent = quizzes;
+
+
+        document.getElementById(
+            "stat-achievements"
+        ).textContent = achievements;
+
+    }
+
+
+
+    function setupButtons(user) {
+
+        var editButton =
+            document.getElementById(
+                "edit-profile-button"
+            );
+
+
+        var modal =
+            document.getElementById(
+                "edit-modal"
+            );
+
+
+        var closeButton =
+            document.getElementById(
+                "close-modal"
+            );
+
+
+        var backdrop =
+            document.getElementById(
+                "modal-backdrop"
+            );
+
+
+        var saveButton =
+            document.getElementById(
+                "save-profile-button"
+            );
+
+
+        var usernameInput =
+            document.getElementById(
+                "username-input"
+            );
+
+
+        editButton.addEventListener(
+            "click",
+            function () {
+
+                usernameInput.value =
+                    localStorage.getItem(
+                        "studysprint_username"
+                    ) || "Student";
+
+
+                selectedAvatar =
+                    localStorage.getItem(
+                        "studysprint_avatar"
+                    ) || "👤";
+
+
+                updateAvatarSelection();
+
+
+                document
+                    .getElementById("form-message")
+                    .textContent = "";
+
+
+                modal.classList.remove("hidden");
+
+            }
         );
 
 
-    container.innerHTML = "";
+        closeButton.addEventListener(
+            "click",
+            closeModal
+        );
 
 
+        backdrop.addEventListener(
+            "click",
+            closeModal
+        );
 
-    const achievements = [];
 
+        saveButton.addEventListener(
+            "click",
+            function () {
 
+                var username =
+                    usernameInput.value.trim();
 
-    if (streak >= 3) {
 
-        achievements.push({
-            icon: "🔥",
-            title: "Getting Started",
-            description: "Reach a 3 day streak."
-        });
+                if (!username) {
 
-    }
+                    document
+                        .getElementById("form-message")
+                        .textContent =
+                        "Please enter a username.";
 
+                    return;
+                }
 
 
-    if (streak >= 7) {
+                if (username.length > 24) {
 
-        achievements.push({
-            icon: "🔥",
-            title: "Week Warrior",
-            description: "Reach a 7 day streak."
-        });
+                    document
+                        .getElementById("form-message")
+                        .textContent =
+                        "Username is too long.";
 
-    }
+                    return;
+                }
 
 
-
-    if (quizzes >= 10) {
-
-        achievements.push({
-            icon: "📝",
-            title: "Quiz Machine",
-            description: "Complete 10 quizzes."
-        });
-
-    }
-
-
-
-    if (quizzes >= 25) {
-
-        achievements.push({
-            icon: "🏆",
-            title: "Quiz Master",
-            description: "Complete 25 quizzes."
-        });
-
-    }
-
-
-
-    if (bestScore >= 100) {
-
-        achievements.push({
-            icon: "💯",
-            title: "Perfect Score",
-            description: "Get a perfect score."
-        });
-
-    }
-
-
-
-    if (achievements.length === 0) {
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "achievement locked";
-
-
-        const icon =
-            document.createElement("div");
-
-
-        icon.className =
-            "achievement-icon";
-
-
-        icon.textContent =
-            "🔒";
-
-
-        const content =
-            document.createElement("div");
-
-
-        const title =
-            document.createElement("strong");
-
-
-        title.textContent =
-            "No achievements yet";
-
-
-        const description =
-            document.createElement("p");
-
-
-        description.textContent =
-            "Keep studying to unlock achievements.";
-
-
-        content.appendChild(title);
-
-        content.appendChild(description);
-
-        item.appendChild(icon);
-
-        item.appendChild(content);
-
-        container.appendChild(item);
-
-        return;
-
-    }
-
-
-
-    for (
-        let i = 0;
-        i < achievements.length;
-        i++
-    ) {
-
-        const achievement =
-            achievements[i];
-
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "achievement";
-
-
-        const icon =
-            document.createElement("div");
-
-
-        icon.className =
-            "achievement-icon";
-
-
-        icon.textContent =
-            achievement.icon;
-
-
-        const content =
-            document.createElement("div");
-
-
-        const title =
-            document.createElement("strong");
-
-
-        title.textContent =
-            achievement.title;
-
-
-        const description =
-            document.createElement("p");
-
-
-        description.textContent =
-            achievement.description;
-
-
-        content.appendChild(title);
-
-        content.appendChild(description);
-
-        item.appendChild(icon);
-
-        item.appendChild(content);
-
-        container.appendChild(item);
-
-    }
-
-}
-
-
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-
-function openModal() {
-
-    if (!currentProfile) {
-
-        return;
-
-    }
-
-
-    profileMessage.textContent = "";
-
-
-    displayNameInput.value =
-        currentProfile.display_name ||
-        currentProfile.username ||
-        "";
-
-
-    usernameInput.value =
-        currentProfile.username ||
-        "";
-
-
-    modal.classList.remove("hidden");
-
-
-    displayNameInput.focus();
-
-}
-
-
-
-function closeModal() {
-
-    modal.classList.add("hidden");
-
-}
-
-
-
-/* =========================================================
-   SAVE PROFILE
-========================================================= */
-
-
-async function saveProfile() {
-
-    if (!currentUser) {
-
-        return;
-
-    }
-
-
-
-    const displayName =
-        displayNameInput.value.trim();
-
-
-    const username =
-        usernameInput.value
-            .trim()
-            .toLowerCase();
-
-
-
-    profileMessage.textContent =
-        "";
-
-
-
-    if (!displayName) {
-
-        profileMessage.textContent =
-            "Please enter a display name.";
-
-        return;
-
-    }
-
-
-
-    if (!username) {
-
-        profileMessage.textContent =
-            "Please enter a username.";
-
-        return;
-
-    }
-
-
-
-    if (displayName.length > 24) {
-
-        profileMessage.textContent =
-            "Display name must be 24 characters or less.";
-
-        return;
-
-    }
-
-
-
-    if (username.length > 20) {
-
-        profileMessage.textContent =
-            "Username must be 20 characters or less.";
-
-        return;
-
-    }
-
-
-
-    const usernamePattern =
-        /^[a-z0-9._-]+$/;
-
-
-    if (
-        !usernamePattern.test(
-            username
-        )
-    ) {
-
-        profileMessage.textContent =
-            "Username can only use letters, numbers, dots, dashes and underscores.";
-
-        return;
-
-    }
-
-
-
-    saveButton.disabled =
-        true;
-
-
-    saveButton.textContent =
-        "Saving...";
-
-
-
-    try {
-
-        const usernameCheck =
-            await supabase
-                .from("profiles")
-                .select("id")
-                .eq(
-                    "username",
+                localStorage.setItem(
+                    "studysprint_username",
                     username
-                )
-                .neq(
-                    "id",
-                    currentUser.id
-                )
-                .maybeSingle();
+                );
 
 
-        if (usernameCheck.error) {
-
-            throw usernameCheck.error;
-
-        }
-
+                localStorage.setItem(
+                    "studysprint_avatar",
+                    selectedAvatar
+                );
 
 
-        if (usernameCheck.data) {
+                if (user && supabaseClient) {
 
-            profileMessage.textContent =
-                "That username is already taken.";
+                    supabaseClient.auth.updateUser({
 
-            saveButton.disabled =
-                false;
+                        data: {
+                            username: username
+                        }
 
-            saveButton.textContent =
-                "Save Profile";
+                    }).catch(function (error) {
 
-            return;
+                        console.warn(
+                            "Could not update auth metadata:",
+                            error
+                        );
 
-        }
+                    });
 
-
-
-        const result =
-            await supabase
-                .from("profiles")
-                .update({
-
-                    username:
-                        username,
-
-                    display_name:
-                        displayName
-
-                })
-                .eq(
-                    "id",
-                    currentUser.id
-                )
-                .select("*")
-                .single();
+                }
 
 
-        if (result.error) {
-
-            throw result.error;
-
-        }
+                document.getElementById(
+                    "profile-name"
+                ).textContent = username;
 
 
+                document.getElementById(
+                    "profile-email"
+                ).textContent =
+                    user && user.email
+                        ? user.email
+                        : "StudySprint account";
 
-        currentProfile =
-            result.data;
+
+                document.getElementById(
+                    "avatar"
+                ).textContent =
+                    selectedAvatar;
 
 
-        renderProfile();
+                document.getElementById(
+                    "profile-avatar"
+                ).textContent =
+                    selectedAvatar;
 
 
-        closeModal();
+                closeModal();
 
-    }
-    catch (error) {
-
-        console.error(
-            "Profile save error:",
-            error
+            }
         );
 
 
-        profileMessage.textContent =
-            "Could not save your profile.";
+        document
+            .getElementById("sign-out-button")
+            .addEventListener(
+                "click",
+                async function () {
+
+                    var button =
+                        document.getElementById(
+                            "sign-out-button"
+                        );
+
+
+                    button.disabled = true;
+
+
+                    if (supabaseClient) {
+
+                        try {
+
+                            await supabaseClient.auth.signOut();
+
+                        } catch (error) {
+
+                            console.error(
+                                "Sign out error:",
+                                error
+                            );
+
+                        }
+
+                    }
+
+
+                    window.location.replace(
+                        "/StudySprint/main/account/index.html"
+                    );
+
+                }
+            );
 
     }
 
 
 
-    saveButton.disabled =
-        false;
+    function closeModal() {
 
-
-    saveButton.textContent =
-        "Save Profile";
-
-}
-
-
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-
-editButton.addEventListener(
-    "click",
-    openModal
-);
-
-
-saveButton.addEventListener(
-    "click",
-    saveProfile
-);
-
-
-closeButton.addEventListener(
-    "click",
-    closeModal
-);
-
-
-backdrop.addEventListener(
-    "click",
-    closeModal
-);
-
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-
-supabase.auth.onAuthStateChange(
-    function(
-        event,
-        session
-    ) {
-
-        if (!session) {
-
-            window.location.href =
-                "../account/index.html";
-
-        }
+        document
+            .getElementById("edit-modal")
+            .classList.add("hidden");
 
     }
-);
 
 
 
-/* =========================================================
-   START
-========================================================= */
+    function setupAvatarPicker() {
+
+        var buttons =
+            document.querySelectorAll(
+                "#avatar-picker button"
+            );
 
 
-loadProfile();
+        buttons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectedAvatar =
+                            button.dataset.avatar;
+
+
+                        updateAvatarSelection();
+
+                    }
+                );
+
+            }
+        );
+
+
+        updateAvatarSelection();
+
+    }
+
+
+
+    function updateAvatarSelection() {
+
+        var buttons =
+            document.querySelectorAll(
+                "#avatar-picker button"
+            );
+
+
+        buttons.forEach(
+            function (button) {
+
+                if (
+                    button.dataset.avatar ===
+                    selectedAvatar
+                ) {
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                } else {
+
+                    button.classList.remove(
+                        "selected"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    init();
+
+})();
