@@ -1,4 +1,3 @@
-```js
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
@@ -6,14 +5,9 @@ import {
 import {
     getDatabase,
     ref,
-    set,
-    get
+    get,
+    set
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
-
-import {
-    findAvailableRoomCode
-} from "./room-code.js";
-
 
 
 /* =========================================================
@@ -98,72 +92,60 @@ const roomCodeInput =
         "room-code-input"
     );
 
-
 const joinRoomButton =
     document.getElementById(
         "join-room-button"
     );
-
 
 const joinMessage =
     document.getElementById(
         "join-message"
     );
 
-
 const createClassButton =
     document.getElementById(
         "create-class-button"
     );
-
 
 const createFriendsButton =
     document.getElementById(
         "create-friends-button"
     );
 
-
 const createMessage =
     document.getElementById(
         "create-message"
     );
-
 
 const roomsList =
     document.getElementById(
         "rooms-list"
     );
 
-
 const emptyState =
     document.getElementById(
         "empty-state"
     );
-
 
 const modal =
     document.getElementById(
         "room-modal"
     );
 
-
 const modalTitle =
     document.getElementById(
         "modal-title"
     );
-
 
 const modalBody =
     document.getElementById(
         "modal-body"
     );
 
-
-const closeModal =
+const closeModalButton =
     document.getElementById(
         "close-modal"
     );
-
 
 const modalBackdrop =
     document.querySelector(
@@ -173,36 +155,36 @@ const modalBackdrop =
 
 
 /* =========================================================
-   MESSAGE HELPERS
+   MESSAGES
 ========================================================= */
 
-function setJoinMessage(
-    message,
-    error
+function showJoinMessage(
+    text,
+    isError
 ) {
 
     joinMessage.textContent =
-        message || "";
+        text || "";
 
     joinMessage.style.color =
-        error
-            ? "#ff7373"
+        isError
+            ? "#ff7070"
             : "#777783";
 
 }
 
 
-function setCreateMessage(
-    message,
-    error
+function showCreateMessage(
+    text,
+    isError
 ) {
 
     createMessage.textContent =
-        message || "";
+        text || "";
 
     createMessage.style.color =
-        error
-            ? "#ff7373"
+        isError
+            ? "#ff7070"
             : "#777783";
 
 }
@@ -210,51 +192,71 @@ function setCreateMessage(
 
 
 /* =========================================================
-   ROOM CODE INPUT
+   ROOM CODE
 ========================================================= */
+
+function cleanRoomCode(
+    value
+) {
+
+    let result = "";
+
+    const text =
+        String(value || "")
+            .toUpperCase();
+
+
+    for (
+        let i = 0;
+        i < text.length;
+        i++
+    ) {
+
+        const character =
+            text[i];
+
+        const code =
+            character.charCodeAt(0);
+
+
+        const isLetter =
+            code >= 65 &&
+            code <= 90;
+
+        const isNumber =
+            code >= 48 &&
+            code <= 57;
+
+
+        if (
+            isLetter ||
+            isNumber
+        ) {
+
+            result +=
+                character;
+
+        }
+
+    }
+
+
+    return result.slice(
+        0,
+        6
+    );
+
+}
+
 
 roomCodeInput.addEventListener(
     "input",
     function () {
 
-        let value =
-            roomCodeInput.value
-                .toUpperCase();
-
-        let clean =
-            "";
-
-        for (
-            let i = 0;
-            i < value.length;
-            i++
-        ) {
-
-            const code =
-                value.charCodeAt(i);
-
-            const isLetter =
-                code >= 65 &&
-                code <= 90;
-
-            const isNumber =
-                code >= 48 &&
-                code <= 57;
-
-            if (
-                isLetter ||
-                isNumber
-            ) {
-
-                clean +=
-                    value[i];
-
-            }
-
-        }
-
         roomCodeInput.value =
-            clean.slice(0, 6);
+            cleanRoomCode(
+                roomCodeInput.value
+            );
 
     }
 );
@@ -278,51 +280,206 @@ roomCodeInput.addEventListener(
 
 
 /* =========================================================
-   VALIDATE ROOM CODE
+   RANDOM ROOM CODE
 ========================================================= */
 
-function validRoomCode(
-    code
-) {
+function generateRoomCode() {
 
-    if (
-        code.length !== 6
-    ) {
+    const characters =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-        return false;
-
-    }
+    let code = "";
 
 
     for (
         let i = 0;
-        i < code.length;
+        i < 6;
         i++
     ) {
 
-        const value =
-            code.charCodeAt(i);
+        const index =
+            Math.floor(
+                Math.random() *
+                characters.length
+            );
 
-        const letter =
-            value >= 65 &&
-            value <= 90;
+        code +=
+            characters[index];
 
-        const number =
-            value >= 48 &&
-            value <= 57;
+    }
+
+
+    return code;
+
+}
+
+
+
+/* =========================================================
+   FIND AVAILABLE CODE
+========================================================= */
+
+async function findAvailableRoomCode() {
+
+    for (
+        let attempt = 0;
+        attempt < 20;
+        attempt++
+    ) {
+
+        const code =
+            generateRoomCode();
+
+
+        const roomReference =
+            ref(
+                database,
+                "rooms/" + code
+            );
+
+
+        const snapshot =
+            await get(
+                roomReference
+            );
+
 
         if (
-            !letter &&
-            !number
+            !snapshot.exists()
         ) {
 
-            return false;
+            return code;
 
         }
 
     }
 
-    return true;
+
+    throw new Error(
+        "Could not generate a room code."
+    );
+
+}
+
+
+
+/* =========================================================
+   LOCAL ROOM STORAGE
+========================================================= */
+
+function getSavedRooms() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                "studysprint_rooms"
+            );
+
+
+        if (!saved) {
+
+            return [];
+
+        }
+
+
+        const rooms =
+            JSON.parse(
+                saved
+            );
+
+
+        if (
+            !Array.isArray(rooms)
+        ) {
+
+            return [];
+
+        }
+
+
+        return rooms;
+
+    }
+
+    catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveRoom(
+    code,
+    name,
+    type
+) {
+
+    const rooms =
+        getSavedRooms();
+
+
+    let existing =
+        null;
+
+
+    for (
+        let i = 0;
+        i < rooms.length;
+        i++
+    ) {
+
+        if (
+            rooms[i].code === code
+        ) {
+
+            existing =
+                rooms[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if (existing) {
+
+        existing.name =
+            name;
+
+        existing.type =
+            type;
+
+    }
+
+    else {
+
+        rooms.push({
+
+            code:
+                code,
+
+            name:
+                name,
+
+            type:
+                type
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "studysprint_rooms",
+        JSON.stringify(
+            rooms
+        )
+    );
 
 }
 
@@ -335,16 +492,20 @@ function validRoomCode(
 async function joinRoom() {
 
     const code =
-        roomCodeInput.value
-            .trim()
-            .toUpperCase();
+        cleanRoomCode(
+            roomCodeInput.value
+        );
+
+
+    roomCodeInput.value =
+        code;
 
 
     if (
-        !validRoomCode(code)
+        code.length !== 6
     ) {
 
-        setJoinMessage(
+        showJoinMessage(
             "Enter a 6-character room code.",
             true
         );
@@ -362,7 +523,7 @@ async function joinRoom() {
     joinRoomButton.textContent =
         "Joining...";
 
-    setJoinMessage(
+    showJoinMessage(
         "Checking room..."
     );
 
@@ -386,7 +547,7 @@ async function joinRoom() {
             !snapshot.exists()
         ) {
 
-            setJoinMessage(
+            showJoinMessage(
                 "That room does not exist.",
                 true
             );
@@ -410,7 +571,7 @@ async function joinRoom() {
             room.deleted === true
         ) {
 
-            setJoinMessage(
+            showJoinMessage(
                 "That room has been deleted.",
                 true
             );
@@ -439,6 +600,7 @@ async function joinRoom() {
         await set(
             memberReference,
             {
+
                 name:
                     username,
 
@@ -447,11 +609,12 @@ async function joinRoom() {
 
                 role:
                     "member"
+
             }
         );
 
 
-        saveLocalRoom(
+        saveRoom(
             code,
             room.name || "Room",
             room.type || "friends"
@@ -460,18 +623,20 @@ async function joinRoom() {
 
         window.location.href =
             "room.html?code=" +
-            encodeURIComponent(code);
+            encodeURIComponent(
+                code
+            );
 
     }
 
     catch (error) {
 
         console.error(
-            "ROOM JOIN ERROR:",
+            "StudySprint room join error:",
             error
         );
 
-        setJoinMessage(
+        showJoinMessage(
             "Something went wrong. Try again.",
             true
         );
@@ -489,15 +654,15 @@ async function joinRoom() {
 
 
 /* =========================================================
-   CREATE ROOM MODAL
+   OPEN CREATE MODAL
 ========================================================= */
 
 function openCreateModal(
-    type
+    startingType
 ) {
 
     modalTitle.textContent =
-        type === "class"
+        startingType === "class"
             ? "Create a class room"
             : "Create a friends room";
 
@@ -545,7 +710,7 @@ function openCreateModal(
         "off";
 
     nameInput.placeholder =
-        type === "class"
+        startingType === "class"
             ? "Year 8 Science"
             : "Study Squad";
 
@@ -562,131 +727,131 @@ function openCreateModal(
         "Room type";
 
 
-    const types =
+    const typeButtons =
         document.createElement(
             "div"
         );
 
-    types.className =
+    typeButtons.className =
         "modal-types";
 
 
-    const friendsType =
+    const classButton =
         document.createElement(
             "button"
         );
 
-    friendsType.type =
+    classButton.type =
         "button";
 
-    friendsType.className =
+    classButton.className =
         "modal-type";
 
 
-    const classType =
+    const friendsButton =
         document.createElement(
             "button"
         );
 
-    classType.type =
+    friendsButton.type =
         "button";
 
-    classType.className =
+    friendsButton.className =
         "modal-type";
 
 
-    friendsType.innerHTML =
-        "<strong>👥 Friends</strong>" +
-        "<span>For your own group</span>";
-
-
-    classType.innerHTML =
+    classButton.innerHTML =
         "<strong>🏫 Class</strong>" +
         "<span>For school</span>";
 
 
+    friendsButton.innerHTML =
+        "<strong>👥 Friends</strong>" +
+        "<span>For your group</span>";
+
+
     let selectedType =
-        type;
+        startingType;
 
 
-    function updateSelected() {
+    function refreshTypeButtons() {
 
-        friendsType.classList.toggle(
-            "selected",
-            selectedType === "friends"
-        );
-
-        classType.classList.toggle(
+        classButton.classList.toggle(
             "selected",
             selectedType === "class"
+        );
+
+        friendsButton.classList.toggle(
+            "selected",
+            selectedType === "friends"
         );
 
     }
 
 
-    friendsType.addEventListener(
-        "click",
-        function () {
-
-            selectedType =
-                "friends";
-
-            updateSelected();
-
-        }
-    );
-
-
-    classType.addEventListener(
+    classButton.addEventListener(
         "click",
         function () {
 
             selectedType =
                 "class";
 
-            updateSelected();
+            refreshTypeButtons();
 
         }
     );
 
 
-    updateSelected();
+    friendsButton.addEventListener(
+        "click",
+        function () {
 
+            selectedType =
+                "friends";
 
-    types.appendChild(
-        friendsType
+            refreshTypeButtons();
+
+        }
     );
 
-    types.appendChild(
-        classType
+
+    refreshTypeButtons();
+
+
+    typeButtons.appendChild(
+        classButton
+    );
+
+    typeButtons.appendChild(
+        friendsButton
     );
 
 
-    const createButton =
+    const submitButton =
         document.createElement(
             "button"
         );
 
-    createButton.type =
+    submitButton.type =
         "button";
 
-    createButton.className =
+    submitButton.className =
         "modal-submit";
 
-    createButton.textContent =
+    submitButton.textContent =
         "Create Room";
 
 
-    const error =
+    const errorMessage =
         document.createElement(
             "p"
         );
 
-    error.className =
+    errorMessage.className =
         "modal-error";
 
 
-    createButton.addEventListener(
+    submitButton.addEventListener(
         "click",
         async function () {
 
@@ -696,7 +861,7 @@ function openCreateModal(
 
             if (!name) {
 
-                error.textContent =
+                errorMessage.textContent =
                     "Give your room a name.";
 
                 nameInput.focus();
@@ -706,22 +871,20 @@ function openCreateModal(
             }
 
 
-            createButton.disabled =
+            submitButton.disabled =
                 true;
 
-            createButton.textContent =
+            submitButton.textContent =
                 "Creating...";
 
-            error.textContent =
+            errorMessage.textContent =
                 "";
 
 
             try {
 
                 const code =
-                    await findAvailableRoomCode(
-                        database
-                    );
+                    await findAvailableRoomCode();
 
 
                 const now =
@@ -777,14 +940,13 @@ function openCreateModal(
                 await set(
                     ref(
                         database,
-                        "rooms/" +
-                        code
+                        "rooms/" + code
                     ),
                     roomData
                 );
 
 
-                saveLocalRoom(
+                saveRoom(
                     code,
                     name,
                     selectedType
@@ -793,24 +955,26 @@ function openCreateModal(
 
                 window.location.href =
                     "room.html?code=" +
-                    encodeURIComponent(code);
+                    encodeURIComponent(
+                        code
+                    );
 
             }
 
-            catch (errorValue) {
+            catch (error) {
 
                 console.error(
-                    "ROOM CREATE ERROR:",
-                    errorValue
+                    "StudySprint room creation error:",
+                    error
                 );
 
-                error.textContent =
+                errorMessage.textContent =
                     "Something went wrong. Try again.";
 
-                createButton.disabled =
+                submitButton.disabled =
                     false;
 
-                createButton.textContent =
+                submitButton.textContent =
                     "Create Room";
 
             }
@@ -832,15 +996,15 @@ function openCreateModal(
     );
 
     form.appendChild(
-        types
+        typeButtons
     );
 
     form.appendChild(
-        createButton
+        submitButton
     );
 
     form.appendChild(
-        error
+        errorMessage
     );
 
 
@@ -861,7 +1025,9 @@ function openCreateModal(
 
     setTimeout(
         function () {
+
             nameInput.focus();
+
         },
         50
     );
@@ -888,7 +1054,7 @@ function closeRoomModal() {
 }
 
 
-closeModal.addEventListener(
+closeModalButton.addEventListener(
     "click",
     closeRoomModal
 );
@@ -921,121 +1087,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   LOCAL ROOMS
-========================================================= */
-
-function getLocalRooms() {
-
-    try {
-
-        const saved =
-            localStorage.getItem(
-                "studysprint_rooms"
-            );
-
-
-        if (!saved) {
-
-            return [];
-
-        }
-
-
-        const rooms =
-            JSON.parse(
-                saved
-            );
-
-
-        return Array.isArray(
-            rooms
-        )
-            ? rooms
-            : [];
-
-    }
-
-    catch (error) {
-
-        return [];
-
-    }
-
-}
-
-
-
-function saveLocalRoom(
-    code,
-    name,
-    type
-) {
-
-    const rooms =
-        getLocalRooms();
-
-
-    let found =
-        false;
-
-
-    for (
-        let i = 0;
-        i < rooms.length;
-        i++
-    ) {
-
-        if (
-            rooms[i].code === code
-        ) {
-
-            rooms[i].name =
-                name;
-
-            rooms[i].type =
-                type;
-
-            found =
-                true;
-
-            break;
-
-        }
-
-    }
-
-
-    if (!found) {
-
-        rooms.push({
-
-            code:
-                code,
-
-            name:
-                name,
-
-            type:
-                type
-
-        });
-
-    }
-
-
-    localStorage.setItem(
-        "studysprint_rooms",
-        JSON.stringify(
-            rooms
-        )
-    );
-
-}
-
-
-
-/* =========================================================
-   DISPLAY ROOMS
+   DISPLAY SAVED ROOMS
 ========================================================= */
 
 function displayRooms() {
@@ -1045,7 +1097,7 @@ function displayRooms() {
 
 
     const rooms =
-        getLocalRooms();
+        getSavedRooms();
 
 
     if (
@@ -1182,7 +1234,7 @@ function displayRooms() {
 
 
 /* =========================================================
-   BUTTONS
+   BUTTON EVENTS
 ========================================================= */
 
 joinRoomButton.addEventListener(
@@ -1195,7 +1247,7 @@ createClassButton.addEventListener(
     "click",
     function () {
 
-        setCreateMessage(
+        showCreateMessage(
             ""
         );
 
@@ -1211,7 +1263,7 @@ createFriendsButton.addEventListener(
     "click",
     function () {
 
-        setCreateMessage(
+        showCreateMessage(
             ""
         );
 
