@@ -10,10 +10,7 @@
         content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
-    <meta
-        name="theme-color"
-        content="#09090f"
-    >
+    <meta name="theme-color" content="#09090f">
 
     <title>StudySprint — Profile</title>
 
@@ -31,13 +28,13 @@
         StudySprint
     </a>
 
-    <button
-        class="profile-button"
-        id="profile-avatar"
-        aria-label="Profile"
+    <a
+        href="../index.html"
+        class="home-button"
+        aria-label="Home"
     >
-        👤
-    </button>
+        Home
+    </a>
 
 </header>
 
@@ -46,18 +43,15 @@
 <main>
 
 
-    <section class="profile-hero">
+    <section class="profile-header">
 
-        <div
-            class="avatar"
-            id="avatar"
-        >
-            👤
+        <div class="avatar" id="avatar">
+            S
         </div>
 
-        <div class="profile-info">
+        <div class="profile-details">
 
-            <p class="small-label">
+            <p class="eyebrow">
                 PROFILE
             </p>
 
@@ -75,31 +69,28 @@
 
 
 
-
     <button
         class="edit-profile-button"
         id="edit-profile-button"
     >
-        ✏️ Edit Profile
+        <span>Edit profile</span>
+        <b>→</b>
     </button>
-
 
 
 
     <section class="section">
 
-        <div class="section-title">
+        <div class="section-heading">
 
             <div>
-
-                <p>
-                    YOUR PROGRESS
+                <p class="eyebrow">
+                    PROGRESS
                 </p>
 
                 <h2>
-                    Keep going.
+                    Your progress
                 </h2>
-
             </div>
 
         </div>
@@ -108,55 +99,55 @@
         <div class="stats">
 
 
-            <div class="stat">
+            <div class="stat-card">
 
-                <span class="stat-icon">
-                    🔥
+                <span class="stat-label">
+                    STREAK
                 </span>
 
                 <strong id="stat-streak">
                     0
                 </strong>
 
-                <small>
-                    Streak
-                </small>
+                <span class="stat-subtext">
+                    days
+                </span>
 
             </div>
 
 
 
-            <div class="stat">
+            <div class="stat-card">
 
-                <span class="stat-icon">
-                    📝
+                <span class="stat-label">
+                    QUIZZES
                 </span>
 
                 <strong id="stat-quizzes">
                     0
                 </strong>
 
-                <small>
-                    Quizzes
-                </small>
+                <span class="stat-subtext">
+                    completed
+                </span>
 
             </div>
 
 
 
-            <div class="stat">
+            <div class="stat-card">
 
-                <span class="stat-icon">
-                    🏆
+                <span class="stat-label">
+                    ACHIEVEMENTS
                 </span>
 
                 <strong id="stat-achievements">
                     0
                 </strong>
 
-                <small>
-                    Achievements
-                </small>
+                <span class="stat-subtext">
+                    unlocked
+                </span>
 
             </div>
 
@@ -171,16 +162,16 @@
     <section class="section">
 
 
-        <div class="section-title">
+        <div class="section-heading">
 
             <div>
 
-                <p>
+                <p class="eyebrow">
                     ACHIEVEMENTS
                 </p>
 
                 <h2>
-                    Your collection.
+                    Your achievements
                 </h2>
 
             </div>
@@ -194,14 +185,18 @@
             id="achievements"
         >
 
-            <div class="empty-card">
+            <div class="empty-state">
 
-                <span>
-                    🏆
-                </span>
+                <div class="empty-icon">
+                    —
+                </div>
+
+                <strong>
+                    Nothing unlocked yet
+                </strong>
 
                 <p>
-                    Achievements will appear here as you progress.
+                    Keep studying to unlock achievements.
                 </p>
 
             </div>
@@ -217,16 +212,16 @@
     <section class="section">
 
 
-        <div class="section-title">
+        <div class="section-heading">
 
             <div>
 
-                <p>
+                <p class="eyebrow">
                     ACTIVITY
                 </p>
 
                 <h2>
-                    What you've done.
+                    Recent activity
                 </h2>
 
             </div>
@@ -240,14 +235,18 @@
             id="activity-list"
         >
 
-            <div class="empty-card">
+            <div class="empty-state">
 
-                <span>
-                    📚
-                </span>
+                <div class="empty-icon">
+                    —
+                </div>
+
+                <strong>
+                    No activity yet
+                </strong>
 
                 <p>
-                    Your recent activity will appear here.
+                    Your study activity will appear here.
                 </p>
 
             </div>
@@ -262,19 +261,15 @@
 
     <section class="account-section">
 
-
-        <p class="small-label">
+        <p class="eyebrow">
             ACCOUNT
         </p>
 
 
         <button
-            class="account-button"
+            class="sign-out-button"
             id="sign-out-button"
         >
-            <span>
-                🚪
-            </span>
 
             <div>
 
@@ -282,9 +277,9 @@
                     Sign out
                 </strong>
 
-                <small>
-                    Sign out of this StudySprint account
-                </small>
+                <span>
+                    Sign out of this account
+                </span>
 
             </div>
 
@@ -293,7 +288,6 @@
             </b>
 
         </button>
-
 
     </section>
 
@@ -310,83 +304,44 @@
         href="../index.html"
         class="bottom-item"
     >
-
-        <span>
-            🏠
-        </span>
-
-        <small>
-            Home
-        </small>
-
+        <span class="nav-icon">⌂</span>
+        <small>Home</small>
     </a>
-
 
 
     <a
         href="../study/index.html"
         class="bottom-item"
     >
-
-        <span>
-            📚
-        </span>
-
-        <small>
-            Study
-        </small>
-
+        <span class="nav-icon">□</span>
+        <small>Study</small>
     </a>
-
 
 
     <a
         href="../sprint/index.html"
         class="bottom-item"
     >
-
-        <span>
-            🏃
-        </span>
-
-        <small>
-            Sprint
-        </small>
-
+        <span class="nav-icon">›</span>
+        <small>Sprint</small>
     </a>
-
 
 
     <a
         href="../rooms/index.html"
         class="bottom-item"
     >
-
-        <span>
-            👥
-        </span>
-
-        <small>
-            Rooms
-        </small>
-
+        <span class="nav-icon">◉</span>
+        <small>Rooms</small>
     </a>
-
 
 
     <a
         href="index.html"
         class="bottom-item active"
     >
-
-        <span>
-            👤
-        </span>
-
-        <small>
-            Profile
-        </small>
-
+        <span class="nav-icon">●</span>
+        <small>Profile</small>
     </a>
 
 
@@ -413,12 +368,13 @@
         <button
             class="close-button"
             id="close-modal"
+            aria-label="Close"
         >
             ×
         </button>
 
 
-        <p class="small-label">
+        <p class="eyebrow">
             PROFILE
         </p>
 
@@ -438,12 +394,12 @@
             type="text"
             maxlength="24"
             autocomplete="off"
-            placeholder="Your username"
+            placeholder="Enter a username"
         >
 
 
-        <label for="avatar-input">
-            Avatar
+        <label>
+            Profile icon
         </label>
 
 
@@ -452,14 +408,14 @@
             id="avatar-picker"
         >
 
-            <button data-avatar="👤">👤</button>
-            <button data-avatar="😎">😎</button>
-            <button data-avatar="🤓">🤓</button>
-            <button data-avatar="🧠">🧠</button>
-            <button data-avatar="🚀">🚀</button>
-            <button data-avatar="⭐">⭐</button>
-            <button data-avatar="🔥">🔥</button>
-            <button data-avatar="🐸">🐸</button>
+            <button data-avatar="S">S</button>
+            <button data-avatar="A">A</button>
+            <button data-avatar="J">J</button>
+            <button data-avatar="K">K</button>
+            <button data-avatar="M">M</button>
+            <button data-avatar="R">R</button>
+            <button data-avatar="T">T</button>
+            <button data-avatar="N">N</button>
 
         </div>
 
@@ -474,7 +430,7 @@
             class="primary-button"
             id="save-profile-button"
         >
-            Save Changes
+            Save changes
         </button>
 
 
@@ -486,7 +442,6 @@
 
 
 <script src="profile.js"></script>
-
 
 </body>
 
