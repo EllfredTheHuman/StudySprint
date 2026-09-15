@@ -97,6 +97,15 @@ function roomUsername() {
 }
 
 
+const roomCode =
+    (
+        roomParams.get("code")
+        || ""
+    )
+    .trim()
+    .toUpperCase();
+
+
 function roomAvatar() {
 
     return (
