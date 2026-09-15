@@ -13,47 +13,42 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 
 
-/* =========================================================
-   FIREBASE
-========================================================= */
-
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
-
-    authDomain:
-        "studysprint-67f63.firebaseapp.com",
-
-    databaseURL:
-        "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
-
-    projectId:
-        "studysprint-67f63",
-
-    storageBucket:
-        "studysprint-67f63.firebasestorage.app",
-
-    messagingSenderId:
-        "1076120438088",
-
-    appId:
-        "1:1076120438088:web:284c4856998fb607ac1f7d"
-
+    apiKey: "AIzaSyBi3Ge5_pDiEV-scRC-kptDJoHnHmbdw6s",
+    authDomain: "studysprint-67f63.firebaseapp.com",
+    databaseURL: "https://studysprint-67f63-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "studysprint-67f63",
+    storageBucket: "studysprint-67f63.firebasestorage.app",
+    messagingSenderId: "1076120438088",
+    appId: "1:1076120438088:web:284c4856998fb607ac1f7d"
 };
 
 
-const app =
+const roomApp =
     initializeApp(firebaseConfig);
 
+const roomDatabase =
+    getDatabase(roomApp);
 
-const database =
-    getDatabase(app);
+
+const roomParams =
+    new URLSearchParams(
+        window.location.search
+    );
 
 
-/* =========================================================
-   USER
-========================================================= */
+const roomCode =
+    (
+        roomParams.get("code")
+        || ""
+    )
+    trim()
+    .toUpperCase();
+
+
+let currentRoom = null;
+let stopRoomListener = null;
+
 
 let userId =
     localStorage.getItem(
@@ -79,7 +74,18 @@ if (!userId) {
 }
 
 
-function getUsername() {
+function roomElement(
+    id
+) {
+
+    return document.getElementById(
+        id
+    );
+
+}
+
+
+function roomUsername() {
 
     return (
         localStorage.getItem(
@@ -91,105 +97,24 @@ function getUsername() {
 }
 
 
-function getAvatar() {
+function roomAvatar() {
 
     return (
         localStorage.getItem(
             "studysprint_avatar"
         )
-        || "S"
+        || roomUsername()
+            .charAt(0)
+            .toUpperCase()
+            || "S"
     );
 
 }
 
 
-/* =========================================================
-   ROOM
-========================================================= */
-
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
-
-
-const roomCode =
-    (
-        params.get("code")
-        || ""
-    )
-    .trim()
-    .toUpperCase();
-
-
-let currentRoom =
-    null;
-
-
-let roomUnsubscribe =
-    null;
-
-
-/* =========================================================
-   ELEMENT HELPERS
-========================================================= */
-
-function get(id) {
-
-    return document.getElementById(id);
-
-}
-
-
-function setText(
-    id,
+function roomEscape(
     value
 ) {
-
-    const element =
-        get(id);
-
-    if (element) {
-
-        element.textContent =
-            value;
-
-    }
-
-}
-
-
-function showElement(
-    element
-) {
-
-    if (element) {
-
-        element.classList.remove(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-function hideElement(
-    element
-) {
-
-    if (element) {
-
-        element.classList.add(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-function escapeHtml(value) {
 
     return String(value)
         .replace(
@@ -216,16 +141,62 @@ function escapeHtml(value) {
 }
 
 
-/* =========================================================
-   ERROR
-========================================================= */
+function roomText(
+    id,
+    value
+) {
 
-function showError(
+    const element =
+        roomElement(id);
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+function roomShow(
+    element
+) {
+
+    if (element) {
+
+        element.classList.remove(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+function roomHide(
+    element
+) {
+
+    if (element) {
+
+        element.classList.add(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+function roomError(
     message
 ) {
 
     const element =
-        get("room-error");
+        roomElement(
+            "room-error"
+        );
 
     if (!element) {
         return;
@@ -234,39 +205,21 @@ function showError(
     element.textContent =
         message;
 
-    showElement(element);
-
-}
-
-
-function clearError() {
-
-    const element =
-        get("room-error");
-
-    if (!element) {
-        return;
-    }
-
-    element.textContent =
-        "";
-
-    hideElement(element);
+    roomShow(element);
 
 }
 
 
 /* =========================================================
-   ROOM NAVIGATION
+   NAVIGATION
 ========================================================= */
 
-function setupNavigation() {
+function setupRoomNavigation() {
 
     const buttons =
         document.querySelectorAll(
             ".room-nav-button"
         );
-
 
     const sections =
         document.querySelectorAll(
@@ -274,43 +227,28 @@ function setupNavigation() {
         );
 
 
-    if (!buttons.length) {
-        return;
-    }
-
-
-    function showSection(
-        sectionName
+    function openSection(
+        name
     ) {
 
-        buttons.forEach(
-            function (button) {
+        sections.forEach(
+            function (section) {
 
-                const active =
-                    button.dataset.section ===
-                    sectionName;
-
-
-                button.classList.toggle(
-                    "active",
-                    active
+                section.classList.toggle(
+                    "hidden",
+                    section.dataset.section !== name
                 );
 
             }
         );
 
 
-        sections.forEach(
-            function (section) {
+        buttons.forEach(
+            function (button) {
 
-                const active =
-                    section.dataset.section ===
-                    sectionName;
-
-
-                section.classList.toggle(
-                    "hidden",
-                    !active
+                button.classList.toggle(
+                    "active",
+                    button.dataset.section === name
                 );
 
             }
@@ -324,23 +262,16 @@ function setupNavigation() {
 
             button.addEventListener(
                 "click",
-                function (event) {
+                function () {
 
-                    event.preventDefault();
-
-
-                    const sectionName =
+                    const name =
                         button.dataset.section;
 
-
-                    if (!sectionName) {
+                    if (!name) {
                         return;
                     }
 
-
-                    showSection(
-                        sectionName
-                    );
+                    openSection(name);
 
                 }
             );
@@ -349,18 +280,16 @@ function setupNavigation() {
     );
 
 
-    showSection(
-        "home"
-    );
+    openSection("home");
 
 }
 
 
 /* =========================================================
-   SYNC PROFILE TO ROOM
+   SYNC CURRENT USER
 ========================================================= */
 
-async function syncProfile() {
+async function syncRoomUser() {
 
     if (!roomCode) {
         return;
@@ -369,7 +298,7 @@ async function syncProfile() {
 
     const memberRef =
         ref(
-            database,
+            roomDatabase,
             "rooms/"
             + roomCode
             + "/members/"
@@ -393,41 +322,24 @@ async function syncProfile() {
             || {};
 
 
-        const name =
-            getUsername();
-
-
-        const avatar =
-            getAvatar();
-
-
-        const changes = {
-
-            name: name,
-
-            avatar: avatar
-
-        };
-
-
-        if (!member.joinedAt) {
-
-            changes.joinedAt =
-                Date.now();
-
-        }
-
-
         await update(
             memberRef,
-            changes
+            {
+                name: roomUsername(),
+                avatar: roomAvatar(),
+                joinedAt:
+                    member.joinedAt
+                    || Date.now(),
+                role:
+                    member.role
+                    || "member"
+            }
         );
-
 
     } catch (error) {
 
         console.error(
-            "Profile sync error:",
+            "Could not sync room user:",
             error
         );
 
@@ -440,14 +352,11 @@ async function syncProfile() {
    LOAD ROOM
 ========================================================= */
 
-async function loadRoom() {
-
-    clearError();
-
+async function loadRoomData() {
 
     if (!roomCode) {
 
-        showError(
+        roomError(
             "No room code was provided."
         );
 
@@ -460,7 +369,7 @@ async function loadRoom() {
 
         const roomRef =
             ref(
-                database,
+                roomDatabase,
                 "rooms/"
                 + roomCode
             );
@@ -472,7 +381,7 @@ async function loadRoom() {
 
         if (!snapshot.exists()) {
 
-            showError(
+            roomError(
                 "This room does not exist."
             );
 
@@ -485,23 +394,10 @@ async function loadRoom() {
             snapshot.val();
 
 
-        if (
-            currentRoom.deleted === true
-        ) {
-
-            showError(
-                "This room has been deleted."
-            );
-
-            return;
-
-        }
+        await syncRoomUser();
 
 
-        await syncProfile();
-
-
-        renderRoom(
+        renderRoomData(
             currentRoom
         );
 
@@ -517,7 +413,7 @@ async function loadRoom() {
         );
 
 
-        showError(
+        roomError(
             "Could not load this room."
         );
 
@@ -527,34 +423,34 @@ async function loadRoom() {
 
 
 /* =========================================================
-   REAL-TIME LISTENER
+   REAL-TIME ROOM
 ========================================================= */
 
 function startRoomListener() {
 
-    if (roomUnsubscribe) {
+    if (stopRoomListener) {
 
-        roomUnsubscribe();
+        stopRoomListener();
 
     }
 
 
     const roomRef =
         ref(
-            database,
+            roomDatabase,
             "rooms/"
             + roomCode
         );
 
 
-    roomUnsubscribe =
+    stopRoomListener =
         onValue(
             roomRef,
             function (snapshot) {
 
                 if (!snapshot.exists()) {
 
-                    showError(
+                    roomError(
                         "This room has been deleted."
                     );
 
@@ -567,7 +463,7 @@ function startRoomListener() {
                     snapshot.val();
 
 
-                renderRoom(
+                renderRoomData(
                     currentRoom
                 );
 
@@ -586,10 +482,10 @@ function startRoomListener() {
 
 
 /* =========================================================
-   RENDER ROOM
+   ROOM HEADER
 ========================================================= */
 
-function renderRoom(
+function renderRoomData(
     room
 ) {
 
@@ -598,36 +494,30 @@ function renderRoom(
     }
 
 
-    setText(
+    roomText(
         "room-name",
-        room.name
-        || "Untitled Room"
+        room.name || "Untitled Room"
     );
 
 
-    setText(
+    roomText(
         "room-code",
         roomCode
     );
 
 
-    const roomType =
-        get("room-type");
+    const typeElement =
+        roomElement(
+            "room-type"
+        );
 
 
-    if (roomType) {
+    if (typeElement) {
 
-        const type =
+        typeElement.textContent =
             String(
-                room.type
-                || "friends"
-            ).toLowerCase();
-
-
-        roomType.textContent =
-            type === "class"
-                ? "CLASS"
-                : "FRIENDS";
+                room.type || "friends"
+            ).toUpperCase();
 
     }
 
@@ -673,7 +563,9 @@ function renderMemberCount(
 ) {
 
     const element =
-        get("member-count");
+        roomElement(
+            "member-count"
+        );
 
 
     if (!element) {
@@ -707,7 +599,9 @@ function renderMembers(
 ) {
 
     const container =
-        get("members-list");
+        roomElement(
+            "members-list"
+        );
 
 
     if (!container) {
@@ -738,22 +632,12 @@ function renderMembers(
     entries.sort(
         function (a, b) {
 
-            const first =
+            return String(
+                a[1].name || "Student"
+            ).localeCompare(
                 String(
-                    a[1].name
-                    || "Student"
-                );
-
-
-            const second =
-                String(
-                    b[1].name
-                    || "Student"
-                );
-
-
-            return first.localeCompare(
-                second
+                    b[1].name || "Student"
+                )
             );
 
         }
@@ -766,23 +650,17 @@ function renderMembers(
             const memberId =
                 entry[0];
 
-
             const member =
                 entry[1]
                 || {};
-
 
             const name =
                 member.name
                 || "Student";
 
-
             const avatar =
                 member.avatar
-                || name
-                    .charAt(0)
-                    .toUpperCase();
-
+                || name.charAt(0).toUpperCase();
 
             const role =
                 member.role
@@ -811,15 +689,14 @@ function renderMembers(
 
 
             card.innerHTML =
-
                 '<div class="member-avatar">'
-                + escapeHtml(avatar)
+                + roomEscape(avatar)
                 + '</div>'
 
                 + '<div class="member-info">'
 
                 + '<strong>'
-                + escapeHtml(name)
+                + roomEscape(name)
                 + '</strong>'
 
                 + '<small>'
@@ -852,7 +729,9 @@ function renderLeaderboard(
 ) {
 
     const container =
-        get("leaderboard-list");
+        roomElement(
+            "leaderboard-list"
+        );
 
 
     if (!container) {
@@ -883,22 +762,13 @@ function renderLeaderboard(
     entries.sort(
         function (a, b) {
 
-            const firstScore =
-                Number(
-                    a[1].score
-                    || 0
-                );
-
-
-            const secondScore =
-                Number(
-                    b[1].score
-                    || 0
-                );
-
-
-            return secondScore -
-                firstScore;
+            return Number(
+                b[1].score || 0
+            )
+            -
+            Number(
+                a[1].score || 0
+            );
 
         }
     );
@@ -910,28 +780,21 @@ function renderLeaderboard(
             const memberId =
                 entry[0];
 
-
             const member =
                 entry[1]
                 || {};
-
 
             const name =
                 member.name
                 || "Student";
 
-
             const avatar =
                 member.avatar
-                || name
-                    .charAt(0)
-                    .toUpperCase();
-
+                || name.charAt(0).toUpperCase();
 
             const score =
                 Number(
-                    member.score
-                    || 0
+                    member.score || 0
                 );
 
 
@@ -957,19 +820,16 @@ function renderLeaderboard(
 
 
             row.innerHTML =
-
                 '<span class="leaderboard-position">'
-                + (
-                    index + 1
-                )
+                + (index + 1)
                 + '</span>'
 
                 + '<div class="leaderboard-avatar">'
-                + escapeHtml(avatar)
+                + roomEscape(avatar)
                 + '</div>'
 
                 + '<div class="leaderboard-name">'
-                + escapeHtml(name)
+                + roomEscape(name)
                 + '</div>'
 
                 + '<strong class="leaderboard-score">'
@@ -996,7 +856,9 @@ function renderAssignments(
 ) {
 
     const container =
-        get("assignments-list");
+        roomElement(
+            "assignments-list"
+        );
 
 
     if (!container) {
@@ -1028,12 +890,11 @@ function renderAssignments(
         function (a, b) {
 
             return Number(
-                b[1].createdAt
-                || 0
-            ) -
+                b[1].createdAt || 0
+            )
+            -
             Number(
-                a[1].createdAt
-                || 0
+                a[1].createdAt || 0
             );
 
         }
@@ -1047,20 +908,9 @@ function renderAssignments(
                 entry[1]
                 || {};
 
-
-            const title =
-                assignment.title
-                || "Assignment";
-
-
-            const type =
-                assignment.type
-                || "Custom Goal";
-
-
             const completed =
-                assignment.completed &&
-                assignment.completed[userId];
+                assignment.completed
+                && assignment.completed[userId];
 
 
             const card =
@@ -1074,15 +924,20 @@ function renderAssignments(
 
 
             card.innerHTML =
-
                 '<div class="assignment-content">'
 
                 + '<span class="assignment-type">'
-                + escapeHtml(type)
+                + roomEscape(
+                    assignment.type
+                    || "Custom Goal"
+                )
                 + '</span>'
 
                 + '<strong>'
-                + escapeHtml(title)
+                + roomEscape(
+                    assignment.title
+                    || "Assignment"
+                )
                 + '</strong>'
 
                 + '</div>'
@@ -1115,7 +970,9 @@ function renderActivity(
 ) {
 
     const container =
-        get("activity-list");
+        roomElement(
+            "activity-list"
+        );
 
 
     if (!container) {
@@ -1147,12 +1004,11 @@ function renderActivity(
         function (a, b) {
 
             return Number(
-                b[1].createdAt
-                || 0
-            ) -
+                b[1].createdAt || 0
+            )
+            -
             Number(
-                a[1].createdAt
-                || 0
+                a[1].createdAt || 0
             );
 
         }
@@ -1180,9 +1036,8 @@ function renderActivity(
 
 
                 row.innerHTML =
-
                     '<strong>'
-                    + escapeHtml(
+                    + roomEscape(
                         item.message
                         || "New activity"
                     )
@@ -1200,37 +1055,33 @@ function renderActivity(
 
 
 /* =========================================================
-   OWNER CONTROLS
+   OWNER
 ========================================================= */
 
 function updateOwnerControls(
     room
 ) {
 
-    const deleteButton =
-        get("delete-room");
+    const button =
+        roomElement(
+            "delete-room"
+        );
 
 
-    if (!deleteButton) {
+    if (!button) {
         return;
     }
 
 
-    const isOwner =
-        room.owner === userId;
+    if (
+        room.owner === userId
+    ) {
 
-
-    if (isOwner) {
-
-        showElement(
-            deleteButton
-        );
+        roomShow(button);
 
     } else {
 
-        hideElement(
-            deleteButton
-        );
+        roomHide(button);
 
     }
 
@@ -1238,13 +1089,15 @@ function updateOwnerControls(
 
 
 /* =========================================================
-   COPY CODE
+   COPY
 ========================================================= */
 
-function setupCopyButton() {
+function setupCopyCode() {
 
     const button =
-        get("copy-code");
+        roomElement(
+            "copy-code"
+        );
 
 
     if (!button) {
@@ -1264,7 +1117,9 @@ function setupCopyButton() {
 
 
                 const message =
-                    get("copy-message");
+                    roomElement(
+                        "copy-message"
+                    );
 
 
                 if (message) {
@@ -1272,7 +1127,7 @@ function setupCopyButton() {
                     message.textContent =
                         "Copied";
 
-                    showElement(
+                    roomShow(
                         message
                     );
 
@@ -1280,7 +1135,7 @@ function setupCopyButton() {
                     setTimeout(
                         function () {
 
-                            hideElement(
+                            roomHide(
                                 message
                             );
 
@@ -1306,13 +1161,15 @@ function setupCopyButton() {
 
 
 /* =========================================================
-   LEAVE ROOM
+   LEAVE
 ========================================================= */
 
-function setupLeaveButton() {
+function setupLeaveRoom() {
 
     const button =
-        get("leave-room");
+        roomElement(
+            "leave-room"
+        );
 
 
     if (!button) {
@@ -1324,13 +1181,11 @@ function setupLeaveButton() {
         "click",
         async function () {
 
-            const confirmed =
-                window.confirm(
+            if (
+                !window.confirm(
                     "Leave this room?"
-                );
-
-
-            if (!confirmed) {
+                )
+            ) {
                 return;
             }
 
@@ -1339,7 +1194,7 @@ function setupLeaveButton() {
 
                 await remove(
                     ref(
-                        database,
+                        roomDatabase,
                         "rooms/"
                         + roomCode
                         + "/members/"
@@ -1354,12 +1209,12 @@ function setupLeaveButton() {
             } catch (error) {
 
                 console.error(
-                    "Leave room error:",
+                    "Leave error:",
                     error
                 );
 
 
-                showError(
+                roomError(
                     "Could not leave the room."
                 );
 
@@ -1372,13 +1227,15 @@ function setupLeaveButton() {
 
 
 /* =========================================================
-   DELETE ROOM
+   DELETE
 ========================================================= */
 
-function setupDeleteButton() {
+function setupDeleteRoom() {
 
     const button =
-        get("delete-room");
+        roomElement(
+            "delete-room"
+        );
 
 
     if (!button) {
@@ -1399,23 +1256,15 @@ function setupDeleteButton() {
                 currentRoom.owner !==
                 userId
             ) {
-
-                showError(
-                    "Only the room owner can delete this room."
-                );
-
                 return;
-
             }
 
 
-            const confirmed =
-                window.confirm(
+            if (
+                !window.confirm(
                     "Delete this room permanently?"
-                );
-
-
-            if (!confirmed) {
+                )
+            ) {
                 return;
             }
 
@@ -1424,7 +1273,7 @@ function setupDeleteButton() {
 
                 await set(
                     ref(
-                        database,
+                        roomDatabase,
                         "deletedRoomCodes/"
                         + roomCode
                     ),
@@ -1440,7 +1289,7 @@ function setupDeleteButton() {
 
                 await remove(
                     ref(
-                        database,
+                        roomDatabase,
                         "rooms/"
                         + roomCode
                     )
@@ -1453,12 +1302,12 @@ function setupDeleteButton() {
             } catch (error) {
 
                 console.error(
-                    "Delete room error:",
+                    "Delete error:",
                     error
                 );
 
 
-                showError(
+                roomError(
                     "Could not delete the room."
                 );
 
@@ -1471,7 +1320,7 @@ function setupDeleteButton() {
 
 
 /* =========================================================
-   BACK BUTTON
+   BACK
 ========================================================= */
 
 function setupBackButton() {
@@ -1501,35 +1350,31 @@ function setupBackButton() {
 
 
 /* =========================================================
-   CLEAN UP
+   START
 ========================================================= */
+
+setupRoomNavigation();
+
+setupCopyCode();
+
+setupLeaveRoom();
+
+setupDeleteRoom();
+
+setupBackButton();
+
+loadRoomData();
+
 
 window.addEventListener(
     "beforeunload",
     function () {
 
-        if (roomUnsubscribe) {
+        if (stopRoomListener) {
 
-            roomUnsubscribe();
+            stopRoomListener();
 
         }
 
     }
 );
-
-
-/* =========================================================
-   START
-========================================================= */
-
-setupNavigation();
-
-setupCopyButton();
-
-setupLeaveButton();
-
-setupDeleteButton();
-
-setupBackButton();
-
-loadRoom();
