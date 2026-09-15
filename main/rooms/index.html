@@ -28,7 +28,11 @@
         StudySprint
     </a>
 
-    <a href="../profile/index.html" class="profile-button">
+    <a
+        href="../profile/index.html"
+        class="profile-button"
+        aria-label="Profile"
+    >
         👤
     </a>
 
@@ -46,108 +50,185 @@
         </p>
 
         <h1>
-            Study with<br>
-            <span>your people.</span>
+            Learn together.<br>
+            <span>Compete together.</span>
         </h1>
 
         <p>
-            Join a class or create a room with your friends.
+            Join your class, study with friends, and see how you're doing.
         </p>
 
     </section>
 
 
 
-    <section class="room-actions">
+    <section class="join-card">
 
-
-        <div class="action-card">
-
-            <div class="action-icon">
-                🔑
-            </div>
-
-            <div class="action-content">
-
-                <h2>
-                    Join a Room
-                </h2>
-
-                <p>
-                    Enter a room code to join.
-                </p>
-
-                <div class="join-form">
-
-                    <input
-                        id="room-code-input"
-                        type="text"
-                        inputmode="text"
-                        autocomplete="off"
-                        autocapitalize="characters"
-                        spellcheck="false"
-                        maxlength="6"
-                        placeholder="ROOM CODE"
-                        aria-label="Room code"
-                    >
-
-                    <button
-                        id="join-room-button"
-                        class="primary-button"
-                        type="button"
-                    >
-                        Join Room
-                    </button>
-
-                </div>
-
-                <p
-                    id="join-message"
-                    class="form-message"
-                ></p>
-
-            </div>
-
+        <div class="card-icon">
+            🔑
         </div>
 
+        <div class="card-content">
+
+            <p class="card-label">
+                HAVE A CODE?
+            </p>
+
+            <h2>
+                Join a room
+            </h2>
+
+            <p class="card-description">
+                Enter the six-character code you've been given.
+            </p>
 
 
-        <div class="action-card">
+            <div class="join-input-row">
 
-            <div class="action-icon">
-                ➕
-            </div>
-
-            <div class="action-content">
-
-                <h2>
-                    Create a Room
-                </h2>
-
-                <p>
-                    Make a room for your class or friends.
-                </p>
+                <input
+                    id="room-code-input"
+                    type="text"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    maxlength="6"
+                    placeholder="ABC123"
+                    aria-label="Room code"
+                >
 
                 <button
-                    id="create-room-button"
+                    id="join-room-button"
                     class="primary-button"
                     type="button"
                 >
-                    Create Room
+                    Join
                 </button>
 
             </div>
 
-        </div>
 
+            <p
+                id="join-message"
+                class="form-message"
+            ></p>
+
+        </div>
 
     </section>
 
 
 
-    <section class="section">
+    <div class="divider">
 
-        <div class="section-title">
+        <span>OR</span>
+
+    </div>
+
+
+
+    <section class="create-card">
+
+        <div class="create-top">
+
+            <div class="card-icon create-icon">
+                ✨
+            </div>
+
+            <div>
+
+                <p class="card-label">
+                    MAKE YOUR OWN
+                </p>
+
+                <h2>
+                    Create a room
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <p class="card-description">
+            Create a space for your class or your friends.
+        </p>
+
+
+        <div class="room-types">
+
+            <button
+                id="create-class-button"
+                class="room-type"
+                type="button"
+            >
+
+                <span class="room-type-icon">
+                    🏫
+                </span>
+
+                <span class="room-type-text">
+
+                    <strong>
+                        Class
+                    </strong>
+
+                    <small>
+                        For school & assignments
+                    </small>
+
+                </span>
+
+                <span class="room-type-arrow">
+                    →
+                </span>
+
+            </button>
+
+
+            <button
+                id="create-friends-button"
+                class="room-type"
+                type="button"
+            >
+
+                <span class="room-type-icon">
+                    👥
+                </span>
+
+                <span class="room-type-text">
+
+                    <strong>
+                        Friends
+                    </strong>
+
+                    <small>
+                        For your own group
+                    </small>
+
+                </span>
+
+                <span class="room-type-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <p
+            id="create-message"
+            class="form-message"
+        ></p>
+
+    </section>
+
+
+
+    <section class="rooms-preview">
+
+        <div class="section-heading">
 
             <div>
 
@@ -168,16 +249,16 @@
 
             <div class="empty-state">
 
-                <span>
+                <div class="empty-icon">
                     👥
-                </span>
+                </div>
 
                 <h3>
                     No rooms yet
                 </h3>
 
                 <p>
-                    Join or create a room to get started.
+                    Join a room or create one to see it here.
                 </p>
 
             </div>
@@ -243,7 +324,644 @@
 
 <script src="rooms.js"></script>
 
-
 </body>
 
 </html>
+```
+
+```css
+* {
+    box-sizing: border-box;
+}
+
+
+html {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    overflow-x: clip;
+}
+
+
+body {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    margin: 0;
+    padding: 0 0 95px;
+
+    overflow-x: clip;
+
+    background: #09090f;
+    color: #ffffff;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+
+button,
+input {
+    font: inherit;
+}
+
+
+button {
+    border: 0;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+/* TOP BAR */
+
+.topbar {
+    width: 100%;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    border-bottom: 1px solid #1b1b27;
+
+    background: rgba(9, 9, 15, 0.94);
+}
+
+
+.logo {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #151520;
+
+    font-size: 18px;
+}
+
+
+
+/* MAIN */
+
+main {
+    width: calc(100% - 28px);
+    max-width: 560px;
+
+    margin: 0 auto;
+
+    padding: 28px 0 30px;
+}
+
+
+
+/* HEADING */
+
+.page-heading {
+    margin-bottom: 26px;
+}
+
+
+.small-label,
+.card-label,
+.section-heading p {
+    margin: 0;
+
+    color: #8875f5;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+}
+
+
+.page-heading h1 {
+    margin: 8px 0 12px;
+
+    font-size: clamp(34px, 9vw, 48px);
+
+    line-height: 0.98;
+
+    letter-spacing: -1.8px;
+}
+
+
+.page-heading h1 span {
+    color: #8875f5;
+}
+
+
+.page-heading > p:last-child {
+    max-width: 460px;
+
+    margin: 0;
+
+    color: #858592;
+
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+
+
+/* CARDS */
+
+.join-card,
+.create-card {
+    width: 100%;
+
+    border: 1px solid #20202c;
+
+    border-radius: 22px;
+
+    background: #111119;
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.22);
+}
+
+
+.join-card {
+    display: flex;
+    gap: 15px;
+
+    padding: 20px;
+}
+
+
+.card-icon {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background: #1a1830;
+
+    font-size: 20px;
+}
+
+
+.card-content {
+    min-width: 0;
+    flex: 1;
+}
+
+
+.card-label {
+    margin-bottom: 5px;
+
+    font-size: 10px;
+}
+
+
+.card-content h2,
+.create-card h2 {
+    margin: 0;
+
+    font-size: 22px;
+    line-height: 1.15;
+
+    letter-spacing: -0.5px;
+}
+
+
+.card-description {
+    margin: 7px 0 16px;
+
+    color: #858592;
+
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+
+
+/* JOIN */
+
+.join-input-row {
+    display: flex;
+    gap: 9px;
+}
+
+
+#room-code-input {
+    width: 0;
+    min-width: 0;
+    flex: 1;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #292936;
+    border-radius: 13px;
+
+    outline: none;
+
+    background: #0b0b12;
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: 750;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+}
+
+
+#room-code-input::placeholder {
+    color: #4d4d59;
+    letter-spacing: 1.5px;
+}
+
+
+#room-code-input:focus {
+    border-color: #8875f5;
+
+    box-shadow:
+        0 0 0 3px rgba(136, 117, 245, 0.12);
+}
+
+
+.primary-button {
+    min-width: 72px;
+    height: 48px;
+
+    padding: 0 16px;
+
+    border-radius: 13px;
+
+    background: #8875f5;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+
+.primary-button:active {
+    transform: scale(0.97);
+}
+
+
+.primary-button:hover {
+    opacity: 0.9;
+}
+
+
+
+/* DIVIDER */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin: 20px 4px;
+
+    color: #4d4d59;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: #1d1d28;
+}
+
+
+
+/* CREATE */
+
+.create-card {
+    padding: 20px;
+}
+
+
+.create-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.create-icon {
+    background: #211d35;
+}
+
+
+.create-card .card-description {
+    margin-left: 58px;
+    margin-bottom: 16px;
+}
+
+
+
+/* ROOM TYPES */
+
+.room-types {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+
+.room-type {
+    width: 100%;
+    min-height: 66px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 11px 13px;
+
+    border: 1px solid #22222e;
+    border-radius: 15px;
+
+    background: #0d0d14;
+    color: #ffffff;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+.room-type:hover {
+    border-color: #3a3654;
+    background: #11111b;
+}
+
+
+.room-type:active {
+    transform: scale(0.985);
+}
+
+
+.room-type-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 38px;
+
+    border-radius: 11px;
+
+    background: #191923;
+
+    font-size: 17px;
+}
+
+
+.room-type-text {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.room-type-text strong {
+    font-size: 14px;
+    font-weight: 750;
+}
+
+
+.room-type-text small {
+    color: #777783;
+
+    font-size: 11px;
+}
+
+
+.room-type-arrow {
+    margin-left: auto;
+
+    color: #6e6e7b;
+
+    font-size: 20px;
+}
+
+
+
+/* MESSAGES */
+
+.form-message {
+    min-height: 17px;
+
+    margin: 8px 0 0;
+
+    color: #858592;
+
+    font-size: 12px;
+}
+
+
+
+/* YOUR ROOMS */
+
+.rooms-preview {
+    margin-top: 36px;
+}
+
+
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 14px;
+}
+
+
+.section-heading h2 {
+    margin: 5px 0 0;
+
+    font-size: 22px;
+    letter-spacing: -0.5px;
+}
+
+
+.empty-state {
+    padding: 28px 20px;
+
+    border: 1px dashed #282833;
+    border-radius: 18px;
+
+    background: #0d0d14;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+    margin-bottom: 10px;
+
+    font-size: 25px;
+    opacity: 0.75;
+}
+
+
+.empty-state h3 {
+    margin: 0 0 5px;
+
+    font-size: 15px;
+}
+
+
+.empty-state p {
+    max-width: 280px;
+
+    margin: 0 auto;
+
+    color: #6f6f7b;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+    bottom: 0;
+
+    z-index: 50;
+
+    width: 100%;
+    max-width: 560px;
+
+    height: 72px;
+
+    transform: translateX(-50%);
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    padding:
+        7px
+        7px
+        max(7px, env(safe-area-inset-bottom));
+
+    border-top: 1px solid #1d1d28;
+
+    background: rgba(9, 9, 15, 0.97);
+
+    backdrop-filter: blur(18px);
+}
+
+
+.bottom-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    border-radius: 12px;
+
+    color: #666672;
+
+    transition:
+        color 0.15s ease,
+        background 0.15s ease;
+}
+
+
+.bottom-item span {
+    font-size: 17px;
+    line-height: 1;
+}
+
+
+.bottom-item small {
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+.bottom-item.active {
+    color: #8875f5;
+    background: #14131e;
+}
+
+
+@media (min-width: 600px) {
+
+    main {
+        padding-top: 40px;
+    }
+
+    .join-card {
+        padding: 24px;
+    }
+
+    .create-card {
+        padding: 24px;
+    }
+
+}
