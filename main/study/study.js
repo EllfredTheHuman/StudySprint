@@ -1,673 +1,789 @@
-var questionBanks = {
+/* =========================================================
+   STUDYSPRINT — STUDY MODE
+========================================================= */
+
+
+var studyBanks = {
 
     science: [
-        {
-            name: "Rocks and Minerals",
-            icon: "🪨",
-            file: "../../questions/rocks-and-minerals.js",
-            globalName: "rocksAndMineralsQuestions"
-        },
-        {
-            name: "Energy and Forces",
-            icon: "⚡",
-            file: "../../questions/energy-and-forces.js",
-            globalName: "energyAndForcesQuestions"
-        },
-        {
-            name: "Cells",
-            icon: "🧬",
-            file: "../../questions/cells.js",
-            globalName: "cellsQuestions"
-        },
-        {
-            name: "The Heart",
-            icon: "❤️",
-            file: "../../questions/heart.js",
-            globalName: "heartQuestions"
-        },
-        {
-            name: "Electricity",
-            icon: "🔌",
-            file: "../../questions/electricity.js",
-            globalName: "electricityQuestions"
-        }
+        [
+            "Rocks and Minerals",
+            "../../questions/rocks-and-minerals.js",
+            "rocksAndMineralsQuestions"
+        ],
+        [
+            "Energy and Forces",
+            "../../questions/energy-and-forces.js",
+            "energyAndForcesQuestions"
+        ]
     ],
 
     maths: [
-        {
-            name: "Algebra",
-            icon: "🔢",
-            file: "../../questions/year-9-algebra.js",
-            globalName: "year9AlgebraQuestions"
-        },
-        {
-            name: "BIDMAS",
-            icon: "➗",
-            file: "../../questions/bidmas.js",
-            globalName: "bidmasQuestions"
-        },
-        {
-            name: "Area and Perimeter",
-            icon: "📐",
-            file: "../../questions/area-and-perimeter.js",
-            globalName: "areaAndPerimeterQuestions"
-        },
-        {
-            name: "Geometry",
-            icon: "📏",
-            file: "../../questions/geometry.js",
-            globalName: "geometryQuestions"
-        }
+        [
+            "Year 9 Algebra",
+            "../../questions/year-9-algebra.js",
+            "year9AlgebraQuestions"
+        ],
+        [
+            "BIDMAS",
+            "../../questions/bidmas.js",
+            "bidmasQuestions"
+        ],
+        [
+            "Area and Perimeter",
+            "../../questions/area-and-perimeter.js",
+            "areaAndPerimeterQuestions"
+        ]
     ],
 
     english: [
-        {
-            name: "Grammar",
-            icon: "✏️",
-            file: "../../questions/grammar.js",
-            globalName: "grammarQuestions"
-        },
-        {
-            name: "Film Study",
-            icon: "🎬",
-            file: "../../questions/film-study.js",
-            globalName: "filmStudyQuestions"
-        },
-        {
-            name: "English",
-            icon: "📖",
-            file: "../../questions/english-generic.js",
-            globalName: "englishGenericQuestions"
-        }
+        [
+            "Film Study",
+            "../../questions/film-study.js",
+            "filmStudyQuestions"
+        ],
+        [
+            "Grammar",
+            "../../questions/grammar.js",
+            "grammarQuestions"
+        ],
+        [
+            "English",
+            "../../questions/english-generic.js",
+            "englishGenericQuestions"
+        ]
     ],
 
     humanities: [
-        {
-            name: "Geography",
-            icon: "🌍",
-            file: "../../questions/geography.js",
-            globalName: "geographyQuestions"
-        },
-        {
-            name: "Humanities",
-            icon: "🏛️",
-            file: "../../questions/humanities-generic-1.js",
-            globalName: "humanitiesGeneric1Questions"
-        }
+        [
+            "Humanities",
+            "../../questions/humanities-generic-1.js",
+            "humanitiesGenericQuestions"
+        ],
+        [
+            "Geography",
+            "../../questions/geography.js",
+            "geographyQuestions"
+        ]
     ],
 
     japanese: [
-        {
-            name: "Characters",
-            icon: "あ",
-            file: "../../questions/japanese-characters.js",
-            globalName: "japaneseCharactersQuestions"
-        },
-        {
-            name: "People, Places and Vehicles",
-            icon: "🚅",
-            file: "../../questions/japanese-people-places-vehicles.js",
-            globalName: "japanesePeoplePlacesVehiclesQuestions"
-        },
-        {
-            name: "Travel",
-            icon: "🗾",
-            file: "../../questions/japanese-travel.js",
-            globalName: "japaneseTravelQuestions"
-        }
+        [
+            "Characters",
+            "../../questions/japanese-characters.js",
+            "japaneseCharactersQuestions"
+        ],
+        [
+            "People, Places and Vehicles",
+            "../../questions/japanese-people-places-vehicles.js",
+            "japanesePeoplePlacesVehiclesQuestions"
+        ],
+        [
+            "Travel",
+            "../../questions/japanese-travel.js",
+            "japaneseTravelQuestions"
+        ]
     ],
 
     french: [
-        {
-            name: "Characters",
-            icon: "🔤",
-            file: "../../questions/french-characters.js",
-            globalName: "frenchCharactersQuestions"
-        },
-        {
-            name: "People, Places and Vehicles",
-            icon: "🚗",
-            file: "../../questions/french-people-places-vehicles.js",
-            globalName: "frenchPeoplePlacesVehiclesQuestions"
-        },
-        {
-            name: "Travel",
-            icon: "✈️",
-            file: "../../questions/french-travel.js",
-            globalName: "frenchTravelQuestions"
-        }
+        [
+            "Characters",
+            "../../questions/french-characters.js",
+            "frenchCharactersQuestions"
+        ],
+        [
+            "People, Places and Vehicles",
+            "../../questions/french-people-places-vehicles.js",
+            "frenchPeoplePlacesVehiclesQuestions"
+        ],
+        [
+            "Travel",
+            "../../questions/french-travel.js",
+            "frenchTravelQuestions"
+        ]
     ]
 
 };
 
 
-var subjectNames = {
-    science: "SCIENCE",
-    maths: "MATHS",
-    english: "ENGLISH",
-    humanities: "HUMANITIES",
-    japanese: "JAPANESE",
-    french: "FRENCH"
+var gameNames = {
+
+    garden: "Garden",
+    fishing: "Fishing",
+    restaurant: "Restaurant"
+
 };
 
 
-var subjectScreen =
-    document.getElementById("subject-screen");
+var studyState = {
 
-var topicScreen =
-    document.getElementById("topic-screen");
+    game: "",
+    subject: "",
+    topic: "",
+    questionPath: "",
+    questionGlobal: "",
+    questions: [],
+    currentQuestion: 0,
+    correct: 0,
+    answered: 0,
+    coins: 0,
+    questionLocked: false
 
-var quizScreen =
-    document.getElementById("quiz-screen");
-
-var completeScreen =
-    document.getElementById("complete-screen");
-
-var topicList =
-    document.getElementById("topic-list");
-
-var selectedSubjectLabel =
-    document.getElementById("selected-subject-label");
-
-var questionNumber =
-    document.getElementById("question-number");
-
-var progressBar =
-    document.getElementById("progress-bar");
-
-var questionType =
-    document.getElementById("question-type");
-
-var questionText =
-    document.getElementById("question-text");
-
-var answersArea =
-    document.getElementById("answers-area");
-
-var writtenArea =
-    document.getElementById("written-area");
-
-var writtenAnswer =
-    document.getElementById("written-answer");
-
-var submitWritten =
-    document.getElementById("submit-written");
-
-var feedback =
-    document.getElementById("feedback");
-
-var feedbackTitle =
-    document.getElementById("feedback-title");
-
-var feedbackText =
-    document.getElementById("feedback-text");
-
-var nextButton =
-    document.getElementById("next-button");
+};
 
 
-var currentSubject = null;
-var currentTopic = null;
-var currentQuestions = [];
-var currentQuestionIndex = 0;
-var currentScore = 0;
-var currentAnswered = false;
+function getElement(id) {
 
-
-/* =========================================================
-   SCREEN
-========================================================= */
-
-function showScreen(screen) {
-
-    subjectScreen.classList.add("hidden");
-    topicScreen.classList.add("hidden");
-    quizScreen.classList.add("hidden");
-    completeScreen.classList.add("hidden");
-
-    screen.classList.remove("hidden");
+    return document.getElementById(id);
 
 }
 
-
-/* =========================================================
-   LOAD QUESTION FILE
-========================================================= */
-
-function loadQuestionBank(topic, callback) {
-
-    var existing =
-        window[topic.globalName];
-
-    if (existing) {
-        callback(normaliseQuestionBank(existing));
-        return;
-    }
-
-
-    var script =
-        document.createElement("script");
-
-    script.src = topic.file;
-
-    script.onload = function () {
-
-        var bank =
-            window[topic.globalName];
-
-        if (!bank) {
-            callback([]);
-            return;
-        }
-
-        callback(
-            normaliseQuestionBank(bank)
-        );
-
-    };
-
-
-    script.onerror = function () {
-
-        console.error(
-            "Could not load question file:",
-            topic.file
-        );
-
-        callback([]);
-
-    };
-
-
-    document.body.appendChild(script);
-
-}
-
-
-/* =========================================================
-   TURN THE REAL BANK INTO AN ARRAY
-========================================================= */
-
-function normaliseQuestionBank(bank) {
-
-    if (Array.isArray(bank)) {
-        return bank.slice();
-    }
-
-
-    var result = [];
-
-    Object.keys(bank).forEach(function (key) {
-
-        if (Array.isArray(bank[key])) {
-
-            result =
-                result.concat(bank[key]);
-
-        }
-
-    });
-
-
-    return result;
-
-}
-
-
-/* =========================================================
-   SUBJECTS
-========================================================= */
-
-document
-    .querySelectorAll(".subject-card")
-    .forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                currentSubject =
-                    button.getAttribute(
-                        "data-subject"
-                    );
-
-                selectedSubjectLabel.textContent =
-                    subjectNames[currentSubject];
-
-                renderTopics();
-
-                showScreen(topicScreen);
-
-                window.scrollTo(0, 0);
-
-            }
-        );
-
-    });
-
-
-/* =========================================================
-   TOPICS
-========================================================= */
-
-function renderTopics() {
-
-    topicList.innerHTML = "";
-
-    var topics =
-        questionBanks[currentSubject] || [];
-
-
-    topics.forEach(function (topic) {
-
-        var button =
-            document.createElement("button");
-
-        button.className =
-            "topic-card";
-
-
-        button.innerHTML =
-            '<span class="topic-icon">' +
-                topic.icon +
-            '</span>' +
-
-            '<span class="topic-content">' +
-                '<strong>' +
-                    topic.name +
-                '</strong>' +
-
-                '<small>' +
-                    'Study this topic' +
-                '</small>' +
-
-            '</span>' +
-
-            '<span class="topic-arrow">' +
-                '→' +
-            '</span>';
-
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                currentTopic = topic;
-
-                loadQuestionBank(
-                    topic,
-                    function (questions) {
-
-                        if (!questions.length) {
-
-                            alert(
-                                "No questions could be loaded for this topic."
-                            );
-
-                            return;
-
-                        }
-
-                        startQuiz(questions);
-
-                    }
-                );
-
-            }
-        );
-
-
-        topicList.appendChild(button);
-
-    });
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-function startQuiz(questions) {
-
-    currentQuestions =
-        shuffle(
-            questions.slice()
-        );
-
-    currentQuestionIndex = 0;
-
-    currentScore = 0;
-
-    currentAnswered = false;
-
-    showScreen(quizScreen);
-
-    window.scrollTo(0, 0);
-
-    showQuestion();
-
-}
-
-
-/* =========================================================
-   SHUFFLE
-========================================================= */
 
 function shuffle(array) {
 
+    var copy = array.slice();
+
     for (
-        var i = array.length - 1;
+        var i = copy.length - 1;
         i > 0;
         i--
     ) {
 
-        var j =
+        var randomIndex =
             Math.floor(
                 Math.random() * (i + 1)
             );
 
-        var temp =
-            array[i];
+        var temporary =
+            copy[i];
 
-        array[i] =
-            array[j];
+        copy[i] =
+            copy[randomIndex];
 
-        array[j] =
-            temp;
+        copy[randomIndex] =
+            temporary;
 
     }
 
-    return array;
+    return copy;
 
 }
 
 
-/* =========================================================
-   WRITTEN?
-========================================================= */
+function normaliseBank(bank) {
 
-function isWrittenQuestion(question) {
+    if (Array.isArray(bank)) {
 
-    return (
-        question.type === "written" ||
-        Array.isArray(
-            question.acceptedAnswers
-        )
-    );
-
-}
-
-
-/* =========================================================
-   SHOW QUESTION
-========================================================= */
-
-function showQuestion() {
-
-    var question =
-        currentQuestions[
-            currentQuestionIndex
-        ];
-
-
-    if (!question) {
-
-        finishQuiz();
-
-        return;
+        return bank.slice();
 
     }
-
-
-    currentAnswered = false;
-
-
-    feedback.classList.add("hidden");
-
-    feedback.classList.remove(
-        "correct-feedback",
-        "wrong-feedback"
-    );
-
-
-    nextButton.classList.add("hidden");
-
-
-    answersArea.innerHTML = "";
-
-    writtenAnswer.value = "";
-
-    writtenAnswer.disabled = false;
-
-    submitWritten.disabled = false;
-
-
-    var number =
-        currentQuestionIndex + 1;
-
-    var total =
-        currentQuestions.length;
-
-
-    questionNumber.textContent =
-        "Question " +
-        number +
-        " of " +
-        total;
-
-
-    progressBar.style.width =
-        (
-            ((number - 1) / total) *
-            100
-        ) + "%";
-
-
-    questionText.textContent =
-        question.question;
 
 
     if (
-        isWrittenQuestion(question)
+        !bank
+        ||
+        typeof bank !== "object"
     ) {
 
-        showWrittenQuestion();
-
-    } else {
-
-        showMultipleChoiceQuestion(
-            question
-        );
+        return [];
 
     }
+
+
+    var output = [];
+
+
+    Object.keys(bank).forEach(
+        function (key) {
+
+            var value =
+                bank[key];
+
+            if (!Array.isArray(value)) {
+                return;
+            }
+
+
+            value.forEach(
+                function (question) {
+
+                    if (
+                        question
+                        &&
+                        typeof question === "object"
+                    ) {
+
+                        output.push(question);
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    return output;
 
 }
 
 
-/* =========================================================
-   MULTIPLE CHOICE
-========================================================= */
+function showScreen(id) {
 
-function showMultipleChoiceQuestion(
-    question
-) {
+    var screenIds = [
+        "game-screen",
+        "subject-screen",
+        "topic-screen",
+        "ready-screen",
+        "quiz-screen",
+        "complete-screen"
+    ];
 
-    questionType.textContent =
-        "MULTIPLE CHOICE";
+
+    screenIds.forEach(
+        function (screenId) {
+
+            var element =
+                getElement(screenId);
+
+            if (!element) {
+                return;
+            }
 
 
-    answersArea.classList.remove(
-        "hidden"
+            if (screenId === id) {
+
+                element.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                element.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
     );
 
-    writtenArea.classList.add(
-        "hidden"
+}
+
+
+function selectGame(game) {
+
+    if (!gameNames[game]) {
+        return;
+    }
+
+
+    studyState.game =
+        game;
+
+
+    var description =
+        getElement(
+            "selected-game-description"
+        );
+
+
+    if (description) {
+
+        description.textContent =
+            gameNames[game]
+            + " selected. Now choose a subject.";
+
+    }
+
+
+    showScreen(
+        "subject-screen"
     );
 
-
-    var answers =
-        question.answers || [];
+}
 
 
-    var correctAnswer =
-        question.correctAnswer;
+function selectSubject(subject) {
+
+    studyState.subject =
+        subject;
 
 
-    var shuffled =
-        answers.map(function (answer) {
-
-            return {
-                text: answer,
-                correct:
-                    answer === correctAnswer
-            };
-
-        });
+    var topics =
+        studyBanks[subject] || [];
 
 
-    shuffle(shuffled);
+    var list =
+        getElement("topic-list");
 
 
-    shuffled.forEach(
-        function (item, index) {
+    var label =
+        getElement(
+            "selected-subject-label"
+        );
+
+
+    if (label) {
+
+        label.textContent =
+            subject.toUpperCase();
+
+    }
+
+
+    if (!list) {
+        return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    topics.forEach(
+        function (topic) {
 
             var button =
                 document.createElement(
                     "button"
                 );
 
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "topic-card";
+
+
+            button.innerHTML =
+                "<strong>"
+                + topic[0]
+                + "</strong>"
+                + "<small>Select</small>";
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    selectTopic(
+                        topic
+                    );
+
+                }
+            );
+
+
+            list.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    showScreen(
+        "topic-screen"
+    );
+
+}
+
+
+function selectTopic(topic) {
+
+    studyState.topic =
+        topic[0];
+
+    studyState.questionPath =
+        topic[1];
+
+    studyState.questionGlobal =
+        topic[2];
+
+
+    var gameTitle =
+        getElement("ready-game");
+
+    var topicTitle =
+        getElement("ready-topic");
+
+
+    if (gameTitle) {
+
+        gameTitle.textContent =
+            gameNames[
+                studyState.game
+            ];
+
+    }
+
+
+    if (topicTitle) {
+
+        topicTitle.textContent =
+            studyState.topic;
+
+    }
+
+
+    showScreen(
+        "ready-screen"
+    );
+
+}
+
+
+function loadQuestions() {
+
+    var oldScript =
+        document.querySelector(
+            "script[data-study-question-bank]"
+        );
+
+
+    if (oldScript) {
+
+        oldScript.remove();
+
+    }
+
+
+    var script =
+        document.createElement(
+            "script"
+        );
+
+
+    script.src =
+        studyState.questionPath;
+
+
+    script.dataset.studyQuestionBank =
+        "true";
+
+
+    script.onload =
+        function () {
+
+            var bank =
+                window[
+                    studyState.questionGlobal
+                ];
+
+
+            var questions =
+                normaliseBank(
+                    bank
+                );
+
+
+            if (!questions.length) {
+
+                alert(
+                    "No questions were found for this topic."
+                );
+
+                return;
+
+            }
+
+
+            studyState.questions =
+                shuffle(
+                    questions
+                );
+
+
+            studyState.currentQuestion =
+                0;
+
+            studyState.correct =
+                0;
+
+            studyState.answered =
+                0;
+
+            studyState.coins =
+                0;
+
+            studyState.questionLocked =
+                false;
+
+
+            updateCoins();
+
+            showScreen(
+                "quiz-screen"
+            );
+
+            renderQuestion();
+
+        };
+
+
+    script.onerror =
+        function () {
+
+            alert(
+                "The question file could not be loaded."
+            );
+
+        };
+
+
+    document.head.appendChild(
+        script
+    );
+
+}
+
+
+function renderQuestion() {
+
+    var question =
+        studyState.questions[
+            studyState.currentQuestion
+        ];
+
+
+    if (!question) {
+
+        finishStudy();
+
+        return;
+
+    }
+
+
+    studyState.questionLocked =
+        false;
+
+
+    var questionNumber =
+        getElement(
+            "question-number"
+        );
+
+
+    var progressBar =
+        getElement(
+            "progress-bar"
+        );
+
+
+    var questionType =
+        getElement(
+            "question-type"
+        );
+
+
+    var questionText =
+        getElement(
+            "question-text"
+        );
+
+
+    var answersArea =
+        getElement(
+            "answers-area"
+        );
+
+
+    var writtenArea =
+        getElement(
+            "written-area"
+        );
+
+
+    var writtenInput =
+        getElement(
+            "written-answer"
+        );
+
+
+    var submitWritten =
+        getElement(
+            "submit-written"
+        );
+
+
+    var feedback =
+        getElement(
+            "feedback"
+        );
+
+
+    var nextButton =
+        getElement(
+            "next-button"
+        );
+
+
+    if (questionNumber) {
+
+        questionNumber.textContent =
+            "Question "
+            + (
+                studyState.currentQuestion + 1
+            )
+            + " of "
+            + studyState.questions.length;
+
+    }
+
+
+    if (progressBar) {
+
+        var percentage =
+            (
+                studyState.currentQuestion
+                /
+                studyState.questions.length
+            ) * 100;
+
+
+        progressBar.style.width =
+            percentage + "%";
+
+    }
+
+
+    if (questionType) {
+
+        questionType.textContent =
+            question.type === "written"
+                ? "WRITTEN"
+                : "QUESTION";
+
+    }
+
+
+    if (questionText) {
+
+        questionText.textContent =
+            question.question || "";
+
+    }
+
+
+    if (answersArea) {
+
+        answersArea.innerHTML = "";
+
+        answersArea.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    if (writtenArea) {
+
+        writtenArea.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    if (writtenInput) {
+
+        writtenInput.value = "";
+
+    }
+
+
+    if (submitWritten) {
+
+        submitWritten.disabled =
+            false;
+
+    }
+
+
+    if (feedback) {
+
+        feedback.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    if (nextButton) {
+
+        nextButton.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    var isWritten =
+        question.type === "written"
+        ||
+        Array.isArray(
+            question.acceptedAnswers
+        );
+
+
+    if (isWritten) {
+
+        if (answersArea) {
+
+            answersArea.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        if (writtenArea) {
+
+            writtenArea.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    var answers =
+        Array.isArray(
+            question.answers
+        )
+            ? shuffle(
+                question.answers
+            )
+            : [];
+
+
+    answers.forEach(
+        function (answer) {
+
+            var button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+
             button.className =
                 "answer-button";
 
 
-            var letter =
-                document.createElement(
-                    "span"
-                );
-
-            letter.className =
-                "answer-letter";
-
-
-            letter.textContent =
-                String.fromCharCode(
-                    65 + index
-                );
-
-
-            var text =
-                document.createElement(
-                    "span"
-                );
-
-            text.textContent =
-                item.text;
-
-
-            button.appendChild(letter);
-
-            button.appendChild(text);
+            button.textContent =
+                answer;
 
 
             button.addEventListener(
@@ -675,10 +791,8 @@ function showMultipleChoiceQuestion(
                 function () {
 
                     checkMultipleChoice(
-                        item.correct,
-                        item.text,
-                        shuffled,
-                        button
+                        answer,
+                        question
                     );
 
                 }
@@ -695,27 +809,289 @@ function showMultipleChoiceQuestion(
 }
 
 
-/* =========================================================
-   CHECK MC
-========================================================= */
-
 function checkMultipleChoice(
-    correct,
-    selectedText,
-    answers,
-    selectedButton
+    answer,
+    question
 ) {
 
-    if (currentAnswered) {
+    if (
+        studyState.questionLocked
+    ) {
+
+        return;
+
+    }
+
+
+    studyState.questionLocked =
+        true;
+
+
+    studyState.answered++;
+
+
+    var correct =
+        String(answer)
+            .trim()
+        ===
+        String(question.correctAnswer)
+            .trim();
+
+
+    if (correct) {
+
+        studyState.correct++;
+
+        addCoins(
+            10
+        );
+
+    }
+
+
+    showFeedback(
+        correct,
+        question.correctAnswer
+    );
+
+
+    disableAnswers();
+
+    showNextButton();
+
+}
+
+
+function checkWritten() {
+
+    if (
+        studyState.questionLocked
+    ) {
+
+        return;
+
+    }
+
+
+    var question =
+        studyState.questions[
+            studyState.currentQuestion
+        ];
+
+
+    var input =
+        getElement(
+            "written-answer"
+        );
+
+
+    if (!input) {
         return;
     }
 
 
-    currentAnswered = true;
+    var answer =
+        input.value.trim();
 
+
+    if (!answer) {
+        return;
+    }
+
+
+    studyState.questionLocked =
+        true;
+
+
+    studyState.answered++;
+
+
+    var accepted =
+        Array.isArray(
+            question.acceptedAnswers
+        )
+            ? question.acceptedAnswers
+            : [];
+
+
+    var correct =
+        accepted.some(
+            function (possibleAnswer) {
+
+                return (
+                    String(possibleAnswer)
+                        .trim()
+                        .toLowerCase()
+                    ===
+                    answer
+                        .toLowerCase()
+                        .trim()
+                );
+
+            }
+        );
+
+
+    if (correct) {
+
+        studyState.correct++;
+
+        addCoins(
+            15
+        );
+
+    }
+
+
+    showFeedback(
+        correct,
+        accepted.length
+            ? accepted[0]
+            : ""
+    );
+
+
+    var submit =
+        getElement(
+            "submit-written"
+        );
+
+
+    if (submit) {
+
+        submit.disabled =
+            true;
+
+    }
+
+
+    showNextButton();
+
+}
+
+
+function addCoins(amount) {
+
+    studyState.coins +=
+        amount;
+
+
+    updateCoins();
+
+
+    saveCoins();
+
+}
+
+
+function updateCoins() {
+
+    var element =
+        getElement(
+            "study-coins"
+        );
+
+
+    if (element) {
+
+        element.textContent =
+            studyState.coins;
+
+    }
+
+}
+
+
+function saveCoins() {
+
+    var currentCoins =
+        Number(
+            localStorage.getItem(
+                "studysprint_coins"
+            )
+        )
+        || 0;
+
+
+    localStorage.setItem(
+        "studysprint_coins",
+        String(
+            currentCoins
+            +
+            studyState.coins
+        )
+    );
+
+}
+
+
+function showFeedback(
+    correct,
+    correctAnswer
+) {
+
+    var feedback =
+        getElement(
+            "feedback"
+        );
+
+
+    var title =
+        getElement(
+            "feedback-title"
+        );
+
+
+    var text =
+        getElement(
+            "feedback-text"
+        );
+
+
+    if (!feedback) {
+        return;
+    }
+
+
+    feedback.classList.remove(
+        "hidden"
+    );
+
+
+    if (title) {
+
+        title.textContent =
+            correct
+                ? "Correct"
+                : "Not quite";
+
+    }
+
+
+    if (text) {
+
+        if (correct) {
+
+            text.textContent =
+                "You earned coins for this answer.";
+
+        } else {
+
+            text.textContent =
+                "The answer was: "
+                + correctAnswer;
+
+        }
+
+    }
+
+}
+
+
+function disableAnswers() {
 
     var buttons =
-        answersArea.querySelectorAll(
+        document.querySelectorAll(
             ".answer-button"
         );
 
@@ -723,451 +1099,255 @@ function checkMultipleChoice(
     buttons.forEach(
         function (button) {
 
-            button.disabled = true;
+            button.disabled =
+                true;
 
         }
     );
 
-
-    if (correct) {
-
-        currentScore++;
-
-        selectedButton.classList.add(
-            "correct"
-        );
-
-
-        showFeedback(
-            true,
-            "Correct!",
-            "Nice work. You got it right."
-        );
-
-
-    } else {
-
-        selectedButton.classList.add(
-            "wrong"
-        );
-
-
-        var correctIndex =
-            answers.findIndex(
-                function (item) {
-                    return item.correct;
-                }
-            );
-
-
-        if (buttons[correctIndex]) {
-
-            buttons[
-                correctIndex
-            ].classList.add(
-                "correct"
-            );
-
-        }
-
-
-        showFeedback(
-            false,
-            "Not quite.",
-            "The correct answer is: " +
-            answers[correctIndex].text
-        );
-
-    }
-
-
-    showNextButton();
-
 }
 
-
-/* =========================================================
-   WRITTEN QUESTION
-========================================================= */
-
-function showWrittenQuestion() {
-
-    questionType.textContent =
-        "WRITTEN ANSWER";
-
-
-    answersArea.classList.add(
-        "hidden"
-    );
-
-    writtenArea.classList.remove(
-        "hidden"
-    );
-
-
-    setTimeout(
-        function () {
-
-            writtenAnswer.focus();
-
-        },
-        100
-    );
-
-}
-
-
-/* =========================================================
-   NORMALISE WRITTEN ANSWER
-========================================================= */
-
-function normaliseAnswer(value) {
-
-    return String(value)
-        .trim()
-        .toLowerCase()
-        .replace(/[.,!?]/g, "")
-        .replace(/\s+/g, " ");
-
-}
-
-
-/* =========================================================
-   CHECK WRITTEN
-========================================================= */
-
-function checkWrittenAnswer() {
-
-    if (currentAnswered) {
-        return;
-    }
-
-
-    var question =
-        currentQuestions[
-            currentQuestionIndex
-        ];
-
-
-    var userAnswer =
-        normaliseAnswer(
-            writtenAnswer.value
-        );
-
-
-    if (!userAnswer) {
-        return;
-    }
-
-
-    currentAnswered = true;
-
-
-    var accepted =
-        question.acceptedAnswers || [];
-
-
-    var correct = false;
-
-
-    accepted.forEach(
-        function (answer) {
-
-            if (
-                normaliseAnswer(answer) ===
-                userAnswer
-            ) {
-
-                correct = true;
-
-            }
-
-        }
-    );
-
-
-    writtenAnswer.disabled = true;
-
-    submitWritten.disabled = true;
-
-
-    if (correct) {
-
-        currentScore++;
-
-
-        showFeedback(
-            true,
-            "Correct!",
-            "Your written answer matches an accepted answer."
-        );
-
-
-    } else {
-
-        showFeedback(
-            false,
-            "Not quite.",
-            "Accepted answer: " +
-            accepted[0]
-        );
-
-    }
-
-
-    showNextButton();
-
-}
-
-
-/* =========================================================
-   WRITTEN BUTTON
-========================================================= */
-
-submitWritten.addEventListener(
-    "click",
-    checkWrittenAnswer
-);
-
-
-writtenAnswer.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (event.key === "Enter") {
-
-            checkWrittenAnswer();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   FEEDBACK
-========================================================= */
-
-function showFeedback(
-    correct,
-    title,
-    message
-) {
-
-    feedback.classList.remove(
-        "hidden"
-    );
-
-
-    feedback.classList.remove(
-        "correct-feedback",
-        "wrong-feedback"
-    );
-
-
-    feedback.classList.add(
-        correct
-            ? "correct-feedback"
-            : "wrong-feedback"
-    );
-
-
-    feedbackTitle.textContent =
-        title;
-
-
-    feedbackText.textContent =
-        message;
-
-}
-
-
-/* =========================================================
-   NEXT
-========================================================= */
 
 function showNextButton() {
 
-    if (
-        currentQuestionIndex >=
-        currentQuestions.length - 1
-    ) {
+    var button =
+        getElement(
+            "next-button"
+        );
 
-        nextButton.textContent =
-            "Finish →";
 
-    } else {
-
-        nextButton.textContent =
-            "Next Question →";
-
+    if (!button) {
+        return;
     }
 
 
-    nextButton.classList.remove(
+    button.classList.remove(
         "hidden"
     );
 
+
+    button.onclick =
+        function () {
+
+            studyState.currentQuestion++;
+
+            renderQuestion();
+
+        };
+
 }
 
 
-nextButton.addEventListener(
-    "click",
-    function () {
+function finishStudy() {
 
-        currentQuestionIndex++;
-
-
-        if (
-            currentQuestionIndex >=
-            currentQuestions.length
-        ) {
-
-            finishQuiz();
-
-            return;
-
-        }
+    var score =
+        getElement(
+            "score-number"
+        );
 
 
-        showQuestion();
+    var coins =
+        getElement(
+            "coins-earned"
+        );
 
-        window.scrollTo(0, 0);
+
+    if (score) {
+
+        score.textContent =
+            studyState.correct;
 
     }
-);
 
 
-/* =========================================================
-   FINISH
-========================================================= */
+    if (coins) {
 
-function finishQuiz() {
+        coins.textContent =
+            studyState.coins;
 
-    progressBar.style.width =
-        "100%";
-
-
-    var quizzes =
-        Number(
-            localStorage.getItem(
-                "quizzes"
-            )
-        ) || 0;
-
-
-    localStorage.setItem(
-        "quizzes",
-        String(quizzes + 1)
-    );
-
-
-    var completed =
-        Number(
-            localStorage.getItem(
-                "quizzes_completed"
-            )
-        ) || 0;
-
-
-    localStorage.setItem(
-        "quizzes_completed",
-        String(completed + 1)
-    );
-
-
-    document.getElementById(
-        "score-number"
-    ).textContent =
-        currentScore;
-
-
-    document.getElementById(
-        "total-number"
-    ).textContent =
-        currentQuestions.length;
-
-
-    document.getElementById(
-        "complete-message"
-    ).textContent =
-        "You scored " +
-        currentScore +
-        " out of " +
-        currentQuestions.length +
-        " in " +
-        currentTopic.name +
-        ".";
+    }
 
 
     showScreen(
-        completeScreen
+        "complete-screen"
     );
-
-
-    window.scrollTo(0, 0);
 
 }
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+function restartStudy() {
 
-document.getElementById(
-    "back-subjects"
-).addEventListener(
-    "click",
+    loadQuestions();
+
+}
+
+
+function setupNavigation() {
+
+    var gameButtons =
+        document.querySelectorAll(
+            ".game-card[data-game]"
+        );
+
+
+    gameButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    selectGame(
+                        button.dataset.game
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    var subjectButtons =
+        document.querySelectorAll(
+            ".subject-card"
+        );
+
+
+    subjectButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    selectSubject(
+                        button.dataset.subject
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    getElement(
+        "back-games"
+    ).addEventListener(
+        "click",
+        function () {
+
+            showScreen(
+                "game-screen"
+            );
+
+        }
+    );
+
+
+    getElement(
+        "back-subjects"
+    ).addEventListener(
+        "click",
+        function () {
+
+            showScreen(
+                "subject-screen"
+            );
+
+        }
+    );
+
+
+    getElement(
+        "back-topics"
+    ).addEventListener(
+        "click",
+        function () {
+
+            showScreen(
+                "topic-screen"
+            );
+
+        }
+    );
+
+
+    getElement(
+        "back-to-ready"
+    ).addEventListener(
+        "click",
+        function () {
+
+            showScreen(
+                "ready-screen"
+            );
+
+        }
+    );
+
+
+    getElement(
+        "start-study"
+    ).addEventListener(
+        "click",
+        function () {
+
+            loadQuestions();
+
+        }
+    );
+
+
+    getElement(
+        "submit-written"
+    ).addEventListener(
+        "click",
+        function () {
+
+            checkWritten();
+
+        }
+    );
+
+
+    getElement(
+        "study-again"
+    ).addEventListener(
+        "click",
+        function () {
+
+            restartStudy();
+
+        }
+    );
+
+
+    getElement(
+        "return-home"
+    ).addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "../index.html";
+
+        }
+    );
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
     function () {
+
+        setupNavigation();
 
         showScreen(
-            subjectScreen
+            "game-screen"
         );
-
-        window.scrollTo(0, 0);
-
-    }
-);
-
-
-document.getElementById(
-    "back-topics"
-).addEventListener(
-    "click",
-    function () {
-
-        showScreen(
-            topicScreen
-        );
-
-        window.scrollTo(0, 0);
-
-    }
-);
-
-
-document.getElementById(
-    "study-again"
-).addEventListener(
-    "click",
-    function () {
-
-        startQuiz(
-            currentQuestions
-        );
-
-    }
-);
-
-
-document.getElementById(
-    "return-home"
-).addEventListener(
-    "click",
-    function () {
-
-        window.location.href =
-            "../index.html";
 
     }
 );
