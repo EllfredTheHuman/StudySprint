@@ -4,9 +4,15 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Rooms — StudySprint</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#09090f">
+
+    <title>StudySprint — Rooms</title>
 
     <link rel="stylesheet" href="rooms.css">
 
@@ -16,73 +22,162 @@
 <body>
 
 
-<header>
+<header class="topbar">
 
     <a href="../index.html" class="logo">
         StudySprint
     </a>
 
+    <a href="../profile/index.html" class="profile-button">
+        👤
+    </a>
+
 </header>
+
 
 
 <main>
 
 
-    <section class="page-header">
+    <section class="page-heading">
 
-        <div class="eyebrow">
-            YOUR GROUPS
-        </div>
+        <p class="small-label">
+            ROOMS
+        </p>
 
         <h1>
-            Rooms
+            Study with<br>
+            <span>your people.</span>
         </h1>
 
         <p>
-            Study together, compete with friends, and keep your group connected.
+            Join a class or create a room with your friends.
         </p>
 
     </section>
 
 
-    <section class="actions">
 
-        <button class="primary-button" id="create-room-button">
-            + Create Room
-        </button>
-
-        <button class="secondary-button" id="join-room-button">
-            Join Room
-        </button>
-
-    </section>
+    <section class="room-actions">
 
 
-    <section class="rooms-section">
+        <div class="action-card">
 
-        <div class="section-title">
+            <div class="action-icon">
+                🔑
+            </div>
 
-            <h2>
-                Your Rooms
-            </h2>
+            <div class="action-content">
+
+                <h2>
+                    Join a Room
+                </h2>
+
+                <p>
+                    Enter a room code to join.
+                </p>
+
+                <div class="join-form">
+
+                    <input
+                        id="room-code-input"
+                        type="text"
+                        inputmode="text"
+                        autocomplete="off"
+                        autocapitalize="characters"
+                        spellcheck="false"
+                        maxlength="6"
+                        placeholder="ROOM CODE"
+                        aria-label="Room code"
+                    >
+
+                    <button
+                        id="join-room-button"
+                        class="primary-button"
+                        type="button"
+                    >
+                        Join Room
+                    </button>
+
+                </div>
+
+                <p
+                    id="join-message"
+                    class="form-message"
+                ></p>
+
+            </div>
 
         </div>
 
 
-        <div id="rooms-list" class="rooms-list">
+
+        <div class="action-card">
+
+            <div class="action-icon">
+                ➕
+            </div>
+
+            <div class="action-content">
+
+                <h2>
+                    Create a Room
+                </h2>
+
+                <p>
+                    Make a room for your class or friends.
+                </p>
+
+                <button
+                    id="create-room-button"
+                    class="primary-button"
+                    type="button"
+                >
+                    Create Room
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <div>
+
+                <p>
+                    YOUR ROOMS
+                </p>
+
+                <h2>
+                    Your spaces.
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div id="rooms-list">
 
             <div class="empty-state">
 
-                <div class="empty-icon">
-                    🏠
-                </div>
+                <span>
+                    👥
+                </span>
 
                 <h3>
                     No rooms yet
                 </h3>
 
                 <p>
-                    Create a room for your class or invite your friends.
+                    Join or create a room to get started.
                 </p>
 
             </div>
@@ -95,24 +190,58 @@
 </main>
 
 
-<div class="modal hidden" id="room-modal">
 
-    <div class="modal-backdrop" id="modal-backdrop"></div>
+<nav class="bottom-nav">
 
-    <div class="modal-card">
-
-        <button class="close-button" id="close-modal">
-            ×
-        </button>
-
-        <div id="modal-content"></div>
-
-    </div>
-
-</div>
+    <a
+        href="../index.html"
+        class="bottom-item"
+    >
+        <span>🏠</span>
+        <small>Home</small>
+    </a>
 
 
-<script type="module" src="rooms.js"></script>
+    <a
+        href="../study/index.html"
+        class="bottom-item"
+    >
+        <span>📚</span>
+        <small>Study</small>
+    </a>
+
+
+    <a
+        href="../sprint/index.html"
+        class="bottom-item"
+    >
+        <span>🏃</span>
+        <small>Sprint</small>
+    </a>
+
+
+    <a
+        href="index.html"
+        class="bottom-item active"
+    >
+        <span>👥</span>
+        <small>Rooms</small>
+    </a>
+
+
+    <a
+        href="../profile/index.html"
+        class="bottom-item"
+    >
+        <span>👤</span>
+        <small>Profile</small>
+    </a>
+
+</nav>
+
+
+
+<script src="rooms.js"></script>
 
 
 </body>
