@@ -1,151 +1,666 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#09090f">
 
     <title>Study — StudySprint</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <main class="app">
 
-        <!-- Header -->
-        <header class="header">
+<header class="topbar">
+
+    <a href="../index.html" class="logo">
+        StudySprint
+    </a>
+
+    <a href="../profile/index.html" class="profile-button">
+        👤
+    </a>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="welcome">
+
+        <p class="small-label">
+            STUDY
+        </p>
+
+        <h1>
+            What do you<br>
+            want to <span>learn?</span>
+        </h1>
+
+        <p class="welcome-text">
+            Pick a subject, choose a topic, and start learning.
+        </p>
+
+    </section>
+
+
+
+    <section class="selection-section">
+
+        <div class="section-title">
+
             <div>
-                <p class="eyebrow">STUDY</p>
-                <h1>What are you learning?</h1>
+
+                <p>
+                    STEP 1
+                </p>
+
+                <h2>
+                    Choose a subject
+                </h2>
+
             </div>
-        </header>
 
-
-        <!-- Search -->
-        <div class="search">
-            <span>⌕</span>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search subjects or topics..."
-                autocomplete="off"
-            >
         </div>
 
 
-        <!-- Subjects -->
-        <section class="subjects">
+        <div class="subject-grid" id="subjectGrid">
 
-            <button class="subject-card" data-subject="science">
-                <div class="subject-icon">⚗</div>
 
-                <div class="subject-info">
-                    <h2>Science</h2>
-                    <p>Explore science topics</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="science"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    S
+                </span>
+
+                <strong>
+                    Science
+                </strong>
+
+                <small>
+                    Explore
+                </small>
+
             </button>
 
 
-            <button class="subject-card" data-subject="maths">
-                <div class="subject-icon">∑</div>
 
-                <div class="subject-info">
-                    <h2>Maths</h2>
-                    <p>Numbers, equations and more</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="maths"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    M
+                </span>
+
+                <strong>
+                    Maths
+                </strong>
+
+                <small>
+                    Practise
+                </small>
+
             </button>
 
 
-            <button class="subject-card" data-subject="english">
-                <div class="subject-icon">Aa</div>
 
-                <div class="subject-info">
-                    <h2>English</h2>
-                    <p>Language and literature</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="english"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    E
+                </span>
+
+                <strong>
+                    English
+                </strong>
+
+                <small>
+                    Improve
+                </small>
+
             </button>
 
 
-            <button class="subject-card" data-subject="humanities">
-                <div class="subject-icon">◉</div>
 
-                <div class="subject-info">
-                    <h2>Humanities</h2>
-                    <p>History, geography and civics</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="humanities"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    H
+                </span>
+
+                <strong>
+                    Humanities
+                </strong>
+
+                <small>
+                    Discover
+                </small>
+
             </button>
 
 
-            <button class="subject-card" data-subject="french">
-                <div class="subject-icon">A</div>
 
-                <div class="subject-info">
-                    <h2>French</h2>
-                    <p>Learn French</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="french"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    F
+                </span>
+
+                <strong>
+                    French
+                </strong>
+
+                <small>
+                    Practise
+                </small>
+
             </button>
 
 
-            <button class="subject-card" data-subject="japanese">
-                <div class="subject-icon">あ</div>
 
-                <div class="subject-info">
-                    <h2>Japanese</h2>
-                    <p>Learn Japanese</p>
-                </div>
+            <button
+                class="subject-card"
+                data-subject="japanese"
+            >
 
-                <span class="arrow">→</span>
+                <span class="subject-icon">
+                    J
+                </span>
+
+                <strong>
+                    Japanese
+                </strong>
+
+                <small>
+                    Practise
+                </small>
+
             </button>
 
-        </section>
+
+        </div>
+
+    </section>
 
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
 
-            <a href="../index.html" class="nav-item">
-                <span class="nav-icon">⌂</span>
-                <span>Home</span>
-            </a>
+    <section
+        class="selection-section topics-section"
+        id="topicsSection"
+        hidden
+    >
 
-            <a href="index.html" class="nav-item active">
-                <span class="nav-icon">▣</span>
-                <span>Study</span>
-            </a>
+        <div class="section-title">
 
-            <a href="../sprint/index.html" class="nav-item sprint-nav">
-                <span class="sprint-icon">▶</span>
-                <span>Sprints</span>
-            </a>
+            <div>
 
-            <a href="../rooms/index.html" class="nav-item">
-                <span class="nav-icon">♧</span>
-                <span>Rooms</span>
-            </a>
+                <p>
+                    STEP 2
+                </p>
 
-            <a href="../profile/index.html" class="nav-item">
-                <span class="nav-icon">●</span>
-                <span>Profile</span>
-            </a>
+                <h2>
+                    Choose a topic
+                </h2>
 
-        </nav>
+                <span id="topicDescription">
+                    Choose what you want to practise.
+                </span>
 
-    </main>
+            </div>
 
-    <script src="script.js"></script>
+        </div>
+
+
+        <div
+            class="topic-list"
+            id="topicList"
+        ></div>
+
+    </section>
+
+
+
+    <section class="start-section">
+
+        <button
+            class="start-button"
+            id="startButton"
+            disabled
+        >
+
+            <span id="startText">
+                Choose a topic
+            </span>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+    </section>
+
+
+</main>
+
+
+
+<nav class="bottom-nav">
+
+
+    <a
+        href="../index.html"
+        class="bottom-item"
+    >
+
+        <span>
+            🏠
+        </span>
+
+        <small>
+            Home
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="index.html"
+        class="bottom-item active"
+    >
+
+        <span>
+            📚
+        </span>
+
+        <small>
+            Study
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="../sprint/index.html"
+        class="bottom-item"
+    >
+
+        <span>
+            🏃
+        </span>
+
+        <small>
+            Sprint
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="../rooms/index.html"
+        class="bottom-item"
+    >
+
+        <span>
+            👥
+        </span>
+
+        <small>
+            Rooms
+        </small>
+
+    </a>
+
+
+
+    <a
+        href="../profile/index.html"
+        class="bottom-item"
+    >
+
+        <span>
+            👤
+        </span>
+
+        <small>
+            Profile
+        </small>
+
+    </a>
+
+
+</nav>
+
+
+
+<script>
+
+    const subjects = {
+
+        science: {
+            name: "Science",
+            description: "Choose a Science topic.",
+            topics: [
+                "The Heart",
+                "Electricity",
+                "Cells",
+                "Energy and Forces",
+                "Rocks and Minerals"
+            ]
+        },
+
+        maths: {
+            name: "Maths",
+            description: "Choose a Maths topic.",
+            topics: [
+                "Algebra",
+                "Geometry",
+                "BIDMAS",
+                "Area and Perimeter"
+            ]
+        },
+
+        english: {
+            name: "English",
+            description: "Choose an English topic.",
+            topics: [
+                "Grammar",
+                "Literature",
+                "Poetry",
+                "Film Study"
+            ]
+        },
+
+        humanities: {
+            name: "Humanities",
+            description: "Choose a Humanities topic.",
+            topics: [
+                "Geography",
+                "History",
+                "Civics"
+            ]
+        },
+
+        french: {
+            name: "French",
+            description: "Choose a French topic.",
+            topics: [
+                "Vocabulary",
+                "Grammar",
+                "Conversation"
+            ]
+        },
+
+        japanese: {
+            name: "Japanese",
+            description: "Choose a Japanese topic.",
+            topics: [
+                "Vocabulary",
+                "Characters",
+                "Grammar",
+                "People, Places and Vehicles",
+                "Travel"
+            ]
+        }
+
+    };
+
+
+
+    const subjectButtons =
+        document.querySelectorAll(".subject-card");
+
+    const topicsSection =
+        document.getElementById("topicsSection");
+
+    const topicList =
+        document.getElementById("topicList");
+
+    const topicDescription =
+        document.getElementById("topicDescription");
+
+    const startButton =
+        document.getElementById("startButton");
+
+    const startText =
+        document.getElementById("startText");
+
+
+
+    let selectedSubject = null;
+
+    let selectedTopic = null;
+
+
+
+    subjectButtons.forEach(function(button) {
+
+        button.addEventListener("click", function() {
+
+            selectedSubject =
+                button.dataset.subject;
+
+            selectedTopic = null;
+
+
+            subjectButtons.forEach(
+                function(otherButton) {
+
+                    otherButton.classList.remove(
+                        "selected"
+                    );
+
+                }
+            );
+
+
+            button.classList.add("selected");
+
+
+            showTopics(selectedSubject);
+
+        });
+
+    });
+
+
+
+    function showTopics(subject) {
+
+        const data = subjects[subject];
+
+        if (!data) {
+            return;
+        }
+
+
+        topicsSection.hidden = false;
+
+        topicDescription.textContent =
+            data.description;
+
+
+        topicList.innerHTML = "";
+
+
+        data.topics.forEach(function(topic) {
+
+            const button =
+                document.createElement("button");
+
+
+            button.className =
+                "topic-card";
+
+
+            const content =
+                document.createElement("div");
+
+
+            const name =
+                document.createElement("strong");
+
+
+            name.className =
+                "topic-name";
+
+            name.textContent =
+                topic;
+
+
+            const description =
+                document.createElement("small");
+
+
+            description.textContent =
+                "Start studying";
+
+
+            content.appendChild(name);
+
+            content.appendChild(description);
+
+
+            const arrow =
+                document.createElement("span");
+
+            arrow.className =
+                "topic-arrow";
+
+            arrow.textContent =
+                "→";
+
+
+            button.appendChild(content);
+
+            button.appendChild(arrow);
+
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    selectedTopic =
+                        topic;
+
+
+                    document
+                        .querySelectorAll(
+                            ".topic-card"
+                        )
+                        .forEach(
+                            function(option) {
+
+                                option.classList.remove(
+                                    "selected"
+                                );
+
+                            }
+                        );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+
+                    startButton.disabled =
+                        false;
+
+
+                    startText.textContent =
+                        "Start Studying";
+
+                }
+            );
+
+
+            topicList.appendChild(button);
+
+        });
+
+
+        startButton.disabled = true;
+
+        startText.textContent =
+            "Choose a topic";
+
+
+        setTimeout(function() {
+
+            topicsSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }, 50);
+
+    }
+
+
+
+    startButton.addEventListener(
+        "click",
+        function() {
+
+            if (
+                !selectedSubject ||
+                !selectedTopic
+            ) {
+                return;
+            }
+
+
+            const encodedTopic =
+                encodeURIComponent(
+                    selectedTopic
+                );
+
+
+            window.location.href =
+                "quiz.html?subject=" +
+                selectedSubject +
+                "&topic=" +
+                encodedTopic;
+
+        }
+    );
+
+</script>
+
 
 </body>
+
 </html>
 ```
