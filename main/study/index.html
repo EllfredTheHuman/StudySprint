@@ -3,42 +3,24 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+<title>StudySprint - Study</title>
 
-    <meta
-        name="theme-color"
-        content="#09090f"
-    >
-
-    <title>StudySprint - Study</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+<link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<header class="topbar">
+<header>
 
-    <a
-        href="../index.html"
-        class="logo"
-    >
+    <a href="../index.html" class="logo">
         StudySprint
     </a>
 
-    <a
-        href="../profile/index.html"
-        class="profile-button"
-    >
+    <a href="../profile/index.html" class="profile-link">
         Profile
     </a>
 
@@ -47,541 +29,374 @@
 
 <main>
 
+    <section id="game-screen" class="screen">
 
-    <!-- GAME SELECTION -->
+        <h1>Choose a game</h1>
 
-    <section id="game-screen">
+        <p class="subtitle">
+            Your answers control what happens.
+        </p>
 
-        <div class="page-heading">
+        <div class="game-grid">
 
-            <p class="small-label">
-                STUDY
-            </p>
+            <button class="game-card" data-game="fishing">
 
-            <h1>
-                Choose your
-                <br>
-                <span>game.</span>
+                <div class="pixel-preview fishing-preview">
+                    <div class="water"></div>
+                    <div class="fish fish-one"></div>
+                    <div class="fish fish-two"></div>
+                    <div class="line"></div>
+                </div>
+
+                <h2>Fishing</h2>
+                <p>Catch fish and upgrade your rod.</p>
+
+            </button>
+
+
+            <button class="game-card" data-game="racing">
+
+                <div class="pixel-preview racing-preview">
+                    <div class="road"></div>
+                    <div class="road-line line-one"></div>
+                    <div class="road-line line-two"></div>
+                    <div class="car-block"></div>
+                </div>
+
+                <h2>Racing</h2>
+                <p>Answer correctly to push ahead.</p>
+
+            </button>
+
+
+            <button class="game-card" data-game="restaurant">
+
+                <div class="pixel-preview restaurant-preview">
+                    <div class="counter"></div>
+                    <div class="plate"></div>
+                    <div class="food-block food-one"></div>
+                    <div class="food-block food-two"></div>
+                </div>
+
+                <h2>Restaurant</h2>
+                <p>Complete orders and upgrade your restaurant.</p>
+
+            </button>
+
+
+            <button class="game-card" data-game="mining">
+
+                <div class="pixel-preview mining-preview">
+                    <div class="rock rock-one"></div>
+                    <div class="rock rock-two"></div>
+                    <div class="ore ore-one"></div>
+                    <div class="ore ore-two"></div>
+                </div>
+
+                <h2>Mining</h2>
+                <p>Break rocks and find valuable ore.</p>
+
+            </button>
+
+
+            <button class="game-card" data-game="story">
+
+                <div class="pixel-preview story-preview">
+                    <div class="castle"></div>
+                    <div class="window window-one"></div>
+                    <div class="window window-two"></div>
+                    <div class="ground"></div>
+                </div>
+
+                <h2>Story</h2>
+                <p>A turn-based adventure controlled by questions.</p>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="subject-screen" class="screen hidden">
+
+        <button class="back-button" id="back-to-games">
+            Back
+        </button>
+
+        <h1>Choose a subject</h1>
+
+        <div class="subject-grid">
+
+            <button class="subject-button" data-subject="science">
+                Science
+            </button>
+
+            <button class="subject-button" data-subject="maths">
+                Maths
+            </button>
+
+            <button class="subject-button" data-subject="english">
+                English
+            </button>
+
+            <button class="subject-button" data-subject="humanities">
+                Humanities
+            </button>
+
+            <button class="subject-button" data-subject="japanese">
+                Japanese
+            </button>
+
+            <button class="subject-button" data-subject="french">
+                French
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="topic-screen" class="screen hidden">
+
+        <button class="back-button" id="back-to-subjects">
+            Back
+        </button>
+
+        <h1>Choose a topic</h1>
+
+        <div id="topic-list" class="topic-list"></div>
+
+    </section>
+
+
+
+    <section id="ready-screen" class="screen hidden">
+
+        <button class="back-button" id="back-to-topics">
+            Back
+        </button>
+
+        <div class="ready-card">
+
+            <div class="selected-game" id="ready-game">
+                Fishing
+            </div>
+
+            <h1 id="ready-title">
+                Ready?
             </h1>
 
-            <p>
-                Choose what your study rewards will help you build.
+            <p id="ready-topic">
+                Topic
             </p>
+
+            <div class="reward-preview">
+
+                <span>Correct answers earn coins.</span>
+
+                <strong>
+                    Wrong answers earn nothing.
+                </strong>
+
+            </div>
+
+            <button id="start-study" class="primary-button">
+                Start
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <section id="quiz-screen" class="screen hidden">
+
+        <div class="quiz-topbar">
+
+            <button id="leave-study" class="back-button">
+                Leave
+            </button>
+
+            <div class="coin-display">
+                Coins: <span id="study-coins">0</span>
+            </div>
 
         </div>
 
 
-        <div class="game-grid">
+        <div id="game-area" class="game-area">
 
+            <div id="fishing-game" class="active-game">
 
-            <button
-                class="game-card"
-                data-game="garden"
-                type="button"
-            >
+                <div class="pixel-game fishing-game">
 
-                <div class="game-preview garden-preview">
+                    <div class="game-label">
+                        FISHING
+                    </div>
 
-                    <div class="preview-ground"></div>
+                    <div class="fishing-lake">
+                        <div class="game-fish fish-a"></div>
+                        <div class="game-fish fish-b"></div>
+                        <div class="game-fish fish-c"></div>
+                        <div class="fishing-line"></div>
+                    </div>
 
-                    <div class="preview-plant"></div>
-
-                </div>
-
-                <div class="game-card-content">
-
-                    <strong>
-                        Garden
-                    </strong>
-
-                    <small>
-                        Grow and customise your garden.
-                    </small>
-
-                </div>
-
-            </button>
-
-
-
-            <button
-                class="game-card"
-                data-game="fishing"
-                type="button"
-            >
-
-                <div class="game-preview fishing-preview">
-
-                    <div class="preview-water"></div>
-
-                    <div class="preview-fish"></div>
-
-                </div>
-
-                <div class="game-card-content">
-
-                    <strong>
-                        Fishing
-                    </strong>
-
-                    <small>
-                        Catch fish and build your collection.
-                    </small>
-
-                </div>
-
-            </button>
-
-
-
-            <button
-                class="game-card"
-                data-game="restaurant"
-                type="button"
-            >
-
-                <div class="game-preview restaurant-preview">
-
-                    <div class="preview-counter"></div>
-
-                    <div class="preview-table"></div>
-
-                </div>
-
-                <div class="game-card-content">
-
-                    <strong>
-                        Restaurant
-                    </strong>
-
-                    <small>
-                        Build and improve your restaurant.
-                    </small>
-
-                </div>
-
-            </button>
-
-
-
-            <button
-                class="game-card disabled-game"
-                type="button"
-                disabled
-            >
-
-                <div class="game-preview">
-
-                    <div class="locked-preview">
-                        Coming Soon
+                    <div id="fishing-message" class="game-message">
+                        Answer correctly to catch the fish.
                     </div>
 
                 </div>
 
-                <div class="game-card-content">
+            </div>
 
-                    <strong>
-                        More Games
-                    </strong>
 
-                    <small>
-                        More worlds are coming.
-                    </small>
+            <div id="racing-game" class="active-game">
+
+                <div class="pixel-game racing-game">
+
+                    <div class="game-label">
+                        RACING
+                    </div>
+
+                    <div class="race-track">
+
+                        <div class="race-finish"></div>
+
+                        <div id="race-progress" class="race-progress"></div>
+
+                    </div>
+
+                    <div id="racing-message" class="game-message">
+                        Answer correctly to move forward.
+                    </div>
 
                 </div>
 
-            </button>
+            </div>
 
 
-        </div>
+            <div id="restaurant-game" class="active-game">
 
-    </section>
+                <div class="pixel-game restaurant-game">
 
+                    <div class="game-label">
+                        RESTAURANT
+                    </div>
 
+                    <div class="restaurant-counter">
 
-    <!-- SUBJECT SELECTION -->
+                        <div class="order-card">
 
-    <section
-        id="subject-screen"
-        class="hidden"
-    >
+                            <span>ORDER</span>
 
-        <button
-            id="back-games"
-            class="back-button"
-            type="button"
-        >
-            Back to Games
-        </button>
+                            <strong id="restaurant-order">
+                                Preparing...
+                            </strong>
 
+                        </div>
 
-        <div class="page-heading compact">
+                        <div class="plate-game"></div>
 
-            <p class="small-label">
-                STUDY
-            </p>
+                    </div>
 
-            <h1>
-                Choose a
-                <br>
-                <span>subject.</span>
-            </h1>
+                    <div id="restaurant-message" class="game-message">
+                        Answer correctly to complete the order.
+                    </div>
 
-            <p id="selected-game-description">
-                Choose a subject.
-            </p>
+                </div>
 
-        </div>
+            </div>
 
 
-        <div class="subject-grid">
+            <div id="mining-game" class="active-game">
+
+                <div class="pixel-game mining-game">
+
+                    <div class="game-label">
+                        MINING
+                    </div>
+
+                    <div class="mine-area">
+
+                        <div class="mine-rock rock-a"></div>
+                        <div class="mine-rock rock-b"></div>
+                        <div class="mine-rock rock-c"></div>
+                        <div id="mine-ore" class="mine-ore hidden"></div>
+
+                    </div>
+
+                    <div id="mining-message" class="game-message">
+                        Answer correctly to break the rock.
+                    </div>
+
+                </div>
+
+            </div>
 
 
-            <button
-                class="subject-card"
-                data-subject="science"
-                type="button"
-            >
+            <div id="story-game" class="active-game">
 
-                <strong>
-                    Science
-                </strong>
+                <div class="pixel-game story-game">
 
-                <small>
-                    Explore the world.
-                </small>
+                    <div class="game-label">
+                        STORY
+                    </div>
 
-            </button>
+                    <div class="story-scene">
 
+                        <div class="story-sky"></div>
+                        <div class="story-ground"></div>
+                        <div class="story-castle"></div>
 
+                    </div>
 
-            <button
-                class="subject-card"
-                data-subject="maths"
-                type="button"
-            >
+                    <div id="story-message" class="game-message">
+                        Answer correctly to take your turn.
+                    </div>
 
-                <strong>
-                    Maths
-                </strong>
+                </div>
 
-                <small>
-                    Numbers and logic.
-                </small>
-
-            </button>
-
-
-
-            <button
-                class="subject-card"
-                data-subject="english"
-                type="button"
-            >
-
-                <strong>
-                    English
-                </strong>
-
-                <small>
-                    Words and stories.
-                </small>
-
-            </button>
-
-
-
-            <button
-                class="subject-card"
-                data-subject="humanities"
-                type="button"
-            >
-
-                <strong>
-                    Humanities
-                </strong>
-
-                <small>
-                    People and places.
-                </small>
-
-            </button>
-
-
-
-            <button
-                class="subject-card"
-                data-subject="japanese"
-                type="button"
-            >
-
-                <strong>
-                    Japanese
-                </strong>
-
-                <small>
-                    日本語
-                </small>
-
-            </button>
-
-
-
-            <button
-                class="subject-card"
-                data-subject="french"
-                type="button"
-            >
-
-                <strong>
-                    French
-                </strong>
-
-                <small>
-                    Français
-                </small>
-
-            </button>
-
+            </div>
 
         </div>
 
-    </section>
 
+        <div class="question-card">
 
+            <div id="question-type" class="question-type">
+                QUESTION
+            </div>
 
-    <!-- TOPIC SELECTION -->
-
-    <section
-        id="topic-screen"
-        class="hidden"
-    >
-
-        <button
-            id="back-subjects"
-            class="back-button"
-            type="button"
-        >
-            Back to Subjects
-        </button>
-
-
-        <div class="page-heading compact">
-
-            <p
-                class="small-label"
-                id="selected-subject-label"
-            >
-                SUBJECT
-            </p>
-
-            <h1>
-                Choose a
-                <br>
-                <span>topic.</span>
-            </h1>
-
-            <p>
-                Pick what you want to study.
-            </p>
-
-        </div>
-
-
-        <div id="topic-list"></div>
-
-    </section>
-
-
-
-    <!-- READY -->
-
-    <section
-        id="ready-screen"
-        class="hidden"
-    >
-
-        <button
-            id="back-topics"
-            class="back-button"
-            type="button"
-        >
-            Back to Topics
-        </button>
-
-
-        <div class="ready-card">
-
-
-            <p class="small-label">
-                READY
-            </p>
-
-
-            <h1 id="ready-game">
-                Garden
-            </h1>
-
-
-            <div class="ready-divider"></div>
-
-
-            <p class="ready-topic-label">
-                TOPIC
-            </p>
-
-
-            <h2 id="ready-topic">
-                Topic
+            <h2 id="question-text">
+                Loading question...
             </h2>
 
+            <div id="answer-area" class="answer-area"></div>
 
-            <div class="reward-box">
-
-                <div class="reward-coin">
-                    C
-                </div>
-
-                <div>
-
-                    <strong>
-                        Earn coins
-                    </strong>
-
-                    <small>
-                        Correct answers earn coins for your chosen game.
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <button
-                id="start-study"
-                class="primary-button"
-                type="button"
-            >
-                Start Studying
-            </button>
-
-
-        </div>
-
-    </section>
-
-
-
-    <!-- QUIZ -->
-
-    <section
-        id="quiz-screen"
-        class="hidden"
-    >
-
-        <div class="quiz-top">
-
-            <button
-                id="back-to-ready"
-                class="back-button"
-                type="button"
-            >
-                Leave
-            </button>
-
-
-            <div class="progress-area">
-
-                <span id="question-number">
-                    Question 1
-                </span>
-
-                <div class="progress-track">
-
-                    <div
-                        id="progress-bar"
-                    ></div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="study-reward">
-
-            <span>
-                Coins
-            </span>
-
-            <strong id="study-coins">
-                0
-            </strong>
-
-        </div>
-
-
-        <div class="quiz-card">
-
-
-            <p
-                class="question-type"
-                id="question-type"
-            >
-                QUESTION
-            </p>
-
-
-            <h1 id="question-text"></h1>
-
-
-            <div id="answers-area"></div>
-
-
-            <div
-                id="written-area"
-                class="hidden"
-            >
+            <div id="written-area" class="written-area hidden">
 
                 <input
                     id="written-answer"
                     type="text"
                     autocomplete="off"
-                    placeholder="Type your answer..."
+                    placeholder="Type your answer"
                 >
 
-                <button
-                    id="submit-written"
-                    class="primary-button"
-                    type="button"
-                >
-                    Check Answer
+                <button id="submit-written" class="primary-button">
+                    Submit
                 </button>
 
             </div>
 
+            <div id="feedback" class="feedback"></div>
 
-            <div
-                id="feedback"
-                class="feedback hidden"
-            >
-
-                <strong id="feedback-title"></strong>
-
-                <p id="feedback-text"></p>
-
-            </div>
-
-
-            <button
-                id="next-button"
-                class="next-button hidden"
-                type="button"
-            >
-                Next Question
+            <button id="next-question" class="primary-button hidden">
+                Continue
             </button>
-
 
         </div>
 
@@ -589,125 +404,109 @@
 
 
 
-    <!-- COMPLETE -->
+    <section id="break-screen" class="screen hidden">
 
-    <section
-        id="complete-screen"
-        class="hidden"
-    >
+        <div class="break-card">
 
-        <div class="complete-card">
+            <div class="break-title">
+                Break
+            </div>
 
-
-            <p class="small-label">
-                SESSION COMPLETE
-            </p>
-
-
-            <h1>
-                Nice work.
+            <h1 id="break-game-title">
+                Fishing complete
             </h1>
 
-
-            <p>
-                You finished this study session.
+            <p id="break-result">
+                Nice work.
             </p>
 
-
-            <div class="complete-stats">
-
-
-                <div>
-
-                    <strong id="score-number">
-                        0
-                    </strong>
-
-                    <small>
-                        Correct
-                    </small>
-
-                </div>
-
-
-                <div>
-
-                    <strong id="coins-earned">
-                        0
-                    </strong>
-
-                    <small>
-                        Coins earned
-                    </small>
-
-                </div>
-
-
+            <div class="break-coins">
+                +<span id="break-coins-earned">0</span> coins
             </div>
 
+            <div class="break-actions">
 
-            <button
-                id="study-again"
-                class="primary-button"
-                type="button"
-            >
-                Study Again
-            </button>
+                <button id="open-shop" class="primary-button">
+                    Shop
+                </button>
 
+                <button id="open-garden" class="secondary-button">
+                    Collection
+                </button>
 
-            <button
-                id="return-home"
-                class="secondary-button"
-                type="button"
-            >
-                Back Home
-            </button>
+                <button id="continue-studying" class="secondary-button">
+                    Continue Studying
+                </button>
 
+            </div>
 
         </div>
 
     </section>
 
+
+
+    <section id="shop-screen" class="screen hidden">
+
+        <button class="back-button" id="back-from-shop">
+            Back
+        </button>
+
+        <div class="shop-header">
+
+            <h1>Shop</h1>
+
+            <div class="large-coins">
+                Coins: <span id="shop-coins">0</span>
+            </div>
+
+        </div>
+
+        <div id="shop-items" class="shop-items"></div>
+
+    </section>
+
+
+
+    <section id="collection-screen" class="screen hidden">
+
+        <button class="back-button" id="back-from-collection">
+            Back
+        </button>
+
+        <h1>Collection</h1>
+
+        <p class="subtitle">
+            Things you have discovered while studying.
+        </p>
+
+        <div id="collection-items" class="collection-grid"></div>
+
+    </section>
 
 </main>
 
 
-
 <nav class="bottom-nav">
 
-    <a
-        href="../index.html"
-        class="bottom-item"
-    >
-        <span>Home</span>
+    <a href="../index.html">
+        Home
     </a>
 
-    <a
-        href="index.html"
-        class="bottom-item active"
-    >
-        <span>Study</span>
+    <a href="index.html" class="active">
+        Study
     </a>
 
-    <a
-        href="../sprint/index.html"
-        class="bottom-item"
-    >
-        <span>Sprint</span>
+    <a href="../sprint/index.html">
+        Sprint
     </a>
 
-    <a
-        href="../rooms/index.html"
-        class="bottom-item"
-    >
-        <span>Rooms</span>
+    <a href="../rooms/index.html">
+        Rooms
     </a>
 
-    <a
-        href="../profile/index.html"
-        class="bottom-item"
-    >
-        <span>Profile</span>
+    <a href="../profile/index.html">
+        Profile
     </a>
 
 </nav>
