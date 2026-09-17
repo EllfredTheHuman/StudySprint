@@ -1,167 +1,172 @@
-/* =========================================================
-   STUDYSPRINT — STUDY MODE
-========================================================= */
-
-
-var studyBanks = {
+const studyBanks = {
 
     science: [
-        [
-            "Rocks and Minerals",
-            "../../questions/rocks-and-minerals.js",
-            "rocksAndMineralsQuestions"
-        ],
-        [
-            "Energy and Forces",
-            "../../questions/energy-and-forces.js",
-            "energyAndForcesQuestions"
-        ]
+        {
+            name: "Rocks and Minerals",
+            path: "../../questions/rocks-and-minerals.js",
+            global: "rocksAndMineralsQuestions"
+        },
+        {
+            name: "Energy and Forces",
+            path: "../../questions/energy-and-forces.js",
+            global: "energyAndForcesQuestions"
+        }
     ],
 
     maths: [
-        [
-            "Year 9 Algebra",
-            "../../questions/year-9-algebra.js",
-            "year9AlgebraQuestions"
-        ],
-        [
-            "BIDMAS",
-            "../../questions/bidmas.js",
-            "bidmasQuestions"
-        ],
-        [
-            "Area and Perimeter",
-            "../../questions/area-and-perimeter.js",
-            "areaAndPerimeterQuestions"
-        ]
+        {
+            name: "Year 9 Algebra",
+            path: "../../questions/year-9-algebra.js",
+            global: "year9AlgebraQuestions"
+        },
+        {
+            name: "BIDMAS",
+            path: "../../questions/bidmas.js",
+            global: "bidmasQuestions"
+        },
+        {
+            name: "Area and Perimeter",
+            path: "../../questions/area-and-perimeter.js",
+            global: "areaAndPerimeterQuestions"
+        }
     ],
 
     english: [
-        [
-            "Film Study",
-            "../../questions/film-study.js",
-            "filmStudyQuestions"
-        ],
-        [
-            "Grammar",
-            "../../questions/grammar.js",
-            "grammarQuestions"
-        ],
-        [
-            "English",
-            "../../questions/english-generic.js",
-            "englishGenericQuestions"
-        ]
+        {
+            name: "Film Study",
+            path: "../../questions/film-study.js",
+            global: "filmStudyQuestions"
+        },
+        {
+            name: "Grammar",
+            path: "../../questions/grammar.js",
+            global: "grammarQuestions"
+        },
+        {
+            name: "English",
+            path: "../../questions/english-generic.js",
+            global: "englishGenericQuestions"
+        }
     ],
 
     humanities: [
-        [
-            "Humanities",
-            "../../questions/humanities-generic-1.js",
-            "humanitiesGenericQuestions"
-        ],
-        [
-            "Geography",
-            "../../questions/geography.js",
-            "geographyQuestions"
-        ]
+        {
+            name: "Humanities",
+            path: "../../questions/humanities-generic-1.js",
+            global: "humanitiesGenericQuestions"
+        },
+        {
+            name: "Geography",
+            path: "../../questions/geography.js",
+            global: "geographyQuestions"
+        }
     ],
 
     japanese: [
-        [
-            "Characters",
-            "../../questions/japanese-characters.js",
-            "japaneseCharactersQuestions"
-        ],
-        [
-            "People, Places and Vehicles",
-            "../../questions/japanese-people-places-vehicles.js",
-            "japanesePeoplePlacesVehiclesQuestions"
-        ],
-        [
-            "Travel",
-            "../../questions/japanese-travel.js",
-            "japaneseTravelQuestions"
-        ]
+        {
+            name: "Characters",
+            path: "../../questions/japanese-characters.js",
+            global: "japaneseCharactersQuestions"
+        },
+        {
+            name: "People, Places and Vehicles",
+            path: "../../questions/japanese-people-places-vehicles.js",
+            global: "japanesePeoplePlacesVehiclesQuestions"
+        },
+        {
+            name: "Travel",
+            path: "../../questions/japanese-travel.js",
+            global: "japaneseTravelQuestions"
+        }
     ],
 
     french: [
-        [
-            "Characters",
-            "../../questions/french-characters.js",
-            "frenchCharactersQuestions"
-        ],
-        [
-            "People, Places and Vehicles",
-            "../../questions/french-people-places-vehicles.js",
-            "frenchPeoplePlacesVehiclesQuestions"
-        ],
-        [
-            "Travel",
-            "../../questions/french-travel.js",
-            "frenchTravelQuestions"
-        ]
+        {
+            name: "Characters",
+            path: "../../questions/french-characters.js",
+            global: "frenchCharactersQuestions"
+        },
+        {
+            name: "People, Places and Vehicles",
+            path: "../../questions/french-people-places-vehicles.js",
+            global: "frenchPeoplePlacesVehiclesQuestions"
+        },
+        {
+            name: "Travel",
+            path: "../../questions/french-travel.js",
+            global: "frenchTravelQuestions"
+        }
     ]
 
 };
 
 
-var gameNames = {
+const gameNames = {
 
-    garden: "Garden",
     fishing: "Fishing",
-    restaurant: "Restaurant"
+    racing: "Racing",
+    restaurant: "Restaurant",
+    mining: "Mining",
+    story: "Story"
 
 };
 
 
-var studyState = {
+const studyState = {
 
-    game: "",
-    subject: "",
-    topic: "",
-    questionPath: "",
-    questionGlobal: "",
+    game: null,
+    subject: null,
+    topic: null,
     questions: [],
     currentQuestion: 0,
     correct: 0,
     answered: 0,
-    coins: 0,
-    questionLocked: false
+    sessionCoins: 0,
+    totalCoins: Number(localStorage.getItem("studysprint_coins")) || 0,
+    questionLocked: false,
+    loadedScripts: {}
 
 };
 
 
-function getElement(id) {
+const screens = {
 
-    return document.getElementById(id);
+    game: document.getElementById("game-screen"),
+    subject: document.getElementById("subject-screen"),
+    topic: document.getElementById("topic-screen"),
+    ready: document.getElementById("ready-screen"),
+    quiz: document.getElementById("quiz-screen"),
+    break: document.getElementById("break-screen"),
+    shop: document.getElementById("shop-screen"),
+    collection: document.getElementById("collection-screen")
+
+};
+
+
+function showScreen(screen) {
+
+    Object.values(screens).forEach(function (item) {
+        item.classList.add("hidden");
+    });
+
+    screen.classList.remove("hidden");
 
 }
 
 
 function shuffle(array) {
 
-    var copy = array.slice();
+    const copy = [...array];
 
-    for (
-        var i = copy.length - 1;
-        i > 0;
-        i--
-    ) {
+    for (let i = copy.length - 1; i > 0; i--) {
 
-        var randomIndex =
-            Math.floor(
-                Math.random() * (i + 1)
-            );
+        const randomIndex = Math.floor(Math.random() * (i + 1));
 
-        var temporary =
-            copy[i];
+        const temporary = copy[i];
 
-        copy[i] =
-            copy[randomIndex];
+        copy[i] = copy[randomIndex];
 
-        copy[randomIndex] =
-            temporary;
+        copy[randomIndex] = temporary;
 
     }
 
@@ -173,1181 +178,1024 @@ function shuffle(array) {
 function normaliseBank(bank) {
 
     if (Array.isArray(bank)) {
-
-        return bank.slice();
-
+        return bank.flat(Infinity).filter(function (item) {
+            return item && typeof item === "object";
+        });
     }
 
+    if (bank && typeof bank === "object") {
 
-    if (
-        !bank
-        ||
-        typeof bank !== "object"
-    ) {
+        const arrays = Object.values(bank).filter(function (item) {
+            return Array.isArray(item);
+        });
 
-        return [];
-
-    }
-
-
-    var output = [];
-
-
-    Object.keys(bank).forEach(
-        function (key) {
-
-            var value =
-                bank[key];
-
-            if (!Array.isArray(value)) {
-                return;
-            }
-
-
-            value.forEach(
-                function (question) {
-
-                    if (
-                        question
-                        &&
-                        typeof question === "object"
-                    ) {
-
-                        output.push(question);
-
-                    }
-
-                }
-            );
-
+        if (arrays.length) {
+            return arrays.flat(Infinity).filter(function (item) {
+                return item && typeof item === "object";
+            });
         }
-    );
 
+    }
 
-    return output;
+    return [];
 
 }
 
 
-function showScreen(id) {
+function loadScript(path) {
 
-    var screenIds = [
-        "game-screen",
-        "subject-screen",
-        "topic-screen",
-        "ready-screen",
-        "quiz-screen",
-        "complete-screen"
-    ];
+    if (studyState.loadedScripts[path]) {
+        return Promise.resolve();
+    }
 
+    return new Promise(function (resolve, reject) {
 
-    screenIds.forEach(
-        function (screenId) {
+        const existing = document.querySelector(
+            'script[data-study-bank="' + path + '"]'
+        );
 
-            var element =
-                getElement(screenId);
-
-            if (!element) {
-                return;
-            }
-
-
-            if (screenId === id) {
-
-                element.classList.remove(
-                    "hidden"
-                );
-
-            } else {
-
-                element.classList.add(
-                    "hidden"
-                );
-
-            }
-
+        if (existing) {
+            studyState.loadedScripts[path] = true;
+            resolve();
+            return;
         }
-    );
 
-}
+        const script = document.createElement("script");
 
+        script.src = path;
+        script.dataset.studyBank = path;
 
-function selectGame(game) {
-
-    if (!gameNames[game]) {
-        return;
-    }
-
-
-    studyState.game =
-        game;
-
-
-    var description =
-        getElement(
-            "selected-game-description"
-        );
-
-
-    if (description) {
-
-        description.textContent =
-            gameNames[game]
-            + " selected. Now choose a subject.";
-
-    }
-
-
-    showScreen(
-        "subject-screen"
-    );
-
-}
-
-
-function selectSubject(subject) {
-
-    studyState.subject =
-        subject;
-
-
-    var topics =
-        studyBanks[subject] || [];
-
-
-    var list =
-        getElement("topic-list");
-
-
-    var label =
-        getElement(
-            "selected-subject-label"
-        );
-
-
-    if (label) {
-
-        label.textContent =
-            subject.toUpperCase();
-
-    }
-
-
-    if (!list) {
-        return;
-    }
-
-
-    list.innerHTML = "";
-
-
-    topics.forEach(
-        function (topic) {
-
-            var button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.type =
-                "button";
-
-
-            button.className =
-                "topic-card";
-
-
-            button.innerHTML =
-                "<strong>"
-                + topic[0]
-                + "</strong>"
-                + "<small>Select</small>";
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    selectTopic(
-                        topic
-                    );
-
-                }
-            );
-
-
-            list.appendChild(
-                button
-            );
-
-        }
-    );
-
-
-    showScreen(
-        "topic-screen"
-    );
-
-}
-
-
-function selectTopic(topic) {
-
-    studyState.topic =
-        topic[0];
-
-    studyState.questionPath =
-        topic[1];
-
-    studyState.questionGlobal =
-        topic[2];
-
-
-    var gameTitle =
-        getElement("ready-game");
-
-    var topicTitle =
-        getElement("ready-topic");
-
-
-    if (gameTitle) {
-
-        gameTitle.textContent =
-            gameNames[
-                studyState.game
-            ];
-
-    }
-
-
-    if (topicTitle) {
-
-        topicTitle.textContent =
-            studyState.topic;
-
-    }
-
-
-    showScreen(
-        "ready-screen"
-    );
-
-}
-
-
-function loadQuestions() {
-
-    var oldScript =
-        document.querySelector(
-            "script[data-study-question-bank]"
-        );
-
-
-    if (oldScript) {
-
-        oldScript.remove();
-
-    }
-
-
-    var script =
-        document.createElement(
-            "script"
-        );
-
-
-    script.src =
-        studyState.questionPath;
-
-
-    script.dataset.studyQuestionBank =
-        "true";
-
-
-    script.onload =
-        function () {
-
-            var bank =
-                window[
-                    studyState.questionGlobal
-                ];
-
-
-            var questions =
-                normaliseBank(
-                    bank
-                );
-
-
-            if (!questions.length) {
-
-                alert(
-                    "No questions were found for this topic."
-                );
-
-                return;
-
-            }
-
-
-            studyState.questions =
-                shuffle(
-                    questions
-                );
-
-
-            studyState.currentQuestion =
-                0;
-
-            studyState.correct =
-                0;
-
-            studyState.answered =
-                0;
-
-            studyState.coins =
-                0;
-
-            studyState.questionLocked =
-                false;
-
-
-            updateCoins();
-
-            showScreen(
-                "quiz-screen"
-            );
-
-            renderQuestion();
-
+        script.onload = function () {
+            studyState.loadedScripts[path] = true;
+            resolve();
         };
 
-
-    script.onerror =
-        function () {
-
-            alert(
-                "The question file could not be loaded."
-            );
-
+        script.onerror = function () {
+            reject(new Error("Could not load question bank."));
         };
 
+        document.body.appendChild(script);
 
-    document.head.appendChild(
-        script
-    );
+    });
 
 }
 
 
-function renderQuestion() {
+async function loadTopicQuestions(topic) {
 
-    var question =
-        studyState.questions[
-            studyState.currentQuestion
-        ];
+    await loadScript(topic.path);
 
+    const bank = window[topic.global];
 
-    if (!question) {
+    const questions = normaliseBank(bank);
 
-        finishStudy();
-
-        return;
-
+    if (!questions.length) {
+        throw new Error("No questions were found.");
     }
 
-
-    studyState.questionLocked =
-        false;
-
-
-    var questionNumber =
-        getElement(
-            "question-number"
-        );
-
-
-    var progressBar =
-        getElement(
-            "progress-bar"
-        );
-
-
-    var questionType =
-        getElement(
-            "question-type"
-        );
-
-
-    var questionText =
-        getElement(
-            "question-text"
-        );
-
-
-    var answersArea =
-        getElement(
-            "answers-area"
-        );
-
-
-    var writtenArea =
-        getElement(
-            "written-area"
-        );
-
-
-    var writtenInput =
-        getElement(
-            "written-answer"
-        );
-
-
-    var submitWritten =
-        getElement(
-            "submit-written"
-        );
-
-
-    var feedback =
-        getElement(
-            "feedback"
-        );
-
-
-    var nextButton =
-        getElement(
-            "next-button"
-        );
-
-
-    if (questionNumber) {
-
-        questionNumber.textContent =
-            "Question "
-            + (
-                studyState.currentQuestion + 1
-            )
-            + " of "
-            + studyState.questions.length;
-
-    }
-
-
-    if (progressBar) {
-
-        var percentage =
-            (
-                studyState.currentQuestion
-                /
-                studyState.questions.length
-            ) * 100;
-
-
-        progressBar.style.width =
-            percentage + "%";
-
-    }
-
-
-    if (questionType) {
-
-        questionType.textContent =
-            question.type === "written"
-                ? "WRITTEN"
-                : "QUESTION";
-
-    }
-
-
-    if (questionText) {
-
-        questionText.textContent =
-            question.question || "";
-
-    }
-
-
-    if (answersArea) {
-
-        answersArea.innerHTML = "";
-
-        answersArea.classList.remove(
-            "hidden"
-        );
-
-    }
-
-
-    if (writtenArea) {
-
-        writtenArea.classList.add(
-            "hidden"
-        );
-
-    }
-
-
-    if (writtenInput) {
-
-        writtenInput.value = "";
-
-    }
-
-
-    if (submitWritten) {
-
-        submitWritten.disabled =
-            false;
-
-    }
-
-
-    if (feedback) {
-
-        feedback.classList.add(
-            "hidden"
-        );
-
-    }
-
-
-    if (nextButton) {
-
-        nextButton.classList.add(
-            "hidden"
-        );
-
-    }
-
-
-    var isWritten =
-        question.type === "written"
-        ||
-        Array.isArray(
-            question.acceptedAnswers
-        );
-
-
-    if (isWritten) {
-
-        if (answersArea) {
-
-            answersArea.classList.add(
-                "hidden"
-            );
-
-        }
-
-
-        if (writtenArea) {
-
-            writtenArea.classList.remove(
-                "hidden"
-            );
-
-        }
-
-
-        return;
-
-    }
-
-
-    var answers =
-        Array.isArray(
-            question.answers
-        )
-            ? shuffle(
-                question.answers
-            )
-            : [];
-
-
-    answers.forEach(
-        function (answer) {
-
-            var button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.type =
-                "button";
-
-
-            button.className =
-                "answer-button";
-
-
-            button.textContent =
-                answer;
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    checkMultipleChoice(
-                        answer,
-                        question
-                    );
-
-                }
-            );
-
-
-            answersArea.appendChild(
-                button
-            );
-
-        }
-    );
+    return shuffle(questions);
 
 }
 
 
-function checkMultipleChoice(
-    answer,
-    question
-) {
+function updateCoinDisplays() {
 
-    if (
-        studyState.questionLocked
-    ) {
+    document.getElementById("study-coins").textContent =
+        studyState.totalCoins;
 
-        return;
-
-    }
-
-
-    studyState.questionLocked =
-        true;
-
-
-    studyState.answered++;
-
-
-    var correct =
-        String(answer)
-            .trim()
-        ===
-        String(question.correctAnswer)
-            .trim();
-
-
-    if (correct) {
-
-        studyState.correct++;
-
-        addCoins(
-            10
-        );
-
-    }
-
-
-    showFeedback(
-        correct,
-        question.correctAnswer
-    );
-
-
-    disableAnswers();
-
-    showNextButton();
-
-}
-
-
-function checkWritten() {
-
-    if (
-        studyState.questionLocked
-    ) {
-
-        return;
-
-    }
-
-
-    var question =
-        studyState.questions[
-            studyState.currentQuestion
-        ];
-
-
-    var input =
-        getElement(
-            "written-answer"
-        );
-
-
-    if (!input) {
-        return;
-    }
-
-
-    var answer =
-        input.value.trim();
-
-
-    if (!answer) {
-        return;
-    }
-
-
-    studyState.questionLocked =
-        true;
-
-
-    studyState.answered++;
-
-
-    var accepted =
-        Array.isArray(
-            question.acceptedAnswers
-        )
-            ? question.acceptedAnswers
-            : [];
-
-
-    var correct =
-        accepted.some(
-            function (possibleAnswer) {
-
-                return (
-                    String(possibleAnswer)
-                        .trim()
-                        .toLowerCase()
-                    ===
-                    answer
-                        .toLowerCase()
-                        .trim()
-                );
-
-            }
-        );
-
-
-    if (correct) {
-
-        studyState.correct++;
-
-        addCoins(
-            15
-        );
-
-    }
-
-
-    showFeedback(
-        correct,
-        accepted.length
-            ? accepted[0]
-            : ""
-    );
-
-
-    var submit =
-        getElement(
-            "submit-written"
-        );
-
-
-    if (submit) {
-
-        submit.disabled =
-            true;
-
-    }
-
-
-    showNextButton();
+    document.getElementById("shop-coins").textContent =
+        studyState.totalCoins;
 
 }
 
 
 function addCoins(amount) {
 
-    studyState.coins +=
-        amount;
-
-
-    updateCoins();
-
-
-    saveCoins();
-
-}
-
-
-function updateCoins() {
-
-    var element =
-        getElement(
-            "study-coins"
-        );
-
-
-    if (element) {
-
-        element.textContent =
-            studyState.coins;
-
+    if (!Number.isFinite(amount) || amount <= 0) {
+        return;
     }
 
-}
-
-
-function saveCoins() {
-
-    var currentCoins =
-        Number(
-            localStorage.getItem(
-                "studysprint_coins"
-            )
-        )
-        || 0;
-
+    studyState.sessionCoins += amount;
+    studyState.totalCoins += amount;
 
     localStorage.setItem(
         "studysprint_coins",
-        String(
-            currentCoins
-            +
-            studyState.coins
-        )
+        String(studyState.totalCoins)
     );
+
+    updateCoinDisplays();
 
 }
 
 
-function showFeedback(
-    correct,
-    correctAnswer
-) {
+function chooseGame(game) {
 
-    var feedback =
-        getElement(
-            "feedback"
-        );
+    studyState.game = game;
+
+    document.querySelectorAll(".active-game").forEach(function (item) {
+        item.classList.remove("selected");
+    });
+
+    const gameArea = document.getElementById(game + "-game");
+
+    if (gameArea) {
+        gameArea.classList.add("selected");
+    }
+
+    document.getElementById("ready-game").textContent =
+        gameNames[game] || "Study";
+
+    showScreen(screens.subject);
+
+}
 
 
-    var title =
-        getElement(
-            "feedback-title"
-        );
+function chooseSubject(subject) {
+
+    studyState.subject = subject;
+
+    const topicList = document.getElementById("topic-list");
+
+    topicList.innerHTML = "";
+
+    const topics = studyBanks[subject] || [];
+
+    topics.forEach(function (topic) {
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "topic-button";
+        button.textContent = topic.name;
+
+        button.addEventListener("click", async function () {
+
+            studyState.topic = topic;
+
+            button.disabled = true;
+
+            try {
+
+                studyState.questions =
+                    await loadTopicQuestions(topic);
+
+                document.getElementById("ready-topic").textContent =
+                    topic.name;
+
+                document.getElementById("ready-title").textContent =
+                    gameNames[studyState.game] + " is ready";
+
+                showScreen(screens.ready);
+
+            } catch (error) {
+
+                alert(
+                    "This question bank could not be loaded."
+                );
+
+            } finally {
+
+                button.disabled = false;
+
+            }
+
+        });
+
+        topicList.appendChild(button);
+
+    });
+
+    showScreen(screens.topic);
+
+}
 
 
-    var text =
-        getElement(
-            "feedback-text"
-        );
+function beginStudy() {
+
+    studyState.currentQuestion = 0;
+    studyState.correct = 0;
+    studyState.answered = 0;
+    studyState.sessionCoins = 0;
+    studyState.questionLocked = false;
+
+    updateCoinDisplays();
+    setupGameState();
+
+    showScreen(screens.quiz);
+
+    showQuestion();
+
+}
 
 
-    if (!feedback) {
+function setupGameState() {
+
+    if (studyState.game === "fishing") {
+
+        document.getElementById("fishing-message").textContent =
+            "A fish is nearby. Answer correctly to catch it.";
+
+    }
+
+    if (studyState.game === "racing") {
+
+        document.getElementById("race-progress").style.left =
+            "12%";
+
+        document.getElementById("racing-message").textContent =
+            "Get the answer right to move forward.";
+
+    }
+
+    if (studyState.game === "restaurant") {
+
+        document.getElementById("restaurant-order").textContent =
+            getRandomOrder();
+
+        document.getElementById("restaurant-message").textContent =
+            "Answer correctly to complete the order.";
+
+    }
+
+    if (studyState.game === "mining") {
+
+        document.getElementById("mine-ore").classList.add("hidden");
+
+        document.getElementById("mining-message").textContent =
+            "Answer correctly to break the rock.";
+
+    }
+
+    if (studyState.game === "story") {
+
+        document.getElementById("story-message").textContent =
+            "Answer correctly to take your turn.";
+
+    }
+
+}
+
+
+function getRandomOrder() {
+
+    const orders = [
+        "Burger",
+        "Soup",
+        "Fish and chips",
+        "Pasta",
+        "Sandwich",
+        "Pizza"
+    ];
+
+    return orders[
+        Math.floor(Math.random() * orders.length)
+    ];
+
+}
+
+
+function getQuestionType(question) {
+
+    if (question.type === "written") {
+        return "written";
+    }
+
+    return "multiple";
+
+}
+
+
+function showQuestion() {
+
+    if (studyState.currentQuestion >= studyState.questions.length) {
+
+        finishStudy();
+
         return;
     }
 
+    const question =
+        studyState.questions[studyState.currentQuestion];
 
-    feedback.classList.remove(
-        "hidden"
-    );
+    studyState.questionLocked = false;
 
+    document.getElementById("feedback").textContent = "";
 
-    if (title) {
+    document
+        .getElementById("next-question")
+        .classList.add("hidden");
 
-        title.textContent =
-            correct
-                ? "Correct"
-                : "Not quite";
+    document
+        .getElementById("written-area")
+        .classList.add("hidden");
+
+    const answerArea =
+        document.getElementById("answer-area");
+
+    answerArea.innerHTML = "";
+
+    document.getElementById("question-text").textContent =
+        question.question || "Question";
+
+    const type = getQuestionType(question);
+
+    document.getElementById("question-type").textContent =
+        type === "written" ? "WRITE YOUR ANSWER" : "QUESTION";
+
+    if (type === "written") {
+
+        document
+            .getElementById("written-area")
+            .classList.remove("hidden");
+
+        document.getElementById("written-answer").value = "";
+
+        return;
 
     }
 
+    const answers = Array.isArray(question.answers)
+        ? shuffle(question.answers)
+        : [];
 
-    if (text) {
+    answers.forEach(function (answer) {
 
-        if (correct) {
+        const button = document.createElement("button");
 
-            text.textContent =
-                "You earned coins for this answer.";
+        button.type = "button";
+        button.className = "answer-button";
+        button.textContent = answer;
 
-        } else {
+        button.addEventListener("click", function () {
 
-            text.textContent =
-                "The answer was: "
-                + correctAnswer;
+            answerMultipleChoice(
+                answer,
+                question,
+                button
+            );
 
-        }
+        });
 
-    }
+        answerArea.appendChild(button);
+
+    });
 
 }
 
 
-function disableAnswers() {
+function answerMultipleChoice(answer, question, button) {
 
-    var buttons =
-        document.querySelectorAll(
-            ".answer-button"
-        );
-
-
-    buttons.forEach(
-        function (button) {
-
-            button.disabled =
-                true;
-
-        }
-    );
-
-}
-
-
-function showNextButton() {
-
-    var button =
-        getElement(
-            "next-button"
-        );
-
-
-    if (!button) {
+    if (studyState.questionLocked) {
         return;
     }
 
+    studyState.questionLocked = true;
+    studyState.answered++;
 
-    button.classList.remove(
-        "hidden"
-    );
+    const correct =
+        String(answer).trim().toLowerCase() ===
+        String(question.correctAnswer).trim().toLowerCase();
+
+    if (correct) {
+
+        studyState.correct++;
+
+        button.classList.add("correct");
+
+        const reward = getGameReward();
+
+        addCoins(reward);
+
+        showCorrectGameResult(reward);
+
+        document.getElementById("feedback").textContent =
+            "Correct. You earned " + reward + " coins.";
+
+    } else {
+
+        button.classList.add("wrong");
+
+        showWrongGameResult();
+
+        document.getElementById("feedback").textContent =
+            "Not quite. No coins this time.";
+
+    }
+
+    document.querySelectorAll(".answer-button").forEach(function (item) {
+        item.disabled = true;
+    });
+
+    document
+        .getElementById("next-question")
+        .classList.remove("hidden");
+
+}
 
 
-    button.onclick =
-        function () {
+function submitWritten() {
 
-            studyState.currentQuestion++;
+    if (studyState.questionLocked) {
+        return;
+    }
 
-            renderQuestion();
+    const question =
+        studyState.questions[studyState.currentQuestion];
 
-        };
+    const input =
+        document.getElementById("written-answer");
+
+    const answer =
+        input.value.trim().toLowerCase();
+
+    if (!answer) {
+        return;
+    }
+
+    studyState.questionLocked = true;
+    studyState.answered++;
+
+    const acceptedAnswers =
+        Array.isArray(question.acceptedAnswers)
+            ? question.acceptedAnswers
+            : [];
+
+    const correct =
+        acceptedAnswers.some(function (item) {
+
+            return String(item).trim().toLowerCase() === answer;
+
+        });
+
+    if (correct) {
+
+        studyState.correct++;
+
+        const reward = getGameReward() + 5;
+
+        addCoins(reward);
+
+        showCorrectGameResult(reward);
+
+        document.getElementById("feedback").textContent =
+            "Correct. You earned " + reward + " coins.";
+
+    } else {
+
+        showWrongGameResult();
+
+        document.getElementById("feedback").textContent =
+            "Not quite. No coins this time.";
+
+    }
+
+    document.getElementById("submit-written").disabled = true;
+
+    document
+        .getElementById("next-question")
+        .classList.remove("hidden");
+
+}
+
+
+function getGameReward() {
+
+    if (studyState.game === "fishing") {
+        return 10;
+    }
+
+    if (studyState.game === "racing") {
+        return 10;
+    }
+
+    if (studyState.game === "restaurant") {
+        return 12;
+    }
+
+    if (studyState.game === "mining") {
+        return 10;
+    }
+
+    if (studyState.game === "story") {
+        return 12;
+    }
+
+    return 10;
+
+}
+
+
+function showCorrectGameResult(reward) {
+
+    if (studyState.game === "fishing") {
+
+        document.getElementById("fishing-message").textContent =
+            "Catch! +" + reward + " coins.";
+
+    }
+
+    if (studyState.game === "racing") {
+
+        const progress =
+            document.getElementById("race-progress");
+
+        const current =
+            parseFloat(progress.style.left) || 12;
+
+        progress.style.left =
+            Math.min(current + 15, 78) + "%";
+
+        document.getElementById("racing-message").textContent =
+            "You moved forward. +" + reward + " coins.";
+
+    }
+
+    if (studyState.game === "restaurant") {
+
+        document.getElementById("restaurant-message").textContent =
+            "Order complete. +" + reward + " coins.";
+
+    }
+
+    if (studyState.game === "mining") {
+
+        document.getElementById("mine-ore").classList.remove("hidden");
+
+        document.getElementById("mining-message").textContent =
+            "Rock broken. You found ore. +" + reward + " coins.";
+
+    }
+
+    if (studyState.game === "story") {
+
+        document.getElementById("story-message").textContent =
+            "Your turn succeeds. +" + reward + " coins.";
+
+    }
+
+}
+
+
+function showWrongGameResult() {
+
+    if (studyState.game === "fishing") {
+
+        document.getElementById("fishing-message").textContent =
+            "The fish escaped.";
+
+    }
+
+    if (studyState.game === "racing") {
+
+        document.getElementById("racing-message").textContent =
+            "You lost some ground.";
+
+    }
+
+    if (studyState.game === "restaurant") {
+
+        document.getElementById("restaurant-message").textContent =
+            "The order was not completed.";
+
+    }
+
+    if (studyState.game === "mining") {
+
+        document.getElementById("mining-message").textContent =
+            "The rock stayed intact.";
+
+    }
+
+    if (studyState.game === "story") {
+
+        document.getElementById("story-message").textContent =
+            "Your turn failed.";
+
+    }
+
+}
+
+
+function nextQuestion() {
+
+    studyState.currentQuestion++;
+
+    document.getElementById("submit-written").disabled = false;
+
+    showQuestion();
 
 }
 
 
 function finishStudy() {
 
-    var score =
-        getElement(
-            "score-number"
-        );
+    document.getElementById("break-game-title").textContent =
+        gameNames[studyState.game] + " break";
+
+    document.getElementById("break-result").textContent =
+        studyState.correct +
+        " correct answers out of " +
+        studyState.answered +
+        ".";
+
+    document.getElementById("break-coins-earned").textContent =
+        studyState.sessionCoins;
+
+    showScreen(screens.break);
+
+}
 
 
-    var coins =
-        getElement(
-            "coins-earned"
-        );
+function continueStudying() {
+
+    studyState.questions =
+        shuffle(studyState.questions);
+
+    studyState.currentQuestion = 0;
+    studyState.correct = 0;
+    studyState.answered = 0;
+    studyState.sessionCoins = 0;
+
+    setupGameState();
+
+    showScreen(screens.quiz);
+
+    showQuestion();
+
+}
 
 
-    if (score) {
+const shopItems = [
 
-        score.textContent =
-            studyState.correct;
+    {
+        id: "fishing-rod-2",
+        name: "Reinforced Rod",
+        description: "A stronger rod for fishing.",
+        cost: 75,
+        game: "fishing"
+    },
+
+    {
+        id: "fishing-rod-3",
+        name: "Deepwater Rod",
+        description: "Built for rarer fish.",
+        cost: 180,
+        game: "fishing"
+    },
+
+    {
+        id: "race-engine-2",
+        name: "Better Engine",
+        description: "Push further during races.",
+        cost: 90,
+        game: "racing"
+    },
+
+    {
+        id: "restaurant-upgrade-2",
+        name: "Bigger Kitchen",
+        description: "Handle more complicated orders.",
+        cost: 120,
+        game: "restaurant"
+    },
+
+    {
+        id: "pickaxe-2",
+        name: "Iron Pickaxe",
+        description: "Break tougher rocks.",
+        cost: 80,
+        game: "mining"
+    },
+
+    {
+        id: "pickaxe-3",
+        name: "Diamond Pickaxe",
+        description: "Reach the valuable stuff.",
+        cost: 200,
+        game: "mining"
+    }
+
+];
+
+
+function getOwnedItems() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem("studysprint_owned_items")
+        ) || [];
+
+    } catch (error) {
+
+        return [];
 
     }
 
-
-    if (coins) {
-
-        coins.textContent =
-            studyState.coins;
-
-    }
+}
 
 
-    showScreen(
-        "complete-screen"
+function saveOwnedItems(items) {
+
+    localStorage.setItem(
+        "studysprint_owned_items",
+        JSON.stringify(items)
     );
 
 }
 
 
-function restartStudy() {
+function renderShop() {
 
-    loadQuestions();
+    const container =
+        document.getElementById("shop-items");
+
+    const owned =
+        getOwnedItems();
+
+    container.innerHTML = "";
+
+    shopItems.forEach(function (item) {
+
+        const card = document.createElement("div");
+
+        card.className = "shop-item";
+
+        const art = document.createElement("div");
+
+        art.className = "shop-art";
+
+        const details = document.createElement("div");
+
+        const title = document.createElement("h2");
+
+        title.textContent = item.name;
+
+        const description = document.createElement("p");
+
+        description.textContent =
+            item.description +
+            " Cost: " +
+            item.cost +
+            " coins.";
+
+        details.appendChild(title);
+        details.appendChild(description);
+
+        const buy = document.createElement("button");
+
+        buy.type = "button";
+        buy.className = "buy-button";
+
+        if (owned.includes(item.id)) {
+
+            buy.textContent = "Owned";
+            buy.classList.add("owned");
+            buy.disabled = true;
+
+        } else {
+
+            buy.textContent = "Buy";
+
+            buy.addEventListener("click", function () {
+                buyShopItem(item);
+            });
+
+        }
+
+        card.appendChild(art);
+        card.appendChild(details);
+        card.appendChild(buy);
+
+        container.appendChild(card);
+
+    });
 
 }
 
 
-function setupNavigation() {
+function buyShopItem(item) {
 
-    var gameButtons =
-        document.querySelectorAll(
-            ".game-card[data-game]"
-        );
+    if (studyState.totalCoins < item.cost) {
+        return;
+    }
 
+    const owned =
+        getOwnedItems();
 
-    gameButtons.forEach(
-        function (button) {
+    if (owned.includes(item.id)) {
+        return;
+    }
 
-            button.addEventListener(
-                "click",
-                function () {
+    studyState.totalCoins -= item.cost;
 
-                    selectGame(
-                        button.dataset.game
-                    );
-
-                }
-            );
-
-        }
+    localStorage.setItem(
+        "studysprint_coins",
+        String(studyState.totalCoins)
     );
 
+    owned.push(item.id);
 
-    var subjectButtons =
-        document.querySelectorAll(
-            ".subject-card"
-        );
+    saveOwnedItems(owned);
 
+    updateCoinDisplays();
 
-    subjectButtons.forEach(
-        function (button) {
+    renderShop();
 
-            button.addEventListener(
-                "click",
-                function () {
-
-                    selectSubject(
-                        button.dataset.subject
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    getElement(
-        "back-games"
-    ).addEventListener(
-        "click",
-        function () {
-
-            showScreen(
-                "game-screen"
-            );
-
-        }
-    );
-
-
-    getElement(
-        "back-subjects"
-    ).addEventListener(
-        "click",
-        function () {
-
-            showScreen(
-                "subject-screen"
-            );
-
-        }
-    );
-
-
-    getElement(
-        "back-topics"
-    ).addEventListener(
-        "click",
-        function () {
-
-            showScreen(
-                "topic-screen"
-            );
-
-        }
-    );
-
-
-    getElement(
-        "back-to-ready"
-    ).addEventListener(
-        "click",
-        function () {
-
-            showScreen(
-                "ready-screen"
-            );
-
-        }
-    );
-
-
-    getElement(
-        "start-study"
-    ).addEventListener(
-        "click",
-        function () {
-
-            loadQuestions();
-
-        }
-    );
-
-
-    getElement(
-        "submit-written"
-    ).addEventListener(
-        "click",
-        function () {
-
-            checkWritten();
-
-        }
-    );
-
-
-    getElement(
-        "study-again"
-    ).addEventListener(
-        "click",
-        function () {
-
-            restartStudy();
-
-        }
-    );
-
-
-    getElement(
-        "return-home"
-    ).addEventListener(
-        "click",
-        function () {
-
-            window.location.href =
-                "../index.html";
-
-        }
-    );
+    renderCollection();
 
 }
 
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+function renderCollection() {
 
-        setupNavigation();
+    const container =
+        document.getElementById("collection-items");
 
-        showScreen(
-            "game-screen"
-        );
+    const owned =
+        getOwnedItems();
+
+    container.innerHTML = "";
+
+    if (!owned.length) {
+
+        const empty = document.createElement("div");
+
+        empty.className = "collection-item";
+
+        empty.innerHTML =
+            "<h2>Nothing yet</h2><p>Keep studying to earn coins and unlock things.</p>";
+
+        container.appendChild(empty);
+
+        return;
 
     }
-);
+
+    owned.forEach(function (id) {
+
+        const item =
+            shopItems.find(function (shopItem) {
+                return shopItem.id === id;
+            });
+
+        if (!item) {
+            return;
+        }
+
+        const card = document.createElement("div");
+
+        card.className = "collection-item";
+
+        const title = document.createElement("h2");
+
+        title.textContent = item.name;
+
+        const description = document.createElement("p");
+
+        description.textContent =
+            item.description;
+
+        card.appendChild(title);
+        card.appendChild(description);
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+function leaveStudy() {
+
+    studyState.questionLocked = true;
+
+    showScreen(screens.game);
+
+}
+
+
+document.querySelectorAll(".game-card").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        chooseGame(button.dataset.game);
+
+    });
+
+});
+
+
+document.querySelectorAll(".subject-button").forEach(function (button) {
+
+    button.addEventListener("click", function () {
+
+        chooseSubject(button.dataset.subject);
+
+    });
+
+});
+
+
+document
+    .getElementById("back-to-games")
+    .addEventListener("click", function () {
+
+        showScreen(screens.game);
+
+    });
+
+
+document
+    .getElementById("back-to-subjects")
+    .addEventListener("click", function () {
+
+        showScreen(screens.subject);
+
+    });
+
+
+document
+    .getElementById("back-to-topics")
+    .addEventListener("click", function () {
+
+        showScreen(screens.topic);
+
+    });
+
+
+document
+    .getElementById("start-study")
+    .addEventListener("click", beginStudy);
+
+
+document
+    .getElementById("leave-study")
+    .addEventListener("click", leaveStudy);
+
+
+document
+    .getElementById("next-question")
+    .addEventListener("click", nextQuestion);
+
+
+document
+    .getElementById("submit-written")
+    .addEventListener("click", submitWritten);
+
+
+document
+    .getElementById("written-answer")
+    .addEventListener("keydown", function (event) {
+
+        if (event.key === "Enter") {
+            submitWritten();
+        }
+
+    });
+
+
+document
+    .getElementById("continue-studying")
+    .addEventListener("click", continueStudying);
+
+
+document
+    .getElementById("open-shop")
+    .addEventListener("click", function () {
+
+        renderShop();
+        showScreen(screens.shop);
+
+    });
+
+
+document
+    .getElementById("open-garden")
+    .addEventListener("click", function () {
+
+        renderCollection();
+        showScreen(screens.collection);
+
+    });
+
+
+document
+    .getElementById("back-from-shop")
+    .addEventListener("click", function () {
+
+        showScreen(screens.break);
+
+    });
+
+
+document
+    .getElementById("back-from-collection")
+    .addEventListener("click", function () {
+
+        showScreen(screens.break);
+
+    });
+
+
+updateCoinDisplays();
