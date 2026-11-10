@@ -4,45 +4,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101116">
+  <meta name="theme-color" content="#090a10">
+
   <title>StudySprint</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
 </head>
 
 <body>
 
   <!-- HEADER -->
   <header class="header">
-    <a href="#" class="logo">StudySprint</a>
+    <div class="logo">
+      <span class="logo-icon">S</span>
+      <span>StudySprint</span>
+    </div>
 
     <div class="account">
       <span class="account-name">Your Account</span>
-      <button class="profile-button" aria-label="Open profile">U</button>
+      <button class="profile-button" id="profile-button" aria-label="Profile">
+        U
+      </button>
     </div>
   </header>
 
 
+  <!-- APP LAYOUT -->
   <div class="app-layout">
 
-    <!-- SIDEBAR -->
+    <!-- NAVIGATION -->
     <aside class="sidebar">
       <nav class="navigation" aria-label="Main navigation">
+
         <button class="nav-button active" data-view="home">
+          <span class="nav-icon">⌂</span>
           Home
         </button>
 
         <button class="nav-button" data-view="play">
+          <span class="nav-icon">▸</span>
           Play
         </button>
 
         <button class="nav-button" data-view="learn">
+          <span class="nav-icon">▤</span>
           Learn
         </button>
 
         <button class="nav-button" data-view="rooms">
+          <span class="nav-icon">♧</span>
           Rooms
         </button>
+
       </nav>
     </aside>
 
@@ -50,58 +64,80 @@
     <!-- MAIN CONTENT -->
     <main class="main-content">
 
-      <!-- HOME -->
+      <!-- FEEDBACK MESSAGE -->
+      <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+
+      <!-- HOME PAGE -->
       <section class="page active" id="home">
+
         <div class="page-heading">
+          <p class="eyebrow">YOUR DASHBOARD</p>
           <h1>Welcome back!</h1>
           <p>Ready to make some progress?</p>
         </div>
 
         <div class="stats-grid">
-          <article class="stat-card">
-            <h2>Current streak</h2>
-            <p class="stat-value">0 days</p>
+
+          <article class="stat-card purple-card">
+            <p class="stat-label">Current streak</p>
+            <h2 class="stat-value">0 <span>days</span></h2>
           </article>
 
-          <article class="stat-card">
-            <h2>Questions answered</h2>
-            <p class="stat-value">0</p>
+          <article class="stat-card cyan-card">
+            <p class="stat-label">Questions answered</p>
+            <h2 class="stat-value">0</h2>
           </article>
 
-          <article class="stat-card">
-            <h2>Accuracy</h2>
-            <p class="stat-value">0%</p>
+          <article class="stat-card green-card">
+            <p class="stat-label">Accuracy</p>
+            <h2 class="stat-value">0%</h2>
           </article>
+
+        </div>
+
+
+        <div class="section-heading">
+          <h2>Get started</h2>
         </div>
 
         <div class="content-grid">
-          <article class="content-card">
-            <h2>Daily Challenge</h2>
-            <p>Five questions. One topic. Every day.</p>
+
+          <article class="content-card featured-card">
+            <div class="card-tag">DAILY CHALLENGE</div>
+            <h2>Five questions. Every day.</h2>
+            <p>Choose a topic and test your knowledge with five random questions.</p>
             <button class="primary-button" data-go="learn">
               Start challenge
             </button>
           </article>
 
           <article class="content-card">
-            <h2>Recent activity</h2>
-            <p>Your recent games and study sessions will appear here.</p>
+            <div class="card-tag">RECENT ACTIVITY</div>
+            <h2>Your activity</h2>
+            <p>Your recent study sessions and multiplayer games will appear here.</p>
           </article>
+
         </div>
+
       </section>
 
 
-      <!-- PLAY -->
+      <!-- PLAY PAGE -->
       <section class="page" id="play">
+
         <div class="page-heading">
+          <p class="eyebrow">MULTIPLAYER</p>
           <h1>Play</h1>
-          <p>Jump into a multiplayer game and compete with others.</p>
+          <p>Join a game or host your own minigame.</p>
         </div>
 
         <div class="content-grid">
+
           <article class="content-card">
+            <div class="card-icon cyan-icon">↗</div>
             <h2>Join a game</h2>
-            <p>Enter a game code to join someone else's game.</p>
+            <p>Have a game code? Enter it below to join the fun.</p>
 
             <form id="join-game-form">
               <label for="game-code">Game code</label>
@@ -109,8 +145,11 @@
                 type="text"
                 id="game-code"
                 placeholder="Enter game code"
+                maxlength="12"
                 autocomplete="off"
+                required
               >
+
               <button class="primary-button" type="submit">
                 Join game
               </button>
@@ -118,56 +157,72 @@
           </article>
 
           <article class="content-card">
+            <div class="card-icon purple-icon">＋</div>
             <h2>Host a game</h2>
-            <p>Choose a minigame and question set, then invite others.</p>
+            <p>Choose a minigame and question set, then invite other players.</p>
+
             <button class="primary-button" id="host-game-button">
               Host a game
             </button>
           </article>
+
         </div>
+
       </section>
 
 
-      <!-- LEARN -->
+      <!-- LEARN PAGE -->
       <section class="page" id="learn">
+
         <div class="page-heading">
+          <p class="eyebrow">STUDY & PRACTICE</p>
           <h1>Learn</h1>
-          <p>Practise at your own pace or take on a daily challenge.</p>
+          <p>Build your knowledge, one question at a time.</p>
         </div>
 
         <div class="content-grid">
+
           <article class="content-card">
+            <div class="card-icon purple-icon">▤</div>
             <h2>Study</h2>
-            <p>Choose a subject and topic to practise questions.</p>
-            <p>Multiple choice and written answers.</p>
+            <p>Choose a subject and topic. Practise with multiple-choice or written-answer questions.</p>
+
             <button class="primary-button" id="study-button">
               Start studying
             </button>
           </article>
 
-          <article class="content-card">
-            <h2>Daily Challenge</h2>
-            <p>Answer five random questions from a topic of your choice.</p>
-            <p>Keep your streak going!</p>
+          <article class="content-card daily-card">
+            <div class="card-icon cyan-icon">✦</div>
+            <div class="card-tag">DAILY CHALLENGE</div>
+            <h2>Five questions. One topic.</h2>
+            <p>Answer five random multiple-choice questions each day and keep your streak alive.</p>
+
             <button class="primary-button" id="daily-button">
-              Start daily challenge
+              Start challenge
             </button>
           </article>
+
         </div>
+
       </section>
 
 
-      <!-- ROOMS -->
+      <!-- ROOMS PAGE -->
       <section class="page" id="rooms">
+
         <div class="page-heading">
+          <p class="eyebrow">GROUPS & COMPETITIONS</p>
           <h1>Rooms</h1>
-          <p>Compete with friends, classmates or your whole school.</p>
+          <p>Compete with friends, classmates or your school.</p>
         </div>
 
         <div class="content-grid">
+
           <article class="content-card">
+            <div class="card-icon cyan-icon">↗</div>
             <h2>Join a room</h2>
-            <p>Enter a room code to join a group.</p>
+            <p>Enter a room code to join a classroom or friend group.</p>
 
             <form id="join-room-form">
               <label for="room-code">Room code</label>
@@ -175,8 +230,11 @@
                 type="text"
                 id="room-code"
                 placeholder="Enter room code"
+                maxlength="12"
                 autocomplete="off"
+                required
               >
+
               <button class="primary-button" type="submit">
                 Join room
               </button>
@@ -184,16 +242,21 @@
           </article>
 
           <article class="content-card">
+            <div class="card-icon purple-icon">＋</div>
             <h2>Create a room</h2>
-            <p>Set up a room for your classroom or friend group.</p>
+            <p>Set up a room for your classroom or friend group, with leaderboards and competitions.</p>
+
             <button class="primary-button" id="create-room-button">
               Create room
             </button>
           </article>
+
         </div>
+
       </section>
 
     </main>
+
   </div>
 
 </body>
